@@ -83,6 +83,9 @@ code, kbd, pre { font-family: var(--font-mono); }
 .brand { display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; white-space: nowrap; }
 .brand:hover { text-decoration: none; }
 .brand span { font-weight: 400; color: var(--text-3); }
+.segment-name { color: var(--text-2); font-size: 14px; white-space: nowrap; padding-left: 10px; border-left: 1px solid var(--line); }
+.segment-name:hover { color: var(--text); text-decoration: none; }
+.crumbs a { color: inherit; }
 .search-btn {
   margin-left: 20px; flex: 0 1 440px; min-width: 0; height: 36px;
   display: flex; align-items: center; gap: 8px; padding: 0 10px;
@@ -137,7 +140,7 @@ kbd { font-size: 11px; padding: 1px 6px; border: 1px solid var(--line-strong); b
   .top-nav { display: none; }
   .search-btn { margin-left: auto; flex: 0 0 36px; width: 36px; padding: 0; justify-content: center; }
   .search-btn .label, .search-btn kbd { display: none; }
-  .brand span { display: none; }
+  .brand span, .segment-name { display: none; }
   .sidebar { display: none; position: fixed; inset: 56px 0 0 0; z-index: 25; flex: none; width: 100%; height: auto; border-right: 0; }
   body.nav-open .sidebar { display: block; }
   .main { padding: 24px 16px 64px; }

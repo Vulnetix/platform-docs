@@ -6,7 +6,7 @@ import { readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const dist = process.argv[2] ?? 'dist';
-const site = 'https://software-factory.vulnetix.com';
+const site = 'https://docs.vulnetix.com';
 const urls = [];
 (function walk(dir, rel) {
   for (const e of readdirSync(dir).sort()) {

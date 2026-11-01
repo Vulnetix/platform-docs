@@ -1,11 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Doc from '../layouts/Doc.astro';
-import { HOME_ID } from '../lib/nav';
+import { hrefFor } from '../lib/nav';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
-  return docs.filter((d) => d.id !== HOME_ID).map((d) => ({ params: { slug: d.id }, props: { entry: d } }));
+  // hrefFor puts a segment's home page at /<segment>/.
+  return docs.map((d) => ({ params: { slug: hrefFor(d.id).replace(/^\/|\/$/g, '') }, props: { entry: d } }));
 }
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);

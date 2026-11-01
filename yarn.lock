@@ -2684,6 +2684,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"platform-docs@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "platform-docs@workspace:."
+  dependencies:
+    "@astrojs/markdown-satteri": "npm:0.4.1"
+    "@tailwindcss/vite": "npm:^4.3.3"
+    astro: "npm:^7.3.3"
+    pagefind: "npm:^1.5.2"
+    tailwindcss: "npm:^4.3.3"
+  languageName: unknown
+  linkType: soft
+
 "postcss@npm:^8.5.30":
   version: 8.5.31
   resolution: "postcss@npm:8.5.31::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2Fpostcss%2F-%2Fpostcss-8.5.31.tgz"
@@ -3013,18 +3025,6 @@ __metadata:
   checksum: 10c0/9a15a7560e15d050961f12cffab502f8b42af9d9e4713218181d10d3bda5e0265c4c81a92d6877e7d4e73145fc44d7fbc7cce997d9317b855fea974fc3bbc238
   languageName: node
   linkType: hard
-
-"software-factory-docs@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "software-factory-docs@workspace:."
-  dependencies:
-    "@astrojs/markdown-satteri": "npm:0.4.1"
-    "@tailwindcss/vite": "npm:^4.3.3"
-    astro: "npm:^7.3.3"
-    pagefind: "npm:^1.5.2"
-    tailwindcss: "npm:^4.3.3"
-  languageName: unknown
-  linkType: soft
 
 "source-map-js@npm:1.2.2":
   version: 1.2.2

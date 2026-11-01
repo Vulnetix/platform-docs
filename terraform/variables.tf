@@ -17,7 +17,7 @@ variable "github_pages_target" {
 }
 
 variable "manage_pages" {
-  description = "Whether Terraform owns the GitHub Pages block. Imported on 2026-10-27, so true; see pages.tf."
+  description = "Whether Terraform owns the GitHub Pages block. Imported on 2026-10-27 and again after the rename on 2026-11-01, so true; see pages.tf."
   type        = bool
   default     = true
 }

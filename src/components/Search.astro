@@ -1,8 +1,8 @@
 ---
 // Search over the Pagefind index built into dist/pagefind at build time. It
-// runs entirely in the browser: nothing typed here leaves the page.
+import { SEGMENTS } from '../lib/nav';
 import { SECTIONS } from '../lib/nav';
-const filters = ['All', ...SECTIONS.map((s) => s.title)];
+const filters = ['All', ...SEGMENTS.map((s) => s.title)];
 ---
 <dialog class="search-dialog" aria-label="Search the docs" data-search>
   <div class="search-input-row">
@@ -11,7 +11,7 @@ const filters = ['All', ...SECTIONS.map((s) => s.title)];
     <input id="search-q" type="search" autocomplete="off" spellcheck="false" placeholder="Search docs, settings keys, error codes, flags" role="combobox" aria-controls="search-results" aria-expanded="true" />
     <kbd>esc</kbd>
   </div>
-  <div class="search-filters" role="group" aria-label="Filter by section">
+  <div class="search-filters" role="group" aria-label="Filter by product">
     {filters.map((f, i) => <button type="button" data-filter={f} aria-pressed={i === 0 ? 'true' : 'false'}>{f}</button>)}
   </div>
   <div class="search-results" id="search-results" role="listbox" aria-label="Results"></div>
@@ -73,13 +73,13 @@ const filters = ['All', ...SECTIONS.map((s) => s.title)];
     if (!q) { out.innerHTML = '<p class="search-empty">Type to search every page, setting, code, flag and command.</p>'; return; }
     const p = await load();
     if (!p) return;
-    const res = await p.search(q, filter === 'All' ? {} : { filters: { section: filter } });
+    const res = await p.search(q, filter === 'All' ? {} : { filters: { product: filter } });
     const data = await Promise.all(res.results.slice(0, 12).map((r) => r.data()));
     if (my !== seq) return;
     if (!data.length) { out.innerHTML = `<p class="search-empty">No results for “${esc(q)}”.</p>`; return; }
     const groups = new Map<string, string[]>();
     for (const d of data) {
-      const sec = d.filters.section?.[0] ?? 'Docs';
+      const sec = [d.filters.product?.[0], d.filters.section?.[0]].filter(Boolean).join(' · ') || 'Docs';
       const rows = groups.get(sec) ?? [];
       const subs = (d.sub_results ?? []).filter((s) => s.url !== d.url).slice(0, 3);
       if (subs.length) {

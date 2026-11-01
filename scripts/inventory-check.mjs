@@ -28,7 +28,8 @@ const coverageOut = args.includes('--coverage') ? args[args.indexOf('--coverage'
 const { atoms, repos } = JSON.parse(readFileSync(join(root, 'inventory', 'atoms.json'), 'utf8'));
 const features = (await import(join(root, 'inventory', 'features.mjs'))).default;
 
-const pagePath = (page) => join(root, 'src', 'content', 'docs', `${page}.md`);
+// Feature pages are relative to the Software Factory segment of the site.
+const pagePath = (page) => join(root, 'src', 'content', 'docs', 'software-factory', `${page}.md`);
 const textOf = (page) => (existsSync(pagePath(page)) ? readFileSync(pagePath(page), 'utf8') : null);
 const { features: checked, unmatched, missing, problems } = checkCoverage(atoms, features, textOf);
 

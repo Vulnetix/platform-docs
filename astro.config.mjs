@@ -6,7 +6,7 @@ import { callouts, pendingLinks } from './src/plugins/docs-markdown.mjs';
 
 export default defineConfig({
   // Keep in sync with public/CNAME and terraform/dns.tf.
-  site: 'https://software-factory.vulnetix.com',
+  site: 'https://docs.vulnetix.com',
   base: '/',
   trailingSlash: 'always',
   markdown: {

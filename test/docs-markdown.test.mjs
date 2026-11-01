@@ -36,12 +36,12 @@ test('a plain blockquote, or an unknown marker, is left alone', () => {
 });
 
 test('a link to a written docs page is kept', () => {
-  assert.equal(visitLink('/control/autonomy/'), undefined);
-  assert.equal(visitLink('/control/autonomy/#levels'), undefined);
+  assert.equal(visitLink('/software-factory/control/autonomy/'), undefined);
+  assert.equal(visitLink('/software-factory/control/autonomy/#levels'), undefined);
 });
 
 test('a link to an unwritten docs page renders as text', () => {
-  const out = visitLink('/control/not-written-yet/');
+  const out = visitLink('/software-factory/control/not-written-yet/');
   assert.equal(out.tagName, 'span');
   assert.deepEqual(out.properties.className, ['pending-link']);
   assert.equal(out.children[0].value, 'label');

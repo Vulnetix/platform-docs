@@ -1,11 +1,13 @@
 # terraform
 
-DNS and Pages configuration for software-factory.vulnetix.com.
+DNS and Pages configuration for docs.vulnetix.com.
 
-- `dns.tf`: the unproxied CNAME `software-factory.vulnetix.com` -> `vulnetix.github.io`.
-- `pages.tf`: the repository's Pages settings (workflow build, custom domain), imported on 2026-10-27.
+- `dns.tf`: the unproxied CNAME `docs.vulnetix.com` -> `vulnetix.github.io`.
+- `pages.tf`: the repository's Pages settings (workflow build, custom domain). Imported on 2026-10-27, re-imported after the rename to platform-docs on 2026-11-01.
 
-State is in `s3://vdb-manager-terraform-state/software-factory-site/terraform.tfstate`.
+Retired docs hostnames (software-factory.vulnetix.com and the old per-product docs sites) are proxied placeholder records plus 301 rules in `vdb-site/terraform/dns.tf`, the only owner of the zone's redirect ruleset. Do not add redirects here.
+
+State is in `s3://vdb-manager-terraform-state/platform-docs-site/terraform.tfstate` (moved from `software-factory-site/` on 2026-11-01).
 
 ```sh
 # A token with DNS edit on the vulnetix.com zone. The CLOUDFLARE_API_KEY in a

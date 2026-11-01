@@ -67,14 +67,14 @@ test('feature ids must be unique', () => {
 test('the real feature list: valid statuses, a page for every written feature, all verified', () => {
   for (const ft of features) {
     assert.ok(STATUSES.includes(ft.status), `${ft.id} has status ${ft.status}`);
-    if (ft.status === 'drafted' || ft.status === 'verified') assert.ok(existsSync(new URL(`../src/content/docs/${ft.page}.md`, import.meta.url)), `${ft.page}.md`);
+    if (ft.status === 'drafted' || ft.status === 'verified') assert.ok(existsSync(new URL(`../src/content/docs/software-factory/${ft.page}.md`, import.meta.url)), `${ft.page}.md`);
   }
   assert.equal(features.filter((ft) => ft.status !== 'verified').length, 0);
 });
 
 test('the real inventory passes every rule', () => {
   const { atoms } = JSON.parse(readFileSync(new URL('../inventory/atoms.json', import.meta.url), 'utf8'));
-  const textOf = (p) => { const u = new URL(`../src/content/docs/${p}.md`, import.meta.url); return existsSync(u) ? readFileSync(u, 'utf8') : null; };
+  const textOf = (p) => { const u = new URL(`../src/content/docs/software-factory/${p}.md`, import.meta.url); return existsSync(u) ? readFileSync(u, 'utf8') : null; };
   const r = checkCoverage(atoms, features, textOf);
   assert.deepEqual({ unmatched: r.unmatched.map((a) => a.id), missing: r.missing, problems: r.problems }, { unmatched: [], missing: [], problems: [] });
 });

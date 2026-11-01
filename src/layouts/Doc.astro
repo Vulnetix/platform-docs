@@ -1,7 +1,7 @@
 ---
 import '../styles/docs.css';
 import { getCollection } from 'astro:content';
-import { SECTIONS, REPO_URL, CONSOLE_URL, HOME_ID, hrefFor } from '../lib/nav';
+import { SEGMENTS, REPO_URL, CONSOLE_URL, HOME_ID, hrefFor, segmentOf } from '../lib/nav';
 import Search from '../components/Search.astro';
 
 interface Props {
@@ -18,26 +18,35 @@ interface Props {
 const { id, title, description, headings = [], wide = false, sources = [], checked = [], updated, editPath } = Astro.props;
 
 const all = (await getCollection('docs')).sort((a, b) => (a.data.order - b.data.order) || a.id.localeCompare(b.id));
-const section = id.split('/')[0];
-const sectionTitle = SECTIONS.find((s) => s.id === section)?.title ?? '';
-const groups = SECTIONS.map((s) => ({
-  ...s,
-  pages: all.filter((d) => d.id.split('/')[0] === s.id).map((d) => ({ id: d.id, label: d.data.nav ?? d.data.title, sub: d.id.split('/').length > 2 })),
-})).filter((g) => g.pages.length);
-const flat = groups.flatMap((g) => g.pages);
+const segment = segmentOf(id);
+const section = id.split('/')[1] ?? '';
+const sectionTitle = segment?.sections.find((s) => s.id === section)?.title ?? '';
+// The sidebar lists the current segment's sections; on the site home it lists
+// the segments themselves.
+const groups = segment
+  ? segment.sections.map((s) => ({
+      ...s,
+      pages: all
+        .filter((d) => d.id.split('/')[0] === segment.id && d.id.split('/')[1] === s.id)
+        .map((d) => ({ id: d.id, label: d.data.nav ?? d.data.title, sub: d.id.split('/').length > 3 })),
+    })).filter((g) => g.pages.length)
+  : [{ id: 'products', title: 'Products', pages: SEGMENTS.map((s) => ({ id: s.home, label: s.title, sub: false })) }];
+const flat = segment ? groups.flatMap((g) => g.pages) : [];
 const i = flat.findIndex((p) => p.id === id);
 const prev = i > 0 ? flat[i - 1] : null;
 const next = i >= 0 && i < flat.length - 1 ? flat[i + 1] : null;
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 const canonical = new URL(hrefFor(id), Astro.site).href;
 const isRef = section === 'reference';
+const siteTitle = segment ? `${segment.title} · Vulnetix docs` : 'Vulnetix docs';
+const isHome = id === HOME_ID || (segment && id === segment.home);
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{id === HOME_ID ? 'Software Factory docs' : `${title} · Software Factory docs`}</title>
+    <title>{isHome ? siteTitle : `${title} · ${siteTitle}`}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -65,18 +74,19 @@ const isRef = section === 'reference';
       </button>
       <a href="/" class="brand">
         <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="6" fill="currentColor" /><path d="M6 8h10M6 11h7M6 14h10" stroke="var(--bg)" stroke-width="1.6" stroke-linecap="round" /></svg>
-        Software Factory <span>Docs</span>
+        Vulnetix <span>Docs</span>
       </a>
+      {segment && <a href={hrefFor(segment.home)} class="segment-name">{segment.title}</a>}
       <button type="button" class="search-btn" data-search-open aria-label="Search the docs">
         <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="7" cy="7" r="5" /><path d="M11 11l3.5 3.5" /></svg>
         <span class="label">Search docs, keys, error codes</span>
         <kbd>/</kbd>
       </button>
       <nav class="top-nav" aria-label="Top">
-        <a href="/" aria-current={isRef ? 'false' : 'true'}>Guides</a>
-        <a href="/reference/settings/" aria-current={isRef ? 'true' : 'false'}>Reference</a>
+        <a href={segment ? hrefFor(segment.home) : '/'} aria-current={isRef ? 'false' : 'true'}>Guides</a>
+        {segment?.reference && <a href={hrefFor(segment.reference)} aria-current={isRef ? 'true' : 'false'}>Reference</a>}
         <a href={`${REPO_URL}/commits/main`}>Changes</a>
-        <a href={CONSOLE_URL}>Console ↗</a>
+        <a href={segment?.console ?? CONSOLE_URL}>Console ↗</a>
       </nav>
       <button type="button" class="icon-btn" data-theme-toggle aria-label="Theme: match system. Switch theme">
         <svg data-icon="light" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3" /></svg>
@@ -100,8 +110,8 @@ const isRef = section === 'reference';
       </nav>
 
       <div class="main">
-        <article class:list={['article', { wide }]} id="content" data-pagefind-body data-pagefind-filter={`section:${sectionTitle}`}>
-          {sectionTitle && <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore>{sectionTitle}</nav>}
+        <article class:list={['article', { wide }]} id="content" data-pagefind-body data-pagefind-filter={`product:${segment?.title ?? 'Vulnetix'}, section:${sectionTitle}`}>
+          {segment && sectionTitle && <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore><a href={hrefFor(segment.home)}>{segment.title}</a> / {sectionTitle}</nav>}
           <h1 data-pagefind-meta="title">{title}</h1>
           <p class="lede">{description}</p>
           {(updated || checked.length > 0) && (

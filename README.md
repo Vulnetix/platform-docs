@@ -1,6 +1,12 @@
-# software-factory
+# platform-docs
 
-Source for https://software-factory.vulnetix.com, the user and developer documentation for Vulnetix Software Factory, its console, Pix calls, and the Belai CLI and TUI.
+Source for https://docs.vulnetix.com, the user and reference documentation for every Vulnetix product. Each product has its own segment of the site under `src/content/docs/<segment>/`; the segments are listed in `src/lib/nav.ts`.
+
+| Segment | Path | Was |
+|---|---|---|
+| Software Factory (console, workflows, Pix calls, the Belai CLI and TUI) | `src/content/docs/software-factory/` | software-factory.vulnetix.com |
+
+Old docs hostnames answer with a 301 to the matching path here. Those rules live in `vdb-site/terraform/dns.tf`, the only owner of the zone's redirect ruleset.
 
 Astro 7, Tailwind v4 and Pagefind. The site is static: search runs in the browser and there is no backend.
 
@@ -12,9 +18,9 @@ yarn build          # dist/ plus the Pagefind index
 yarn check-links    # after a build
 ```
 
-Pages are Markdown in `src/content/docs/`. Pushing to `main` deploys through `.github/workflows/pages.yml`. DNS and the Pages settings live in `terraform/`.
+Pages are Markdown in `src/content/docs/<segment>/`. Pushing to `main` deploys through `.github/workflows/pages.yml`. DNS and the Pages settings live in `terraform/`.
 
-## Feature coverage
+## Feature coverage (Software Factory segment)
 
 Every Software Factory feature has to be documented, and features land upstream every day, so coverage is checked by machine:
 

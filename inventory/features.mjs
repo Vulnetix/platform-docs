@@ -18,7 +18,7 @@ const F = [];
 /**
  * @param {string} id
  * @param {string} area
- * @param {string} page   docs page path under src/content/docs, without .md
+ * @param {string} page   docs page path under src/content/docs/software-factory, without .md
  * @param {string} title
  * @param {string[]} match
  * @param {object} [opt]

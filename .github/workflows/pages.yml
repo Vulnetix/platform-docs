@@ -51,11 +51,11 @@ jobs:
         run: yarn build
 
       # public/CNAME binds the custom domain. If it goes missing Pages unbinds
-      # software-factory.vulnetix.com, which looks like DNS but is not.
+      # docs.vulnetix.com, which looks like DNS but is not.
       - name: Verify the custom domain survived the build
         run: |
           test -f dist/CNAME || { echo "dist/CNAME missing"; exit 1; }
-          grep -qx 'software-factory.vulnetix.com' dist/CNAME || { echo "dist/CNAME mismatch:"; cat dist/CNAME; exit 1; }
+          grep -qx 'docs.vulnetix.com' dist/CNAME || { echo "dist/CNAME mismatch:"; cat dist/CNAME; exit 1; }
 
       - name: Check internal links
         run: node scripts/check-links.mjs dist
