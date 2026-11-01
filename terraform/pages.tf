@@ -19,6 +19,17 @@ resource "github_repository_pages" "platform_docs" {
   build_type = "workflow"
   cname      = "docs.vulnetix.com"
 
+  # GitHub rejects this until the certificate for the domain is issued. It was
+  # issued on 2026-11-01, after the domain was cleared and set again: Pages
+  # never requests one for a domain bound before its DNS record exists.
+  #
+  # Careful: when this provider changed https_enforced alone, GitHub cleared
+  # cname and the site went to 404. The fix was `gh api -X PUT
+  # repos/Vulnetix/platform-docs/pages -f cname=docs.vulnetix.com` and a
+  # redeploy of pages.yml. After any apply that touches this block, check
+  # `gh api repos/Vulnetix/platform-docs/pages --jq .cname`.
+  https_enforced = true
+
   lifecycle {
     prevent_destroy = true
   }
