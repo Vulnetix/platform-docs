@@ -34,7 +34,7 @@ A token issued with the `member` role cannot plan, apply or export: those answer
 | `GET /config/objects/{kind}/{name}` | One object and its status |
 | `PUT /config/objects/{kind}/{name}` | Plans and applies one document in one transaction (server-side apply, used by the Terraform provider). The body is `{"manager", "sourceRef", "document"}` (or `"yaml"`), or a YAML document with `manager` and `sourceRef` in the query. |
 | `DELETE /config/objects/{kind}/{name}?manager=&force=&sourceRef=` | Deletes one object. Without `force`, only the object's own manager may delete it. |
-| `POST /config/vex-sources/{name}/refresh` | Asks for a [VEX source](/platform-iac/planned/vex-sources/) to be fetched at the next tick. This is how a webhook-only source is told its documents changed. |
+| `POST /config/vex-sources/{name}/refresh` | Asks for a [VEX source](/platform-iac/guides/vex-sources/) to be fetched at the next tick. This is how a webhook-only source is told its documents changed. |
 | `POST /config/vex-sources/{name}/snapshot` | Uploads the documents a path source names, each base64 with the hex SHA-256 of its bytes. They replace the source's last snapshot: rules for statements that are gone are removed, as a fetch would. |
 | `GET /config/openapi.yaml` | This API as OpenAPI 3.1, with the kind schemas. Public: it holds no organisation data. |
 | `POST /config/tokens` | Issues a management token. The secret is in the reply once. |
