@@ -3,11 +3,11 @@ title: Choose a sensor path
 description: Which way to install vulnetix-sensor, and which credential it ends up with, for a laptop, an org-provisioned device, a cloud fleet or a host that must not be stopped.
 order: 2
 nav: Choose a path
-sources: [vdb-site/docs/sensor-provisioning-api.md, cli/deploy/sensor/README.md, cli/cmd/vulnetix-sensor/main.go]
+sources: [vdb-site/docs/sensor-provisioning-api.md, cli/deploy/sensor/README.md, cli/cmd/vulnetix-sensor/main.go, vdb-site/docs/sensor-feeds-api.md]
 updated: 02 Nov 2026
 ---
 
-An org admin creates **provisioning profiles** on the console's **Sensor Provisioning** page (Configuration group, `/resolve/sensor-provisioning`). A profile says which devices it is for (email addresses, email domains, or an MDM integration), which credential an enrolled device gets, and the configuration the sensor runs: mode, feeds, interception points and protection level. A sensor that enrolls is bound to the first enabled profile that matches it and pulls that profile's configuration every 5 minutes, so the admin changes the fleet by editing the profile. Details are on [Provisioning profiles](/virtual-patching/sensor/provisioning-profiles/).
+An org admin creates **provisioning profiles** on the console's **Sensor Provisioning** page (Configuration group, `/resolve/sensor-provisioning`). A profile says which devices it is for (email addresses, email domains, or an MDM integration), which credential an enrolled device gets, and the configuration the sensor runs: mode, feeds, interception points and protection level. A sensor that enrolls is bound to the first enabled profile that matches it. A profile edit reaches a connected sensor within seconds, and every sensor within 5 minutes, so the admin changes the fleet by editing the profile. Details are on [Provisioning profiles](/virtual-patching/sensor/provisioning-profiles/). The feeds a profile loads, including built-in blocklists and threat intelligence providers, are on [Rule feeds](/virtual-patching/sensor/feeds/).
 
 Enrollment is Linux only today (`amd64` and `arm64`, with systemd). macOS and Windows are planned.
 
@@ -42,4 +42,6 @@ Containers and Lambda do not enroll: they read `VULNETIX_ORG_ID` and `VULNETIX_A
 
 - Install on your laptop: [Your own laptop](/virtual-patching/sensor/byod-laptop/).
 - Set up profiles as an admin: [Provisioning profiles](/virtual-patching/sensor/provisioning-profiles/).
+- Pick the feeds a profile loads: [Rule feeds](/virtual-patching/sensor/feeds/) and [Threat intel connectors](/virtual-patching/sensor/threat-intel-connectors/).
 - What the sensor does once it runs: [Runtime sensor](/virtual-patching/runtime/sensor/).
+- What it costs a host and what it reports about itself: [Performance and metrics](/virtual-patching/sensor/performance/).

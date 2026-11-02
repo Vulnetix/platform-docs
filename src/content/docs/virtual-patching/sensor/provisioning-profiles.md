@@ -3,13 +3,24 @@ title: Provisioning profiles
 description: For org admins, how a profile decides which devices it covers, which credential they get and what configuration they run, and how to revoke, uninstall and watch them.
 order: 2
 nav: Provisioning profiles
-sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma]
+sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go]
 updated: 02 Nov 2026
 ---
 
 A profile replaces the hand-written `/etc/vulnetix-sensor.env` and the per-host flags. It is kept on the site; every device enrolled under it pulls its configuration from there.
 
-Profiles live on **Sensor Provisioning** (`/resolve/sensor-provisioning`, in the Configuration group). Reading them needs a signed-in person; creating, editing, deleting, revoking and issuing uninstall codes needs an org owner or admin. An API key or a sensor credential gets `403` on every one of these routes.
+Profiles live on **Sensor Provisioning** (`/resolve/sensor-provisioning`, in the Configuration group). Every route behind it needs a signed-in person: an API key or a sensor credential gets `403`.
+
+## Roles
+
+| Action | Owner or admin | Member |
+|---|---|---|
+| View profiles, devices, org feeds and connectors | Yes | Yes |
+| Release or confirm a hold on **Sensors** | Yes | Yes |
+| Create, edit or delete a profile | Yes | No |
+| Add, edit or delete an org feed or a [threat intel connector](/virtual-patching/sensor/threat-intel-connectors/) | Yes | No |
+| Revoke a device, or issue an uninstall code | Yes | No |
+| Change a sensor's mode, or promote or demote a rule | Yes | No |
 
 ## Create a profile
 
@@ -47,7 +58,7 @@ The `config` block is what every device under the profile runs. A flag given on 
 |---|---|---|---|
 | `mode` | `monitor`, `guard`, `enforce` | `monitor` | `--mode` |
 | `hold` | A Go duration, e.g. `15m` | `15m` | `--hold` |
-| `feeds` | Up to 20 `https://` feed URLs | No rules load | `--feed` |
+| `feeds` | Up to 100 references: signed feed URLs, `catalog:<id>` or `org:<uuid>`, chosen in the editor's feed picker ([Rule feeds](/virtual-patching/sensor/feeds/)) | A new profile saved without feeds gets the 21 Vulnetix STIX bundles; an explicit empty list loads none | `--feed` |
 | `feedKey` | Base64 Ed25519 public key | The key pinned in the sensor | `--feed-key` |
 | `egressListen` | An address, e.g. `127.0.0.1:3128` | No outbound proxy | `--egress-listen` |
 | `dnsListen` | A UDP address, e.g. `127.0.0.1:53` | No DNS guard | `--dns-listen` |
@@ -57,17 +68,24 @@ The `config` block is what every device under the profile runs. A flag given on 
 | `allowUserStop` | `true` lets `systemctl stop` work at `hardened` and `locked` | `false` | none |
 | `heartbeatAlertMinutes` | 1 to 10080 | `15` | none |
 
-Values are checked when you save: an unknown mode, protection or credential mode, a duration that does not parse, a feed that is not `https://`, or more than 20 feeds, 200 emails or 50 domains is refused.
+Values are checked when you save: an unknown mode, protection or credential mode, a duration that does not parse, a feed reference that is not one of the [three forms](/virtual-patching/sensor/feeds/#reference-forms), an unavailable catalog feed, or more than 100 feeds, 200 emails or 50 domains is refused.
 
 ## How edits reach devices
 
-Each device pulls `GET /v1/runtime/provisioning/config` every 5 minutes with the `configEtag` it holds. The etag is the SHA-256 of the configuration and the profile uuid, so it changes exactly when what the device runs changes; an unchanged profile answers `304`. On a change the sensor writes the new `/etc/vulnetix-sensor/config.json`, applies it, and restarts itself when the change needs one (a new listener, for example). Expect a fleet to follow an edit within about 5 minutes. Nothing is reinstalled.
+The `configEtag` is the SHA-256 of the configuration and the profile uuid, so it changes exactly when what the device runs changes. A device learns of an edit in two ways:
+
+| Path | How it works |
+|---|---|
+| Decisions long-poll | An enrolled sensor holds `GET /v1/runtime/decisions` open. The answer carries the profile's current `configEtag`; the site re-reads it about every 2 seconds and answers early when it differs from the etag the sensor runs. The sensor then pulls the new configuration within 10 seconds. |
+| Config poll | Every 5 minutes the device pulls `GET /v1/runtime/provisioning/config` with the etag it holds; an unchanged profile answers `304`. This is the fallback when the long-poll is not running. |
+
+An edit reaches a connected sensor within seconds, and every sensor within about 5 minutes. On a change the sensor writes the new configuration, applies a new mode, hold time or feed list live, and restarts itself when the change needs one (a new listener, forwarding or the inventory interval). Nothing is reinstalled.
 
 Changing `credentialMode` on a profile applies to devices that enroll after the change. Existing devices keep the credential they were issued until they enroll again.
 
 ## Devices
 
-The devices list shows every enrolled install: profile, hostname, OS, architecture, sensor version, who enrolled it (empty for an MDM enroll), the MDM integration and device id, the credential mode, the `configEtag` it last pulled, its tamper state and when it was last seen.
+The devices list shows every enrolled install: profile, hostname, OS, architecture, sensor version, who enrolled it (empty for an MDM enroll), the MDM integration and device id, the credential mode, the `configEtag` it last pulled, its tamper state and when it was last seen. Expand a row for the sensor's CPU, memory and pass timings ([Performance and metrics](/virtual-patching/sensor/performance/)).
 
 ### Tamper states
 

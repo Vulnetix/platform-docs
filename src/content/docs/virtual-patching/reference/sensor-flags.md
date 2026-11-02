@@ -3,7 +3,7 @@ title: Sensor flags and environment
 description: Every vulnetix-sensor subcommand, flag, environment variable, default and exit code.
 order: 1
 nav: Sensor flags
-sources: [cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/lambda.go, cli/internal/sensor/siem/siem.go, cli/internal/sensor/uplink/uplink.go, cli/internal/sensor/decide/decide.go]
+sources: [cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/lambda.go, cli/internal/sensor/siem/siem.go, cli/internal/sensor/uplink/uplink.go, cli/internal/sensor/decide/decide.go, cli/internal/sensor/feed/indicators.go]
 checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
 ---
@@ -40,7 +40,7 @@ updated: 02 Nov 2026
 | `--host-root` | `/` | Where the host filesystem is mounted, for hashing what a process ran and for the inventory |
 | `--inventory-every` | `6h` | How often the package inventory is reported |
 | `--bpf-lsm` | `false` | Refuse execs of exact paths block-mode rules name, with a BPF LSM program. Needs root and the bpf LSM. |
-| `--feed` | required | Repeatable. A published feed's base URL |
+| `--feed` | required | Repeatable. A signed feed's base URL (`https://vulnetix.com/feeds/<org>/<feed>`), `catalog:<id>` or `org:<uuid>` ([Rule feeds](/virtual-patching/sensor/feeds/#reference-forms)). `catalog:` and `org:` lists come from the site with the sensor's credential, report and never block, and are skipped with `--offline`. |
 | `--feed-key` | `VULNETIX_FEED_KEY`, else the key pinned at build | Base64 Ed25519 public key feeds are signed with. Without one every rule reports and never blocks. |
 | `--state-dir` | `/var/lib/vulnetix-sensor` | Where the sensor keeps its key |
 | `--config-dir` | `/etc/vulnetix-sensor` | Where an enrolled sensor's credential and profile config are. The profile's config is the default for every flag not given. |

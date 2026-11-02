@@ -3,7 +3,7 @@ title: Sensor protection levels
 description: What the standard, hardened and locked protection levels change in the systemd unit, who can still stop the sensor at each, and how a stop shows in the console.
 order: 5
 nav: Protection
-sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh]
+sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, cli/internal/sensor/provision/units.go]
 updated: 02 Nov 2026
 ---
 
@@ -26,6 +26,9 @@ The profile's `protection` field sets how hard the sensor is to stop on an enrol
 | `vulnetix-sensor-guard.timer`, every minute, as root: keep the units in step with the profile | Yes | Yes | Yes |
 | The guard also unmasks and enables the unit, starts it if it is not running (unless `allowUserStop`), and reports what it found | No | Yes | Yes |
 | Uninstall needs a one-time code from the console | No | No | Yes |
+| Runs as a systemd dynamic user with `CAP_NET_BIND_SERVICE`, `CAP_SYS_PTRACE` and `CAP_DAC_READ_SEARCH` only, `NoNewPrivileges=yes`, `ProtectSystem=strict`, `MemoryMax=256M` | Yes | Yes | Yes |
+
+`CAP_NET_BIND_SERVICE` lets a listener bind a port below 1024, such as the DNS guard on `:53`. `CAP_SYS_PTRACE` and `CAP_DAC_READ_SEARCH` let the package inventory read `/proc/<pid>/maps` and the `exe` links of other users' processes, so it can tell which packages they have loaded. They are used read-only: the sensor attaches to no process. See [Performance and metrics](/virtual-patching/sensor/performance/#capabilities).
 
 ### The polkit rule
 

@@ -3,12 +3,12 @@ title: Runtime sensor
 description: What vulnetix-sensor runs, its monitor, guard and enforce modes, how holds are decided, and where to deploy it.
 order: 1
 nav: Sensor overview
-sources: [cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/README.md, vdb-site/docs/sensor-provisioning-api.md, cli/internal/sensor/decide/decide.go, cli/internal/sensor/engine/engine.go, cli/internal/sensor/feed/feed.go, vdb-site/docs/runtime-sensor-api.md, vdb-site/api/main.go]
+sources: [cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/README.md, vdb-site/docs/sensor-provisioning-api.md, cli/internal/sensor/decide/decide.go, cli/internal/sensor/engine/engine.go, cli/internal/sensor/feed/feed.go, vdb-site/docs/runtime-sensor-api.md, vdb-site/api/main.go, vdb-site/docs/sensor-feeds-api.md]
 checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-`vulnetix-sensor` is a separate binary from the `vulnetix` CLI. It runs inside or beside your workload, loads rules from one or more [detection rule feeds](/virtual-patching/feeds/detection-rule-feeds/), and reports every match to the console's **Sensors** page (`/resolve/sensor`), where a person decides what it held.
+`vulnetix-sensor` is a separate binary from the `vulnetix` CLI. It runs inside or beside your workload, loads rules from one or more [detection rule feeds](/virtual-patching/feeds/detection-rule-feeds/) and indicator lists the site serves ([Rule feeds](/virtual-patching/sensor/feeds/)), and reports every match to the console's **Sensors** page (`/resolve/sensor`), where a person decides what it held.
 
 Every release of the CLI attaches `vulnetix-sensor-linux-amd64`, `vulnetix-sensor-linux-arm64` (listed in `checksums.txt`) and the Lambda layers `vulnetix-sensor-lambda-layer-amd64.zip` and `vulnetix-sensor-lambda-layer-arm64.zip`. No container image is published: build one from `deploy/sensor/Dockerfile` in the CLI repository.
 
@@ -29,6 +29,7 @@ The image is distroless, static, and runs as user `65532`.
 In every mode a rule only reports, never blocks or holds, when:
 
 - its feed could not be verified against the feed key ([Manifest and signature](/virtual-patching/feeds/manifest-and-signature/));
+- it is a `catalog:` or `org:` indicator list, which is never verified ([Rule feeds](/virtual-patching/sensor/feeds/#signed-feeds-block-indicator-lists-report));
 - its `deployMode` is `log`;
 - the request is on a `--health-path`;
 - its breaker has tripped: a rule that holds more than 20 distinct subjects in 5 minutes reports only, until a person decides about it.
@@ -51,7 +52,7 @@ A decision can be revoked; sensors drop it on their next poll. Only a signed-in 
 |---|---|---|
 | `MODSECURITY` | Coraza | Inbound HTTP through `--listen` to `--upstream` |
 | `REGEX_L7` | Go RE2. A pattern that needs lookaround or backreferences is rejected. | Inbound HTTP |
-| `STIX`, `OPENIOC` | Domain, address and hash sets | Outbound calls through `--egress-listen`, lookups through `--dns-listen`, executables seen through Tetragon or `run` |
+| `STIX`, `OPENIOC`, `IOC_LIST` | Domain, address and hash sets | Outbound calls through `--egress-listen`, lookups through `--dns-listen`, executables seen through Tetragon or `run` |
 | `SIGMA` (`process_creation` only) | Evaluated on each process start: `Image`, `CommandLine`, `ParentImage`, `ParentCommandLine`, `CurrentDirectory`, `User` | `--tetragon-export`, `run`, `--bpf-lsm` |
 | `YARA` | Pure-Go evaluator over each started binary, up to 64 MB | `--tetragon-export`, `run` |
 | `SNORT`, `SURICATA`, `AWS_WAF`, `CLOUDFLARE_WAF`, `NGINX` | none | Reported as `no-engine` |
@@ -79,7 +80,7 @@ A Linux host can get its credential in two ways:
 
 | Way | Credential | Configuration | Page |
 |---|---|---|---|
-| Enroll with `vulnetix-sensor enroll` | Issued by a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/): a per-device key by default, or the enrolling person's key, or the org key. Kept in `/etc/vulnetix-sensor/credential`. | Pulled from the profile every 5 minutes | [Choose a path](/virtual-patching/get-started/choose-a-sensor-path/) |
+| Enroll with `vulnetix-sensor enroll` | Issued by a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/): a per-device key by default, or the enrolling person's key, or the org key. Kept in `/etc/vulnetix-sensor/credential`. | Pulled from the profile within seconds of an edit, and every 5 minutes | [Choose a path](/virtual-patching/get-started/choose-a-sensor-path/) |
 | Set it yourself | `VULNETIX_ORG_ID` and `VULNETIX_API_KEY` (the hex HMAC-SHA256 of the org id, keyed by the org secret), or the file `vulnetix auth login` writes | Flags on the command line | This page and the deploy pages |
 
 Containers and Lambda functions use the second way. The order the sensor looks in is on [Sensor flags](/virtual-patching/reference/sensor-flags/#precedence). Without any credential it refuses to start unless `--offline` is set, in which case rules load from the feeds and nothing is reported.
@@ -101,6 +102,8 @@ sudo vulnetix-sensor inventory --root /
 | `unowned` | Executable files mapped that no package installed |
 | `memfdExec` | Processes running code from an anonymous memory file. Fileless malware does this, and so do JIT runtimes and browsers. |
 | `unreadable` | Processes it could not read; run as root |
+
+The running sensor's report also lists every other installed OS package as `installed`, so the site holds the host's whole package list. That, and what the sensor costs and reports about itself, is on [Performance and metrics](/virtual-patching/sensor/performance/).
 
 ## Deploy
 
