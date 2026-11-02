@@ -109,6 +109,32 @@ Invoke-WebRequest -Uri https://github.com/Vulnetix/cli/releases/latest/download/
 
 Open a new terminal for the `Path` change to apply.
 
+## How a release reaches each channel
+
+Pushing a full version tag (`v3.158.0`, or a pre-release such as `v3.158.0-rc.1`) runs the release workflow. One GitHub release feeds every channel, so a channel is never ahead of the release assets.
+
+| Channel | Updated by | When it has the new version |
+|---|---|---|
+| GitHub Releases | The `release` job builds every OS and architecture, writes `checksums.txt` and the provenance, and publishes the release | When the job finishes |
+| Install script | Nothing to publish: `install.sh` resolves `latest` from GitHub Releases | At once |
+| Homebrew ([Vulnetix/homebrew-tap](https://github.com/Vulnetix/homebrew-tap)) | The `update-packages` job rewrites `Formula/vulnetix.rb` with the new URLs and SHA-256 values | When the job finishes |
+| Scoop ([Vulnetix/scoop-bucket](https://github.com/Vulnetix/scoop-bucket)) | The `update-packages` job rewrites `bucket/vulnetix.json` with hashes from `checksums.txt` | When the job finishes |
+| Nix flake | The `update-packages` job sets `version` in the repository's `flake.nix` | When the job finishes; see [Building from source](#building-from-source) |
+| Go module proxy | Nothing to publish: `proxy.golang.org` indexes the tag | Usually 5 to 15 minutes after the tag is pushed |
+| GitHub Action (`Vulnetix/cli@v3`) | The floating major tag `v3` is moved to the new release | When the tag is moved |
+
+`update-packages` runs only for the newest release, so an older release that finishes late never rolls Homebrew, Scoop or the flake back.
+
+The same tap also carries `vvd-search`, the terminal UI for searching the vulnerability database (`brew install vulnetix/tap/vvd-search`), and `belai`.
+
+If a new release does not show up:
+
+| Symptom | Check |
+|---|---|
+| `brew upgrade` or `scoop update` still installs the old version | Run `brew update` or `scoop update` first so the tap or bucket is refreshed, then check the release workflow's `update-packages` job finished |
+| `go install …@latest` installs an older version | The proxy has not indexed the tag yet. Ask for the tag (`@v3.158.0`) or wait. A stale module cache can be cleared with `go clean -modcache`. |
+| A direct download returns 404 | The asset name is `vulnetix-<os>-<arch>` (`.exe` on Windows) with no archive; check [Release assets](#release-assets) |
+
 ## Building from source
 
 > [!CAREFUL] go install and the Nix flake do not build outside Vulnetix
