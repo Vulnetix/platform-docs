@@ -2,9 +2,9 @@
 title: Overview
 description: Software Factory runs workflows of agents against the GitHub repositories you mark as managed, and writes the results back to GitHub as draft pull requests, reviews, comments, issues and VEX.
 order: 1
-sources: [vdb-site/docs/factory.md, website/.repo/software-factory.md]
-checked: [vdb-site@284f1d6, website@a31d470]
-updated: 28 Oct 2026
+sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-access.md, vdb-site/api/internal/handler/factory_access.go, website/.repo/software-factory.md]
+checked: [vdb-site@fe1ff17, website@a31d470]
+updated: 03 Nov 2026
 ---
 
 Software Factory turns events in your repositories into work done by agents. A pull request opens, a check fails, a scanner finds a vulnerable package, a label is added, a schedule fires: the factory matches the event to a **workflow**, starts a **run**, and walks the run through the workflow's graph. Some steps are decided by a fast classifier model, some are deterministic checks, some dispatch a **crew** of agents to a machine, and some wait for a person. The last step writes the result back to GitHub.
@@ -44,6 +44,17 @@ Most pages in these docs describe one of these. The console column is the page y
 ## Where the work runs
 
 Crews run on **hosts**: machines running the [Belai](/software-factory/belai/install-and-sign-in/) agent harness. A host is either a [Pix Sandbox](/software-factory/workforce/pix-sandboxes/), a container Vulnetix runs for you, or a machine of your own connected with `belai rc`. The factory picks the host for each step from the step's `runOn` setting and the [placement rules](/software-factory/workforce/hosts-and-placement/).
+
+## Who can use it
+
+The Software Factory (`/v1/factory/*`) and the Belai console (`/v1/belai/*`) are open to:
+
+- an organisation on Pro, Business or Enterprise, on any host, self-hosted or a Pix Sandbox;
+- a Community organisation with at least one Pix Sandbox whose subscription is active or past due. A sandbox is billed on its own subscription, not by plan.
+
+Anyone else gets `403` with `"code": "plan_locked"` and `"requiredPlan": "pro"`. Buying, configuring and launching a sandbox stays open, so a Community organisation can buy the sandbox that opens the rest. On Community only the organisation's own sandboxes can enrol as hosts; a self-hosted host needs Pro.
+
+`GET /v1/factory/access` returns the answer the console uses, for example `{ "access": "sandbox", "plan": "community", "activeSandboxes": 1 }`. `access` is `pro`, `sandbox` or `none`. The sandbox count is cached for 60 seconds per organisation.
 
 ## Find the page for your task
 

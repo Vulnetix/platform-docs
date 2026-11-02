@@ -3,9 +3,9 @@ title: Agents and agent profiles
 nav: Agents
 description: What an agent profile is, the five modes, worker profiles and the fields that govern how they claim and finish work, the built-in agents and which of them a workflow can dispatch, and managing agents from the console and the command line.
 order: 1
-sources: [belai/docs/agent-profiles.md, belai/docs/fleet.md, belai/cmd/belai/agentcmd.go, vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_workforce.go]
-checked: [belai@35506b9, vdb-site@284f1d6, website@a31d470]
-updated: 28 Oct 2026
+sources: [belai/docs/agent-profiles.md, belai/docs/guardian.md, vdb-site/api/internal/handler/factory_templates_guardian.go, belai/docs/fleet.md, belai/cmd/belai/agentcmd.go, vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_workforce.go]
+checked: [belai@ea3372a, vdb-site@fe1ff17, website@a31d470]
+updated: 03 Nov 2026
 ---
 
 An **agent** is a Belai profile: a name, a system prompt, the tools it may use, a mode, and limits. The Workforce page (`/resolve/factory-workforce`) lists your agents and crews and the workers running now.
@@ -85,6 +85,16 @@ Validation fails closed: a worker needs `on_success`, can only claim from backlo
 Belai ships these profiles. The **workers** can be dispatched by a workflow:
 
 `belai:builder`, `belai:conflict-resolver`, `belai:designer`, `belai:patcher`, `belai:planner`, `belai:repro`, `belai:reviewer`, `belai:scout`, `belai:verifier`, `belai:vuln-scout`, `belai:test-fixer`, `belai:lint-fixer`, `belai:pr-reviewer`, and the event workflow agents `belai:ai-capability-reviewer`, `belai:alert-triager`, `belai:ci-explainer`, `belai:dep-scope`, `belai:dep-strategist`, `belai:egress-reviewer`, `belai:flaky-hunter`, `belai:github-investigator`, `belai:package-reviewer`, `belai:pr-steward`, `belai:release-steward`, `belai:repo-onboarder`, `belai:secret-triager`, `belai:tea-publisher`, `belai:ticket-writer`, `belai:workflow-fixer` and `belai:workflow-hardener`. `belai:workflow-fixer` fixes one GitHub Actions misconfiguration Vulnetix found and opens a draft pull request with the change; `belai:github-investigator` investigates a risky change on GitHub and says whether it was expected, needs its owner, or is an incident.
+
+The Guardian workers take cards a [Guardian](/siem/) trigger fire files through the Guardian workflows (source `siem`):
+
+| Worker | Claims | Does |
+|---|---|---|
+| `belai:guardian-aws-investigator` (built-in profile `guardian-aws-investigator`) | Backlog cards labelled `sf:guardian-aws` | Investigates an AWS fire (VPC flow, Route 53 Resolver query and CloudTrail rows) with read-only `AWS` commands, in a read-only worktree |
+| `belai:guardian-cloudflare-investigator` (`guardian-cloudflare-investigator`) | Backlog cards labelled `sf:guardian-cloudflare` | Investigates a Cloudflare fire (firewall, HTTP, DNS, Gateway, network analytics and audit rows); its `CF` tool sends GET requests only |
+| `belai:guardian-remediator` (`guardian-remediator`) | Backlog cards labelled `sf:guardian-remediate` | Makes the one change the investigation names in the repository's infrastructure as code and opens a draft pull request, or writes the commands into the ticket when the resource is not in code. It has no cloud tool and never merges. |
+
+An investigator treats the rows and everything it reads as data, cites the documentation page for every claim about a service and the command for every claim about the account, says "not verified" for anything it did not check, and ends with one verdict: benign, needs an owner, or incident. The investigators are capped at 3 USD, 20 passes and 2 hours per item, the remediator at 5 USD.
 
 These run as **background agents** and cannot be dispatched: `belai:debug`, `belai:fanout`, `belai:plan-handoff`, `belai:triage`, `belai:triage-vulns`, `belai:vulnetix-scanner`, and the dependency agents `belai:deps-apple`, `belai:deps-ci`, `belai:deps-containers`, `belai:deps-dotnet`, `belai:deps-go`, `belai:deps-javascript`, `belai:deps-jvm`, `belai:deps-other`, `belai:deps-php`, `belai:deps-python`, `belai:deps-ruby` and `belai:deps-rust`.
 

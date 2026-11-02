@@ -1,14 +1,14 @@
 ---
 title: Source events and firewall triggers
 nav: Source events
-description: Triggers that fire when the Package Firewall, the AI Firewall or a sandbox's egress sees something new. What each source reports, the research gathered before the run, and how the rule you write closes the review ticket.
+description: Triggers that fire when the Package Firewall, the AI Firewall or a sandbox's egress sees something new, or a Guardian trigger fires. What each source reports, the research gathered before the run, and how the rule you write closes the review ticket.
 order: 21
-sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_sources.go, vdb-site/api/internal/handler/factory_sources_fire.go, vdb-site/api/internal/handler/factory_sighting_facts.go]
-checked: [vdb-site@284f1d6]
-updated: 28 Oct 2026
+sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_sources.go, vdb-site/api/internal/handler/factory_sources_siem.go, vdb-site/api/internal/handler/factory_templates_guardian.go, vdb-site/api/internal/handler/factory_sources_fire.go, vdb-site/api/internal/handler/factory_sighting_facts.go]
+checked: [vdb-site@fe1ff17]
+updated: 03 Nov 2026
 ---
 
-Besides GitHub and schedules, three sources can start a run: the **Package Firewall**, the **AI Firewall** and **egress** from your Pix Sandboxes. Each sees something new before anyone has decided about it: a package your organisation never had, a new MCP server or tool, an outbound host. A firewall trigger lets a workflow research it and file a review ticket. The rule you write to allow or deny it closes the ticket.
+Besides GitHub and schedules, four sources can start a run: the **Package Firewall**, the **AI Firewall**, **egress** from your Pix Sandboxes, and **Guardian**, the Vulnetix SIEM ([below](#guardian-fires)). Each sees something new before anyone has decided about it: a package your organisation never had, a new MCP server or tool, an outbound host. A firewall trigger lets a workflow research it and file a review ticket. The rule you write to allow or deny it closes the ticket.
 
 The firewalls only publish what they saw, from writers they already run. Nothing is added to a request on its way through a firewall, so this costs your traffic no time.
 
@@ -25,6 +25,7 @@ The firewalls only publish what they saw, from writers they already run. Nothing
 | | `guardrail.repeat` | `ai.guardrail_repeat` | A guardrail keeps firing |
 | `egress` | `egress.seen` | `egress.host_first_seen` | A new outbound host from a sandbox |
 | | `egress.denied` | `egress.denied_repeat` | A host refused 20 or more times in an hour |
+| `siem` | `siem.fired` | `siem.fired` | A [Guardian](/siem/) trigger fired. Every fire is reported: the trigger already applied its own threshold, cooldown and hourly cap. |
 
 A sighting that a rule already covers, such as an active curation entry, an allow or deny guardrail naming the capability, or an egress decision on that sandbox, is stored as `covered` and fires nothing.
 
@@ -44,17 +45,24 @@ More than 10 first sightings of packages for one repository (or the organisation
 
 | Key | Meaning |
 |---|---|
-| `source` | `package-firewall`, `ai-firewall` or `egress` |
+| `source` | `package-firewall`, `ai-firewall`, `egress` or `siem` |
 | `events` | Which of the source's events fire it. Optional. |
 | `newTo` | `org` (the default) or `repo`. Packages only. |
 | `decision`, `ecosystems` | Package filters |
 | `kinds` | AI capability filter: `client`, `mcp_server`, `tool` or `skill` |
 | `sandboxes` | Egress filter |
+| `categories`, `providers`, `tables`, `triggers` | Guardian filters. `categories`: `network`, `dns`, `waf`, `http`, `cloud_audit`, `vulnetix`, `other`. `providers`: `aws`, `cloudflare`, `vulnetix`, `mixed`. `tables`: `net_events`, `dns_events`, `waf_events`, `http_events`, `cloud_audit`, `product_events`. `triggers`: Guardian trigger ids. |
 | `ticketRepo` | Where review cards go, as `owner/name` |
 
 A filter used with the wrong source is refused with `firewall_condition_unsupported_source`, and `newTo` on anything but packages with `new_to_package_only`. A `ticketRepo` not in `owner/name` form is refused with `invalid_repo`.
 
 The trigger has the same safeguards as a webhook trigger: the kill switch, the workflow's scope (a scoped workflow needs a `ticketRepo` or a repository on the sighting), the hourly cap and the per-delivery fan-out cap. The run's subject is `sighting:<id>`, or `batch:<key>` for a batch.
+
+## Guardian fires
+
+Guardian files one event per trigger fire, keyed by trigger and group (`<triggerId>:<groupHash>`), with the subject `siem:<fireId>` and at most 4 KiB of rows. The factory turns it into a sighting and a `siem.fired` event, which starts every published workflow whose firewall trigger names `source: "siem"` and passes its filters. Only DNS fires from AWS, for example, is `"categories": ["dns"], "providers": ["aws"]`.
+
+The rows are telemetry from your own logs (addresses, DNS names, user agents, CloudTrail actors). The card shows them under the research line that marks them as data, each value cleaned of control characters and clipped. The built-in Guardian workflows hand the card to the [Guardian workers](/software-factory/workforce/agents/#built-in-agents): an investigator, then on a person's approval a remediator that opens a draft pull request. No agent changes a cloud account.
 
 ## Research
 

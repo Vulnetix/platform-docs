@@ -3,8 +3,8 @@ title: Voice tools
 description: Every tool Pix uses on a call, grouped by what it does, with whether it only reads or changes something and what confirmation it needs.
 order: 2
 sources: [website/src/worker/call/tools.ts, website/.repo/pix-call.md, website/src/shared/pix-pocket.ts]
-checked: [website@a31d470]
-updated: 28 Oct 2026
+checked: [website@bdba7fa]
+updated: 03 Nov 2026
 ---
 
 Pix answers and acts through tools. Each one calls the console's own API as you, so it can see and do only what you can. Reads run freely. Tools that start or stop work need your yes to a read-back first. See [Calling Pix](/software-factory/pix/calling-pix/).
@@ -21,6 +21,16 @@ Pix answers and acts through tools. Each one calls the console's own API as you,
 | `repo_activity` | Everything recent on one repository: sessions, runs, open findings, SLSA level |
 | `queue_flow` | Whether a queue is growing: open now, the trend, work in against work done, typical wait and the oldest item |
 | `lifecycle_coverage` | Whether the factory's figures can be trusted, stage by stage |
+
+## Attack surface
+
+On the Business plan, three read-only tools answer questions about your external attack surface.
+
+| Tool | What it answers |
+|---|---|
+| `attack_surface` | How many elements are reachable from outside, how many with no authentication, and how many open issues: "what is my attack surface", "what is exposed" |
+| `list_surface` | Attack-surface elements, newest and riskiest first. Narrow by kind (`route`, `operation`, `public_host`, `cloud_resource`) or exposure (`public_unauth`, `public_auth`, `internal`, `unknown`). |
+| `surface_changes` | What changed recently: elements that became reachable and elements that are gone |
 
 ## Spend and value
 

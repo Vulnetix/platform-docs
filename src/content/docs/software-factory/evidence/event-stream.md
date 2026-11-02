@@ -2,9 +2,9 @@
 title: The event stream
 description: The live feed of everything the factory does. The event kinds and their types, the filters, how to read the stream from your own code, unanswered deliveries, and what an event never contains.
 order: 5
-sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-events.md, vdb-site/api/internal/handler/factory_events.go, vdb-site/api/internal/handler/factory_events_store.go, vdb-site/api/internal/handler/factory_events_unanswered.go]
-checked: [vdb-site@284f1d6]
-updated: 28 Oct 2026
+sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-events.md, vdb-site/api/internal/handler/factory_events.go, vdb-site/api/internal/handler/factory_events_store.go, vdb-site/api/internal/handler/factory_events_unanswered.go, vdb-site/api/internal/handler/factory_sources_siem.go]
+checked: [vdb-site@fe1ff17]
+updated: 03 Nov 2026
 ---
 
 Every change in the factory writes an event in the same transaction. The console reads one stream per tab, and every live panel updates from it. No console page polls the factory on a timer. The Events page (`/resolve/factory-events`) shows the stream with filters, a chart and an inspector.
@@ -27,7 +27,7 @@ Every change in the factory writes an event in the same transaction. The console
 
 - `eventSeq` rises for every event in your tenant.
 - `ts` is when it happened, not when it was delivered.
-- `src` is where the fact came from: `factory`, `webhook`, `mirror`, `posture`, `s3`, `api`, `package-firewall`, `ai-firewall` or `egress`.
+- `src` is where the fact came from: `factory`, `webhook`, `mirror`, `posture`, `s3`, `api`, `package-firewall`, `ai-firewall`, `egress` or `siem` (a [Guardian](/siem/) trigger fire).
 - `payload` is at most 8 KiB and always has a `type`.
 
 > [!CAREFUL] What an event never contains
@@ -61,6 +61,7 @@ Every change in the factory writes an event in the same transaction. The console
 | `a2a` | `broadcast`, `broadcast_end`, `message`, `reply`, `ack` |
 | `memory` | `created`, `edited`, `deleted`, `cleared` |
 | `lifecycle` | `entered`, `exited` |
+| `siem` | A Guardian trigger fired. The payload's `type` is `siem.fired`; see [Source events](/software-factory/workflows/source-events/#guardian-fires). |
 
 Some types are defined but not written yet, because the [lifecycle ledger](/software-factory/evidence/lifecycle-and-flow/) records those transitions instead: session types other than `finished`, the `host` and `worker` types, `scan.started` and `evidence.attested`. `budget.action_taken`, `quota.reset` and the `provider` types other than `switch` are not written either.
 
