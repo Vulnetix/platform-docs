@@ -28,8 +28,12 @@ const coverageOut = args.includes('--coverage') ? args[args.indexOf('--coverage'
 const { atoms, repos } = JSON.parse(readFileSync(join(root, 'inventory', 'atoms.json'), 'utf8'));
 const features = (await import(join(root, 'inventory', 'features.mjs'))).default;
 
-// Feature pages are relative to the Software Factory segment of the site.
-const pagePath = (page) => join(root, 'src', 'content', 'docs', 'software-factory', `${page}.md`);
+// Feature pages are relative to the Software Factory segment of the site; a
+// page that starts with "/" (the CLI, Platform IaC and Guardian features) is
+// relative to the docs root.
+const pagePath = (page) => (page.startsWith('/')
+  ? join(root, 'src', 'content', 'docs', `${page.slice(1)}.md`)
+  : join(root, 'src', 'content', 'docs', 'software-factory', `${page}.md`));
 const textOf = (page) => (existsSync(pagePath(page)) ? readFileSync(pagePath(page), 'utf8') : null);
 const { features: checked, unmatched, missing, problems } = checkCoverage(atoms, features, textOf);
 

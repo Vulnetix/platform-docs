@@ -7,8 +7,11 @@
 // 3. Every user-facing atom of a drafted or verified feature is named on that
 //    feature's own page. Atoms of REF_KINDS, and atoms a feature lists in
 //    `refOnly`, may instead be named only on the generated reference pages.
+//    A feature may name more pages in `pages`; an atom named on any of its
+//    pages counts. A page path that starts with "/" is relative to the docs
+//    root rather than the Software Factory segment (inventory-check.mjs).
 
-export const USER_FACING = new Set(['setting', 'code', 'enum', 'route', 'cli-flag', 'cli-sub', 'cli-cmd', 'tui-cmd', 'voice-tool', 'template', 'default', 'console', 'belai-config']);
+export const USER_FACING = new Set(['setting', 'code', 'enum', 'route', 'cli-flag', 'cli-sub', 'cli-cmd', 'tui-cmd', 'voice-tool', 'template', 'default', 'console', 'belai-config', 'cli-command', 'iac-kind', 'config-route', 'guardian-route']);
 // Long lists a guide should summarise, not repeat.
 export const REF_KINDS = new Set(['route', 'cli-flag', 'belai-config', 'template']);
 export const REFERENCE_PAGES = ['reference/settings', 'reference/validation-codes', 'reference/enums', 'reference/http-api', 'reference/console-routes', 'reference/templates', 'reference/voice-tools', 'belai/cli-reference', 'belai/tui-commands', 'belai/settings-file'];
@@ -20,7 +23,10 @@ export const STATUSES = ['todo', 'drafted', 'verified', 'n/a'];
 export function needle(a) {
   switch (a.kind) {
     case 'enum': return a.value.split('=')[1];
-    case 'route': return a.value.split(' ')[1].replace(/^\/v1/, '');
+    case 'route':
+    case 'config-route': return a.value.split(' ')[1].replace(/^\/v1/, '');
+    // Guardian's API page writes its paths from /v1/guardian.
+    case 'guardian-route': return a.value.split(' ')[1].replace(/^\/v1\/guardian/, '');
     case 'cli-flag': return `-${a.value.split(' -')[1]}`;
     case 'cli-sub': return a.value.split(' ').slice(-1)[0];
     case 'belai-config': return a.value.split('.').slice(1).join('.');
@@ -50,8 +56,10 @@ export function checkCoverage(atoms, features, textOf) {
   const missing = [];
   for (const ft of fts) {
     if (ft.status === 'todo' || ft.status === 'n/a') continue;
-    const text = textOf(ft.page);
-    if (text == null) { problems.push(`${ft.id}: status ${ft.status} but ${ft.page}.md does not exist`); continue; }
+    const texts = [ft.page, ...(ft.pages ?? [])].map((p) => [p, textOf(p)]);
+    const gone = texts.filter(([, t]) => t == null).map(([p]) => p);
+    if (gone.length) { problems.push(`${ft.id}: status ${ft.status} but ${gone.map((p) => `${p}.md`).join(', ')} does not exist`); continue; }
+    const text = texts.map(([, t]) => t).join('\n');
     for (const a of ft._atoms) {
       if (!USER_FACING.has(a.kind)) continue;
       const n = needle(a);

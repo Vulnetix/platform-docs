@@ -1,32 +1,39 @@
 {
- "generatedAt": "2026-10-28T05:29:36.653Z",
+ "generatedAt": "2026-11-02T16:56:07.606Z",
  "repos": {
-  "vdb-site": "61e0604b47d27a223f75b572fca51fbf4c0808d4",
-  "website": "bdf934598284313065fa66e6a95892f2012ab6a2",
-  "belai": "0b0d9b8bcc35a7df0d04c8c89662bfd531f908af",
-  "saas": "935e9785237a9c1fbff94c6b872678f51e5a0c0c"
+  "vdb-site": "fe1ff17bf2f1480e8103a01a5239102623cf04fa",
+  "website": "bdba7fa8a6194f24be50eb21be268674d6816d25",
+  "belai": "ea3372a14da0be229c71e917b79d2315f2824a86",
+  "saas": "1b029d301ec397ae58e9e401d22ab023e27628fb",
+  "cli": "ae98fe2d11678c8d4e23c0d8448323b119929737",
+  "config-schemas": "cf38823c3f126b4fe080b328dfe119cef2838278",
+  "siem": "e0f71fabf4e7bdd5d85d374d52c2a28c0ea530bd"
  },
  "counts": {
   "belai-config": 307,
-  "belai-pkg": 146,
+  "belai-pkg": 147,
   "cli-cmd": 18,
+  "cli-command": 283,
   "cli-flag": 162,
   "cli-sub": 48,
   "code": 58,
+  "config-route": 18,
   "console": 25,
   "default": 7,
-  "doc": 118,
-  "enum": 1058,
-  "gofile": 313,
+  "doc": 120,
+  "enum": 1072,
+  "gofile": 318,
+  "guardian-route": 48,
+  "iac-kind": 26,
   "model": 42,
-  "route": 394,
+  "route": 395,
   "setting": 169,
   "sf-label": 21,
-  "template": 39,
-  "tsfile": 66,
+  "template": 40,
+  "tsfile": 68,
   "tui-cmd": 49,
   "tui-key": 36,
-  "voice-tool": 33,
+  "voice-tool": 36,
   "webhook-event": 99
  },
  "atoms": [
@@ -2887,6 +2894,14 @@
    ]
   },
   {
+   "id": "belai-pkg:gittest",
+   "kind": "belai-pkg",
+   "value": "gittest",
+   "sources": [
+    "belai/internal/gittest"
+   ]
+  },
+  {
    "id": "belai-pkg:goals",
    "kind": "belai-pkg",
    "value": "goals",
@@ -3796,6 +3811,2492 @@
    "value": "skill",
    "sources": [
     "belai/cmd/belai/help.go"
+   ]
+  },
+  {
+   "id": "cli-command:agent",
+   "kind": "cli-command",
+   "value": "agent",
+   "sources": [
+    "cli/cmd/agent.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:agent capabilities",
+   "kind": "cli-command",
+   "value": "agent capabilities",
+   "sources": [
+    "cli/cmd/agent.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:agent hook",
+   "kind": "cli-command",
+   "value": "agent hook",
+   "sources": [
+    "cli/cmd/agent.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:agent hosts",
+   "kind": "cli-command",
+   "value": "agent hosts",
+   "sources": [
+    "cli/cmd/agent.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:agent install",
+   "kind": "cli-command",
+   "value": "agent install",
+   "sources": [
+    "cli/cmd/agent.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall",
+   "kind": "cli-command",
+   "value": "ai-firewall",
+   "sources": [
+    "cli/cmd/ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall apply",
+   "kind": "cli-command",
+   "value": "ai-firewall apply",
+   "sources": [
+    "cli/cmd/ai_firewall_apply.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall baseline",
+   "kind": "cli-command",
+   "value": "ai-firewall baseline",
+   "sources": [
+    "cli/cmd/ai_firewall_apply.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall export",
+   "kind": "cli-command",
+   "value": "ai-firewall export",
+   "sources": [
+    "cli/cmd/ai_firewall_apply.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall get",
+   "kind": "cli-command",
+   "value": "ai-firewall get",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall install",
+   "kind": "cli-command",
+   "value": "ai-firewall install",
+   "sources": [
+    "cli/cmd/ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall inventory",
+   "kind": "cli-command",
+   "value": "ai-firewall inventory",
+   "sources": [
+    "cli/cmd/ai_firewall_inventory.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall key",
+   "kind": "cli-command",
+   "value": "ai-firewall key",
+   "sources": [
+    "cli/cmd/ai_firewall_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall key remove",
+   "kind": "cli-command",
+   "value": "ai-firewall key remove",
+   "sources": [
+    "cli/cmd/ai_firewall_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall key set",
+   "kind": "cli-command",
+   "value": "ai-firewall key set",
+   "sources": [
+    "cli/cmd/ai_firewall_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall kiro",
+   "kind": "cli-command",
+   "value": "ai-firewall kiro",
+   "sources": [
+    "cli/cmd/ai_firewall_kiro.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall kiro login",
+   "kind": "cli-command",
+   "value": "ai-firewall kiro login",
+   "sources": [
+    "cli/cmd/ai_firewall_kiro.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall policy",
+   "kind": "cli-command",
+   "value": "ai-firewall policy",
+   "sources": [
+    "cli/cmd/ai_firewall_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall policy guardrail",
+   "kind": "cli-command",
+   "value": "ai-firewall policy guardrail",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall policy model",
+   "kind": "cli-command",
+   "value": "ai-firewall policy model",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall policy provider",
+   "kind": "cli-command",
+   "value": "ai-firewall policy provider",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall settings",
+   "kind": "cli-command",
+   "value": "ai-firewall settings",
+   "sources": [
+    "cli/cmd/ai_firewall_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall snippet",
+   "kind": "cli-command",
+   "value": "ai-firewall snippet",
+   "sources": [
+    "cli/cmd/ai_firewall_apply.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall status",
+   "kind": "cli-command",
+   "value": "ai-firewall status",
+   "sources": [
+    "cli/cmd/ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ai-firewall uninstall",
+   "kind": "cli-command",
+   "value": "ai-firewall uninstall",
+   "sources": [
+    "cli/cmd/ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:aibom",
+   "kind": "cli-command",
+   "value": "aibom",
+   "sources": [
+    "cli/cmd/aibom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:analyze",
+   "kind": "cli-command",
+   "value": "analyze",
+   "sources": [
+    "cli/cmd/analyze.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:api",
+   "kind": "cli-command",
+   "value": "api",
+   "sources": [
+    "cli/cmd/api.go"
+   ]
+  },
+  {
+   "id": "cli-command:api discover",
+   "kind": "cli-command",
+   "value": "api discover",
+   "sources": [
+    "cli/cmd/api.go"
+   ]
+  },
+  {
+   "id": "cli-command:api upload",
+   "kind": "cli-command",
+   "value": "api upload",
+   "sources": [
+    "cli/cmd/api.go"
+   ]
+  },
+  {
+   "id": "cli-command:attest",
+   "kind": "cli-command",
+   "value": "attest",
+   "sources": [
+    "cli/cmd/attest.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:attest verify",
+   "kind": "cli-command",
+   "value": "attest verify",
+   "sources": [
+    "cli/cmd/attest.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:auth",
+   "kind": "cli-command",
+   "value": "auth",
+   "sources": [
+    "cli/cmd/auth.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:auth login",
+   "kind": "cli-command",
+   "value": "auth login",
+   "sources": [
+    "cli/cmd/auth.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:auth logout",
+   "kind": "cli-command",
+   "value": "auth logout",
+   "sources": [
+    "cli/cmd/auth.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:auth status",
+   "kind": "cli-command",
+   "value": "auth status",
+   "sources": [
+    "cli/cmd/auth.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:auth verify",
+   "kind": "cli-command",
+   "value": "auth verify",
+   "sources": [
+    "cli/cmd/auth.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom",
+   "kind": "cli-command",
+   "value": "bom",
+   "sources": [
+    "cli/cmd/bom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom diff",
+   "kind": "cli-command",
+   "value": "bom diff",
+   "sources": [
+    "cli/cmd/bom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom enrich",
+   "kind": "cli-command",
+   "value": "bom enrich",
+   "sources": [
+    "cli/cmd/bom_enrich.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom import",
+   "kind": "cli-command",
+   "value": "bom import",
+   "sources": [
+    "cli/cmd/bom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom ls",
+   "kind": "cli-command",
+   "value": "bom ls",
+   "sources": [
+    "cli/cmd/bom_corpus.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom merge",
+   "kind": "cli-command",
+   "value": "bom merge",
+   "sources": [
+    "cli/cmd/bom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom search",
+   "kind": "cli-command",
+   "value": "bom search",
+   "sources": [
+    "cli/cmd/bom_corpus.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom skew",
+   "kind": "cli-command",
+   "value": "bom skew",
+   "sources": [
+    "cli/cmd/bom_corpus.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom tree",
+   "kind": "cli-command",
+   "value": "bom tree",
+   "sources": [
+    "cli/cmd/bom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom validate",
+   "kind": "cli-command",
+   "value": "bom validate",
+   "sources": [
+    "cli/cmd/bom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:bom where",
+   "kind": "cli-command",
+   "value": "bom where",
+   "sources": [
+    "cli/cmd/bom_corpus.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:cbom",
+   "kind": "cli-command",
+   "value": "cbom",
+   "sources": [
+    "cli/cmd/cbom.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:cdx",
+   "kind": "cli-command",
+   "value": "cdx",
+   "sources": [
+    "cli/cmd/cdx.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:completion",
+   "kind": "cli-command",
+   "value": "completion",
+   "sources": [
+    "cli/cmd/completion.go"
+   ]
+  },
+  {
+   "id": "cli-command:completion bash",
+   "kind": "cli-command",
+   "value": "completion bash",
+   "sources": [
+    "cli/cmd/completion.go"
+   ]
+  },
+  {
+   "id": "cli-command:completion fish",
+   "kind": "cli-command",
+   "value": "completion fish",
+   "sources": [
+    "cli/cmd/completion.go"
+   ]
+  },
+  {
+   "id": "cli-command:completion powershell",
+   "kind": "cli-command",
+   "value": "completion powershell",
+   "sources": [
+    "cli/cmd/completion.go"
+   ]
+  },
+  {
+   "id": "cli-command:completion zsh",
+   "kind": "cli-command",
+   "value": "completion zsh",
+   "sources": [
+    "cli/cmd/completion.go"
+   ]
+  },
+  {
+   "id": "cli-command:config",
+   "kind": "cli-command",
+   "value": "config",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config apply",
+   "kind": "cli-command",
+   "value": "config apply",
+   "sources": [
+    "cli/cmd/config_engine.go"
+   ]
+  },
+  {
+   "id": "cli-command:config export",
+   "kind": "cli-command",
+   "value": "config export",
+   "sources": [
+    "cli/cmd/config_engine.go"
+   ]
+  },
+  {
+   "id": "cli-command:config get",
+   "kind": "cli-command",
+   "value": "config get",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config get ai-firewall",
+   "kind": "cli-command",
+   "value": "config get ai-firewall",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config get eol-policy",
+   "kind": "cli-command",
+   "value": "config get eol-policy",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config get jail",
+   "kind": "cli-command",
+   "value": "config get jail",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config get package-firewall",
+   "kind": "cli-command",
+   "value": "config get package-firewall",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config get quality-gate",
+   "kind": "cli-command",
+   "value": "config get quality-gate",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config kinds",
+   "kind": "cli-command",
+   "value": "config kinds",
+   "sources": [
+    "cli/cmd/config_documents.go"
+   ]
+  },
+  {
+   "id": "cli-command:config plan",
+   "kind": "cli-command",
+   "value": "config plan",
+   "sources": [
+    "cli/cmd/config_engine.go"
+   ]
+  },
+  {
+   "id": "cli-command:config schema",
+   "kind": "cli-command",
+   "value": "config schema",
+   "sources": [
+    "cli/cmd/config_documents.go"
+   ]
+  },
+  {
+   "id": "cli-command:config set",
+   "kind": "cli-command",
+   "value": "config set",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set ai-firewall",
+   "kind": "cli-command",
+   "value": "config set ai-firewall",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set ai-firewall guardrail",
+   "kind": "cli-command",
+   "value": "config set ai-firewall guardrail",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set ai-firewall model",
+   "kind": "cli-command",
+   "value": "config set ai-firewall model",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set ai-firewall provider",
+   "kind": "cli-command",
+   "value": "config set ai-firewall provider",
+   "sources": [
+    "cli/cmd/config_ai_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set eol-policy",
+   "kind": "cli-command",
+   "value": "config set eol-policy",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set jail",
+   "kind": "cli-command",
+   "value": "config set jail",
+   "sources": [
+    "cli/cmd/config_jail.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set jail exempt",
+   "kind": "cli-command",
+   "value": "config set jail exempt",
+   "sources": [
+    "cli/cmd/jail.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set package-firewall",
+   "kind": "cli-command",
+   "value": "config set package-firewall",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config set quality-gate",
+   "kind": "cli-command",
+   "value": "config set quality-gate",
+   "sources": [
+    "cli/cmd/config.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:config validate",
+   "kind": "cli-command",
+   "value": "config validate",
+   "sources": [
+    "cli/cmd/config_documents.go"
+   ]
+  },
+  {
+   "id": "cli-command:containers",
+   "kind": "cli-command",
+   "value": "containers",
+   "sources": [
+    "cli/cmd/specialized_scans.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:defend",
+   "kind": "cli-command",
+   "value": "defend",
+   "sources": [
+    "cli/cmd/defend.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:env",
+   "kind": "cli-command",
+   "value": "env",
+   "sources": [
+    "cli/cmd/env.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:fix",
+   "kind": "cli-command",
+   "value": "fix",
+   "sources": [
+    "cli/cmd/fix.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha",
+   "kind": "cli-command",
+   "value": "gha",
+   "sources": [
+    "cli/cmd/gha.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha actions",
+   "kind": "cli-command",
+   "value": "gha actions",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha audit",
+   "kind": "cli-command",
+   "value": "gha audit",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha org",
+   "kind": "cli-command",
+   "value": "gha org",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha publish",
+   "kind": "cli-command",
+   "value": "gha publish",
+   "sources": [
+    "cli/cmd/gha_publish.go"
+   ]
+  },
+  {
+   "id": "cli-command:gha publish code-scanning",
+   "kind": "cli-command",
+   "value": "gha publish code-scanning",
+   "sources": [
+    "cli/cmd/gha_publish.go"
+   ]
+  },
+  {
+   "id": "cli-command:gha publish dependency-graph",
+   "kind": "cli-command",
+   "value": "gha publish dependency-graph",
+   "sources": [
+    "cli/cmd/gha_publish.go"
+   ]
+  },
+  {
+   "id": "cli-command:gha publish release-assets",
+   "kind": "cli-command",
+   "value": "gha publish release-assets",
+   "sources": [
+    "cli/cmd/gha_publish.go"
+   ]
+  },
+  {
+   "id": "cli-command:gha settings",
+   "kind": "cli-command",
+   "value": "gha settings",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha setup",
+   "kind": "cli-command",
+   "value": "gha setup",
+   "sources": [
+    "cli/cmd/gha_setup.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha status",
+   "kind": "cli-command",
+   "value": "gha status",
+   "sources": [
+    "cli/cmd/gha.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha upload",
+   "kind": "cli-command",
+   "value": "gha upload",
+   "sources": [
+    "cli/cmd/gha.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:gha workflows",
+   "kind": "cli-command",
+   "value": "gha workflows",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:iac",
+   "kind": "cli-command",
+   "value": "iac",
+   "sources": [
+    "cli/cmd/specialized_scans.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ignore",
+   "kind": "cli-command",
+   "value": "ignore",
+   "sources": [
+    "cli/cmd/suppress.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ignore add",
+   "kind": "cli-command",
+   "value": "ignore add",
+   "sources": [
+    "cli/cmd/suppress.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ignore list",
+   "kind": "cli-command",
+   "value": "ignore list",
+   "sources": [
+    "cli/cmd/suppress.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ignore remove",
+   "kind": "cli-command",
+   "value": "ignore remove",
+   "sources": [
+    "cli/cmd/suppress.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:ignore sync",
+   "kind": "cli-command",
+   "value": "ignore sync",
+   "sources": [
+    "cli/cmd/suppress.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:image",
+   "kind": "cli-command",
+   "value": "image",
+   "sources": [
+    "cli/cmd/image.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:jail",
+   "kind": "cli-command",
+   "value": "jail",
+   "sources": [
+    "cli/cmd/jail.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:jail exempt",
+   "kind": "cli-command",
+   "value": "jail exempt",
+   "sources": [
+    "cli/cmd/jail.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:jail explain",
+   "kind": "cli-command",
+   "value": "jail explain",
+   "sources": [
+    "cli/cmd/jail.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:jail list",
+   "kind": "cli-command",
+   "value": "jail list",
+   "sources": [
+    "cli/cmd/jail.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license",
+   "kind": "cli-command",
+   "value": "license",
+   "sources": [
+    "cli/cmd/license.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license exceptions",
+   "kind": "cli-command",
+   "value": "license exceptions",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license exceptions add",
+   "kind": "cli-command",
+   "value": "license exceptions add",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license exceptions check",
+   "kind": "cli-command",
+   "value": "license exceptions check",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license exceptions ls",
+   "kind": "cli-command",
+   "value": "license exceptions ls",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license policy",
+   "kind": "cli-command",
+   "value": "license policy",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license policy init",
+   "kind": "cli-command",
+   "value": "license policy init",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license policy show",
+   "kind": "cli-command",
+   "value": "license policy show",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:license policy validate",
+   "kind": "cli-command",
+   "value": "license policy validate",
+   "sources": [
+    "cli/cmd/license_policy.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:lsp",
+   "kind": "cli-command",
+   "value": "lsp",
+   "sources": [
+    "cli/cmd/lsp.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:malscan",
+   "kind": "cli-command",
+   "value": "malscan",
+   "sources": [
+    "cli/cmd/malscan.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall",
+   "kind": "cli-command",
+   "value": "package-firewall",
+   "sources": [
+    "cli/cmd/package_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall alpine",
+   "kind": "cli-command",
+   "value": "package-firewall alpine",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall aur",
+   "kind": "cli-command",
+   "value": "package-firewall aur",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall cargo",
+   "kind": "cli-command",
+   "value": "package-firewall cargo",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall chef",
+   "kind": "cli-command",
+   "value": "package-firewall chef",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall composer",
+   "kind": "cli-command",
+   "value": "package-firewall composer",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall conan",
+   "kind": "cli-command",
+   "value": "package-firewall conan",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall conda",
+   "kind": "cli-command",
+   "value": "package-firewall conda",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall cran",
+   "kind": "cli-command",
+   "value": "package-firewall cran",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall debian",
+   "kind": "cli-command",
+   "value": "package-firewall debian",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall docker",
+   "kind": "cli-command",
+   "value": "package-firewall docker",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall gem",
+   "kind": "cli-command",
+   "value": "package-firewall gem",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall go",
+   "kind": "cli-command",
+   "value": "package-firewall go",
+   "sources": [
+    "cli/cmd/package_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall go-dev",
+   "kind": "cli-command",
+   "value": "package-firewall go-dev",
+   "sources": [
+    "cli/cmd/package_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall helm",
+   "kind": "cli-command",
+   "value": "package-firewall helm",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall hex",
+   "kind": "cli-command",
+   "value": "package-firewall hex",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall homebrew",
+   "kind": "cli-command",
+   "value": "package-firewall homebrew",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall julia",
+   "kind": "cli-command",
+   "value": "package-firewall julia",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall maven",
+   "kind": "cli-command",
+   "value": "package-firewall maven",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall npm",
+   "kind": "cli-command",
+   "value": "package-firewall npm",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall nuget",
+   "kind": "cli-command",
+   "value": "package-firewall nuget",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall pub",
+   "kind": "cli-command",
+   "value": "package-firewall pub",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall pypi",
+   "kind": "cli-command",
+   "value": "package-firewall pypi",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall rpm",
+   "kind": "cli-command",
+   "value": "package-firewall rpm",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall terraform",
+   "kind": "cli-command",
+   "value": "package-firewall terraform",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:package-firewall uninstall",
+   "kind": "cli-command",
+   "value": "package-firewall uninstall",
+   "sources": [
+    "cli/cmd/package_firewall.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:pix",
+   "kind": "cli-command",
+   "value": "pix",
+   "sources": [
+    "cli/cmd/pix.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:pix install",
+   "kind": "cli-command",
+   "value": "pix install",
+   "sources": [
+    "cli/cmd/pix.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:report",
+   "kind": "cli-command",
+   "value": "report",
+   "sources": [
+    "cli/cmd/report.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:sast",
+   "kind": "cli-command",
+   "value": "sast",
+   "sources": [
+    "cli/cmd/specialized_scans.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:sca",
+   "kind": "cli-command",
+   "value": "sca",
+   "sources": [
+    "cli/cmd/specialized_scans.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:scan",
+   "kind": "cli-command",
+   "value": "scan",
+   "sources": [
+    "cli/cmd/scan.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:secrets",
+   "kind": "cli-command",
+   "value": "secrets",
+   "sources": [
+    "cli/cmd/specialized_scans.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:skills",
+   "kind": "cli-command",
+   "value": "skills",
+   "sources": [
+    "cli/cmd/skills.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:skills check",
+   "kind": "cli-command",
+   "value": "skills check",
+   "sources": [
+    "cli/cmd/skills.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:skills install",
+   "kind": "cli-command",
+   "value": "skills install",
+   "sources": [
+    "cli/cmd/skills.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:skills prune",
+   "kind": "cli-command",
+   "value": "skills prune",
+   "sources": [
+    "cli/cmd/skills_prune.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:skills uninstall",
+   "kind": "cli-command",
+   "value": "skills uninstall",
+   "sources": [
+    "cli/cmd/skills.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:skills update",
+   "kind": "cli-command",
+   "value": "skills update",
+   "sources": [
+    "cli/cmd/skills.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:surface",
+   "kind": "cli-command",
+   "value": "surface",
+   "sources": [
+    "cli/cmd/surface.go"
+   ]
+  },
+  {
+   "id": "cli-command:surface liveness",
+   "kind": "cli-command",
+   "value": "surface liveness",
+   "sources": [
+    "cli/cmd/surface.go"
+   ]
+  },
+  {
+   "id": "cli-command:tea",
+   "kind": "cli-command",
+   "value": "tea",
+   "sources": [
+    "cli/cmd/tea.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea collection",
+   "kind": "cli-command",
+   "value": "tea collection",
+   "sources": [
+    "cli/cmd/tea.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea components",
+   "kind": "cli-command",
+   "value": "tea components",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea discover",
+   "kind": "cli-command",
+   "value": "tea discover",
+   "sources": [
+    "cli/cmd/tea.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea distribution",
+   "kind": "cli-command",
+   "value": "tea distribution",
+   "sources": [
+    "cli/cmd/tea_distribution.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea distribution add",
+   "kind": "cli-command",
+   "value": "tea distribution add",
+   "sources": [
+    "cli/cmd/tea_distribution.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea distribution list",
+   "kind": "cli-command",
+   "value": "tea distribution list",
+   "sources": [
+    "cli/cmd/tea_distribution.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea distribution remove",
+   "kind": "cli-command",
+   "value": "tea distribution remove",
+   "sources": [
+    "cli/cmd/tea_distribution.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea product",
+   "kind": "cli-command",
+   "value": "tea product",
+   "sources": [
+    "cli/cmd/tea.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea products",
+   "kind": "cli-command",
+   "value": "tea products",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish",
+   "kind": "cli-command",
+   "value": "tea publish",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish artifact",
+   "kind": "cli-command",
+   "value": "tea publish artifact",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish collection",
+   "kind": "cli-command",
+   "value": "tea publish collection",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish delete",
+   "kind": "cli-command",
+   "value": "tea publish delete",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish list",
+   "kind": "cli-command",
+   "value": "tea publish list",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish product",
+   "kind": "cli-command",
+   "value": "tea publish product",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea publish release",
+   "kind": "cli-command",
+   "value": "tea publish release",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea release",
+   "kind": "cli-command",
+   "value": "tea release",
+   "sources": [
+    "cli/cmd/tea_release.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea resolve",
+   "kind": "cli-command",
+   "value": "tea resolve",
+   "sources": [
+    "cli/cmd/tea.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:tea share",
+   "kind": "cli-command",
+   "value": "tea share",
+   "sources": [
+    "cli/cmd/tea_publish.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:triage",
+   "kind": "cli-command",
+   "value": "triage",
+   "sources": [
+    "cli/cmd/gh_dependabot.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:triage status",
+   "kind": "cli-command",
+   "value": "triage status",
+   "sources": [
+    "cli/cmd/gh_dependabot.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:update",
+   "kind": "cli-command",
+   "value": "update",
+   "sources": [
+    "cli/cmd/update.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:upload",
+   "kind": "cli-command",
+   "value": "upload",
+   "sources": [
+    "cli/cmd/upload.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb",
+   "kind": "cli-command",
+   "value": "vdb",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb advisories",
+   "kind": "cli-command",
+   "value": "vdb advisories",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb affected",
+   "kind": "cli-command",
+   "value": "vdb affected",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ai-assisted-exploits",
+   "kind": "cli-command",
+   "value": "vdb ai-assisted-exploits",
+   "sources": [
+    "cli/cmd/vdb_ai.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ai-discoveries",
+   "kind": "cli-command",
+   "value": "vdb ai-discoveries",
+   "sources": [
+    "cli/cmd/vdb_ai.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ai-in-wild",
+   "kind": "cli-command",
+   "value": "vdb ai-in-wild",
+   "sources": [
+    "cli/cmd/vdb_ai.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ai-malware",
+   "kind": "cli-command",
+   "value": "vdb ai-malware",
+   "sources": [
+    "cli/cmd/vdb_ai.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb attack-techniques",
+   "kind": "cli-command",
+   "value": "vdb attack-techniques",
+   "sources": [
+    "cli/cmd/vdb_attack_techniques.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb attack-techniques get",
+   "kind": "cli-command",
+   "value": "vdb attack-techniques get",
+   "sources": [
+    "cli/cmd/vdb_attack_techniques.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb attack-techniques list",
+   "kind": "cli-command",
+   "value": "vdb attack-techniques list",
+   "sources": [
+    "cli/cmd/vdb_attack_techniques.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb cache",
+   "kind": "cli-command",
+   "value": "vdb cache",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb cache clear",
+   "kind": "cli-command",
+   "value": "vdb cache clear",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb cloud-locators",
+   "kind": "cli-command",
+   "value": "vdb cloud-locators",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb countermeasures",
+   "kind": "cli-command",
+   "value": "vdb countermeasures",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb countermeasures counts",
+   "kind": "cli-command",
+   "value": "vdb countermeasures counts",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb countermeasures fetch",
+   "kind": "cli-command",
+   "value": "vdb countermeasures fetch",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb countermeasures get",
+   "kind": "cli-command",
+   "value": "vdb countermeasures get",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb countermeasures list",
+   "kind": "cli-command",
+   "value": "vdb countermeasures list",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb cwe",
+   "kind": "cli-command",
+   "value": "vdb cwe",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb cwe guidance",
+   "kind": "cli-command",
+   "value": "vdb cwe guidance",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ecosystem",
+   "kind": "cli-command",
+   "value": "vdb ecosystem",
+   "sources": [
+    "cli/cmd/vdb_ecosystem.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ecosystem group",
+   "kind": "cli-command",
+   "value": "vdb ecosystem group",
+   "sources": [
+    "cli/cmd/vdb_ecosystem.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ecosystem package",
+   "kind": "cli-command",
+   "value": "vdb ecosystem package",
+   "sources": [
+    "cli/cmd/vdb_ecosystem.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ecosystems",
+   "kind": "cli-command",
+   "value": "vdb ecosystems",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb eol",
+   "kind": "cli-command",
+   "value": "vdb eol",
+   "sources": [
+    "cli/cmd/vdb_eol.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb eol product",
+   "kind": "cli-command",
+   "value": "vdb eol product",
+   "sources": [
+    "cli/cmd/vdb_eol.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb eol release",
+   "kind": "cli-command",
+   "value": "vdb eol release",
+   "sources": [
+    "cli/cmd/vdb_eol.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploit-trends",
+   "kind": "cli-command",
+   "value": "vdb exploit-trends",
+   "sources": [
+    "cli/cmd/vdb_trends.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits",
+   "kind": "cli-command",
+   "value": "vdb exploits",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits archived",
+   "kind": "cli-command",
+   "value": "vdb exploits archived",
+   "sources": [
+    "cli/cmd/vdb_exploits_poc.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits download",
+   "kind": "cli-command",
+   "value": "vdb exploits download",
+   "sources": [
+    "cli/cmd/vdb_exploits_poc.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits poc",
+   "kind": "cli-command",
+   "value": "vdb exploits poc",
+   "sources": [
+    "cli/cmd/vdb_exploits_poc.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits search",
+   "kind": "cli-command",
+   "value": "vdb exploits search",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits sources",
+   "kind": "cli-command",
+   "value": "vdb exploits sources",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb exploits types",
+   "kind": "cli-command",
+   "value": "vdb exploits types",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb fixes",
+   "kind": "cli-command",
+   "value": "vdb fixes",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb fixes distributions",
+   "kind": "cli-command",
+   "value": "vdb fixes distributions",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb gcve",
+   "kind": "cli-command",
+   "value": "vdb gcve",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb gcve issuances",
+   "kind": "cli-command",
+   "value": "vdb gcve issuances",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb ids",
+   "kind": "cli-command",
+   "value": "vdb ids",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb iocs",
+   "kind": "cli-command",
+   "value": "vdb iocs",
+   "sources": [
+    "cli/cmd/vdb_iocs.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb iocs get",
+   "kind": "cli-command",
+   "value": "vdb iocs get",
+   "sources": [
+    "cli/cmd/vdb_iocs.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb iocs list",
+   "kind": "cli-command",
+   "value": "vdb iocs list",
+   "sources": [
+    "cli/cmd/vdb_iocs.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb kev",
+   "kind": "cli-command",
+   "value": "vdb kev",
+   "sources": [
+    "cli/cmd/vdb_kev.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb kev download",
+   "kind": "cli-command",
+   "value": "vdb kev download",
+   "sources": [
+    "cli/cmd/vdb_kev.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb kev get",
+   "kind": "cli-command",
+   "value": "vdb kev get",
+   "sources": [
+    "cli/cmd/vdb_kev.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb kev list",
+   "kind": "cli-command",
+   "value": "vdb kev list",
+   "sources": [
+    "cli/cmd/vdb_kev.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb kev reasons",
+   "kind": "cli-command",
+   "value": "vdb kev reasons",
+   "sources": [
+    "cli/cmd/vdb_kev.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb kev sources",
+   "kind": "cli-command",
+   "value": "vdb kev sources",
+   "sources": [
+    "cli/cmd/vdb_kev.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb metrics",
+   "kind": "cli-command",
+   "value": "vdb metrics",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb metrics types",
+   "kind": "cli-command",
+   "value": "vdb metrics types",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb msrc",
+   "kind": "cli-command",
+   "value": "vdb msrc",
+   "sources": [
+    "cli/cmd/vdb_msrc.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb msrc patch-tuesday",
+   "kind": "cli-command",
+   "value": "vdb msrc patch-tuesday",
+   "sources": [
+    "cli/cmd/vdb_msrc.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb msrc patch-tuesdays",
+   "kind": "cli-command",
+   "value": "vdb msrc patch-tuesdays",
+   "sources": [
+    "cli/cmd/vdb_msrc.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb nuclei",
+   "kind": "cli-command",
+   "value": "vdb nuclei",
+   "sources": [
+    "cli/cmd/vdb_nuclei.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb nuclei get",
+   "kind": "cli-command",
+   "value": "vdb nuclei get",
+   "sources": [
+    "cli/cmd/vdb_nuclei.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb packages",
+   "kind": "cli-command",
+   "value": "vdb packages",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb packages search",
+   "kind": "cli-command",
+   "value": "vdb packages search",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb product",
+   "kind": "cli-command",
+   "value": "vdb product",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb purl",
+   "kind": "cli-command",
+   "value": "vdb purl",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb raw",
+   "kind": "cli-command",
+   "value": "vdb raw",
+   "sources": [
+    "cli/cmd/vdb_raw.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb raw get",
+   "kind": "cli-command",
+   "value": "vdb raw get",
+   "sources": [
+    "cli/cmd/vdb_raw.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb raw sources",
+   "kind": "cli-command",
+   "value": "vdb raw sources",
+   "sources": [
+    "cli/cmd/vdb_raw.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb remediation",
+   "kind": "cli-command",
+   "value": "vdb remediation",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb remediation plan",
+   "kind": "cli-command",
+   "value": "vdb remediation plan",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb scorecard",
+   "kind": "cli-command",
+   "value": "vdb scorecard",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb scorecard search",
+   "kind": "cli-command",
+   "value": "vdb scorecard search",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb search",
+   "kind": "cli-command",
+   "value": "vdb search",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb sightings",
+   "kind": "cli-command",
+   "value": "vdb sightings",
+   "sources": [
+    "cli/cmd/vdb_sightings.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb snort-rules",
+   "kind": "cli-command",
+   "value": "vdb snort-rules",
+   "sources": [
+    "cli/cmd/vdb_snort_rules.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb snort-rules get",
+   "kind": "cli-command",
+   "value": "vdb snort-rules get",
+   "sources": [
+    "cli/cmd/vdb_snort_rules.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb snort-rules list",
+   "kind": "cli-command",
+   "value": "vdb snort-rules list",
+   "sources": [
+    "cli/cmd/vdb_snort_rules.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb sources",
+   "kind": "cli-command",
+   "value": "vdb sources",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb spec",
+   "kind": "cli-command",
+   "value": "vdb spec",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb status",
+   "kind": "cli-command",
+   "value": "vdb status",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb summary",
+   "kind": "cli-command",
+   "value": "vdb summary",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb timeline",
+   "kind": "cli-command",
+   "value": "vdb timeline",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb traffic-filters",
+   "kind": "cli-command",
+   "value": "vdb traffic-filters",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb triage",
+   "kind": "cli-command",
+   "value": "vdb triage",
+   "sources": [
+    "cli/cmd/vdb_triage.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb vendor-trends",
+   "kind": "cli-command",
+   "value": "vdb vendor-trends",
+   "sources": [
+    "cli/cmd/vdb_trends.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb versions",
+   "kind": "cli-command",
+   "value": "vdb versions",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb vex",
+   "kind": "cli-command",
+   "value": "vdb vex",
+   "sources": [
+    "cli/cmd/vdb_vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb vex get",
+   "kind": "cli-command",
+   "value": "vdb vex get",
+   "sources": [
+    "cli/cmd/vdb_vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb vex list",
+   "kind": "cli-command",
+   "value": "vdb vex list",
+   "sources": [
+    "cli/cmd/vdb_vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb virtual-patches",
+   "kind": "cli-command",
+   "value": "vdb virtual-patches",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb virtual-patches counts",
+   "kind": "cli-command",
+   "value": "vdb virtual-patches counts",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb virtual-patches fetch",
+   "kind": "cli-command",
+   "value": "vdb virtual-patches fetch",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb virtual-patches get",
+   "kind": "cli-command",
+   "value": "vdb virtual-patches get",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb virtual-patches list",
+   "kind": "cli-command",
+   "value": "vdb virtual-patches list",
+   "sources": [
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb vuln",
+   "kind": "cli-command",
+   "value": "vdb vuln",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb vulns",
+   "kind": "cli-command",
+   "value": "vdb vulns",
+   "sources": [
+    "cli/cmd/vdb.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb workarounds",
+   "kind": "cli-command",
+   "value": "vdb workarounds",
+   "sources": [
+    "cli/cmd/vdb_v2.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb yara-rules",
+   "kind": "cli-command",
+   "value": "vdb yara-rules",
+   "sources": [
+    "cli/cmd/vdb_yara_rules.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb yara-rules get",
+   "kind": "cli-command",
+   "value": "vdb yara-rules get",
+   "sources": [
+    "cli/cmd/vdb_yara_rules.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vdb yara-rules list",
+   "kind": "cli-command",
+   "value": "vdb yara-rules list",
+   "sources": [
+    "cli/cmd/vdb_yara_rules.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:version",
+   "kind": "cli-command",
+   "value": "version",
+   "sources": [
+    "cli/cmd/version.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vex",
+   "kind": "cli-command",
+   "value": "vex",
+   "sources": [
+    "cli/cmd/vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vex apply",
+   "kind": "cli-command",
+   "value": "vex apply",
+   "sources": [
+    "cli/cmd/vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vex ls",
+   "kind": "cli-command",
+   "value": "vex ls",
+   "sources": [
+    "cli/cmd/vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vex merge",
+   "kind": "cli-command",
+   "value": "vex merge",
+   "sources": [
+    "cli/cmd/vex.go",
+    "cli/docs/command-manifest.json"
+   ]
+  },
+  {
+   "id": "cli-command:vex validate",
+   "kind": "cli-command",
+   "value": "vex validate",
+   "sources": [
+    "cli/cmd/vex.go",
+    "cli/docs/command-manifest.json"
    ]
   },
   {
@@ -6748,6 +9249,168 @@
    }
   },
   {
+   "id": "config-route:DELETE /v1/config/objects/{kind}/{name}",
+   "kind": "config-route",
+   "value": "DELETE /v1/config/objects/{kind}/{name}",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigObjectDelete"
+  },
+  {
+   "id": "config-route:DELETE /v1/config/tokens/{uuid}",
+   "kind": "config-route",
+   "value": "DELETE /v1/config/tokens/{uuid}",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigTokenRevoke"
+  },
+  {
+   "id": "config-route:GET /v1/config",
+   "kind": "config-route",
+   "value": "GET /v1/config",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "Config"
+  },
+  {
+   "id": "config-route:GET /v1/config/export",
+   "kind": "config-route",
+   "value": "GET /v1/config/export",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigExport"
+  },
+  {
+   "id": "config-route:GET /v1/config/kinds",
+   "kind": "config-route",
+   "value": "GET /v1/config/kinds",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigKinds"
+  },
+  {
+   "id": "config-route:GET /v1/config/objects/{kind}/{name}",
+   "kind": "config-route",
+   "value": "GET /v1/config/objects/{kind}/{name}",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigObjectGet"
+  },
+  {
+   "id": "config-route:GET /v1/config/openapi.yaml",
+   "kind": "config-route",
+   "value": "GET /v1/config/openapi.yaml",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigOpenAPI"
+  },
+  {
+   "id": "config-route:GET /v1/config/ownership",
+   "kind": "config-route",
+   "value": "GET /v1/config/ownership",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigOwnership"
+  },
+  {
+   "id": "config-route:GET /v1/config/tokens",
+   "kind": "config-route",
+   "value": "GET /v1/config/tokens",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigTokenList"
+  },
+  {
+   "id": "config-route:POST /v1/config/apply",
+   "kind": "config-route",
+   "value": "POST /v1/config/apply",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigApply"
+  },
+  {
+   "id": "config-route:POST /v1/config/export",
+   "kind": "config-route",
+   "value": "POST /v1/config/export",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigExportDraft"
+  },
+  {
+   "id": "config-route:POST /v1/config/plan",
+   "kind": "config-route",
+   "value": "POST /v1/config/plan",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigPlan"
+  },
+  {
+   "id": "config-route:POST /v1/config/tokens",
+   "kind": "config-route",
+   "value": "POST /v1/config/tokens",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigTokenCreate"
+  },
+  {
+   "id": "config-route:POST /v1/config/tokens/{uuid}/rotate",
+   "kind": "config-route",
+   "value": "POST /v1/config/tokens/{uuid}/rotate",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigTokenRotate"
+  },
+  {
+   "id": "config-route:POST /v1/config/validate",
+   "kind": "config-route",
+   "value": "POST /v1/config/validate",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigValidate"
+  },
+  {
+   "id": "config-route:POST /v1/config/vex-sources/{name}/refresh",
+   "kind": "config-route",
+   "value": "POST /v1/config/vex-sources/{name}/refresh",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "VexSourceRefresh"
+  },
+  {
+   "id": "config-route:POST /v1/config/vex-sources/{name}/snapshot",
+   "kind": "config-route",
+   "value": "POST /v1/config/vex-sources/{name}/snapshot",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "VexSourceSnapshotUpload"
+  },
+  {
+   "id": "config-route:PUT /v1/config/objects/{kind}/{name}",
+   "kind": "config-route",
+   "value": "PUT /v1/config/objects/{kind}/{name}",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "ConfigObjectPut"
+  },
+  {
    "id": "console:/call",
    "kind": "console",
    "value": "/call",
@@ -7239,6 +9902,14 @@
    ]
   },
   {
+   "id": "doc:belai/guardian.md",
+   "kind": "doc",
+   "value": "belai/guardian.md",
+   "sources": [
+    "belai/docs/guardian.md"
+   ]
+  },
+  {
    "id": "doc:belai/harnesses.md",
    "kind": "doc",
    "value": "belai/harnesses.md",
@@ -7668,6 +10339,14 @@
    "value": "vdb-site/belai-workers-ai.md",
    "sources": [
     "vdb-site/docs/belai-workers-ai.md"
+   ]
+  },
+  {
+   "id": "doc:vdb-site/factory-access.md",
+   "kind": "doc",
+   "value": "vdb-site/factory-access.md",
+   "sources": [
+    "vdb-site/docs/factory-access.md"
    ]
   },
   {
@@ -11728,6 +14407,33 @@
    "set": "factoryBuiltinProfiles"
   },
   {
+   "id": "enum:factoryBuiltinProfiles=guardian-aws-investigator",
+   "kind": "enum",
+   "value": "factoryBuiltinProfiles=guardian-aws-investigator",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates.go"
+   ],
+   "set": "factoryBuiltinProfiles"
+  },
+  {
+   "id": "enum:factoryBuiltinProfiles=guardian-cloudflare-investigator",
+   "kind": "enum",
+   "value": "factoryBuiltinProfiles=guardian-cloudflare-investigator",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates.go"
+   ],
+   "set": "factoryBuiltinProfiles"
+  },
+  {
+   "id": "enum:factoryBuiltinProfiles=guardian-remediator",
+   "kind": "enum",
+   "value": "factoryBuiltinProfiles=guardian-remediator",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates.go"
+   ],
+   "set": "factoryBuiltinProfiles"
+  },
+  {
    "id": "enum:factoryBuiltinProfiles=lint-fixer",
    "kind": "enum",
    "value": "factoryBuiltinProfiles=lint-fixer",
@@ -12781,6 +15487,15 @@
    "set": "factoryEventKinds"
   },
   {
+   "id": "enum:factoryEventKinds=siem",
+   "kind": "enum",
+   "value": "factoryEventKinds=siem",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_events_store.go"
+   ],
+   "set": "factoryEventKinds"
+  },
+  {
    "id": "enum:factoryEventKinds=tea",
    "kind": "enum",
    "value": "factoryEventKinds=tea",
@@ -12871,6 +15586,15 @@
    "set": "factoryEventSrcs"
   },
   {
+   "id": "enum:factoryEventSrcs=siem",
+   "kind": "enum",
+   "value": "factoryEventSrcs=siem",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_events_store.go"
+   ],
+   "set": "factoryEventSrcs"
+  },
+  {
    "id": "enum:factoryEventSrcs=webhook",
    "kind": "enum",
    "value": "factoryEventSrcs=webhook",
@@ -12952,6 +15676,15 @@
    "set": "factoryFieldLabels"
   },
   {
+   "id": "enum:factoryFieldLabels=categories",
+   "kind": "enum",
+   "value": "factoryFieldLabels=categories",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_workflow_graph.go"
+   ],
+   "set": "factoryFieldLabels"
+  },
+  {
    "id": "enum:factoryFieldLabels=conclusion",
    "kind": "enum",
    "value": "factoryFieldLabels=conclusion",
@@ -12982,6 +15715,15 @@
    "id": "enum:factoryFieldLabels=ecosystems",
    "kind": "enum",
    "value": "factoryFieldLabels=ecosystems",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_workflow_graph.go"
+   ],
+   "set": "factoryFieldLabels"
+  },
+  {
+   "id": "enum:factoryFieldLabels=emails",
+   "kind": "enum",
+   "value": "factoryFieldLabels=emails",
    "sources": [
     "vdb-site/api/internal/handler/factory_workflow_graph.go"
    ],
@@ -13096,6 +15838,15 @@
    "set": "factoryFieldLabels"
   },
   {
+   "id": "enum:factoryFieldLabels=providers",
+   "kind": "enum",
+   "value": "factoryFieldLabels=providers",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_workflow_graph.go"
+   ],
+   "set": "factoryFieldLabels"
+  },
+  {
    "id": "enum:factoryFieldLabels=ref",
    "kind": "enum",
    "value": "factoryFieldLabels=ref",
@@ -13162,6 +15913,24 @@
    "id": "enum:factoryFieldLabels=subject",
    "kind": "enum",
    "value": "factoryFieldLabels=subject",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_workflow_graph.go"
+   ],
+   "set": "factoryFieldLabels"
+  },
+  {
+   "id": "enum:factoryFieldLabels=tables",
+   "kind": "enum",
+   "value": "factoryFieldLabels=tables",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_workflow_graph.go"
+   ],
+   "set": "factoryFieldLabels"
+  },
+  {
+   "id": "enum:factoryFieldLabels=triggers",
+   "kind": "enum",
+   "value": "factoryFieldLabels=triggers",
    "sources": [
     "vdb-site/api/internal/handler/factory_workflow_graph.go"
    ],
@@ -14455,6 +17224,15 @@
    "set": "factorySourceEventTypes"
   },
   {
+   "id": "enum:factorySourceEventTypes=siem.fired",
+   "kind": "enum",
+   "value": "factorySourceEventTypes=siem.fired",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_sources.go"
+   ],
+   "set": "factorySourceEventTypes"
+  },
+  {
    "id": "enum:factoryStateKinds=kanban_card",
    "kind": "enum",
    "value": "factoryStateKinds=kanban_card",
@@ -14791,6 +17569,33 @@
    "id": "enum:factoryWorkerProfiles=belai:github-investigator",
    "kind": "enum",
    "value": "factoryWorkerProfiles=belai:github-investigator",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates.go"
+   ],
+   "set": "factoryWorkerProfiles"
+  },
+  {
+   "id": "enum:factoryWorkerProfiles=belai:guardian-aws-investigator",
+   "kind": "enum",
+   "value": "factoryWorkerProfiles=belai:guardian-aws-investigator",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates.go"
+   ],
+   "set": "factoryWorkerProfiles"
+  },
+  {
+   "id": "enum:factoryWorkerProfiles=belai:guardian-cloudflare-investigator",
+   "kind": "enum",
+   "value": "factoryWorkerProfiles=belai:guardian-cloudflare-investigator",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates.go"
+   ],
+   "set": "factoryWorkerProfiles"
+  },
+  {
+   "id": "enum:factoryWorkerProfiles=belai:guardian-remediator",
+   "kind": "enum",
+   "value": "factoryWorkerProfiles=belai:guardian-remediator",
    "sources": [
     "vdb-site/api/internal/handler/factory_templates.go"
    ],
@@ -18025,6 +20830,14 @@
    ]
   },
   {
+   "id": "gofile:belai_nul",
+   "kind": "gofile",
+   "value": "belai_nul",
+   "sources": [
+    "vdb-site/api/internal/handler/belai_nul.go"
+   ]
+  },
+  {
    "id": "gofile:belai_objectstore",
    "kind": "gofile",
    "value": "belai_objectstore",
@@ -18190,6 +21003,14 @@
    "value": "belai_web",
    "sources": [
     "vdb-site/api/internal/handler/belai_web.go"
+   ]
+  },
+  {
+   "id": "gofile:factory_access",
+   "kind": "gofile",
+   "value": "factory_access",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_access.go"
    ]
   },
   {
@@ -18705,6 +21526,14 @@
    ]
   },
   {
+   "id": "gofile:factory_engine_mail",
+   "kind": "gofile",
+   "value": "factory_engine_mail",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_engine_mail.go"
+   ]
+  },
+  {
    "id": "gofile:factory_engine_node_common",
    "kind": "gofile",
    "value": "factory_engine_node_common",
@@ -19209,6 +22038,14 @@
    ]
   },
   {
+   "id": "gofile:factory_sources_siem",
+   "kind": "gofile",
+   "value": "factory_sources_siem",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_sources_siem.go"
+   ]
+  },
+  {
    "id": "gofile:factory_state",
    "kind": "gofile",
    "value": "factory_state",
@@ -19270,6 +22107,14 @@
    "value": "factory_templates_events",
    "sources": [
     "vdb-site/api/internal/handler/factory_templates_events.go"
+   ]
+  },
+  {
+   "id": "gofile:factory_templates_guardian",
+   "kind": "gofile",
+   "value": "factory_templates_guardian",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates_guardian.go"
    ]
   },
   {
@@ -19998,6 +22843,598 @@
    "value": "tenantmodel/tenantmodel",
    "sources": [
     "vdb-site/api/internal/tenantmodel/tenantmodel.go"
+   ]
+  },
+  {
+   "id": "guardian-route:DELETE /v1/guardian/rules/{id}",
+   "kind": "guardian-route",
+   "value": "DELETE /v1/guardian/rules/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:DELETE /v1/guardian/rules/{id}/suppressions/{n}",
+   "kind": "guardian-route",
+   "value": "DELETE /v1/guardian/rules/{id}/suppressions/{n}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:DELETE /v1/guardian/searches/{id}",
+   "kind": "guardian-route",
+   "value": "DELETE /v1/guardian/searches/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:DELETE /v1/guardian/sends/{id}",
+   "kind": "guardian-route",
+   "value": "DELETE /v1/guardian/sends/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:DELETE /v1/guardian/sources/tokens/{id}",
+   "kind": "guardian-route",
+   "value": "DELETE /v1/guardian/sources/tokens/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:DELETE /v1/guardian/triggers/{id}",
+   "kind": "guardian-route",
+   "value": "DELETE /v1/guardian/triggers/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/alerts",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/alerts",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/catalogue",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/catalogue",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/connections",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/connections",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/fires/{id}",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/fires/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/help",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/help",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/me",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/me",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/rules",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/rules",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/rules/{id}",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/rules/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/rules/{id}/runs",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/rules/{id}/runs",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/searches",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/searches",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/sends",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/sends",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/sources",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/sources",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/sources/aws",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/sources/aws",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/triggers",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/triggers",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/triggers/{id}/fires",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/triggers/{id}/fires",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:GET /v1/guardian/usage",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/usage",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:PATCH /v1/guardian/alerts/{id}",
+   "kind": "guardian-route",
+   "value": "PATCH /v1/guardian/alerts/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:PATCH /v1/guardian/rules/{id}",
+   "kind": "guardian-route",
+   "value": "PATCH /v1/guardian/rules/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:PATCH /v1/guardian/searches/{id}",
+   "kind": "guardian-route",
+   "value": "PATCH /v1/guardian/searches/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:PATCH /v1/guardian/sends/{id}",
+   "kind": "guardian-route",
+   "value": "PATCH /v1/guardian/sends/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:PATCH /v1/guardian/triggers/{id}",
+   "kind": "guardian-route",
+   "value": "PATCH /v1/guardian/triggers/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/billing/checkout",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/billing/checkout",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/billing/portal",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/billing/portal",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/compile",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/compile",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/rules",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/rules",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/rules/{id}/backfill",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/rules/{id}/backfill",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/rules/{id}/suppressions",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/rules/{id}/suppressions",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/rules/{id}/test",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/rules/{id}/test",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/rules/upload",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/rules/upload",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/search",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/search",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/searches",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/searches",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sends",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sends",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sends/{id}/preview",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sends/{id}/preview",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sends/{id}/send-now",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sends/{id}/send-now",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sources/cloudflare",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sources/cloudflare",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sources/cloudflare/check",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sources/cloudflare/check",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sources/cloudflare/remove",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sources/cloudflare/remove",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/sources/tokens",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/sources/tokens",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/translate",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/translate",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/triggers",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/triggers",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/triggers/{id}/dry-run",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/triggers/{id}/dry-run",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:POST /v1/guardian/triggers/dry-run",
+   "kind": "guardian-route",
+   "value": "POST /v1/guardian/triggers/dry-run",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "iac-kind:AiFirewallPolicy",
+   "kind": "iac-kind",
+   "value": "AiFirewallPolicy",
+   "sources": [
+    "config-schemas/schemas/AiFirewallPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:AiGovernanceList",
+   "kind": "iac-kind",
+   "value": "AiGovernanceList",
+   "sources": [
+    "config-schemas/schemas/AiGovernanceList.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:AiProvider",
+   "kind": "iac-kind",
+   "value": "AiProvider",
+   "sources": [
+    "config-schemas/schemas/AiProvider.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:AlertTrigger",
+   "kind": "iac-kind",
+   "value": "AlertTrigger",
+   "sources": [
+    "config-schemas/schemas/AlertTrigger.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:ApiSpecSource",
+   "kind": "iac-kind",
+   "value": "ApiSpecSource",
+   "sources": [
+    "config-schemas/schemas/ApiSpecSource.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:AwsAccount",
+   "kind": "iac-kind",
+   "value": "AwsAccount",
+   "sources": [
+    "config-schemas/schemas/AwsAccount.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:AwsConnection",
+   "kind": "iac-kind",
+   "value": "AwsConnection",
+   "sources": [
+    "config-schemas/schemas/AwsConnection.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:CloudSensors",
+   "kind": "iac-kind",
+   "value": "CloudSensors",
+   "sources": [
+    "config-schemas/schemas/CloudSensors.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:DetectionRule",
+   "kind": "iac-kind",
+   "value": "DetectionRule",
+   "sources": [
+    "config-schemas/schemas/DetectionRule.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:DetectionRuleFeed",
+   "kind": "iac-kind",
+   "value": "DetectionRuleFeed",
+   "sources": [
+    "config-schemas/schemas/DetectionRuleFeed.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:JailExemption",
+   "kind": "iac-kind",
+   "value": "JailExemption",
+   "sources": [
+    "config-schemas/schemas/JailExemption.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:JailPolicy",
+   "kind": "iac-kind",
+   "value": "JailPolicy",
+   "sources": [
+    "config-schemas/schemas/JailPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:LicenseExceptions",
+   "kind": "iac-kind",
+   "value": "LicenseExceptions",
+   "sources": [
+    "config-schemas/schemas/LicenseExceptions.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:LicensePolicy",
+   "kind": "iac-kind",
+   "value": "LicensePolicy",
+   "sources": [
+    "config-schemas/schemas/LicensePolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:LogSource",
+   "kind": "iac-kind",
+   "value": "LogSource",
+   "sources": [
+    "config-schemas/schemas/LogSource.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:MalwareIoc",
+   "kind": "iac-kind",
+   "value": "MalwareIoc",
+   "sources": [
+    "config-schemas/schemas/MalwareIoc.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:PackageFirewallPolicy",
+   "kind": "iac-kind",
+   "value": "PackageFirewallPolicy",
+   "sources": [
+    "config-schemas/schemas/PackageFirewallPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:PackageList",
+   "kind": "iac-kind",
+   "value": "PackageList",
+   "sources": [
+    "config-schemas/schemas/PackageList.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:QualityGate",
+   "kind": "iac-kind",
+   "value": "QualityGate",
+   "sources": [
+    "config-schemas/schemas/QualityGate.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:RemediationPolicy",
+   "kind": "iac-kind",
+   "value": "RemediationPolicy",
+   "sources": [
+    "config-schemas/schemas/RemediationPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:RiskStrategy",
+   "kind": "iac-kind",
+   "value": "RiskStrategy",
+   "sources": [
+    "config-schemas/schemas/RiskStrategy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:RuntimeSensorPolicy",
+   "kind": "iac-kind",
+   "value": "RuntimeSensorPolicy",
+   "sources": [
+    "config-schemas/schemas/RuntimeSensorPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:SavedSearch",
+   "kind": "iac-kind",
+   "value": "SavedSearch",
+   "sources": [
+    "config-schemas/schemas/SavedSearch.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:ScheduledReport",
+   "kind": "iac-kind",
+   "value": "ScheduledReport",
+   "sources": [
+    "config-schemas/schemas/ScheduledReport.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:Suppression",
+   "kind": "iac-kind",
+   "value": "Suppression",
+   "sources": [
+    "config-schemas/schemas/Suppression.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:VexSource",
+   "kind": "iac-kind",
+   "value": "VexSource",
+   "sources": [
+    "config-schemas/schemas/VexSource.schema.json"
    ]
   },
   {
@@ -21442,6 +24879,15 @@
     "vdb-site/api/internal/handler/factory_core_register.go"
    ],
    "handler": "FactoryA2AFeed"
+  },
+  {
+   "id": "route:GET /v1/factory/access",
+   "kind": "route",
+   "value": "GET /v1/factory/access",
+   "sources": [
+    "vdb-site/api/main.go"
+   ],
+   "handler": "FactoryAccessGet"
   },
   {
    "id": "route:GET /v1/factory/approvals",
@@ -27176,6 +30622,18 @@
    }
   },
   {
+   "id": "template:guardian-sandbox-egress",
+   "kind": "template",
+   "value": "guardian-sandbox-egress",
+   "sources": [
+    "vdb-site/api/internal/handler/factory_templates_guardian.go"
+   ],
+   "detail": {
+    "category": "Guardian",
+    "name": "Guardian: Pix Sandbox egress"
+   }
+  },
+  {
    "id": "template:issue-to-ticket",
    "kind": "template",
    "value": "issue-to-ticket",
@@ -27417,6 +30875,14 @@
    "value": "call/call-agent",
    "sources": [
     "website/src/worker/call/call-agent.ts"
+   ]
+  },
+  {
+   "id": "tsfile:call/call-title",
+   "kind": "tsfile",
+   "value": "call/call-title",
+   "sources": [
+    "website/src/worker/call/call-title.ts"
    ]
   },
   {
@@ -27665,6 +31131,14 @@
    "value": "sandbox/github",
    "sources": [
     "website/sandbox-worker/src/github.ts"
+   ]
+  },
+  {
+   "id": "tsfile:sandbox/guardian",
+   "kind": "tsfile",
+   "value": "sandbox/guardian",
+   "sources": [
+    "website/sandbox-worker/src/guardian.ts"
    ]
   },
   {
@@ -28835,6 +32309,17 @@
    }
   },
   {
+   "id": "voice-tool:attack_surface",
+   "kind": "voice-tool",
+   "value": "attack_surface",
+   "sources": [
+    "website/src/worker/call/tools.ts"
+   ],
+   "detail": {
+    "description": "The caller's external attack surface: how many elements are reachable from outside, how many with no authentication, and how many open issues. Use for \"what's my attack surface\" or \"what's exposed\". Business plan."
+   }
+  },
+  {
    "id": "voice-tool:delivery_decisions",
    "kind": "voice-tool",
    "value": "delivery_decisions",
@@ -28986,6 +32471,17 @@
    ],
    "detail": {
     "description": "Coding-agent sessions, newest first, with optional filters."
+   }
+  },
+  {
+   "id": "voice-tool:list_surface",
+   "kind": "voice-tool",
+   "value": "list_surface",
+   "sources": [
+    "website/src/worker/call/tools.ts"
+   ],
+   "detail": {
+    "description": "List attack-surface elements, newest and riskiest first. Filter by kind (route, operation, public_host, cloud_resource) or exposure (public_unauth, public_auth, internal, unknown)."
    }
   },
   {
@@ -29162,6 +32658,17 @@
    ],
    "detail": {
     "description": "Stop the session after the caller said yes to the stop read-back."
+   }
+  },
+  {
+   "id": "voice-tool:surface_changes",
+   "kind": "voice-tool",
+   "value": "surface_changes",
+   "sources": [
+    "website/src/worker/call/tools.ts"
+   ],
+   "detail": {
+    "description": "What changed on the attack surface recently: elements that became reachable and elements that are gone."
    }
   },
   {

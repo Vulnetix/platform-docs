@@ -64,17 +64,21 @@ test('feature ids must be unique', () => {
   assert.match(r.problems[0], /duplicate feature id f/);
 });
 
-test('the real feature list: valid statuses, a page for every written feature, all verified', () => {
+// A feature page is relative to the Software Factory segment, or to the docs
+// root when it starts with "/" (the CLI, Platform IaC and Guardian features).
+const pageUrl = (p) => new URL(p.startsWith('/') ? `../src/content/docs${p}.md` : `../src/content/docs/software-factory/${p}.md`, import.meta.url);
+
+test('the real feature list: valid statuses, a page for every written feature, every factory feature verified', () => {
   for (const ft of features) {
     assert.ok(STATUSES.includes(ft.status), `${ft.id} has status ${ft.status}`);
-    if (ft.status === 'drafted' || ft.status === 'verified') assert.ok(existsSync(new URL(`../src/content/docs/software-factory/${ft.page}.md`, import.meta.url)), `${ft.page}.md`);
+    if (ft.status === 'drafted' || ft.status === 'verified') for (const p of [ft.page, ...(ft.pages ?? [])]) assert.ok(existsSync(pageUrl(p)), `${p}.md`);
   }
-  assert.equal(features.filter((ft) => ft.status !== 'verified').length, 0);
+  assert.deepEqual(features.filter((ft) => !ft.page.startsWith('/') && ft.status !== 'verified').map((ft) => ft.id), []);
 });
 
 test('the real inventory passes every rule', () => {
   const { atoms } = JSON.parse(readFileSync(new URL('../inventory/atoms.json', import.meta.url), 'utf8'));
-  const textOf = (p) => { const u = new URL(`../src/content/docs/software-factory/${p}.md`, import.meta.url); return existsSync(u) ? readFileSync(u, 'utf8') : null; };
+  const textOf = (p) => { const u = pageUrl(p); return existsSync(u) ? readFileSync(u, 'utf8') : null; };
   const r = checkCoverage(atoms, features, textOf);
   assert.deepEqual({ unmatched: r.unmatched.map((a) => a.id), missing: r.missing, problems: r.problems }, { unmatched: [], missing: [], problems: [] });
 });

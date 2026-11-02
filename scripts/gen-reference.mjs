@@ -19,7 +19,10 @@ for (const ft of features) ft._re = ft.match.map((p) => new RegExp(p));
 // Feature pages are relative to the Software Factory segment of the site.
 const docs = join(root, 'src', 'content', 'docs', 'software-factory');
 const GENERATED = new Set(['reference/forge-capabilities', 'reference/settings', 'reference/validation-codes', 'reference/enums', 'reference/http-api', 'reference/console-routes', 'reference/templates', 'reference/voice-tools', 'belai/cli-reference', 'belai/tui-commands', 'belai/settings-file']);
-const checked = Object.entries(repos).filter(([, s]) => s).map(([r, s]) => `${r}@${s.slice(0, 7)}`);
+// The reference pages are the Software Factory's; atoms.json also records the
+// CLI, config-schemas and siem commits, which these pages are not built from.
+const SF_REPOS = ['vdb-site', 'website', 'belai', 'saas'];
+const checked = Object.entries(repos).filter(([r, s]) => s && SF_REPOS.includes(r)).map(([r, s]) => `${r}@${s.slice(0, 7)}`);
 const short = (repo) => checked.filter((c) => c.startsWith(`${repo}@`));
 
 // The guide page that explains an atom: the first feature that owns it whose
@@ -31,9 +34,11 @@ function guideFor(a) {
   }
   return null;
 }
+// The segment's home page is served at /software-factory/, not at its path.
+const href = (page) => (page === 'get-started/overview' ? '/software-factory/' : `/software-factory/${page}/`);
 // A link to a guide page, or plain text while that page is still to be written.
-const pageLink = (page, text) => (existsSync(join(docs, `${page}.md`)) ? `[${text}](/software-factory/${page}/)` : text);
-const link = (ft) => (ft ? `[${ft.title}](/software-factory/${ft.page}/)` : '');
+const pageLink = (page, text) => (existsSync(join(docs, `${page}.md`)) ? `[${text}](${href(page)})` : text);
+const link = (ft) => (ft ? `[${ft.title}](${href(ft.page)})` : '');
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ').trim();
 const code = (s) => (s === undefined || s === null || s === '' ? '' : `\`${String(s).replace(/`/g, '')}\``);
 const by = (kind) => atoms.filter((a) => a.kind === kind);

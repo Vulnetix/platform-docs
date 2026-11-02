@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-// inventory-scan.mjs: list every Software Factory feature surface in the code.
+// inventory-scan.mjs: list every Software Factory feature surface in the code,
+// and the CLI's commands, the Platform IaC kinds and config routes, and
+// Guardian's console API routes.
 //
 // Reads sibling checkouts of the source repositories and writes
 // inventory/atoms.json: one "atom" per thing a user can touch (an API route, a
@@ -18,10 +20,13 @@ import { readFileSync, readdirSync, statSync, writeFileSync, existsSync, mkdirSy
 import { join, basename, dirname, relative } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { settingSpec, goSubcommands } from './lib/go-source.mjs';
+import { cobraTree } from './lib/cobra.mjs';
 
 const root = new URL('..', import.meta.url).pathname;
 const repoPath = (name) => process.env[`SF_SRC_${name.toUpperCase().replace(/-/g, '_')}`] ?? join(root, '..', name);
-const REPOS = ['vdb-site', 'website', 'belai', 'saas'];
+// The first four feed the Software Factory segment; the rest feed the CLI,
+// Platform IaC and Guardian (SIEM) coverage checks.
+const REPOS = ['vdb-site', 'website', 'belai', 'saas', 'cli', 'config-schemas', 'siem'];
 
 const out = process.argv.includes('--out') ? process.argv[process.argv.indexOf('--out') + 1] : join(root, 'inventory', 'atoms.json');
 
@@ -79,10 +84,13 @@ function scanGoRoutes() {
       const fn = raw.match(/^func (?:\([^)]*\) )?(\w+)\(r chi\.Router/);
       if (fn) { ctx = { routes: [], calls: [] }; funcs.set(/^Register/.test(fn[1]) ? fn[1] : `${rel}:${fn[1]}`, ctx); ctxDepth = depth; stack.length = 0; }
       const prefix = stack.map((s) => s.p).join('');
-      const route = raw.match(/\br\.Route\("([^"]+)"/);
-      const m = raw.match(/\br\.(Get|Post|Put|Patch|Delete|Head|Options)\("([^"]+)",\s*(?:handler\.)?(\w+)/);
-      const call = raw.match(/\b(?:handler\.)?(Register\w+)\(r,/);
-      const local = raw.match(/\.(\w+)\(r\)\s*$/);
+      // A commented-out call is not a route: main.go explains "Flat paths, not
+      // r.Route("/config")" in a comment, which would otherwise open a group.
+      const code = /^\s*\/\//.test(raw) ? '' : raw;
+      const route = code.match(/\br\.Route\("([^"]+)"/);
+      const m = code.match(/\br\.(Get|Post|Put|Patch|Delete|Head|Options)\("([^"]+)",\s*(?:handler\.)?(\w+)/);
+      const call = code.match(/\b(?:handler\.)?(Register\w+)\(r,/);
+      const local = code.match(/\.(\w+)\(r\)\s*$/);
       if (ctx && m) ctx.routes.push({ method: m[1].toUpperCase(), path: prefix + m[2], handler: m[3], file: rel });
       if (ctx && call && !raw.match(/^func /)) ctx.calls.push({ fn: call[1], prefix });
       if (ctx && local && !raw.match(/^func /)) ctx.calls.push({ fn: `${rel}:${local[1]}`, prefix });
@@ -105,6 +113,9 @@ function scanGoRoutes() {
   visit(top, '', new Set());
   for (const r of resolved) {
     if (SF_PATH.test(r.path) || SF_HANDLER.test(r.handler)) atom('route', `${r.method} ${r.path}`, 'vdb-site', r.file, { handler: r.handler });
+    // Platform IaC: the config engine's routes (plan, apply, export, objects,
+    // management tokens) and the public site config next to them.
+    else if (/^\/v1\/config(\/|$)/.test(r.path)) atom('config-route', `${r.method} ${r.path}`, 'vdb-site', r.file, { handler: r.handler });
   }
 }
 
@@ -282,6 +293,40 @@ function scanBelai() {
   for (const f of ls(join(b, 'docs'), /\.md$/)) atom('doc', `belai/${f}`, 'belai', `docs/${f}`);
 }
 
+// cli: every command path of the Cobra tree (`auth login`), read from the Use:
+// strings and AddCommand edges in cmd/*.go (scripts/lib/cobra.mjs), plus the
+// paths in docs/command-manifest.json, which the CLI writes from the live tree
+// and which covers the commands cmd/ builds from tables (package-firewall
+// ecosystems, the vdb defence lanes). Hidden commands are left out.
+function scanCli() {
+  const c = repoPath('cli');
+  const files = ls(join(c, 'cmd'), /\.go$/).map((f) => ({ file: `cmd/${f}`, src: read(join(c, 'cmd', f)) }));
+  for (const [path, n] of cobraTree(files)) atom('cli-command', path, 'cli', n.file);
+  const man = join(c, 'docs', 'command-manifest.json');
+  if (existsSync(man)) {
+    for (const path of Object.keys(JSON.parse(read(man)).commands ?? {})) {
+      if (path !== 'vulnetix' && !path.startsWith('__')) atom('cli-command', path, 'cli', 'docs/command-manifest.json');
+    }
+  }
+}
+
+// config-schemas: every Platform IaC kind with a schema.
+function scanConfigSchemas() {
+  const dir = join(repoPath('config-schemas'), 'schemas');
+  for (const f of ls(dir, /^[A-Z]\w+\.schema\.json$/)) atom('iac-kind', f.replace(/\.schema\.json$/, ''), 'config-schemas', `schemas/${f}`);
+}
+
+// siem: Guardian's console API, the ROUTES table of worker/src/api/routes.ts.
+// A route is a method and a regex; the id group becomes {id}.
+function scanGuardian() {
+  const file = join(repoPath('siem'), 'worker', 'src', 'api', 'routes.ts');
+  if (!existsSync(file)) return;
+  for (const m of read(file).matchAll(/^\s*\['(GET|POST|PUT|PATCH|DELETE)',\s*(?:\/\^(.+?)\$\/|new RegExp\(`\^(.+?)\$`\))\s*,/gm)) {
+    const path = (m[2] ?? m[3]).replace(/\\\//g, '/').replace(/\$\{ID\}/g, '{id}').replace(/\(\\\\d\{1,2\}\)/g, '{n}').replace(/\\\\/g, '');
+    atom('guardian-route', `${m[1]} ${path}`, 'siem', 'worker/src/api/routes.ts');
+  }
+}
+
 scanGoRoutes();
 scanGoFiles();
 scanGoSemantics();
@@ -289,6 +334,9 @@ scanContract();
 scanWebsite();
 scanSaas();
 scanBelai();
+scanCli();
+scanConfigSchemas();
+scanGuardian();
 
 const result = {
   generatedAt: new Date().toISOString(),

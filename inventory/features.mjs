@@ -42,6 +42,7 @@ const set = (prefix) => `^setting:${prefix.replace(/\./g, '\\.')}`;
 
 // ── Get started ────────────────────────────────────────────────────────────
 f('overview', 'get-started', 'get-started/overview', 'Overview', [doc('vdb-site/factory\\.md', 'website/software-factory\\.md', 'website/software-factory-marketing\\.md')]);
+f('access', 'get-started', 'get-started/overview', 'Who can use the factory: plans and Pix Sandboxes', ['^route:GET /v1/factory/access$', g('factory_access'), doc('vdb-site/factory-access\\.md')], { status: 'verified', foundIn: '2026-11-03' });
 f('concepts', 'get-started', 'get-started/concepts', 'Concepts', [gp('factory_core_'), g('factory_common'), g('factory_wiring')]);
 f('quickstart', 'get-started', 'get-started/quickstart', 'Quickstart: manage an org and run a workflow', []);
 f('never-does', 'get-started', 'get-started/what-the-factory-never-does', 'What the factory never does', []);
@@ -70,7 +71,7 @@ f('node-decision', 'workflows', 'workflows/nodes/decision', 'Decision node', [g(
 f('node-crew', 'workflows', 'workflows/nodes/crew', 'Crew node', [g('factory_engine_node_crew'), g('factory_engine_handoff'), e('factoryCrewModes'), e('factoryShowInternal'), e('factoryRunOnKinds'), e('factoryRunOnFall'), e('factoryTestsOnFail'), e('factoryTestsPostEnd'), '^code:(crew_not_found|runs_on_invalid)$']);
 f('node-gate', 'workflows', 'workflows/nodes/gate', 'Gate node', [g('factory_engine_node_gate'), e('factoryGateProfiles'), e('factoryGateOnFail'), e('factoryReleaseJail')]);
 f('node-human', 'workflows', 'workflows/nodes/human', 'Human node', [g('factory_engine_node_human'), e('factoryHumanTimeout'), e('factoryApproverKinds'), '^code:(approver_missing|fork_pr_needs_human)$']);
-f('node-output', 'workflows', 'workflows/nodes/output', 'Output node', [g('factory_engine_node_output'), e('factoryOutputKinds'), e('factoryAttach'), e('factoryNoBranch'), e('factoryPRStates'), e('factoryTeaWhen'), e('factoryReviewers'), '^code:invalid_base$']);
+f('node-output', 'workflows', 'workflows/nodes/output', 'Output node', [g('factory_engine_node_output'), g('factory_engine_mail'), e('factoryOutputKinds'), e('factoryAttach'), e('factoryNoBranch'), e('factoryPRStates'), e('factoryTeaWhen'), e('factoryReviewers'), '^code:invalid_base$']);
 f('node-state', 'workflows', 'workflows/nodes/state', 'State node', [g('factory_engine_node_common'), e('factoryStateKinds')]);
 f('triggers', 'workflows', 'workflows/triggers', 'Triggers and webhook conditions', [gp('factory_trigger'), g('factory_triggers_store'), '^model:FactoryTrigger$', e('factoryConditionKeys'), e('factoryDraftModes'), e('factoryAlertSeverities'), '^webhook-event:', e('factoryConclusions'), e('factoryConclusionEvents'), e('factoryAuthorTypes'), e('factoryReviewStates'), e('factorySeverities'), e('factoryPackageTypes'), e('factoryWebhookRefs'), e('factoryOriginModes'), e('factorySubjectModes'), e('factoryDeployStates'), '^code:(action_conflict|unknown_condition|paths_need_push|invalid_glob|conclusion_unsupported_event|environment_unsupported_event|review_state_unsupported_event|severity_unsupported_event|package_type_unsupported_event)$', r('webhooks/github')]);
 f('source-events', 'workflows', 'workflows/source-events', 'Source events and firewall triggers', [gp('factory_sources'), doc('website/factory-firewall-sources\\.md'), '^model:(FactorySourceEvent|FactorySourceCursor)$', e('factorySourceEventTypes'), e('factoryCapabilityKinds'), '^code:firewall_condition_unsupported_source$']);
@@ -101,7 +102,7 @@ f('merge-conflicts', 'decisions', 'decisions/merge-conflicts', 'Merge conflicts'
 f('signing', 'decisions', 'decisions/commit-signing', 'Commit signing', [g('factory_signing'), set('signing.'), r('signing'), gp('signing_'), doc('vdb-site/signing\\.md', 'website/commit-signing\\.md', 'website/pix-sandbox-git-signing\\.md'), ts('sandbox/git-sign', 'sandbox/kms')]);
 
 // ── Workforce ──────────────────────────────────────────────────────────────
-f('agents', 'workforce', 'workforce/agents', 'Agents and agent profiles', [r('factory/(agents|workforce)'), g('factory_workforce'), con('factory-workforce'), e('factoryBuiltinProfiles'), e('factoryWorkerProfiles'), pkg('agentprofile', 'profiles', 'agentstore', 'agentscan'), doc('belai/agent-profiles\\.md', 'belai/agent-stores\\.md'), '^cli-cmd:agent$', sub('agent'), flags('agent'), tui('agent', 'agents', 'profile'), cfg('profiles', 'agents')]);
+f('agents', 'workforce', 'workforce/agents', 'Agents and agent profiles', [r('factory/(agents|workforce)'), doc('belai/guardian\\.md'), g('factory_workforce'), con('factory-workforce'), e('factoryBuiltinProfiles'), e('factoryWorkerProfiles'), pkg('agentprofile', 'profiles', 'agentstore', 'agentscan'), doc('belai/agent-profiles\\.md', 'belai/agent-stores\\.md'), '^cli-cmd:agent$', sub('agent'), flags('agent'), tui('agent', 'agents', 'profile'), cfg('profiles', 'agents')]);
 f('agent-builder', 'workforce', 'workforce/agent-builder', 'The agent builder and drafts', [r('belai/(agent-creators|agent-drafts|ai-drafts|ai)( |/|$)'), g('belai_ai'), g('belai_ai_draft'), g('belai_drafts'), con('factory-agent'), pkg('agentdraft')]);
 f('agent-import', 'workforce', 'workforce/agent-import', 'Importing agents and agent files', [pkg('agentimport', 'agentfiles'), sub('agentfiles'), doc('belai/agent-import\\.md')]);
 f('avatars', 'workforce', 'workforce/avatars', 'Agent avatars', [r('belai/ai-avatars'), g('belai_ai_avatar'), gp('belai_avatar'), pkg('avatar', 'pix')]);
@@ -129,7 +130,7 @@ f('remote-control', 'workforce', 'workforce/remote-control', 'Remote control and
 f('teleport', 'workforce', 'workforce/teleport', 'Teleport: move a session between hosts', [gp('belai_teleport'), pkg('teleport'), doc('belai/teleport\\.md')]);
 f('host-shell', 'workforce', 'workforce/host-shell-and-web', 'Host shell, git and web sessions', [g('belai_shell'), g('belai_web'), g('belai_git'), e('belaiGitOutcomes')]);
 f('host-schedules', 'workforce', 'workforce/host-schedules', 'Host schedules', [r('belai/schedules'), gp('belai_schedules'), e('belaiScheduleStatuses'), pkg('schedule', 'cron')]);
-f('session-sync', 'workforce', 'workforce/session-sync', 'Session sync and object storage', [g('belai_sync'), g('belai_objectstore'), pkg('sessionsync'), doc('belai/session-sync\\.md'), tui('sync')]);
+f('session-sync', 'workforce', 'workforce/session-sync', 'Session sync and object storage', [g('belai_sync'), g('belai_nul'), g('belai_objectstore'), pkg('sessionsync'), doc('belai/session-sync\\.md'), tui('sync')]);
 f('analytics', 'evidence', 'evidence/analytics', 'Analytics', [r('belai/analytics'), gp('belai_analytics'), doc('vdb-site/belai-analytics\\.md', 'belai/git-directories-analytics\\.md')]);
 f('knowledge', 'workforce', 'workforce/knowledge', 'Knowledge', [pkg('knowledge'), doc('belai/knowledge\\.md'), tui('knowledge'), cfg('knowledge')]);
 
@@ -186,7 +187,44 @@ f('belai-headless', 'belai', 'belai/headless', 'Headless and one-shot runs', [pk
 f('belai-agent-loop', 'belai', 'belai/how-a-turn-runs', 'How a turn runs: the agent loop', [pkg('agent')]);
 f('belai-resilience', 'belai', 'belai/resilience', 'Retries, resilience and performance', [pkg('resilience'), doc('belai/resilience\\.md', 'belai/performance\\.md', 'belai/benchmarks\\.md')]);
 f('belai-repo-memory', 'belai', 'belai/sessions', 'Todos and per-repo memory in the TUI', [pkg('todos')]);
-f('belai-docs-tooling', 'belai', 'belai/contributing', 'Developing Belai', [pkg('docparity', 'docsuite'), doc('belai/development\\.md', 'belai/README\\.md', 'belai/site\\.md')]);
+f('belai-docs-tooling', 'belai', 'belai/contributing', 'Developing Belai', [pkg('docparity', 'docsuite', 'gittest'), doc('belai/development\\.md', 'belai/README\\.md', 'belai/site\\.md')]);
+
+// ── Outside the Software Factory ───────────────────────────────────────────
+// The CLI's commands, the Platform IaC kinds and config routes, and Guardian's
+// console API. A page that starts with "/" is relative to the docs root, and
+// `pages` lists more pages whose text counts. Each feature enters as drafted.
+const cmd = (...tops) => `^cli-command:(${tops.join('|')})( |$)`;
+// Commands with no docs yet. They match the `cli-undocumented` feature (todo)
+// and are kept out of their group's pattern by NOT_YET.
+const UNDOCUMENTED = ['gha publish', 'gha publish code-scanning', 'gha publish dependency-graph', 'gha publish release-assets', 'api', 'api discover', 'api upload', 'surface', 'surface liveness', 'pix install', 'triage status', 'package-firewall alpine', 'package-firewall debian', 'package-firewall rpm'];
+const NOT_YET = `(?!(${UNDOCUMENTED.join('|')})$)`;
+const cmdx = (...tops) => `^cli-command:${NOT_YET}(${tops.join('|')})( |$)`;
+const cliF = (id, page, title, match, pages = []) => f(id, 'cli', page, title, match, { status: 'drafted', foundIn: '2026-11-03', pages });
+
+cliF('cli-agent', '/pix/reference/commands', 'vulnetix agent', [cmd('agent')]);
+cliF('cli-ai-firewall', '/ai-firewall/cli/commands', 'vulnetix ai-firewall', [cmd('ai-firewall')]);
+cliF('cli-auth', '/cli/authentication/overview', 'vulnetix auth', [cmd('auth')]);
+cliF('cli-scan', '/cli/commands/scan', 'vulnetix scan and the per-scanner commands', [cmd('scan', 'defend', 'sca', 'sast', 'secrets', 'iac', 'containers', 'malscan', 'cbom', 'aibom', 'image', 'fix', 'report')], ['/cli/commands/analyze', '/cli/ci-cd/overview', '/cli/ci-cd/gitlab-ci', '/ai-firewall/cli/wiring-clients', '/browser-extension/using/sidebar', '/cli/ci-cd/local']);
+cliF('cli-analyze-upload', '/cli/commands/analyze', 'vulnetix analyze and upload', [cmd('analyze', 'upload')], ['/cli/commands/upload']);
+cliF('cli-utilities', '/cli/commands/utilities', 'vulnetix env, version, update, completion and lsp', [cmd('env', 'version', 'update', 'completion', 'lsp')], ['/cli/commands/completion', '/cli/get-started/install']);
+cliF('cli-gha', '/cli/commands/gha', 'vulnetix gha', [cmdx('gha')], ['/cli/ci-cd/gha-command']);
+cliF('cli-attest', '/attestation/get-started/overview', 'vulnetix attest and cdx', [cmd('attest', 'cdx')]);
+cliF('cli-bom', '/sbom/read/import-and-validate', 'vulnetix bom', [cmd('bom')], ['/sbom/read/corpus-queries']);
+cliF('cli-config', '/platform-iac/cli/imperative-commands', 'vulnetix config', [cmd('config')], ['/cli/get-started/overview', '/quality-gates/reference/commands', '/platform-iac/planned/roadmap', '/ai-firewall/cli/commands', '/ai-firewall/policy/providers', '/platform-iac/cli/validate', '/platform-iac/cli/plan', '/platform-iac/cli/apply', '/platform-iac/cli/export']);
+cliF('cli-ignore', '/iac-scanning/guides/suppression', 'vulnetix ignore', [cmd('ignore')]);
+cliF('cli-jail', '/quality-gates/reference/commands', 'vulnetix jail', [cmd('jail')]);
+cliF('cli-license', '/sca/license/policy', 'vulnetix license', [cmd('license')]);
+cliF('cli-package-firewall', '/package-firewall/clients/go-dev', 'vulnetix package-firewall', [cmdx('package-firewall')], ['/cli/authentication/netrc', ...['arch', 'conan', 'maven', 'cargo', 'chef', 'composer', 'conda', 'cran', 'docker', 'helm', 'hex', 'homebrew', 'julia', 'nuget', 'pub', 'pypi', 'rubygems', 'terraform'].map((c) => `/package-firewall/clients/${c}`)]);
+cliF('cli-pix', '/cli/get-started/overview', 'vulnetix pix and skills', [cmdx('pix', 'skills')], ['/pix/get-started/install']);
+cliF('cli-tea', '/tea/cli/publishing', 'vulnetix tea', [cmd('tea')], ['/tea/cli/reading']);
+cliF('cli-triage', '/pix/skills/attestations', 'vulnetix triage', [cmdx('triage')]);
+cliF('cli-vdb', '/vdb-api/cli/commands', 'vulnetix vdb', [cmd('vdb')]);
+cliF('cli-vex', '/vex/commands/ls-validate-merge', 'vulnetix vex', [cmd('vex')], ['/vex/get-started/overview']);
+f('cli-undocumented', 'cli', '/cli/get-started/overview', 'CLI commands not documented yet', [`^cli-command:(${UNDOCUMENTED.join('|')})$`], { foundIn: '2026-11-03' });
+
+f('iac-kinds', 'platform-iac', '/platform-iac/planned/kind-catalogue', 'Platform IaC kinds', ['^iac-kind:'], { status: 'drafted', foundIn: '2026-11-03' });
+f('iac-config-api', 'platform-iac', '/platform-iac/reference/config-api', 'Config engine API and management tokens', ['^config-route:'], { status: 'drafted', foundIn: '2026-11-03' });
+f('guardian-api', 'siem', '/siem/reference/api', 'Guardian console API', ['^guardian-route:'], { status: 'drafted', foundIn: '2026-11-03' });
 
 // ── Status ─────────────────────────────────────────────────────────────────
 // todo -> drafted (the page is written from the code) -> verified (the page
