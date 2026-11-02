@@ -4,7 +4,7 @@ nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
 sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.8.0", "vdb-site@3c0433c", "cli@v3.166.0", "terraform-provider-vulnetix@d7f7612"]
+checked: ["config-schemas@v1.11.1", "vdb-site@7b71e88", "cli@v3.167.0", "terraform-provider-vulnetix@169ce16"]
 updated: 03 Nov 2026
 ---
 
@@ -25,6 +25,8 @@ This page is the honest list. The rest of the segment documents what works; this
 | AWS modules | `aws-onboarding` and `aws-siem-shipping`. | [Modules](/platform-iac/terraform/modules/) |
 | SSVC decisions | [`SsvcPolicy`](/platform-iac/kinds/ssvc-policy/) configures how the CISA SSVC decision (Track, Track*, Attend or Act) is made for a finding. It needs a database migration, until which tenants decide with the default policy. | [`SsvcPolicy`](/platform-iac/kinds/ssvc-policy/) |
 | Asset labels | `labels`, `owner` and `criticality` on [`RepositorySettings`](/platform-iac/kinds/repository-settings/#asset-labels-owner-and-criticality), set on the Repositories page or as code, and usable in rules as `finding` variables. They need a database migration, until which they read as empty. | [CEL rule expressions](/platform-iac/reference/cel/) |
+| Private registries | [`RegistryConnection`](/platform-iac/kinds/registry-connection/) keeps the credential a scan uses to read your own npm, PyPI, Maven or OCI registry, with the secret in the vault. It needs a database migration, until which plan refuses it. | [Private registries for scans](/organization/integrations/private-registries/) |
+| Compliance targets | [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) runs a compliance report on a cadence, or measures a SLSA level, NIST SSDF practices or a cryptography policy over your CBOM. It needs a database migration, until which plan refuses it. | [Compliance targets](/compliance/get-started/targets/) |
 | Download as code | On the console's quality gate and factory settings pages, in YAML, HCL and bash, in minimal and advanced forms. | [`QualityGate`](/platform-iac/kinds/quality-gate/), [`FactorySettings`](/platform-iac/kinds/factory-settings/) |
 
 ## Not yet
@@ -39,14 +41,8 @@ This page is the honest list. The rest of the segment documents what works; this
 | VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. `vulnetix config apply` does not upload a snapshot for a `path` source, and `vulnetix scan` does not read a `VexSource`. |
 | Cloud | A per-account [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) document needs a database migration; until it runs, plan blocks it. |
 | SSVC in the CLI | The VDB API still makes its own simpler SSVC decision in the CLI's SCA response and in the remediation plan; neither reads `SsvcPolicy` yet. |
-| Provider examples | The provider's generated resources are built from `config-schemas` v1.6.0. The fields and kinds added since (`RepositorySettings` asset fields, `SsvcPolicy`) have no HCL sample until it is regenerated. |
 | Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the console's rotate endpoint stays the way. |
 
 ## Planned kinds
 
-These have no schema yet. Names and fields may change.
-
-| Kind | Group | What it needs first |
-|---|---|---|
-| `ComplianceTarget` | Compliance | SLSA level, SSDF, crypto policy and AI Act targets need the product feature before the kind. |
-| `RegistryConnection` | Integrations | OCI, npm and PyPI registry credentials for scanning need a backend. |
+None. Every kind in the [catalogue](/platform-iac/kinds/catalogue/) has a schema. A new kind is added there when `config-schemas` releases it.

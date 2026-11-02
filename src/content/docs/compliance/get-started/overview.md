@@ -27,7 +27,7 @@ Evidence is computed when you open or export the report, not stored. Your upload
 | Scan Coverage | `coverage` | [/resolve/coverage](https://www.vulnetix.com/resolve/coverage) | 26 scanner and assurance categories |
 | Exposure & Remediation Performance | `exposure` | [/resolve/exposure](https://www.vulnetix.com/resolve/exposure) | 15 sections of exposure and remediation metrics |
 
-Details of each are in [AI governance frameworks](/compliance/frameworks/ai-governance/), [Security standards](/compliance/frameworks/security-standards/) and [Coverage and Exposure](/compliance/frameworks/coverage-and-exposure/). Frameworks that are not supported yet, including SLSA, NIST SSDF and post-quantum cryptography readiness, are listed on [Planned frameworks](/compliance/frameworks/planned/).
+Details of each are in [AI governance frameworks](/compliance/frameworks/ai-governance/), [Security standards](/compliance/frameworks/security-standards/) and [Coverage and Exposure](/compliance/frameworks/coverage-and-exposure/). SLSA, NIST SSDF and a cryptography policy over your CBOM are measured as [compliance targets](/compliance/get-started/targets/), not reports. Report frameworks that are not supported yet are listed on [Planned frameworks](/compliance/frameworks/planned/).
 
 ## Plan
 
@@ -45,8 +45,8 @@ See [Exports](/compliance/exports/pdf-and-evidence-bundle/) and [OSCAL export](/
 
 ## Scheduling
 
-There is no scheduled or recurring report. A report covers the fixed period you give it, and its evidence is recomputed every time it is opened or exported. When a period has ended, the console offers **Extend to today**; for the next quarter or year, create a new report. To produce exports on a timetable, call the [export routes](/compliance/reference/api/) from your own scheduler with an API key.
+A report you create by hand covers the fixed period you give it, and its evidence is recomputed every time it is opened or exported. When a period has ended, the console offers **Extend to today**. To have a report made for you every week, month, quarter or year, create a [compliance target](/compliance/get-started/targets/): each run creates an ordinary report for the period before it. To produce exports on a timetable, call the [export routes](/compliance/reference/api/) from your own scheduler with an API key.
 
 ## Platform IaC
 
-Compliance reports have no config-as-code: reports, scope and assessor findings are created in the console or through the [HTTP API](/compliance/reference/api/). A `ComplianceTarget` kind for SLSA, SSDF, crypto policy and AI Act targets is planned and has no schema yet; see the [roadmap](/platform-iac/planned/roadmap/).
+Compliance reports themselves have no config-as-code: reports, scope and assessor findings are created in the console or through the [HTTP API](/compliance/reference/api/). What is measured, and how often, is: a [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) document declares a report framework, a SLSA level, NIST SSDF practices or a cryptography policy on a cadence, and [Terraform and OpenTofu](/platform-iac/terraform/) manages it. See [Compliance targets](/compliance/get-started/targets/).

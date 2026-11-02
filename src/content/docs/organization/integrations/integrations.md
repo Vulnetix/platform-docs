@@ -82,4 +82,4 @@ Everything about what is sent where is in the messaging centre: [Messaging](/org
 
 ## Cloud and registries
 
-AWS accounts, Wiz and container registry logins are documented with the products that use them: [/cloud-security/](/cloud-security/) and [/sca/](/sca/).
+AWS accounts, Wiz and container registry logins are documented with the products that use them: [/cloud-security/](/cloud-security/) and [/sca/](/sca/). The credentials a scan uses to read your own private npm, PyPI, Maven or OCI registry are a separate list, **Configuration › Private Registries**; see [Private registries for scans](/organization/integrations/private-registries/).
