@@ -42,7 +42,7 @@ const groups = segment
       ...s,
       pages: all
         .filter((d) => d.id.split('/')[0] === segment.id && d.id.split('/')[1] === s.id && listed(d))
-        .map((d) => ({ id: d.id, label: d.data.nav ?? d.data.title, sub: d.id.split('/').length > 3 })),
+        .map((d, n, all) => ({ id: d.id, label: d.data.nav ?? d.data.title, sub: d.id.split('/').length > 3, group: d.data.group && d.data.group !== all[n - 1]?.data.group ? d.data.group : undefined })),
     })).filter((g) => g.pages.length)
   : [{ id: 'products', title: 'Products', pages: SEGMENTS.map((s) => ({ id: s.home, label: s.title, sub: false })) }];
 const flat = segment ? groups.flatMap((g) => g.pages) : [];
@@ -116,7 +116,10 @@ const isHome = id === HOME_ID || (segment && id === segment.home);
             <h2>{g.title}</h2>
             <ul>
               {g.pages.map((p) => (
-                <li class={p.sub ? 'sub' : ''}><a href={hrefFor(p.id)} aria-current={p.id === id ? 'page' : undefined}>{p.label}</a></li>
+                <>
+                  {p.group && <li class="group" aria-hidden="true">{p.group}</li>}
+                  <li class={p.sub ? 'sub' : ''}><a href={hrefFor(p.id)} aria-current={p.id === id ? 'page' : undefined}>{p.label}</a></li>
+                </>
               ))}
             </ul>
           </>

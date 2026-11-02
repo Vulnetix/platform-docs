@@ -12,6 +12,9 @@ const docs = defineCollection({
     order: z.number().default(100),
     // Shorter label for the sidebar, when the title is long.
     nav: z.string().optional(),
+    // A heading the sidebar shows above this page and the pages after it with
+    // the same group, within the section (the kind pages, by catalogue group).
+    group: z.string().optional(),
     // Where the page's facts come from, shown at the foot of the page.
     sources: z.array(z.string()).default([]),
     // The commits the page was last checked against, e.g. "vdb-site@4f6d37b".

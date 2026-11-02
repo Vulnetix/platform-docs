@@ -1,12 +1,12 @@
 {
- "generatedAt": "2026-11-02T21:44:38.135Z",
+ "generatedAt": "2026-11-02T22:38:12.687Z",
  "repos": {
   "vdb-site": "857108d1001aec94318c1a0be02ac4f1294a033d",
   "website": "bdba7fa8a6194f24be50eb21be268674d6816d25",
   "belai": "ea3372a14da0be229c71e917b79d2315f2824a86",
   "saas": "1b029d301ec397ae58e9e401d22ab023e27628fb",
   "cli": "39bb466ed1ffdef5ee41e19a54687465fe61f421",
-  "config-schemas": "998fc541372d67f13580a9e747322f0f46c97f2e",
+  "config-schemas": "bdea7f2403b431b71659ffd31af4c964c478817e",
   "siem": "3ed91a4eef8c6e8200244dbabc73f73dd3f8ec95"
  },
  "counts": {
@@ -24,7 +24,7 @@
   "enum": 1072,
   "gofile": 318,
   "guardian-route": 51,
-  "iac-kind": 37,
+  "iac-kind": 56,
   "model": 42,
   "route": 395,
   "setting": 169,
@@ -23270,6 +23270,14 @@
    ]
   },
   {
+   "id": "iac-kind:AgentProfile",
+   "kind": "iac-kind",
+   "value": "AgentProfile",
+   "sources": [
+    "config-schemas/schemas/AgentProfile.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:AiFirewallPolicy",
    "kind": "iac-kind",
    "value": "AiFirewallPolicy",
@@ -23326,11 +23334,27 @@
    ]
   },
   {
+   "id": "iac-kind:Campaign",
+   "kind": "iac-kind",
+   "value": "Campaign",
+   "sources": [
+    "config-schemas/schemas/Campaign.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:CloudSensors",
    "kind": "iac-kind",
    "value": "CloudSensors",
    "sources": [
     "config-schemas/schemas/CloudSensors.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:Crew",
+   "kind": "iac-kind",
+   "value": "Crew",
+   "sources": [
+    "config-schemas/schemas/Crew.schema.json"
    ]
   },
   {
@@ -23347,6 +23371,54 @@
    "value": "DetectionRuleFeed",
    "sources": [
     "config-schemas/schemas/DetectionRuleFeed.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:FactoryBudget",
+   "kind": "iac-kind",
+   "value": "FactoryBudget",
+   "sources": [
+    "config-schemas/schemas/FactoryBudget.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:FactoryManagedOrg",
+   "kind": "iac-kind",
+   "value": "FactoryManagedOrg",
+   "sources": [
+    "config-schemas/schemas/FactoryManagedOrg.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:FactorySchedule",
+   "kind": "iac-kind",
+   "value": "FactorySchedule",
+   "sources": [
+    "config-schemas/schemas/FactorySchedule.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:FactorySettings",
+   "kind": "iac-kind",
+   "value": "FactorySettings",
+   "sources": [
+    "config-schemas/schemas/FactorySettings.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:FactoryTrigger",
+   "kind": "iac-kind",
+   "value": "FactoryTrigger",
+   "sources": [
+    "config-schemas/schemas/FactoryTrigger.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:FactoryWorkflow",
+   "kind": "iac-kind",
+   "value": "FactoryWorkflow",
+   "sources": [
+    "config-schemas/schemas/FactoryWorkflow.schema.json"
    ]
   },
   {
@@ -23379,6 +23451,14 @@
    "value": "JailPolicy",
    "sources": [
     "config-schemas/schemas/JailPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:LibraryItem",
+   "kind": "iac-kind",
+   "value": "LibraryItem",
+   "sources": [
+    "config-schemas/schemas/LibraryItem.schema.json"
    ]
   },
   {
@@ -23494,6 +23574,14 @@
    ]
   },
   {
+   "id": "iac-kind:RepositorySettings",
+   "kind": "iac-kind",
+   "value": "RepositorySettings",
+   "sources": [
+    "config-schemas/schemas/RepositorySettings.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:RiskStrategy",
    "kind": "iac-kind",
    "value": "RiskStrategy",
@@ -23510,11 +23598,35 @@
    ]
   },
   {
+   "id": "iac-kind:SandboxEgressPolicy",
+   "kind": "iac-kind",
+   "value": "SandboxEgressPolicy",
+   "sources": [
+    "config-schemas/schemas/SandboxEgressPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:SandboxLaunchProfile",
+   "kind": "iac-kind",
+   "value": "SandboxLaunchProfile",
+   "sources": [
+    "config-schemas/schemas/SandboxLaunchProfile.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:SavedSearch",
    "kind": "iac-kind",
    "value": "SavedSearch",
    "sources": [
     "config-schemas/schemas/SavedSearch.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:ScannerProfile",
+   "kind": "iac-kind",
+   "value": "ScannerProfile",
+   "sources": [
+    "config-schemas/schemas/ScannerProfile.schema.json"
    ]
   },
   {
@@ -23539,6 +23651,46 @@
    "value": "Suppression",
    "sources": [
     "config-schemas/schemas/Suppression.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:TeaAccessPolicy",
+   "kind": "iac-kind",
+   "value": "TeaAccessPolicy",
+   "sources": [
+    "config-schemas/schemas/TeaAccessPolicy.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:TeaCollection",
+   "kind": "iac-kind",
+   "value": "TeaCollection",
+   "sources": [
+    "config-schemas/schemas/TeaCollection.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:TeaComponent",
+   "kind": "iac-kind",
+   "value": "TeaComponent",
+   "sources": [
+    "config-schemas/schemas/TeaComponent.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:TeaProduct",
+   "kind": "iac-kind",
+   "value": "TeaProduct",
+   "sources": [
+    "config-schemas/schemas/TeaProduct.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:TeaPublicationTarget",
+   "kind": "iac-kind",
+   "value": "TeaPublicationTarget",
+   "sources": [
+    "config-schemas/schemas/TeaPublicationTarget.schema.json"
    ]
   },
   {

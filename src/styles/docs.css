@@ -117,6 +117,8 @@ kbd { font-size: 11px; padding: 1px 6px; border: 1px solid var(--line-strong); b
 .sidebar a:hover { background: var(--bg-hover); text-decoration: none; }
 .sidebar a[aria-current="page"] { background: var(--bg-current); color: var(--text); font-weight: 500; }
 .sidebar .sub a { padding-left: 20px; }
+/* A group label inside a section (the kind pages, by catalogue group). */
+.sidebar li.group { margin: 10px 0 2px; padding: 0 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-3, var(--text-2)); }
 
 .main { flex: 1 1 auto; min-width: 0; display: flex; gap: 48px; padding: 32px 40px 80px; }
 /* The article fills the space between the sidebar and "On this page".
