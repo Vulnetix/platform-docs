@@ -40,4 +40,4 @@ Detection runs locally and costs nothing. Looking an identifier up spends a VDB 
 
 ## Platform IaC
 
-The browser extension has no config-as-code. Its settings live in the browser profile and are not synced. Config-as-code for this product is planned and is described on [/platform-iac/](/platform-iac/).
+The browser extension has no config-as-code and no kind. Its settings live in the browser profile and are not synced. See the [kind catalogue](/platform-iac/kinds/catalogue/) for what can be declared.

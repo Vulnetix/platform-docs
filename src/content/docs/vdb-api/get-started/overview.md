@@ -73,4 +73,4 @@ The database aggregates public, vendor, government and Vulnetix-derived sources.
 
 ## Platform IaC
 
-The VDB API has no configuration of its own to declare. Config-as-code for the Vulnetix platform (`vulnetix config validate|kinds|schema` and the published JSON Schemas) is described on [Platform IaC](/platform-iac/).
+The VDB API has no configuration of its own to declare. Config-as-code for the Vulnetix platform (`vulnetix config validate|kinds|schema`, the published JSON Schemas and the kinds) is described on [Platform IaC](/platform-iac/).

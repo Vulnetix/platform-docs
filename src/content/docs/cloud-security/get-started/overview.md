@@ -41,4 +41,4 @@ Cloud integrations (AWS, the AWS-native sources and Wiz) need the **Pro** plan o
 
 ## Platform IaC
 
-Config-as-code for cloud security is planned: today an account, its sources and the Wiz connection are set in the console only. The plan is described on [/platform-iac/](/platform-iac/).
+The AWS connection, its accounts, which native sources are read, and the Wiz connection are kinds: [`AwsConnection`](/platform-iac/kinds/aws-connection/), [`AwsAccount`](/platform-iac/kinds/aws-account/), [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) and [`WizConnection`](/platform-iac/kinds/wiz-connection/). The config engine applies them, and the Terraform resources and the AWS modules are on [Terraform and OpenTofu](/platform-iac/terraform/). An IAM Identity Center connection reports `AwaitingAuthorization` until someone approves the sign-in; see [status phases](/platform-iac/reference/engine/#status-phases).

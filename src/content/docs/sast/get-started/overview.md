@@ -74,4 +74,4 @@ Run it in a workflow with the [sast GitHub Action](/sast/github-actions/sast/): 
 
 ## Platform IaC
 
-SAST has no config-as-code today: rule selection, packs and gates are command-line flags. The scan gate can come from the organisation's quality gate, which is a `QualityGate` document checked by `vulnetix config validate` and set with `vulnetix config set quality-gate` (see [/quality-gates/](/quality-gates/)). Config-as-code for SAST rule packs and suppressions is planned and is described on [/platform-iac/](/platform-iac/).
+SAST has no config kind of its own: rule selection and packs are command-line flags. The scan gate can come from the organisation's quality gate, the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind (see [/quality-gates/](/quality-gates/)). See the [kind catalogue](/platform-iac/kinds/catalogue/).

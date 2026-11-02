@@ -73,4 +73,4 @@ All three use one VDB and one credential.
 
 ## Platform IaC
 
-The MCP server has no config-as-code of its own: the only configuration is the client-side MCP entry described on each [client page](/mcp-server/clients/overview/). Config-as-code for this product is planned and is described on [Platform IaC](/platform-iac/).
+The MCP server has no config-as-code of its own: the only configuration is the client-side MCP entry described on each [client page](/mcp-server/clients/overview/). The AI firewall's allow and deny lists for MCP servers, tools and skills are [`AiGovernanceList`](/platform-iac/kinds/ai-governance-list/) documents. See the [kind catalogue](/platform-iac/kinds/catalogue/).

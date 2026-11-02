@@ -63,4 +63,4 @@ Publish a release from a workflow with the [tea-release GitHub Action](/tea/gith
 
 ## Platform IaC
 
-There is no config-as-code for TEA today: products, components, collections and access policies are created with `vulnetix tea` or the API. `TeaProduct`, `TeaComponent`, `TeaCollection`, `TeaAccessPolicy` and `TeaPublicationTarget` kinds are planned and are described on [Platform IaC](/platform-iac/). Releases and artifacts stay CI-published data.
+Products, components, collections, access policies and publication targets are kinds: [`TeaProduct`](/platform-iac/kinds/tea-product/), [`TeaComponent`](/platform-iac/kinds/tea-component/), [`TeaCollection`](/platform-iac/kinds/tea-collection/), [`TeaAccessPolicy`](/platform-iac/kinds/tea-access-policy/) and [`TeaPublicationTarget`](/platform-iac/kinds/tea-publication-target/). Releases and artifacts stay data that CI publishes with `vulnetix tea` or the API: an object that already has published releases is let go on delete, never deleted.

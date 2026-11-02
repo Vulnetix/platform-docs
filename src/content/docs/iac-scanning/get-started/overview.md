@@ -76,4 +76,4 @@ Run it in a workflow with the [iac GitHub Action](/iac-scanning/github-actions/i
 
 ## Platform IaC
 
-IaC scanning has no config-as-code document of its own today. Its pass or fail threshold can come from the organisation's quality gate, which you set with `vulnetix config set quality-gate` and validate offline as a `QualityGate` document (`apiVersion: vulnetix.com/v1`) with `vulnetix config validate`. Config-as-code for IaC scanning is planned and described on [Platform IaC](/platform-iac/).
+IaC scanning has no config kind of its own. Its pass or fail threshold can come from the organisation's quality gate, the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind, which `vulnetix config apply` sets, or the imperative `vulnetix config set quality-gate`. The Software Factory's scanners are the [`ScannerProfile`](/platform-iac/kinds/scanner-profile/) kind. See the [kind catalogue](/platform-iac/kinds/catalogue/).

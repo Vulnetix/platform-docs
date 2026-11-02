@@ -62,4 +62,4 @@ Belai's `/vulnetix review` and the Pix `pr-security-reviewer` agent review code 
 
 ## Platform IaC
 
-The extension has no config-as-code of its own: it is configured through VS Code settings, and resource-scoped settings can be committed in `.vscode/settings.json`. The organisation documents the CLI validates with `vulnetix config validate` (today only `QualityGate`) are described in [Platform IaC](/platform-iac/). Validating `.vulnetix/config/*.yaml` as you type through `vulnetix lsp` is planned and is described on [/platform-iac/](/platform-iac/).
+The extension has no config-as-code of its own: it is configured through VS Code settings, and resource-scoped settings can be committed in `.vscode/settings.json`. The organisation documents the CLI validates with `vulnetix config validate` are described in [Platform IaC](/platform-iac/), with a page for every kind in the [kind catalogue](/platform-iac/kinds/catalogue/). Validating `.vulnetix/config/*.yaml` as you type through `vulnetix lsp` is planned.

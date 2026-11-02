@@ -54,4 +54,4 @@ No credential is needed. The CLI falls back to the shared Community tier: reads 
 
 ## Platform IaC
 
-Two Pix settings are files today. `.vulnetix/agent.yaml` is the repository's hook policy, read by `vulnetix agent hook` on every call ([Policy file](/pix/hooks/policy-file/)); it is not an `apiVersion: vulnetix.com/v1` document, so `vulnetix config validate` does not check it. Launch configurations are versioned JSON documents in your library, saved through the API. Declaring sandbox launch profiles and egress policies as `vulnetix.com/v1` documents is planned and described on [Platform IaC](/platform-iac/).
+Sandbox launch settings and egress are kinds: [`SandboxLaunchProfile`](/platform-iac/kinds/sandbox-launch-profile/) and [`SandboxEgressPolicy`](/platform-iac/kinds/sandbox-egress-policy/). The sandbox itself is bought in the console. `.vulnetix/agent.yaml`, the repository's hook policy read by `vulnetix agent hook` on every call ([Policy file](/pix/hooks/policy-file/)), is not an `apiVersion: vulnetix.com/v1` document, so `vulnetix config validate` does not check it. Launch configurations are versioned JSON documents in your library, saved through the API.

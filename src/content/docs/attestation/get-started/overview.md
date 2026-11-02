@@ -60,4 +60,4 @@ Verify an artefact in a workflow with the [attest GitHub Action](/attestation/gi
 
 ## Platform IaC
 
-There is no config-as-code for signing or verification today: trust is set with flags, `SIGSTORE_ROOT_FILE`, or a committed `.vulnetix/trusted-root.pem`. Config-as-code for this product is planned and is described on [Platform IaC](/platform-iac/).
+There is no config-as-code for signing or verification: trust is set with flags, `SIGSTORE_ROOT_FILE`, or a committed `.vulnetix/trusted-root.pem`, and no kind covers it. The kinds that do exist are listed in the [kind catalogue](/platform-iac/kinds/catalogue/).

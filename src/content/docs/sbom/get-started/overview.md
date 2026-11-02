@@ -69,4 +69,4 @@ Run the generators in a workflow with the [sbom](/sbom/github-actions/sbom/), [c
 
 ## Platform IaC
 
-There is no config-as-code for SBOM generation today: every option is a command-line flag. Config-as-code for this product is planned and is described on [Platform IaC](/platform-iac/).
+There is no config-as-code for SBOM generation: every option is a command-line flag, and no kind covers it. See the [kind catalogue](/platform-iac/kinds/catalogue/).

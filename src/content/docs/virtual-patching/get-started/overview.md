@@ -65,4 +65,4 @@ Below the plan, the API answers `200` with `planLocked: true` and an empty list 
 
 ## Platform IaC
 
-Config-as-code for virtual patching (feeds, their entries and sensor policy as `apiVersion: vulnetix.com/v1` documents) is planned and described on [Platform IaC](/platform-iac/). Today feeds are managed in the console or through the [feeds API](/virtual-patching/reference/api/), and a recorded control lives in `.vulnetix/controls.json` in your repository.
+Feeds, their entries and the runtime sensor's configuration are kinds: [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/) (which can select rules with a CEL `selector.when` evaluated at every publish) and [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/), the [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code. Feeds are also managed in the console and through the [feeds API](/virtual-patching/reference/api/), and a recorded control lives in `.vulnetix/controls.json` in your repository. The Terraform data sources `vulnetix_detection_rule_feed` and `vulnetix_virtual_patches` read a feed; see [data sources](/platform-iac/terraform/data-sources/).

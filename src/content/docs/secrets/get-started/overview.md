@@ -64,4 +64,4 @@ Run it in a workflow with the [secrets GitHub Action](/secrets/github-actions/se
 
 ## Platform IaC
 
-Secret detection has no config-as-code document today. Its pass or fail threshold can come from the organisation's quality gate, which you set with `vulnetix config set quality-gate` and validate offline as a `QualityGate` document (`apiVersion: vulnetix.com/v1`) with `vulnetix config validate`. Config-as-code for secret detection itself is planned and described on [Platform IaC](/platform-iac/).
+Secret detection has no config kind of its own. Its pass or fail threshold can come from the organisation's quality gate, the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind. See the [kind catalogue](/platform-iac/kinds/catalogue/).

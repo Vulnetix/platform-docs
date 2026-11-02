@@ -112,4 +112,4 @@ A profile with enrolled devices cannot be deleted (`409`) unless you choose to r
 
 ## Config as code
 
-Planned, not available. Profiles are intended to become the `SensorProvisioningProfile` kind of [Platform IaC](/platform-iac/), in the virtual patching group of the [kind catalogue](/platform-iac/planned/kind-catalogue/). Today they are managed in the console and through the `/v1/runtime/provisioning/*` routes.
+A profile is the [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) kind of [Platform IaC](/platform-iac/), in the virtual patching group of the [kind catalogue](/platform-iac/kinds/catalogue/#virtual-patching). The config engine applies it, with the console's own checks, and the profile's feeds can refer to a [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/) by name. Profiles are also managed in the console and through the `/v1/runtime/provisioning/*` routes.

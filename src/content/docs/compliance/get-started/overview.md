@@ -49,4 +49,4 @@ There is no scheduled or recurring report. A report covers the fixed period you 
 
 ## Platform IaC
 
-Compliance reports have no config-as-code today: reports, scope and assessor findings are created in the console or through the [HTTP API](/compliance/reference/api/). Declaring them as `vulnetix.com/v1` documents is planned and described on [Platform IaC](/platform-iac/).
+Compliance reports have no config-as-code: reports, scope and assessor findings are created in the console or through the [HTTP API](/compliance/reference/api/). A `ComplianceTarget` kind for SLSA, SSDF, crypto policy and AI Act targets is planned and has no schema yet; see the [roadmap](/platform-iac/planned/roadmap/).
