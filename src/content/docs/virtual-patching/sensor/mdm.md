@@ -34,7 +34,7 @@ Every provider below runs this script as root, with `MDM_KEY` set however the pr
 #!/bin/sh
 # vulnetix-sensor-enroll.sh: run as root.
 set -eu
-VERSION=v3.156.0
+VERSION=v3.158.0
 INTEGRATION=<integration-uuid>
 KID=<kid>
 MDM_KEY="${MDM_KEY:-<private-key-base64>}"
@@ -115,7 +115,7 @@ The full Ansible playbook is on [At scale](/virtual-patching/sensor/iac/#ansible
 - ansible.builtin.copy: { dest: /etc/vulnetix-sensor/mdm.key, content: "{{ vulnetix_mdm_key }}\n", mode: "0600" }
   no_log: true
 - ansible.builtin.shell: >
-    curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh
+    curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.158.0/deploy/sensor/install.sh
     | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration {{ vulnetix_integration }} --kid {{ vulnetix_kid }}
   args: { creates: /etc/vulnetix-sensor/credential }
 ```
@@ -125,7 +125,7 @@ Puppet:
 ```puppet
 file { ['/etc/vulnetix-sensor']: ensure => directory, mode => '0755' }
 file { '/etc/vulnetix-sensor/mdm.key': content => Sensitive(lookup('vulnetix::mdm_key')), mode => '0600', show_diff => false }
-exec { 'vulnetix-sensor-enroll': command => '/bin/sh -c "curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>"', creates => '/etc/vulnetix-sensor/credential', require => File['/etc/vulnetix-sensor/mdm.key'] }
+exec { 'vulnetix-sensor-enroll': command => '/bin/sh -c "curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.158.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>"', creates => '/etc/vulnetix-sensor/credential', require => File['/etc/vulnetix-sensor/mdm.key'] }
 ```
 
 Chef:
@@ -133,7 +133,7 @@ Chef:
 ```ruby
 directory '/etc/vulnetix-sensor' do mode '0755' end
 file '/etc/vulnetix-sensor/mdm.key' do content data_bag_item('vulnetix', 'sensor')['mdm_key']; mode '0600'; sensitive true end
-execute 'vulnetix-sensor-enroll' do command 'curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>'; creates '/etc/vulnetix-sensor/credential' end
+execute 'vulnetix-sensor-enroll' do command 'curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.158.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>'; creates '/etc/vulnetix-sensor/credential' end
 ```
 
 Salt:
@@ -142,7 +142,7 @@ Salt:
 /etc/vulnetix-sensor/mdm.key:
   file.managed: [{ contents_pillar: vulnetix:mdm_key }, { mode: "0600" }, { makedirs: true }, { show_changes: false }]
 vulnetix-sensor-enroll:
-  cmd.run: [{ name: "curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>" }, { creates: /etc/vulnetix-sensor/credential }, { require: [{ file: /etc/vulnetix-sensor/mdm.key }] }]
+  cmd.run: [{ name: "curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.158.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>" }, { creates: /etc/vulnetix-sensor/credential }, { require: [{ file: /etc/vulnetix-sensor/mdm.key }] }]
 ```
 
 ## Jamf

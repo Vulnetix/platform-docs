@@ -58,7 +58,7 @@ write_files:
     content: |
       #!/bin/sh
       set -eu
-      VERSION=v3.156.0
+      VERSION=v3.158.0
       REGION=<region>
       INTEGRATION=<integration-uuid>
       KID=<kid>
@@ -125,7 +125,7 @@ aws ssm send-command --document-name AWS-RunShellScript \
   --parameters 'commands=[
     "install -d -m 0700 /etc/vulnetix-sensor",
     "umask 077; aws secretsmanager get-secret-value --secret-id vulnetix/sensor-mdm-key --query SecretString --output text > /etc/vulnetix-sensor/mdm.key",
-    "curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <integration-uuid> --kid <kid>"
+    "curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.158.0/deploy/sensor/install.sh | sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <integration-uuid> --kid <kid>"
   ]'
 ```
 
@@ -161,7 +161,7 @@ The EMR EC2 instance profile needs `secretsmanager:GetSecretValue` on the key an
   hosts: sensors
   become: true
   vars:
-    vulnetix_version: v3.156.0
+    vulnetix_version: v3.158.0
     vulnetix_integration: <integration-uuid>
     vulnetix_kid: <kid>
     # From Ansible Vault, or a lookup such as amazon.aws.secretsmanager_secret
