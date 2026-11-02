@@ -115,7 +115,7 @@ Prints the provider catalog with the org's action (`allow`, `deny` or `default (
 
 ## policy
 
-Edits one rule at a time. Each subcommand is also available as `vulnetix config set ai-firewall <provider|model|guardrail>`; both spellings run the same code.
+Edits one rule at a time. Each subcommand is also available under `config set`: `vulnetix config set ai-firewall provider`, `vulnetix config set ai-firewall model` and `vulnetix config set ai-firewall guardrail` run the same code.
 
 ### policy provider
 
