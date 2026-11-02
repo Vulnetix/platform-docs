@@ -69,7 +69,7 @@ The schema accepts these, and plan blocks them with the condition `unsupported`,
 | `scope.products` | Findings do not record the TEA product they belong to, so the scope could not be enforced. Use `scope.repos`. |
 | `s3.endpoint` | An S3-compatible store is not supported yet. Use `roleArn` on AWS. |
 
-The Advanced sample on the kind page is the schema's, and it uses `trust.requireSignature` and `scope.products`, so plan blocks it as written. Remove those fields to apply it.
+The Advanced sample on the kind page applies as written. A document that uses the fields above is in the schema release as `examples/VexSource/unsupported-features.yaml`: it validates against the schema but plan blocks it.
 
 ## Path sources
 
