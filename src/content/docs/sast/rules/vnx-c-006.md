@@ -3,9 +3,9 @@ title: "VNX-C-006: Use of alloca() for dynamic stack allocation"
 nav: "VNX-C-006"
 description: "Reports C, C++ and Objective-C stack allocations with an unbounded run-time size: alloca, _alloca and __builtin_alloca whose size names a variable or call, strdupa of a non-literal, and variable-length arrays sized by strlen() or by a count parsed or received just above. Constant sizes, sizes compared or clamped first, _malloca, declarations, macros and comments are not reported."
 order: 674
-sources: ["cli/internal/sast/rules/vnx-c-006.rego", "cli/website/content/docs/sast-rules/vnx-c-006.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-c-006.rego", "cli/internal/sast/docs/vnx-c-006.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

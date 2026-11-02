@@ -3,9 +3,9 @@ title: "VNX-RUBY-008: Open3 shell command built from request input"
 nav: "VNX-RUBY-008"
 description: "Reports Open3 pipeline, popen and capture calls in their single-string (shell) form when the command string interpolates, concatenates or formats request input, or is request input itself, including the sh -c argument form. Other argument-list forms, constants and Shellwords-escaped input are not reported."
 order: 884
-sources: ["cli/internal/sast/rules/vnx-ruby-008.rego", "cli/website/content/docs/sast-rules/vnx-ruby-008.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-ruby-008.rego", "cli/internal/sast/docs/vnx-ruby-008.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

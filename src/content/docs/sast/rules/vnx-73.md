@@ -3,9 +3,9 @@ title: "VNX-73: External Control of File Name or Path"
 nav: "VNX-73"
 description: "The path argument of a Python or PHP file-system call (open, send_file, os.remove, include, file_get_contents...) comes from the HTTP request, directly or through a variable assigned from it. Java path traversal is reported by VNX-JAVA-009 and Node.js path traversal by VNX-NODE-010."
 order: 105
-sources: ["cli/internal/sast/rules/vnx-73.rego", "cli/website/content/docs/sast-rules/vnx-73.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-73.rego", "cli/internal/sast/docs/vnx-73.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

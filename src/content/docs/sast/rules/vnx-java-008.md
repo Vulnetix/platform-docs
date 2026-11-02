@@ -3,9 +3,9 @@ title: "VNX-JAVA-008: Java server-side request forgery"
 nav: "VNX-JAVA-008"
 description: "Reports Java outbound requests (URL, RestTemplate, WebClient, HttpClient, OkHttp, Jsoup, Socket) whose URL or host is a request value or a variable assigned from one, unless a fixed host prefixes it or a guard checks it."
 order: 756
-sources: ["cli/internal/sast/rules/vnx-java-008.rego", "cli/website/content/docs/sast-rules/vnx-java-008.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-008.rego", "cli/internal/sast/docs/vnx-java-008.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-PY-009: Jinja2 autoescape disabled"
 nav: "VNX-PY-009"
 description: "Detect Jinja2, Flask and Django template configuration that turns autoescaping off (autoescape=False, an Environment with no autoescape in web code, or {% autoescape false %}), which renders user-supplied template variables without HTML escaping and enables cross-site scripting."
 order: 863
-sources: ["cli/internal/sast/rules/vnx-py-009.rego", "cli/website/content/docs/sast-rules/vnx-py-009.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-py-009.rego", "cli/internal/sast/docs/vnx-py-009.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

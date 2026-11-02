@@ -3,9 +3,9 @@ title: "VNX-SEC-059: Linear API key"
 nav: "VNX-SEC-059"
 description: "Reports a hard-coded Linear personal API key (lin_api_ + 40 alphanumerics) or OAuth access token (lin_oauth_ + 64 hex), but not bare prefixes, placeholders, lookalike identifiers or keys read from the environment."
 order: 953
-sources: ["cli/internal/sast/rules/vnx-sec-059.rego", "cli/website/content/docs/sast-rules/vnx-sec-059.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-059.rego", "cli/internal/sast/docs/vnx-sec-059.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-PHP-026: PHP session poisoning via user-controlled session key"
 nav: "VNX-PHP-026"
 description: "Reports session writes whose key comes from the request: $_SESSION[$_GET[...]] = ..., a variable or foreach key read from a superglobal or $request and then used as a $_SESSION key or a Session::put/session()->put/$session->set/set_userdata key, and whole request arrays merged into $_SESSION. Fixed or prefixed keys, nested keys under a fixed outer key, reads, and allowlist-checked keys are not reported."
 order: 854
-sources: ["cli/internal/sast/rules/vnx-php-026.rego", "cli/website/content/docs/sast-rules/vnx-php-026.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-026.rego", "cli/internal/sast/docs/vnx-php-026.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

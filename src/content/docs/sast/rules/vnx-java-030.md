@@ -3,9 +3,9 @@ title: "VNX-JAVA-030: Java reflected cross-site scripting"
 nav: "VNX-JAVA-030"
 description: "Reports Java code that writes servlet request data into an HTML response without output encoding: response.getWriter() and PrintWriter/JspWriter/ServletOutputStream writes, JSP scriptlet expressions and out.print, and values returned from Spring methods that produce text/html, unless the value passed through an HTML encoder, was parsed to a number, folded to a constant, or the response is not HTML."
 order: 778
-sources: ["cli/internal/sast/rules/vnx-java-030.rego", "cli/website/content/docs/sast-rules/vnx-java-030.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-030.rego", "cli/internal/sast/docs/vnx-java-030.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

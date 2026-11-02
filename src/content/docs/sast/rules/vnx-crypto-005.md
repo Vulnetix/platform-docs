@@ -3,9 +3,9 @@ title: "VNX-CRYPTO-005: TLS certificate validation disabled"
 nav: "VNX-CRYPTO-005"
 description: "Reports TLS clients told to accept any certificate or host name in Python (verify=False, CERT_NONE, unverified contexts), Node.js (rejectUnauthorized: false, NODE_TLS_REJECT_UNAUTHORIZED=0)and Go (InsecureSkipVerify: true); Java trust managers and host-name verifiers are reported by VNX-JAVA-006. Values from configuration, branches honouring an insecure option, custom pinning and test files are not reported."
 order: 679
-sources: ["cli/internal/sast/rules/vnx-crypto-005.rego", "cli/website/content/docs/sast-rules/vnx-crypto-005.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-crypto-005.rego", "cli/internal/sast/docs/vnx-crypto-005.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

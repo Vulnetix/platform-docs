@@ -3,9 +3,9 @@ title: "VNX-RUBY-007: YAML.load() insecure deserialization"
 nav: "VNX-RUBY-007"
 description: "Reports YAML.load (and YAML::load), Psych.load, YAML.unsafe_load, load_stream, load_documents, load_file and unsafe_load_file when request input, an upload, a Base64-decoded blob or an HTTP body reaches them; safe_load, permitted_classes and the application's own files are not reported."
 order: 883
-sources: ["cli/internal/sast/rules/vnx-ruby-007.rego", "cli/website/content/docs/sast-rules/vnx-ruby-007.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-ruby-007.rego", "cli/internal/sast/docs/vnx-ruby-007.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

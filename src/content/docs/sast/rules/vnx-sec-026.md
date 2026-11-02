@@ -3,9 +3,9 @@ title: "VNX-SEC-026: DigitalOcean personal access token hardcoded"
 nav: "VNX-SEC-026"
 description: "Detect DigitalOcean personal access tokens (dop_v1_ followed by exactly 64 hex characters) hardcoded in any file, ignoring placeholders, the bare prefix and test paths."
 order: 920
-sources: ["cli/internal/sast/rules/vnx-sec-026.rego", "cli/website/content/docs/sast-rules/vnx-sec-026.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-026.rego", "cli/internal/sast/docs/vnx-sec-026.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

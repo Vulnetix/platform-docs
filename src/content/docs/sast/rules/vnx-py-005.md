@@ -3,9 +3,9 @@ title: "VNX-PY-005: Weak PRNG for security operations"
 nav: "VNX-PY-005"
 description: "Detect values from Python's random module assigned to, passed as or returned from security-named values (passwords, tokens, nonces, salts, OTPs, session ids), where the secrets module is required."
 order: 859
-sources: ["cli/internal/sast/rules/vnx-py-005.rego", "cli/website/content/docs/sast-rules/vnx-py-005.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-py-005.rego", "cli/internal/sast/docs/vnx-py-005.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-SEC-006: Stripe secret key"
 nav: "VNX-SEC-006"
 description: "Reports a hard-coded Stripe secret key (sk_live_ or sk_test_ plus 24 or more characters) in any file, excluding Stripe's published documentation keys, placeholders, publishable and restricted keys, environment references and test files."
 order: 900
-sources: ["cli/internal/sast/rules/vnx-sec-006.rego", "cli/website/content/docs/sast-rules/vnx-sec-006.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-006.rego", "cli/internal/sast/docs/vnx-sec-006.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

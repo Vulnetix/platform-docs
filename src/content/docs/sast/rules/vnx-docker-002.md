@@ -3,9 +3,9 @@ title: "VNX-DOCKER-002: Dockerfile base image not pinned (:latest or no tag)"
 nav: "VNX-DOCKER-002"
 description: "Reports a FROM, COPY --from or RUN --mount=from that names an external image by :latest, a floating tag (alpine, slim, lts, stable) or no tag, with no @sha256 digest, including images resolved through an ARG default."
 order: 696
-sources: ["cli/internal/sast/rules/vnx-docker-002.rego", "cli/website/content/docs/sast-rules/vnx-docker-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-docker-002.rego", "cli/internal/sast/docs/vnx-docker-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

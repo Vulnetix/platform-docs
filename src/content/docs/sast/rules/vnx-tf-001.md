@@ -3,9 +3,9 @@ title: "VNX-TF-001: Terraform S3 bucket or object with a public ACL"
 nav: "VNX-TF-001"
 description: "Detect S3 buckets and objects in Terraform whose ACL grants access to everyone: public-read, public-read-write or authenticated-read canned ACLs, or grants to the AllUsers or AuthenticatedUsers groups, unless the bucket's own public access block (in any file) or the module's inputs neutralise them."
 order: 981
-sources: ["cli/internal/sast/rules/vnx-tf-001.rego", "cli/website/content/docs/sast-rules/vnx-tf-001.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-tf-001.rego", "cli/internal/sast/docs/vnx-tf-001.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

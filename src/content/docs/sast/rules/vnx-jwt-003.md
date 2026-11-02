@@ -3,9 +3,9 @@ title: "VNX-JWT-003: JWT signing with hardcoded secret"
 nav: "VNX-JWT-003"
 description: "A JWT signing or verification key is a string literal: passed straight to jwt.sign/verify, express-jwt, jwt.encode/decode, JWT.encode/decode, JWT::encode, new Key(), jjwt signWith/setSigningKey, Algorithm.HMAC256, SignedString([]byte(...)) or SymmetricSecurityKey, assigned to a variable used as the key, or assigned to a JWT-named setting in code, .properties or YAML."
 order: 781
-sources: ["cli/internal/sast/rules/vnx-jwt-003.rego", "cli/website/content/docs/sast-rules/vnx-jwt-003.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-jwt-003.rego", "cli/internal/sast/docs/vnx-jwt-003.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-SEC-071: GitLab session cookie"
 nav: "VNX-SEC-071"
 description: "Detects captured GitLab session cookie values (_gitlab_session with a 32-hex session id) in any file."
 order: 965
-sources: ["cli/internal/sast/rules/vnx-sec-071.rego", "cli/website/content/docs/sast-rules/vnx-sec-071.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-071.rego", "cli/internal/sast/docs/vnx-sec-071.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

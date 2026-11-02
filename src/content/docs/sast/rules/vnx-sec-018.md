@@ -3,9 +3,9 @@ title: "VNX-SEC-018: AI provider API key"
 nav: "VNX-SEC-018"
 description: "Reports hardcoded Anthropic (sk-ant-), OpenAI project/service-account/admin (sk-proj-, sk-svcacct-, sk-admin-) and Hugging Face (hf_) API keys of full length and real-key entropy. Placeholders, environment lookups, prefix checks and test paths are not reported."
 order: 912
-sources: ["cli/internal/sast/rules/vnx-sec-018.rego", "cli/website/content/docs/sast-rules/vnx-sec-018.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-018.rego", "cli/internal/sast/docs/vnx-sec-018.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

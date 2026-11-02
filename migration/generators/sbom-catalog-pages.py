@@ -16,7 +16,7 @@ from pathlib import Path
 CLI = Path(sys.argv[1] if len(sys.argv) > 1 else "../cli")
 SHA = sys.argv[2] if len(sys.argv) > 2 else "unknown"
 OUT = Path(__file__).resolve().parents[2] / "src/content/docs/sbom"
-SRC = CLI / "website/content/docs"
+SRC = CLI / "docs/generated"
 UPDATED = "02 Nov 2026"
 
 PAGES = [

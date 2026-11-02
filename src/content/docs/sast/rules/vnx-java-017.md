@@ -3,9 +3,9 @@ title: "VNX-JAVA-017: Java HTTP response splitting via unsanitised header value"
 nav: "VNX-JAVA-017"
 description: "Detects Java code that passes a request parameter, header, query string or path info (or a Spring @RequestParam, @PathVariable, @RequestHeader or @CookieValue argument) to HttpServletResponse.setHeader(), addHeader() or sendRedirect() without stripping CR and LF, enabling HTTP response splitting and header injection."
 order: 765
-sources: ["cli/internal/sast/rules/vnx-java-017.rego", "cli/website/content/docs/sast-rules/vnx-java-017.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-017.rego", "cli/internal/sast/docs/vnx-java-017.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

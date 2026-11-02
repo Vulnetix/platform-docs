@@ -3,9 +3,9 @@ title: "VNX-GO-021: Potential XSS via fmt.Fprintf with HTML tags"
 nav: "VNX-GO-021"
 description: "Detects HTML written to an http.ResponseWriter (fmt.Fprintf/Fprint/Fprintln, io.WriteString, w.Write, gin c.Data, echo c.HTML) with a non-constant value spliced into the markup unescaped. Escaped and numeric values, constants, plain-text or JSON handlers and writes to builders or files are not reported."
 order: 723
-sources: ["cli/internal/sast/rules/vnx-go-021.rego", "cli/website/content/docs/sast-rules/vnx-go-021.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-021.rego", "cli/internal/sast/docs/vnx-go-021.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

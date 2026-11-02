@@ -53,7 +53,7 @@ Headless Linux, containers and CI runners usually have no Secret Service. `--sto
 ```text
 no OS keychain backend detected on linux/amd64: ...
   expected: a freedesktop Secret Service provider (GNOME Keyring / KWallet) running on the D-Bus session bus - headless sessions usually have none
-  setup guide: https://vulnetix.com/docs/cli/keychain
+  setup guide: https://docs.vulnetix.com/cli/authentication/storage/#no-keychain
   alternatively store credentials in a file with --store home|project
 No usable OS keychain - falling back to file storage.
 Credentials saved to home store

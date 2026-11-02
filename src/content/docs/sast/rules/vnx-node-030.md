@@ -3,9 +3,9 @@ title: "VNX-NODE-030: TURN server allowing reserved IP addresses"
 nav: "VNX-NODE-030"
 description: "Reports TURN relays that forward to loopback, private or link-local peers: node-turn servers, coturn allow-loopback-peers or private allowed-peer-ip settings, and turnserver.conf files with no denied-peer-ip."
 order: 826
-sources: ["cli/internal/sast/rules/vnx-node-030.rego", "cli/website/content/docs/sast-rules/vnx-node-030.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-030.rego", "cli/internal/sast/docs/vnx-node-030.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

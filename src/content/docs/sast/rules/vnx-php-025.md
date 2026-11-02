@@ -3,9 +3,9 @@ title: "VNX-PHP-025: PHP deprecated mcrypt encryption functions"
 nav: "VNX-PHP-025"
 description: "Reports calls to the PHP mcrypt functions that encrypt, decrypt or set up a cipher (mcrypt_encrypt/decrypt, mcrypt_cbc/cfb/ecb/ofb, mcrypt_module_open, mcrypt_generic, mdecrypt_generic, mcrypt_create_iv), directly or through call_user_func. Sizing and teardown helpers, same-named methods, polyfill definitions and mentions in strings or comments are not reported."
 order: 853
-sources: ["cli/internal/sast/rules/vnx-php-025.rego", "cli/website/content/docs/sast-rules/vnx-php-025.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-025.rego", "cli/internal/sast/docs/vnx-php-025.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

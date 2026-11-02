@@ -3,9 +3,9 @@ title: "VNX-SEC-065: HTTP basic authentication header"
 nav: "VNX-SEC-065"
 description: "Detects literal HTTP Basic credentials: a \"Basic <base64>\" header value that decodes to a real user:password pair."
 order: 959
-sources: ["cli/internal/sast/rules/vnx-sec-065.rego", "cli/website/content/docs/sast-rules/vnx-sec-065.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-065.rego", "cli/internal/sast/docs/vnx-sec-065.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

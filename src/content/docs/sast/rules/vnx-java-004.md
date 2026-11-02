@@ -3,9 +3,9 @@ title: "VNX-JAVA-004: XML external entity (XXE) injection"
 nav: "VNX-JAVA-004"
 description: "Reports Java XML parser factories (DOM, SAX, StAX, dom4j, JDOM, and Transformer/Schema factories that load sources) created without disabling DTDs or external entities, and settings that re-enable them."
 order: 752
-sources: ["cli/internal/sast/rules/vnx-java-004.rego", "cli/website/content/docs/sast-rules/vnx-java-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-004.rego", "cli/internal/sast/docs/vnx-java-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-GO-040: Logging of sensitive data"
 nav: "VNX-GO-040"
 description: "Detects Go logging calls (log, slog, zap, logrus, zerolog, any logger) whose arguments carry a password, token, secret, API key, private key, card number or Authorization header."
 order: 742
-sources: ["cli/internal/sast/rules/vnx-go-040.rego", "cli/website/content/docs/sast-rules/vnx-go-040.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-040.rego", "cli/internal/sast/docs/vnx-go-040.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

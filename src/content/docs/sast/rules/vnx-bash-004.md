@@ -3,9 +3,9 @@ title: "VNX-BASH-004: Unquoted variable used in command or test"
 nav: "VNX-BASH-004"
 description: "Reports an unquoted expansion of a value the script's caller controls (a script-level positional parameter, or a variable assigned from one, from read or from OPTARG) used as a command argument or a [ ] / test operand, where word splitting and globbing turn it into extra arguments."
 order: 665
-sources: ["cli/internal/sast/rules/vnx-bash-004.rego", "cli/website/content/docs/sast-rules/vnx-bash-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-bash-004.rego", "cli/internal/sast/docs/vnx-bash-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

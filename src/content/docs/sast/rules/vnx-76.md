@@ -3,9 +3,9 @@ title: "VNX-76: Improper Neutralization of Equivalent Special Elements"
 nav: "VNX-76"
 description: "A dangerous multi-character sequence (an HTML tag other than script, vbscript:, &&, $(, a SQL or script keyword) is neutralised by deleting it once, so input that rebuilds it after the deletion passes through. Traversal, script-tag and javascript: removals are reported by VNX-182."
 order: 106
-sources: ["cli/internal/sast/rules/vnx-76.rego", "cli/website/content/docs/sast-rules/vnx-76.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-76.rego", "cli/internal/sast/docs/vnx-76.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

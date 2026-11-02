@@ -3,9 +3,9 @@ title: "VNX-RUST-002: Rust unwrap/expect on parsing or decoding runtime input"
 nav: "VNX-RUST-002"
 description: "Reports .unwrap() or .expect() applied directly to parsing, deserialising or decoding a runtime value (str::parse, serde_json/toml from_str, String::from_utf8, base64/hex decode, Url::parse, Regex::new on a variable); literals, other unwraps and test code are not reported."
 order: 888
-sources: ["cli/internal/sast/rules/vnx-rust-002.rego", "cli/website/content/docs/sast-rules/vnx-rust-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-rust-002.rego", "cli/internal/sast/docs/vnx-rust-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-NODE-015: WebSocket server without origin verification (CSWSH)"
 nav: "VNX-NODE-015"
 description: "Reports a ws WebSocket server created without a verifyClient callback in a file that never checks the Origin header, and a Socket.IO server whose cors origin is '*' or true (or origins '*:*') without allowRequest, both of which allow Cross-Site WebSocket Hijacking."
 order: 811
-sources: ["cli/internal/sast/rules/vnx-node-015.rego", "cli/website/content/docs/sast-rules/vnx-node-015.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-015.rego", "cli/internal/sast/docs/vnx-node-015.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-GO-006: Go server-side request forgery"
 nav: "VNX-GO-006"
 description: "Reports outbound HTTP requests, reverse proxies, net/tls dials and websocket dials whose URL or address starts with a request value (query, form, path parameter header, or a decoded or unmarshalled JSON body field), directly, via url.Parse or a variable, or behind a prefix that does not pin the host. Fixed hosts, configured destinations, allowlisted values and guarded dialers are not reported; a HasPrefix test against a bare scheme is normalisation, not a check."
 order: 708
-sources: ["cli/internal/sast/rules/vnx-go-006.rego", "cli/website/content/docs/sast-rules/vnx-go-006.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-006.rego", "cli/internal/sast/docs/vnx-go-006.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

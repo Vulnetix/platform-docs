@@ -3,9 +3,9 @@ title: "VNX-PHP-011: PHP SQL injection via string concatenation"
 nav: "VNX-PHP-011"
 description: "Detects request input concatenated or interpolated into SQL text passed to mysql(i)_query(), pg_query(), PDO/mysqli/SQLite3 query/exec/prepare, WordPress $wpdb->get_results()/get_row()/get_var() and Laravel DB::select/whereRaw-style calls, inline, through a variable or through a query string built from one. Bound parameters, escaped or integer-cast values, digit-validated values and single-quoted literals are not reported."
 order: 839
-sources: ["cli/internal/sast/rules/vnx-php-011.rego", "cli/website/content/docs/sast-rules/vnx-php-011.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-011.rego", "cli/internal/sast/docs/vnx-php-011.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

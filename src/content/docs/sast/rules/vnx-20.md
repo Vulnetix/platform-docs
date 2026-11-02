@@ -3,9 +3,9 @@ title: "VNX-20: Input validation performed but its result ignored or bypassed"
 nav: "VNX-20"
 description: "Input validation is wired up but never decides anything: an unread Spring BindingResult, discarded Bean Validation violations, express-validator chains with no validationResult(), WTForms data read without validate(), pydantic construct() on request data, and discarded gin bind or validator errors."
 order: 101
-sources: ["cli/internal/sast/rules/vnx-20.rego", "cli/website/content/docs/sast-rules/vnx-20.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-20.rego", "cli/internal/sast/docs/vnx-20.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

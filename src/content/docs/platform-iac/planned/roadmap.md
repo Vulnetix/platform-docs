@@ -1,15 +1,15 @@
 ---
-title: "Planned: the config engine and CLI v4"
+title: "The config engine and CLI v4"
 nav: Engine and CLI v4
-description: Planned, not available. The server-side engine that will plan, apply and export config documents, the CLI v4 commands on top of it, and Download as code in the console.
+description: The server-side engine that will plan, apply and export config documents, the CLI v4 commands on top of it, and Download as code in the console.
 order: 1
 sources: [config-schemas/README.md]
 checked: [config-schemas@9bda9e1, cli@4c8c3b7]
 updated: 02 Nov 2026
 ---
 
-> [!CAREFUL] Planned
-> Nothing on this page exists yet. There is no `/v1/config/*` API, no `vulnetix config plan`, `apply` or `export`, and no Download as code menu. Names and behaviour may change before release. What works today is on the [Overview](/platform-iac/).
+> [!CAREFUL] Partly available
+> The engine's `/v1/config/kinds`, `validate`, `plan`, `apply` and `export` routes are live, and `vulnetix config plan`, `apply` and `export` ship in the CLI. They accept the `QualityGate` kind today; other kinds land kind by kind. The CLI module path change (v4) and the remaining items below are still planned. What works today is on the [Overview](/platform-iac/).
 
 ## The engine
 

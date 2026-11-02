@@ -3,9 +3,9 @@ title: "VNX-SEC-024: OAuth token stored in localStorage"
 nav: "VNX-SEC-024"
 description: "Detects JavaScript/TypeScript (including script in .vue, .svelte and .html files) that writes an access token, refresh token, ID token, JWT or API key into localStorage, where any script on the origin, including an XSS payload, can read it."
 order: 918
-sources: ["cli/internal/sast/rules/vnx-sec-024.rego", "cli/website/content/docs/sast-rules/vnx-sec-024.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-024.rego", "cli/internal/sast/docs/vnx-sec-024.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-GO-037: Missing security headers in HTTP response"
 nav: "VNX-GO-037"
 description: "Detects Go web applications that serve HTML pages, templates or static files while no production Go file sets browser security headers directly or through middleware. Reported once per file."
 order: 739
-sources: ["cli/internal/sast/rules/vnx-go-037.rego", "cli/website/content/docs/sast-rules/vnx-go-037.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-037.rego", "cli/internal/sast/docs/vnx-go-037.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

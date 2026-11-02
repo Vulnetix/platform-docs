@@ -3,9 +3,9 @@ title: "VNX-GO-035: Missing HttpOnly flag on cookie"
 nav: "VNX-GO-035"
 description: "Detects Go cookies sent to the browser without HttpOnly (http.Cookie, fiber.Cookie, gorilla sessions Options, gin SetCookie, default cookie stores), excluding deletion, CSRF double-submit and client-side cookies."
 order: 737
-sources: ["cli/internal/sast/rules/vnx-go-035.rego", "cli/website/content/docs/sast-rules/vnx-go-035.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-035.rego", "cli/internal/sast/docs/vnx-go-035.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-GO-004: TLS InsecureSkipVerify enabled"
 nav: "VNX-GO-004"
 description: "Reports InsecureSkipVerify set to the constant true in a tls.Config literal or assignment. A value from a variable, flag or environment, true inside an if on the insecure option itself, a config with its own VerifyPeerCertificate/VerifyConnection, comments, strings and test code (including test-support packages such as httptest and testutil) are not reported."
 order: 706
-sources: ["cli/internal/sast/rules/vnx-go-004.rego", "cli/website/content/docs/sast-rules/vnx-go-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-004.rego", "cli/internal/sast/docs/vnx-go-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

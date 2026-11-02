@@ -4,7 +4,7 @@
 //
 // Where it comes from:
 //   The catalogue is internal/ghasetup/catalog (embedded in the CLI). The CLI
-//   renders website/content/docs/ci-cd/third-party-scanners.md from it with
+//   renders docs/generated/ci-cd/third-party-scanners.md from it with
 //   internal/ghasetup/ghasetupgen (`just gen-gha-setup`), using the same
 //   Render() that `vulnetix gha setup` writes into a repository, so every job
 //   on the page is the job the command produces.
@@ -37,7 +37,7 @@ const opt = (name, fallback) => {
 const cli = resolve(opt('cli', process.env.VULNETIX_CLI_REPO || resolve(root, '..', 'cli')));
 const ref = opt('ref', 'origin/main');
 const outRoot = resolve(opt('out', join(root, 'src', 'content', 'docs')));
-const srcPath = 'website/content/docs/ci-cd/third-party-scanners.md';
+const srcPath = 'docs/generated/ci-cd/third-party-scanners.md';
 
 if (!existsSync(join(cli, '.git'))) {
   console.error(`gha-scanners: ${cli} is not a git checkout; pass --cli <path to the cli repository>`);

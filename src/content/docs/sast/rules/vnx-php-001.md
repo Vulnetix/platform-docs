@@ -3,9 +3,9 @@ title: "VNX-PHP-001: Missing composer.lock"
 nav: "VNX-PHP-001"
 description: "Detect an application's composer.json that requires Composer packages but has no composer.lock committed beside it, so every install re-resolves version ranges."
 order: 829
-sources: ["cli/internal/sast/rules/vnx-php-001.rego", "cli/website/content/docs/sast-rules/vnx-php-001.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-001.rego", "cli/internal/sast/docs/vnx-php-001.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-PHP-015: PHP unrestricted file upload via move_uploaded_file"
 nav: "VNX-PHP-015"
 description: "Detects uploads stored under a client-chosen name with no extension allowlist: move_uploaded_file() whose destination contains $_FILES[...]['name'] or request input (directly or through variables built from it), and UploadedFile move()/storeAs() given getClientOriginalName() or getClientOriginalExtension() (inline or through a variable). An extension check against an allowlist, or a generated name, suppresses the finding; a client MIME-type check does not."
 order: 843
-sources: ["cli/internal/sast/rules/vnx-php-015.rego", "cli/website/content/docs/sast-rules/vnx-php-015.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-015.rego", "cli/internal/sast/docs/vnx-php-015.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

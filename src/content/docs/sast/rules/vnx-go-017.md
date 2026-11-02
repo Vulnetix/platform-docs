@@ -3,9 +3,9 @@ title: "VNX-GO-017: Go SQL injection via fmt.Sprintf in db.Exec or db.Query"
 nav: "VNX-GO-017"
 description: "Detects fmt.Sprintf SQL that puts a string verb where SQL expects a literal (quoted, or after a comparison) and is run by Exec/Query/QueryRow/Prepare, sqlx or GORM Raw/Where/Order, inline or through a variable; other verb positions only when fed a request value. Integer verbs, placeholder builders, quoted or converted values and self-built fragments are not reported."
 order: 719
-sources: ["cli/internal/sast/rules/vnx-go-017.rego", "cli/website/content/docs/sast-rules/vnx-go-017.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-017.rego", "cli/internal/sast/docs/vnx-go-017.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

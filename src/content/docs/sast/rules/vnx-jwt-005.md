@@ -3,9 +3,9 @@ title: "VNX-JWT-005: Sensitive credential data stored in JWT payload"
 nav: "VNX-JWT-005"
 description: "A password, password hash, secret, API key, SSN or card number is put into JWT claims: in the payload of jwt.sign / SignJWT, jwt.encode, JWT.encode, JWT::encode or jwt.NewWithClaims, in a payload variable built just above, in a jjwt .claim() / Auth0 .withClaim(), or as a json-tagged field of a Go struct embedding jwt.RegisteredClaims."
 order: 783
-sources: ["cli/internal/sast/rules/vnx-jwt-005.rego", "cli/website/content/docs/sast-rules/vnx-jwt-005.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-jwt-005.rego", "cli/internal/sast/docs/vnx-jwt-005.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

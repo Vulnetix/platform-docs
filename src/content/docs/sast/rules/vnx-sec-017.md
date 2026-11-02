@@ -3,9 +3,9 @@ title: "VNX-SEC-017: Plaintext protocol URL"
 nav: "VNX-SEC-017"
 description: "Reports redis://, amqp://, ftp://, telnet:// and ldap:// connection URLs that point at a remote host or carry a password, which send credentials and data in cleartext. Loopback, placeholder and credential-free compose service hosts, TLS schemes, comments and tests are not reported."
 order: 911
-sources: ["cli/internal/sast/rules/vnx-sec-017.rego", "cli/website/content/docs/sast-rules/vnx-sec-017.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-017.rego", "cli/internal/sast/docs/vnx-sec-017.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

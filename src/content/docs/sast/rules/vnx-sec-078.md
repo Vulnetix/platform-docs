@@ -3,9 +3,9 @@ title: "VNX-SEC-078: Doppler API token"
 nav: "VNX-SEC-078"
 description: "Reports a whole Doppler personal token (dp.pt. and 43 characters) in any file, excluding service, CLI and service-account tokens, placeholders, truncated tokens, environment references and test files."
 order: 972
-sources: ["cli/internal/sast/rules/vnx-sec-078.rego", "cli/website/content/docs/sast-rules/vnx-sec-078.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-078.rego", "cli/internal/sast/docs/vnx-sec-078.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

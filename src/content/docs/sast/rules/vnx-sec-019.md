@@ -3,9 +3,9 @@ title: "VNX-SEC-019: GCP service account key"
 nav: "VNX-SEC-019"
 description: "Reports a committed Google Cloud service account key: a private_key PEM with a real body near type service_account, in JSON, escaped JSON, YAML, TOML or an object literal. Code that only reads or type-checks a key file, placeholder keys and test paths are not reported."
 order: 913
-sources: ["cli/internal/sast/rules/vnx-sec-019.rego", "cli/website/content/docs/sast-rules/vnx-sec-019.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-019.rego", "cli/internal/sast/docs/vnx-sec-019.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

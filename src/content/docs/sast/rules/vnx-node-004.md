@@ -3,9 +3,9 @@ title: "VNX-NODE-004: Express app without helmet"
 nav: "VNX-NODE-004"
 description: "Reports an Express app created with express() when nothing in the same npm package applies helmet(), lusca or explicit security headers."
 order: 800
-sources: ["cli/internal/sast/rules/vnx-node-004.rego", "cli/website/content/docs/sast-rules/vnx-node-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-004.rego", "cli/internal/sast/docs/vnx-node-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-SEC-030: Google OAuth client secret hardcoded"
 nav: "VNX-SEC-030"
 description: "Detect Google OAuth client secrets (GOCSPX- followed by 28 characters, or a legacy 24-character client_secret beside a *.apps.googleusercontent.com client id) hardcoded in any file."
 order: 924
-sources: ["cli/internal/sast/rules/vnx-sec-030.rego", "cli/website/content/docs/sast-rules/vnx-sec-030.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-030.rego", "cli/internal/sast/docs/vnx-sec-030.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

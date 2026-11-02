@@ -3,9 +3,9 @@ title: "VNX-SEC-025: Azure Storage Account key hardcoded"
 nav: "VNX-SEC-025"
 description: "Detect Azure Storage account keys (88-character base64 values) hardcoded next to a storage-key name, an AccountKey= connection-string segment, an access_key/ARM_ACCESS_KEY setting, the az --account-key flag, a shared-key credential constructor or a Blob/Queue/Table/Share service client, without flagging the public Azurite key or unrelated base64 hashes."
 order: 919
-sources: ["cli/internal/sast/rules/vnx-sec-025.rego", "cli/website/content/docs/sast-rules/vnx-sec-025.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-025.rego", "cli/internal/sast/docs/vnx-sec-025.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

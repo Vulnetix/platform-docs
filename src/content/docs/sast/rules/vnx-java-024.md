@@ -3,9 +3,9 @@ title: "VNX-JAVA-024: Java XML entity expansion (Billion Laughs), DTD not disabl
 nav: "VNX-JAVA-024"
 description: "Detects DocumentBuilderFactory, SAXParserFactory, dom4j SAXReader, JDOM SAXBuilder and XMLInputFactory instances that never disable DOCTYPE declarations (or enable secure processing, or turn off SUPPORT_DTD), leaving the application open to XML entity expansion denial-of-service attacks."
 order: 772
-sources: ["cli/internal/sast/rules/vnx-java-024.rego", "cli/website/content/docs/sast-rules/vnx-java-024.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-024.rego", "cli/internal/sast/docs/vnx-java-024.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

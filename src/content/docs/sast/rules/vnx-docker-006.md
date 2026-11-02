@@ -3,9 +3,9 @@ title: "VNX-DOCKER-006: Dockerfile uses ADD instead of COPY for local files"
 nav: "VNX-DOCKER-006"
 description: "Reports a Dockerfile ADD that copies local files or directories that are not archives, where COPY does the same without ADD's implicit tar extraction."
 order: 700
-sources: ["cli/internal/sast/rules/vnx-docker-006.rego", "cli/website/content/docs/sast-rules/vnx-docker-006.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-docker-006.rego", "cli/internal/sast/docs/vnx-docker-006.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

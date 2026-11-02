@@ -3,9 +3,9 @@ title: "VNX-JAVA-007: Java open redirect"
 nav: "VNX-JAVA-007"
 description: "Reports sendRedirect(), Spring redirect: views, RedirectView and Location headers whose target is a request value or a variable assigned from one, unless it is prefixed with a fixed path, looked up in an allowlist or guarded."
 order: 755
-sources: ["cli/internal/sast/rules/vnx-java-007.rego", "cli/website/content/docs/sast-rules/vnx-java-007.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-007.rego", "cli/internal/sast/docs/vnx-java-007.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

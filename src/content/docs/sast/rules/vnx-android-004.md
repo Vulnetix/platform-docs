@@ -3,9 +3,9 @@ title: "VNX-ANDROID-004: Android credential stored in plaintext SharedPreference
 nav: "VNX-ANDROID-004"
 description: "Detects a password, token, secret, API or private key, PIN or session id written with putString() to a plain (not Encrypted) SharedPreferences editor in Java or Kotlin, where the key or value names the credential and the value is not encrypted or hashed first."
 order: 658
-sources: ["cli/internal/sast/rules/vnx-android-004.rego", "cli/website/content/docs/sast-rules/vnx-android-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-android-004.rego", "cli/internal/sast/docs/vnx-android-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

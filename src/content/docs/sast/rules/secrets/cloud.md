@@ -4,8 +4,8 @@ nav: "Cloud Providers"
 description: "AWS, Azure, GCP, Alibaba, Oracle, DigitalOcean, IBM and other cloud-provider credential detection rules."
 order: 2
 sources: ["cli/internal/sast/secretsgen/catalog.json", "cli/internal/sast/secretsgen/main.go"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

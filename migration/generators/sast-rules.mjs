@@ -6,7 +6,7 @@
 //   internal/sast/secretsgen/catalog.json  the catalog-generated secret rules
 //                                          (VNX-SEC-081 and up) and their category
 //   internal/sast/secretsgen/main.go       category titles and summaries
-//   website/content/docs/sast-rules/*.md   hand-written prose for each rule
+//   internal/sast/docs/*.md                hand-written prose for each rule
 //                                          (optional; --prose to move it)
 //
 // Outputs, in this repository:
@@ -25,7 +25,7 @@
 //   --cli    cli repository checkout (default: $VULNETIX_CLI_REPO, else ../cli
 //            next to this repository)
 //   --prose  directory of hand-written rule pages (default:
-//            <cli>/website/content/docs/sast-rules). A rule without a prose
+//            <cli>/internal/sast/docs). A rule without a prose
 //            page gets a page built from its metadata alone.
 //   --out    docs root (default: src/content/docs of this repository)
 //
@@ -52,7 +52,7 @@ const opt = (name, fallback) => {
   return i >= 0 && args[i + 1] ? resolve(args[i + 1]) : fallback;
 };
 const cli = opt('cli', process.env.VULNETIX_CLI_REPO ? resolve(process.env.VULNETIX_CLI_REPO) : resolve(root, '..', 'cli'));
-const proseDir = opt('prose', join(cli, 'website', 'content', 'docs', 'sast-rules'));
+const proseDir = opt('prose', join(cli, 'internal', 'sast', 'docs'));
 const outRoot = opt('out', join(root, 'src', 'content', 'docs'));
 const rulesDir = join(cli, 'internal', 'sast', 'rules');
 const catalogPath = join(cli, 'internal', 'sast', 'secretsgen', 'catalog.json');
@@ -296,7 +296,7 @@ pageRules.forEach((r, i) => {
   if (prose) withProse++;
   const description = noDash(prose?.description || firstSentence(r.description || r.name));
   const sources = [`cli/internal/sast/rules/${r.file}`];
-  if (prose) sources.push(`cli/website/content/docs/sast-rules/${basename(prosePath)}`);
+  if (prose) sources.push(`cli/internal/sast/docs/${basename(prosePath)}`);
   const body = prose?.body || ['## Overview', '', esc(noDash(r.description || r.name))].join('\n');
   const page = [
     frontmatter({ title: `${r.id}: ${noDash(r.name)}`, nav: r.id, description, order: 100 + i, sources }),

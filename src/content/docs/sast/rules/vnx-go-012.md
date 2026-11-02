@@ -3,9 +3,9 @@ title: "VNX-GO-012: Go HTTP response header set from a request parameter"
 nav: "VNX-GO-012"
 description: "Detect Go code that writes a query, form or route parameter into an HTTP response header (net/http, gin, echo, fiber, fasthttp), inline or through a variable, without neutralising or constraining it."
 order: 714
-sources: ["cli/internal/sast/rules/vnx-go-012.rego", "cli/website/content/docs/sast-rules/vnx-go-012.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-012.rego", "cli/internal/sast/docs/vnx-go-012.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

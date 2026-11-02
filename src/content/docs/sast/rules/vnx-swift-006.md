@@ -3,9 +3,9 @@ title: "VNX-SWIFT-006: Swift non-cryptographic PRNG (libc rand/random/drand48, G
 nav: "VNX-SWIFT-006"
 description: "Detects the libc rand/random/drand48 family and GameplayKit random sources (directly or through a source variable) used to produce a token, nonce, salt, key, IV, PIN, OTP or password in Swift; arc4random, SystemRandomNumberGenerator and .random(in:) are CSPRNG-backed on Apple platforms and are not reported."
 order: 980
-sources: ["cli/internal/sast/rules/vnx-swift-006.rego", "cli/website/content/docs/sast-rules/vnx-swift-006.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-swift-006.rego", "cli/internal/sast/docs/vnx-swift-006.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

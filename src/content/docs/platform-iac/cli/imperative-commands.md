@@ -2,13 +2,13 @@
 title: Imperative config commands
 nav: Imperative commands
 description: vulnetix config set and get for the quality gate, the EOL policy and the package firewall. Every flag, the null value that unsets a field, the API each command calls and its errors.
-order: 2
-sources: [cli/cmd/config.go, cli/cmd/config_ai_firewall.go, cli/cmd/config_jail.go, cli/pkg/vdb/api_cli.go, cli/pkg/vdb/client.go, cli/cmd/quality_gate_enforce.go, vdb-api/internal/handler/v2_cli_quality_gate.go, vdb-api/internal/handler/v2_cli_package_firewall.go, saas/prisma/models/quality-gate.prisma]
-checked: [cli@4c8c3b7, vdb-api@4145f0a]
+order: 5
+sources: [cli/cmd/config.go, cli/cmd/config_engine_alias.go, cli/cmd/config_ai_firewall.go, cli/cmd/config_jail.go, cli/pkg/vdb/api_cli.go, cli/pkg/vdb/client.go, cli/cmd/quality_gate_enforce.go, vdb-api/internal/handler/v2_cli_quality_gate.go, vdb-api/internal/handler/v2_cli_package_firewall.go, saas/prisma/models/quality-gate.prisma]
+checked: [cli@d01f1dbe3, vdb-api@4145f0a]
 updated: 02 Nov 2026
 ---
 
-These commands change your organization's stored settings one call at a time. They are the way to set the quality gate and package firewall from a script today, until `vulnetix config apply` exists ([planned](/platform-iac/planned/roadmap/)).
+These commands change your organization's stored settings one call at a time. From CLI v4.0.0, declare settings as documents and use [`vulnetix config apply`](/platform-iac/cli/apply/) instead. `set quality-gate` and `set eol-policy` are deprecated aliases of it; see [Deprecated aliases](#deprecated-aliases).
 
 All of them need `vulnetix auth login`. The organization is the one you are authenticated as; a Teams member resolves to the team's organization. The shared community org cannot store settings and gets HTTP 403.
 
@@ -32,6 +32,30 @@ Every command here has these two flags:
 
 > [!CAREFUL] Any member can change org policy
 > The `/v2/cli.*` write endpoints check that the caller is authenticated to a real organization, not which role the caller has. A member's API key can change the organization's quality gate and package firewall. Restrict who holds keys accordingly.
+
+## Deprecated aliases
+
+From CLI v4.0.0, `vulnetix config set quality-gate` and `vulnetix config set eol-policy` keep their flags and output but send a `QualityGate` document to the config engine, as manager `console`. Each run first prints to standard error:
+
+```text
+Deprecated: 'vulnetix config set quality-gate' will be removed; declare a QualityGate document in .vulnetix/config/ and run 'vulnetix config apply'.
+```
+
+The flags map to the fields in the tables below. A flag you leave out keeps its stored value, as it did on the legacy endpoint.
+
+The command falls back to the legacy `POST /v2/cli.quality-gate-config`, and says why on standard error (`Using the legacy quality-gate endpoint: ...`), when:
+
+| Case | Why |
+|---|---|
+| The engine answers 401 or 403 | The credential is not an owner or admin. A service account's ApiKey is a member, so CI keys usually land here. |
+| The engine answers 404 | It is not deployed where `VULNETIX_WEB_URL` points. |
+| A flag is `null` | The engine cannot unset a field. |
+| No credential at all | The legacy path then fails with its usual `authentication required`. |
+
+A blocked plan is not a fallback. If another manager (for example `gitops:acme/platform`) owns the quality gate, the command prints the plan and exits 3, rather than going around the owner through the legacy endpoint.
+
+> [!CAREFUL] An alias run makes the gate console-managed
+> A successful engine apply records `console` as the quality gate's manager. A later `vulnetix config apply` from a repository is then blocked with `managed_by_other`, and the CLI has no command to hand ownership to another manager. Move to documents in one step rather than mixing the two.
 
 ## vulnetix config set quality-gate
 

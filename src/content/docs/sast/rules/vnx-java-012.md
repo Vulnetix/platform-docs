@@ -3,9 +3,9 @@ title: "VNX-JAVA-012: Java LDAP injection"
 nav: "VNX-JAVA-012"
 description: "Reports JNDI DirContext.search, Spring LdapTemplate search/find and LdapQueryBuilder filter, and UnboundID Filter.create/SearchRequest/search calls whose filter or base DN carries HTTP request data, directly or through up to five local assignments, or that concatenate a String method parameter into a filter or DN value. Parameterised {0} filters, encoded values and Spring filter objects are not reported."
 order: 760
-sources: ["cli/internal/sast/rules/vnx-java-012.rego", "cli/website/content/docs/sast-rules/vnx-java-012.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-012.rego", "cli/internal/sast/docs/vnx-java-012.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

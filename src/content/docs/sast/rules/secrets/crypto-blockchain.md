@@ -4,8 +4,8 @@ nav: "Crypto & Blockchain"
 description: "Ethereum, Bitcoin and other blockchain private keys and wallet credentials."
 order: 12
 sources: ["cli/internal/sast/secretsgen/catalog.json", "cli/internal/sast/secretsgen/main.go"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-SEC-036: Heroku API key"
 nav: "VNX-SEC-036"
 description: "Reports a Heroku platform API key: a standalone v2 key (HRKU-AA followed by 58 characters), or a legacy UUID-format key assigned to a name that contains heroku and key, token or secret (HEROKU_API_KEY=..., heroku_api_token: ..., ENV['HEROKU_API_KEY'] ||= ...), or sent as a Bearer token on a line that calls api.heroku.com. A bare UUID without that context, placeholder or example UUIDs and test or fixture paths are not reported."
 order: 930
-sources: ["cli/internal/sast/rules/vnx-sec-036.rego", "cli/website/content/docs/sast-rules/vnx-sec-036.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-036.rego", "cli/internal/sast/docs/vnx-sec-036.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

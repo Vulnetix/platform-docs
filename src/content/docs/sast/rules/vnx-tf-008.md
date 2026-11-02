@@ -3,9 +3,9 @@ title: "VNX-TF-008: Terraform AWS provider with hardcoded static credentials"
 nav: "VNX-TF-008"
 description: "Detect literal AWS access key ids (AKIA/ASIA) and 40-character secret keys hardcoded in Terraform provider blocks, s3 backends, .tfvars files, function environment maps and ECS name/value environment entries, which expose IAM credentials to anyone who can read the repository or its history."
 order: 988
-sources: ["cli/internal/sast/rules/vnx-tf-008.rego", "cli/website/content/docs/sast-rules/vnx-tf-008.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-tf-008.rego", "cli/internal/sast/docs/vnx-tf-008.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

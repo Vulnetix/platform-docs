@@ -3,9 +3,9 @@ title: "VNX-KOTLIN-003: Kotlin sensitive cookie without HttpOnly"
 nav: "VNX-KOTLIN-003"
 description: "Detects Kotlin session and credential cookies sent without HttpOnly (servlet, Spring ResponseCookie, Ktor, Javalin, http4k, Micronaut, raw Set-Cookie headers) and HttpOnly explicitly disabled, so injected scripts cannot steal them."
 order: 787
-sources: ["cli/internal/sast/rules/vnx-kotlin-003.rego", "cli/website/content/docs/sast-rules/vnx-kotlin-003.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-kotlin-003.rego", "cli/internal/sast/docs/vnx-kotlin-003.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

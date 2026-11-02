@@ -3,9 +3,9 @@ title: "VNX-GO-030: Missing Secure flag on cookie"
 nav: "VNX-GO-030"
 description: "Detects a cookie sent to the browser without Secure: an http.Cookie, fiber.Cookie or gorilla sessions.Options literal with Secure absent or false, gin SetCookie with secure=false, a hand-written Set-Cookie header without Secure, csrf.Secure(false), or a gorilla cookie store whose Options are never set."
 order: 732
-sources: ["cli/internal/sast/rules/vnx-go-030.rego", "cli/website/content/docs/sast-rules/vnx-go-030.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-030.rego", "cli/internal/sast/docs/vnx-go-030.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

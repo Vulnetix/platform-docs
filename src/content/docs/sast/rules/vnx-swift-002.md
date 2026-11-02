@@ -3,9 +3,9 @@ title: "VNX-SWIFT-002: Swift credential written to the device log (NSLog, print,
 nav: "VNX-SWIFT-002"
 description: "Detects a password, token, secret, API key or credential value passed to or interpolated into NSLog, print, debugPrint, dump or CocoaLumberjack DDLog*, logged by os_log with %{public}, or interpolated into os.Logger with privacy: .public."
 order: 976
-sources: ["cli/internal/sast/rules/vnx-swift-002.rego", "cli/website/content/docs/sast-rules/vnx-swift-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-swift-002.rego", "cli/internal/sast/docs/vnx-swift-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

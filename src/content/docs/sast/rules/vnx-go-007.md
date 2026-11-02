@@ -3,9 +3,9 @@ title: "VNX-GO-007: Go path traversal"
 nav: "VNX-GO-007"
 description: "Reports a file read, listed or served (os.Open, os.ReadFile, os.ReadDir, ioutil.ReadFile, http.ServeFile, gin/echo/fiber file responses) from a path holding a request value, inline, through a variable or through one filepath.Join/Sprintf built from it. filepath.Base, IsLocal, Rel, HasPrefix on the cleaned path, table lookups, os.Root, and operator-supplied paths are not reported; HasPrefix on the raw value is."
 order: 709
-sources: ["cli/internal/sast/rules/vnx-go-007.rego", "cli/website/content/docs/sast-rules/vnx-go-007.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-007.rego", "cli/internal/sast/docs/vnx-go-007.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

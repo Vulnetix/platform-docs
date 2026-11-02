@@ -3,9 +3,9 @@ title: "VNX-GO-018: Go arbitrary file write via os.WriteFile/os.Create with user
 nav: "VNX-GO-018"
 description: "Detects files created, written, renamed or linked (os.Create, os.WriteFile, os.OpenFile with a write flag, os.MkdirAll, os.Rename, gin SaveUploadedFile) at a path built from HTTP request data or a multipart filename, with no filepath.Base, IsLocal, prefix check on the cleaned path or os.Root confining it. Read-only opens and server-chosen names are not reported."
 order: 720
-sources: ["cli/internal/sast/rules/vnx-go-018.rego", "cli/website/content/docs/sast-rules/vnx-go-018.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-018.rego", "cli/internal/sast/docs/vnx-go-018.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

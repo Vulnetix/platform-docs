@@ -3,9 +3,9 @@ title: "VNX-PY-013: Python ML/AI insecure deserialization"
 nav: "VNX-PY-013"
 description: "Detect ML and data loaders that unpickle under the hood: joblib.load, pandas.read_pickle, numpy.load(allow_pickle=True), torch.load without weights_only=True and Keras load_model(safe_mode=False), including aliases and from-imports. Plain pickle is reported by VNX-PY-003."
 order: 867
-sources: ["cli/internal/sast/rules/vnx-py-013.rego", "cli/website/content/docs/sast-rules/vnx-py-013.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-py-013.rego", "cli/internal/sast/docs/vnx-py-013.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

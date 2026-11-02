@@ -3,9 +3,9 @@ title: "VNX-SEC-022: Sensitive data in log statement"
 nav: "VNX-SEC-022"
 description: "Reports logging and print calls across 14 languages whose arguments carry a password, secret, API key, private key or access/refresh token value. Message text alone, descriptive names, masked or hashed values and presence checks are not reported."
 order: 916
-sources: ["cli/internal/sast/rules/vnx-sec-022.rego", "cli/website/content/docs/sast-rules/vnx-sec-022.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-022.rego", "cli/internal/sast/docs/vnx-sec-022.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

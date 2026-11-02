@@ -3,9 +3,9 @@ title: "VNX-JAVA-027: Java Spring security headers disabled or absent (clickjack
 nav: "VNX-JAVA-027"
 description: "Detects Spring Security configurations that disable all default security headers, X-Frame-Options, HSTS or X-Content-Type-Options, in the chained, lambda and method-reference DSL forms. xssProtection().disable(), sameOrigin()/deny() and test code are not reported."
 order: 775
-sources: ["cli/internal/sast/rules/vnx-java-027.rego", "cli/website/content/docs/sast-rules/vnx-java-027.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-027.rego", "cli/internal/sast/docs/vnx-java-027.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-GO-003: SQL injection via fmt.Sprintf"
 nav: "VNX-GO-003"
 description: "Reports database/sql, sqlx, pgx and GORM query calls whose SQL is built with fmt.Sprintf or concatenation so a value lands where a bind parameter belongs (inside quotes, after a comparison, IN/VALUES/LIMIT), or that embed a request value anywhere. Parameterised queries, %d, server-chosen identifiers, placeholder lists and quoted identifiers are not reported."
 order: 705
-sources: ["cli/internal/sast/rules/vnx-go-003.rego", "cli/website/content/docs/sast-rules/vnx-go-003.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-003.rego", "cli/internal/sast/docs/vnx-go-003.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

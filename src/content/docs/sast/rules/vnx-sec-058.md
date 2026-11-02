@@ -3,9 +3,9 @@ title: "VNX-SEC-058: Notion API token"
 nav: "VNX-SEC-058"
 description: "Reports a hard-coded Notion integration token (ntn_ + 11 digits + 35 alphanumerics, or a legacy secret_ token in a file that names Notion), but not bare prefixes, placeholders or tokens read from the environment."
 order: 952
-sources: ["cli/internal/sast/rules/vnx-sec-058.rego", "cli/website/content/docs/sast-rules/vnx-sec-058.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-058.rego", "cli/internal/sast/docs/vnx-sec-058.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

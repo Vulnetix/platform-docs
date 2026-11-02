@@ -3,9 +3,9 @@ title: "VNX-PY-016: Django mass assignment via request data unpacking"
 nav: "VNX-PY-016"
 description: "Detect Python web code that writes the whole request body to a model: **request.data into create/update, SQLAlchemy .values() or a model constructor, Query.update(request body), __dict__.update(request.json), an unguarded setattr loop over request keys, or a ModelSerializer/ModelForm with fields = '__all__'."
 order: 870
-sources: ["cli/internal/sast/rules/vnx-py-016.rego", "cli/website/content/docs/sast-rules/vnx-py-016.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-py-016.rego", "cli/internal/sast/docs/vnx-py-016.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

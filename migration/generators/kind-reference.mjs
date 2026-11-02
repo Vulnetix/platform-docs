@@ -56,7 +56,7 @@ const NOTES = {
     },
     after: `## Set these values today
 
-There is no \`vulnetix config apply\` yet (see [Planned](/platform-iac/planned/roadmap/)). The same values are stored by the imperative commands. Each field maps to one flag:
+Apply a QualityGate document with [\`vulnetix config apply\`](/platform-iac/cli/apply/). The same values can also be set with the imperative commands, now deprecated aliases that call the engine. Each field maps to one flag:
 
 | Field | Command and flag | Scan flag it overrides |
 |---|---|---|
@@ -257,7 +257,7 @@ for (const kind of kinds) {
   body += `| Newest schema | [\`latest/${file}\`](${RELEASES}/latest/download/${file}) |\n`;
   if (rel.first) body += `| First released in | [\`${rel.first}\`](${RELEASES}/tag/${rel.first}) |\n`;
   body += `| Print the built-in copy | \`vulnetix config schema ${kind}\` |\n`;
-  body += `| Apply to a tenant | Planned. See [Planned](/platform-iac/planned/roadmap/). |\n\n`;
+  body += `| Apply to a tenant | [\`vulnetix config apply\`](/platform-iac/cli/apply/), or the [config engine API](/platform-iac/planned/roadmap/). |\n\n`;
   if (!rel.newest) body += `> [!CAREFUL] Not released yet\n> \`${kind}\` is in the \`config-schemas\` source tree but in no release, so no released CLI accepts it.\n\n`;
   else if (!rel.same) body += `> [!CAREFUL] Unreleased changes\n> This page is generated from \`config-schemas@${head}\`, which differs from the \`${rel.newest}\` release. The CLI accepts the release.\n\n`;
 

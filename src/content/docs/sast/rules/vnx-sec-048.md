@@ -3,9 +3,9 @@ title: "VNX-SEC-048: OpenAI project / service / admin key"
 nav: "VNX-SEC-048"
 description: "Reports OpenAI project, service-account and admin keys (sk-proj-, sk-svcacct-, sk-admin- with a body of 40+ characters) written into files."
 order: 942
-sources: ["cli/internal/sast/rules/vnx-sec-048.rego", "cli/website/content/docs/sast-rules/vnx-sec-048.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-048.rego", "cli/internal/sast/docs/vnx-sec-048.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

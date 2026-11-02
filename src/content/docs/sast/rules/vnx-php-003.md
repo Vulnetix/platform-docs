@@ -3,9 +3,9 @@ title: "VNX-PHP-003: PHP file inclusion with variable path"
 nav: "VNX-PHP-003"
 description: "Detect include, require, include_once and require_once statements whose path contains a request value, inline or through a variable assigned from one, enabling Local and Remote File Inclusion."
 order: 831
-sources: ["cli/internal/sast/rules/vnx-php-003.rego", "cli/website/content/docs/sast-rules/vnx-php-003.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-003.rego", "cli/internal/sast/docs/vnx-php-003.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

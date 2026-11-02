@@ -3,9 +3,9 @@ title: "VNX-PHP-009: PHP preg_replace with /e modifier"
 nav: "VNX-PHP-009"
 description: "Detects preg_replace() and preg_filter() calls whose pattern literal (inline, split across lines, in an array of patterns, or in a variable assigned just above) carries the e modifier, which evaluates the replacement as PHP code. preg_replace_callback(), patterns without e and the call inside a comment or string are not reported."
 order: 837
-sources: ["cli/internal/sast/rules/vnx-php-009.rego", "cli/website/content/docs/sast-rules/vnx-php-009.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-009.rego", "cli/internal/sast/docs/vnx-php-009.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

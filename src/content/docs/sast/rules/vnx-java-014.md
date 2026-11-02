@@ -3,9 +3,9 @@ title: "VNX-JAVA-014: Java zip/tar slip via archive entry name"
 nav: "VNX-JAVA-014"
 description: "Reports archive extraction code that builds an output path (new File, FileOutputStream, Paths.get, Path.resolve, Files.copy and similar) from a ZipEntry, JarEntry or Commons Compress entry name without a canonical-path or normalize-and-startsWith containment check."
 order: 762
-sources: ["cli/internal/sast/rules/vnx-java-014.rego", "cli/website/content/docs/sast-rules/vnx-java-014.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-014.rego", "cli/internal/sast/docs/vnx-java-014.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

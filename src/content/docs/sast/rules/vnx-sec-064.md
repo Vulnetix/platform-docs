@@ -3,9 +3,9 @@ title: "VNX-SEC-064: Redis connection string with credentials"
 nav: "VNX-SEC-064"
 description: "Reports a Redis connection URL (redis://, rediss://, including the empty-user redis://:password@host form) that embeds a literal password, but not interpolated or default passwords, localhost servers, documentation or example files."
 order: 958
-sources: ["cli/internal/sast/rules/vnx-sec-064.rego", "cli/website/content/docs/sast-rules/vnx-sec-064.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-064.rego", "cli/internal/sast/docs/vnx-sec-064.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

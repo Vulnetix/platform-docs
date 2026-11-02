@@ -21,7 +21,7 @@ One per tenant, so `metadata.name` is always `default`. Each `spec` field is opt
 | Newest schema | [`latest/QualityGate.schema.json`](https://github.com/Vulnetix/config-schemas/releases/latest/download/QualityGate.schema.json) |
 | First released in | [`v1.0.0`](https://github.com/Vulnetix/config-schemas/releases/tag/v1.0.0) |
 | Print the built-in copy | `vulnetix config schema QualityGate` |
-| Apply to a tenant | Planned. See [Planned](/platform-iac/planned/roadmap/). |
+| Apply to a tenant | [`vulnetix config apply`](/platform-iac/cli/apply/), or the [config engine API](/platform-iac/planned/roadmap/). |
 
 ## Fields
 
@@ -95,7 +95,7 @@ Check a file like this one with `vulnetix config validate -f <file>`. See [Valid
 
 ## Set these values today
 
-There is no `vulnetix config apply` yet (see [Planned](/platform-iac/planned/roadmap/)). The same values are stored by the imperative commands. Each field maps to one flag:
+Apply a QualityGate document with [`vulnetix config apply`](/platform-iac/cli/apply/). The same values can also be set with the imperative commands, now deprecated aliases that call the engine. Each field maps to one flag:
 
 | Field | Command and flag | Scan flag it overrides |
 |---|---|---|

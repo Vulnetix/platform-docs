@@ -3,9 +3,9 @@ title: "VNX-GO-039: Missing rate limiting on login endpoint"
 nav: "VNX-GO-039"
 description: "Detects Go HTTP login handlers (declared Login/SignIn/Authenticate handlers or inline login routes) when nothing in the project's production Go code rate-limits requests or locks accounts after failed attempts."
 order: 741
-sources: ["cli/internal/sast/rules/vnx-go-039.rego", "cli/website/content/docs/sast-rules/vnx-go-039.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-039.rego", "cli/internal/sast/docs/vnx-go-039.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

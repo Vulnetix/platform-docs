@@ -3,9 +3,9 @@ title: "VNX-GO-034: OAuth redirect URI without validation against allowlist"
 nav: "VNX-GO-034"
 description: "Detects Go OAuth flows that redirect to, or configure, a redirect_uri taken from the request without comparing it against the client's registered redirect URIs."
 order: 736
-sources: ["cli/internal/sast/rules/vnx-go-034.rego", "cli/website/content/docs/sast-rules/vnx-go-034.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-034.rego", "cli/internal/sast/docs/vnx-go-034.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

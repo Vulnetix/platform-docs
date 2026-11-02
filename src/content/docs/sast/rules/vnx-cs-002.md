@@ -3,9 +3,9 @@ title: "VNX-CS-002: C# command injection: request data or a dynamic shell comman
 nav: "VNX-CS-002"
 description: "Detects C# Process.Start, ProcessStartInfo FileName/Arguments and PowerShell AddScript calls that receive HTTP request data or action parameters, and shells (cmd, sh, bash, PowerShell) given a command line built from non-constant values, including through ArgumentList after -c or /c and CliWrap WithArguments."
 order: 686
-sources: ["cli/internal/sast/rules/vnx-cs-002.rego", "cli/website/content/docs/sast-rules/vnx-cs-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-cs-002.rego", "cli/internal/sast/docs/vnx-cs-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

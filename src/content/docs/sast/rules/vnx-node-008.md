@@ -3,9 +3,9 @@ title: "VNX-NODE-008: Node.js open redirect"
 nav: "VNX-NODE-008"
 description: "Reports redirects (res.redirect, ctx.redirect, reply.redirect, NextResponse.redirect, res.location, Location headers, window.location) whose target starts with request-controlled data and is not validated."
 order: 804
-sources: ["cli/internal/sast/rules/vnx-node-008.rego", "cli/website/content/docs/sast-rules/vnx-node-008.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-008.rego", "cli/internal/sast/docs/vnx-node-008.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

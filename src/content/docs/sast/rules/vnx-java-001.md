@@ -3,9 +3,9 @@ title: "VNX-JAVA-001: Command injection via Runtime.exec() or a shell ProcessBui
 nav: "VNX-JAVA-001"
 description: "Reports Runtime.exec() commands and shell ProcessBuilder scripts built at run time from concatenation, String.format or request values, directly or through a variable assigned a few lines above."
 order: 749
-sources: ["cli/internal/sast/rules/vnx-java-001.rego", "cli/website/content/docs/sast-rules/vnx-java-001.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-001.rego", "cli/internal/sast/docs/vnx-java-001.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

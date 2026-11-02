@@ -3,9 +3,9 @@ title: "VNX-JAVA-005: Insecure deserialization"
 nav: "VNX-JAVA-005"
 description: "Reports unfiltered ObjectInputStream.readObject(), XMLDecoder, XStream.fromXML() without a type allowlist, permissive Jackson default typing and SerializationUtils.deserialize(), which can run gadget chains on attacker-controlled bytes."
 order: 753
-sources: ["cli/internal/sast/rules/vnx-java-005.rego", "cli/website/content/docs/sast-rules/vnx-java-005.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-005.rego", "cli/internal/sast/docs/vnx-java-005.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-SEC-010: Package registry token"
 nav: "VNX-SEC-010"
 description: "Detects npm access tokens (npm_ + 36 characters), PyPI and TestPyPI API tokens, literal auth tokens in .npmrc and .yarnrc.yml (npmAuthToken, npmAuthIdent) and literal .pypirc passwords, in any file outside tests; environment references and npm_config_* identifiers are not reported."
 order: 904
-sources: ["cli/internal/sast/rules/vnx-sec-010.rego", "cli/website/content/docs/sast-rules/vnx-sec-010.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-010.rego", "cli/internal/sast/docs/vnx-sec-010.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

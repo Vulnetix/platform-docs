@@ -3,9 +3,9 @@ title: "VNX-ANDROID-006: Android credential hard-coded in a string resource"
 nav: "VNX-ANDROID-006"
 description: "Detects a <string> resource in an Android res/values*/ file whose name marks it as a credential (api key, secret, token, password, private or signing key) and whose value is a credential-shaped literal, not UI text, a placeholder, a reference or a public Firebase/Facebook client id."
 order: 660
-sources: ["cli/internal/sast/rules/vnx-android-006.rego", "cli/website/content/docs/sast-rules/vnx-android-006.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-android-006.rego", "cli/internal/sast/docs/vnx-android-006.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

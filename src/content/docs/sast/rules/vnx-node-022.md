@@ -3,9 +3,9 @@ title: "VNX-NODE-022: Shell injection via shelljs exec()"
 nav: "VNX-NODE-022"
 description: "Reports shelljs exec() whose command carries an Express/Koa/Lambda request value, directly or through variables assigned from one. Not reported: constant or program-built commands (release scripts), other shelljs commands, RegExp.exec, child_process (VNX-NODE-003), comments and strings."
 order: 818
-sources: ["cli/internal/sast/rules/vnx-node-022.rego", "cli/website/content/docs/sast-rules/vnx-node-022.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-022.rego", "cli/internal/sast/docs/vnx-node-022.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

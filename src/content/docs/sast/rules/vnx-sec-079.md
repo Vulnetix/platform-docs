@@ -3,9 +3,9 @@ title: "VNX-SEC-079: GitHub fine-grained personal access token"
 nav: "VNX-SEC-079"
 description: "Reports a whole GitHub fine-grained personal access token (github_pat_ with its 22 and 59 character parts) in any file, excluding placeholders, truncated tokens, prefix checks, CI-secret references and test files."
 order: 973
-sources: ["cli/internal/sast/rules/vnx-sec-079.rego", "cli/website/content/docs/sast-rules/vnx-sec-079.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-079.rego", "cli/internal/sast/docs/vnx-sec-079.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -64,7 +64,7 @@ A repository with no `.vulnetix/config/` directory passes: there is nothing to v
 
 ## 4. Set the values on your organization
 
-Nothing reads `.vulnetix/config/` to change your organization yet; `vulnetix config apply` is [planned](/platform-iac/planned/roadmap/). Set the same values with the imperative command:
+To change your organization from these files, run [`vulnetix config plan`](/platform-iac/cli/plan/) and then [`vulnetix config apply`](/platform-iac/cli/apply/). You can also set the same values with the imperative command:
 
 ```sh
 vulnetix config set quality-gate --severity high --exploits active --block-malware true --cooldown 7

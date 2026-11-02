@@ -3,9 +3,9 @@ title: "VNX-NODE-009: Node.js server-side request forgery"
 nav: "VNX-NODE-009"
 description: "Reports a server-side HTTP request (fetch, axios, http(s).get/request, got, needle, superagent, undici, request, or curl/wget run as a subprocess) whose destination URL or host comes from req.query/body/params/headers/cookies or Koa ctx, directly or through a variable assigned from one. Fixed-host URLs and allowlisted destinations are not reported, and a request whose response is relayed back to the client is reported by VNX-441 instead."
 order: 805
-sources: ["cli/internal/sast/rules/vnx-node-009.rego", "cli/website/content/docs/sast-rules/vnx-node-009.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-009.rego", "cli/internal/sast/docs/vnx-node-009.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

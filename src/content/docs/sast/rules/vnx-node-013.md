@@ -3,9 +3,9 @@ title: "VNX-NODE-013: Node.js command injection via child_process"
 nav: "VNX-NODE-013"
 description: "Reports a shell command built from req.query/body/params/headers or Koa ctx and run through child_process exec/execSync (by module alias, destructured import or promisify wrapper), spawn/execFile with shell: true or sh -c, shelljs exec or execa's command API. Argument arrays without a shell and escaped values are not reported."
 order: 809
-sources: ["cli/internal/sast/rules/vnx-node-013.rego", "cli/website/content/docs/sast-rules/vnx-node-013.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-013.rego", "cli/internal/sast/docs/vnx-node-013.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

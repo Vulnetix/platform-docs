@@ -26,10 +26,10 @@ Most of it is still being built. This page says exactly what works today and wha
 
 ## What is planned
 
-None of these exist yet. Each is described on the [Planned](/platform-iac/planned/roadmap/) pages, so you can see where the format is going:
+Except where marked available, none of these exist yet. Each is described on the [Planned](/platform-iac/planned/roadmap/) pages, so you can see where the format is going:
 
 - a server-side config engine with `plan`, `apply` and `export`, managers, prune and drift reporting;
-- CLI v4 with `vulnetix config plan`, `apply` and `export`;
+- [`vulnetix config plan`](/platform-iac/cli/plan/), [`apply`](/platform-iac/cli/apply/) and [`export`](/platform-iac/cli/export/) are available now for `QualityGate`; the other kinds follow;
 - a kind for every tenant setting (the [kind catalogue](/platform-iac/planned/kind-catalogue/));
 - a [Terraform and OpenTofu provider](/platform-iac/planned/terraform/);
 - [CEL rule expressions](/platform-iac/planned/cel/);

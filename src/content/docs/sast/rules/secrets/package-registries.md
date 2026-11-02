@@ -4,8 +4,8 @@ nav: "Package Registries"
 description: "npm, PyPI, RubyGems, NuGet, Artifactory, Crates and other registry tokens."
 order: 7
 sources: ["cli/internal/sast/secretsgen/catalog.json", "cli/internal/sast/secretsgen/main.go"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

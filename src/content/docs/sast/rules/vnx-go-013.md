@@ -3,9 +3,9 @@ title: "VNX-GO-013: Go zip/tar slip via archive entry name"
 nav: "VNX-GO-013"
 description: "Detect Go code that extracts a zip or tar entry to a path built from the entry's name (or writes its Linkname as a symlink) without checking the result stays inside the destination directory."
 order: 715
-sources: ["cli/internal/sast/rules/vnx-go-013.rego", "cli/website/content/docs/sast-rules/vnx-go-013.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-013.rego", "cli/internal/sast/docs/vnx-go-013.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

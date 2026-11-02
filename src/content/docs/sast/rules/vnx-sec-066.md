@@ -3,9 +3,9 @@ title: "VNX-SEC-066: HTTP bearer authentication header"
 nav: "VNX-SEC-066"
 description: "Detects literal HTTP Bearer tokens: a \"Bearer <token>\" value of 20+ high-entropy characters written into code, scripts or request files."
 order: 960
-sources: ["cli/internal/sast/rules/vnx-sec-066.rego", "cli/website/content/docs/sast-rules/vnx-sec-066.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-066.rego", "cli/internal/sast/docs/vnx-sec-066.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

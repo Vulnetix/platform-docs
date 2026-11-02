@@ -3,9 +3,9 @@ title: "VNX-SEC-040: GitLab pipeline trigger / deploy / runner token"
 nav: "VNX-SEC-040"
 description: "Reports a GitLab infrastructure token by its documented prefix and body shape: pipeline trigger (glptt- + 40 hex), deploy (gldt-), runner authentication (glrt-), runner registration (GR1348941), Kubernetes agent (glagent-), CI job (glcbt-), OAuth application secret (gloas-), incoming mail (glimt-), feature-flag client (glffct-), feed (glft-) and SCIM (glsoat-) tokens. A prefix without a token body of the right length, placeholders and test or fixture paths are not reported; glpat- access tokens are VNX-SEC-039."
 order: 934
-sources: ["cli/internal/sast/rules/vnx-sec-040.rego", "cli/website/content/docs/sast-rules/vnx-sec-040.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-040.rego", "cli/internal/sast/docs/vnx-sec-040.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

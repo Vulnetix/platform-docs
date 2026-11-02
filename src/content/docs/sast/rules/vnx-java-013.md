@@ -3,9 +3,9 @@ title: "VNX-JAVA-013: Java XPath injection"
 nav: "VNX-JAVA-013"
 description: "Reports XPath.evaluate/compile, dom4j selectNodes/selectSingleNode and Jaxen XPath constructors whose expression carries HTTP request data, or concatenates a String method parameter into a quoted value, directly or through a local built a few lines above. Variable-resolver expressions, encoded values and constants are not reported."
 order: 761
-sources: ["cli/internal/sast/rules/vnx-java-013.rego", "cli/website/content/docs/sast-rules/vnx-java-013.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-java-013.rego", "cli/internal/sast/docs/vnx-java-013.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -6,7 +6,7 @@
 //   The rule catalogue lives in vdb-sca-match/ghaudit (rules_workflows.go,
 //   rules_actions.go, rules_settings.go, rules_org.go). The CLI renders one
 //   Hugo page per rule from it with internal/ghtasks/docs.go (RuleDocs), and
-//   TestGitHubRuleDocs fails when website/content/docs/github-rules/ is stale
+//   TestGitHubRuleDocs fails when docs/generated/github-rules/ is stale
 //   against the vdb-sca-match version pinned in the CLI's go.mod
 //   (`GHRULES_UPDATE=1 go test ./internal/ghtasks/` rewrites them).
 //
@@ -52,7 +52,7 @@ const cli = resolve(opt('cli', process.env.VULNETIX_CLI_REPO || resolve(root, '.
 const ref = opt('ref', 'origin/main');
 const outRoot = resolve(opt('out', join(root, 'src', 'content', 'docs')));
 const outDir = join(outRoot, 'cli', 'github-rules');
-const srcDir = 'website/content/docs/github-rules';
+const srcDir = 'docs/generated/github-rules';
 
 const git = (...a) => execFileSync('git', ['-C', cli, ...a], { encoding: 'utf8', maxBuffer: 64 << 20 });
 

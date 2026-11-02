@@ -3,9 +3,9 @@ title: "VNX-SEC-057: Grafana API / service account token"
 nav: "VNX-SEC-057"
 description: "Reports a hard-coded Grafana service account token (glsa_), Grafana Cloud access policy token (glc_eyJ...) or legacy Grafana API key (eyJrIjoi...), but not bare prefixes, placeholders, ordinary JWTs or tokens read from the environment."
 order: 951
-sources: ["cli/internal/sast/rules/vnx-sec-057.rego", "cli/website/content/docs/sast-rules/vnx-sec-057.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-057.rego", "cli/internal/sast/docs/vnx-sec-057.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

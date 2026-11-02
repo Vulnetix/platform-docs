@@ -3,9 +3,9 @@ title: "VNX-C-003: OS command injection: a shell command built from or read from
 nav: "VNX-C-003"
 description: "Reports C and C++ calls that hand a non-constant string to a shell (system, popen, _popen, _wsystem, p2open, std::system, execl of sh -c) when the command comes from argv, getenv or input, or was composed nearby with sprintf/snprintf/asprintf %s, strcat/strcpy or C++ string concatenation, and wordexp() without WRDE_NOCMD. Literal commands, exec without a shell, validated or quoted input, wrapper parameters and comments are not reported."
 order: 671
-sources: ["cli/internal/sast/rules/vnx-c-003.rego", "cli/website/content/docs/sast-rules/vnx-c-003.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-c-003.rego", "cli/internal/sast/docs/vnx-c-003.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

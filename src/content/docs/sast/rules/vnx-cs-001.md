@@ -3,9 +3,9 @@ title: "VNX-CS-001: C# SQL injection: query text built by concatenation, interpo
 nav: "VNX-CS-001"
 description: "Detects C# SQL statements whose text is built from non-constant values (concatenation, interpolation, string.Format, StringBuilder) and executed through ADO.NET commands and data adapters, CommandText, EF Core raw SQL, Dapper, LINQ to SQL or NHibernate."
 order: 685
-sources: ["cli/internal/sast/rules/vnx-cs-001.rego", "cli/website/content/docs/sast-rules/vnx-cs-001.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-cs-001.rego", "cli/internal/sast/docs/vnx-cs-001.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

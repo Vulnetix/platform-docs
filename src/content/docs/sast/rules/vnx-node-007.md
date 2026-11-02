@@ -3,9 +3,9 @@ title: "VNX-NODE-007: Node.js SQL injection"
 nav: "VNX-NODE-007"
 description: "Reports SQL built with template-literal interpolation or concatenation (directly or via a nearby variable) passed to mysql, pg, sequelize, knex raw, TypeORM where conditions, Prisma $queryRawUnsafe or sqlite calls."
 order: 803
-sources: ["cli/internal/sast/rules/vnx-node-007.rego", "cli/website/content/docs/sast-rules/vnx-node-007.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-node-007.rego", "cli/internal/sast/docs/vnx-node-007.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

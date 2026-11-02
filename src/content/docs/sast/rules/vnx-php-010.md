@@ -3,9 +3,9 @@ title: "VNX-PHP-010: PHP type juggling in comparison"
 nav: "VNX-PHP-010"
 description: "Detects loose comparisons (==, !=, <>) that decide an authentication or integrity check: a hash result compared with a variable or a 0e literal, user input compared with a non-literal secret value, and strcmp() of user input tested with == 0 or negation. Strict comparisons, hash_equals(), password_verify() and input compared with a constant are not reported."
 order: 838
-sources: ["cli/internal/sast/rules/vnx-php-010.rego", "cli/website/content/docs/sast-rules/vnx-php-010.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-010.rego", "cli/internal/sast/docs/vnx-php-010.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

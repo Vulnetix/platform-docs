@@ -3,9 +3,9 @@ title: "VNX-94: Code Injection"
 nav: "VNX-94"
 description: "HTTP request data reaches eval, new Function, vm, string setTimeout, Python eval/exec/compile, PHP eval/assert/create_function/call_user_func, or Ruby eval/instance_eval/class_eval/module_eval, directly or through a variable."
 order: 109
-sources: ["cli/internal/sast/rules/vnx-94.rego", "cli/website/content/docs/sast-rules/vnx-94.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-94.rego", "cli/internal/sast/docs/vnx-94.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

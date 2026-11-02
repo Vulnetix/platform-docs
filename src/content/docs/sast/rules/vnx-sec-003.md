@@ -3,9 +3,9 @@ title: "VNX-SEC-003: AWS secret access key"
 nav: "VNX-SEC-003"
 description: "Reports a hard-coded, high-entropy 40-character AWS secret access key assigned to an AWS secret-key name, a Terraform AWS secret_key, Go's NewStaticCredentials, or an SDK credentials constructor (Java, .NET, Ruby, PHP), excluding the documented example key, placeholders, hex digests, environment references and test files."
 order: 897
-sources: ["cli/internal/sast/rules/vnx-sec-003.rego", "cli/website/content/docs/sast-rules/vnx-sec-003.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-003.rego", "cli/internal/sast/docs/vnx-sec-003.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

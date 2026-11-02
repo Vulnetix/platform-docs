@@ -3,9 +3,9 @@ title: "VNX-PY-022: SQL injection via joined SQL pieces in Python"
 nav: "VNX-PY-022"
 description: "Reports SQL assembled by joining a list of pieces, one of them built from a variable, and passed to execute(), executemany(), executescript(), Django objects.raw() or pandas read_sql(). SQL built in one expression is reported by VNX-PY-011."
 order: 876
-sources: ["cli/internal/sast/rules/vnx-py-022.rego", "cli/website/content/docs/sast-rules/vnx-py-022.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-py-022.rego", "cli/internal/sast/docs/vnx-py-022.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

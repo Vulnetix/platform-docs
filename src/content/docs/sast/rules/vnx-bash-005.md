@@ -3,9 +3,9 @@ title: "VNX-BASH-005: Hardcoded secret or password in shell script"
 nav: "VNX-BASH-005"
 description: "Reports a literal credential in a shell script or .env file: an assignment or command-prefix assignment to a PASSWORD/SECRET/TOKEN/API_KEY-style name, a literal Authorization/X-Api-Key header token, a literal after a credential flag (--password, mysql -p, sshpass -p, curl -u, docker login -p, redis-cli -a), or a user:password pair in a connection URL. Placeholders, runtime references and single-word local defaults are not reported."
 order: 666
-sources: ["cli/internal/sast/rules/vnx-bash-005.rego", "cli/website/content/docs/sast-rules/vnx-bash-005.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-bash-005.rego", "cli/internal/sast/docs/vnx-bash-005.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-C-004: Use-after-free: pointer used after free()"
 nav: "VNX-C-004"
 description: "Reports a C, C++ or Objective-C pointer used after free(), g_free, kfree, OPENSSL_free or delete: a dereference, a call that takes it or a return of it within 15 lines on the same path, before it is reassigned and before the path leaves, plus a for loop that advances through the pointer its body frees. Nulled or reassigned pointers, comparisons, other branches, saved next pointers, macros and comments are not reported."
 order: 672
-sources: ["cli/internal/sast/rules/vnx-c-004.rego", "cli/website/content/docs/sast-rules/vnx-c-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-c-004.rego", "cli/internal/sast/docs/vnx-c-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

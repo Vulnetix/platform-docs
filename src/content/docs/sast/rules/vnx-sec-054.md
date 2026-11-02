@@ -3,9 +3,9 @@ title: "VNX-SEC-054: Datadog API / APP key"
 nav: "VNX-SEC-054"
 description: "Reports a Datadog API key (32 hex) or application key (40 hex) assigned to a Datadog key name, or to a generic api_key/app_key/apiKeyAuth (including map entries and the Go client Key wrapper) in Datadog configuration; bare hex strings, the public RUM client token and variable references are not reported."
 order: 948
-sources: ["cli/internal/sast/rules/vnx-sec-054.rego", "cli/website/content/docs/sast-rules/vnx-sec-054.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-054.rego", "cli/internal/sast/docs/vnx-sec-054.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

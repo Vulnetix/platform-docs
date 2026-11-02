@@ -3,9 +3,9 @@ title: "VNX-RUBY-002: eval() or system() in Ruby"
 nav: "VNX-RUBY-002"
 description: "Reports eval/instance_eval/class_eval/module_eval and shell-string system, exec, spawn, Kernel#open, IO.popen, backticks and %x() when request input reaches them directly or through a nearby variable, including system(\"sh\", \"-c\", cmd); other argument-list forms, escaped input and constant-table lookups are not reported."
 order: 878
-sources: ["cli/internal/sast/rules/vnx-ruby-002.rego", "cli/website/content/docs/sast-rules/vnx-ruby-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-ruby-002.rego", "cli/internal/sast/docs/vnx-ruby-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

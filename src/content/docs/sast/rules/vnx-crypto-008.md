@@ -3,9 +3,9 @@ title: "VNX-CRYPTO-008: Timing attack via direct comparison of secrets"
 nav: "VNX-CRYPTO-008"
 description: "Reports a MAC, signature, digest or secret token checked with ordinary equality (==, !=, ===, !==, Java equals/Arrays.equals, Go bytes.Equal) in Python, Node.js, Go, Java, PHP and Ruby, any equality on a line that computes an HMAC, and a hand-written byte loop with an early return in MAC or signature code, when the comparison verifies a supplied value (a request input, a handler parameter, a verify-named function or a value hashed just above). Comparisons where neither side is supplied, presence checks, constants, lexer token kinds, hash-named values and constant-time APIs are not reported."
 order: 682
-sources: ["cli/internal/sast/rules/vnx-crypto-008.rego", "cli/website/content/docs/sast-rules/vnx-crypto-008.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-crypto-008.rego", "cli/internal/sast/docs/vnx-crypto-008.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

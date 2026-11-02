@@ -3,9 +3,9 @@ title: "VNX-PHP-004: PHP open redirect"
 nav: "VNX-PHP-004"
 description: "Detect header('Location: ...') and Refresh headers, wp_redirect() and PSR-7 withHeader('Location') whose destination is decided by a request value, enabling open redirects. Framework redirect helpers are reported by VNX-PHP-022."
 order: 832
-sources: ["cli/internal/sast/rules/vnx-php-004.rego", "cli/website/content/docs/sast-rules/vnx-php-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-004.rego", "cli/internal/sast/docs/vnx-php-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

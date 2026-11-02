@@ -3,9 +3,9 @@ title: "VNX-PHP-002: Dangerous function in PHP"
 nav: "VNX-PHP-002"
 description: "Detect a request value ($_GET, $_POST, $_COOKIE, php://input, Laravel request accessors) reaching exec(), system(), passthru(), shell_exec(), popen(), proc_open(), pcntl_exec(), the backtick operator or eval() without escapeshellarg() or validation."
 order: 830
-sources: ["cli/internal/sast/rules/vnx-php-002.rego", "cli/website/content/docs/sast-rules/vnx-php-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-php-002.rego", "cli/internal/sast/docs/vnx-php-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

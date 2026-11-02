@@ -3,7 +3,7 @@ title: GitHub Actions
 description: The Vulnetix/cli action's inputs, outputs and tasks, and complete workflows for scanning with gates, code scanning upload, parallel scanners, posture checks and release artifacts.
 order: 2
 sources: [cli/action.yml, cli/cmd/gha.go, cli/cmd/upload.go, cli/cmd/gha_submit.go, cli/cmd/scan_report.go, cli/install.sh]
-checked: [cli@24498404a]
+checked: [cli@d01f1dbe3]
 updated: 02 Nov 2026
 ---
 
@@ -12,7 +12,7 @@ There are two ways to run the CLI in a workflow:
 | Approach | Use it for |
 |---|---|
 | The install script in a `run:` step | Any command: `scan`, `sca`, `sast`, `analyze`, `gha audit`, ... |
-| The action, `uses: Vulnetix/cli@<ref>` | Four fixed tasks: `info`, `upload`, `gha`, `tea-release` |
+| The action, `uses: Vulnetix/cli@<ref>` | Six fixed tasks: `info`, `upload`, `gha`, `tea-release`, `config-plan`, `config-apply` |
 
 Both install the released binary; neither needs a Go toolchain.
 
@@ -24,6 +24,7 @@ Add under **Settings > Secrets and variables > Actions**:
 |---|---|
 | `VULNETIX_ORG_ID` | Organisation UUID |
 | `VULNETIX_API_KEY` | ApiKey |
+| `VULNETIX_CONFIG_TOKEN` | Config management token (`vmt_...`), only for `config-plan` and `config-apply` |
 
 ## Scan with a gate
 
@@ -181,7 +182,7 @@ The action installs the CLI with the install script into `$HOME/bin`, then, when
 | `org-id` | Yes | | all | Organisation UUID |
 | `api-key` | No | | all | ApiKey. When set, the action logs in and verifies before the task. |
 | `version` | No | `latest` | all | CLI release to install, e.g. `v3.154.0` (a `v` is added if missing) |
-| `task` | No | `info` | | `info`, `upload`, `gha` or `tea-release` |
+| `task` | No | `info` | | `info`, `upload`, `gha`, `tea-release`, `config-plan` or `config-apply` |
 | `upload-file` | With `upload` | | `upload` | Report to publish |
 | `upload-format` | No | detected | `upload` | `cyclonedx`, `spdx`, `sarif`, `openvex`, `csaf_vex` |
 | `tea-files` | With `tea-release` | | `tea-release` | Files to publish, one path or glob per line |
@@ -192,6 +193,11 @@ The action installs the CLI with the install script into `$HOME/bin`, then, when
 | `tea-pre-release` | No | `false` | `tea-release` | Mark as a pre-release |
 | `tea-visibility` | No | private | `tea-release` | `private`, `shared` or `public`. Public cannot be undone. |
 | `tea-dry-run` | No | `false` | `tea-release` | Print what would be published, publish nothing |
+| `config-token` | For `config-*` | | `config-plan`, `config-apply` | Config management token. Passed to the CLI as `VULNETIX_CONFIG_TOKEN`, never on the command line. |
+| `config-path` | No | `.vulnetix/config` | `config-plan`, `config-apply` | Documents, one file or directory per line |
+| `config-manager` | No | `gitops:<owner/repo>` | `config-plan`, `config-apply` | Manager the documents are declared by |
+| `config-prune` | No | `false` | `config-plan`, `config-apply` | Delete objects this manager owns that the documents no longer declare |
+| `github-token` | No | `github.token` | `config-plan` | Token used to comment the plan on a pull request. Needs `pull-requests: write`. |
 
 ### Tasks
 
@@ -201,6 +207,8 @@ The action installs the CLI with the install script into `$HOME/bin`, then, when
 | `upload` | `vulnetix upload --file <upload-file> --org-id <org-id> --json [--format <upload-format>]` |
 | `gha` | `vulnetix gha upload --org-id <org-id> --json`. Needs `GITHUB_TOKEN` in the step's `env` and `actions: read`. |
 | `tea-release` | `vulnetix tea release <files> [--product] [--purl] [--version] [--date] [--visibility] [--pre-release] [--dry-run]`. Needs a Pro plan. |
+| `config-plan` | `vulnetix config plan -o json [-f <config-path>]... [--manager] [--prune]`, then writes the plan to the job summary and, on `pull_request`, to a PR comment |
+| `config-apply` | `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--prune]`, with its output in the job summary |
 
 ```yaml
       - uses: Vulnetix/cli@v3.154.0
@@ -216,12 +224,49 @@ The action installs the CLI with the install script into `$HOME/bin`, then, when
 
 | Output | Value |
 |---|---|
-| `result` | `success` when the task step completed |
-| `summary` | A fixed sentence per task |
+| `result` | `success` when the task step completed. For `config-plan` and `config-apply`: `success`, `blocked` (exit 3) or `failure`. |
+| `summary` | A fixed sentence per task. For `config-plan`, the plan's counts: `0 to create, 1 to update, 0 to delete, 0 unchanged`. |
 | `upload-uuid` | Meant to be the uploaded report's ID (`task: upload`). |
 
 > [!CAREFUL] upload-uuid is always empty
 > The action reads `.pipelineRecord.uuid` from `vulnetix upload --json`, which now prints `snapshotUuid` and `pipelineId` instead, so the output is never set. Read the snapshot from the step log, or run `vulnetix upload --json` in a `run:` step and parse `snapshotUuid` yourself.
+
+### config-plan and config-apply
+
+Plan on pull requests, apply on the default branch:
+
+```yaml
+on:
+  pull_request:
+    paths: ['.vulnetix/config/**']
+  push:
+    branches: [main]
+    paths: ['.vulnetix/config/**']
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: Vulnetix/cli@v4.0.0
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
+          task: ${{ github.event_name == 'pull_request' && 'config-plan' || 'config-apply' }}
+```
+
+`config-plan`:
+
+- The job summary gets the plan as a table: one row per object with its action, `(adopt)` or `(drift)`, and the field changes, then any blocking conditions and warnings, then the counts.
+- On `pull_request`, the same text goes to one PR comment, found by a hidden `<!-- vulnetix-config-plan -->` marker and updated on each push rather than added again. A fork's read-only token cannot comment; that is a warning, and the summary still has the plan.
+- The step fails with the CLI's exit code: 3 when the plan has blocking conditions. The summary and the comment are written first.
+
+`config-apply` runs `vulnetix config apply --auto-approve`. Each run plans again and applies only that fresh plan, so a push that races another push fails with a 409 rather than applying something nobody planned. Its exit codes are those of [apply](/platform-iac/cli/apply/#exit-codes).
+
+`--manager` defaults to `gitops:<owner/repo>` from `GITHUB_REPOSITORY`, lowercased. `api-key` is not needed for these tasks; the token is read only from the environment. Both tasks need `jq` on the runner, as `upload` does.
 
 ### The action stores a project credential
 
@@ -235,6 +280,7 @@ With `api-key`, the action runs `vulnetix auth login --api-key ... --store proje
 | `security-events: write` | `github/codeql-action/upload-sarif` |
 | `actions: read` | `gha upload` and the action's `gha` task, to list the run's artifacts |
 | `pull-requests: read`, `issues: read` | `analyze` |
+| `pull-requests: write` | The action's `config-plan` task, to comment the plan |
 | `contents: write` | `gh release upload`, in its own job |
 
 ## Troubleshooting

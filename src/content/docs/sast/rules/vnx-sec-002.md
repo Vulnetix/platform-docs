@@ -3,9 +3,9 @@ title: "VNX-SEC-002: Private key committed"
 nav: "VNX-SEC-002"
 description: "Reports a committed PEM private key (RSA, EC, DSA, OpenSSH or PKCS#8) whose armour line is followed by real base64 key material, excluding code that builds or strips the armour, placeholders, public keys, prose examples and test certificates."
 order: 896
-sources: ["cli/internal/sast/rules/vnx-sec-002.rego", "cli/website/content/docs/sast-rules/vnx-sec-002.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-002.rego", "cli/internal/sast/docs/vnx-sec-002.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

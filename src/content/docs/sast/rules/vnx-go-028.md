@@ -3,9 +3,9 @@ title: "VNX-GO-028: Use of weak cryptographic hash for password hashing"
 nav: "VNX-GO-028"
 description: "Detects a password hashed with a fast unsalted digest (md5, sha1, sha256, sha512 Sum or a hasher written with it, an MD5/SHA helper, or a digest stored in a password-named field) instead of bcrypt, scrypt, Argon2id or PBKDF2."
 order: 730
-sources: ["cli/internal/sast/rules/vnx-go-028.rego", "cli/website/content/docs/sast-rules/vnx-go-028.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-028.rego", "cli/internal/sast/docs/vnx-go-028.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

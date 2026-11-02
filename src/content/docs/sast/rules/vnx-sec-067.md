@@ -3,9 +3,9 @@ title: "VNX-SEC-067: Curl command with embedded credentials"
 nav: "VNX-SEC-067"
 description: "Detects curl invocations that pass a literal user:password (or an API key as the user) with -u/--user."
 order: 961
-sources: ["cli/internal/sast/rules/vnx-sec-067.rego", "cli/website/content/docs/sast-rules/vnx-sec-067.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-sec-067.rego", "cli/internal/sast/docs/vnx-sec-067.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

@@ -3,9 +3,9 @@ title: "VNX-CRYPTO-004: Broken or obsolete cipher"
 nav: "VNX-CRYPTO-004"
 description: "Reports construction of DES, Triple DES, RC4, RC2, Blowfish, CAST5 or IDEA ciphers in Python, Node.js, Go, Java, Ruby and PHP (PyCryptodome/cryptography, createCipheriv names, crypto/des and crypto/rc4, Cipher.getInstance transformations and SecretKeySpec algorithms, OpenSSL::Cipher, openssl_encrypt and mcrypt). TLS cipher-suite deny-lists, names in lists or comparisons, block-size constants, lookalike names, comments, strings and test files are not reported."
 order: 678
-sources: ["cli/internal/sast/rules/vnx-crypto-004.rego", "cli/website/content/docs/sast-rules/vnx-crypto-004.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-crypto-004.rego", "cli/internal/sast/docs/vnx-crypto-004.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 

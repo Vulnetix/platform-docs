@@ -3,9 +3,9 @@ title: "VNX-GO-005: Go open redirect"
 nav: "VNX-GO-005"
 description: "Reports http.Redirect, gin/echo/fiber Redirect and hand-written Location headers whose destination starts with a request value, directly, through a variable, or behind a prefix that does not pin the host (\"//\", \"https://\", a bare \"/\"). Fixed hosts or paths, validated destinations and configuration values are not reported."
 order: 707
-sources: ["cli/internal/sast/rules/vnx-go-005.rego", "cli/website/content/docs/sast-rules/vnx-go-005.md"]
-checked: ["cli@4c8c3b7"]
-updated: "01 Nov 2026"
+sources: ["cli/internal/sast/rules/vnx-go-005.rego", "cli/internal/sast/docs/vnx-go-005.md"]
+checked: ["cli@de9b52a"]
+updated: "02 Nov 2026"
 generated: true
 ---
 
