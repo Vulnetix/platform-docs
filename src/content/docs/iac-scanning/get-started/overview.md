@@ -70,6 +70,10 @@ Nix files (`flake.nix`, `flake.lock`) are detected as IaC manifests, but they on
 | Look up a flag | [Flags](/iac-scanning/reference/flags/) |
 | Feed SARIF to a code-scanning dashboard | [Output and exit codes](/iac-scanning/reference/output/) |
 
+## GitHub Actions
+
+Run it in a workflow with the [iac GitHub Action](/iac-scanning/github-actions/iac/): it uploads the findings to code scanning under the `vulnetix/iac/` category, keeps the files as an artifact and attests them.
+
 ## Platform IaC
 
 IaC scanning has no config-as-code document of its own today. Its pass or fail threshold can come from the organisation's quality gate, which you set with `vulnetix config set quality-gate` and validate offline as a `QualityGate` document (`apiVersion: vulnetix.com/v1`) with `vulnetix config validate`. Config-as-code for IaC scanning is planned and described on [Platform IaC](/platform-iac/).

@@ -40,7 +40,7 @@ curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --version v3.154.0
 | Option | Environment | Default | Meaning |
 |---|---|---|---|
 | `--install-dir <dir>` | `INSTALL_DIR` | `/usr/local/bin` | Where `vulnetix` is written. If the directory cannot be created or written, the script falls back to `$HOME/.local/bin` and says so. |
-| `--version <tag>` | `VERSION` | `latest` | A release tag such as `v3.154.0`. `latest` is resolved to the current tag before downloading. |
+| `--version <tag>` | `VERSION` | `latest` | A release tag such as `v3.154.0`, a major channel such as `v3` (the newest v3 release), or `latest`. Each is resolved to a concrete tag before downloading. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). |
 | `--help` | | | Print usage. |
 
 What the script does, in order:

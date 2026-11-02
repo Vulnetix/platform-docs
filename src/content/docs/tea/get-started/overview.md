@@ -57,6 +57,10 @@ Both answer through the same API, so a consumer cannot tell which half an object
 
 The TEA Explorer and publishing workspace are at `https://www.vulnetix.com/resolve/tea` and `https://www.vulnetix.com/resolve/tea/publish`. Publishing requires the Pro plan or above.
 
+## GitHub Actions
+
+Publish a release from a workflow with the [tea-release GitHub Action](/tea/github-actions/tea-release/).
+
 ## Platform IaC
 
 There is no config-as-code for TEA today: products, components, collections and access policies are created with `vulnetix tea` or the API. `TeaProduct`, `TeaComponent`, `TeaCollection`, `TeaAccessPolicy` and `TeaPublicationTarget` kinds are planned and are described on [Platform IaC](/platform-iac/). Releases and artifacts stay CI-published data.

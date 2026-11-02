@@ -70,7 +70,7 @@ The login succeeds. The last line names the store actually used. If a plaintext 
 `./.vulnetix/credentials.json`, read before the home file, so it overrides your own credential anywhere under that directory.
 
 > [!CAREFUL] The project file sits in your working tree
-> It can be committed, copied by `COPY . .` into an image, uploaded as a CI artifact or archived into a release. Add `.vulnetix/credentials.json` to `.gitignore` and `.dockerignore` before creating one. The GitHub Action writes one when you give it `api-key`; see [GitHub Actions](/cli/ci-cd/github-actions/#the-action-stores-a-project-credential).
+> It can be committed, copied by `COPY . .` into an image, uploaded as a CI artifact or archived into a release. Add `.vulnetix/credentials.json` to `.gitignore` and `.dockerignore` before creating one. The GitHub Actions do not write one: they pass `api-key` and `api-token` to the CLI as environment variables (see [Credentials](/cli/ci-cd/github-actions/#credentials)). Releases before v3.159.0 did.
 
 ## Custom directory
 

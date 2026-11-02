@@ -4,8 +4,8 @@ nav: "Overview"
 description: "What every pipeline needs, on any CI system: installing the CLI, credentials, choosing commands and outputs, gating, exit codes and publishing other tools' reports."
 order: 1
 sources: [cli/install.sh, cli/action.yml, cli/cmd/scan.go, cli/cmd/upload.go, cli/cmd/gha.go, cli/internal/config/config.go, cli/internal/scanopts/failon.go, cli/cmd/exit_codes.go, cli/Dockerfile]
-checked: [cli@24498404a]
-updated: 02 Nov 2026
+checked: [cli@3e6fd831d]
+updated: 03 Nov 2026
 ---
 
 Every platform page assumes this page. The pattern is the same everywhere: install the binary, give the job two environment variables, verify, scan with a gate, keep the files.
@@ -27,7 +27,7 @@ The install script needs `sh`, `curl` or `wget`, and CA certificates. It verifie
 | Debian, Ubuntu slim | `apt-get update && apt-get install -y --no-install-recommends curl ca-certificates` |
 | UBI, Fedora | `microdnf install -y curl` or `dnf install -y curl` |
 
-Pin a release for reproducible pipelines (`--version v3.154.0`), or leave it unpinned to get fixes without editing pipelines. There is no published Vulnetix CLI container image: install into your build image, or bake an image of your own once (see [Containers](/cli/ci-cd/containers/)).
+Pin a release for reproducible pipelines (`--version v3.164.1`), take the newest release of a major with a channel (`--version v3`), or leave it unpinned to get fixes without editing pipelines. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). There is no published Vulnetix CLI container image: install into your build image, or bake an image of your own once (see [Containers](/cli/ci-cd/containers/)).
 
 ## Credentials
 
@@ -97,11 +97,26 @@ The CLI detects GitHub Actions, GitLab CI, Azure Pipelines, Bitbucket Pipelines 
 
 The CLI uses Go's standard proxy handling: `HTTPS_PROXY`, `HTTP_PROXY` and `NO_PROXY`. A TLS-intercepting proxy's CA must be in the system trust store of the image.
 
+## GitHub Actions: one action per command
+
+On GitHub, each command has a composite action, `uses: Vulnetix/cli/<name>@v3`. It installs the CLI, runs the command, and can publish to code scanning and the dependency graph, upload the files it wrote as an artifact, attest them and attach them to a release. Credentials are passed as environment variables only.
+
+| Action | Page |
+|---|---|
+| `setup`, `analyze`, `upload`, `gha-upload`, `github-publish` | [setup](/cli/github-actions/setup/), [analyze](/cli/github-actions/analyze/), [upload](/cli/github-actions/upload/), [gha-upload](/cli/github-actions/gha-upload/), [github-publish](/cli/github-actions/github-publish/) |
+| `sca`, `containers`, `license` | [sca](/sca/github-actions/sca/), [containers](/sca/github-actions/containers/), [license](/sca/github-actions/license/) |
+| `sast`, `secrets`, `iac`, `malscan` | [sast](/sast/github-actions/sast/), [secrets](/secrets/github-actions/secrets/), [iac](/iac-scanning/github-actions/iac/), [malscan](/malware/github-actions/malscan/) |
+| `sbom`, `cbom`, `aibom` | [sbom](/sbom/github-actions/sbom/), [cbom](/sbom/github-actions/cbom/), [aibom](/sbom/github-actions/aibom/) |
+| `vex`, `attest`, `jail`, `tea-release` | [vex](/vex/github-actions/vex/), [attest](/attestation/github-actions/attest/), [jail](/quality-gates/github-actions/jail/), [tea-release](/tea/github-actions/tea-release/) |
+| `config-plan`, `config-apply` | [config-plan](/platform-iac/github-actions/config-plan/), [config-apply](/platform-iac/github-actions/config-apply/) |
+
+The files the CLI writes are listed in an [artifact manifest](/cli/reference/artifact-manifest/) and the SARIF is described in the [SARIF reference](/cli/reference/sarif/).
+
 ## Platform pages
 
 | Platform | Page |
 |---|---|
-| GitHub Actions | [GitHub Actions](/cli/ci-cd/github-actions/), [gha upload and status](/cli/ci-cd/gha-command/), [Third-party scanners](/cli/ci-cd/third-party-scanners/) |
+| GitHub Actions | [GitHub Actions](/cli/ci-cd/github-actions/), [an action for each command](#github-actions-one-action-per-command), [gha publish](/cli/commands/gha-publish/), [gha upload and status](/cli/ci-cd/gha-command/), [Third-party scanners](/cli/ci-cd/third-party-scanners/), [Versions and channels](/cli/ci-cd/versions-and-channels/) |
 | GitLab CI/CD | [GitLab CI](/cli/ci-cd/gitlab-ci/) |
 | Bitbucket Pipelines | [Bitbucket](/cli/ci-cd/bitbucket/) |
 | Azure Pipelines | [Azure DevOps](/cli/ci-cd/azure-devops/) |

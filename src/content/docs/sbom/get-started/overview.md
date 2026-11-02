@@ -63,6 +63,10 @@ Every document the CLI writes names itself in `metadata.tools` and names the org
 - [TEA](/tea/) publishes SBOMs and VEX for a release.
 - [SCA](/sca/) scans the same inventory for vulnerabilities.
 
+## GitHub Actions
+
+Run the generators in a workflow with the [sbom](/sbom/github-actions/sbom/), [cbom](/sbom/github-actions/cbom/) and [aibom](/sbom/github-actions/aibom/) GitHub Actions. The sbom action can sign the SBOM, submit it to the GitHub dependency graph, attest it and attach it to a release.
+
 ## Platform IaC
 
 There is no config-as-code for SBOM generation today: every option is a command-line flag. Config-as-code for this product is planned and is described on [Platform IaC](/platform-iac/).

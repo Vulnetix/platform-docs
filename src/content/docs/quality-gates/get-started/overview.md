@@ -41,6 +41,10 @@ A repository is jailed when it breaches a policy rule over its accumulated state
 
 The Package Firewall is a third enforcement point, at install time rather than scan time; see [Package Firewall](/package-firewall/).
 
+## GitHub Actions
+
+Run the Jail gate in a workflow with the [jail GitHub Action](/quality-gates/github-actions/jail/).
+
 ## Platform IaC
 
 The Quality Gate has a released config kind. [`QualityGate.schema.json` v1.0.1](https://github.com/Vulnetix/config-schemas/releases/download/v1.0.1/QualityGate.schema.json) describes a `kind: QualityGate` document (`apiVersion: vulnetix.com/v1`), and `vulnetix config validate` checks such documents offline in `.vulnetix/config`. Applying a document to the organization is not available yet: today you set the gate imperatively with `vulnetix config set quality-gate` and `vulnetix config set eol-policy`. The field reference is at [QualityGate](/platform-iac/kinds/quality-gate/).

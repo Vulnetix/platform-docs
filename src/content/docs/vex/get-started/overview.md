@@ -52,6 +52,10 @@ When a command is authenticated, the VEX it read or wrote is sent to `POST /v2/c
 
 Pulling VEX from a TEA server, an S3 bucket, a git repository or a URL as a standing source of suppression rules is planned. See [VEX as suppression rules (planned)](/vex/suppression/vex-sources-planned/).
 
+## GitHub Actions
+
+Validate, list, merge or apply VEX documents in a workflow with the [vex GitHub Action](/vex/github-actions/vex/).
+
 ## Platform IaC
 
 There is no config-as-code for VEX or suppression rules today. Rules live in `.vulnetix/memory.yaml` and the Vulnetix backend, and are managed with `vulnetix ignore` and the console. A `Suppression` kind and a `VexSource` kind are planned and are described on [Platform IaC](/platform-iac/).

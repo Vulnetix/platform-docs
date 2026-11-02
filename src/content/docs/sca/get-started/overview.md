@@ -60,6 +60,10 @@ Paths are relative to the git root of `--path` when it is a repository.
 - [Gates and exit codes](/sca/gates/fail-on/): how `--fail-on` and the org [quality gate](/quality-gates/) decide the exit code.
 - [Console findings](/sca/console/resolve/): what an uploaded scan becomes in Resolve.
 
+## GitHub Actions
+
+Run it in a workflow with the [sca](/sca/github-actions/sca/), [containers](/sca/github-actions/containers/) and [license](/sca/github-actions/license/) GitHub Actions. They publish `sca.sarif` and `license.sarif` to code scanning, upload the files as an artifact and attest them.
+
 ## Platform IaC
 
 SCA has no config-as-code document of its own today. Its thresholds come from the organisation's quality gate, which you can set from the CLI with `vulnetix config set quality-gate` and validate offline as a `QualityGate` document (`apiVersion: vulnetix.com/v1`) with `vulnetix config validate`. The `LicensePolicy` and `LicenseExceptions` files that `vulnetix license` reads are local files, not published schemas. Wider config-as-code for SCA is planned and described on [Platform IaC](/platform-iac/).

@@ -58,6 +58,10 @@ Nothing, unless you are authenticated. When you are, the CLI posts one SARIF sub
 - [IaC scanning](/iac-scanning/) runs the rules of kind `iac`. `VNX-TF-008` (AWS keys in Terraform) is a secrets rule and runs here, not there.
 - [Malware](/malware/) inspects installed dependencies, which this command skips.
 
+## GitHub Actions
+
+Run it in a workflow with the [secrets GitHub Action](/secrets/github-actions/secrets/): it uploads the findings to code scanning under the `vulnetix/secrets/` category, keeps the files as an artifact and attests them.
+
 ## Platform IaC
 
 Secret detection has no config-as-code document today. Its pass or fail threshold can come from the organisation's quality gate, which you set with `vulnetix config set quality-gate` and validate offline as a `QualityGate` document (`apiVersion: vulnetix.com/v1`) with `vulnetix config validate`. Config-as-code for secret detection itself is planned and described on [Platform IaC](/platform-iac/).

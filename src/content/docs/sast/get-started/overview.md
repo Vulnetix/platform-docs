@@ -68,6 +68,10 @@ Signed in, the run also uploads the findings as a SAST snapshot in the Vulnetix 
 | [Output formats](/sast/reference/output-formats/) | SARIF fields, JSON report, the upload. |
 | [Rules index](/sast/rules/) | Every built-in rule, filterable. |
 
+## GitHub Actions
+
+Run it in a workflow with the [sast GitHub Action](/sast/github-actions/sast/): it uploads `sast.sarif` to code scanning, keeps the files as an artifact and attests them.
+
 ## Platform IaC
 
 SAST has no config-as-code today: rule selection, packs and gates are command-line flags. The scan gate can come from the organisation's quality gate, which is a `QualityGate` document checked by `vulnetix config validate` and set with `vulnetix config set quality-gate` (see [/quality-gates/](/quality-gates/)). Config-as-code for SAST rule packs and suppressions is planned and is described on [/platform-iac/](/platform-iac/).
