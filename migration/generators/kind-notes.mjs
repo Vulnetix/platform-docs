@@ -13,7 +13,7 @@
 export const GROUPS = [
   ['Org', 'Who the organization is, who is in it, and how it is told things.', ['Organization', 'Member', 'ServiceAccount', 'NotificationDefaults']],
   ['Vault', 'Secrets the organization keeps for its other settings.', ['VaultEntry']],
-  ['Integrations', 'Connections to GitHub, other forges, messaging services and Wiz.', ['GitHubInstallation', 'ForgeConnection', 'MessagingConnection', 'MessagingRoute', 'MessagingTemplate', 'WizConnection']],
+  ['Integrations', 'Connections to GitHub, other forges, messaging services, Wiz and your own package and container registries.', ['GitHubInstallation', 'ForgeConnection', 'MessagingConnection', 'MessagingRoute', 'MessagingTemplate', 'WizConnection', 'RegistryConnection']],
   ['Repo scope', 'Which organizations and repositories the Software Factory works on, and how.', ['FactoryManagedOrg', 'RepositorySettings']],
   ['Scanners and gates', 'What a scan must pass, and what it checks.', ['QualityGate', 'JailPolicy', 'JailExemption', 'LicensePolicy', 'LicenseExceptions', 'ScannerProfile']],
   ['Prioritisation', 'How open findings are ranked, how the CISA SSVC decision is made, and how fast findings must be fixed.', ['RiskStrategy', 'RemediationPolicy', 'SsvcPolicy']],
@@ -36,7 +36,6 @@ export const GROUPS = [
 // Catalogue kinds with no schema yet. They appear on the catalogue page only.
 export const PLANNED = [
   { kind: 'ComplianceTarget', group: 'Compliance', note: 'SLSA level, SSDF, crypto policy and AI Act targets. Needs the product feature first.' },
-  { kind: 'RegistryConnection', group: 'Integrations', note: 'OCI, npm and PyPI registry credentials for scanning. Needs a backend first.' },
 ];
 
 // ── Who acts on a kind ──────────────────────────────────────────────────────
@@ -571,6 +570,22 @@ Adopt only, by \`spec.installationId\`. The Vulnetix GitHub App is installed on 
     after: `## How apply treats it
 
 The console's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a \`valueFrom\` secret, kept as the console keeps it. GitHub.com is refused: use [\`GitHubInstallation\`](/platform-iac/kinds/github-installation/).`,
+  },
+
+  RegistryConnection: {
+    sources: ['vdb-site/api/internal/config/registryconnection.go', 'vdb-site/api/internal/handler/config_scanregistry_store.go', 'vdb-site/api/internal/handler/scan_registries.go', 'vdb-site/api/internal/scanregistry/scanregistry.go', 'vdb-site/docs/scan-registries.md', 'saas/prisma/migrations/20261228020000_scan_registry_connection/migration.sql'],
+    after: `## How apply treats it
+
+- A connection is a \`ScanRegistryConnection\` row, unique by \`metadata.name\`. It is not the Integrations page's paid container registry login, which the crawler uses.
+- The credential is \`spec.secret\`, a \`valueFrom\` the client reads and sends once. It is stored in the secrets vault as a connector entry and referenced from the row, never kept in the table, exported or shown in a plan. Left out on a later apply, the stored credential is kept.
+- A new or changed credential, URL or username is checked with the registry first, and a login the registry refuses is stored by neither the console nor the engine. The check is made with a client that dials public addresses only.
+- The URL and scope read back canonical: an OCI host lower-cased, the other registries \`https\` with a lower-case host and a trailing slash, the scope sorted without repeats.
+- Each vault write registers its undo: a created entry is revoked, a rotated one is put back, a deleted one is restored. Deleting the document revokes the credential.
+- It needs the registry credentials plan feature and saas migration \`20261228020000_scan_registry_connection\`. Until it runs, plan refuses a document, naming the migration.
+
+## How a scan uses it
+
+A processor asks Vulnetix for the credential of the connection that serves a package, giving the organization, the ecosystem, the registry host and the package or repository name. The connection chosen is an enabled one for that host whose scope serves the name, the most specific scope first. The vault read is recorded in the vault activity log. The processors that would call this are not wired to it yet; the integration points are in the [private registries guide](/organization/integrations/private-registries/).`,
   },
 
   WizConnection: {
