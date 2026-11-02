@@ -4,7 +4,7 @@ nav: Repository files
 description: What the Pix hooks, skills and subagents read and write under .vulnetix/, with the memory.yaml and capabilities.yaml schemas as the CLI defines them.
 order: 1
 sources: [cli/internal/memory/memory.go, cli/internal/agent/capabilities.go, cli/internal/agent/policy.go, cli/cmd/agent.go, pix-ai-coding-assistant/skills/*/SKILL.md, pix-ai-coding-assistant/skills/fix/references/memory-yaml-schema.md, pix-ai-coding-assistant/vulnetix/agents/*.md]
-checked: [cli@4c8c3b7, pix-ai-coding-assistant@7aebf02]
+checked: [cli@0b41bb394, pix-ai-coding-assistant@de11107]
 updated: 02 Nov 2026
 ---
 
@@ -83,6 +83,49 @@ The CLI defines this file (`cli/internal/memory`). Top-level keys:
 
 > [!CAREFUL] The CLI rewrites memory.yaml with only these keys
 > Each `vulnetix scan` loads the file into this structure and writes it back, so a key outside it is dropped. Two skills, `fix` and `dashboard`, still follow an older plugin schema with `schema_version`, `manifests:` and a `vulnerabilities:` list; what they write there does not survive the next scan, and `dashboard` reads those sections. A file that does not parse is replaced by an empty one on the next write, without warning. Keep a copy before editing it by hand.
+
+### A finding with a decision
+
+```yaml
+version: "1"
+findings:
+  CVE-2021-44228:
+    aliases: [GHSA-jfh8-c2jp-5v3q]
+    package: log4j-core
+    ecosystem: maven
+    tool: sca
+    severity: critical
+    status: fixed
+    versions:
+      current: "2.14.1"
+      fixed_in: "2.17.1"
+    decision:
+      choice: fix-applied
+      reason: "Upgraded to 2.17.1 via version bump"   # free text, shown back to you and kept with the finding
+      date: "2026-11-02T01:00:00Z"
+      actor: alice
+    history:
+      - date: "2026-11-02T00:30:00Z"
+        event: discovered
+```
+
+`decision.reason` is the record a reviewer reads later: why this choice was made. Write it as a sentence a colleague would understand without the session.
+
+### The fix skill's older format
+
+The `fix` skill writes, and `dashboard` reads, sections from the older plugin schema. They are listed so you can recognise them; the CLI drops them on its next write (see the caution above).
+
+| Key | Holds |
+|---|---|
+| `schema_version: 1` | The older format's version marker, in place of `version` |
+| `manifests.<key>` | Per manifest: `path`, `ecosystem`, `last_scanned`, `sbom_generated`, `sbom_path`, `vuln_count`, `scan_source` (`hook`, `fix`, `exploits`, `package-search`). The key is the path with `/` replaced by `--`. |
+| `vulnerabilities.<id>` | The per-vulnerability record, with the same fields as `findings.<id>` plus the sections below |
+| `vulnerabilities.<id>.pocs[]` | Proof-of-concept sources from `vulnetix vdb exploits` (never run): `url`, `source`, `type`, `local_path`, `fetched_date`, `verified`, `analysis` |
+| `vulnerabilities.<id>.dependabot` | The matching Dependabot alert, read with `gh`: `alert_number`, `alert_state`, `alert_url`, `dismiss_reason`, `dismiss_comment`, `pr_number`, `pr_state`, `pr_url`, `pr_latest_comment`, `last_checked` |
+| `vulnerabilities.<id>.code_scanning` | CodeQL or other code scanning alerts matched to the vulnerability by CWE: `alerts[]` (`alert_number`, `state`, `rule_id`, `rule_name`, `severity`, `dismissed_reason`, `dismissed_comment`, `dismissed_by`, `file_path`, `start_line`, `url`), `tool`, `tool_version`, `last_checked` |
+| `vulnerabilities.<id>.secret_scanning` | GitHub secret scanning alerts: `alerts[]` (`alert_number`, `state`, `secret_type`, `secret_type_display`, `resolution`, `resolution_comment`, `resolved_by`, `validity`, `file_path`, `url`, `push_protection_bypassed`), `last_checked` |
+
+`fix` fills `dependabot`, `code_scanning` and `secret_scanning` only when `gh auth status` succeeds, and compares them with the previous run to report alerts whose state changed.
 
 ## capabilities.yaml
 

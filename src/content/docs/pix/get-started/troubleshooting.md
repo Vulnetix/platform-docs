@@ -3,7 +3,7 @@ title: Troubleshooting
 description: Why a hook says nothing, why skills do not appear, what a policy-file warning means, and how to tell which credential the guard runs on.
 order: 3
 sources: [cli/cmd/agent.go, cli/internal/agent/run.go, cli/internal/agent/policy.go, cli/internal/agent/lookup.go, cli/internal/agent/changeguard.go, cli/internal/agent/hosts.go, pix-ai-coding-assistant/README.md]
-checked: [cli@4c8c3b7, pix-ai-coding-assistant@7aebf02]
+checked: [cli@0b41bb394, pix-ai-coding-assistant@de11107]
 updated: 02 Nov 2026
 ---
 
@@ -68,8 +68,41 @@ It reads at most 400 files or 8 MB of a change, inside an 8-second budget. A lar
 vulnetix auth status
 ```
 
+To check the API as well as the credential, run `vulnetix vdb status` (add `-o json` for a machine-readable report). It prints the CLI version, the API's `/health` result and the authentication method, organisation and whether the credential verified.
+
 On the shared Community tier, reads work, the daily limit is shared with every other anonymous caller, and scans store no server-side snapshot. Get your own key at `https://www.vulnetix.com/resolve/register`, then `vulnetix auth login`.
 
 ## The session summary is stale or missing
 
 `session-context` reads the last scan recorded in `.vulnetix/memory.yaml`; it does not scan. Run `vulnetix scan` to refresh it; a scan run with `--disable-memory` does not update it. With no scan on record, the session starts with `Vulnetix: no scan on record for this repository.` and a prompt that names a CVE gets no answer.
+
+## memory.yaml problems
+
+Skills and the session summary read `.vulnetix/memory.yaml`. When decisions do not persist between sessions, or a skill reports it cannot read the file:
+
+```bash
+ls -la .vulnetix/memory.yaml     # it exists and you can read and write it
+head -5 .vulnetix/memory.yaml    # what wrote it last
+```
+
+| First lines | Meaning |
+|---|---|
+| `version: "1"` | Written by the CLI (`vulnetix scan`, triage). This is the current format. |
+| `schema_version: 1` with `manifests:` or `vulnerabilities:` | Written by the `fix` skill in the older plugin format. The next `vulnetix scan` keeps only the CLI's keys; see [Repository files](/pix/reference/repository-files/#the-fix-skills-older-format). |
+| No file | Nothing has written it yet. Run `vulnetix scan` to create it. |
+
+| Problem | Fix |
+|---|---|
+| A `.vulnetix-memory.yaml` at the repository root from an old plugin release | Nothing reads or migrates it now. Move it to `.vulnetix/memory.yaml` if you want to keep its contents, then run `vulnetix scan`. |
+| The file does not parse | The CLI does not report this: it starts from an empty file and overwrites the broken one on its next write, losing earlier decisions. Back it up and fix the YAML before running another scan. |
+| A decision you recorded is gone after a scan | It was written under a key outside the CLI's schema (see the first table) |
+
+## Skill commands do nothing
+
+In the Claude Code plugin, a skill is named with a colon between the plugin and the skill:
+
+```
+/vulnetix:fix CVE-2021-44228
+```
+
+`/vulnetix fix CVE-2021-44228`, with a space, is not recognised and does nothing.
