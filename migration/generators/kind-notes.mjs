@@ -16,7 +16,7 @@ export const GROUPS = [
   ['Integrations', 'Connections to GitHub, other forges, messaging services and Wiz.', ['GitHubInstallation', 'ForgeConnection', 'MessagingConnection', 'MessagingRoute', 'MessagingTemplate', 'WizConnection']],
   ['Repo scope', 'Which organizations and repositories the Software Factory works on, and how.', ['FactoryManagedOrg', 'RepositorySettings']],
   ['Scanners and gates', 'What a scan must pass, and what it checks.', ['QualityGate', 'JailPolicy', 'JailExemption', 'LicensePolicy', 'LicenseExceptions', 'ScannerProfile']],
-  ['Prioritisation', 'How open findings are ranked and how fast they must be fixed.', ['RiskStrategy', 'RemediationPolicy']],
+  ['Prioritisation', 'How open findings are ranked, how the CISA SSVC decision is made, and how fast findings must be fixed.', ['RiskStrategy', 'RemediationPolicy', 'SsvcPolicy']],
   ['Suppression', 'Findings that are known not to matter, and the VEX documents that say so.', ['Suppression', 'VexSource']],
   ['Campaigns', 'Time-boxed remediation work across repositories.', ['Campaign']],
   ['Package firewall', 'What the package firewall lets through.', ['PackageFirewallPolicy', 'PackageList']],
@@ -113,6 +113,10 @@ export const CEL_WHERE = {
   AiFirewallPolicy: {
     where: 'by the AI firewall gateway, for each request',
     fail: 'The rule is skipped, named in the decision\'s skipped list, and the gateway logs it.',
+  },
+  SsvcPolicy: {
+    where: 'by the SSVC decision in the Vulnetix site API, on every decision and summary (the summary covers at most 5000 open findings, most severe first, cached for 60 seconds)',
+    fail: 'The decision point takes its lower value and the decision is still made. An override that fails does not hold.',
   },
   DetectionRuleFeed: {
     where: 'by the Vulnetix site API at every publish of the feed, once for each candidate rule and CVE',
@@ -356,6 +360,33 @@ A named standard links the published policy row. Custom windows save a new row a
 - The justification (the OpenVEX vocabulary), the expiry and \`when\` (stored as \`expr\`) are stored on the suppression.
 - A rule owned by a VEX document or by a [\`VexSource\`](/platform-iac/kinds/vex-source/) cannot be changed or deleted through the engine.
 - \`when\` is evaluated by the suppression engine, after the rule's anchors have matched; see [where each \`when\` runs](/platform-iac/reference/cel/#where-each-expression-is-evaluated).`,
+  },
+
+  SsvcPolicy: {
+    sources: ['vdb-site/api/internal/config/ssvcpolicy.go', 'vdb-site/api/internal/handler/ssvc.go', 'vdb-site/docs/ssvc.md', 'config-schemas/ssvc/policy.go', 'config-schemas/ssvc/ssvc.go'],
+    after: `## How the decision is made
+
+Vulnetix makes the [CISA SSVC](https://www.cisa.gov/stakeholder-specific-vulnerability-categorization-ssvc) decision, Track, Track*, Attend or Act, for a finding from four decision points. The decision table is the CISA Coordinator table 2.0.3 (CERT/CC) and is fixed. This kind configures how Vulnetix's signals become the four values, which table cells the organization reads differently, which findings it decides by rule, and what each outcome asks of it.
+
+| Decision point | Values | Default |
+|---|---|---|
+| Exploitation | none, poc, active | active: \`kev \\|\\| exploitMaturity in ['active', 'weaponized']\`. poc: \`exploitMaturity == 'poc' \\|\\| exploitCount > 0\`. Active wins over poc. |
+| Automatable | no, yes | \`cvss >= 9.0 \\|\\| epss >= 0.7\` |
+| Technical impact | partial, total | total: \`cvss >= 9.0 \\|\\| malicious\` |
+| Mission and well-being | low, medium, high | The repository's criticality: low, medium, high, and critical (high). A repository with no criticality is medium. |
+
+The expressions are CEL over the \`finding\` context, so a policy can use any finding variable, including the repository's \`labels\`, \`owner\` and \`criticality\`. The defaults approximate CISA's definitions from the signals Vulnetix holds. Automatable in particular is defined by the kill chain, and the finding context carries no CVSS vector, so the default reads a critical score or a high EPSS as automatable. A tenant that holds better information tightens the expression. \`mapping[]\` reads cells of the table differently for the whole tenant (the last matching rule wins), \`overrides[]\` decides by rule after the table and the mapping (the first match wins, and the decision records which rule set it), and \`outcomes\` sets each outcome's priority and \`dueDays\` (0 is the standard update cycle).
+
+## How apply treats it
+
+- A singleton, named \`default\`. The engine stores only what differs from the default policy, so a document that spells a default reads back without it.
+- Plan compiles every expression against the \`finding\` context and refuses unknown values. A stored policy that no longer compiles is not applied: the tenant decides with the default and the routes report a \`warning\`.
+- Delete deletes the row, which returns the tenant to the default policy.
+- It needs saas migration \`20261228010000_ssvc_policy\`. Until it runs, a tenant decides with the default policy, and a write or an apply is refused naming the migration.
+- Decisions are made when they are read, from the same facts as the risk ranking, with the repository's asset record. Nothing is stored per finding, so a policy change shows at once. The routes are \`GET\`, \`PUT\` and \`DELETE /v1/ssvc/policy\`, \`POST /v1/ssvc/decide\` and \`GET /v1/ssvc/summary\`.
+
+> [!CAREFUL] Two places do not read the policy yet
+> The VDB API still makes its own, simpler SSVC decision in the CLI's SCA response and in the remediation plan, and neither reads this policy. Reading it would change what the CLI reports, because the table needs mission and well-being and an unclassified repository is decided as medium.`,
   },
 
   ApiSpecSource: {

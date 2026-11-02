@@ -647,7 +647,7 @@ for (const kind of kinds) {
     ? `[\`vulnetix config validate\`](/platform-iac/cli/validate/) reads it${cliFirstRel ? ` (CLI ${cliFirstRel} and later)` : ''}; \`plan\` and \`apply\` note it and send nothing.`
     : cliKnows(kind)
       ? `[\`vulnetix config apply\`](/platform-iac/cli/apply/), CLI ${cliFirstRel} and later.`
-      : `Not yet. The latest CLI, ${cliLatest}, embeds \`config-schemas\` ${cliSchemas}, which has no \`${kind}\`, so \`vulnetix config\` refuses the document as an unknown kind before sending it. Use the config API or Terraform until a CLI release embeds it.`;
+      : `Not yet. The latest CLI, ${cliLatest}, embeds \`config-schemas\` ${cliSchemas}, which has no \`${kind}\`, so \`vulnetix config\` refuses the document as an unknown kind before sending it. Use the config API, or Terraform where the kind has a resource, until a CLI release embeds it.`;
 
   let body = '';
   body += `${schema.description}\n\n`;
@@ -893,11 +893,12 @@ if (isGenerated(celOut)) {
   const usesTable = celUses
     .map((u) => `| ${kindLink(u.kind)} | \`${u.path}\` | \`${u.ctx}\` | ${u.status === 'served' ? 'Applied by the engine' : u.status === 'validate' ? 'Validate only' : 'Schema only'} |`)
     .join('\n');
-  const whereRows = celUses
-    .map((u) => {
-      const w = CEL_WHERE[u.kind];
-      if (!w) throw new Error(`CEL_WHERE has no entry for ${u.kind}, which has a CEL field`);
-      return `| ${kindLink(u.kind)} \`${u.path}\` | ${w.where} | ${w.fail} |`;
+  const whereRows = [...new Set(celUses.map((u) => u.kind))]
+    .map((k) => {
+      const w = CEL_WHERE[k];
+      if (!w) throw new Error(`CEL_WHERE has no entry for ${k}, which has a CEL field`);
+      const paths = celUses.filter((u) => u.kind === k).map((u) => `\`${u.path}\``);
+      return `| ${kindLink(k)} ${paths.join(', ')} | ${w.where} | ${w.fail} |`;
     })
     .join('\n');
   const exRows = celExamples();
@@ -961,6 +962,10 @@ The proxy has the version's advisory signals (malware, CVSS, EPSS, CESS, KEV, EO
 The AI firewall gateway evaluates a guardrail's \`when\` over the request: its provider, model and client, and the tools, MCP servers and skills it declares. A tool shown being invoked in replayed history is not on offer, so it does not count. A guardrail with no \`when\` always applies. A rule whose \`when\` fails to evaluate is **skipped, named in the decision's skipped list, and logged**: the gateway does not block or flag on a condition it could not judge. Each list is bounded at 256 entries, and a larger request is judged on the first 256.
 
 A guardrail of rule type \`expression\` takes no pattern: its \`when\` is its whole match, it blocks or flags, and it is judged on the capability plane with the tool, MCP server, skill and client lists before content is scanned. Guardrails are stored in \`AiFirewallGuardrail.expr\`, from the same migration as package list entries.
+
+### SsvcPolicy
+
+The SSVC decision evaluates the policy's expressions over the finding, with the repository's asset record, whenever a decision or the summary is read. An expression that fails to evaluate holds for nothing: the decision point takes its lower value (not exploited, not automatable, partial impact) and the decision is still made. An override whose \`when\` fails does not hold, so the table's outcome stands. The summary decides at most 5000 open findings, most severe first, and is cached for 60 seconds per policy.
 
 ### DetectionRuleFeed
 

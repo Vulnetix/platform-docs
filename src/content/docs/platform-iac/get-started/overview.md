@@ -3,7 +3,7 @@ title: Overview
 description: What Platform IaC is, which Vulnetix configuration you can keep as code, how documents are applied from the CLI, Terraform and a repository, and where each piece is documented.
 order: 1
 sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, vdb-site/docs/platform-iac-engine.md, terraform-provider-vulnetix/README.md]
-checked: [config-schemas@v1.7.0, cli@v3.166.0, vdb-site@b09e595]
+checked: [config-schemas@v1.8.0, cli@v3.166.0, vdb-site@3c0433c]
 updated: 03 Nov 2026
 ---
 
@@ -23,8 +23,8 @@ spec:
 
 | Piece | What it does | Page |
 |---|---|---|
-| Kinds | 56 kinds in `config-schemas` v1.7.0, from the quality gate and jail policy to the organization's members, the Software Factory, TEA, SIEM and cloud connections. Each page has the fields, rules, Minimal and Advanced samples in YAML, HCL and CLI, and how apply treats it. | [Kind catalogue](/platform-iac/kinds/catalogue/) |
-| Config engine | The server side that plans, applies and exports every kind, records who manages each object, and reports status. 54 kinds are served; `LicensePolicy` and `LicenseExceptions` are validate only. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
+| Kinds | Every kind in `config-schemas` (the catalogue says which release), from the quality gate and jail policy to the organization's members, the Software Factory, TEA, SIEM and cloud connections. Each page has the fields, rules, Minimal and Advanced samples in YAML, HCL and CLI, and how apply treats it. | [Kind catalogue](/platform-iac/kinds/catalogue/) |
+| Config engine | The server side that plans, applies and exports every kind, records who manages each object, and reports status. All kinds are served except `LicensePolicy` and `LicenseExceptions`, which are validate only. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
 | CLI | `vulnetix config validate`, `kinds` and `schema` work offline; `plan`, `apply` and `export` use the engine. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
 | CEL | A `when` or `selector` expression on jail rules, risk rules, suppressions, package list entries, AI guardrails and detection rule feeds. | [CEL rule expressions](/platform-iac/reference/cel/) |
 | Terraform and OpenTofu | The `vulnetix/vulnetix` provider, one resource per kind, and two AWS modules. Publishing to the registries is pending. | [Terraform and OpenTofu](/platform-iac/terraform/) |

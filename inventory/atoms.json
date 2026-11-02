@@ -1,12 +1,12 @@
 {
- "generatedAt": "2026-11-02T22:38:12.687Z",
+ "generatedAt": "2026-11-02T22:46:53.069Z",
  "repos": {
   "vdb-site": "857108d1001aec94318c1a0be02ac4f1294a033d",
   "website": "bdba7fa8a6194f24be50eb21be268674d6816d25",
   "belai": "ea3372a14da0be229c71e917b79d2315f2824a86",
   "saas": "1b029d301ec397ae58e9e401d22ab023e27628fb",
   "cli": "39bb466ed1ffdef5ee41e19a54687465fe61f421",
-  "config-schemas": "bdea7f2403b431b71659ffd31af4c964c478817e",
+  "config-schemas": "08a9f97f7601e8697ca6d2faee4af2261ceb56d4",
   "siem": "3ed91a4eef8c6e8200244dbabc73f73dd3f8ec95"
  },
  "counts": {
@@ -24,7 +24,7 @@
   "enum": 1072,
   "gofile": 318,
   "guardian-route": 51,
-  "iac-kind": 56,
+  "iac-kind": 57,
   "model": 42,
   "route": 395,
   "setting": 169,
@@ -23643,6 +23643,14 @@
    "value": "ServiceAccount",
    "sources": [
     "config-schemas/schemas/ServiceAccount.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:SsvcPolicy",
+   "kind": "iac-kind",
+   "value": "SsvcPolicy",
+   "sources": [
+    "config-schemas/schemas/SsvcPolicy.schema.json"
    ]
   },
   {

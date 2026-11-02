@@ -4,7 +4,7 @@ nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
 sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v3.166.0", "terraform-provider-vulnetix@d7f7612"]
+checked: ["config-schemas@v1.8.0", "vdb-site@3c0433c", "cli@v3.166.0", "terraform-provider-vulnetix@d7f7612"]
 updated: 03 Nov 2026
 ---
 
@@ -14,8 +14,8 @@ This page is the honest list. The rest of the segment documents what works; this
 
 | Piece | State | Where |
 |---|---|---|
-| Schemas | 56 kinds in `config-schemas` v1.7.0, each with Minimal and Advanced examples and an `x-vulnetix` annotation. Signed release assets. | [Catalogue](/platform-iac/kinds/catalogue/), [Schema releases](/platform-iac/schemas/releases/) |
-| Config engine | Plan, apply, export and per-object routes. 54 kinds are served; `LicensePolicy` and `LicenseExceptions` are validate only. Managers, prune, drift, `valueFrom` secrets, status phases and `vmt_` management tokens. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
+| Schemas | Every kind in `config-schemas` (the [catalogue](/platform-iac/kinds/catalogue/) says which release), each with Minimal and Advanced examples and an `x-vulnetix` annotation. Signed release assets. | [Catalogue](/platform-iac/kinds/catalogue/), [Schema releases](/platform-iac/schemas/releases/) |
+| Config engine | Plan, apply, export and per-object routes. Every kind is served except `LicensePolicy` and `LicenseExceptions`, which are validate only. Managers, prune, drift, `valueFrom` secrets, status phases and `vmt_` management tokens. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
 | CEL | One evaluator, five contexts, four functions, and cost limits. Evaluated in the VDB API (jail), the Software Factory gate, the ranking ladder, the suppression engine, the package firewall, the AI firewall and detection rule feed publishing. | [CEL rule expressions](/platform-iac/reference/cel/) |
 | VEX sources | `VexSource` reads OpenVEX and CycloneDX VEX from TEA, S3, git and URLs. | [VEX documents as suppression rules](/platform-iac/guides/vex-sources/) |
 | CLI | `vulnetix config validate`, `kinds`, `schema`, `plan`, `apply` and `export`, and the imperative `set` and `get`. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
@@ -23,6 +23,7 @@ This page is the honest list. The rest of the segment documents what works; this
 | GitOps in Software Factory | The `config-apply` workflow node plans on a push to a config repository's default branch and applies after approval. | [`FactoryWorkflow`](/platform-iac/kinds/factory-workflow/#gitops-from-a-repository) |
 | Terraform and OpenTofu provider | Public source; one generated resource per kind the engine stores, six data sources. | [Terraform and OpenTofu](/platform-iac/terraform/) |
 | AWS modules | `aws-onboarding` and `aws-siem-shipping`. | [Modules](/platform-iac/terraform/modules/) |
+| SSVC decisions | [`SsvcPolicy`](/platform-iac/kinds/ssvc-policy/) configures how the CISA SSVC decision (Track, Track*, Attend or Act) is made for a finding. It needs a database migration, until which tenants decide with the default policy. | [`SsvcPolicy`](/platform-iac/kinds/ssvc-policy/) |
 | Asset labels | `labels`, `owner` and `criticality` on [`RepositorySettings`](/platform-iac/kinds/repository-settings/#asset-labels-owner-and-criticality), set on the Repositories page or as code, and usable in rules as `finding` variables. They need a database migration, until which they read as empty. | [CEL rule expressions](/platform-iac/reference/cel/) |
 | Download as code | On the console's quality gate and factory settings pages, in YAML, HCL and bash, in minimal and advanced forms. | [`QualityGate`](/platform-iac/kinds/quality-gate/), [`FactorySettings`](/platform-iac/kinds/factory-settings/) |
 
@@ -37,6 +38,8 @@ This page is the honest list. The rest of the segment documents what works; this
 | CEL in the CLI | The CLI evaluates no expression: `vulnetix jail` and `vulnetix scan --jail` ask the VDB API, and a suppression's `when` is evaluated on the server. The `event` context has no field in any kind, so [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) conditions are typed. |
 | VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. `vulnetix config apply` does not upload a snapshot for a `path` source, and `vulnetix scan` does not read a `VexSource`. |
 | Cloud | A per-account [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) document needs a database migration; until it runs, plan blocks it. |
+| SSVC in the CLI | The VDB API still makes its own simpler SSVC decision in the CLI's SCA response and in the remediation plan; neither reads `SsvcPolicy` yet. |
+| Provider examples | The provider's generated resources are built from `config-schemas` v1.6.0. The fields and kinds added since (`RepositorySettings` asset fields, `SsvcPolicy`) have no HCL sample until it is regenerated. |
 | Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the console's rotate endpoint stays the way. |
 
 ## Planned kinds
@@ -47,4 +50,3 @@ These have no schema yet. Names and fields may change.
 |---|---|---|
 | `ComplianceTarget` | Compliance | SLSA level, SSDF, crypto policy and AI Act targets need the product feature before the kind. |
 | `RegistryConnection` | Integrations | OCI, npm and PyPI registry credentials for scanning need a backend. |
-| SSVC decision configuration | Prioritisation | A product feature first. |

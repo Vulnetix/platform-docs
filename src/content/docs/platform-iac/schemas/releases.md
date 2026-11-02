@@ -4,7 +4,7 @@ nav: Releases and URLs
 description: Where the config kind JSON Schemas are published, the pinned and latest URL forms, and what each release asset contains.
 order: 1
 sources: [config-schemas/README.md, config-schemas/.github/workflows/release.yml, config-schemas/cmd/schemacheck/main.go, config-schemas/schemas.go]
-checked: [config-schemas@v1.7.0, cli@v3.166.0]
+checked: [config-schemas@v1.8.0, cli@v3.166.0]
 updated: 03 Nov 2026
 ---
 
@@ -24,6 +24,7 @@ The schemas live in the public repository [`Vulnetix/config-schemas`](https://gi
 | [`v1.5.0`](https://github.com/Vulnetix/config-schemas/releases/tag/v1.5.0) | 37 | Adds the organization and integration kinds: `Organization`, `Member`, `ServiceAccount`, `NotificationDefaults`, `VaultEntry`, `GitHubInstallation`, `ForgeConnection`, `WizConnection`, `MessagingConnection`, `MessagingRoute` and `MessagingTemplate`. |
 | [`v1.6.0`](https://github.com/Vulnetix/config-schemas/releases/tag/v1.6.0) | 56 | Adds the Software Factory, Belai library, Pix, TEA and campaign kinds: `FactorySettings`, `ScannerProfile`, `FactoryManagedOrg`, `RepositorySettings`, `FactoryWorkflow`, `FactoryTrigger`, `FactorySchedule`, `FactoryBudget`, `AgentProfile`, `Crew`, `LibraryItem`, `SandboxLaunchProfile`, `SandboxEgressPolicy`, `TeaProduct`, `TeaComponent`, `TeaCollection`, `TeaAccessPolicy`, `TeaPublicationTarget` and `Campaign`. |
 | [`v1.7.0`](https://github.com/Vulnetix/config-schemas/releases/tag/v1.7.0) | 56 | `RepositorySettings` gains `labels`, `owner` and `criticality`, which are also variables of the CEL `finding` context. |
+| [`v1.8.0`](https://github.com/Vulnetix/config-schemas/releases/tag/v1.8.0) | 57 | Adds `SsvcPolicy` and the `ssvc` package: the CISA SSVC decision and how a tenant configures it. |
 
 The CLI embeds one release through the Go module `github.com/vulnetix/config-schemas`, and refuses a kind that a later release added. CLI v3.153.0 and later embed `v1.0.1` or newer; each kind's page says from which CLI release it is known, and `vulnetix config kinds` lists what yours knows. The [catalogue](/platform-iac/kinds/catalogue/) is generated from the newest release.
 
