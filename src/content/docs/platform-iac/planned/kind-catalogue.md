@@ -3,7 +3,7 @@ title: "Planned: kind catalogue"
 nav: Kind catalogue
 description: Planned, not available. The config kinds intended to cover every tenant setting, grouped by product, with the phase each is planned in.
 order: 2
-sources: [config-schemas/schemas/QualityGate.schema.json]
+sources: [config-schemas/schemas/QualityGate.schema.json, config-schemas/schemas/LicenseExceptions.schema.json, config-schemas/schemas/ApiSpecSource.schema.json]
 checked: [config-schemas@9bda9e1]
 updated: 02 Nov 2026
 ---
@@ -20,7 +20,7 @@ All kinds use `apiVersion: vulnetix.com/v1`. A kind ships only after its schema 
 | Integrations | `GitHubInstallation` (adopt an existing install), `ForgeConnection`, `MessagingConnection` (Slack, Teams, Discord, Google Chat, Jira, webhook), `MessagingRoute`, `MessagingTemplate`, `WizConnection`, `RegistryConnection` | Registry connections need a backend first. |
 | Repo scope | `FactoryManagedOrg`, `RepositorySettings` | GitHub App repository selection stays on GitHub. |
 | Assets | `RepositorySettings.labels`, `owner`, `criticality` | Needs new product features first. |
-| Scanners and gates | `QualityGate` (released schema), `JailPolicy`, `JailExemption`, `LicensePolicy`, `ScannerProfile` | `LicensePolicy` also stays a repository file with the same schema. |
+| Scanners and gates | `QualityGate` (released schema), `JailPolicy`, `JailExemption`, `LicensePolicy`, `LicenseExceptions`, `ScannerProfile` | `LicensePolicy` also stays a repository file with the same schema. `LicenseExceptions` has a schema; the CLI validates it and a plan notes it, but the server does not store exceptions yet, so apply sends nothing. |
 | Prioritisation | `RiskStrategy`, `RemediationPolicy` | Remediation SLAs per band, or a named standard: `nist-800-40`, `fedramp`, `essential8`, `cisa-bod-19-02`. |
 | Suppression | `Suppression`, `VexSource` | Suppressions use the OpenVEX justification vocabulary. See [VEX sources](/platform-iac/planned/vex-sources/). |
 | Campaigns | `Campaign` | Deleting archives. |
@@ -33,6 +33,7 @@ All kinds use `apiVersion: vulnetix.com/v1`. A kind ships only after its schema 
 | TEA | `TeaProduct`, `TeaComponent`, `TeaCollection`, `TeaAccessPolicy`, `TeaPublicationTarget` | Releases and artifacts stay CI-published data. |
 | SIEM | `SavedSearch`, `DetectionRule` (Sigma or the native DSL), `AlertTrigger`, `ScheduledReport`, `LogSource` | |
 | Cloud | `AwsConnection`, `AwsAccount`, `CloudSensors` | Per-account sensor opt-in needs a write path first. `CloudSensors` only turns sensors on for an account; what a host sensor runs and which credential it holds is `SensorProvisioningProfile`. |
+| API inventory | `ApiSpecSource` | Where OpenAPI and Swagger descriptions are read from: a file in a repository, a URL, a host probed for well-known paths, or a connected API gateway or catalogue. A tenant may declare many, each named. |
 | Compliance | `ComplianceTarget` | SLSA, SSDF, crypto policy and AI Act targets need product features first. |
 | Virtual patching | `DetectionRuleFeed`, `SensorProvisioningProfile` | Feeds are consumed by WAFs, IDS and the runtime sensor. `SensorProvisioningProfile` is a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code: match, credential mode and sensor config. It replaces the earlier `RuntimeSensorPolicy` name. Profiles are console-only today. |
 
