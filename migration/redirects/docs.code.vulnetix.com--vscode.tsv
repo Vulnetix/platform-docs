@@ -40,12 +40,12 @@
 /docs/configuration/	/vscode/reference/settings/
 /docs/configuration/settings/	/vscode/reference/settings/
 /docs/configuration/cli-binary/	/vscode/configuration/cli-binary/
-/docs/design/	/vscode/
-/docs/design/architecture/	/vscode/
+/docs/design/	/vscode/reference/architecture/
+/docs/design/architecture/	/vscode/reference/architecture/
 /docs/design/performance/	/vscode/findings/when-analysis-runs/
 /docs/design/privacy/	/vscode/configuration/privacy/
 /docs/troubleshooting/	/vscode/guides/troubleshooting/
 /docs/reference/	/vscode/reference/settings/
 /docs/reference/commands/	/vscode/reference/commands/
 /docs/reference/keybindings/	/vscode/reference/commands/
-/docs/reference/related-tools/	/vscode/
+/docs/reference/related-tools/	/vscode/reference/related-tools/

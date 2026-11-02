@@ -21,4 +21,7 @@ routes = [
   { pattern = "docs.mcp.vulnetix.com/*", zone_name = "vulnetix.com" },
   { pattern = "ai-docs.vulnetix.com/*", zone_name = "vulnetix.com" },
   { pattern = "docs.code.vulnetix.com/*", zone_name = "vulnetix.com" },
+  # The Pix site's first name. The Worker answers it from the ai-docs map
+  # (scripts/lib/redirects.mjs ALIASES), so it is one hop, not two.
+  { pattern = "claude-docs.vdb.vulnetix.com/*", zone_name = "vulnetix.com" },
 ]
