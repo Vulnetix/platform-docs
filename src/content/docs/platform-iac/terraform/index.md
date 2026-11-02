@@ -4,7 +4,7 @@ nav: Overview
 description: The vulnetix/vulnetix provider for Terraform and OpenTofu. Install, authenticate with a config management token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Publishing to the registries is pending.
 order: 1
 sources: ["terraform-provider-vulnetix/README.md", "terraform-provider-vulnetix/docs/index.md", "terraform-provider-vulnetix/examples/provider/provider.tf", "terraform-provider-vulnetix/templates/resources.md.tmpl", "terraform-provider-vulnetix/cmd/genresources/served.go", "vdb-site/api/internal/handler/config_tokens.go"]
-checked: ["terraform-provider-vulnetix@d7f7612", "vdb-site@b09e595"]
+checked: ["terraform-provider-vulnetix@169ce16", "vdb-site@7b71e88"]
 updated: 03 Nov 2026
 ---
 
@@ -102,7 +102,55 @@ Most kinds **merge** a document into the stored object, and the tenant's row can
 
 Some kinds replace the object itself when a field changes, because the platform's own console only creates and deletes them. [`WizConnection`](/platform-iac/kinds/wiz-connection/) is replaced through those writers, and a messaging connection cannot change type. A kind written in a [second phase](/platform-iac/reference/engine/#outside-the-transaction) (the five SIEM kinds and `VaultEntry`) answers a single `PUT` with 502 `external_failed` when its store refuses the write, and records nothing.
 
-Destroying a resource deletes the object, or lets go of it where the kind says so: deleting a [`GitHubInstallation`](/platform-iac/kinds/github-installation/) never uninstalls the App, and deleting an [`Organization`](/platform-iac/kinds/organization/) never deletes the tenant.
+### Renamed arguments
+
+An argument is the kind's `spec` property in snake case. A property whose name the resource reserves (`name`, `labels`, `annotations`, `status`, `id` and Terraform's meta-arguments) is renamed, and the document key is unchanged:
+
+| Kind | Document key | Argument |
+|---|---|---|
+| [`Campaign`](/platform-iac/kinds/campaign/) | `name` | `display_name` |
+| [`TeaProduct`](/platform-iac/kinds/tea-product/) | `name` | `product_name` |
+| [`TeaComponent`](/platform-iac/kinds/tea-component/) | `name` | `component_name` |
+| [`VaultEntry`](/platform-iac/kinds/vault-entry/) | `name` | `entry_name` |
+| [`VaultEntry`](/platform-iac/kinds/vault-entry/) | `provider` | `provider_slug` |
+| [`FactoryBudget`](/platform-iac/kinds/factory-budget/) | `provider` | `model_providers` |
+| [`RepositorySettings`](/platform-iac/kinds/repository-settings/) | `labels` (the repository as an asset) | `asset_labels` |
+
+`metadata.name` stays `name`, and `metadata.labels` stays `labels`. Each kind's page shows the resource's arguments in its HCL samples.
+
+### Status, phases and values shown once
+
+Every resource has a computed `status` block:
+
+| Attribute | Meaning |
+|---|---|
+| `status.phase` | `Applied` for most objects. `Pending` for a [`Member`](/platform-iac/kinds/member/) whose invitation is not accepted. `AwaitingAuthorization` for a messaging connection, such as Slack, that a person must authorize in a browser. `Unmanaged` when no manager owns the object. Terraform does not wait for a person: `Pending` and `AwaitingAuthorization` are successful applies, and a refresh shows the phase when it changes. |
+| `status.authorization_url` | Where to authorize, while the phase is `AwaitingAuthorization`. |
+| `status.extra` | Other fields the kind reports, such as `invitationExpires`. |
+| `status.once` | Sensitive. Credentials the server shows only when it creates the object: a [`ServiceAccount`](/platform-iac/kinds/service-account/)'s `apiKey` and `secret`, a messaging connection's `signingSecret`, a [`LogSource`](/platform-iac/kinds/log-source/)'s ingest token. |
+
+> [!CAREFUL] Shown-once values are stored in the state
+> Terraform has no write-only computed attribute, so `status.once` is kept in the state from the create. Keep the state encrypted and its access narrow. The server cannot show the values again, so to get new ones replace the object (`terraform apply -replace=vulnetix_service_account.ci`). A SIEM kind is written in Guardian after the config database; when Guardian refuses, the apply fails with its reason and records nothing, so apply again once it is fixed.
+
+### Destroying a resource
+
+Destroying a resource sends `DELETE /config/objects/{kind}/{name}`. It deletes the object, or lets go of it where the kind says so: deleting a [`GitHubInstallation`](/platform-iac/kinds/github-installation/) never uninstalls the App, and deleting an [`Organization`](/platform-iac/kinds/organization/) never deletes the tenant.
+
+A kind with one object per tenant (a singleton, named `default`) always has something behind it, so destroying it puts the tenant back where it was before anyone configured it:
+
+| Kind | What destroy does |
+|---|---|
+| [`QualityGate`](/platform-iac/kinds/quality-gate/) | Deletes the tenant's row. The CLI's own flags decide every check again. |
+| [`SsvcPolicy`](/platform-iac/kinds/ssvc-policy/) | Deletes the row. The tenant decides with the default policy. |
+| [`NotificationDefaults`](/platform-iac/kinds/notification-defaults/) | Removes the setting. The catalogue defaults apply. |
+| [`FactorySettings`](/platform-iac/kinds/factory-settings/) | Resets its keys to their defaults. The settings document stays. |
+| [`ScannerProfile`](/platform-iac/kinds/scanner-profile/) | Resets its four keys (`scanners`, `custom`, `slsaMin`, `evidence`). |
+| [`PackageFirewallPolicy`](/platform-iac/kinds/package-firewall-policy/) | Restores the column defaults and clears the ecosystem overrides, which is the open posture of a tenant with no policy. Mirrors are left alone. |
+| [`AiFirewallPolicy`](/platform-iac/kinds/ai-firewall-policy/) | Removes only the rows of `spec.capabilities`. Guardrails, model and provider entries stay. |
+| [`AwsConnection`](/platform-iac/kinds/aws-connection/) | Removes the connection as the console's forced disconnect does. The CloudFormation stacks stay in each account. |
+| [`Organization`](/platform-iac/kinds/organization/) | Lets go. The tenant is never deleted. |
+
+Destroying a resource that another manager owns fails. See the next section.
 
 ## Ownership and drift
 
