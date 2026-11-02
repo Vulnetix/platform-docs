@@ -31,7 +31,7 @@ The key the login mints names you as a person. A tenant org key or a service acc
 ## 3. Install and enroll
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.155.0/deploy/sensor/install.sh \
+curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh \
   | sudo sh -s -- --enroll --from-cli-login
 ```
 

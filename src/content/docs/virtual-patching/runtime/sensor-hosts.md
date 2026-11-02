@@ -14,11 +14,11 @@ updated: 02 Nov 2026
 
 ```bash
 # A person, after vulnetix auth login --store home
-curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.155.0/deploy/sensor/install.sh \
+curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh \
   | sudo sh -s -- --enroll --from-cli-login
 
 # A host, with an MDM integration key in /etc/vulnetix-sensor/mdm.key
-curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.155.0/deploy/sensor/install.sh \
+curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.156.0/deploy/sensor/install.sh \
   | sudo sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <integration-uuid> --kid <kid>
 ```
 
