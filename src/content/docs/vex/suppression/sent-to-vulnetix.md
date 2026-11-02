@@ -100,6 +100,8 @@ permissions:
   id-token: write
 ```
 
+A triage decision the CLI records, in `.vulnetix/memory.yaml` and as the OpenVEX `author`, follows the same order. Signed in, it names your account as `vulnetix:<account id>`, including the defaults the Vulnetix provider picks for you. Only an unauthenticated run falls back to your git `user.email`, or `user@host` when git has none. The embedded community key names no account.
+
 ## Local suppressions
 
 Findings an ignore rule or nosec comment hid are not VEX. They are reported in `localSuppressions` on the run's `cli.finalize` call. See [nosec comments and test code](/vex/suppression/nosec-and-test-code/).
