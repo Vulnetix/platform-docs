@@ -19,6 +19,10 @@ const docs = defineCollection({
     updated: z.string().optional(),
     // Written by scripts/gen-reference.mjs; edit the generator, not the page.
     generated: z.boolean().default(false),
+    // Delivery status, for a product whose docs cover features that have not
+    // shipped (the VS Code extension). Doc.astro renders it as a badge under the
+    // title, with a note on anything that is not `available`.
+    status: z.enum(['available', 'in-development', 'planned']).optional(),
   }),
 });
 

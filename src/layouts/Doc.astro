@@ -14,8 +14,17 @@ interface Props {
   checked?: string[];
   updated?: string;
   editPath?: string;
+  status?: 'available' | 'in-development' | 'planned';
 }
-const { id, title, description, headings = [], wide = false, sources = [], checked = [], updated, editPath } = Astro.props;
+const { id, title, description, headings = [], wide = false, sources = [], checked = [], updated, editPath, status } = Astro.props;
+// A page's delivery status (front matter `status`). Anything not available says
+// so under the title, so a planned feature never reads as shipped.
+const STATUS = {
+  available: { label: 'Available', note: 'In the current release.' },
+  'in-development': { label: 'In development', note: 'Partly built. Parts of this page are not in a published release yet and may change.' },
+  planned: { label: 'Planned', note: 'Not built yet. Nothing on this page works in a published release.' },
+} as const;
+const badge = status ? STATUS[status] : null;
 
 const all = (await getCollection('docs')).sort((a, b) => (a.data.order - b.data.order) || a.id.localeCompare(b.id));
 const segment = segmentOf(id);
@@ -119,6 +128,12 @@ const isHome = id === HOME_ID || (segment && id === segment.home);
           {segment && sectionTitle && <nav class="crumbs" aria-label="Breadcrumb" data-pagefind-ignore><a href={hrefFor(segment.home)}>{segment.title}</a> / {sectionTitle}</nav>}
           <h1 data-pagefind-meta="title">{title}</h1>
           <p class="lede">{description}</p>
+          {badge && (
+            <p class:list={['status', `status-${status}`]} data-pagefind-filter={`status:${badge.label}`}>
+              <span class="status-badge">{badge.label}</span>
+              <span class="status-note">{badge.note}</span>
+            </p>
+          )}
           {(updated || checked.length > 0) && (
             <div class="meta" data-pagefind-ignore>
               {updated && <span>Updated {updated}</span>}

@@ -150,6 +150,13 @@ kbd { font-size: 11px; padding: 1px 6px; border: 1px solid var(--line-strong); b
 .crumbs { font-size: 13px; color: var(--text-3); }
 .article h1 { margin: 6px 0 0; font-size: 34px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; }
 .lede { margin: 14px 0 0; font-size: 17px; line-height: 1.65; color: var(--text-2); }
+/* Delivery status (front matter `status`): colour plus the label, never colour alone. */
+.status { margin: 12px 0 0; max-width: var(--measure); display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 13px; color: var(--text-3); }
+.status-badge { display: inline-block; padding: 1px 8px; border: 1px solid; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; }
+.status-available .status-badge { background: var(--pix-bg); border-color: var(--pix-bar); color: var(--pix-title); }
+.status-in-development .status-badge { background: var(--why-bg); border-color: var(--why-bar); color: var(--why-title); }
+.status-planned .status-badge { background: var(--careful-bg); border-color: var(--careful-bar); color: var(--careful-title); }
+.status-planned .status-note, .status-in-development .status-note { color: var(--text-2); }
 .meta { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--text-3); }
 .prose { margin-top: 8px; color: var(--text-2); }
 .prose > * + * { margin-top: 0; }
