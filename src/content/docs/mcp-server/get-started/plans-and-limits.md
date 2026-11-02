@@ -9,7 +9,7 @@ sources:
   - mcp-server/src/tools/result.ts
   - mcp-server/src/tools/analysis.ts
   - vdb-api/internal/middleware/ratelimit.go
-checked: [mcp-server@1725a04, vdb-api@4145f0a]
+checked: [mcp-server@8bbe962, vdb-api@4145f0a]
 updated: 02 Nov 2026
 ---
 
@@ -71,7 +71,16 @@ vdb-api counts requests per organisation over the previous 24 hours against the 
 | `remaining` | Requests left in the window, or `unlimited` |
 | `reset` | Unix epoch seconds of the next day boundary |
 
-The limit is set per organisation, so it can differ from the plan's published default. Read it from `limit`, not from the pricing page. A tool that composes several upstream calls spends one request per call; `_meta["vulnetix/upstream"].calls` shows how many.
+The published defaults per plan:
+
+| Plan | Default requests per day |
+|---|---|
+| Community | 50 |
+| Pro | 2,000 |
+| Teams | 100,000 per API key |
+| Enterprise | Set per contract |
+
+The limit is set per organisation, so it can differ from the plan's published default. Read it from `limit`, not from the pricing page. How requests are counted, and which plans have an advisory (soft) limit, is on [VDB API rate limits](/vdb-api/api/rate-limits/). A tool that composes several upstream calls spends one request per call; `_meta["vulnetix/upstream"].calls` shows how many.
 
 ### When it runs out
 

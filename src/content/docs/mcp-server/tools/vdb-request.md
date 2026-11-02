@@ -4,7 +4,7 @@ description: The read-only escape hatch for vdb-api endpoints no dedicated tool 
 order: 7
 sources:
   - mcp-server/src/tools/raw.ts
-checked: [mcp-server@1725a04]
+checked: [mcp-server@8bbe962]
 updated: 02 Nov 2026
 ---
 
@@ -35,7 +35,7 @@ When the serialised body is longer than `maxBytes`, the result is:
 { "truncated": true, "bytes": 2606571, "cap": 262144, "preview": "{\"..." }
 ```
 
-with `_meta["vulnetix/truncated"]: true`. The cache TTL for every `vdb_request` call is 300 seconds.
+with `_meta["vulnetix/truncated"]: true` alongside the usual [result metadata](/mcp-server/reference/result-metadata/), so a client can tell a cut-off body from a complete one without parsing the text. The earlier docs wrote this flag as `_meta.truncated`; the key is `vulnetix/truncated`. A truncated preview of a multi-megabyte record is rarely a useful answer: narrow the path or query, or use a dedicated tool. The cache TTL for every `vdb_request` call is 300 seconds.
 
 ## Allowed path prefixes
 
