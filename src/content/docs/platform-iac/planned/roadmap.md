@@ -1,52 +1,50 @@
 ---
-title: "The config engine and CLI v4"
-nav: Engine and CLI v4
-description: The server-side engine that will plan, apply and export config documents, the CLI v4 commands on top of it, and Download as code in the console.
+title: "Platform IaC: what is shipped and what is not"
+nav: Roadmap
+description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
-sources: [config-schemas/README.md]
-checked: [config-schemas@9bda9e1, cli@4c8c3b7]
-updated: 02 Nov 2026
+sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
+checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v3.166.0", "terraform-provider-vulnetix@d7f7612"]
+updated: 03 Nov 2026
 ---
 
-> [!CAREFUL] Partly available
-> The engine's `/v1/config/kinds`, `validate`, `plan`, `apply` and `export` routes are live, and `vulnetix config plan`, `apply` and `export` ship in the CLI. They accept the `QualityGate` kind today; other kinds land kind by kind. The CLI module path change (v4) and the remaining items below are still planned. What works today is on the [Overview](/platform-iac/).
+This page is the honest list. The rest of the segment documents what works; this says where the edges are.
 
-## The engine
+## Available
 
-One server-side engine will own every kind. Each front end (the CLI, the Terraform provider, the console) calls it, so they all accept the same documents and give the same results.
+| Piece | State | Where |
+|---|---|---|
+| Schemas | 56 kinds in `config-schemas` v1.7.0, each with Minimal and Advanced examples and an `x-vulnetix` annotation. Signed release assets. | [Catalogue](/platform-iac/kinds/catalogue/), [Schema releases](/platform-iac/schemas/releases/) |
+| Config engine | Plan, apply, export and per-object routes. 54 kinds are served; `LicensePolicy` and `LicenseExceptions` are validate only. Managers, prune, drift, `valueFrom` secrets, status phases and `vmt_` management tokens. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
+| CEL | One evaluator, five contexts, four functions, and cost limits. Evaluated in the VDB API (jail), the Software Factory gate, the ranking ladder, the suppression engine, the package firewall, the AI firewall and detection rule feed publishing. | [CEL rule expressions](/platform-iac/reference/cel/) |
+| VEX sources | `VexSource` reads OpenVEX and CycloneDX VEX from TEA, S3, git and URLs. | [VEX documents as suppression rules](/platform-iac/guides/vex-sources/) |
+| CLI | `vulnetix config validate`, `kinds`, `schema`, `plan`, `apply` and `export`, and the imperative `set` and `get`. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
+| GitHub Actions | `config-plan` on pull requests and `config-apply` on the default branch. | [config-plan](/platform-iac/github-actions/config-plan/), [config-apply](/platform-iac/github-actions/config-apply/) |
+| GitOps in Software Factory | The `config-apply` workflow node plans on a push to a config repository's default branch and applies after approval. | [`FactoryWorkflow`](/platform-iac/kinds/factory-workflow/#gitops-from-a-repository) |
+| Terraform and OpenTofu provider | Public source; one generated resource per kind the engine stores, six data sources. | [Terraform and OpenTofu](/platform-iac/terraform/) |
+| AWS modules | `aws-onboarding` and `aws-siem-shipping`. | [Modules](/platform-iac/terraform/modules/) |
+| Asset labels | `labels`, `owner` and `criticality` on [`RepositorySettings`](/platform-iac/kinds/repository-settings/#asset-labels-owner-and-criticality), set on the Repositories page or as code, and usable in rules as `finding` variables. They need a database migration, until which they read as empty. | [CEL rule expressions](/platform-iac/reference/cel/) |
+| Download as code | On the console's quality gate and factory settings pages, in YAML, HCL and bash, in minimal and advanced forms. | [`QualityGate`](/platform-iac/kinds/quality-gate/), [`FactorySettings`](/platform-iac/kinds/factory-settings/) |
 
-| Planned endpoint | Purpose |
+## Not yet
+
+| Gap | Detail |
 |---|---|
-| `GET /v1/config/kinds` | The kinds and their schemas, as built into the server from a `config-schemas` release. |
-| `POST /v1/config/validate` | Validate documents without planning. |
-| `POST /v1/config/plan` | Per object: create, update, delete or no change, with a field diff, a `planHash` and any blocking conditions. |
-| `POST /v1/config/apply` | Apply a plan by its `planHash`, in dependency order, in one transaction for kinds stored in Postgres. |
-| `GET /v1/config/export` | Current state as documents, with secrets redacted. Formats `yaml`, `hcl` and `sh`. |
-| `GET`, `PUT`, `DELETE /v1/config/objects/{kind}/{name}` | One object at a time, for the Terraform provider. |
+| The CLI is behind the schemas | The latest CLI release embeds `config-schemas` v1.3.0. `vulnetix config validate`, `plan` and `apply` refuse a kind added in a later release as unknown before sending it, though the engine serves it. Each kind's page says from which CLI release it is known. Use the config API or Terraform until a CLI release embeds the newer schemas. |
+| CLI v4 | The major release is upcoming. It changes the module path, makes the remaining imperative commands aliases of the engine, and has `plan` and `apply` read the well-known files. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). |
+| Registry publishing | The provider and both modules have no release, and the Terraform and OpenTofu registries do not list them. See [Terraform and OpenTofu](/platform-iac/terraform/#registries). |
+| Download as code elsewhere | Other console pages that map to a kind do not have it yet. |
+| CEL in the CLI | The CLI evaluates no expression: `vulnetix jail` and `vulnetix scan --jail` ask the VDB API, and a suppression's `when` is evaluated on the server. The `event` context has no field in any kind, so [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) conditions are typed. |
+| VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. `vulnetix config apply` does not upload a snapshot for a `path` source, and `vulnetix scan` does not read a `VexSource`. |
+| Cloud | A per-account [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) document needs a database migration; until it runs, plan blocks it. |
+| Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the console's rotate endpoint stays the way. |
 
-Planned behaviour:
+## Planned kinds
 
-- **Managers.** Each object records who manages it: `terraform`, `gitops:<repo>` or `console`, with the commit it came from.
-- **Prune.** A manager can delete only objects it manages, and only when asked.
-- **Drift.** A plan shows changes made outside the manager, such as an edit in the console, as drift.
-- **Secrets.** `valueFrom` values are read on the client and sent once. They are never exported, and a plan shows a secret as changed only when you supply a new value.
-- **Status.** Apply returns a `status` block per object. Connectors that need a browser (Slack OAuth, the GitHub App) return `status.phase: AwaitingAuthorization` and a URL.
-- **Machine credentials.** A scoped management token for service accounts, with role checks on every policy write.
+These have no schema yet. Names and fields may change.
 
-## CLI v4
-
-The commands below shipped in CLI v3.155.0. The major release, v4 (upcoming), makes the rest of the imperative commands engine aliases and reads the well-known files in plan and apply; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). The original plan for the commands:
-
-| Planned command | Does |
-|---|---|
-| `vulnetix config plan` | Show what applying `.vulnetix/config/` (or `-f`) would change. Flags `--prune` and `--manager`. Exit 3 when the plan has blocking conditions. |
-| `vulnetix config apply` | Apply the plan. |
-| `vulnetix config export --format yaml\|hcl\|sh` | Write current state as documents, Terraform, or a script. |
-
-`validate`, `kinds` and `schema` stay as they are. `vulnetix config set quality-gate|eol-policy|package-firewall` and `vulnetix ai-firewall apply|export` will become deprecated aliases that build a document and call the engine. That is the breaking change behind the major version.
-
-The CLI's GitHub Action is also planned to gain `task: config-plan` (posting the plan on a pull request) and `task: config-apply` (on the default branch), and Software Factory a `config-apply` workflow node.
-
-## Download as code
-
-Console settings pages that map to a kind will get a **Download as code** menu with three formats: YAML, Terraform HCL with `import {}` blocks, and a bash script that runs `vulnetix config apply`. It works on unsaved form drafts too. Software Factory pages come first, because factory settings and workflows already export as YAML. Objects managed by Terraform or GitOps will show a **Managed as code** badge.
+| Kind | Group | What it needs first |
+|---|---|---|
+| `ComplianceTarget` | Compliance | SLSA level, SSDF, crypto policy and AI Act targets need the product feature before the kind. |
+| `RegistryConnection` | Integrations | OCI, npm and PyPI registry credentials for scanning need a backend. |
+| SSVC decision configuration | Prioritisation | A product feature first. |

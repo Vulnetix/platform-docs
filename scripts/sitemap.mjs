@@ -2,7 +2,7 @@
 // sitemap.mjs: write dist/sitemap-index.xml and dist/sitemap-0.xml from the
 // built HTML. (@astrojs/sitemap is not used: the package firewall does not
 // carry the versions it needs.)
-import { readdirSync, statSync, writeFileSync } from 'node:fs';
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const dist = process.argv[2] ?? 'dist';
@@ -12,7 +12,8 @@ const urls = [];
   for (const e of readdirSync(dir).sort()) {
     const p = join(dir, e);
     if (statSync(p).isDirectory()) { if (e !== 'pagefind' && e !== '_astro') walk(p, `${rel}${e}/`); }
-    else if (e === 'index.html') urls.push(`${site}/${rel}`);
+    // A moved page is a meta-refresh stub (astro.config.mjs redirects): not a page.
+    else if (e === 'index.html' && !readFileSync(p, 'utf8').includes('http-equiv="refresh"')) urls.push(`${site}/${rel}`);
   }
 })(dist, '');
 const body = urls.map((u) => `  <url><loc>${u}</loc></url>`).join('\n');

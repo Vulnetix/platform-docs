@@ -50,7 +50,7 @@ All three are normalised into one statement model, so matching and application w
 
 When a command is authenticated, the VEX it read or wrote is sent to `POST /v2/cli.vex-ingest`, and the findings ignore rules and nosec comments hid are reported to `cli.finalize`. See [VEX sent to Vulnetix](/vex/suppression/sent-to-vulnetix/).
 
-Pulling VEX from a TEA server, an S3 bucket, a git repository or a URL as a standing source of suppression rules is planned. See [VEX as suppression rules (planned)](/vex/suppression/vex-sources-planned/).
+A standing source of suppression rules, read from a TEA server, an S3 bucket, a git repository or URLs, is the `VexSource` kind. See [VEX documents as suppression rules](/platform-iac/guides/vex-sources/).
 
 ## GitHub Actions
 
@@ -58,4 +58,4 @@ Validate, list, merge or apply VEX documents in a workflow with the [vex GitHub 
 
 ## Platform IaC
 
-There is no config-as-code for VEX or suppression rules today. Rules live in `.vulnetix/memory.yaml` and the Vulnetix backend, and are managed with `vulnetix ignore` and the console. A `Suppression` kind and a `VexSource` kind are planned and are described on [Platform IaC](/platform-iac/).
+Suppression rules you write are [`Suppression`](/platform-iac/kinds/suppression/) documents. A standing source of VEX, read from a TEA server, an S3 bucket, a git repository or URLs, is a [`VexSource`](/platform-iac/kinds/vex-source/); see [VEX documents as suppression rules](/platform-iac/guides/vex-sources/). Rules from a local `.vulnetix/memory.yaml` and `vulnetix ignore` stay as they are. See the [kind catalogue](/platform-iac/kinds/catalogue/).

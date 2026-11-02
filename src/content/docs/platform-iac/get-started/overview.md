@@ -1,58 +1,66 @@
 ---
 title: Overview
-description: What Vulnetix configuration you can keep as code today, what is planned, and where each piece is documented.
+description: What Platform IaC is, which Vulnetix configuration you can keep as code, how documents are applied from the CLI, Terraform and a repository, and where each piece is documented.
 order: 1
-sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, cli/pkg/aifirewall/policy.go]
-checked: [config-schemas@9bda9e1, cli@4c8c3b7]
-updated: 02 Nov 2026
+sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, vdb-site/docs/platform-iac-engine.md, terraform-provider-vulnetix/README.md]
+checked: [config-schemas@v1.7.0, cli@v3.166.0, vdb-site@b09e595]
+updated: 03 Nov 2026
 ---
 
-Platform IaC is Vulnetix configuration written as YAML documents, kept in a repository and checked like code. Every document has the same shape: `apiVersion: vulnetix.com/v1`, a `kind`, `metadata` and a `spec`. Each kind has a published JSON Schema.
+Platform IaC is Vulnetix configuration written as YAML documents, kept in a repository and checked like code. Every document has the same shape: `apiVersion: vulnetix.com/v1`, a `kind`, `metadata` and a `spec`. Each kind has a published JSON Schema, a page here with its fields and samples, and, where the engine stores it, a Terraform resource.
 
-Most of it is still being built. This page says exactly what works today and what does not.
+```yaml
+apiVersion: vulnetix.com/v1
+kind: QualityGate
+metadata:
+  name: default
+spec:
+  severity: high
+  blockMalware: true
+```
 
-## What exists today
+## What exists
 
 | Piece | What it does | Page |
 |---|---|---|
-| `Vulnetix/config-schemas` | JSON Schema 2020-12 for each kind, published as signed GitHub Release assets with pinned and `latest` URLs. Release `v1.2.0`, the one the CLI has embedded since v3.157.0, defines 15 kinds; later releases add more. | [Schema releases](/platform-iac/schemas/releases/) |
-| `QualityGate` kind | The tenant's scan quality gate as a document. Validated offline today; not yet applied by any tool. | [QualityGate](/platform-iac/kinds/quality-gate/) |
-| `vulnetix config validate`, `kinds`, `schema` | Offline validation of every Platform IaC document, in `.vulnetix/config/` and the three well-known files, against the schemas built into the CLI. No credentials, no network. CLI v3.153.0 and later; the one rule for what a document is, since v3.164.0. | [Validate documents](/platform-iac/cli/validate/) |
-| `vulnetix config set` and `get` | Imperative commands that write and read the quality gate, the EOL policy, the package firewall policy and mirrors, AI firewall entries and jail exemptions. | [Imperative commands](/platform-iac/cli/imperative-commands/) |
-| `LicenseExceptions` | `.vulnetix/license-exceptions.yaml`, or a document under `.vulnetix/config`. Recorded exceptions to the licence policy; validated offline, not stored by the server yet. | [LicenseExceptions](/platform-iac/kinds/license-exceptions/) |
-| `AiFirewallPolicy` | `.vulnetix/ai-firewall.yaml`, reconciled with `vulnetix ai-firewall apply` and written by `vulnetix ai-firewall export`. A known kind, so `config validate` checks it too. | [AiFirewallPolicy](/platform-iac/kinds/ai-firewall-policy/) |
+| Kinds | 56 kinds in `config-schemas` v1.7.0, from the quality gate and jail policy to the organization's members, the Software Factory, TEA, SIEM and cloud connections. Each page has the fields, rules, Minimal and Advanced samples in YAML, HCL and CLI, and how apply treats it. | [Kind catalogue](/platform-iac/kinds/catalogue/) |
+| Config engine | The server side that plans, applies and exports every kind, records who manages each object, and reports status. 54 kinds are served; `LicensePolicy` and `LicenseExceptions` are validate only. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
+| CLI | `vulnetix config validate`, `kinds` and `schema` work offline; `plan`, `apply` and `export` use the engine. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
+| CEL | A `when` or `selector` expression on jail rules, risk rules, suppressions, package list entries, AI guardrails and detection rule feeds. | [CEL rule expressions](/platform-iac/reference/cel/) |
+| Terraform and OpenTofu | The `vulnetix/vulnetix` provider, one resource per kind, and two AWS modules. Publishing to the registries is pending. | [Terraform and OpenTofu](/platform-iac/terraform/) |
+| GitHub Actions | Plan on pull requests, apply on the default branch. | [config-plan](/platform-iac/github-actions/config-plan/), [config-apply](/platform-iac/github-actions/config-apply/) |
+| Schemas | Signed JSON Schemas, with pinned and `latest` URLs. | [Schema releases](/platform-iac/schemas/releases/) |
 
 > [!CAREFUL] Validating is not applying
-> `vulnetix config validate` checks documents and changes nothing in your organization. To change the stored gate, use [`vulnetix config plan` and `apply`](/platform-iac/cli/apply/), or `vulnetix config set quality-gate` and `vulnetix config set eol-policy`. The [QualityGate](/platform-iac/kinds/quality-gate/#set-these-values-today) page maps each field to its flag.
+> `vulnetix config validate` checks documents and changes nothing in your organization. `vulnetix config plan` shows what applying would change, and `vulnetix config apply` changes it. A CLI release embeds one release of the schemas and refuses a kind added after it as unknown, so check the CLI line on a kind's page; the [roadmap](/platform-iac/planned/roadmap/) lists the gaps.
 
-## What is planned
+## Three ways to apply a document
 
-Except where marked available, none of these exist yet. Each is described on the [Planned](/platform-iac/planned/roadmap/) pages, so you can see where the format is going:
+| Way | Use it when | Credential |
+|---|---|---|
+| `vulnetix config apply` | You keep documents in `.vulnetix/config` or pipe them in; a person or CI applies them. | A `vmt_` config management token, or an owner or admin login |
+| The `config-apply` workflow node and the GitHub Actions | A config repository should manage the tenant on every push to its default branch, with an approval. | The same token |
+| Terraform or OpenTofu | The rest of your infrastructure is already Terraform. | The same token |
 
-- a server-side config engine with `plan`, `apply` and `export`, managers, prune and drift reporting;
-- [`vulnetix config plan`](/platform-iac/cli/plan/), [`apply`](/platform-iac/cli/apply/) and [`export`](/platform-iac/cli/export/) are available now for `QualityGate`; the other kinds follow;
-- a kind for every tenant setting (the [kind catalogue](/platform-iac/planned/kind-catalogue/));
-- a [Terraform and OpenTofu provider](/platform-iac/planned/terraform/);
-- [CEL rule expressions](/platform-iac/planned/cel/);
-- [VEX documents as suppression rules](/platform-iac/planned/vex-sources/);
-- "Download as code" on console settings pages.
+All three go through the same engine, so a document gives the same result in each, and each records its own manager. `--prune` deletes only objects its own manager owns.
 
 ## Find the page for your task
 
 | I want to | Read |
 |---|---|
+| See every kind | [Kind catalogue](/platform-iac/kinds/catalogue/) |
 | Write a quality gate document and check it in CI | [Quickstart](/platform-iac/get-started/quickstart/) |
 | Know what `metadata.name` and `metadata.org` mean | [Documents](/platform-iac/get-started/documents/) |
+| Write a `when` condition | [CEL rule expressions](/platform-iac/reference/cel/) |
+| Manage settings with Terraform | [Terraform and OpenTofu](/platform-iac/terraform/) |
+| Pull VEX documents in as suppressions | [VEX documents as suppression rules](/platform-iac/guides/vex-sources/) |
 | Get completion and errors in my editor | [Editor setup](/platform-iac/schemas/editors/) |
 | Check a schema file was published by Vulnetix | [Verify a release](/platform-iac/schemas/verify/) |
 | Know whether a schema update can break my files | [Compatibility](/platform-iac/schemas/compatibility/) |
 | Set the org quality gate from a script | [Imperative commands](/platform-iac/cli/imperative-commands/) |
 | Keep AI firewall policy in a repository | [AiFirewallPolicy](/platform-iac/kinds/ai-firewall-policy/) |
+| See what is not available yet | [Roadmap](/platform-iac/planned/roadmap/) |
 
-## GitHub Actions
+## Platform IaC in each product
 
-Plan on pull requests and apply on the default branch with the [config-plan](/platform-iac/github-actions/config-plan/) and [config-apply](/platform-iac/github-actions/config-apply/) GitHub Actions.
-
-## Platform IaC
-
-This segment is the Platform IaC reference. Today that is the `QualityGate` schema, offline validation with `vulnetix config validate`, the imperative `vulnetix config set` and `get` commands, and the `AiFirewallPolicy` file. Every other product segment ends with a section like this one that says which of these applies to it.
+Every other product segment ends with a short Platform IaC section that links the kinds of that product.
