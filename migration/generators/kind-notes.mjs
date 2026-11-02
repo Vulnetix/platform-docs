@@ -30,13 +30,11 @@ export const GROUPS = [
   ['Cloud', 'How Vulnetix reaches an AWS estate and what it reads there.', ['AwsConnection', 'AwsAccount', 'CloudSensors']],
   ['API inventory', 'Where OpenAPI and Swagger descriptions are read from.', ['ApiSpecSource']],
   ['Virtual patching', 'Published rule feeds and the configuration runtime sensors enroll with.', ['DetectionRuleFeed', 'RuntimeSensorPolicy']],
-  ['Compliance', 'Compliance targets.', []],
+  ['Compliance', 'Compliance obligations measured on a cadence: report frameworks, SLSA, NIST SSDF and a cryptography policy.', ['ComplianceTarget']],
 ];
 
 // Catalogue kinds with no schema yet. They appear on the catalogue page only.
-export const PLANNED = [
-  { kind: 'ComplianceTarget', group: 'Compliance', note: 'SLSA level, SSDF, crypto policy and AI Act targets. Needs the product feature first.' },
-];
+export const PLANNED = [];
 
 // ── Who acts on a kind ──────────────────────────────────────────────────────
 // vdb-site api/internal/handler/config_tokens.go ownerTokenKinds: a token that
@@ -116,6 +114,10 @@ export const CEL_WHERE = {
   SsvcPolicy: {
     where: 'by the SSVC decision in the Vulnetix site API, on every decision and summary (the summary covers at most 5000 open findings, most severe first, cached for 60 seconds)',
     fail: 'The decision point takes its lower value and the decision is still made. An override that fails does not hold.',
+  },
+  ComplianceTarget: {
+    where: 'by the Vulnetix site API at every run of the target, once for each component of the newest CBOM of each repository in scope (at most 20000 components)',
+    fail: '**Fails closed** for `crypto.allow`: a component it cannot be evaluated for is a violation, because an unassessed algorithm must not pass a policy. A `crypto.appliesTo` that fails leaves the component in scope.',
   },
   DetectionRuleFeed: {
     where: 'by the Vulnetix site API at every publish of the feed, once for each candidate rule and CVE',
@@ -586,6 +588,23 @@ The console's create and update writers, now transaction scoped. A bot token or 
 ## How a scan uses it
 
 A processor asks Vulnetix for the credential of the connection that serves a package, giving the organization, the ecosystem, the registry host and the package or repository name. The connection chosen is an enabled one for that host whose scope serves the name, the most specific scope first. The vault read is recorded in the vault activity log. The processors that would call this are not wired to it yet; the integration points are in the [private registries guide](/organization/integrations/private-registries/).`,
+  },
+
+  ComplianceTarget: {
+    sources: ['vdb-site/api/internal/config/compliancetarget.go', 'vdb-site/api/internal/compliancetarget/compliancetarget.go', 'vdb-site/api/internal/handler/compliance_targets.go', 'vdb-site/api/internal/handler/compliance_report_create.go', 'vdb-site/docs/compliance-targets.md', 'saas/prisma/migrations/20261228040000_compliance_target/migration.sql'],
+    after: `## How apply treats it
+
+- A report framework (\`eu_ai_act\`, \`nist_ai_rmf\`, \`iso_42001\`, \`owasp_top_10\`, \`pci_dss\`, \`coverage\`, \`exposure\`, \`eu_cra\`, \`iso_27001\`, \`owasp_dsomm\`) creates a compliance report on each run, through the code a report made by hand uses, scoped to \`scope.repositories\`. The OSCAL export and the evidence are unchanged.
+- \`slsa\`, \`ssdf\` and \`crypto-policy\` make no report: each run stores an evaluation with its checks, and the history is kept.
+- The spec reads back with \`cadence\` and \`enabled\` written and the blocks of other frameworks absent, the repositories lower-cased and sorted.
+- A new target is due at once. Each run schedules the next one cadence later, a failed run is tried again in an hour, and a changed cadence moves the next run. Delete removes the target and its runs and keeps the reports it created.
+- It needs the compliance reports plan feature and saas migration \`20261228040000_compliance_target\`. Until it runs, plan refuses a document, naming the migration, and nothing runs.
+
+## The evaluations
+
+- **slsa.** Level 1 asks for build provenance; level 2 adds verified provenance and signed published artifacts; level 3 adds witnessed signatures and verified attestations. Each level also checks the Software Factory's \`security.slsa_min\`. A pass means the evidence a hardened build platform leaves is there, since Vulnetix cannot inspect the platform.
+- **ssdf.** Fourteen NIST SP 800-218 practices Vulnetix holds evidence for, in the groups PO, PS, PW and RV. A practice with no evidence is not counted. \`minMet\` is the percentage of counted practices that must be met. It is not a conformance claim.
+- **crypto-policy.** \`crypto.allow\` is evaluated for each component of the newest CBOM of each repository in scope that \`crypto.appliesTo\` selects. A component it is false for, or cannot be evaluated for, is a violation, so the policy fails closed. A run with nothing to judge is \`unknown\`.`,
   },
 
   WizConnection: {
