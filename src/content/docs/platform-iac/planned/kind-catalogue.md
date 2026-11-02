@@ -32,9 +32,9 @@ All kinds use `apiVersion: vulnetix.com/v1`. A kind ships only after its schema 
 | Pix | `SandboxLaunchProfile`, `SandboxEgressPolicy` | Hostname-only egress. |
 | TEA | `TeaProduct`, `TeaComponent`, `TeaCollection`, `TeaAccessPolicy`, `TeaPublicationTarget` | Releases and artifacts stay CI-published data. |
 | SIEM | `SavedSearch`, `DetectionRule` (Sigma or the native DSL), `AlertTrigger`, `ScheduledReport`, `LogSource` | |
-| Cloud | `AwsConnection`, `AwsAccount`, `CloudSensors` | Per-account sensor opt-in needs a write path first. |
+| Cloud | `AwsConnection`, `AwsAccount`, `CloudSensors` | Per-account sensor opt-in needs a write path first. `CloudSensors` only turns sensors on for an account; what a host sensor runs and which credential it holds is `SensorProvisioningProfile`. |
 | Compliance | `ComplianceTarget` | SLSA, SSDF, crypto policy and AI Act targets need product features first. |
-| Virtual patching | `DetectionRuleFeed`, `RuntimeSensorPolicy` | Feeds are consumed by WAFs, IDS and the runtime sensor. |
+| Virtual patching | `DetectionRuleFeed`, `SensorProvisioningProfile` | Feeds are consumed by WAFs, IDS and the runtime sensor. `SensorProvisioningProfile` is a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code: match, credential mode and sensor config. It replaces the earlier `RuntimeSensorPolicy` name. Profiles are console-only today. |
 
 ## Planned order
 
@@ -44,5 +44,5 @@ All kinds use `apiVersion: vulnetix.com/v1`. A kind ships only after its schema 
 | P1 | Security policy: `QualityGate`, `JailPolicy`, `JailExemption`, `PackageFirewallPolicy`, `PackageList`, `AiFirewallPolicy`, `AiProvider`, `AiGovernanceList`, `RiskStrategy`, `RemediationPolicy`, `Suppression`, `VexSource`, `LicensePolicy`, `MalwareIoc`. |
 | P2 | Org and integrations. |
 | P3 | Factory, AI libraries, Pix, TEA, `Campaign`. |
-| P4 | SIEM, cloud, detection rule feeds and the runtime sensor. |
+| P4 | SIEM, cloud, detection rule feeds and `SensorProvisioningProfile`. |
 | P5 | Kinds that need product features first: asset labels, `ComplianceTarget`, registry connections, per-account sensor opt-in. |

@@ -3,7 +3,7 @@ title: Runtime sensor
 description: What vulnetix-sensor runs, its monitor, guard and enforce modes, how holds are decided, and where to deploy it.
 order: 1
 nav: Sensor overview
-sources: [cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/README.md, cli/internal/sensor/decide/decide.go, cli/internal/sensor/engine/engine.go, cli/internal/sensor/feed/feed.go, vdb-site/docs/runtime-sensor-api.md, vdb-site/api/main.go]
+sources: [cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/README.md, vdb-site/docs/sensor-provisioning-api.md, cli/internal/sensor/decide/decide.go, cli/internal/sensor/engine/engine.go, cli/internal/sensor/feed/feed.go, vdb-site/docs/runtime-sensor-api.md, vdb-site/api/main.go]
 checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
@@ -75,7 +75,14 @@ At least one of `--listen`, `--egress-listen`, `--dns-listen`, `--tetragon-expor
 
 ## Credentials
 
-The sensor uses the CLI's credentials: `VULNETIX_ORG_ID` and `VULNETIX_API_KEY` (the hex HMAC-SHA256 of the org id, keyed by the org secret), or the file `vulnetix auth login` writes. Without them it refuses to start unless `--offline` is set, in which case rules load from the feeds and nothing is reported.
+A Linux host can get its credential in two ways:
+
+| Way | Credential | Configuration | Page |
+|---|---|---|---|
+| Enroll with `vulnetix-sensor enroll` | Issued by a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/): a per-device key by default, or the enrolling person's key, or the org key. Kept in `/etc/vulnetix-sensor/credential`. | Pulled from the profile every 5 minutes | [Choose a path](/virtual-patching/get-started/choose-a-sensor-path/) |
+| Set it yourself | `VULNETIX_ORG_ID` and `VULNETIX_API_KEY` (the hex HMAC-SHA256 of the org id, keyed by the org secret), or the file `vulnetix auth login` writes | Flags on the command line | This page and the deploy pages |
+
+Containers and Lambda functions use the second way. The order the sensor looks in is on [Sensor flags](/virtual-patching/reference/sensor-flags/#precedence). Without any credential it refuses to start unless `--offline` is set, in which case rules load from the feeds and nothing is reported.
 
 It registers itself and reports to `--endpoint` (default `https://www.vulnetix.com/api/site`), at `/v1/runtime/*`. Its own key is kept in `--state-dir` (default `/var/lib/vulnetix-sensor`).
 
@@ -97,8 +104,14 @@ sudo vulnetix-sensor inventory --root /
 
 ## Deploy
 
+Start at [Choose a sensor path](/virtual-patching/get-started/choose-a-sensor-path/) if you are not sure which one fits.
+
 | Compute | Page |
 |---|---|
+| Your own Linux laptop | [Your own laptop](/virtual-patching/sensor/byod-laptop/) |
+| Devices your MDM manages | [MDM enrollment](/virtual-patching/sensor/mdm/) |
+| Fleets of hosts: cloud-init, SSM, EMR, Ansible, Terraform | [At scale](/virtual-patching/sensor/iac/) |
+| Hosts where the sensor must be hard to stop | [Protection](/virtual-patching/sensor/protection/) |
 | Kubernetes or ECS, in front of an app | [Sidecar](/virtual-patching/runtime/sensor-sidecar/) |
 | Every Kubernetes node, with Tetragon | [DaemonSet](/virtual-patching/runtime/sensor-daemonset/) |
 | AWS Lambda | [Lambda layer](/virtual-patching/runtime/sensor-lambda/) |

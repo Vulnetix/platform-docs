@@ -30,7 +30,7 @@ Every rule states:
 |---|---|---|
 | `vulnetix defend <advisory-id>` | One finding, saved into your repository and recorded as a compensating control | [defend command](/virtual-patching/defend/command/) |
 | A detection rule feed | A curated, published set of rules that your WAF, IDS or SIEM fetches from a stable URL | [Detection rule feeds](/virtual-patching/feeds/detection-rule-feeds/) |
-| The Vulnetix runtime sensor | Running the rules inside your workload, with a person deciding on each hold | [Runtime sensor](/virtual-patching/runtime/sensor/) |
+| The Vulnetix runtime sensor | Running the rules inside your workload, with a person deciding on each hold | [Runtime sensor](/virtual-patching/runtime/sensor/), and [Choose a sensor path](/virtual-patching/get-started/choose-a-sensor-path/) for how to install it |
 
 Then deploy the rules to the system that runs them:
 
@@ -61,6 +61,7 @@ Below the plan, the API answers `200` with `planLocked: true` and an empty list 
 | Virtual Patching: Your Feeds, Virtual Patches, Snort Rules, Web App Firewalls | `/resolve/virtual-patching` |
 | Countermeasures | `/resolve/countermeasures` |
 | Sensors: fleet, holds, decisions | `/resolve/sensor` |
+| Sensor Provisioning: profiles, enrolled devices, uninstall codes | `/resolve/sensor-provisioning` |
 
 ## Platform IaC
 

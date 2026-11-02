@@ -8,6 +8,22 @@ checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
 ---
 
+## Enroll instead
+
+`install.sh --enroll` installs the binary and then runs `vulnetix-sensor enroll`, which gets the credential and the configuration from a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) instead of from an env file and flags. A person enrolls with their CLI sign-in; a fleet enrolls with a signing key fetched at boot:
+
+```bash
+# A person, after vulnetix auth login --store home
+curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.155.0/deploy/sensor/install.sh \
+  | sudo sh -s -- --enroll --from-cli-login
+
+# A host, with an MDM integration key in /etc/vulnetix-sensor/mdm.key
+curl -fsSL https://raw.githubusercontent.com/Vulnetix/cli/v3.155.0/deploy/sensor/install.sh \
+  | sudo sh -s -- --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <integration-uuid> --kid <kid>
+```
+
+See [Your own laptop](/virtual-patching/sensor/byod-laptop/) and [At scale](/virtual-patching/sensor/iac/) for cloud-init, SSM, EMR, Ansible and Terraform. The rest of this page is the install with an env file and positional arguments, which keeps working.
+
 ## Any Linux host
 
 ```bash

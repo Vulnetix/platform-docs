@@ -1,7 +1,7 @@
 ---
 title: Quickstart
 description: From a finding with no fix to a rule running in log-only mode at your edge, and recorded so the next scan knows.
-order: 2
+order: 3
 sources: [cli/cmd/defend.go, cli/internal/defences/defences.go, cli/internal/defences/control.go, cli/internal/scanopts/failon.go]
 checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
