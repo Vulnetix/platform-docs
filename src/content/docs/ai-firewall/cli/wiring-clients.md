@@ -10,7 +10,7 @@ sources:
   - cli/pkg/aifirewall/provider.go
   - cli/internal/managedfile/shell.go
   - cli/internal/managedfile/file.go
-checked: [cli@4c8c3b7]
+checked: [cli@0b41bb394]
 updated: 02 Nov 2026
 ---
 
@@ -122,6 +122,15 @@ vulnetix ai-firewall uninstall --except shell
 Uninstall needs no credential and makes no API call. For each client it either restores the `.vulnetix.bak` backup, strips only the keys and blocks `install` wrote, or deletes a file `install` created. A file you wrote is never deleted. For `cursor` and `windsurf` it reminds you to clear the override in the application's settings.
 
 Server-side policy and stored provider keys are not touched. To remove a key, run `vulnetix ai-firewall key remove <provider>`.
+
+## Next to the Package Firewall
+
+`vulnetix package-firewall` writes its own managed block to the same shell rc file, so a machine wired for both has two blocks: `# Vulnetix AI Firewall` ... `# End Vulnetix AI Firewall` and `# Vulnetix Package Firewall` ... `# End Vulnetix Package Firewall`. Each `uninstall` strips only its own block. The two products are unrelated: the [Package Firewall](/package-firewall/) governs which software packages may be installed.
+
+## Commands to run alongside
+
+- `vulnetix aibom` lists the AI clients and SDKs a repository uses. Run it before `install` to see what there is to wire. See [AI BOM](/sbom/aibom/overview/).
+- `vulnetix secrets` scans files for credentials. Run it after `install --embed-key`, and after wiring Continue, which writes a literal key to `~/.continue/.env`. See [Secrets](/secrets/).
 
 ## Related
 

@@ -41,6 +41,16 @@ Each step can end the request with its own status and `code`. All codes are on [
 > [!CAREFUL] Guardrails read the request, not the response
 > Rules run on what the client sends: prompts, tool results and tool declarations. The model's reply is relayed without inspection. See [Limitations](/ai-firewall/policy/limitations/).
 
+## What it does not do
+
+- No rate limits, spend caps or budgets.
+- No markup and no resale: requests go out on your own provider key, and your billing relationship with each provider is unchanged.
+- No response inspection: only requests are screened.
+- It cannot undo a tool call that already ran on a developer's machine; a tool rule removes or refuses the tool on later requests.
+- It governs only traffic sent to it. A developer who unsets the base URL variable talks to the provider directly again, which is what `vulnetix ai-firewall status` reports as `bypasses_firewall` ([Status and checks](/ai-firewall/cli/status-and-checks/)).
+
+The full list is on [Limitations and roadmap](/ai-firewall/reference/limitations-and-roadmap/), and a comparison with other gateways is on [Alternatives](/ai-firewall/reference/alternatives/).
+
 ## Plans
 
 The gateway and the key vault are on every plan. Policy is what paid plans add. The API checks the plan when a rule is written, and the gateway checks it again on every request, so a rule stops being enforced after a downgrade.
