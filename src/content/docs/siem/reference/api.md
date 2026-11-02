@@ -62,6 +62,8 @@ All paths are under `https://guardian.vulnetix.com/v1/guardian`.
 | `POST /sources/cloudflare` | `{ apiToken, accountId, zoneIds, datasets }`: create Logpush jobs | [Cloudflare](/siem/sources/cloudflare/) |
 | `POST /sources/cloudflare/remove` | `{ apiToken, ids }`: delete jobs | [Cloudflare](/siem/sources/cloudflare/#remove-jobs) |
 | `GET /connections` | Your messaging connections, for destination pickers | |
+| `GET /surface?rangeMs=&from=&to=&refresh=1` | The attack surface: an aggregate of the tenant's `http_events` and `waf_events` by route, ASN and country. The window is `rangeMs` (1 hour to 30 days, default one day) or `from` and `to` (at most 30 days). The answer is cached and says `cached: true`; `refresh=1` recomputes it. | |
+| `PUT /surface/templates` | `{ version, templates: [{ method, path, key }] }`: replaces the tenant's route and operation template set, at most 20,000. Ingest matches request paths against it to fill `path_template`. Vulnetix pushes it. | [Tables](/siem/search/tables/) |
 | `GET /usage` | Fourteen days of bytes scanned, queries and rows ingested, and the daily budget | [Packs](/siem/reference/packs-and-limits/) |
 
 An unknown path answers `404`; a known path with the wrong method `405`.
