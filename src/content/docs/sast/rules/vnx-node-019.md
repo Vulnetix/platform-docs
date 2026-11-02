@@ -1,0 +1,137 @@
+---
+title: "VNX-NODE-019: Hardcoded JWT or session secret"
+nav: "VNX-NODE-019"
+description: "Reports a string literal used as the key of jwt.sign/verify, session/JWT middleware, cookieParser, Koa/cookie-session keys or createHmac, directly or through a constant, and literal jwtSecret/sessionSecret-style config values. Not reported: env or config lookups, env fallbacks, tests, examples/ and comments."
+order: 815
+sources: ["cli/internal/sast/rules/vnx-node-019.rego", "cli/website/content/docs/sast-rules/vnx-node-019.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-019` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-798](https://cwe.mitre.org/data/definitions/798.html) |
+| CAPEC | [CAPEC-191](https://capec.mitre.org/data/definitions/191.html) |
+| ATT&CK | [T1552.001](https://attack.mitre.org/techniques/T1552/001/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `hardcoded-secret` `jwt` `session` `credentials` `node` |
+| Source | [`internal/sast/rules/vnx-node-019.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-019.rego) |
+
+## Overview
+
+This rule flags hardcoded string literals passed as cryptographic secrets to `jwt.sign()`, `jwt.verify()`, `express-session`'s `secret:` configuration option, or `crypto.createHmac()`. A hardcoded secret is one embedded directly in source code as a quoted string rather than loaded at runtime from an environment variable (`process.env.SECRET_NAME`) or a secrets manager (AWS Secrets Manager, HashiCorp Vault, etc.).
+
+The rule matches `jwt.sign(payload, 'literal')` and `jwt.verify(token, 'literal')` (also when the call spans lines); `secret`, `secretOrKey` or `secretOrPrivateKey` given a literal inside express-session, cookie-session, express-jwt, koa-jwt, @fastify/jwt, NestJS `JwtModule.register` or a passport-jwt `Strategy`; `cookieParser('literal')`; Koa `app.keys = ['literal']` and cookie-session `keys: ['literal']`; `crypto.createHmac(alg, 'literal')`; a `const` holding a literal that one of those calls uses as its key (reported at the assignment); and a property or variable named `jwtSecret`, `sessionSecret`, `cookieSecret`, `tokenSecret`, `authSecret`, `signingSecret` or `JWT_KEY` set to a literal. It does not report keys read from `process.env` or a config object, the literal fallback in `process.env.X || '...'`, an empty string, TOTP secrets, test files, `examples/` directories, comments, or calls written inside a string literal. VNX-JWT-003 overlaps on `jwt.sign`.
+
+Hardcoded secrets are functionally equivalent to no secret at all for anyone with read access to the repository. Every JWT the application signs with a known secret can be forged, every session can be hijacked, and every HMAC can be replicated by an attacker who has recovered the key from source code.
+
+## Why This Matters
+
+Source code is rarely as private as developers assume. It may be checked in to a shared Git repository, present in build artefacts, included in Docker images, visible to CI/CD pipeline runners, or accessible to any employee with repository read access. Once a secret appears in a commit, it is permanently recorded in Git history even if subsequently removed, any clone made before the removal retains the secret.
+
+For JWT secrets, compromise means an attacker can sign arbitrary tokens asserting any identity or role. For session secrets, it means session cookies can be forged, bypassing authentication entirely. For HMAC keys, it breaks the integrity guarantee of any MAC-protected data.
+
+Real-world incidents: hardcoded secrets in public GitHub repositories are continuously harvested by automated scanners. The GitGuardian 2024 report found hardcoded secrets in one in ten public commits. Internal repositories are not immune, insider threats, accidental repository visibility changes, and repository exposure during security incidents all create paths to secret discovery.
+
+## What Gets Flagged
+
+```javascript
+// FLAGGED: hardcoded string literal as JWT signing secret
+const token = jwt.sign({ userId: user.id }, 'my-secret-key');
+
+// FLAGGED: hardcoded secret in jwt.verify
+const payload = jwt.verify(token, 'supersecret123');
+
+// FLAGGED: hardcoded session secret in express-session
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+}));
+
+// FLAGGED: hardcoded HMAC key and cookie-signing secret
+const hmac = crypto.createHmac('sha256', 'static-key');
+app.use(cookieParser('cookie-signing-secret'));
+
+// FLAGGED: Koa and cookie-session signing keys
+app.keys = ['im a newer secret'];
+app.use(cookieSession({ name: 'session', keys: ['k3y-one'] }));
+
+// FLAGGED (at the assignment): a constant used as the key
+const SIGNING_KEY = 'b2c4e6f8a0-signing';
+jwt.sign({ sub: userId }, SIGNING_KEY);
+
+// FLAGGED: config value named for the purpose
+module.exports = { cookieSecret: 'session_cookie_secret_value' };
+
+// Not flagged
+app.use(session({ secret: process.env.SESSION_SECRET }));
+generateSync({ secret: user.totpSecret });
+```
+
+## Remediation
+
+1. **Load all secrets from environment variables** using `process.env`. Validate that the variable is set at application startup so the app fails fast rather than running with a missing secret.
+
+2. **For production deployments**, use a secrets manager (AWS Secrets Manager, GCP Secret Manager, HashiCorp Vault, Doppler) and inject secrets as environment variables at runtime.
+
+3. **Rotate any secret that has already appeared in source code.** Even a brief window of exposure requires rotation because Git history is permanent.
+
+4. **Use a `.env` file locally with `dotenv`**, ensuring `.env` is in `.gitignore` and never committed.
+
+```javascript
+// SAFE: load secrets from environment at startup
+const JWT_SECRET = process.env.JWT_SECRET;
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
+if (!JWT_SECRET || !SESSION_SECRET) {
+  console.error('Required secrets not set in environment');
+  process.exit(1);
+}
+
+// SAFE: use environment variable for JWT signing
+const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+  algorithm: 'HS256',
+  expiresIn: '1h',
+  issuer: 'https://yourapp.com',
+});
+
+// SAFE: use environment variable for express-session
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: true, httpOnly: true, sameSite: 'strict' },
+}));
+
+// SAFE: use environment variable for HMAC
+const hmac = crypto.createHmac('sha256', process.env.HMAC_KEY);
+hmac.update(data);
+const digest = hmac.digest('hex');
+```
+
+## References
+
+- [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html)
+- [CAPEC-191: Read Sensitive Constants Within an Executable](https://capec.mitre.org/data/definitions/191.html)
+- [OWASP Node.js Security Cheat Sheet – Secrets Management](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
+- [dotenv npm package](https://github.com/motdotla/dotenv)
+- [jsonwebtoken npm, best practices](https://github.com/auth0/node-jsonwebtoken#readme)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-019
+// nosec vnx-node-019
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-019 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

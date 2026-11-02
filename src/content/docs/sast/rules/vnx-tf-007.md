@@ -1,0 +1,115 @@
+---
+title: "VNX-TF-007: Terraform AWS EKS cluster public API endpoint enabled"
+nav: "VNX-TF-007"
+description: "Detect EKS clusters in Terraform whose Kubernetes API endpoint is public to the whole internet: endpoint_public_access = true or left at its public default without a restricting public_access_cidrs, or an EKS module with public access turned on."
+order: 987
+sources: ["cli/internal/sast/rules/vnx-tf-007.rego", "cli/website/content/docs/sast-rules/vnx-tf-007.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-TF-007` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `iac` |
+| Languages | Terraform |
+| CWE | [CWE-200](https://cwe.mitre.org/data/definitions/200.html) |
+| CAPEC | [CAPEC-1](https://capec.mitre.org/data/definitions/1.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `eks` `kubernetes` `aws` `terraform` |
+| Source | [`internal/sast/rules/vnx-tf-007.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-tf-007.rego) |
+
+## Overview
+
+This rule flags Terraform `.tf` files where an `aws_eks_cluster` sets `endpoint_public_access = true`, or omits `endpoint_public_access` (the default is a public endpoint), and does not restrict `public_access_cidrs` to anything narrower than `0.0.0.0/0`; and a terraform-aws-modules EKS module that sets `cluster_endpoint_public_access` or `endpoint_public_access = true` without a restricting `*_public_access_cidrs` list. A public endpoint limited to known CIDRs, a value from a variable, and a module left at its private default are not reported. The EKS API server endpoint is the control plane interface through which `kubectl` commands, CI/CD pipelines, and Kubernetes controllers communicate. When it is publicly accessible, any internet-connected host can attempt to authenticate against it.
+
+A publicly accessible Kubernetes API server is a high-value target for several classes of attack: credential theft via brute-force or social engineering, exploitation of authentication vulnerabilities in the API server itself, and discovery of exposed control plane components via the unauthenticated `/version` and `/healthz` endpoints that leak cluster information.
+
+This rule corresponds to [CWE-200: Exposure of Sensitive Information to an Unauthorized Actor](https://cwe.mitre.org/data/definitions/200.html).
+
+## Why This Matters
+
+The Kubernetes API server is the most sensitive component of any Kubernetes cluster. Every administrative action, deploying workloads, reading secrets, modifying RBAC policies, accessing pod logs, flows through the API server. An attacker who can authenticate to the API server (or exploit an unauthenticated vulnerability in it) has complete control over all workloads running on the cluster.
+
+EKS clusters running production workloads frequently have Kubernetes Secrets containing database credentials, API keys, TLS certificates, and cloud provider credentials. A compromised API server provides access to all of these. The attacker can also spawn privileged containers, mount host filesystems, access the EC2 instance metadata service from within pods, and ultimately achieve full control of the underlying EC2 worker nodes.
+
+Public EKS endpoints face automated scanning that discovers new clusters within minutes. While AWS requires valid credentials to make most API calls, `kubectl` cluster CVEs (such as the path traversal vulnerability CVE-2018-1002105) have demonstrated that even partially unauthenticated access to a public API server can be leveraged to escalate privileges.
+
+## What Gets Flagged
+
+```hcl
+resource "aws_eks_cluster" "main" {
+  vpc_config {
+    subnet_ids             = var.private_subnets
+    endpoint_public_access = true     # FLAGGED: no public_access_cidrs
+  }
+}
+
+resource "aws_eks_cluster" "dev" {   # FLAGGED: public endpoint by default
+  vpc_config {
+    subnet_ids = aws_subnet.private[*].id
+  }
+}
+
+module "eks" {
+  source                         = "terraform-aws-modules/eks/aws"
+  cluster_endpoint_public_access = true   # FLAGGED
+}
+```
+
+Not flagged: `endpoint_public_access = false`, or `endpoint_public_access = true` with `public_access_cidrs = ["203.0.113.10/32"]`.
+
+## Remediation
+
+1. **Set `endpoint_public_access = false` and `endpoint_private_access = true`.** Workers and management tooling should communicate with the API server via the private VPC endpoint:
+
+```hcl
+# SAFE: private-only EKS API endpoint
+resource "aws_eks_cluster" "prod" {
+  name     = "production"
+  role_arn = aws_iam_role.eks.arn
+
+  vpc_config {
+    subnet_ids              = var.private_subnet_ids
+    endpoint_private_access = true
+    endpoint_public_access  = false
+  }
+}
+```
+
+2. **If public access is operationally necessary, restrict it to specific CIDR blocks** rather than allowing all internet traffic. Use `public_access_cidrs` to limit access to corporate VPN egress IPs or other known ranges:
+
+```hcl
+# ACCEPTABLE: public access restricted to specific IPs
+vpc_config {
+  endpoint_public_access  = true
+  endpoint_private_access = true
+  public_access_cidrs     = ["203.0.113.0/24"] # corporate VPN egress
+}
+```
+
+3. **Use AWS VPN or Direct Connect for administrative access** to avoid requiring a public endpoint. CI/CD pipelines can reach the private endpoint by running within the VPC or through a VPN connection.
+
+## References
+
+- [CWE-200: Exposure of Sensitive Information to an Unauthorized Actor](https://cwe.mitre.org/data/definitions/200.html)
+- [AWS EKS – Cluster endpoint access control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
+- [AWS EKS security best practices guide](https://aws.github.io/aws-eks-best-practices/security/docs/)
+- [CIS AWS Foundations Benchmark – EKS controls](https://www.cisecurity.org/benchmark/amazon_web_services)
+- [OWASP Infrastructure as Code Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Infrastructure_as_Code_Security_Cheat_Sheet.html)
+- [Terraform aws_eks_cluster documentation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-tf-007
+// nosec vnx-tf-007
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-tf-007 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

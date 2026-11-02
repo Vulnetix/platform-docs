@@ -1,0 +1,113 @@
+---
+title: "VNX-PHP-022: PHP open redirect via non-literal redirect destination"
+nav: "VNX-PHP-022"
+description: "Detects Laravel/CodeIgniter redirect(), redirect()->to()/away(), Redirect::to()/away(), Symfony $this->redirect() and RedirectResponse whose destination starts with a request value, inline or via a nearby variable, unless a literal prefix pins the host or path or the value is validated. Raw Location headers and wp_redirect() are reported by VNX-PHP-004."
+order: 850
+sources: ["cli/internal/sast/rules/vnx-php-022.rego", "cli/website/content/docs/sast-rules/vnx-php-022.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PHP-022` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | PHP |
+| CWE | [CWE-601](https://cwe.mitre.org/data/definitions/601.html) |
+| CAPEC | [CAPEC-194](https://capec.mitre.org/data/definitions/194.html) |
+| ATT&CK | [T1598](https://attack.mitre.org/techniques/T1598/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `open-redirect` `redirect` `symfony` `laravel` `php` |
+| Source | [`internal/sast/rules/vnx-php-022.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-php-022.rego) |
+
+## Overview
+
+This rule detects PHP framework redirect helpers (Laravel and CodeIgniter `redirect()`, `redirect()->to()`/`away()`, `Redirect::to()`/`away()`, Symfony `$this->redirect()` and `new RedirectResponse()`) where the destination URL is constructed from user-controlled input. A redirect the code sends itself, with `header('Location: ...')`, a `Refresh` header, WordPress `wp_redirect()` or PSR-7 `withHeader('Location', ...)`, is the same weakness and is reported by [VNX-PHP-004](/sast/rules/vnx-php-004/), so one redirect is one finding. When a web application redirects users to an arbitrary URL specified in a request parameter without validation, attackers can craft links that appear to lead to the trusted domain but actually redirect victims to attacker-controlled sites.
+
+Open redirect vulnerabilities arise when the redirect destination is taken from a query string, POST body, or cookie value and passed to the redirect mechanism without verifying that the destination is within the application's trusted domain. The application itself is benign, but it becomes an enabler for phishing: a link like `https://trusted-bank.com/login?next=https://evil.com/steal` appears legitimate in email clients, security scanners, and link preview tools.
+
+The common framework patterns are a redirect helper called with request data, and a chained redirect where a variable derived from user input is used as the redirect target several lines after the original assignment.
+
+## Why This Matters
+
+Open redirects are frequently used as a component in phishing campaigns and OAuth token theft attacks. In phishing, the trusted domain lends credibility to the malicious link, users who hover over the URL see the organisation's domain and proceed to click. The redirect then sends them to a credential-harvesting page styled to look like the real site.
+
+In OAuth flows, an open redirect on the authorisation server can be chained with a crafted `redirect_uri` parameter to redirect the authorisation code or access token to the attacker's domain. This is particularly impactful because it bypasses the `redirect_uri` allowlist that OAuth providers are supposed to enforce, a redirect chain that passes through a trusted domain can satisfy the allowlist while ultimately delivering tokens to the attacker.
+
+Applications that implement "return to previous page after login" functionality are especially prone to open redirects because they naturally store and follow a user-specified URL.
+
+## What Gets Flagged
+
+```php
+// FLAGGED: CodeIgniter redirect with a request value
+redirect($this->input->get('return'));
+
+// FLAGGED: Symfony redirect with a query parameter
+return $this->redirect($request->query->get('target'));
+
+// FLAGGED: Laravel redirect through a variable read from the request
+$return = $request->query('return');
+return redirect()->to($return);
+
+// NOT FLAGGED: a pinned path prefix, a route name, or an allowlisted value
+return redirect('/login?next=' . urlencode($request->input('next')));
+return redirect()->route('home');
+
+// NOT FLAGGED HERE: reported by VNX-PHP-004
+header('Location: ' . $_GET['redirect']);
+```
+
+## Remediation
+
+1. **Validate the redirect target against an allowlist** of known safe internal paths or domains before redirecting.
+
+2. **Use relative paths for internal redirects**, a destination that starts with `/` cannot redirect to an external domain.
+
+3. **For post-login redirects**, store the intended destination in the session (set by your own code, not from user input) rather than in a URL parameter.
+
+4. **If the destination must come from user input**, strip the scheme and host and use only the path component, then verify it starts with `/` and does not start with `//`.
+
+```php
+<?php
+// SAFE: allowlist of permitted redirect paths
+function safeRedirect(string $destination): void {
+    $allowed = ['/dashboard', '/profile', '/orders'];
+    if (!in_array($destination, $allowed, true)) {
+        $destination = '/dashboard'; // fall back to safe default
+    }
+    header('Location: ' . $destination);
+    exit;
+}
+
+safeRedirect($_GET['next'] ?? '/dashboard');
+
+// SAFE (Laravel): validate with regex for internal paths only
+$next = $request->input('next', '/dashboard');
+if (!preg_match('#^/[a-zA-Z0-9/_-]*$#', $next)) {
+    $next = '/dashboard';
+}
+return redirect($next);
+```
+
+## References
+
+- [CWE-601: URL Redirection to Untrusted Site ('Open Redirect')](https://cwe.mitre.org/data/definitions/601.html)
+- [CAPEC-194: Fake the Source of Data](https://capec.mitre.org/data/definitions/194.html)
+- [OWASP Unvalidated Redirects and Forwards Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)
+- [OWASP PHP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html)
+- [Laravel Documentation – Redirects](https://laravel.com/docs/responses#redirects)
+- [PortSwigger Web Security Academy – Open Redirects](https://portswigger.net/kb/issues/00500100_open-redirection-reflected)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-php-022
+// nosec vnx-php-022
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-php-022 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

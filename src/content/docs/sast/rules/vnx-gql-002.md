@@ -1,0 +1,223 @@
+---
+title: "VNX-GQL-002: GraphQL query batching enabled without a limit (DoS)"
+nav: "VNX-GQL-002"
+description: "Reports unbounded GraphQL operation batching switched on with a literal true: Apollo allowBatchedHttpRequests, graphql-yoga batching, Mercurius allowBatchedQueries, or batch=True on a Python GraphQLView."
+order: 745
+sources: ["cli/internal/sast/rules/vnx-gql-002.rego", "cli/website/content/docs/sast-rules/vnx-gql-002.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-GQL-002` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript, Python |
+| CWE | [CWE-770](https://cwe.mitre.org/data/definitions/770.html) |
+| CAPEC | [CAPEC-469](https://capec.mitre.org/data/definitions/469.html) |
+| ATT&CK | [T1499](https://attack.mitre.org/techniques/T1499/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `graphql` `dos` `resource-exhaustion` |
+| Source | [`internal/sast/rules/vnx-gql-002.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-gql-002.rego) |
+
+## Overview
+
+This rule detects Apollo Server configured with `allowBatchedHttpRequests: true`. Query batching allows a client to send an array of multiple GraphQL operations in a single HTTP request. Without this being paired with strict per-operation rate limiting and query depth/complexity controls, an attacker can send hundreds of complex operations in a single request, completely bypassing any HTTP-layer rate limiting and causing denial of service through CPU or database connection exhaustion.
+
+GraphQL's flexible query language creates DoS attack surfaces that HTTP-layer controls cannot address alone. Both HTTP-level batching and deeply nested single queries can exhaust server resources, this rule targets the former; depth/complexity limits address the latter.
+
+**OWASP ASVS v4:** V13.4.1, Verify that a query allowlist or a combination of depth limiting and amount limiting is used to prevent GraphQL DoS as a result of expensive, nested queries.
+
+## Why This Matters
+
+GraphQL's flexible query structure creates unique denial-of-service opportunities that HTTP-layer rate limiting cannot fully address:
+
+**Batching amplification:** With `allowBatchedHttpRequests: true`, an attacker sends a JSON array of 50 operations in a single HTTP request. Your load balancer counts one request; your server executes 50 expensive resolver chains. Standard rate limiting (requests per minute per IP) is bypassed entirely.
+
+**Nested query exhaustion:** A maliciously nested query can cause exponential resolver execution even without batching:
+
+```graphql
+# This single query can lock up your event loop or exhaust your DB connection pool
+{
+  user {
+    friends {
+      friends {
+        friends {
+          friends {
+            posts {
+              comments {
+                author {
+                  friends { id }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Real-world GraphQL DoS attacks have taken production services offline within seconds because the default GraphQL execution engine has no built-in query complexity limits. The OWASP GraphQL Cheat Sheet explicitly calls out both batching and depth limiting as required controls.
+
+## What Gets Flagged
+
+```javascript
+// FLAGGED: batching enabled without compensating controls
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  allowBatchedHttpRequests: true,  // <-- flagged
+});
+
+// FLAGGED: graphql-yoga and Mercurius
+const yoga = createYoga({ schema, batching: true });
+app.register(mercurius, { schema, resolvers, allowBatchedQueries: true });
+```
+
+```python
+# FLAGGED: batch=True on a GraphQLView (or a subclass's) as_view()
+app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, batch=True))
+
+# FLAGGED: batch = True as a class attribute of a GraphQLView subclass
+class BatchedGraphQLView(GraphQLView):
+    batch = True
+```
+
+Not flagged: `false` or an environment-derived value, bounded batching (`batching: { limit: 5 }`), `batching: true` on a non-GraphQL object or nested in another key (`transport: { batching: true }`), `DataLoader(fn, batch=True)` beside a view, and test files. A missing depth or complexity limit is not reported: it cannot be judged from one file.
+
+## Remediation
+
+### Disable Batching (Recommended Default)
+
+Most applications do not need HTTP-level query batching. The default in Apollo Server is `false`:
+
+```javascript
+// SAFE: batching disabled (default behaviour)
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  // allowBatchedHttpRequests omitted, defaults to false
+});
+```
+
+### Add Query Depth and Complexity Limits (Apollo Server / graphql-js)
+
+Install `graphql-depth-limit` and a complexity analysis library, then apply them as validation rules:
+
+```javascript
+// Install: npm install graphql-depth-limit graphql-cost-analysis
+import depthLimit from 'graphql-depth-limit';
+import costAnalysis from 'graphql-cost-analysis';
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  allowBatchedHttpRequests: false,
+  validationRules: [
+    depthLimit(7),
+    costAnalysis({ maximumCost: 1000, defaultCost: 1 }),
+  ],
+});
+```
+
+### Graphene (Python)
+
+Use the built-in `depth_limit_validator` from `graphene.validation`:
+
+```python
+from graphene_django.views import GraphQLView
+from graphene.validation import depth_limit_validator
+
+class DepthLimitedGraphQLView(GraphQLView):
+    def get_validation_rules(self):
+        return [depth_limit_validator(max_depth=10)]
+
+# In urls.py
+urlpatterns = [
+    path('graphql/', DepthLimitedGraphQLView.as_view(graphiql=False)),
+]
+```
+
+### graphql-java
+
+Use `MaxQueryDepthInstrumentation` and `MaxQueryComplexityInstrumentation`:
+
+```java
+GraphQL graphQL = GraphQL.newGraphQL(schema)
+    .instrumentation(new ChainedInstrumentation(Arrays.asList(
+        new MaxQueryDepthInstrumentation(10),
+        new MaxQueryComplexityInstrumentation(200)
+    )))
+    .build();
+```
+
+graphql-java ships with a default maximum depth of 20. Set this explicitly to a value appropriate for your schema rather than relying on the default.
+
+### gqlgen (Go)
+
+```go
+// In graph/schema.resolvers.go, add complexity limits via handler config
+import "github.com/99designs/gqlgen/graphql/handler/extension"
+
+srv := handler.NewDefaultServer(generated.NewExecutableSchema(cfg))
+srv.Use(extension.FixedComplexityLimit(300))
+```
+
+### If You Must Enable Batching
+
+If batching is required for a trusted internal client (e.g., a BFF layer), apply all of the following compensating controls:
+
+- Count each operation in a batch separately against rate limits
+- Set a maximum number of operations per batch (e.g., no more than 10)
+- Apply query depth and complexity limits to every operation in the batch
+- Restrict batching to authenticated sessions only
+
+```javascript
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  allowBatchedHttpRequests: true,
+  validationRules: [depthLimit(7), costAnalysis({ maximumCost: 500 })],
+  plugins: [
+    {
+      async requestDidStart({ request }) {
+        // Reject batches larger than 10 operations
+        if (Array.isArray(request.body) && request.body.length > 10) {
+          throw new Error('Batch size limit exceeded');
+        }
+      },
+    },
+  ],
+});
+```
+
+## References
+
+- [OWASP GraphQL Cheat Sheet – Query Depth Limiting](https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html)
+- [HowToGraphQL – Security](https://www.howtographql.com/advanced/4-security/)
+- [Escape Tech – Cyclic Queries and Depth Limiting](https://escape.tech/blog/cyclic-queries-and-depth-limit/)
+- [graphql-java – Limits Documentation](https://www.graphql-java.com/documentation/limits/)
+- [Graphene-Python – Query Validation](https://docs.graphene-python.org/en/latest/execution/queryvalidation/)
+- [gqlgen – Complexity Reference](https://gqlgen.com/reference/complexity/)
+- [Apollo Server – Batching Requests](https://www.apollographql.com/docs/apollo-server/requests/#batching)
+- [CWE-770: Allocation of Resources Without Limits or Throttling](https://cwe.mitre.org/data/definitions/770.html)
+- [CAPEC-469: HTTP DoS](https://capec.mitre.org/data/definitions/469.html)
+- [MITRE ATT&CK T1499 – Endpoint Denial of Service](https://attack.mitre.org/techniques/T1499/)
+- [graphql-depth-limit package](https://www.npmjs.com/package/graphql-depth-limit)
+- [graphql-cost-analysis package](https://www.npmjs.com/package/graphql-cost-analysis)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-gql-002
+// nosec vnx-gql-002
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-gql-002 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

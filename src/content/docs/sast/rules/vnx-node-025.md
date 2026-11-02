@@ -1,0 +1,107 @@
+---
+title: "VNX-NODE-025: Insecure express-session or cookie-session configuration"
+nav: "VNX-NODE-025"
+description: "Reports express-session or cookie-session options that set secure: false or httpOnly: false, and express-session configurations that never set cookie.secure, so the session id travels over plain HTTP or is readable by page scripts."
+order: 821
+sources: ["cli/internal/sast/rules/vnx-node-025.rego", "cli/website/content/docs/sast-rules/vnx-node-025.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-025` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-614](https://cwe.mitre.org/data/definitions/614.html) |
+| CAPEC | [CAPEC-60](https://capec.mitre.org/data/definitions/60.html) |
+| ATT&CK | [T1539](https://attack.mitre.org/techniques/T1539/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `session` `cookie` `secure-flag` `express` `node` |
+| Source | [`internal/sast/rules/vnx-node-025.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-025.rego) |
+
+## Overview
+
+This rule detects `express-session` and `cookie-session` middleware configurations that weaken session cookie security by setting `secure: false` or `httpOnly: false`, and `express-session` configurations that never set `cookie.secure` (it defaults to `false`). The options may be inline or in an object assigned in the same file; `secure: process.env.NODE_ENV === 'production'`, `secure: 'auto'` and a later `sess.cookie.secure = true` all count as set. `cookie-session` without an explicit `secure` is not reported, because it marks the cookie Secure on HTTPS requests itself. Test and example files are skipped. These settings control how browsers transmit and expose session cookies and represent the first line of defence against session hijacking attacks.
+
+The `secure` flag instructs browsers to transmit the cookie only over HTTPS connections. When it is absent or set to `false`, the session cookie is sent with every HTTP request, including over unencrypted connections on coffee shop Wi-Fi, corporate proxies, or any network where traffic is intercepted. The `httpOnly` flag prevents JavaScript running in the page from reading the cookie via `document.cookie`, which limits the damage from XSS attacks, without it, a single reflected or stored XSS vulnerability gives an attacker immediate access to the victim's session token.
+
+## Why This Matters
+
+Session token theft is one of the most common and impactful attack outcomes. An attacker who obtains a valid session token can impersonate the authenticated user for the lifetime of the session without knowing their password. Session tokens are high-value targets for both passive network sniffing and active XSS exploitation.
+
+HTTP-only networks are more common than developers expect, developer laptops on internal networks, staging environments, HTTP→HTTPS redirects that fire after a cookie is already set, and load balancers that terminate TLS before the Node.js process. Without `secure: true`, session cookies leak in all of these scenarios.
+
+The combination of `secure: false` and `httpOnly: false` is particularly dangerous: it allows both network interception and JavaScript theft, meaning a single vulnerability anywhere in the application can compromise every authenticated session.
+
+## What Gets Flagged
+
+```javascript
+const session = require('express-session');
+const cookieSession = require('cookie-session');
+
+// FLAGGED: the secure:false line
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false, // TODO: enable once TLS is in front
+  },
+}));
+
+// FLAGGED: the session( line; express-session defaults cookie.secure to false
+app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: false }));
+
+// FLAGGED: httpOnly:false makes the cookie readable by page scripts
+app.use(cookieSession({ name: 'session', keys: [process.env.KEY_A], httpOnly: false }));
+```
+
+## Remediation
+
+1. **Set `cookie.secure: true`** and ensure the application is only accessible over HTTPS in production. Use an environment variable to conditionally allow `false` in local development.
+
+2. **Set `cookie.httpOnly: true`** (this is the default in `express-session` but should be set explicitly for clarity).
+
+3. **Set `cookie.sameSite: 'strict'` or `'lax'`** to mitigate CSRF attacks using the session cookie.
+
+4. **Set `resave: false`** and `saveUninitialized: false` to reduce session store writes and avoid race conditions.
+
+```javascript
+// SAFE: secure session configuration
+const session = require('express-session');
+
+app.use(session({
+  secret:            process.env.SESSION_SECRET,
+  resave:            false,
+  saveUninitialized: false,
+  cookie: {
+    secure:   process.env.NODE_ENV === 'production', // HTTPS only in prod
+    httpOnly: true,    // not accessible via document.cookie
+    sameSite: 'strict', // CSRF mitigation
+    maxAge:   3600000,  // 1 hour
+  },
+}));
+```
+
+## References
+
+- [CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute](https://cwe.mitre.org/data/definitions/614.html)
+- [CAPEC-60: Reusing Session IDs (aka Session Replay)](https://capec.mitre.org/data/definitions/60.html)
+- [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [express-session npm documentation](https://www.npmjs.com/package/express-session)
+- [MDN Web Docs – Set-Cookie: Secure](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#secure)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-025
+// nosec vnx-node-025
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-025 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

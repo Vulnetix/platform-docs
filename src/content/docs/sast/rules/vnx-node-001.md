@@ -1,0 +1,133 @@
+---
+title: "VNX-NODE-001: Missing npm lock file"
+nav: "VNX-NODE-001"
+description: "A package.json that declares dependencies has no committed lock file (package-lock.json, npm-shrinkwrap.json, yarn.lock, pnpm-lock.yaml, bun.lock, deno.lock) in its directory or a workspace root, so installs re-resolve floating ranges."
+order: 797
+sources: ["cli/internal/sast/rules/vnx-node-001.rego", "cli/website/content/docs/sast-rules/vnx-node-001.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-001` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-829](https://cwe.mitre.org/data/definitions/829.html) |
+| CAPEC | [CAPEC-185](https://capec.mitre.org/data/definitions/185.html) |
+| ATT&CK | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `supply-chain` `lockfile` `integrity` |
+| Source | [`internal/sast/rules/vnx-node-001.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-001.rego) |
+
+## Overview
+
+This rule detects Node.js projects that have a `package.json` but no corresponding lock file (`package-lock.json`, `yarn.lock`, or `pnpm-lock.yaml`). Without a lock file, every `npm install` re-resolves floating version ranges from the registry, meaning a different, potentially malicious, package version may be installed on each run. This falls under CWE-829 (Inclusion of Functionality from Untrusted Control Sphere) and directly enables dependency confusion and supply chain attacks.
+
+Lock files are **not generated automatically** by Node.js or npm. You must run `npm install`, `yarn install`, or `pnpm install` explicitly to create one, and then commit it to version control. Without this step, your dependency tree is non-deterministic across environments.
+
+## Why This Matters
+
+In a dependency confusion attack, an adversary publishes a public package with the same name as one of your internal packages but a higher version number. Without a lock file pinning exact resolved versions, `npm install` may silently pull the malicious public package instead of your internal one. The 2021 dependency confusion attack by security researcher Alex Birsan demonstrated this against Apple, Microsoft, and dozens of other companies, every affected project lacked pinned dependencies.
+
+Beyond malicious substitution, floating ranges mean that a legitimate upstream package can introduce a breaking change or a newly discovered vulnerability between your CI run and your production deploy. A lock file makes builds reproducible and auditable: you can review exactly what changed between two lock file commits rather than discovering version drift at runtime.
+
+OWASP ASVS v4 requirement **V10.3.2** states: "Verify that the application only uses software components without known vulnerabilities." Pinning dependencies via a lock file is a prerequisite for this, you cannot audit what you cannot enumerate.
+
+## What Gets Flagged
+
+The rule reports a `package.json` (line 1) that declares at least one entry in `dependencies`, `devDependencies` or `optionalDependencies` when no lock file (`package-lock.json`, `npm-shrinkwrap.json`, `yarn.lock`, `pnpm-lock.yaml`, `bun.lock`, `bun.lockb`, `deno.lock`) exists in the same directory or in an ancestor directory that is a workspace root (`"workspaces"`, `pnpm-workspace.yaml` or `lerna.json`).
+
+```
+services/api/
+  package.json       <- FLAGGED: {"dependencies": {"fastify": "^4.26.0"}}, no lock file here or above
+```
+
+Not flagged:
+
+- a workspace member (`packages/core/package.json`) when the workspace root holds the lock file;
+- a project in a Rush monorepo (`rush.json`) whose lock file lives under `common/config/rush/`;
+- a `package.json` with no dependencies (`"dependencies": {}`, scripts only);
+- manifests under `test/`, `fixtures/`, `mocks/`, `examples/`, `samples/` or `demos/`.
+
+A lock file listed in `.gitignore` is treated as absent, because it is not committed.
+
+## Scanner Behavior Without a Lock File
+
+The SAST rule still reports this as a high-severity supply-chain issue. For SCA, Vulnetix can continue only when the project already has an installed `node_modules/` tree. In that case, the CLI reads installed package manifests to resolve actual package versions, verifies that every direct dependency declared in `package.json` is present, and treats installed packages that are not declared directly as transitives when it can connect them through dependency fields.
+
+If `node_modules/` is missing or a declared direct dependency is absent, the CLI stops before calling `/v2/cli.sca`. This avoids reporting vulnerability results against version ranges such as `^1.2.3`, which are not real installed versions.
+
+## Remediation
+
+1. **Generate a lock file immediately.** Run the package manager you already use:
+
+   ```bash
+   # npm (creates package-lock.json)
+   npm install
+
+   # yarn (creates yarn.lock)
+   yarn install
+
+   # pnpm (creates pnpm-lock.yaml)
+   pnpm install
+   ```
+
+2. **Commit the lock file to version control.** The lock file must live in the repository root (or the relevant workspace root) and be committed alongside `package.json`. Never add lock files to `.gitignore`.
+
+3. **Use `npm ci` instead of `npm install` in CI/CD.** `npm ci` installs exactly what is in `package-lock.json`, fails if the lock file is absent or out of sync with `package.json`, and never modifies the lock file. This guarantees reproducible builds across environments.
+
+   ```bash
+   # SAFE: reproducible CI install
+   npm ci
+
+   # In a Dockerfile:
+   COPY package.json package-lock.json ./
+   RUN npm ci --omit=dev
+   ```
+
+4. **Pin to lock file version 2 or higher.** `package-lock.json` version 2+ (npm 7+) includes an `integrity` field with SRI hashes for every resolved package. Verify the npm version in your pipeline:
+
+   ```bash
+   node -e "console.log(JSON.parse(require('fs').readFileSync('package-lock.json')).lockfileVersion)"
+   # Should print 2 or 3
+   ```
+
+5. **Enable `npm audit` in CI.** Running `npm audit --audit-level=high` after `npm ci` catches newly disclosed vulnerabilities in your pinned dependency tree before they reach production.
+
+   ```bash
+   npm ci
+   npm audit --audit-level=high
+   ```
+
+6. **Consider private registry mirroring.** For high-security environments, mirror required packages to a private Artifact Registry or Nexus instance and configure npm to resolve only from that registry, eliminating the public-registry attack surface entirely.
+
+   ```bash
+   # .npmrc, scope private packages to internal registry
+   @myorg:registry=https://npm.internal.example.com
+   ```
+
+## References
+
+- [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html)
+- [CAPEC-185: Malicious Software Download](https://capec.mitre.org/data/definitions/185.html)
+- [OWASP ASVS v4 – V10.3.2 Software Integrity](https://owasp.org/www-project-application-security-verification-standard/)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [npm ci documentation](https://docs.npmjs.com/cli/v10/commands/npm-ci)
+- [npm package-lock.json specification](https://docs.npmjs.com/cli/v10/configuring-npm/package-lock-json)
+- [Alex Birsan – Dependency Confusion attack writeup](https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610)
+- [MITRE ATT&CK T1195.001 – Compromise Software Dependencies and Development Tools](https://attack.mitre.org/techniques/T1195/001/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-001
+// nosec vnx-node-001
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-001 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

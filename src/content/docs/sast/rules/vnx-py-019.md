@@ -1,0 +1,141 @@
+---
+title: "VNX-PY-019: Paramiko implicit host key trust"
+nav: "VNX-PY-019"
+description: "Detect Python code that passes paramiko AutoAddPolicy or WarningPolicy to set_missing_host_key_policy() (directly or through a variable), or defines a MissingHostKeyPolicy whose missing_host_key() accepts every key. RejectPolicy, imports and isinstance checks are not reported."
+order: 873
+sources: ["cli/internal/sast/rules/vnx-py-019.rego", "cli/website/content/docs/sast-rules/vnx-py-019.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-019` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-322](https://cwe.mitre.org/data/definitions/322.html) |
+| CAPEC | [CAPEC-94](https://capec.mitre.org/data/definitions/94.html) |
+| ATT&CK | [T1557](https://attack.mitre.org/techniques/T1557/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `paramiko` `ssh` `mitm` `python` |
+| Source | [`internal/sast/rules/vnx-py-019.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-019.rego) |
+
+## Overview
+
+This rule detects Python code that configures a `paramiko.SSHClient` with either `AutoAddPolicy` or `WarningPolicy` via `set_missing_host_key_policy()`. Both policies bypass the fundamental security mechanism of SSH host verification: they allow the client to connect to a server presenting an unknown or changed host key without raising an exception or requiring user confirmation. The difference is that `AutoAddPolicy` does so silently, while `WarningPolicy` logs a message but still proceeds with the connection.
+
+SSH host key verification is the only mechanism that prevents a man-in-the-middle (MITM) attack against SSH. When a client connects, the server presents its public host key. If the client has previously recorded this key in a `known_hosts` file, it can verify that it is talking to the legitimate server. If the key is unknown or has changed (as would happen during a MITM attack), the client should refuse the connection. `AutoAddPolicy` and `WarningPolicy` both disable this protection.
+
+The correct approach is to use `RejectPolicy` (which raises an exception for unknown host keys) combined with a pre-populated `known_hosts` file loaded via `client.load_system_host_keys()` or `client.load_host_keys()`. Alternatively, implement a custom `MissingHostKeyPolicy` subclass that validates a key fingerprint against a trusted allowlist.
+
+## Why This Matters
+
+A man-in-the-middle attack against SSH is not theoretical, it is a well-understood technique that any attacker on the network path between client and server can execute. In cloud deployments, container networking, and Kubernetes environments, the "network path" includes any compromised node, misconfigured network policy, or ARP/DNS poisoning attack. When `AutoAddPolicy` is in use, the attacker simply presents their own SSH host key; the client accepts it without complaint and begins sending credentials and data to the attacker's server.
+
+The impact is severe: SSH is commonly used to run administrative commands, transfer files with sensitive content (private keys, configuration, database dumps), and execute deployment scripts. An MITM attacker intercepts all of this traffic in plaintext after the key exchange. They also receive any passwords or SSH agent forwarded keys used during the session.
+
+Automated deployment systems and CI/CD pipelines are particularly at risk because they typically run with elevated privileges, connect to many hosts, and are not monitored for interactive anomalies the way human SSH sessions might be.
+
+## What Gets Flagged
+
+```python
+import paramiko
+
+# FLAGGED: AutoAddPolicy silently accepts any host key
+def deploy_to_server(host: str, username: str, key_path: str) -> None:
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(host, username=username, key_filename=key_path)
+    stdin, stdout, stderr = client.exec_command("deploy.sh")
+
+# FLAGGED: WarningPolicy logs a warning but still connects
+def run_remote_command(host: str, cmd: str) -> str:
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.WarningPolicy())
+    client.connect(host)
+    _, stdout, _ = client.exec_command(cmd)
+    return stdout.read().decode()
+
+# FLAGGED: the policy assigned first, and a custom policy that accepts everything
+policy = AutoAddPolicy()
+client.set_missing_host_key_policy(policy)
+
+class TrustEverything(paramiko.MissingHostKeyPolicy):
+    def missing_host_key(self, client, hostname, key):
+        pass
+
+# NOT FLAGGED: RejectPolicy, an isinstance check, an import
+client.set_missing_host_key_policy(paramiko.RejectPolicy())
+```
+
+The rule applies only to `.py` files.
+
+## Remediation
+
+1. Use `RejectPolicy` (or no explicit policy, as it is the default) and load a pre-populated `known_hosts` file.
+2. In automated systems, populate the `known_hosts` file during provisioning (e.g., via `ssh-keyscan` at infrastructure setup time) and treat unexpected key changes as an error.
+3. If the host key fingerprint is known ahead of time, implement a custom policy that validates it.
+
+```python
+import paramiko
+
+# SAFE: RejectPolicy (default) + pre-loaded known_hosts
+def deploy_to_server_safe(host: str, username: str, key_path: str) -> None:
+    client = paramiko.SSHClient()
+    # Load system known_hosts AND a project-specific file
+    client.load_system_host_keys()
+    client.load_host_keys("/etc/deploy/known_hosts")
+    # RejectPolicy is the default, but being explicit is clearer
+    client.set_missing_host_key_policy(paramiko.RejectPolicy())
+    client.connect(host, username=username, key_filename=key_path)
+    stdin, stdout, stderr = client.exec_command("./deploy.sh")
+    exit_status = stdout.channel.recv_exit_status()
+    if exit_status != 0:
+        raise RuntimeError(f"Deploy failed: {stderr.read().decode()}")
+
+# SAFE: Custom policy that validates a known fingerprint
+class FingerprintPolicy(paramiko.MissingHostKeyPolicy):
+    def __init__(self, expected_fingerprint: str) -> None:
+        self.expected = expected_fingerprint
+
+    def missing_host_key(self, client, hostname, key) -> None:
+        import hashlib, base64
+        fingerprint = base64.b64encode(
+            hashlib.sha256(key.asbytes()).digest()
+        ).decode()
+        if fingerprint != self.expected:
+            raise paramiko.SSHException(
+                f"Host key fingerprint mismatch for {hostname}: "
+                f"got {fingerprint}, expected {self.expected}"
+            )
+
+def connect_with_fingerprint(host: str, fingerprint: str) -> paramiko.SSHClient:
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(FingerprintPolicy(fingerprint))
+    client.connect(host)
+    return client
+```
+
+## References
+
+- [CWE-322: Key Exchange without Entity Authentication](https://cwe.mitre.org/data/definitions/322.html)
+- [Paramiko SSHClient Documentation](https://docs.paramiko.org/en/stable/api/client.html)
+- [Paramiko MissingHostKeyPolicy](https://docs.paramiko.org/en/stable/api/client.html#paramiko.client.MissingHostKeyPolicy)
+- [OWASP Transport Layer Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html)
+- [OWASP Python Security Project](https://owasp.org/www-project-python-security/)
+- [CAPEC-94: Man in the Middle Attack](https://capec.mitre.org/data/definitions/94.html)
+- [MITRE ATT&CK T1557 – Adversary-in-the-Middle](https://attack.mitre.org/techniques/T1557/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-019
+// nosec vnx-py-019
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-019 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

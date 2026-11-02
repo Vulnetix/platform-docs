@@ -1,0 +1,119 @@
+---
+title: "VNX-DOCKER-007: Service image without a HEALTHCHECK"
+nav: "VNX-DOCKER-007"
+description: "Reports a Dockerfile whose final stage runs a service (EXPOSE or a server CMD/ENTRYPOINT, possibly inherited from an earlier stage) but declares no HEALTHCHECK."
+order: 701
+sources: ["cli/internal/sast/rules/vnx-docker-007.rego", "cli/website/content/docs/sast-rules/vnx-docker-007.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-DOCKER-007` |
+| Severity | Low |
+| SARIF level | `warning` |
+| Kind | `oci` |
+| Languages | Dockerfile |
+| CWE | [CWE-754](https://cwe.mitre.org/data/definitions/754.html) |
+| CWSS vector | `CWSS:1.0/TI:L/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:L/DI:H/EX:L/EC:N/P:L` |
+| Tags | `docker` `best-practice` `availability` `container` |
+| Source | [`internal/sast/rules/vnx-docker-007.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-docker-007.rego) |
+
+## Overview
+
+This rule flags Dockerfiles that contain a `CMD` or `ENTRYPOINT` instruction (indicating they produce a runtime image, not just a build stage) but do not include any `HEALTHCHECK` instruction. Without a health check, the container runtime and orchestrators such as Kubernetes, Docker Swarm, and ECS can only observe whether the container process is alive, they cannot detect when the application inside is deadlocked, out of memory, wedged on a database connection, or serving errors. This maps to CWE-754 (Improper Check for Unusual or Exceptional Conditions).
+
+A container that is running but unhealthy continues to receive traffic from load balancers and service discovery, silently degrading the experience for users while appearing healthy to monitoring systems that only check container status. The `HEALTHCHECK` instruction allows Docker and orchestrators to probe the application directly and mark the container as unhealthy, triggering automated restarts and replacement.
+
+The rule only fires on images that have a `CMD` or `ENTRYPOINT`, builder stages, scratch-based stages, and base images without an entrypoint are not flagged, as adding a health check to them is either not meaningful or not possible.
+
+## Why This Matters
+
+In production container environments, the container lifecycle is managed by an orchestrator rather than a human operator. When an application enters a degraded state, such as a Go process that is stuck waiting on a locked mutex, a Node.js event loop that is blocked, or a web server that has exhausted its thread pool, the orchestrator has no way to know this has happened unless the container itself reports its health.
+
+Without a `HEALTHCHECK`, rolling deployments may complete successfully while the new containers are actually in a broken state, since the orchestrator sees the process as running and marks the rollout as healthy. A correctly configured health check ensures that the orchestrator waits for actual application readiness before marking a deployment complete and before routing live traffic to the new container.
+
+This also matters for security incident response: a compromised container that has been forced into a crash loop or degraded state is more likely to be detected and replaced if health checks are in place, reducing the window of exposure.
+
+## What Gets Flagged
+
+The rule judges the image's final stage. It counts as a service when it, or an earlier stage it is built `FROM`, has an `EXPOSE` or a `CMD`/`ENTRYPOINT` that starts a server (nginx, httpd, php-fpm, gunicorn, uvicorn, puma, node, `npm start`, java, dotnet, redis-server, postgres, supervisord and similar). The finding is on the final `FROM` line.
+
+```dockerfile
+# FLAGGED: a service with no HEALTHCHECK
+FROM python:3.12-slim
+COPY . /srv
+USER 10001
+EXPOSE 8000
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "orders.wsgi:app"]
+```
+
+```dockerfile
+FROM node:20.15-bookworm AS build
+HEALTHCHECK CMD ["node", "-e", "process.exit(0)"]
+
+# FLAGGED: HEALTHCHECK does not carry over from the builder stage
+FROM node:20.15-bookworm-slim AS runtime
+CMD ["node", "dist/server.js"]
+```
+
+Not reported: a final stage with a `HEALTHCHECK` (`HEALTHCHECK NONE` is an explicit decision), one that inherits a `HEALTHCHECK` from an earlier stage, base, toolchain, CLI and job images that run no service (including `node`/`java`/`dotnet` started on a cli, migrate, seed, job, cron, backup or `scripts/` entry point with no `EXPOSE`), `HEALTHCHECK` text in comments or heredocs, test and `.devcontainer` images. A `HEALTHCHECK` defined by an external base image is not visible to the rule.
+
+## Remediation
+
+1. **Add a `HEALTHCHECK` instruction that probes the application's HTTP readiness endpoint** using `curl` or `wget`. Tune the interval, timeout, start period, and retries to match your application's startup time and expected response latency.
+
+   ```dockerfile
+   # SAFE: HTTP health check for a web server
+   FROM node:20-slim
+   WORKDIR /app
+   COPY . .
+   RUN npm ci --omit=dev
+   HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+       CMD curl -f http://localhost:3000/healthz || exit 1
+   CMD ["node", "server.js"]
+   ```
+
+2. **For non-HTTP services, use a process-level or port-level check** with `nc` (netcat) or a custom health binary bundled in the image.
+
+   ```dockerfile
+   # SAFE: TCP port check for a non-HTTP service
+   FROM alpine:3.19
+   COPY myservice /usr/local/bin/myservice
+   HEALTHCHECK --interval=15s --timeout=3s \
+       CMD nc -z localhost 8080 || exit 1
+   ENTRYPOINT ["/usr/local/bin/myservice"]
+   ```
+
+3. **For distroless or scratch images**, embed a dedicated health check binary in the image and use it as the `HEALTHCHECK CMD`.
+
+   ```dockerfile
+   # SAFE: distroless image with embedded health check binary
+   FROM gcr.io/distroless/static-debian12
+   COPY myapp /myapp
+   COPY healthcheck /healthcheck
+   HEALTHCHECK --interval=30s CMD ["/healthcheck"]
+   ENTRYPOINT ["/myapp"]
+   ```
+
+## References
+
+- [CWE-754: Improper Check for Unusual or Exceptional Conditions](https://cwe.mitre.org/data/definitions/754.html)
+- [Docker documentation – HEALTHCHECK instruction](https://docs.docker.com/reference/dockerfile/#healthcheck)
+- [Docker best practices – Health checks](https://docs.docker.com/build/building/best-practices/)
+- [CIS Docker Benchmark v1.6 – 4.6 Add HEALTHCHECK instruction to the container image](https://www.cisecurity.org/benchmark/docker)
+- [hadolint DL3011 – HEALTHCHECK is missing](https://github.com/hadolint/hadolint/wiki/DL3011)
+- [OWASP Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-docker-007
+// nosec vnx-docker-007
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-docker-007 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

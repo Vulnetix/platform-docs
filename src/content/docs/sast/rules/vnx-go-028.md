@@ -1,0 +1,113 @@
+---
+title: "VNX-GO-028: Use of weak cryptographic hash for password hashing"
+nav: "VNX-GO-028"
+description: "Detects a password hashed with a fast unsalted digest (md5, sha1, sha256, sha512 Sum or a hasher written with it, an MD5/SHA helper, or a digest stored in a password-named field) instead of bcrypt, scrypt, Argon2id or PBKDF2."
+order: 730
+sources: ["cli/internal/sast/rules/vnx-go-028.rego", "cli/website/content/docs/sast-rules/vnx-go-028.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-GO-028` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Go |
+| CWE | [CWE-327](https://cwe.mitre.org/data/definitions/327.html), [CWE-916](https://cwe.mitre.org/data/definitions/916.html) |
+| CAPEC | [CAPEC-32](https://capec.mitre.org/data/definitions/32.html) |
+| ATT&CK | [T1068.003](https://attack.mitre.org/techniques/T1068/003/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `cryptography` `password` `hash` `weak-crypto` |
+| Source | [`internal/sast/rules/vnx-go-028.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-go-028.rego) |
+
+## Overview
+
+This rule flags a password passed to a fast general-purpose digest (`md5`, `sha1`, `sha256` or `sha512`, through `Sum`, a hasher's `Write`, or a helper named for the digest). MD5 and SHA-1 are general-purpose hash functions designed for speed, not for password storage. They can be reversed using precomputed rainbow tables or brute-forced at billions of hashes per second on commodity GPU hardware, making any password database hashed with them trivially crackable. This maps to [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html).
+
+Password hashing is a fundamentally different problem from data integrity hashing. A good password hashing algorithm is deliberately slow and incorporates a per-user salt to defeat precomputation attacks. MD5 and SHA-1 have neither of these properties and have additionally been shown to have serious collision vulnerabilities, making them unsuitable for any security-sensitive purpose.
+
+## Why This Matters
+
+Real-world breaches consistently demonstrate the danger of weak password hashing. When databases using MD5 or SHA-1 are leaked, attackers can crack the majority of passwords within hours using GPU-accelerated tools like Hashcat. Even salted MD5/SHA-1 hashes provide only marginal additional protection because the underlying compute cost remains negligible. LinkedIn's 2012 breach (117 million unsalted SHA-1 hashes) and Adobe's 2013 breach (3DES-ECB encrypted passwords) are well-known examples of weak credential storage leading to mass account compromise.
+
+OWASP explicitly lists MD5 and SHA-1 as prohibited for password storage in its Password Storage Cheat Sheet, and NIST SP 800-63B prohibits the use of non-adaptive hashing for passwords. The correct algorithms, bcrypt, scrypt, and Argon2, are available in the `golang.org/x/crypto` package and require only a few lines of code to use correctly.
+
+## What Gets Flagged
+
+A value that names a password passed to a general-purpose digest: `md5.Sum`, `sha1.Sum`, `sha256.Sum256`, `sha512.Sum512`, a hasher from `md5.New()`/`sha256.New()` written with it, or a helper named for the digest.
+
+```go
+// FLAGGED
+sum := md5.Sum([]byte(password))
+
+// FLAGGED: a hasher written with the password
+h := sha256.New()
+h.Write([]byte(user + ":" + passwd))
+
+// FLAGGED: helper named for the hash
+pass := Md5Sum(r.FormValue("password"))
+```
+
+Not flagged: bcrypt, scrypt, argon2, pbkdf2 and HMAC; digests of file contents, API keys or reset tokens; protocol-mandated digests (HTTP Digest, MySQL scramble, CRAM/NTLM); test files.
+
+## Remediation
+
+1. **Use bcrypt** for the vast majority of applications, it is battle-tested, widely supported, and has a tunable cost factor:
+   ```go
+   // SAFE: bcrypt with default cost
+   import "golang.org/x/crypto/bcrypt"
+
+   func hashPassword(password string) (string, error) {
+       bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+       return string(bytes), err
+   }
+
+   func checkPasswordHash(password, hash string) bool {
+       err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+       return err == nil
+   }
+   ```
+
+2. **Use Argon2id** when higher memory-hardness is required (recommended by OWASP for new systems):
+   ```go
+   // SAFE: Argon2id with OWASP-recommended parameters
+   import (
+       "crypto/rand"
+       "golang.org/x/crypto/argon2"
+   )
+
+   func hashPasswordArgon2(password string) ([]byte, []byte, error) {
+       salt := make([]byte, 16)
+       if _, err := rand.Read(salt); err != nil {
+           return nil, nil, err
+       }
+       hash := argon2.IDKey([]byte(password), salt, 1, 64*1024, 4, 32)
+       return hash, salt, nil
+   }
+   ```
+
+3. **Never use MD5 or SHA-1 for any new security-sensitive purpose.** If you need a fast content hash for non-credential data, use SHA-256 or SHA-3. If you are migrating an existing system, re-hash passwords on next login using a strong algorithm.
+
+## References
+
+- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
+- [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+- [OWASP Top 10 A02:2021 – Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)
+- [NIST SP 800-63B – Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
+- [golang.org/x/crypto/bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt)
+- [golang.org/x/crypto/argon2](https://pkg.go.dev/golang.org/x/crypto/argon2)
+- [CAPEC-32: XSS via HTTP Query Strings](https://capec.mitre.org/data/definitions/32.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-go-028
+// nosec vnx-go-028
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-go-028 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

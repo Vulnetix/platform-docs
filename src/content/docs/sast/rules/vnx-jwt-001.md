@@ -1,0 +1,220 @@
+---
+title: "VNX-JWT-001: JWT signature verification disabled"
+nav: "VNX-JWT-001"
+description: "A JWT is accepted without its signature being checked: verify_signature False or verify=False (Python), jsonwebtoken decode() of a request token in a file that never verifies, jwt-simple noVerify, golang-jwt ParseUnverified alone, jjwt parse() after setSigningKey, Auth0 JWT.decode() alone, ruby-jwt JWT.decode(t, k, false), and .NET RequireSignedTokens = false or a pass-through SignatureValidator."
+order: 779
+sources: ["cli/internal/sast/rules/vnx-jwt-001.rego", "cli/website/content/docs/sast-rules/vnx-jwt-001.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-JWT-001` |
+| Severity | Critical |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python, JavaScript / TypeScript, Go, Java, Kotlin, Ruby, C# |
+| CWE | [CWE-347](https://cwe.mitre.org/data/definitions/347.html) |
+| CAPEC | [CAPEC-196](https://capec.mitre.org/data/definitions/196.html) |
+| ATT&CK | [T1550.001](https://attack.mitre.org/techniques/T1550/001/) |
+| CWSS vector | `CWSS:1.0/TI:C/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:C/DI:H/EX:H/EC:N/P:W` |
+| Tags | `jwt` `authentication` `broken-auth` |
+| Source | [`internal/sast/rules/vnx-jwt-001.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-jwt-001.rego) |
+
+## Overview
+
+A token is decoded and trusted without its signature being verified: PyJWT/python-jose `options={"verify_signature": False}` or `verify=False`, jsonwebtoken `jwt.decode()` used on a request token in a file that never calls `jwt.verify()`, jwt-simple `decode(token, key, true)`, golang-jwt `ParseUnverified()` in a file that never calls `Parse`/`ParseWithClaims`, jjwt `Jwts.parser().setSigningKey(k).parse(t)` (which accepts an unsigned token), Auth0 `JWT.decode()` with no `JWT.require()` verifier, ruby-jwt `JWT.decode(token, key, false)`, and .NET `RequireSignedTokens = false` or a `SignatureValidator` that returns a new token unchecked. Accepting the `none` algorithm is reported separately by [VNX-JWT-004](/sast/rules/vnx-jwt-004/), and unsigned-token APIs (jjwt `unsecured()`/`parseClaimsJwt`, Nimbus `PlainJWT`, jose `UnsecuredJWT`) by [VNX-SEC-015](/sast/rules/vnx-sec-015/), which leaves the shapes listed here to this rule. This completely disables cryptographic authentication of tokens, allowing an attacker to forge arbitrary tokens with any payload, including elevated privilege claims, and have them accepted as valid without any key material.
+
+**OWASP ASVS v4:** [3.5.3](https://asvs.dev/v4.0.3/V3-Session-management/) – Stateless session tokens must use digital signatures and other countermeasures to protect against null cipher and key substitution attacks.
+
+## Why This Matters
+
+JWT authentication relies entirely on signature verification. The signature is a cryptographic proof that the token was issued by a party holding the signing key and that its contents have not been altered. Disabling verification means any JSON payload, base64url-encoded and passed as a token, will be accepted regardless of its source or content.
+
+### The `alg:none` Attack
+
+The `none` algorithm attack is one of the oldest and best-documented JWT vulnerabilities, originally disclosed in 2015 and covered by CVE-2015-9235 and multiple related CVEs. The steps require no cryptographic knowledge:
+
+1. Obtain any valid JWT (including one issued to your own low-privilege account).
+2. Base64url-decode the header (no key required, this is public data).
+3. Change `"alg"` from `"HS256"` (or any signing algorithm) to `"none"`.
+4. Modify the payload to claim any identity, role, or permission you want.
+5. Re-encode header and payload, append an empty signature section (a trailing dot), and submit.
+
+A vulnerable library that includes `"none"` in its accepted algorithms list will skip signature validation entirely and accept the forged token as authentic.
+
+### Algorithm Confusion Attack
+
+A more sophisticated attack targets services that use asymmetric algorithms (RS256, ES256). If the verify call accepts both RS256 and HS256:
+
+1. Obtain the server's RSA **public key**, often exposed at a `/.well-known/jwks.json` endpoint.
+2. Forge a token signed with **HS256** using the **public key bytes as the HMAC secret**.
+3. Submit the token with `"alg": "HS256"` in the header.
+
+A vulnerable library that calls a single algorithm-agnostic `verify()` without checking the expected algorithm will use the public key as the HMAC secret, confirm the HMAC signature, and accept the forged token. The defence is always specifying the exact expected algorithm server-side and never trusting the `alg` field from the token header.
+
+### Library Defaults
+
+| Library | `"none"` accepted by default? |
+|---|---|
+| **PyJWT** (Python) | No. Since v2.0, `algorithms` is a required parameter. `"none"` must be explicitly listed to be permitted. |
+| **jsonwebtoken** (Node.js) | **v8.x and earlier: yes**, omitting the `algorithms` option could result in `"none"` being accepted. **v9.0.0+: no**, `"none"` was removed from default behaviour. Upgrade immediately if on v8. |
+| **jose** (Node.js) | No. Algorithm is always required at verification time; `"none"` is never implicitly accepted. |
+| **java-jwt** (Java/Auth0) | No. `Algorithm` is a mandatory, typed constructor parameter. There is no `Algorithm.NONE` constant; you must explicitly construct a signing algorithm. |
+| **golang-jwt** (Go) | No. `alg=none` is rejected unless the caller explicitly passes `jwt.UnsafeAllowNoneSignatureType` as the key, a deliberately conspicuous opt-in. |
+
+## What Gets Flagged
+
+```python
+# FLAGGED: verify_signature=False bypasses all signature checks (PyJWT)
+payload = jwt.decode(token, options={"verify_signature": False})
+
+# FLAGGED: verify=False in older PyJWT API
+payload = jwt.decode(token, secret, verify=False)
+
+# FLAGGED: bare decode imported from PyJWT
+return decode(token, options={"verify_signature": False, "verify_exp": False})
+```
+
+```javascript
+// FLAGGED: decode() never checks the signature, and this file never calls jwt.verify()
+const token = req.headers.authorization.split(' ')[1];
+const user = jwt.decode(token);
+
+// FLAGGED: jwt-simple with noVerify = true
+return jwt.decode(raw, process.env.SESSION_SECRET, true);
+```
+
+```java
+// FLAGGED: jjwt parse() accepts an unsigned token even with a signing key set
+Jwt jwt = Jwts.parser().setSigningKey(key).parse(token);
+```
+
+```go
+// FLAGGED: claims read without verification, and nothing in the file verifies
+_, _, err := jwt.NewParser().ParseUnverified(raw, claims)
+```
+
+```csharp
+// FLAGGED
+RequireSignedTokens = false,
+SignatureValidator = (token, parameters) => new JwtSecurityToken(token),
+```
+
+Not flagged: `options={"verify_exp": False}` (the signature is still checked), decoding the header to pick a key and then calling `jwt.verify()`, a browser-side `jwt.decode()` of a token read from storage, jjwt `parseClaimsJws()` / `parseSignedClaims()` and the 0.12 `verifyWith()` builder.
+
+## Remediation
+
+### Python (PyJWT)
+
+Always specify a concrete algorithm list that excludes `"none"`. For symmetric secrets:
+
+```python
+import jwt
+import os
+
+SECRET_KEY = os.environ["JWT_SECRET"]
+
+# SAFE: explicit algorithm whitelist, signature is always verified
+payload = jwt.decode(
+    token,
+    SECRET_KEY,
+    algorithms=["HS256"],
+)
+```
+
+For asymmetric keys (RS256 or ES256), pass the PEM public key and specify the exact algorithm:
+
+```python
+import jwt
+
+with open("public.pem") as f:
+    PUBLIC_KEY = f.read()
+
+# SAFE: RS256 only, algorithm confusion attack is not possible
+payload = jwt.decode(
+    token,
+    PUBLIC_KEY,
+    algorithms=["RS256"],  # never mix asymmetric and symmetric algorithms here
+)
+```
+
+### Node.js (jsonwebtoken v9+)
+
+```javascript
+const jwt = require("jsonwebtoken");
+
+// SAFE: explicit algorithm list, 'none' is absent
+const payload = jwt.verify(token, process.env.JWT_SECRET, {
+  algorithms: ["HS256"],
+});
+```
+
+### Java (Auth0 java-jwt)
+
+```java
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
+// Algorithm.HMAC256() enforces HMAC-SHA256, 'none' cannot be constructed
+Algorithm algorithm = Algorithm.HMAC256(System.getenv("JWT_SECRET"));
+DecodedJWT verified = JWT.require(algorithm)
+    .build()
+    .verify(token);
+```
+
+### Go (golang-jwt/jwt v5)
+
+```go
+import (
+    "fmt"
+    "os"
+    "github.com/golang-jwt/jwt/v5"
+)
+
+secretKey := []byte(os.Getenv("JWT_SECRET"))
+
+// WithValidMethods rejects any algorithm not in the explicit list
+token, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
+    if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+        return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
+    }
+    return secretKey, nil
+}, jwt.WithValidMethods([]string{"HS256"}))
+if err != nil {
+    // token is invalid or signature failed
+}
+```
+
+### Key rules
+
+1. Never include `"none"` in any algorithms list, in encode or decode calls.
+2. Always specify the exact expected algorithm server-side, never read `alg` from the token header to decide which algorithm to use for verification.
+3. Do not mix asymmetric (RS256, ES256) and symmetric (HS256) algorithms in the same verify call, this enables algorithm confusion attacks.
+4. If you are running `jsonwebtoken` v8 or earlier, upgrade to v9+ immediately.
+
+## References
+
+- [CWE-347: Improper Verification of Cryptographic Signature](https://cwe.mitre.org/data/definitions/347.html)
+- [CAPEC-196: Session Credential Falsification through Forging](https://capec.mitre.org/data/definitions/196.html)
+- [OWASP JWT Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html)
+- [OWASP ASVS v4 V3.5.3 – Stateless Token Protections](https://asvs.dev/v4.0.3/V3-Session-management/)
+- [RFC 7519 §6 – Unsecured JWTs (alg:none)](https://www.rfc-editor.org/rfc/rfc7519#section-6)
+- [Auth0 – Critical Vulnerabilities in JSON Web Token Libraries](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/)
+- [PortSwigger Web Security Academy – Algorithm Confusion Attacks](https://portswigger.net/web-security/jwt/algorithm-confusion)
+- [jwt.io – JWT Introduction](https://jwt.io/introduction)
+- [MITRE ATT&CK T1550.001 – Use Alternate Authentication Material: Application Access Token](https://attack.mitre.org/techniques/T1550/001/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-jwt-001
+// nosec vnx-jwt-001
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-jwt-001 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

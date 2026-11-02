@@ -18,8 +18,10 @@ export interface Segment {
   sections: Section[];
 }
 
-export const SEGMENTS: Segment[] = [
-  {
+// Software Factory is defined here; every other segment is a JSON file in
+// src/segments/<id>.json with the same shape. ORDER is the order of the
+// product directory on the home page; a segment missing from it sorts last.
+const SOFTWARE_FACTORY: Segment = {
     id: 'software-factory',
     title: 'Software Factory',
     summary: 'Workflows, agents, hosts and evidence for automated software delivery, and the Belai CLI that runs the work.',
@@ -39,8 +41,26 @@ export const SEGMENTS: Segment[] = [
       { id: 'belai', title: 'Belai CLI and TUI' },
       { id: 'reference', title: 'Reference' },
     ],
-  },
+  };
+
+const ORDER = [
+  'cli', 'platform-iac', 'software-factory',
+  'sca', 'sast', 'secrets', 'iac-scanning', 'malware',
+  'sbom', 'vex', 'attestation', 'tea',
+  'package-firewall', 'quality-gates', 'ai-firewall',
+  'pix', 'mcp-server', 'vscode', 'browser-extension',
+  'vulnerability-management', 'virtual-patching', 'siem', 'cloud-security',
+  'compliance', 'organization', 'vdb-api',
 ];
+
+const files = import.meta.glob<Segment>('../segments/*.json', { eager: true, import: 'default' });
+const rank = (id: string) => {
+  const i = ORDER.indexOf(id);
+  return i < 0 ? ORDER.length : i;
+};
+
+export const SEGMENTS: Segment[] = [SOFTWARE_FACTORY, ...Object.values(files)]
+  .sort((a, b) => rank(a.id) - rank(b.id) || a.title.localeCompare(b.title));
 
 export const REPO_URL = 'https://github.com/Vulnetix/platform-docs';
 export const CONSOLE_URL = 'https://www.vulnetix.com/';

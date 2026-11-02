@@ -1,0 +1,123 @@
+---
+title: "VNX-PY-004: yaml.load() without SafeLoader"
+nav: "VNX-PY-004"
+description: "Detect yaml.unsafe_load() and yaml.load() calls with no Loader or with Loader/UnsafeLoader/CLoader, which let a YAML document construct arbitrary Python objects."
+order: 858
+sources: ["cli/internal/sast/rules/vnx-py-004.rego", "cli/website/content/docs/sast-rules/vnx-py-004.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-004` |
+| Severity | High |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-502](https://cwe.mitre.org/data/definitions/502.html) |
+| CAPEC | [CAPEC-586](https://capec.mitre.org/data/definitions/586.html) |
+| ATT&CK | [T1059.006](https://attack.mitre.org/techniques/T1059/006/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `deserialization` `yaml` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-py-004.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-004.rego) |
+
+## Overview
+
+This rule flags calls to `yaml.load()` that do not pass an explicit safe Loader (`SafeLoader`, `CSafeLoader`, or `BaseLoader`). Python's PyYAML library supports YAML tags that instantiate arbitrary Python objects during parsing. Without a safe loader, a malicious YAML document can call any Python constructor, effectively giving an attacker the ability to run arbitrary code simply by having their YAML parsed. The vulnerability is exploited by embedding a `!!python/object/apply` or `!!python/object/new` tag in the input. This maps to [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html).
+
+## Why This Matters
+
+YAML's full-load feature was designed for serializing and restoring Python objects, a legitimate use case when reading your own trusted data. However, the moment a YAML document crosses a trust boundary (network request body, user-uploaded config file, webhook payload, database value), the full loader becomes an RCE vector. Exploiting it requires no memory corruption or binary exploitation, just a specially crafted string:
+
+```yaml
+# Malicious YAML payload that executes a shell command when loaded
+!!python/object/apply:subprocess.check_output
+- ["id"]
+```
+
+When passed to `yaml.load()` without a safe loader, this YAML calls `subprocess.check_output(["id"])` and returns the result. An attacker can substitute any command or use `os.system` / `subprocess.Popen` to gain a shell, exfiltrate files, or establish persistence.
+
+## What Gets Flagged
+
+The rule flags `yaml.unsafe_load()`/`unsafe_load_all()`, and `yaml.load()`/`load_all()` (through the module, an `import yaml as y` alias, or a name imported with `from yaml import load`) whose loader (the `Loader=` keyword or the second positional argument, read across a call split over several lines) is `Loader`, `UnsafeLoader`, `CLoader` or `CUnsafeLoader`, or is missing.
+
+Not flagged: `safe_load`, `SafeLoader`, `CSafeLoader`, `BaseLoader`, `FullLoader`/`full_load` (code-execution-free since PyYAML 5.4), custom loader classes, ruamel.yaml and other objects' `.load()` methods, and mentions in comments or strings.
+
+```python
+# FLAGGED: no Loader argument
+data = yaml.load(stream)
+
+# FLAGGED: the unsafe loader, by keyword or position
+job = yaml.load(body, Loader=yaml.Loader)
+data = yaml.load(file, yaml.Loader)
+
+# FLAGGED: a call split over lines
+payload = yaml.load(
+    request.data,
+    Loader=yaml.UnsafeLoader,
+)
+```
+
+## Remediation
+
+1. **Replace `yaml.load()` with `yaml.safe_load()`.** This is the simplest fix and handles the vast majority of use cases. `safe_load()` only supports standard YAML types: strings, numbers, lists, dicts, booleans, and null. It raises `yaml.constructor.ConstructorError` for any Python-specific tag.
+
+```python
+import yaml
+
+# SAFE: safe_load cannot instantiate Python objects
+config = yaml.safe_load(stream)
+```
+
+2. **If you must use `yaml.load()`, pass the safe Loader explicitly.**
+
+```python
+import yaml
+
+# SAFE: explicit SafeLoader restricts to standard YAML types
+config = yaml.load(stream, Loader=yaml.SafeLoader)
+
+# SAFE: CSafeLoader is a faster C extension equivalent
+config = yaml.load(stream, Loader=yaml.CSafeLoader)
+```
+
+3. **Use a context manager and validate the result's type.** Even with a safe loader it is good practice to validate the structure of the parsed data before using it:
+
+```python
+import yaml
+from typing import Any
+
+def load_config(path: str) -> dict[str, Any]:
+    with open(path) as f:
+        data = yaml.safe_load(f)
+    if not isinstance(data, dict):
+        raise ValueError("Config file must be a YAML mapping")
+    return data
+```
+
+4. **For configuration with Python-specific types, prefer an alternative format.** If you genuinely need to round-trip Python objects, consider `json` (for standard types), `tomllib` (Python 3.11+ built-in), or `dataclasses` with a JSON schema validator. These formats have no equivalent of YAML's arbitrary constructor tags.
+
+5. **Audit all PyYAML imports.** Search for `import yaml` and `from yaml import` and review every `yaml.load` call. PyYAML 6.0+ emits a warning when `yaml.load()` is called without a Loader; upgrading to 6.0+ makes unfixed calls visible in test output.
+
+## References
+
+- [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html)
+- [OWASP Deserialization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html)
+- [PyYAML documentation – Loading YAML](https://pyyaml.org/wiki/PyYAMLDocumentation#loading-yaml)
+- [Python docs – yaml.safe_load](https://yaml.readthedocs.io/en/latest/api/#ruamel.yaml.YAML.safe_load)
+- [CVE-2017-18342 – PyYAML arbitrary code execution](https://nvd.nist.gov/vuln/detail/CVE-2017-18342)
+- [CAPEC-586: Object Injection](https://capec.mitre.org/data/definitions/586.html)
+- [MITRE ATT&CK T1059.006 – Command and Scripting Interpreter: Python](https://attack.mitre.org/techniques/T1059/006/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-004
+// nosec vnx-py-004
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-004 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

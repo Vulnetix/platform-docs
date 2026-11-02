@@ -1,0 +1,142 @@
+---
+title: "VNX-PY-016: Django mass assignment via request data unpacking"
+nav: "VNX-PY-016"
+description: "Detect Python web code that writes the whole request body to a model: **request.data into create/update, SQLAlchemy .values() or a model constructor, Query.update(request body), __dict__.update(request.json), an unguarded setattr loop over request keys, or a ModelSerializer/ModelForm with fields = '__all__'."
+order: 870
+sources: ["cli/internal/sast/rules/vnx-py-016.rego", "cli/website/content/docs/sast-rules/vnx-py-016.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-016` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-915](https://cwe.mitre.org/data/definitions/915.html) |
+| CAPEC | [CAPEC-78](https://capec.mitre.org/data/definitions/78.html) |
+| ATT&CK | [T1565](https://attack.mitre.org/techniques/T1565/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `mass-assignment` `django` `python` |
+| Source | [`internal/sast/rules/vnx-py-016.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-016.rego) |
+
+## Overview
+
+This rule detects Django code that creates model instances by directly unpacking request data (e.g., `Model.objects.create(**request.data)`) or Django REST Framework serializers that expose all model fields via `fields = '__all__'`. Mass assignment occurs when an attacker includes unexpected fields in a request, such as `is_staff`, `is_superuser`, or `price`, and the application blindly persists them.
+
+## Why This Matters
+
+Mass assignment is one of the most exploited web application vulnerabilities because:
+
+- It requires zero special tools, an attacker simply adds extra fields to a normal HTTP request
+- It can escalate privileges instantly (`is_admin: true`, `role: "superuser"`)
+- It can manipulate business logic (`price: 0`, `discount: 100`, `verified: true`)
+- It bypasses form-level validation because the attacker sends raw JSON/POST data
+- Django and DRF will silently accept and persist extra fields unless explicitly restricted
+
+The OWASP API Security Top 10 lists mass assignment as [API6:2023 – Unrestricted Access to Sensitive Business Flows](https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/).
+
+## What Gets Flagged
+
+**Pattern 1: Direct request data unpacking into model creation**
+
+```python
+# Flagged: all request data flows into model fields
+User.objects.create(**request.data)
+Profile.objects.create(**request.POST)
+```
+
+**Pattern 2: DRF serializer with fields='\_\_all\_\_'**
+
+```python
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        # Flagged: exposes every field including is_staff, is_superuser, password
+        fields = '__all__'
+```
+
+**Pattern 3: The body copied onto an object, or written key by key**
+
+```python
+# Flagged
+user.__dict__.update(request.get_json())
+
+for key, value in request.data.items():
+    setattr(customer, key, value)   # flagged: no allowlist test in the loop
+
+payload = request.json
+db.session.add(Order(**payload))    # flagged: model constructor in an ORM file
+```
+
+**Not flagged:** explicit keyword arguments, a dict built from an allowlist, `serializer.validated_data` or `form.cleaned_data`, pydantic or dataclass constructors, a `setattr` loop guarded by `if key in ALLOWED`, and the pattern inside a comment or string.
+
+The rule applies only to `.py` files.
+
+## Remediation
+
+1. **Explicitly list the fields you intend to set.** Never unpack all request data into a model:
+
+   ```python
+   # Safe: only the expected fields are used
+   User.objects.create(
+       username=request.data["username"],
+       email=request.data["email"],
+   )
+   ```
+
+2. **Use Django Forms or DRF Serializers with explicit field lists.** These act as an allowlist for incoming data:
+
+   ```python
+   class UserSerializer(serializers.ModelSerializer):
+       class Meta:
+           model = User
+           # Safe: only these three fields are accepted from input
+           fields = ["username", "email", "bio"]
+           # Extra safety: mark sensitive fields as read-only
+           read_only_fields = ["is_staff", "is_superuser", "date_joined"]
+   ```
+
+3. **Use `read_only_fields` for sensitive attributes.** Even with an explicit field list, mark fields that should never be set by users:
+
+   ```python
+   class ProductSerializer(serializers.ModelSerializer):
+       class Meta:
+           model = Product
+           fields = ["name", "description", "price", "category"]
+           read_only_fields = ["price"]  # Only admins can change price
+   ```
+
+4. **Validate and clean incoming data before model operations.** Use Django's form validation:
+
+   ```python
+   form = UserCreationForm(request.POST)
+   if form.is_valid():
+       user = form.save()  # Only form-declared fields are saved
+   ```
+
+5. **Use `exclude` cautiously, prefer explicit `fields`.** While `exclude` works, it's fragile: adding a new model field automatically exposes it unless you remember to update the exclusion list.
+
+## References
+
+- [CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes](https://cwe.mitre.org/data/definitions/915.html)
+- [OWASP API Security Top 10 – API6:2023 Mass Assignment](https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/)
+- [OWASP Mass Assignment Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html)
+- [CAPEC-78: Using Slashes in Alternate Encoding](https://capec.mitre.org/data/definitions/78.html)
+- [MITRE ATT&CK T1565 – Data Manipulation](https://attack.mitre.org/techniques/T1565/)
+- [Django REST Framework Serializers Documentation](https://www.django-rest-framework.org/api-guide/serializers/)
+- [Django ModelForm Documentation](https://docs.djangoproject.com/en/stable/topics/forms/modelforms/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-016
+// nosec vnx-py-016
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-016 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

@@ -1,0 +1,122 @@
+---
+title: "VNX-JAVA-007: Java open redirect"
+nav: "VNX-JAVA-007"
+description: "Reports sendRedirect(), Spring redirect: views, RedirectView and Location headers whose target is a request value or a variable assigned from one, unless it is prefixed with a fixed path, looked up in an allowlist or guarded."
+order: 755
+sources: ["cli/internal/sast/rules/vnx-java-007.rego", "cli/website/content/docs/sast-rules/vnx-java-007.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-JAVA-007` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | Java |
+| CWE | [CWE-601](https://cwe.mitre.org/data/definitions/601.html) |
+| CAPEC | [CAPEC-194](https://capec.mitre.org/data/definitions/194.html) |
+| ATT&CK | [T1566](https://attack.mitre.org/techniques/T1566/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `open-redirect` `web` `phishing` |
+| Source | [`internal/sast/rules/vnx-java-007.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-java-007.rego) |
+
+## Overview
+
+This rule detects patterns where a value read from `request.getParameter()` or `req.getParameter()` is passed directly, without validation, to `response.sendRedirect()`, a Spring `ModelAndView` redirect string, or a `RedirectView` constructor. An open redirect allows an attacker to craft a link that appears to originate from your trusted domain but silently redirects the user to an attacker-controlled site. This is CWE-601.
+
+## Why This Matters
+
+Open redirects are a reliable tool in phishing campaigns precisely because they abuse the victim's trust in the source domain. An attacker sends a link such as `https://yourapp.example.com/login?next=https://attacker.com/harvest`. The victim sees `yourapp.example.com` in the URL and clicks it. After any authentication flow, the server sends a `302 Location: https://attacker.com/harvest` response and the browser follows it silently. The victim is now on the attacker's page, which may credential-harvest, deliver malware, or redirect again to the real site to avoid suspicion.
+
+Open redirects are also used as an intermediate step in OAuth phishing attacks, where an `open_redirect` on the authorisation server or relying party can be combined with the `redirect_uri` parameter to steal authorisation codes or access tokens. Bug-bounty programmes and security researchers routinely report open redirects, and the presence of one in a login or post-authentication flow raises your overall risk profile.
+
+## What Gets Flagged
+
+The rule reports `sendRedirect()`, a `"redirect:" + value` view name, `new RedirectView()` and a `Location` header (`setHeader`/`addHeader`, `HttpHeaders.LOCATION`, `ResponseEntity.location(URI.create(...))`) whose target reads the request, is a `@RequestParam`/`@PathVariable`/`@RequestHeader` parameter, or is a variable assigned from one (directly or through one step such as `URLDecoder.decode`) within the 40 lines above. It does not report a target that starts with a fixed local path (`"/account?id=" + id`) or fixed absolute URL, a lookup in a map of allowed destinations, a value checked by an `if` guard (`startsWith`, allowlist `contains`, `isSafe`...) before the redirect, on the value itself or on a `URI` parsed from it, or values from configuration.
+
+```java
+// FLAGGED: user-controlled URL sent directly to sendRedirect
+String next = request.getParameter("next");
+response.sendRedirect(next);
+
+// FLAGGED: Spring MVC redirect with user-controlled string
+String target = request.getParameter("url");
+return new ModelAndView("redirect:" + target);
+
+// FLAGGED: RedirectView with user-supplied parameter
+String dest = request.getParameter("destination");
+return new RedirectView(request.getParameter("destination"));
+```
+
+## Remediation
+
+1. **Validate the redirect target against an allowlist of permitted destinations.** The safest approach is to not accept an arbitrary URL at all, instead accept a short token or named destination that maps to a known URL.
+
+   ```java
+   // SAFE: token-based redirect, user never controls the URL directly
+   private static final Map<String, String> ALLOWED_REDIRECTS = Map.of(
+       "dashboard", "/app/dashboard",
+       "profile",   "/app/profile",
+       "home",      "/"
+   );
+
+   String token = request.getParameter("next");
+   String destination = ALLOWED_REDIRECTS.getOrDefault(token, "/");
+   response.sendRedirect(destination);
+   ```
+
+2. **If you must accept arbitrary URLs, validate that the destination belongs to your own domain.** Parse the URL, extract the host, and compare it to a set of trusted hostnames. Reject anything that does not match, including encoded forms like `%2F` and protocol-relative URLs like `//attacker.com`.
+
+   ```java
+   // SAFE: host allowlist validation before redirect
+   String rawUrl = request.getParameter("next");
+   try {
+       URI uri = new URI(rawUrl).normalize();
+       String host = uri.getHost();
+       Set<String> allowedHosts = Set.of("example.com", "www.example.com");
+       if (host != null && allowedHosts.contains(host.toLowerCase())) {
+           response.sendRedirect(rawUrl);
+       } else {
+           response.sendRedirect("/");  // fall back to safe default
+       }
+   } catch (URISyntaxException e) {
+       response.sendRedirect("/");
+   }
+   ```
+
+3. **Prefer relative URLs for post-login redirects.** If the redirect target is always within your own application, accept only path-relative URLs (starting with `/`) and reject any value containing `://` or starting with `//`.
+
+   ```java
+   // SAFE: only relative paths accepted
+   String next = request.getParameter("next");
+   if (next != null && next.startsWith("/") && !next.startsWith("//")) {
+       response.sendRedirect(next);
+   } else {
+       response.sendRedirect("/home");
+   }
+   ```
+
+4. **Use Spring Security's `SavedRequestAwareAuthenticationSuccessHandler`.** For post-login redirects in Spring Security applications, delegate to this handler rather than reading and forwarding a `next` parameter yourself. It uses its own URL validation before redirecting.
+
+## References
+
+- [CWE-601: URL Redirection to Untrusted Site](https://cwe.mitre.org/data/definitions/601.html)
+- [CAPEC-194: Fake the Source of Data](https://capec.mitre.org/data/definitions/194.html)
+- [MITRE ATT&CK T1566 – Phishing](https://attack.mitre.org/techniques/T1566/)
+- [OWASP Unvalidated Redirects and Forwards Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)
+- [OWASP Top 10 A01:2021 – Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
+- [OWASP ASVS V5 – Validation, Sanitization and Encoding](https://owasp.org/www-project-application-security-verification-standard/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-java-007
+// nosec vnx-java-007
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-java-007 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

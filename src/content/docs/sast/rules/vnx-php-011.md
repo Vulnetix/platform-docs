@@ -1,0 +1,115 @@
+---
+title: "VNX-PHP-011: PHP SQL injection via string concatenation"
+nav: "VNX-PHP-011"
+description: "Detects request input concatenated or interpolated into SQL text passed to mysql(i)_query(), pg_query(), PDO/mysqli/SQLite3 query/exec/prepare, WordPress $wpdb->get_results()/get_row()/get_var() and Laravel DB::select/whereRaw-style calls, inline, through a variable or through a query string built from one. Bound parameters, escaped or integer-cast values, digit-validated values and single-quoted literals are not reported."
+order: 839
+sources: ["cli/internal/sast/rules/vnx-php-011.rego", "cli/website/content/docs/sast-rules/vnx-php-011.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PHP-011` |
+| Severity | Critical |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | PHP |
+| CWE | [CWE-89](https://cwe.mitre.org/data/definitions/89.html) |
+| CAPEC | [CAPEC-66](https://capec.mitre.org/data/definitions/66.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:C/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:C/DI:H/EX:H/EC:N/P:W` |
+| Tags | `sql-injection` `injection` `php` |
+| Source | [`internal/sast/rules/vnx-php-011.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-php-011.rego) |
+
+## Overview
+
+This rule detects SQL queries constructed by concatenating request input (superglobals, client-controlled `$_SERVER` headers, Laravel `$request` values) into the query string passed to `mysql_query()`, `mysqli_query()`, `pg_query()`, PDO/mysqli/SQLite3 methods, `$wpdb` or Laravel raw-SQL builders. When user-supplied data is embedded in a SQL string without parameterisation, the database cannot distinguish between SQL syntax and data, allowing attackers to alter query structure.
+
+String concatenation into SQL is the canonical form of SQL injection and remains one of the most prevalent vulnerabilities in PHP codebases. It arises when developers treat SQL as a template string rather than a structured query with typed parameters. Functions like `mysql_real_escape_string()` reduce risk but are error-prone, they must be applied consistently and correctly to every value, and bypass techniques exist for character-set edge cases.
+
+The deprecated `mysql_*` function family (removed in PHP 7.0) does not support prepared statements at all, meaning any codebase still using these functions is both vulnerable and running on an unsupported PHP version.
+
+## Why This Matters
+
+SQL injection allows an attacker to read any data the database user can access, including tables beyond those the application is intended to query. Depending on database configuration, it can also modify or delete data, execute stored procedures, read OS files via `LOAD DATA INFILE` or `xp_cmdshell`, and in some configurations achieve remote code execution on the database host.
+
+Authentication bypass is a particularly common outcome: a login form that constructs `WHERE username='$u' AND password='$p'` can be bypassed with the classic `' OR '1'='1` injection, granting access as the first user in the table without knowing any password.
+
+PHP applications with long lifespans often accumulate dozens of SQL query construction sites, making systematic review essential. The rule fires on the co-occurrence of a query function and a superglobal on the same line, which is the most direct signal of unsanitised concatenation.
+
+## What Gets Flagged
+
+```php
+// FLAGGED: user input concatenated into mysql_query()
+$id = $_GET['id'];
+$result = mysql_query("SELECT * FROM users WHERE id = " . $id);
+
+// FLAGGED: POST data in mysqli_query()
+$username = $_POST['username'];
+$res = mysqli_query($conn, "SELECT * FROM accounts WHERE name = '$username'");
+
+// FLAGGED: GET param in pg_query()
+$pg = pg_query($db, "SELECT * FROM orders WHERE ref = '" . $_GET['ref'] . "'");
+
+// FLAGGED: the query string is built from the input first (two hops)
+$id = $_REQUEST['id'];
+$query = "SELECT first_name FROM users WHERE user_id = '$id';";
+$result = mysqli_query($GLOBALS["db"], $query);
+
+// FLAGGED: PDO and Laravel raw SQL
+$stmt = $pdo->query("SELECT * FROM users WHERE name = '$name'");
+return Order::whereRaw('customer = ' . $request->get('customer'))->get();
+
+// FLAGGED: WordPress $wpdb without prepare(), and a client header
+$row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}reports WHERE id = $id");
+mysqli_query($conn, "INSERT INTO log (ip) VALUES ('" . $_SERVER['HTTP_X_FORWARDED_FOR'] . "')");
+```
+
+Not flagged: `prepare()` with placeholders and `execute()`/`bind_param()`, `pg_query_params()`, `DB::select('... ?', [$value])`, values passed through `(int)`, `intval()`, `mysqli_real_escape_string()` or `->quote()`, values checked with `ctype_digit()`/`is_numeric()` or a digits-only `preg_match()`, and `$_GET` inside a single-quoted literal (PHP does not interpolate it). Escaping that is useless because the value is not quoted in the SQL is not distinguished.
+
+## Remediation
+
+1. **Use PDO with prepared statements**, bind all user values as parameters, never concatenate them into the SQL string.
+
+2. **Use MySQLi `bind_param()`** as an alternative to PDO for MySQL-specific code.
+
+3. **For PostgreSQL**, use `pg_query_params()` with a parameter array instead of `pg_query()` with concatenation.
+
+4. **Apply the principle of least privilege** to the database user, the application account should not have `DROP`, `FILE`, or administrative privileges.
+
+```php
+// SAFE: PDO prepared statement, SQL and data are always separate
+$pdo = new PDO('mysql:host=localhost;dbname=app', $user, $pass, [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+]);
+$stmt = $pdo->prepare('SELECT * FROM users WHERE id = :id AND active = 1');
+$stmt->execute([':id' => $_GET['id']]);
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// SAFE: MySQLi prepared statement
+$stmt = $conn->prepare('SELECT * FROM accounts WHERE name = ?');
+$stmt->bind_param('s', $_POST['username']);
+$stmt->execute();
+```
+
+## References
+
+- [CWE-89: Improper Neutralization of Special Elements used in an SQL Command](https://cwe.mitre.org/data/definitions/89.html)
+- [CAPEC-66: SQL Injection](https://capec.mitre.org/data/definitions/66.html)
+- [OWASP SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html)
+- [OWASP PHP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html)
+- [PHP Manual – PDO Prepared Statements](https://www.php.net/manual/en/pdo.prepared-statements.php)
+- [PortSwigger Web Security Academy – SQL Injection](https://portswigger.net/web-security/sql-injection)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-php-011
+// nosec vnx-php-011
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-php-011 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

@@ -1,0 +1,16 @@
+/docs/ai-firewall/	/ai-firewall/
+/docs/ai-firewall/baseline/	/ai-firewall/policy/recommended-baseline/
+/docs/ai-firewall/byok/	/ai-firewall/get-started/provider-keys/
+/docs/ai-firewall/guardrails/	/ai-firewall/policy/guardrails/
+/docs/ai-firewall/install/	/ai-firewall/cli/wiring-clients/
+/docs/ai-firewall/inventory/	/ai-firewall/operations/inventory/
+/docs/ai-firewall/nonces/	/ai-firewall/reference/nonces/
+/docs/ai-firewall/policy/	/ai-firewall/policy/overview/
+/docs/ai-firewall/policy-file/	/ai-firewall/reference/policy-file/
+/docs/ai-firewall/quickstart/	/ai-firewall/get-started/quickstart/
+/docs/ai-firewall/responses/	/ai-firewall/reference/errors/
+/docs/ai-firewall/snippets/	/ai-firewall/cli/snippets/
+/docs/ai-firewall/status/	/ai-firewall/cli/status-and-checks/
+/docs/ai-firewall/troubleshooting/	/ai-firewall/reference/troubleshooting/
+/docs/ai-firewall/uninstall/	/ai-firewall/cli/wiring-clients/
+/docs/cli-reference/ai-firewall/	/ai-firewall/cli/commands/

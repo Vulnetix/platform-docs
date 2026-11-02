@@ -1,0 +1,131 @@
+---
+title: "VNX-NODE-004: Express app without helmet"
+nav: "VNX-NODE-004"
+description: "Reports an Express app created with express() when nothing in the same npm package applies helmet(), lusca or explicit security headers."
+order: 800
+sources: ["cli/internal/sast/rules/vnx-node-004.rego", "cli/website/content/docs/sast-rules/vnx-node-004.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-004` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-693](https://cwe.mitre.org/data/definitions/693.html) |
+| CAPEC | [CAPEC-86](https://capec.mitre.org/data/definitions/86.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `express` `config` `security-headers` |
+| Source | [`internal/sast/rules/vnx-node-004.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-004.rego) |
+
+## Overview
+
+This rule detects Express applications, identified by the presence of `express()` in a file, that do not import or apply the `helmet` middleware. Helmet sets a collection of HTTP response headers that instruct browsers to enforce security policies: Content Security Policy, HTTP Strict Transport Security, X-Frame-Options, X-Content-Type-Options, and others. Without these headers, browsers apply permissive defaults that enable clickjacking, MIME-type sniffing attacks, cross-site scripting amplification, and protocol downgrade attacks. This maps to CWE-693 (Protection Mechanism Failure).
+
+## Why This Matters
+
+HTTP security headers are a browser-enforced second line of defence. If an attacker finds an XSS vector in your application, a strong Content Security Policy can prevent injected scripts from loading external payloads or exfiltrating data. Without `X-Frame-Options` or the frame-ancestors CSP directive, your login page can be embedded in an invisible iframe on an attacker's site and used to steal clicks or credentials (clickjacking). Without `Strict-Transport-Security`, a network-level attacker can downgrade HTTPS connections to HTTP on the first visit. Without `X-Content-Type-Options: nosniff`, a browser may execute a file uploaded as an image if it detects executable content, a classic polyglot attack.
+
+These are all issues that bypass server-side controls entirely; they are enforced, or not, by the browser. Helmet provides all of them in a single, well-maintained package with sensible defaults that you can tighten incrementally.
+
+## What Gets Flagged
+
+The first `express()` application created in a file that imports `express`, when no file in the same package (the files under the nearest directory with a `package.json`) applies security headers:
+
+```javascript
+const express = require('express');
+// FLAGGED: no helmet() or security-header middleware anywhere in the package
+const app = express();
+app.listen(3000);
+```
+
+A helmet setup that is commented out (`// app.use(helmet())`, or inside `/* ... */`), or named only in a string (`console.warn("enable helmet()")`), does not count.
+
+Not flagged:
+
+- `app.use(helmet())`, `helmet.frameguard()` and other helmet middlewares, in this file or another module of the package;
+- `lusca`, or middleware that sets `Content-Security-Policy`, `X-Frame-Options`, `Strict-Transport-Security` or `X-Content-Type-Options` itself, by name (`res.setHeader("X-Frame-Options", ...)`) or as a key of a headers object (`res.set({ "X-Frame-Options": "DENY" })`);
+- `express.Router()`, `express.json()` and other `express.*` factories;
+- test, example, sample, demo and benchmark code.
+
+In a monorepo each package is judged on its own: helmet in `services/billing` does not cover `services/users`.
+
+## Remediation
+
+1. **Install helmet:**
+
+   ```bash
+   npm install helmet
+   ```
+
+2. **Apply it as the first middleware**, before any route definitions, so the headers are set on every response:
+
+   ```javascript
+   // SAFE: helmet applied to all routes
+   const express = require('express');
+   const helmet = require('helmet');
+
+   const app = express();
+
+   app.use(helmet()); // sets all default headers
+
+   app.use(express.json());
+   app.get('/', (req, res) => res.send('Hello'));
+   app.listen(3000);
+   ```
+
+   The default `helmet()` call sets these headers:
+   - `Content-Security-Policy`, restricts script, style, and resource origins
+   - `Strict-Transport-Security`, enforces HTTPS for future visits
+   - `X-Frame-Options: SAMEORIGIN`, prevents clickjacking
+   - `X-Content-Type-Options: nosniff`, prevents MIME sniffing
+   - `Referrer-Policy: no-referrer`, limits referrer leakage
+   - `X-DNS-Prefetch-Control: off`, prevents DNS prefetching data leakage
+   - `X-Download-Options: noopen`, IE-specific protection
+   - `X-Permitted-Cross-Domain-Policies: none`, blocks Adobe Flash/Acrobat
+
+3. **Tighten the Content Security Policy for your application.** The default CSP is strict but may break inline scripts or third-party resources you rely on. Configure it explicitly rather than disabling it:
+
+   ```javascript
+   // SAFE: customised CSP that permits your CDN and disables inline scripts
+   app.use(
+     helmet({
+       contentSecurityPolicy: {
+         directives: {
+           defaultSrc: ["'self'"],
+           scriptSrc: ["'self'", 'https://cdn.example.com'],
+           styleSrc: ["'self'", "'unsafe-inline'"],
+           imgSrc: ["'self'", 'data:', 'https:'],
+         },
+       },
+     })
+   );
+   ```
+
+4. **Add `helmet` to your ESLint config as a required import** using a custom rule or the `eslint-plugin-security` package, so any new Express file that omits it fails the linter immediately.
+
+## References
+
+- [CWE-693: Protection Mechanism Failure](https://cwe.mitre.org/data/definitions/693.html)
+- [helmet npm package documentation](https://helmetjs.github.io/)
+- [MDN – HTTP Security Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers#security)
+- [OWASP Secure Headers Project](https://owasp.org/www-project-secure-headers/)
+- [OWASP Node.js Security Cheat Sheet – Use Helmet.js](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html#use-helmet)
+- [Content Security Policy Quick Reference](https://content-security-policy.com/)
+- [MITRE ATT&CK T1190 – Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-004
+// nosec vnx-node-004
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-004 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

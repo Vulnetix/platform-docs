@@ -1,0 +1,121 @@
+---
+title: "VNX-RUBY-002: eval() or system() in Ruby"
+nav: "VNX-RUBY-002"
+description: "Reports eval/instance_eval/class_eval/module_eval and shell-string system, exec, spawn, Kernel#open, IO.popen, backticks and %x() when request input reaches them directly or through a nearby variable, including system(\"sh\", \"-c\", cmd); other argument-list forms, escaped input and constant-table lookups are not reported."
+order: 878
+sources: ["cli/internal/sast/rules/vnx-ruby-002.rego", "cli/website/content/docs/sast-rules/vnx-ruby-002.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-RUBY-002` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Ruby |
+| CWE | [CWE-94](https://cwe.mitre.org/data/definitions/94.html) |
+| CAPEC | [CAPEC-35](https://capec.mitre.org/data/definitions/35.html) |
+| ATT&CK | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `code-injection` `command-injection` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-ruby-002.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-ruby-002.rego) |
+
+## Overview
+
+This rule flags calls to `eval()` and `system()` in Ruby source files. Both functions allow arbitrary code or OS command execution. When an argument to either function is derived from user-supplied input, HTTP parameters, environment variables, file contents, an attacker can execute arbitrary Ruby code or shell commands on the server. `eval` maps to [CWE-94: Code Injection](https://cwe.mitre.org/data/definitions/94.html); `system` maps to [CWE-78: OS Command Injection](https://cwe.mitre.org/data/definitions/78.html).
+
+## Why This Matters
+
+`eval()` compiles and executes an arbitrary string as Ruby source code in the current binding. Any application that constructs an eval argument from user-supplied data is functionally equivalent to exposing a remote code execution endpoint. Even partial control of the input is sufficient for exploitation, injecting a method call, string escape sequence, or closing delimiter can redirect execution.
+
+`Kernel.system()` passes its first argument to the underlying shell (`/bin/sh -c`) when called with a single string. Shell metacharacters such as `;`, `&&`, `|`, `` ` ``, and `$()` then redirect control flow to attacker-chosen commands. This is distinct from calling `system` with an array of separate arguments, which bypasses shell interpretation entirely.
+
+The [Rails Security Guide](https://guides.rubyonrails.org/security.html#command-line-injection) explicitly warns against constructing shell commands with user input. RuboCop's `Security/Eval` cop flags `eval` calls for the same reason. This rule also covers backtick execution (`` `cmd` ``) and `Kernel#exec` with string arguments, which share the same risk surface.
+
+## What Gets Flagged
+
+The rule reports the call when request input (`params`, `request.params`/`body`/`headers`/..., `cookies`, an upload's `original_filename`) reaches it, on the same line or through a variable assigned from it a few lines above.
+
+```ruby
+# FLAGGED: request input in a shell string or evaluated as code
+system("ping -c 1 #{params[:host]}")
+domain = params[:domain]
+@answer = `nslookup #{domain}`
+result = eval(params[:expression])
+system("cp /tmp/uploads/#{upload.original_filename} #{dir}")
+open(params[:source]).read          # Kernel#open runs "|cmd"
+
+# NOT flagged: argument-list form, escaped or numeric input, constants
+system("ping", "-c", "1", params[:host])
+system("ping -c 1 #{Shellwords.escape(params[:host])}")
+system("kill -TERM #{params[:pid].to_i}")
+revision = `git rev-parse HEAD`
+File.open(params[:path])            # a path problem, not command execution
+```
+
+## Remediation
+
+**Remove `eval` entirely.** Almost every legitimate use case has a safer alternative:
+
+```ruby
+# UNSAFE: eval to call a dynamic method by name
+eval("#{params[:action]}_report")
+
+# SAFE: use public_send with an explicit allowlist
+ALLOWED_ACTIONS = %w[monthly quarterly annual].freeze
+action = params[:action].to_s
+raise ActionController::BadRequest, "Invalid action" unless ALLOWED_ACTIONS.include?(action)
+send("#{action}_report")
+```
+
+**For `system`, pass arguments as an array to avoid shell interpretation:**
+
+```ruby
+# UNSAFE: single string, shell interprets metacharacters
+system("convert #{filename} output.png")
+
+# SAFE: array form, no shell involved, each element is a literal argument
+system("convert", filename, "output.png")
+```
+
+**Capture output safely with `Open3`:**
+
+```ruby
+require "open3"
+
+# SAFE: capture stdout/stderr without spawning a shell
+stdout, stderr, status = Open3.capture3("convert", filename, "output.png")
+raise "Conversion failed: #{stderr}" unless status.success?
+```
+
+**Validate all inputs before any command execution:**
+
+```ruby
+# Restrict filename to known-safe characters before any system call
+raise ArgumentError, "Invalid filename" unless filename.match?(/\A[\w\-\.]+\z/)
+```
+
+## References
+
+- [CWE-94: Code Injection](https://cwe.mitre.org/data/definitions/94.html)
+- [CWE-78: OS Command Injection](https://cwe.mitre.org/data/definitions/78.html)
+- [OWASP ASVS v4 – V5.2 Sanitization and Sandboxing](https://owasp.org/www-project-application-security-verification-standard/)
+- [Rails Security Guide – Command Line Injection](https://guides.rubyonrails.org/security.html#command-line-injection)
+- [RuboCop Security cops – Security/Eval](https://docs.rubocop.org/rubocop/cops_security.html)
+- [CAPEC-35: Leverage Executable Code in Non-Executable Files](https://capec.mitre.org/data/definitions/35.html)
+- [CAPEC-88: OS Command Injection](https://capec.mitre.org/data/definitions/88.html)
+- [MITRE ATT&CK T1059 – Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-ruby-002
+// nosec vnx-ruby-002
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-ruby-002 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

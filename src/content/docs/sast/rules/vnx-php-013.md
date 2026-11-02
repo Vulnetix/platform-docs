@@ -1,0 +1,123 @@
+---
+title: "VNX-PHP-013: PHP XXE via LIBXML_NOENT or LIBXML_DTDLOAD flag"
+nav: "VNX-PHP-013"
+description: "Detects XML parsing configured for entity expansion: simplexml_load_*(), new SimpleXMLElement(), DOMDocument load/loadXML and XMLReader open/xml with LIBXML_NOENT or LIBXML_DTDLOAD (inline, across lines or via a flags variable), substituteEntities/resolveExternals set to true, XMLReader SUBST_ENTITIES/LOADDTD enabled, and libxml_disable_entity_loader(false)."
+order: 841
+sources: ["cli/internal/sast/rules/vnx-php-013.rego", "cli/website/content/docs/sast-rules/vnx-php-013.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PHP-013` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | PHP |
+| CWE | [CWE-611](https://cwe.mitre.org/data/definitions/611.html) |
+| CAPEC | [CAPEC-221](https://capec.mitre.org/data/definitions/221.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `xxe` `xml` `php` |
+| Source | [`internal/sast/rules/vnx-php-013.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-php-013.rego) |
+
+## Overview
+
+This rule detects calls to `simplexml_load_string()` or `simplexml_load_file()` that pass the `LIBXML_NOENT` or `LIBXML_DTDLOAD` flags. `LIBXML_NOENT` instructs the parser to substitute XML entity references, including external entities that reference file paths and URLs, with their declared values. `LIBXML_DTDLOAD` enables loading of external Document Type Definition files, which in turn can declare external entities.
+
+An XML External Entity (XXE) attack works by embedding a DTD in the XML document that declares an entity pointing to a local file (`file:///etc/passwd`) or a remote URL. When the parser processes the document with entity expansion enabled, the content of the referenced resource is injected into the XML data and may be returned in the application's response or used in a way that leaks it to the attacker.
+
+PHP's libxml-based parsers (`simplexml`, `DOMDocument`, `XMLReader`) all share the same underlying entity loader. The `libxml_disable_entity_loader(true)` function (available in PHP versions before 8.0, where it became a no-op as loading is disabled by default) globally prevents external entity loading for the current request.
+
+## Why This Matters
+
+XXE has appeared on the OWASP Top 10 and has been exploited in high-profile attacks against financial services, healthcare, and government systems. The vulnerability is especially dangerous because it operates at the parser level, before any application logic runs, and can expose files the application has never explicitly tried to read.
+
+Common targets in XXE attacks include `/etc/passwd` and `/etc/shadow` for credential enumeration, application configuration files containing database credentials, SSH private keys, cloud metadata endpoints (`http://169.254.169.254/latest/meta-data/`) for IAM credential theft, and internal network services accessible from the server (SSRF).
+
+PHP applications that process SAML assertions, RSS/Atom feeds, Office Open XML documents, or any XML-based API integration are at risk. SAML-based single sign-on is a particularly high-value target because XXE in the SAML parser can enable authentication bypass.
+
+## What Gets Flagged
+
+```php
+// FLAGGED: LIBXML_NOENT enables entity substitution, exposes local files
+$xml = simplexml_load_string($userInput, 'SimpleXMLElement', LIBXML_NOENT);
+
+// FLAGGED: LIBXML_DTDLOAD enables external DTD, which can declare entities
+$doc = simplexml_load_file($uploadedFile, 'SimpleXMLElement', LIBXML_DTDLOAD);
+
+// FLAGGED: DOMDocument with the flags on the following lines
+$dom->loadXML(
+    $body,
+    LIBXML_NOENT | LIBXML_DTDLOAD
+);
+
+// FLAGGED: flags in a variable, and the equivalent DOM properties
+$opts = LIBXML_NOENT | LIBXML_NONET;
+simplexml_load_string($data, 'SimpleXMLElement', $opts);
+$dom->substituteEntities = true;
+$reader->setParserProperty(XMLReader::SUBST_ENTITIES, true);
+libxml_disable_entity_loader(false);
+```
+
+Not flagged: default parsing, `LIBXML_NONET`/`LIBXML_NOCDATA`, a flag cleared with `~LIBXML_NOENT`, the properties set to `false`, and the constant named in a string or comment.
+
+A malicious XML payload:
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE root [
+  <!ENTITY secret SYSTEM "file:///etc/passwd">
+]>
+<root>&secret;</root>
+```
+
+## Remediation
+
+1. **Remove `LIBXML_NOENT` and `LIBXML_DTDLOAD` flags** from all `simplexml_load_*` and `DOMDocument::loadXML()` calls.
+
+2. **Call `libxml_disable_entity_loader(true)`** at the start of any request that parses XML (for PHP versions before 8.0).
+
+3. **In PHP 8.0+**, external entity loading is disabled by default, ensure you have not re-enabled it with `libxml_set_external_entity_loader()`.
+
+4. **Validate that XML documents do not contain DOCTYPE declarations** when your protocol does not require them, reject any document that includes a `<!DOCTYPE>` element.
+
+```php
+<?php
+// SAFE: entity loader disabled and dangerous flags omitted
+if (PHP_VERSION_ID < 80000) {
+    libxml_disable_entity_loader(true);
+}
+
+$xml = simplexml_load_string(
+    $userInput,
+    'SimpleXMLElement',
+    LIBXML_NOERROR | LIBXML_NOWARNING  // no LIBXML_NOENT or LIBXML_DTDLOAD
+);
+
+if ($xml === false) {
+    throw new InvalidArgumentException('Invalid XML input');
+}
+```
+
+## References
+
+- [CWE-611: Improper Restriction of XML External Entity Reference](https://cwe.mitre.org/data/definitions/611.html)
+- [CAPEC-221: Data Serialization External Entities Blowup](https://capec.mitre.org/data/definitions/221.html)
+- [OWASP XXE Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)
+- [OWASP PHP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html)
+- [PHP Manual – libxml_disable_entity_loader()](https://www.php.net/manual/en/function.libxml-disable-entity-loader.php)
+- [PortSwigger Web Security Academy – XXE Injection](https://portswigger.net/web-security/xxe)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-php-013
+// nosec vnx-php-013
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-php-013 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

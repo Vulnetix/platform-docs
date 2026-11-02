@@ -1,0 +1,139 @@
+---
+title: "VNX-RUST-004: Rust command injection via a shell or a request-controlled program in process::Command"
+nav: "VNX-RUST-004"
+description: "Reports std/tokio process::Command that runs a shell (sh, bash, cmd, powershell) with -c//C/-Command and a non-literal command string, or whose program comes from a request extractor; constant shell commands and user input passed as a separate .arg() are not reported."
+order: 890
+sources: ["cli/internal/sast/rules/vnx-rust-004.rego", "cli/website/content/docs/sast-rules/vnx-rust-004.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-RUST-004` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Rust |
+| CWE | [CWE-78](https://cwe.mitre.org/data/definitions/78.html) |
+| CAPEC | [CAPEC-88](https://capec.mitre.org/data/definitions/88.html) |
+| ATT&CK | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `command-injection` `rust` |
+| Source | [`internal/sast/rules/vnx-rust-004.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-rust-004.rego) |
+
+## Overview
+
+This rule detects Rust code that constructs a `std::process::Command` using the `format!` macro to build the command string, or that invokes a shell interpreter (`sh -c`) through `Command`. When user-controlled input is interpolated into the command string, an attacker can inject shell metacharacters (`;`, `|`, `&&`, `$(...)`) to execute arbitrary commands on the host system.
+
+## Why This Matters
+
+Command injection is consistently ranked among the most critical application vulnerabilities:
+
+- **Remote Code Execution (RCE):** An attacker can run any command the application's user can, read files, install backdoors, pivot to other systems
+- **Rust doesn't protect you automatically:** Unlike SQL parameterization, Rust's type system doesn't prevent you from building command strings unsafely
+- **Shell invocation amplifies risk:** Passing arguments through `sh -c` exposes the full shell metacharacter surface (pipes, redirections, command substitution)
+- **Exploitation is trivial:** If user input flows into a command string, the attacker simply includes `;malicious_command` in their input
+
+## What Gets Flagged
+
+**A shell given a non-literal command string** (the finding is on the `Command::new` line, whether the builder is chained on one line or split across lines):
+
+```rust
+Command::new("sh").arg("-c").arg(format!("ping -c 1 {}", host)).output()        // FLAGGED
+
+let line = format!("convert {} {}", input, output);
+let _ = Command::new("sh").args(["-c", &line]).output();                       // FLAGGED
+
+let _ = Command::new("cmd").args(&["/C", &format!("copy {} backup\\", src)]);   // FLAGGED
+
+Command::new("powershell.exe")                                                 // FLAGGED
+    .args(["-NoProfile", "-Command", script])
+
+let child = tokio::process::Command::new("sh")                                 // FLAGGED
+    .arg("-c")
+    .arg(&script)
+    .spawn();
+```
+
+**A program taken from the request:**
+
+```rust
+pub async fn run_tool(Query(params): Query<Tool>) -> String {
+    let out = Command::new(&params.name).output().unwrap();                    // FLAGGED
+```
+
+Not flagged: `Command::new("sh").arg("-c").arg("sync")` or `.arg(BOOTSTRAP)` (a constant), a value quoted with `shlex::try_quote` or `shell_escape::escape` before it is interpolated, `Command::new("sh").arg("deploy.sh").arg(env)` (a script file with arguments), and `Command::new("git").arg("checkout").arg(branch)` (no shell parses the argument).
+
+## Remediation
+
+1. **Pass user input as separate arguments, never as part of the command string.** `Command::new` with `.arg()` does not invoke a shell and does not interpret metacharacters:
+
+   ```rust
+   use std::process::Command;
+
+   // Safe: user_query is passed as a separate argument
+   let output = Command::new("grep")
+       .arg(&user_query)      // Treated as a literal string, not shell-parsed
+       .arg("/var/log/app.log")
+       .output()?;
+   ```
+
+2. **Avoid shell invocation entirely.** Do not use `sh -c` or `bash -c` unless absolutely necessary:
+
+   ```rust
+   // Instead of: Command::new("sh").arg("-c").arg(format!("wc -l {}", path))
+   // Use:
+   let output = Command::new("wc")
+       .arg("-l")
+       .arg(&path)  // Safe: no shell interpretation
+       .output()?;
+   ```
+
+3. **Validate and sanitize input if it must form part of a command.** Use an allowlist of acceptable characters:
+
+   ```rust
+   fn is_safe_filename(name: &str) -> bool {
+       name.chars().all(|c| c.is_alphanumeric() || c == '.' || c == '-' || c == '_')
+   }
+
+   if !is_safe_filename(&user_input) {
+       return Err(anyhow!("Invalid filename"));
+   }
+   ```
+
+4. **Use Rust-native libraries instead of shelling out.** For common operations, prefer crates:
+
+   ```rust
+   // Instead of shelling out to `find`:
+   use walkdir::WalkDir;
+   for entry in WalkDir::new("/data").into_iter().filter_map(|e| e.ok()) {
+       if entry.file_name().to_str() == Some(&target) {
+           // found
+       }
+   }
+   ```
+
+5. **If you must use format! with Command, ensure the interpolated values are from trusted sources** (constants, configuration files you control, enum variants), never from user input, environment variables, or external APIs.
+
+## References
+
+- [CWE-78: OS Command Injection](https://cwe.mitre.org/data/definitions/78.html)
+- [OWASP Command Injection](https://owasp.org/www-community/attacks/Command_Injection)
+- [OWASP OS Command Injection Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html)
+- [CAPEC-88: OS Command Injection](https://capec.mitre.org/data/definitions/88.html)
+- [MITRE ATT&CK T1059 – Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059/)
+- [Rust std::process::Command Documentation](https://doc.rust-lang.org/std/process/struct.Command.html)
+- [OWASP ASVS V5.3 – Output Encoding and Injection Prevention](https://owasp.org/www-project-application-security-verification-standard/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-rust-004
+// nosec vnx-rust-004
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-rust-004 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

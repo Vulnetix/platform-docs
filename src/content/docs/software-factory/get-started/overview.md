@@ -64,3 +64,7 @@ Crews run on **hosts**: machines running the [Belai](/software-factory/belai/ins
 - [Pix Sandbox](https://www.vulnetix.com/features/pix-sandbox) describes the machines crews run on.
 - [Belai](https://belai.vulnetix.com/) is the agent harness inside every session.
 - [Announcing Software Factory](https://www.vulnetix.com/articles/announcing-software-factory) gives the reasoning behind the design.
+
+## Platform IaC
+
+Factory settings export as YAML today: **Export as YAML** on the Settings page, or `GET /v1/factory/settings?format=yaml` (see [The settings document](/software-factory/control/settings-document/)). Workflow graphs export the same way with `GET /v1/factory/workflows/{id}?format=yaml`. Neither can be imported from YAML yet. Config-as-code for factory settings and workflows, as `vulnetix.com/v1` documents applied with `vulnetix config apply`, is planned and described on [Platform IaC](/platform-iac/).

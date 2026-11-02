@@ -1,0 +1,128 @@
+---
+title: "VNX-NODE-021: XXE via libxmljs with noent:true"
+nav: "VNX-NODE-021"
+description: "Reports noent: true (inline, across lines or in an options object) in files using libxmljs/libxmljs2, and libxml2-wasm's XML_PARSE_NOENT flag. Not reported: noent false or omitted, a noent key in files without libxml, a bare import, comments and strings."
+order: 817
+sources: ["cli/internal/sast/rules/vnx-node-021.rego", "cli/website/content/docs/sast-rules/vnx-node-021.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-021` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-611](https://cwe.mitre.org/data/definitions/611.html) |
+| CAPEC | [CAPEC-221](https://capec.mitre.org/data/definitions/221.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `xxe` `xml` `libxmljs` `node` |
+| Source | [`internal/sast/rules/vnx-node-021.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-021.rego) |
+
+## Overview
+
+This rule reports entity substitution being switched on in a file that uses `libxmljs`, `libxmljs2` or `libxml2-wasm`: a `noent: true` option (in the parse call, on a later line of it, or in an options object passed to it) and the `ParseOption.XML_PARSE_NOENT` flag. Importing the library is not a finding, and neither is a `noent` key in a file that does not use libxml (fast-xml-parser, xml2js and sax never fetch external entities). When `noent` is set to `true`, the XML parser resolves and expands external entity declarations in the Document Type Definition (DTD), which can reference local file paths or remote URLs.
+
+An XML External Entity attack begins with a crafted XML document containing a DTD that declares an entity pointing to a sensitive file (e.g., `file:///etc/passwd`) or a network-accessible service. When the application parses this document with entity expansion enabled, the content of the referenced resource is injected into the XML document body and returned in the response, or processed in a way that leaks it to the attacker.
+
+The `noent` option specifically enables entity substitution, it is the parameter that must be `false` when parsing untrusted XML. Similarly, `dtdload` should not be enabled as it allows loading external DTD files, which in turn can declare external entities.
+
+## Why This Matters
+
+XXE has appeared in the OWASP Top 10 for multiple consecutive cycles and has been exploited in significant real-world incidents. The attack allows unauthenticated file disclosure, an attacker with the ability to send XML to the application can read any file readable by the Node.js process, including `/etc/passwd`, SSH private keys, application configuration files with database credentials, and cloud metadata endpoints (`http://169.254.169.254/latest/meta-data/`).
+
+The SSRF variant of XXE is particularly dangerous in cloud environments: the cloud instance metadata service is accessible from the server and returns temporary IAM credentials with significant privileges. An attacker who retrieves these credentials via XXE SSRF gains the cloud permissions of the application's service account.
+
+`libxmljs` is less commonly used than browser-native XML parsing but appears in document processing pipelines, XML-based API integrations, and SAML assertion parsing. SAML parsing is a high-value target because XXE in a SAML processor can allow authentication bypass, the attacker injects XML that evaluates to a legitimate user's assertion.
+
+## What Gets Flagged
+
+```javascript
+// FLAGGED: noent:true enables external entity expansion
+const libxml = require('libxmljs');
+const doc = libxml.parseXmlString(req.body.xmlData, { noent: true });
+
+// FLAGGED: parseXml with noent:true on user input
+const doc = libxml.parseXml(xmlBuffer, { noent: true, dtdload: true });
+
+// FLAGGED: the noent line of a multi-line options object
+return libxml.parseXmlString(xml, {
+  dtdload: true,
+  noent: true,
+});
+
+// FLAGGED: libxml2-wasm entity substitution flag
+const option = ParseOption.XML_PARSE_NOENT | ParseOption.XML_PARSE_DTDLOAD;
+
+// Not flagged
+libxml.parseXml(body, { noent: false, nonet: true });
+libxml.parseXmlString(body);
+```
+
+A malicious XML payload:
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE foo [
+  <!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<root>&xxe;</root>
+```
+
+## Remediation
+
+1. **Set `noent: false`** (or omit the option entirely, as `false` is the default) in all `parseXmlString()` and `parseXml()` calls.
+
+2. **Set `dtdload: false` and `dtdvalid: false`** to prevent loading external DTDs that could declare external entities.
+
+3. **Validate that user-supplied XML is structurally expected** before parsing, reject documents with DOCTYPE declarations when they are not required by your protocol.
+
+4. **Consider switching to a DTD-free XML format** or a JSON equivalent if your integration does not require XML.
+
+```javascript
+// SAFE: parse with entity expansion disabled (secure defaults)
+const libxml = require('libxmljs2');
+
+function safeParseXml(xmlString) {
+  return libxml.parseXmlString(xmlString, {
+    noent:    false,  // do not expand external entities
+    dtdload:  false,  // do not load external DTDs
+    dtdvalid: false,  // do not validate against DTD
+    nonet:    true,   // do not access network resources during parse
+  });
+}
+
+app.post('/xml', express.text({ type: 'application/xml' }), (req, res) => {
+  let doc;
+  try {
+    doc = safeParseXml(req.body);
+  } catch (e) {
+    return res.status(400).json({ error: 'Invalid XML' });
+  }
+  // process doc safely
+});
+```
+
+## References
+
+- [CWE-611: Improper Restriction of XML External Entity Reference](https://cwe.mitre.org/data/definitions/611.html)
+- [CAPEC-221: Data Serialization External Entities Blowup](https://capec.mitre.org/data/definitions/221.html)
+- [OWASP XXE Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [libxmljs2 npm package](https://www.npmjs.com/package/libxmljs2)
+- [PortSwigger Web Security Academy, XXE Injection](https://portswigger.net/web-security/xxe)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-021
+// nosec vnx-node-021
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-021 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

@@ -1,0 +1,14 @@
+/docs/tea/	/tea/get-started/overview/
+/docs/tea/catalogue/	/tea/consume/catalogues-and-auth/
+/docs/cli-reference/tea/	/tea/cli/reading/
+/docs/tea/conformance/	/tea/reference/conformance/
+/docs/tea/conformance/discovery/	/tea/reference/conformance/
+/docs/tea/conformance/consumer/	/tea/reference/conformance/
+/docs/tea/conformance/purl/	/tea/reference/conformance/
+/docs/tea/conformance/cyclonedx/	/tea/reference/conformance/
+/docs/tea/conformance/spdx/	/tea/reference/conformance/
+/docs/tea/conformance/insights/	/tea/reference/conformance/
+/docs/tea/conformance/cel/	/tea/reference/conformance/
+/docs/tea/conformance/provenance/	/tea/reference/conformance/
+/docs/tea/conformance/performance/	/tea/reference/conformance/
+/docs/tea/conformance/provider/	/tea/reference/conformance/

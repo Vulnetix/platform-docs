@@ -42,6 +42,9 @@ for (const file of htmlFiles(dist)) {
   // Strip script/style bodies: their JS/CSS strings are not links.
   html = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '<script></script>');
   html = html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '<style></style>');
+  // Code samples are text: an href="..." inside a highlighted <pre> is not a link.
+  html = html.replace(/<pre\b[^>]*>[\s\S]*?<\/pre>/gi, '<pre></pre>');
+  html = html.replace(/<code\b[^>]*>[\s\S]*?<\/code>/gi, '<code></code>');
   const ids = anchorsOf(html);
   const rel = file.slice(dist.length);
 

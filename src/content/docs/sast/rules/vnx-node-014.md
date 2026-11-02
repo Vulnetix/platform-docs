@@ -1,0 +1,168 @@
+---
+title: "VNX-NODE-014: NoSQL injection in MongoDB"
+nav: "VNX-NODE-014"
+description: "Reports a MongoDB query filter (find, findOne, update*, delete*, count, aggregate...) taken from req.query/body or Koa ctx, as the whole filter or as a member value, or a $where clause built from any request value. Cast or $eq-wrapped values, sanitised input, findById and SQL ORM where: filters are not reported."
+order: 810
+sources: ["cli/internal/sast/rules/vnx-node-014.rego", "cli/website/content/docs/sast-rules/vnx-node-014.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-014` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-943](https://cwe.mitre.org/data/definitions/943.html) |
+| CAPEC | [CAPEC-676](https://capec.mitre.org/data/definitions/676.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `nosql` `mongodb` `injection` `database` |
+| Source | [`internal/sast/rules/vnx-node-014.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-014.rego) |
+
+## Overview
+
+This rule detects MongoDB query method calls, `find()`, `findOne()`, `findOneAndUpdate()`, `updateOne()`, `deleteOne()`, `deleteMany()`, where the filter argument is supplied directly from `req.body` or `req.query`. Unlike SQL injection, which manipulates a query string, NoSQL injection exploits the fact that MongoDB query filters are JavaScript objects: an attacker who can control the filter object can inject MongoDB query operators (`$where`, `$gt`, `$ne`, `$regex`) to bypass authentication, extract data conditionally, or match unintended documents. This is CWE-943 (Improper Neutralization of Special Elements in Data Query Logic).
+
+## Why This Matters
+
+NoSQL injection via MongoDB operators is a well-documented and frequently exploited attack. The classic authentication bypass works because a developer writes `User.findOne(req.body)` expecting `{ username: "alice", password: "secret" }`, but an attacker sends `{ "username": "admin", "password": { "$ne": "" } }`. The `$ne` (not-equal) operator matches any user whose password is not an empty string, which is all of them, so the query returns the first admin user without knowing the password.
+
+The `$where` operator is even more dangerous: it accepts a JavaScript expression that is evaluated server-side by the MongoDB JavaScript engine. An attacker who can inject a `$where` clause can execute arbitrary JavaScript within the database process context, potentially causing denial of service through infinite loops or leaking data through timing side channels.
+
+Real-world consequences include complete authentication bypass, unauthorised data exfiltration, and cascading data destruction via operator-injected `deleteMany` filters. Because MongoDB drivers accept any JavaScript object as a query filter, there is no layer between user input and query execution when request bodies are passed directly.
+
+**OWASP ASVS v4:** V5.3.4, Verify that the application protects against NoSQL injection attacks.
+
+## What Gets Flagged
+
+The filter (first argument) must carry a body or query value, which a parser can turn into an operator object such as `{"$ne": null}`, or a `$where` clause must be built from any request value.
+
+```javascript
+// FLAGGED: operator injection through a member value
+const user = await User.findOne({
+  username: req.body.username,
+  password: req.body.password,
+});
+await User.deleteMany(req.body);
+
+// FLAGGED: two lines
+const { email } = req.body;
+await db.collection('accounts').findOne({ email });
+
+// FLAGGED: JavaScript injection in $where
+db.orders.find({ $where: `this.orderId === '${id}'` });   // id = req.params.id
+```
+
+Not flagged: `String(req.body.username)`, `new ObjectId(req.params.id)`, `{ $eq: req.body.email }`, `mongoSanitize(req.query)` or the express-mongo-sanitize middleware, `findById`, `{ where: { ... } }` (Sequelize, TypeORM, Prisma), route params used as a member value, and `users.find(u => ...)`.
+
+## Remediation
+
+1. **Extract only the specific fields your query needs** from the request object. Never spread or pass the entire `req.body` or `req.query` to a query method:
+
+   ```javascript
+   // SAFE: extract and validate specific fields
+   app.post('/login', async (req, res) => {
+     const { username, password } = req.body;
+
+     // Type-check: both must be strings
+     if (typeof username !== 'string' || typeof password !== 'string') {
+       return res.status(400).json({ error: 'Invalid input' });
+     }
+
+     const user = await User.findOne({ username });
+     if (!user || !await bcrypt.compare(password, user.passwordHash)) {
+       return res.status(401).json({ error: 'Invalid credentials' });
+     }
+     res.json({ token: generateToken(user) });
+   });
+   ```
+
+2. **Enforce string types for all user-supplied filter fields.** MongoDB operators are objects, not strings, so a simple `typeof` check blocks operator injection entirely:
+
+   ```javascript
+   // SAFE: type guard blocks operator objects such as { $ne: null }
+   function assertString(value, fieldName) {
+     if (typeof value !== 'string') {
+       throw new Error(`${fieldName} must be a string`);
+     }
+     return value;
+   }
+
+   app.get('/users', async (req, res) => {
+     const email = assertString(req.query.email, 'email');
+     const users = await User.find({ email });
+     res.json(users);
+   });
+   ```
+
+3. **Disable the MongoDB JavaScript engine at the server level.** In `mongod.conf`, set `security.javascriptEnabled: false`. This removes the `$where` attack surface entirely and has no impact if you are not using server-side JavaScript:
+
+   ```yaml
+   # mongod.conf
+   security:
+     javascriptEnabled: false
+   ```
+
+4. **Use a validation library to enforce schema shape before the query.** Libraries like `joi`, `zod`, or `express-validator` can reject input objects containing unexpected keys or non-string values:
+
+   ```javascript
+   // SAFE: zod schema rejects operator objects automatically
+   import { z } from 'zod';
+
+   const LoginSchema = z.object({
+     username: z.string().min(1).max(64),
+     password: z.string().min(1).max(128),
+   });
+
+   app.post('/login', async (req, res) => {
+     const result = LoginSchema.safeParse(req.body);
+     if (!result.success) return res.status(400).json({ error: 'Invalid input' });
+     const { username, password } = result.data;
+     // safe to query, only string values reach the DB layer
+   });
+   ```
+
+5. **Sanitize MongoDB queries with `mongo-sanitize`** as an additional defence-in-depth middleware layer that strips any key beginning with `$`:
+
+   ```bash
+   npm install mongo-sanitize
+   ```
+
+   ```javascript
+   const sanitize = require('mongo-sanitize');
+
+   app.use((req, res, next) => {
+     req.body = sanitize(req.body);
+     req.query = sanitize(req.query);
+     next();
+   });
+   ```
+
+   Note: `mongo-sanitize` is a safety net, not a primary defence. Always validate and extract specific fields first.
+
+## References
+
+- [CWE-943: Improper Neutralization of Special Elements in Data Query Logic](https://cwe.mitre.org/data/definitions/943.html)
+- [CAPEC-676: NoSQL Injection](https://capec.mitre.org/data/definitions/676.html)
+- [OWASP Testing for NoSQL Injection](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/05.6-Testing_for_NoSQL_Injection)
+- [OWASP ASVS v4 – V5.3.4 NoSQL Injection](https://owasp.org/www-project-application-security-verification-standard/)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [mongo-sanitize – strip MongoDB operator keys from user input](https://www.npmjs.com/package/mongo-sanitize)
+- [MongoDB security – disable server-side JavaScript](https://www.mongodb.com/docs/manual/core/server-side-javascript/)
+- [zod – TypeScript-first schema validation](https://zod.dev/)
+- [MITRE ATT&CK T1190 – Exploit Public-Facing Application](https://attack.mitre.org/techniques/T1190/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-014
+// nosec vnx-node-014
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-014 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

@@ -1,0 +1,124 @@
+---
+title: "VNX-PY-009: Jinja2 autoescape disabled"
+nav: "VNX-PY-009"
+description: "Detect Jinja2, Flask and Django template configuration that turns autoescaping off (autoescape=False, an Environment with no autoescape in web code, or {% autoescape false %}), which renders user-supplied template variables without HTML escaping and enables cross-site scripting."
+order: 863
+sources: ["cli/internal/sast/rules/vnx-py-009.rego", "cli/website/content/docs/sast-rules/vnx-py-009.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-009` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python, HTML |
+| CWE | [CWE-79](https://cwe.mitre.org/data/definitions/79.html) |
+| CAPEC | [CAPEC-86](https://capec.mitre.org/data/definitions/86.html) |
+| ATT&CK | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `xss` `jinja2` `template` `web` |
+| Source | [`internal/sast/rules/vnx-py-009.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-009.rego) |
+
+## Overview
+
+This rule flags `jinja2.Environment()` calls that explicitly set `autoescape=False`. When Jinja2's autoescape is disabled, any string value rendered into a template is inserted verbatim into the HTML output. If that value contains HTML or JavaScript (from user input, a database field, or an API response), the browser will execute it as code rather than display it as text, a classic reflected or stored cross-site scripting (XSS) vulnerability. This maps to [CWE-79: Improper Neutralization of Input During Web Page Generation](https://cwe.mitre.org/data/definitions/79.html).
+
+## Why This Matters
+
+XSS in a web application allows an attacker to execute JavaScript in the victim's browser in the context of the target origin. The consequences depend on the application's functionality but typically include session token theft (leading to account takeover), keylogging, UI redirection, form hijacking, and in applications with high privileges (admin panels, financial dashboards), the ability to perform any action the victim user can perform.
+
+Stored XSS is particularly damaging: a single injection that writes to a database can affect every user who views the contaminated content. A user comment field, a product description, a username, any of these stored with autoescape disabled can become a persistent attack vector.
+
+Jinja2's `autoescape=False` is the default in older versions, and many code examples from documentation and tutorials were written before autoescape became the recommended default. This means legacy codebases often have autoescape disabled throughout, not just in isolated places.
+
+## What Gets Flagged
+
+`autoescape=False` passed to a Jinja2 `Environment`, `SandboxedEnvironment`, `Template` or Starlette `Jinja2Templates`, or assigned (`app.jinja_env.autoescape = False`); an `"autoescape": False` entry in Flask `jinja_options` or Django `TEMPLATES` `OPTIONS`; a Jinja2 `Environment` with no `autoescape` argument in web code; and `{% autoescape false %}` blocks in templates. `autoescape=True`, `select_autoescape()`, code generators and test templates are not reported.
+
+```python
+# FLAGGED: autoescape explicitly disabled
+env = Environment(autoescape=False)
+
+# FLAGGED: autoescape=False with other arguments
+env = Environment(
+    loader=FileSystemLoader("templates"),
+    autoescape=False,
+)
+
+# FLAGGED: creating env in a factory function
+def make_env():
+    return Environment(loader=PackageLoader("myapp"), autoescape=False)
+```
+
+## Remediation
+
+1. **Enable autoescape unconditionally with `autoescape=True`.** This escapes `&`, `<`, `>`, `"`, and `'` in all rendered string variables for every template rendered by this environment:
+
+```python
+from jinja2 import Environment, FileSystemLoader
+
+# SAFE: autoescape=True escapes all string values by default
+env = Environment(
+    loader=FileSystemLoader("templates"),
+    autoescape=True,
+)
+```
+
+2. **Use `select_autoescape()` for context-aware escaping.** This enables autoescape for HTML and XML templates while leaving it disabled for text/plain and other non-HTML formats where HTML escaping would be wrong (e.g., Markdown rendering, email text):
+
+```python
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+# SAFE: autoescapes HTML and XML templates, not .txt or .md
+env = Environment(
+    loader=FileSystemLoader("templates"),
+    autoescape=select_autoescape(["html", "xml"]),
+)
+```
+
+3. **Mark trusted HTML content explicitly with `Markup`.** If you have values that are intentionally HTML (e.g., pre-sanitised rich text) and should not be escaped, wrap them in `jinja2.Markup` (or `markupsafe.Markup`) explicitly. This makes your intent auditable:
+
+```python
+from markupsafe import Markup
+
+# Pre-sanitised HTML content
+safe_html = sanitize_html(user_rich_text)  # using bleach or similar
+template_vars["content"] = Markup(safe_html)
+```
+
+4. **Use Flask's `render_template` instead of `render_template_string`.** Flask configures its Jinja2 environment with autoescape enabled for HTML templates by default. Using static template files rather than inline template strings both enables autoescape and reduces SSTI risk:
+
+```python
+from flask import render_template
+
+# SAFE: Flask's default environment has autoescape enabled for .html
+@app.route("/profile")
+def profile():
+    return render_template("profile.html", username=current_user.name)
+```
+
+5. **Audit existing templates for `| safe` filter usage.** Even with autoescape enabled, the `| safe` filter marks a value as trusted HTML and skips escaping. Audit every `| safe` occurrence to confirm the value is genuinely safe.
+
+## References
+
+- [CWE-79: Cross-Site Scripting (XSS)](https://cwe.mitre.org/data/definitions/79.html)
+- [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+- [Jinja2 documentation – Autoescaping](https://jinja.palletsprojects.com/en/stable/api/#autoescaping)
+- [Flask documentation – Jinja2 autoescape](https://flask.palletsprojects.com/en/stable/templating/#jinja-setup)
+- [CAPEC-86: XSS Using HTTP Query Strings](https://capec.mitre.org/data/definitions/86.html)
+- [MITRE ATT&CK T1059.007 – Command and Scripting Interpreter: JavaScript](https://attack.mitre.org/techniques/T1059/007/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-009
+// nosec vnx-py-009
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-009 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

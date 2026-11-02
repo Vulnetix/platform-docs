@@ -1,0 +1,122 @@
+---
+title: "VNX-JAVA-026: Java Spring/servlet file serving without access control"
+nav: "VNX-JAVA-026"
+description: "Detects Spring and servlet handlers that serve a file (FileSystemResource, UrlResource, PathResource, InputStreamResource, copyToByteArray, Files.readAllBytes/copy) whose path comes from a request value, when the handler makes no authorisation decision (no @PreAuthorize/@Secured, Principal, Authentication or owner check)."
+order: 774
+sources: ["cli/internal/sast/rules/vnx-java-026.rego", "cli/website/content/docs/sast-rules/vnx-java-026.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-JAVA-026` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Java |
+| CWE | [CWE-552](https://cwe.mitre.org/data/definitions/552.html) |
+| CAPEC | [CAPEC-87](https://capec.mitre.org/data/definitions/87.html) |
+| ATT&CK | [T1083](https://attack.mitre.org/techniques/T1083/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `access-control` `file-exposure` `spring` `java` |
+| Source | [`internal/sast/rules/vnx-java-026.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-java-026.rego) |
+
+## Overview
+
+Spring MVC and plain servlet applications frequently need to serve files, reports, exports, attachments, or user-uploaded documents. A common pattern is to accept a filename or path parameter from the HTTP request, resolve it to a `FileSystemResource` or `InputStreamResource`, and return it in the response body. Without an explicit authorisation check before resolving the path, any authenticated (or even unauthenticated) user can request any file the application has read access to. This is Insecure Direct Object Reference (IDOR) at the filesystem level, covered by CWE-552 (Files or Directories Accessible to External Parties).
+
+This rule flags `new FileSystemResource/UrlResource/PathResource/FileUrlResource/InputStreamResource(...)`, and `FileCopyUtils.copyToByteArray`, `Files.readAllBytes`, `Files.copy` or `IOUtils.copy/toByteArray` returned in the response, when the argument is a handler parameter bound with `@PathVariable`, `@RequestParam`, `@RequestHeader` or `@RequestPart`, or a local read from `getParameter`/`getHeader`/`getPathInfo`, followed through up to two local assignments (`new File(dir, name)`, `root.resolve(name)`). A handler or class annotated `@PreAuthorize`/`@PostAuthorize`/`@Secured`/`@RolesAllowed`, or one that consults the caller (`Principal`, `Authentication`, `@AuthenticationPrincipal`, `isUserInRole`, `SecurityContextHolder`, an owner check), is not reported; neither are constant paths, `ClassPathResource` and in-memory streams. Flows through other methods are not followed.
+
+Path traversal is a frequent companion vulnerability: if the user-supplied value is not canonicalised and checked against a permitted base directory, an attacker can supply `../../etc/passwd` or `../../application.properties` to read arbitrary files. This rule targets the access-control gap; a separate path-traversal rule covers the canonicalisation gap.
+
+## Why This Matters
+
+File download endpoints are high-value targets because they often serve sensitive business data, invoices, medical records, contracts, or source code exports. An IDOR vulnerability on a file endpoint means that simply changing a filename parameter from `report-1001.pdf` to `report-1002.pdf` gives an attacker access to another user's data. If the filenames are predictable (sequential IDs, usernames, dates), the entire dataset can be enumerated with a simple script.
+
+The damage extends beyond user data. If the application server has read access to its own configuration files, source code, or private keys, a path traversal on top of an access-control gap can expose those files. A compromised private key or database credential in `application.properties` gives the attacker lateral movement across the entire infrastructure.
+
+Regulatory frameworks including HIPAA, GDPR, and PCI-DSS impose breach notification requirements when personal data is accessed without authorisation, making IDOR vulnerabilities on file endpoints significant compliance events.
+
+## What Gets Flagged
+
+```java
+// FLAGGED: FileSystemResource constructed from PathVariable without auth check
+@GetMapping("/download/{filename}")
+public ResponseEntity<Resource> download(@PathVariable String filename) {
+    Resource resource = new FileSystemResource(uploadDir + filename);
+    return ResponseEntity.ok().body(resource);
+}
+
+// FLAGGED: InputStreamResource from request parameter
+@GetMapping("/file")
+public ResponseEntity<InputStreamResource> getFile(
+        @RequestParam String path) throws IOException {
+    return ResponseEntity.ok(new InputStreamResource(new FileInputStream(path)));
+}
+
+// FLAGGED: servlet parameter reaches the response through a File
+String name = req.getParameter("file");
+File f = new File("/data/attachments", name);
+Files.copy(f.toPath(), resp.getOutputStream());
+```
+
+## Remediation
+
+1. **Verify ownership before serving.** Look up the file record in the database using the file identifier and confirm the `ownerId` matches the authenticated user's ID.
+
+2. **Use opaque identifiers.** Store files under random UUIDs rather than original filenames. The UUID is the only identifier exposed in URLs; the filename mapping lives in the database.
+
+3. **Canonicalise and confine paths.** Resolve the path to its canonical form and verify it starts with the permitted base directory before opening the file.
+
+4. **Apply Spring Security method-level security** (`@PreAuthorize`) to restrict endpoint access.
+
+```java
+// SAFE: look up file by UUID, verify ownership, confine to upload directory
+@GetMapping("/download/{fileId}")
+@PreAuthorize("isAuthenticated()")
+public ResponseEntity<Resource> download(
+        @PathVariable UUID fileId,
+        @AuthenticationPrincipal UserDetails user) throws IOException {
+
+    FileRecord record = fileRepo.findById(fileId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+    // Authorisation: only the owner may download their file
+    if (!record.getOwnerId().equals(user.getUsername())) {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+    }
+
+    // Path confinement: prevent traversal
+    Path target = uploadRoot.resolve(record.getStoredName()).normalize();
+    if (!target.startsWith(uploadRoot)) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
+
+    Resource resource = new FileSystemResource(target);
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + record.getDisplayName() + "\"")
+        .body(resource);
+}
+```
+
+## References
+
+- [CWE-552: Files or Directories Accessible to External Parties](https://cwe.mitre.org/data/definitions/552.html)
+- [OWASP IDOR Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html)
+- [OWASP Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal)
+- [Spring Security Reference – Method Security](https://docs.spring.io/spring-security/reference/servlet/authorization/method-security.html)
+- [CAPEC-87: Forceful Browsing](https://capec.mitre.org/data/definitions/87.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-java-026
+// nosec vnx-java-026
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-java-026 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

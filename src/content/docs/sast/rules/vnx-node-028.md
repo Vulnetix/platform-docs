@@ -1,0 +1,111 @@
+---
+title: "VNX-NODE-028: Missing Content-Security-Policy header"
+nav: "VNX-NODE-028"
+description: "Reports the express() app or HTML-serving http.createServer handler of a Node.js project that sends HTML but sets no Content-Security-Policy anywhere (no helmet(), CSP middleware, header or meta tag), and helmet configured with contentSecurityPolicy: false."
+order: 824
+sources: ["cli/internal/sast/rules/vnx-node-028.rego", "cli/website/content/docs/sast-rules/vnx-node-028.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-028` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-693](https://cwe.mitre.org/data/definitions/693.html) |
+| CAPEC | [CAPEC-63](https://capec.mitre.org/data/definitions/63.html) |
+| ATT&CK | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `csp` `header` `security` |
+| Source | [`internal/sast/rules/vnx-node-028.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-028.rego) |
+
+## Overview
+
+This rule detects calls to `res.writeHead()`, `res.setHeader()`, and `res.header()` (the Express alias) in JavaScript files where no `Content-Security-Policy`, `X-Content-Security-Policy`, or `X-WebKit-CSP` header is being set. Content Security Policy is a browser-enforced allowlist that restricts the origins from which scripts, styles, images, and other resources may be loaded. Without a CSP header, the browser applies no origin restrictions on resource loading, providing no secondary defence if XSS is achieved.
+
+CSP does not prevent XSS from occurring, it is a defense-in-depth control that limits the impact of XSS that does occur. A strict CSP that prohibits inline scripts and restricts script sources to trusted domains prevents the most common post-XSS actions (data exfiltration, credential harvesting) by blocking the injected script from making outbound requests or loading attacker-controlled resources. This vulnerability is classified as CWE-693 (Protection Mechanism Failure).
+
+## Why This Matters
+
+Modern browser security models rely on security headers as a key layer of defense. The absence of a CSP means that if any XSS vulnerability exists elsewhere in the application (or in a third-party script), the attacker's injected code operates with unrestricted capabilities: it can load arbitrary external scripts, exfiltrate data to any domain, inject UI elements, or redirect the page. CSP reports (via `report-uri` or `report-to`) also provide runtime visibility into XSS attempts, which is lost without the header.
+
+Regulators and security auditors (PCI-DSS, SOC 2 assessors) increasingly flag missing security headers as findings. Bug bounty programs typically accept missing CSP on sensitive pages as a valid low-to-medium severity report. Implementing CSP is a high-leverage control that pays dividends across all XSS vectors simultaneously.
+
+## What Gets Flagged
+
+```javascript
+// FLAGGED: the express() line, when the project renders or serves HTML
+// and no file sets a Content-Security-Policy
+const app = express();
+app.use(express.static(path.join(__dirname, 'public')));
+
+// FLAGGED: helmet with CSP switched off
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
+
+// FLAGGED: a plain http server answering with text/html
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+  res.end(renderPage(req.url));
+});
+```
+
+This is a project-level judgement. Not flagged: projects that call `helmet()` (which sends a default CSP), `helmet.contentSecurityPolicy(...)`, another CSP middleware, or set a `Content-Security-Policy` header or `<meta http-equiv>` tag in any file; JSON-only APIs; test and example files. Commented-out middleware is not a mitigation.
+
+## Remediation
+
+1. Use the [helmet](https://helmetjs.github.io/) middleware for Express, which sets a conservative CSP and other security headers by default with a single `app.use(helmet())` call.
+2. If helmet is not suitable, set a CSP manually via `res.setHeader('Content-Security-Policy', '...')` with a policy appropriate to your application's resource requirements.
+3. Start with a report-only policy (`Content-Security-Policy-Report-Only`) to identify violations before enforcing, then tighten to enforcement mode.
+4. Avoid `unsafe-inline` and `unsafe-eval` in script-src; instead use nonces or hashes for inline scripts.
+
+```javascript
+// SAFE: helmet applies a strong CSP and other security headers
+const helmet = require('helmet');
+const express = require('express');
+const app = express();
+
+app.use(helmet());
+
+// SAFE: manual CSP header for custom policies
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    [
+      "default-src 'self'",
+      "script-src 'self' 'nonce-{RANDOM}'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join('; ')
+  );
+  next();
+});
+```
+
+## References
+
+- [CWE-693: Protection Mechanism Failure](https://cwe.mitre.org/data/definitions/693.html)
+- [MDN Web Docs, Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy)
+- [OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
+- [helmet.js, Node.js security middleware](https://helmetjs.github.io/)
+- [CSP Evaluator, Google](https://csp-evaluator.withgoogle.com/)
+- [PortSwigger Web Security Academy, Content Security Policy](https://portswigger.net/web-security/cross-site-scripting/content-security-policy)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-028
+// nosec vnx-node-028
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-028 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

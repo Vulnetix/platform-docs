@@ -1,0 +1,140 @@
+---
+title: "VNX-PHP-002: Dangerous function in PHP"
+nav: "VNX-PHP-002"
+description: "Detect a request value ($_GET, $_POST, $_COOKIE, php://input, Laravel request accessors) reaching exec(), system(), passthru(), shell_exec(), popen(), proc_open(), pcntl_exec(), the backtick operator or eval() without escapeshellarg() or validation."
+order: 830
+sources: ["cli/internal/sast/rules/vnx-php-002.rego", "cli/website/content/docs/sast-rules/vnx-php-002.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PHP-002` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | PHP |
+| CWE | [CWE-78](https://cwe.mitre.org/data/definitions/78.html) |
+| CAPEC | [CAPEC-88](https://capec.mitre.org/data/definitions/88.html) |
+| ATT&CK | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `command-injection` `code-injection` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-php-002.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-php-002.rego) |
+
+## Overview
+
+This rule flags a request value (a superglobal, `php://input` or a framework request accessor) that reaches one of PHP's command-execution or code-evaluation functions: `eval()`, `exec()`, `system()`, `passthru()`, `shell_exec()`, `popen()`, `proc_open()`, `pcntl_exec()` or the backtick operator. When the argument to any of these functions includes attacker-controlled data, the result is remote code execution (RCE) on the server.
+
+> **PHP default behavior:** All of these functions are **enabled by default** in a standard PHP installation. The `disable_functions` directive in `php.ini` is empty by default. Production environments that do not use these functions should explicitly disable them.
+
+## Why This Matters
+
+When an attacker controls the argument to one of these functions, they gain the ability to run any OS command with the privileges of the web server process, typically `www-data` or `apache` on Linux. From there they can:
+
+- Read `/etc/passwd`, `/proc/self/environ`, `.env` files, and database credentials
+- Write a PHP web shell for persistent access
+- Exfiltrate data over HTTP or DNS
+- Pivot to other services on the internal network
+
+`eval()` accepts a full PHP string, allowing an attacker to deliver a base64-encoded payload through a form field and execute it without writing any file. Shell functions pass their argument to `/bin/sh -c`, so shell metacharacters, `;`, `|`, `&&`, `$()`, backticks, all work as separators and substitution operators.
+
+**OWASP ASVS v4.0 mapping:** V5.2.4, Verify that the application does not use eval() or other dynamic code execution features; V5.2.2, Verify that the application protects against OS command injection.
+
+## What Gets Flagged
+
+A command or code execution sink whose argument holds a request value, inline or through a variable assigned from one a few lines above (directly or via one intermediate variable).
+
+```php
+// FLAGGED: two-line flow
+$host = $_POST["host"];
+$out = shell_exec("ping -c 3 " . $host);
+
+// FLAGGED: inline superglobals
+system($_GET["cmd"]);
+exec("ls -la " . $_REQUEST["dir"], $lines, $rc);
+
+// FLAGGED: Laravel request accessor
+shell_exec("tar czf /tmp/out.tgz " . $request->query("path"));
+
+// FLAGGED: eval and the backtick operator
+eval("\$result = " . $_GET["expr"] . ";");
+$listing = `ls -l $file`;   // $file = $_GET["file"]
+```
+
+Not flagged: arguments passed through `escapeshellarg()`, `escapeshellcmd()`, `intval()` or an `(int)` cast; a variable checked with `in_array()`, `preg_match()`, `filter_var()` or `is_numeric()` first; constant commands, including one chosen by a `match` whose arms are all literals; function parameters and other values whose origin is not visible in the file; `$pdo->exec()` and other methods named `exec`/`system`; the names in comments and strings.
+
+## Remediation
+
+**1. Eliminate OS command calls wherever possible.** Most tasks developers reach for `exec()` or `system()` to accomplish, file conversion, image resizing, PDF generation, archive extraction, have pure-PHP library alternatives that never invoke a shell:
+
+| Task | Shell command to replace | Pure-PHP alternative |
+|------|--------------------------|----------------------|
+| Image resize | `convert` (ImageMagick) | `Imagick` extension or `GD` |
+| ZIP creation | `zip` | `ZipArchive` |
+| PDF generation | `wkhtmltopdf` | `dompdf`, `TCPDF`, `FPDF` |
+| File type detection | `file` | `finfo_open()` / `mime_content_type()` |
+
+**2. If you must call a shell command, escape every argument with `escapeshellarg()`.**
+
+```php
+// SAFE: each argument individually escaped
+$filename = escapeshellarg($_GET['filename']);
+$output   = shell_exec('/usr/bin/file ' . $filename);
+```
+
+`escapeshellarg()` wraps the value in single quotes and escapes embedded single quotes. Use `escapeshellcmd()` only on the command path, it is not a substitute for per-argument escaping.
+
+**3. Validate input against an allowlist before use.**
+
+```php
+// SAFE: allowlist + escapeshellarg
+$allowed = ['convert', 'resize', 'thumbnail'];
+$action  = $_GET['action'] ?? '';
+
+if (!in_array($action, $allowed, true)) {
+    http_response_code(400);
+    exit('Invalid action');
+}
+
+$src  = escapeshellarg($_FILES['image']['tmp_name']);
+$dest = escapeshellarg('/tmp/output_' . bin2hex(random_bytes(8)) . '.jpg');
+exec('/usr/bin/convert ' . $src . ' -resize 200x200 ' . $dest);
+```
+
+**4. Never use `eval()` on external data.** There is no safe way to use `eval()` with user-supplied input. Refactor to a dispatch table (array of closures), a strategy pattern, or a template engine. For user-supplied expressions, use a sandboxed evaluator library.
+
+**5. Disable dangerous functions in `php.ini`** for environments that do not need them:
+
+```ini
+; php.ini, production: disable dangerous functions
+disable_functions = exec,passthru,shell_exec,system,proc_open,popen
+```
+
+Note: `eval` is a language construct and cannot be disabled via `disable_functions`. It can only be prevented through code review and static analysis.
+
+**6. Run the web server process as a least-privilege user** with no write access outside the web root and no access to secrets files.
+
+## References
+
+- [CWE-78: Improper Neutralization of Special Elements used in an OS Command](https://cwe.mitre.org/data/definitions/78.html)
+- [CAPEC-88: OS Command Injection](https://capec.mitre.org/data/definitions/88.html)
+- [MITRE ATT&CK T1059 – Command and Scripting Interpreter](https://attack.mitre.org/techniques/T1059/)
+- [OWASP Command Injection](https://owasp.org/www-community/attacks/Command_Injection)
+- [OWASP PHP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html)
+- [OWASP ASVS v4.0 – V5.2 Injection Prevention](https://owasp.org/www-project-application-security-verification-standard/)
+- [PHP manual: escapeshellarg()](https://www.php.net/manual/en/function.escapeshellarg.php)
+- [PHP manual: disable_functions](https://www.php.net/manual/en/ini.core.php#ini.disable-functions)
+- [PHP manual: exec()](https://www.php.net/manual/en/function.exec.php)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-php-002
+// nosec vnx-php-002
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-php-002 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

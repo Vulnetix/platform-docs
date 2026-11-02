@@ -1,0 +1,111 @@
+---
+title: "VNX-JAVA-024: Java XML entity expansion (Billion Laughs), DTD not disabled"
+nav: "VNX-JAVA-024"
+description: "Detects DocumentBuilderFactory, SAXParserFactory, dom4j SAXReader, JDOM SAXBuilder and XMLInputFactory instances that never disable DOCTYPE declarations (or enable secure processing, or turn off SUPPORT_DTD), leaving the application open to XML entity expansion denial-of-service attacks."
+order: 772
+sources: ["cli/internal/sast/rules/vnx-java-024.rego", "cli/website/content/docs/sast-rules/vnx-java-024.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-JAVA-024` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Java |
+| CWE | [CWE-776](https://cwe.mitre.org/data/definitions/776.html) |
+| CAPEC | [CAPEC-197](https://capec.mitre.org/data/definitions/197.html) |
+| ATT&CK | [T1499](https://attack.mitre.org/techniques/T1499/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `xml` `xxe` `dos` `java` |
+| Source | [`internal/sast/rules/vnx-java-024.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-java-024.rego) |
+
+## Overview
+
+The XML specification allows document authors to define entities, symbolic names for repeated text, within a DOCTYPE declaration. When these entity definitions reference each other recursively and the XML parser eagerly expands them, memory and CPU consumption grow exponentially. A single kilobyte of malicious XML can expand to gigabytes of in-memory data before the parser exhausts the JVM heap, causing an out-of-memory crash. This attack, known as the Billion Laughs attack or XML bomb, is described by CWE-776 (Improper Restriction of Recursive Entity References in DTDs).
+
+This rule detects `DocumentBuilderFactory`, `SAXParserFactory`, dom4j `SAXReader`, JDOM `SAXBuilder` and `XMLInputFactory` instances that are never configured, on the same variable, with `disallow-doctype-decl` (or `FEATURE_SECURE_PROCESSING`) set to true, or for StAX with `SUPPORT_DTD` set to false. `setExpandEntityReferences(false)`, disabling external entities and `ACCESS_EXTERNAL_DTD` do not stop internal entity expansion, so they do not count. Without these, the parser processes DOCTYPE declarations in untrusted input, enabling the attack.
+
+Beyond entity expansion, the same lack of DOCTYPE hardening leaves the parser vulnerable to XML External Entity (XXE) attacks (CWE-611), where entity references point to file:// URIs or SSRF-capable http:// URIs that can read local files or probe internal services.
+
+## Why This Matters
+
+Any application that parses XML from external sources, REST API payloads, uploaded documents, message queue bodies, webhook callbacks, is a potential target. The Billion Laughs attack requires no authentication and no knowledge of application internals; the attacker only needs to find an XML parsing endpoint and send a crafted payload.
+
+The attack is reliable because Java's default XML parser configuration is permissive: it honours DOCTYPE declarations, expands entity references, and fetches external entities over the network. This default-permissive stance predates the widespread deployment of internet-facing XML APIs and is now considered a significant design flaw.
+
+Successful XML DoS attacks have been used to disrupt financial transaction processing systems, healthcare data exchange endpoints (HL7/FHIR parsers), and enterprise integration middleware. Recovery from a JVM OOM crash triggered by an XML bomb can take minutes, and if the endpoint is publicly accessible the attack can be repeated faster than the service recovers.
+
+## What Gets Flagged
+
+```java
+// FLAGGED: DocumentBuilderFactory without DOCTYPE protection
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+DocumentBuilder db = dbf.newDocumentBuilder();
+Document doc = db.parse(new InputSource(userSuppliedInputStream));
+
+// FLAGGED: SAXParserFactory without security features
+SAXParserFactory spf = SAXParserFactory.newInstance();
+SAXParser parser = spf.newSAXParser();
+parser.parse(inputStream, handler);
+
+// FLAGGED: StAX factory still supports DTDs (ACCESS_EXTERNAL_DTD only blocks external ones)
+var xif = XMLInputFactory.newInstance();
+xif.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+
+// NOT FLAGGED: DOCTYPE disallowed / DTD support off
+dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+```
+
+## Remediation
+
+1. **Disable DOCTYPE declarations entirely** for parsers that process untrusted input. This is the safest and most complete protection.
+
+2. **If DOCTYPE is required**, disable external entities and entity expansion individually.
+
+3. **Apply the same hardening to SAXParserFactory, XMLInputFactory, and TransformerFactory**, every XML API in the JDK requires independent hardening.
+
+```java
+// SAFE: DocumentBuilderFactory with DOCTYPE disabled
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+dbf.setExpandEntityReferences(false);
+dbf.setXIncludeAware(false);
+DocumentBuilder db = dbf.newDocumentBuilder();
+Document doc = db.parse(trustedSource);
+```
+
+```java
+// SAFE: SAXParserFactory hardened against entity expansion
+SAXParserFactory spf = SAXParserFactory.newInstance();
+spf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+spf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+SAXParser parser = spf.newSAXParser();
+parser.parse(inputStream, handler);
+```
+
+## References
+
+- [CWE-776: Improper Restriction of Recursive Entity References in DTDs](https://cwe.mitre.org/data/definitions/776.html)
+- [OWASP XXE Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)
+- [OWASP XML Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_Security_Cheat_Sheet.html)
+- [Oracle Java XML Processing Guide](https://docs.oracle.com/en/java/javase/17/docs/api/java.xml/module-summary.html)
+- [CAPEC-197: XML Entity Expansion](https://capec.mitre.org/data/definitions/197.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-java-024
+// nosec vnx-java-024
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-java-024 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

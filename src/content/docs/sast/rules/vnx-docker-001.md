@@ -1,0 +1,137 @@
+---
+title: "VNX-DOCKER-001: Dockerfile final stage runs as root"
+nav: "VNX-DOCKER-001"
+description: "Reports a Dockerfile whose final stage runs as root: no USER in the stage that becomes the image (USER does not carry across FROM), or a last USER of root, 0 or ContainerAdministrator."
+order: 695
+sources: ["cli/internal/sast/rules/vnx-docker-001.rego", "cli/website/content/docs/sast-rules/vnx-docker-001.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-DOCKER-001` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `oci` |
+| Languages | Dockerfile |
+| CWE | [CWE-250](https://cwe.mitre.org/data/definitions/250.html) |
+| CAPEC | [CAPEC-69](https://capec.mitre.org/data/definitions/69.html) |
+| ATT&CK | [T1611](https://attack.mitre.org/techniques/T1611/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `docker` `least-privilege` `container` |
+| Source | [`internal/sast/rules/vnx-docker-001.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-docker-001.rego) |
+
+## Overview
+
+This rule detects Dockerfiles that contain a `FROM` instruction but no `USER` directive. Without an explicit `USER` instruction, Docker containers start and run all processes as `root` (UID 0) by default. Running as root inside a container means that any process compromise, command injection, or path traversal vulnerability in the containerised application can interact with the host system, including mounted volumes, the container socket, and other containers on shared networks, with elevated privileges. This maps to CWE-250 (Execution with Unnecessary Privileges).
+
+**Default behaviour:** Running as root IS the Docker default. You must explicitly opt out by adding a `USER` instruction.
+
+## Why This Matters
+
+Container isolation is not a security boundary equivalent to a virtual machine. If a container runs as root and an attacker achieves code execution inside it, they can potentially escape to the host or move laterally through the cluster. Multiple published container escape CVEs have been substantially more impactful because the target container process was running as root:
+
+- **CVE-2019-5736** (runc overwrite): Exploiting a file descriptor leak in runc, an attacker in a root container could overwrite the host runc binary and gain root on the host. Non-root containers had no write access to the binary.
+- **CVE-2024-21626** (runc working directory escape): A `WORKDIR` escape in runc allowed a root container process to reach the host filesystem through `/proc/self/fd`. A non-root process had reduced access to host paths even when the escape technique succeeded.
+- **CVE-2022-0811** (CRI-O core dump path injection): A root container could exploit a sysctl injection to gain host code execution via a crafted core dump path. Non-root containers were not affected by this specific vector.
+
+In Kubernetes environments, a root container combined with a `hostPath` volume mount or a container socket mount is sufficient to compromise the entire node. CIS Docker Benchmark control 4.1 explicitly states "Ensure that a user for the container has been created" and is one of the most commonly failed controls in production container audits. MITRE ATT&CK T1611 (Escape to Host) documents the escalation pathway.
+
+The principle of least privilege applies inside containers just as it does on bare metal: your application almost certainly does not need root to serve HTTP requests, process jobs, or run a database, and running as a non-root user limits what an attacker can do if they compromise the process.
+
+## What Gets Flagged
+
+The rule judges the stage that becomes the image (the last `FROM`). It reports the last `FROM` line when that stage sets no `USER` and inherits none, and the `USER` line when the stage's last `USER` is `root`, `0`, `0:0` or the Windows `ContainerAdministrator` (case-insensitive). A `USER` set only in a builder stage does not carry over, so it does not help.
+
+```dockerfile
+FROM golang:1.22-bookworm AS build
+USER builder
+RUN go build -o /tmp/out/api ./cmd/api
+
+# FLAGGED: the runtime stage starts fresh and runs as root
+FROM debian:bookworm-slim
+COPY --from=build /tmp/out/api /usr/local/bin/api
+ENTRYPOINT ["/usr/local/bin/api"]
+```
+
+```dockerfile
+FROM node:20.15-bookworm-slim
+USER node
+RUN npm ci --omit=dev
+# FLAGGED: the last USER of the final stage is root
+USER root
+CMD ["node", "server.js"]
+```
+
+Not reported: a final stage whose last `USER` is any other name, uid or variable; a final stage built `FROM` an earlier stage (up to two levels) that set a non-root `USER`; base images that are non-root by default (`:nonroot`/`rootless` tags, `nginxinc/nginx-unprivileged`, the .NET `*-chiseled` images, Chainguard images other than `-dev`, Bitnami images); `USER` text in comments and heredocs; `.devcontainer` and test images. A user chosen at deploy time (Compose `user:`, Kubernetes `runAsUser`) is not visible to the rule.
+
+## Remediation
+
+**Create a dedicated non-root user and switch to it with `USER` before the entrypoint.** Use a numeric UID (e.g., `1001`) rather than a named user where possible, numeric UIDs work without `/etc/passwd` entries in distroless images and are required by some Kubernetes admission controllers.
+
+```dockerfile
+# SAFE: non-root user created and activated
+FROM ubuntu:22.04
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --gid 1001 appgroup \
+    && useradd --uid 1001 --gid appgroup --no-create-home --shell /bin/false appuser
+
+COPY --chown=appuser:appgroup app.py /app/app.py
+
+USER 1001
+
+CMD ["python3", "/app/app.py"]
+```
+
+Use `COPY --chown=<user>:<group>` to set correct file ownership at copy time rather than adding a separate `chmod` layer. Files copied before the `USER` instruction are owned by root; files copied after inherit the active user, but explicit `--chown` is clearer and works regardless of instruction order.
+
+For distroless or minimal images, the base image may already run as a non-root user:
+
+```dockerfile
+# SAFE: distroless image with built-in non-root default (uid 65532 "nonroot")
+FROM gcr.io/distroless/python3-debian12
+
+COPY app.py /app/app.py
+
+CMD ["/app/app.py"]
+```
+
+Enforce the requirement in Kubernetes as a defence-in-depth measure to reject root containers even if the Dockerfile is misconfigured:
+
+```yaml
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  allowPrivilegeEscalation: false
+  seccompProfile:
+    type: RuntimeDefault
+```
+
+## References
+
+- [CWE-250: Execution with Unnecessary Privileges](https://cwe.mitre.org/data/definitions/250.html)
+- [CAPEC-69: Target Programs with Elevated Privileges](https://capec.mitre.org/data/definitions/69.html)
+- [MITRE ATT&CK T1611 – Escape to Host](https://attack.mitre.org/techniques/T1611/)
+- [CIS Docker Benchmark v1.6 – Control 4.1: Ensure a user for the container has been created](https://www.cisecurity.org/benchmark/docker)
+- [Docker Reference – USER instruction](https://docs.docker.com/reference/dockerfile/#user)
+- [Docker Build Best Practices – User](https://docs.docker.com/build/building/best-practices/#user)
+- [OWASP Docker Security Cheat Sheet – Rule 2: Set a user](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
+- [CVE-2019-5736 – runc container escape](https://nvd.nist.gov/vuln/detail/CVE-2019-5736)
+- [CVE-2024-21626 – runc working directory escape](https://nvd.nist.gov/vuln/detail/CVE-2024-21626)
+- [hadolint DL3002 – Last USER should not be root](https://github.com/hadolint/hadolint/wiki/DL3002)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-docker-001
+// nosec vnx-docker-001
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-docker-001 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

@@ -1,0 +1,168 @@
+---
+title: "VNX-SEC-015: JWT algorithm none attack"
+nav: "VNX-SEC-015"
+description: "Detects JWTs issued unsigned or accepted as unsigned: the none algorithm among the allowed or signing algorithms, an alg none header, and unsigned-token APIs (jjwt unsecured() and parseClaimsJwt, PlainJWT, UnsecuredJWT, SigningMethodNone). Signature verification switched off for a signed token is reported by VNX-JWT-001."
+order: 909
+sources: ["cli/internal/sast/rules/vnx-sec-015.rego", "cli/website/content/docs/sast-rules/vnx-sec-015.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-SEC-015` |
+| Severity | Critical |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Any file |
+| CWE | [CWE-345](https://cwe.mitre.org/data/definitions/345.html), [CWE-327](https://cwe.mitre.org/data/definitions/327.html) |
+| CAPEC | [CAPEC-115](https://capec.mitre.org/data/definitions/115.html) |
+| ATT&CK | [T1550.001](https://attack.mitre.org/techniques/T1550/001/) |
+| CWSS vector | `CWSS:1.0/TI:C/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:C/DI:H/EX:H/EC:N/P:W` |
+| Tags | `jwt` `authentication` `token` |
+| Source | [`internal/sast/rules/vnx-sec-015.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-sec-015.rego) |
+
+## Overview
+
+This rule reports a JWT issued unsigned or accepted as an unsigned token: `'none'` among the allowed or signing algorithms (`algorithms=["none"]`, `algorithms: ['HS256', 'none']`, `algorithm: 'none'`), PyJWT `algorithm=None`, a `{"alg": "none"}` header literal, Ruby `JWT.encode(payload, nil, 'none')`, jjwt `SignatureAlgorithm.NONE`, the parser option `.unsecured()`, the generic `Jwts.parser()...parse(token)` on a parser given no signing key, and `parseClaimsJwt`/`parseUnsecuredClaims`, auth0 `Algorithm.none()`, Nimbus `PlainJWT`, golang-jwt `SigningMethodNone`/`UnsafeAllowNoneSignatureType`, jose `UnsecuredJWT`, and PHP `JWT::decode` allowing `'none'` or lcobucci `Signer\None`. It does not report specific algorithms, `parseClaimsJws`/`parseSignedClaims`, comparisons that reject `alg: none`, TLS `verify=False`, prose strings, tests and documentation. Signature verification switched off for a signed token (PyJWT/python-jose `options={"verify_signature": False}` or `verify=False`, Ruby `JWT.decode(token, key, false)`, jjwt `parse()` after `setSigningKey`, jwx `WithVerify(false)`, ASP.NET `RequireSignedTokens = false` or a `SignatureValidator` that returns the token unchecked) is the same weakness on the same line, and it is reported by [VNX-JWT-001](/sast/rules/vnx-jwt-001/), not a second time here. When a JWT is configured with the `none` algorithm, the signature section of the token is omitted or set to an empty string, and if the library accepts this, it verifies the token without checking any signature. This means an attacker can craft a token with arbitrary claims, any user ID, any role, any permission, and the application will accept it as valid.
+
+## Why This Matters
+
+The JWT `none` algorithm attack is one of the most severe authentication bypasses in web application security. It was first widely publicized as CVE-2015-9235 (PyJWT) and affects many JWT libraries that do not explicitly reject the `none` algorithm. The attack works as follows:
+
+1. The attacker takes any valid JWT (or even creates one from scratch)
+2. They decode the header and change `"alg": "HS256"` to `"alg": "none"`
+3. They modify the payload to claim any identity or privileges
+4. They construct a token with an empty signature (or no signature)
+5. The vulnerable server accepts the token and grants the claimed access
+
+This is not a theoretical vulnerability, it has been exploited in real applications and widely used CTF challenges. The root cause is library code that treats `none` as a valid algorithm rather than explicitly rejecting it, or application code that passes `algorithms=["none"]` when decoding.
+
+## What Gets Flagged
+
+```python
+# FLAGGED: PyJWT, explicitly accepting none algorithm
+import jwt
+
+decoded = jwt.decode(token, algorithms=["none"])
+
+# NOT FLAGGED HERE: verification switched off is reported by VNX-JWT-001
+decoded = jwt.decode(token, options={"verify_signature": False})
+```
+
+```java
+// FLAGGED: jjwt (Java), using NONE algorithm
+import io.jsonwebtoken.SignatureAlgorithm;
+
+String jwt = Jwts.builder()
+    .setSubject("admin")
+    .signWith(SignatureAlgorithm.NONE)
+    .compact();
+```
+
+```javascript
+// FLAGGED: jsonwebtoken (Node.js)
+const decoded = jwt.verify(token, '', { algorithms: ['none'] });
+```
+
+```java
+// FLAGGED: jjwt parsers that accept an unsigned token
+Jwt jwt = Jwts.parser().unsecured().build().parseUnsecuredClaims(token);
+Claims c0 = Jwts.parser().setSigningKey(KEY).parseClaimsJwt(token).getBody();
+// NOT FLAGGED HERE: parse() after setSigningKey is reported by VNX-JWT-001
+Jwt jwt2 = Jwts.parser().setSigningKey(KEY).parse(token);
+// SAFE: parseClaimsJws() requires a signature
+Claims c = Jwts.parser().setSigningKey(KEY).parseClaimsJws(token).getBody();
+```
+
+```ruby
+# FLAGGED: a token issued with the none algorithm
+JWT.encode(payload, nil, 'none')
+# NOT FLAGGED HERE: decode with verification off is reported by VNX-JWT-001
+JWT.decode(token, nil, false)
+```
+
+```python
+# FLAGGED: setting alg to none in token header
+header = {"alg": "none", "typ": "JWT"}
+```
+
+## Remediation
+
+1. **Explicitly specify an allowlist of accepted algorithms**, never include `none` in the list:
+
+```python
+# SAFE: PyJWT, explicit algorithm allowlist
+import jwt
+import os
+
+SECRET_KEY = os.environ['JWT_SECRET']
+
+# For HMAC-signed tokens
+decoded = jwt.decode(
+    token,
+    SECRET_KEY,
+    algorithms=["HS256"]  # explicit allowlist, never "none"
+)
+
+# For RSA-signed tokens (e.g., from an identity provider)
+PUBLIC_KEY = os.environ['JWT_PUBLIC_KEY']
+decoded = jwt.decode(
+    token,
+    PUBLIC_KEY,
+    algorithms=["RS256"]  # asymmetric, no shared secret needed
+)
+```
+
+```javascript
+// SAFE: Node.js jsonwebtoken, explicit algorithm
+const jwt = require('jsonwebtoken');
+
+const decoded = jwt.verify(token, process.env.JWT_SECRET, {
+    algorithms: ['HS256'],  // explicit, never 'none'
+});
+```
+
+```java
+// SAFE: jjwt, explicit algorithm with key
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+
+Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
+Claims claims = Jwts.parserBuilder()
+    .setSigningKey(key)
+    .build()
+    .parseClaimsJws(token)  // rejects none algorithm automatically
+    .getBody();
+```
+
+2. **Prefer asymmetric algorithms (RS256, ES256) over symmetric (HS256)** for tokens issued to external parties. With asymmetric algorithms, only you can sign (using the private key) but anyone can verify (using the public key), there is no shared secret to leak.
+
+3. **Update JWT libraries to current versions.** PyJWT 2.x, jsonwebtoken 9.x, and jjwt 0.11+ all reject `none` by default. Check your library's changelog to confirm your version handles this correctly.
+
+4. **Never use `options={"verify_signature": False}`** in PyJWT for any token that grants privileges. This is appropriate only for debugging or decoding tokens you already trust.
+
+5. **Validate all JWT claims** after signature verification: check `exp` (expiration), `iss` (issuer), and `aud` (audience) to prevent token reuse across different services or after expiration.
+
+## References
+
+- [CWE-345: Insufficient Verification of Data Authenticity](https://cwe.mitre.org/data/definitions/345.html)
+- [CVE-2015-9235: PyJWT none algorithm vulnerability](https://nvd.nist.gov/vuln/detail/CVE-2015-9235)
+- [OWASP: JSON Web Token Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html)
+- [Auth0: Critical vulnerabilities in JWT libraries](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/)
+- [jwt.io: Debugger and algorithm information](https://jwt.io/)
+- [MITRE ATT&CK T1550.001 – Application Access Token](https://attack.mitre.org/techniques/T1550/001/)
+- [CAPEC-115: Authentication Bypass](https://capec.mitre.org/data/definitions/115.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-sec-015
+// nosec vnx-sec-015
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-sec-015 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

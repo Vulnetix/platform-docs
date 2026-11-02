@@ -1,0 +1,104 @@
+---
+title: "VNX-GO-001: Missing go.sum"
+nav: "VNX-GO-001"
+description: "Reports a go.mod that requires a remote module but has no go.sum beside it, or whose go.sum is excluded by a .gitignore, once per go.mod on its first require directive. Standard-library-only modules, all-local replacements and testdata/fixture modules are not reported."
+order: 703
+sources: ["cli/internal/sast/rules/vnx-go-001.rego", "cli/website/content/docs/sast-rules/vnx-go-001.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-GO-001` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Go |
+| CWE | [CWE-829](https://cwe.mitre.org/data/definitions/829.html) |
+| CAPEC | [CAPEC-185](https://capec.mitre.org/data/definitions/185.html) |
+| ATT&CK | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `supply-chain` `lockfile` `integrity` |
+| Source | [`internal/sast/rules/vnx-go-001.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-go-001.rego) |
+
+## Overview
+
+This rule flags Go projects that have a `go.mod` file but no corresponding `go.sum` file. The `go.sum` file records the expected cryptographic checksums of every module your project depends on. Without it, Go has no way to verify that the module code it downloads at build time matches what you originally tested against, opening a direct path for supply chain compromise. This maps to [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html).
+
+> **Go idiom note:** Committing `go.sum` to version control IS the idiomatic Go default and is the approach recommended in the official Go module documentation. Omitting it is always a deliberate (and insecure) exception.
+
+## Why This Matters
+
+Without a `go.sum`, a compromised module proxy, a DNS hijack, or a typosquat package can silently substitute malicious code into your build. The attacker does not need access to your repository, they only need to interfere with the module download path between your build environment and the module origin. In CI/CD pipelines this risk is elevated because builds frequently download fresh dependencies from the internet. A single poisoned module can exfiltrate secrets, establish persistence, or tamper with application logic before your code even starts. MITRE ATT&CK technique T1195.001 (Supply Chain Compromise: Compromise Software Dependencies) describes exactly this attack class.
+
+OWASP ASVS v4.0 requirement **V14.2.1** requires that all components are up to date and verified. The Go checksum database (`sum.golang.org`) provides a transparency log of all published module versions; `go.sum` is the per-project anchor that ties your dependency tree to verified entries in that log.
+
+## What Gets Flagged
+
+The rule reads each `go.mod`. It reports the module's first `require` directive when the module requires at least one module fetched from outside the repository and either no `go.sum` sits in the same directory or a `.gitignore` between the repository root and the module excludes `go.sum`.
+
+```go
+// FLAGGED: go.mod requires a remote module and the directory has no go.sum
+module example.com/releasebot
+
+go 1.22
+
+require github.com/google/go-github/v62 v62.0.0 // reported here
+```
+
+Not reported: a module with a committed `go.sum`, a module with no `require` directive, a module whose every requirement is replaced by a local directory (`replace example.com/x => ../x`), and a `go.mod` under `testdata/`, `fixtures/` or test directories.
+
+## Remediation
+
+1. **Generate the lockfile.** Run `go mod tidy` in the directory containing `go.mod`. This downloads all dependencies, resolves the full dependency graph, and writes both `go.sum` and an updated `go.mod`.
+
+```bash
+go mod tidy
+```
+
+2. **Commit `go.sum` to version control.** The file must be present in source control so every build, locally and in CI, uses the same verified checksums.
+
+```bash
+git add go.sum
+git commit -m "chore: add go.sum lockfile"
+```
+
+3. **Verify integrity before building.** In CI pipelines, add a verification step to confirm no dependency has been tampered with since the last commit:
+
+```bash
+go mod verify
+```
+
+4. **Prevent accidental exclusion.** Check that `go.sum` is not listed in `.gitignore`. If it is, remove that line.
+
+5. **Use `GONOSUMCHECK` with caution.** The `GONOSUMCHECK` environment variable bypasses checksum verification for matched module paths. Only use it for internal modules hosted on private infrastructure that is not accessible to the Go checksum database, and never set it globally in CI.
+
+```bash
+# SAFE: verify module checksums before any build step
+go mod verify && go build ./...
+```
+
+## References
+
+- [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html)
+- [OWASP Application Security Verification Standard v4.0 – V14.2 Dependency](https://owasp.org/www-project-application-security-verification-standard/)
+- [OWASP Software Component Verification Standard](https://owasp.org/www-project-software-component-verification-standard/)
+- [OWASP Go Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Go_Security_Cheat_Sheet.html)
+- [Go Modules Reference – go.sum files](https://go.dev/ref/mod#go-sum-files)
+- [Go Modules Reference – go mod verify](https://go.dev/ref/mod#go-mod-verify)
+- [Go Checksum Database](https://sum.golang.org/)
+- [MITRE ATT&CK T1195.001 – Supply Chain Compromise: Compromise Software Dependencies](https://attack.mitre.org/techniques/T1195/001/)
+- [CAPEC-185: Malicious Software Download](https://capec.mitre.org/data/definitions/185.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-go-001
+// nosec vnx-go-001
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-go-001 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

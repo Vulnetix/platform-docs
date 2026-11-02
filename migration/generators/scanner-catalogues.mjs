@@ -1,0 +1,250 @@
+#!/usr/bin/env node
+// scanner-catalogues.mjs: write the generated catalogue pages of the secrets
+// and malware segments.
+//
+// Inputs:
+//   cli repository
+//     internal/sast/rules/*.rego             metadata of every rule of kind secrets
+//     internal/sast/secretsgen/main.go       catalogue category titles
+//     go.mod                                 the malscan-engine version the CLI ships
+//   malscan-engine repository
+//     detect/data/patterns.toml              read at the tag go.mod pins, not at HEAD
+//
+// Outputs, in this repository:
+//   src/content/docs/secrets/reference/rules.md       category counts + every rule
+//                                                      that is not catalogue-generated
+//   src/content/docs/malware/reference/patterns.md    every pattern rule of the pinned engine
+//
+// Usage:
+//   node migration/generators/scanner-catalogues.mjs [--cli <path>] [--engine <path>] [--cli-ref <ref>]
+//
+//   --cli      cli checkout (default: $VULNETIX_CLI_REPO, else ../cli)
+//   --engine   malscan-engine checkout (default: $MALSCAN_ENGINE_REPO, else ../malscan-engine)
+//   --cli-ref  read the cli at this git ref instead of the working tree (e.g. origin/main)
+//
+// A page whose front matter lacks `generated: true` is never overwritten.
+// No dependencies beyond Node 20.
+
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
+import { join, resolve, dirname } from 'node:path';
+import { execFileSync } from 'node:child_process';
+
+const here = dirname(new URL(import.meta.url).pathname);
+const root = resolve(here, '..', '..');
+const args = process.argv.slice(2);
+const opt = (name, fallback) => {
+  const i = args.indexOf(`--${name}`);
+  return i >= 0 && args[i + 1] ? args[i + 1] : fallback;
+};
+const cli = resolve(opt('cli', process.env.VULNETIX_CLI_REPO ?? join(root, '..', 'cli')));
+const engine = resolve(opt('engine', process.env.MALSCAN_ENGINE_REPO ?? join(root, '..', 'malscan-engine')));
+const cliRef = opt('cli-ref', '');
+const outRoot = join(root, 'src', 'content', 'docs');
+
+const git = (repo, ...a) => execFileSync('git', ['-C', repo, ...a], { encoding: 'utf8', maxBuffer: 256 << 20 });
+const short = (repo, ref) => git(repo, 'rev-parse', '--short=7', `${ref}^{commit}`).trim();
+
+// Read a cli file from the working tree, or from --cli-ref.
+const cliRead = (p) => (cliRef ? git(cli, 'show', `${cliRef}:${p}`) : readFileSync(join(cli, p), 'utf8'));
+const cliList = (dir) =>
+  cliRef
+    ? git(cli, 'ls-tree', '--name-only', `${cliRef}:${dir}`).split('\n').filter(Boolean)
+    : execFileSync('ls', [join(cli, dir)], { encoding: 'utf8' }).split('\n').filter(Boolean);
+
+const cliSha = short(cli, cliRef || 'HEAD');
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const commitDate = (repo, ref) => {
+  const iso = git(repo, 'log', '-1', '--format=%cs', ref).trim();
+  const d = new Date(`${iso}T00:00:00Z`);
+  return `${String(d.getUTCDate()).padStart(2, '0')} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+};
+
+const noDash = (s) => String(s ?? '').replace(/\s*—\s*/g, ': ').replace(/–/g, '-');
+const cell = (s) => noDash(s).replace(/\|/g, '\\|').replace(/\n+/g, ' ').trim();
+const yamlList = (xs) => `[${xs.map((x) => JSON.stringify(x)).join(', ')}]`;
+
+function frontmatter(f) {
+  const lines = ['---'];
+  lines.push(`title: ${JSON.stringify(f.title)}`);
+  if (f.nav) lines.push(`nav: ${JSON.stringify(f.nav)}`);
+  lines.push(`description: ${JSON.stringify(f.description)}`);
+  lines.push(`order: ${f.order}`);
+  lines.push(`sources: ${yamlList(f.sources)}`);
+  lines.push(`checked: ${yamlList(f.checked)}`);
+  lines.push(`updated: ${JSON.stringify(f.updated)}`);
+  lines.push('generated: true');
+  lines.push('---', '');
+  return lines.join('\n');
+}
+
+function writePage(rel, body) {
+  const path = join(outRoot, rel);
+  if (existsSync(path) && !/^generated:\s*true\s*$/m.test(readFileSync(path, 'utf8').split('\n---')[0])) {
+    console.error(`scanner-catalogues: ${rel} is hand-written (no generated: true); not overwritten`);
+    return;
+  }
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, body);
+  console.log(`wrote ${rel}`);
+}
+
+// ---------------------------------------------------------------- secrets
+
+const field = (src, key) => {
+  const m = src.match(new RegExp(`"${key}"\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)"`));
+  return m ? JSON.parse(`"${m[1]}"`) : '';
+};
+
+const rules = [];
+for (const f of cliList('internal/sast/rules')) {
+  if (!f.endsWith('.rego')) continue;
+  const src = cliRead(`internal/sast/rules/${f}`);
+  const id = field(src, 'id');
+  if (!id || field(src, 'kind') !== 'secrets') continue;
+  const help = field(src, 'help_uri');
+  const cat = (help.match(/sast-rules\/secrets\/([a-z-]+)\//) ?? [])[1] ?? '';
+  rules.push({ id, name: field(src, 'name'), severity: field(src, 'severity'), category: cat, generated: /GENERATED by internal\/sast\/secretsgen/.test(src) });
+}
+
+const titles = {};
+for (const m of cliRead('internal/sast/secretsgen/main.go').matchAll(/"([a-z-]+)":\s*\{"Secrets\s*—\s*([^"]+)",\s*"([^"]*)",\s*(\d+)\}/g)) {
+  titles[m[1]] = { title: m[2], summary: m[3], weight: Number(m[4]) };
+}
+
+const idNum = (id) => Number((id.match(/(\d+)$/) ?? [])[1] ?? 0);
+const byId = (a, b) => (a.id.replace(/-\d+$/, '') === b.id.replace(/-\d+$/, '') ? idNum(a.id) - idNum(b.id) : a.id.localeCompare(b.id));
+rules.sort(byId);
+
+const SEV = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low', info: 'Info' };
+const byCat = {};
+for (const r of rules) if (r.category) (byCat[r.category] ??= []).push(r);
+const cats = Object.keys(titles).sort((a, b) => titles[a].weight - titles[b].weight);
+const handWritten = rules.filter((r) => !r.category);
+const sevCount = {};
+for (const r of rules) sevCount[r.severity] = (sevCount[r.severity] ?? 0) + 1;
+
+{
+  const out = [];
+  out.push(frontmatter({
+    title: 'Secret detection rules',
+    nav: 'Rules',
+    description: `The ${rules.length} built-in rules of kind secrets that vulnetix secrets runs, by catalogue category and by rule.`,
+    order: 2,
+    sources: ['cli/internal/sast/rules/', 'cli/internal/sast/secretsgen/main.go', 'cli/internal/sast/rules/lib_secrets.rego', 'cli/internal/sast/kinds.go'],
+    checked: [`cli@${cliSha}`],
+    updated: commitDate(cli, cliRef || 'HEAD'),
+  }));
+  out.push('<!-- Generated by migration/generators/scanner-catalogues.mjs. Do not edit by hand. -->');
+  out.push(`\`vulnetix secrets\` runs every built-in rule whose metadata declares \`"kind": "secrets"\`: ${rules.length} rules at \`cli@${cliSha}\`. No secret rule declares a language, so each one reads every text file the scan loads. \`vulnetix secrets --list-default-rules\` prints the built-in table, but it lists rules of every kind, not only these.`);
+  out.push('');
+  out.push('| Severity | Rules |', '|---|---|');
+  for (const s of ['critical', 'high', 'medium', 'low']) if (sevCount[s]) out.push(`| ${SEV[s]} | ${sevCount[s]} |`);
+  out.push('');
+  out.push('## Catalogue rules by category');
+  out.push('');
+  out.push(`${rules.length - handWritten.length} rules are generated from \`internal/sast/secretsgen/catalog.json\` or carry a catalogue category in their \`help_uri\`. Each category page lists every rule with its severity and the provider it covers.`);
+  out.push('');
+  out.push('| Category | Rules | Covers |', '|---|---|---|');
+  for (const k of cats) {
+    if (!byCat[k]?.length) continue;
+    out.push(`| [${cell(titles[k].title)}](/sast/rules/secrets/${k}/) | ${byCat[k].length} | ${cell(titles[k].summary)} |`);
+  }
+  out.push('');
+  out.push('## Rules with their own page');
+  out.push('');
+  out.push(`${handWritten.length} rules are written by hand. They cover the common providers and file formats with checks a catalogue entry cannot express, such as the AWS key pair, Kubernetes \`Secret\` manifests, and credentials in Android, Java, .NET and Terraform configuration.`);
+  out.push('');
+  out.push('| Rule | Name | Severity |', '|---|---|---|');
+  for (const r of handWritten) out.push(`| [\`${r.id}\`](/sast/rules/${r.id.toLowerCase()}/) | ${cell(r.name)} | ${SEV[r.severity] ?? r.severity} |`);
+  out.push('');
+  writePage('secrets/reference/rules.md', out.join('\n'));
+}
+
+// ---------------------------------------------------------------- malware patterns
+
+const gomod = cliRead('go.mod');
+const engVer = (gomod.match(/github\.com\/vulnetix\/malscan-engine\s+(v[\w.\-]+)/) ?? [])[1];
+if (!engVer) {
+  console.error('scanner-catalogues: malscan-engine is not in the cli go.mod');
+  process.exit(2);
+}
+const engSha = short(engine, engVer);
+const toml = git(engine, 'show', `${engVer}:detect/data/patterns.toml`);
+
+// patterns.toml is a flat list of [[section]] tables with string, int and bool
+// values; that subset is all this parser reads.
+const patterns = [];
+let cur = null;
+for (const raw of toml.split('\n')) {
+  const line = raw.trim();
+  if (!line || line.startsWith('#')) continue;
+  const sec = line.match(/^\[\[([a-z_]+)\]\]$/);
+  if (sec) {
+    cur = { section: sec[1] };
+    patterns.push(cur);
+    continue;
+  }
+  const kv = line.match(/^([a-z_]+)\s*=\s*(.+)$/);
+  if (!kv || !cur) continue;
+  let v = kv[2].trim();
+  if (v.startsWith("'")) v = v.slice(1, v.lastIndexOf("'"));
+  else if (v.startsWith('"')) v = JSON.parse(v.slice(0, v.lastIndexOf('"') + 1));
+  else if (v === 'true' || v === 'false') v = v === 'true';
+  else if (/^-?\d+$/.test(v)) v = Number(v);
+  cur[kv[1]] = v;
+}
+
+// Where each section runs in a local `vulnetix malscan` (cli/cmd/malscan_engine.go:
+// the primary manifest is PkgbuildContent, the install hooks are
+// InstallScriptContent, and the CLI never sets PkgbuildExecutes).
+const SECTIONS = {
+  install_script_analysis: { title: 'Install scripts', where: 'npm `preinstall`, `install`, `postinstall`, `preuninstall`, `postuninstall`, `prepare` and `prepublish` scripts, Rust `build.rs` and Ruby `extconf.rb`. Always an auto-execution surface.', capability: 'install-script' },
+  pkgbuild_analysis: { title: 'Manifest patterns', where: 'The primary manifest: `package.json`, `setup.py`, `pyproject.toml`, `PKG-INFO`, `Cargo.toml`, `*.gemspec` or `composer.json`.', capability: 'manifest-patterns' },
+  gtfobins_analysis: { title: 'GTFOBins', where: 'Both the primary manifest and the install scripts. A hit in an install script gets the `IS-` prefix (`IS-G-PIPE`).', capability: 'gtfobins' },
+  source_url_analysis: { title: 'Source URLs', where: 'The primary manifest.', capability: 'source-url-patterns' },
+};
+const EVIDENCE_POINTS = 40; // detect/patterns.go evidenceThreshold
+
+function classOf(p) {
+  const base = p.override_gate || p.points >= EVIDENCE_POINTS ? 'evidence' : 'context';
+  if (p.pkgbuild_only) return `${base}; only in a PKGBUILD or install hook`;
+  if (p.hook_only) return base === 'evidence' ? 'evidence in an install hook, context elsewhere' : 'install hook only';
+  return base;
+}
+
+{
+  const out = [];
+  out.push(frontmatter({
+    title: 'Malware pattern rules',
+    nav: 'Pattern rules',
+    description: `The ${patterns.length} regular-expression rules of malscan-engine ${engVer}, the version the CLI ships, with where each runs and the class a hit gets.`,
+    order: 3,
+    sources: ['malscan-engine/detect/data/patterns.toml', 'malscan-engine/detect/patterns.go', 'malscan-engine/detect/engine.go', 'cli/cmd/malscan_engine.go', 'cli/go.mod'],
+    checked: [`cli@${cliSha}`, `malscan-engine@${engSha}`],
+    updated: commitDate(engine, engVer),
+  }));
+  out.push('<!-- Generated by migration/generators/scanner-catalogues.mjs. Do not edit by hand. -->');
+  out.push(`These are the pattern rules in \`detect/data/patterns.toml\` at malscan-engine \`${engVer}\`, the version \`cli@${cliSha}\` pins in \`go.mod\`. A newer engine on its default branch can have more rules; they reach the CLI only when the pin moves.`);
+  out.push('');
+  out.push('How a hit is classed:');
+  out.push('');
+  out.push(`- **evidence**: the rule has \`override_gate = true\`, or \`points\` of ${EVIDENCE_POINTS} or more. One evidence hit marks the package malicious, gives the finding severity \`critical\`, and fails \`vulnetix malscan\` with exit code 1.`);
+  out.push('- **context**: fewer points and no override. Recorded at severity `low`, never fails the scan.');
+  out.push('- **install hook only** (`hook_only`): a dual-use command. In an install script it is classed by points; in the primary manifest a rule under the threshold is dropped and one at or over it is recorded as context.');
+  out.push('- **only in a PKGBUILD or install hook** (`pkgbuild_only`): source hygiene for Arch packages, skipped on a declarative manifest.');
+  out.push('');
+  out.push('The points are weights inherited from traur. malscan does not add them up into a score; they only decide the class above.');
+  out.push('');
+  for (const [key, s] of Object.entries(SECTIONS)) {
+    const rows = patterns.filter((p) => p.section === key);
+    if (!rows.length) continue;
+    out.push(`## ${s.title}`);
+    out.push('');
+    out.push(`${rows.length} rules, section \`${key}\`, capability \`${s.capability}\`. Runs over: ${s.where}`);
+    out.push('');
+    out.push('| Rule | Points | Class | Description |', '|---|---|---|---|');
+    for (const p of rows) out.push(`| <span id="${p.id.toLowerCase()}"></span>\`${p.id}\` | ${p.points ?? ''} | ${classOf(p)} | ${cell(p.description)} |`);
+    out.push('');
+  }
+  writePage('malware/reference/patterns.md', out.join('\n'));
+}

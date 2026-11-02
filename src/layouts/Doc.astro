@@ -23,11 +23,16 @@ const section = id.split('/')[1] ?? '';
 const sectionTitle = segment?.sections.find((s) => s.id === section)?.title ?? '';
 // The sidebar lists the current segment's sections; on the site home it lists
 // the segments themselves.
+// A generated page whose parent path is itself a page (the SAST rule pages under
+// sast/rules) is reached from that index, not listed: the catalogue runs to
+// hundreds of pages and would bury the rest of the sidebar.
+const ids = new Set(all.map((d) => d.id));
+const listed = (d: (typeof all)[number]) => !(d.data.generated && ids.has(d.id.split('/').slice(0, -1).join('/')));
 const groups = segment
   ? segment.sections.map((s) => ({
       ...s,
       pages: all
-        .filter((d) => d.id.split('/')[0] === segment.id && d.id.split('/')[1] === s.id)
+        .filter((d) => d.id.split('/')[0] === segment.id && d.id.split('/')[1] === s.id && listed(d))
         .map((d) => ({ id: d.id, label: d.data.nav ?? d.data.title, sub: d.id.split('/').length > 3 })),
     })).filter((g) => g.pages.length)
   : [{ id: 'products', title: 'Products', pages: SEGMENTS.map((s) => ({ id: s.home, label: s.title, sub: false })) }];

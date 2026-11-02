@@ -1,0 +1,120 @@
+---
+title: "VNX-NODE-018: JWT decoded without signature verification"
+nav: "VNX-NODE-018"
+description: "Reports jsonwebtoken decode() in a file that never calls verify(), and a jsonwebtoken algorithms list containing 'none'. Not reported: decode-then-verify, a token the server issued itself, the browser jwt-decode package, jwt-simple, tests and comments."
+order: 814
+sources: ["cli/internal/sast/rules/vnx-node-018.rego", "cli/website/content/docs/sast-rules/vnx-node-018.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-018` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-347](https://cwe.mitre.org/data/definitions/347.html) |
+| CAPEC | [CAPEC-196](https://capec.mitre.org/data/definitions/196.html) |
+| ATT&CK | [T1550.001](https://attack.mitre.org/techniques/T1550/001/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `jwt` `authentication` `signature-bypass` `node` |
+| Source | [`internal/sast/rules/vnx-node-018.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-018.rego) |
+
+## Overview
+
+This rule detects two distinct but related patterns in JSON Web Token handling: using `jwt.decode()` where `jwt.verify()` is required, and configuring the `jsonwebtoken` library to accept the `none` algorithm in the accepted algorithms list. Both patterns result in the same critical outcome: the token's signature is not verified, so any token, including a completely fabricated one, will be accepted as valid.
+
+`jwt.decode()` from the `jsonwebtoken` library is a utility function that base64-decodes the token payload and returns the claims without performing any cryptographic validation. It does not check the signature, the `exp` (expiry) claim, the `iss` (issuer) claim, or the `aud` (audience) claim. Code that uses `jwt.decode()` to make authorization decisions is functionally equivalent to having no token authentication at all, any user can craft a token claiming to be an administrator.
+
+The `none` algorithm attack is a separate vector: some JWT libraries honour the algorithm field in the token header. If the application lists `"none"` as an acceptable algorithm, an attacker removes the signature from a valid token, changes the header algorithm to `"none"`, and submits the modified token. The library accepts it because there is nothing to verify.
+
+## Why This Matters
+
+JWT is the dominant authentication mechanism in modern Node.js APIs, and authentication bypass is one of the highest-severity vulnerability classes. When token verification is absent, every protected endpoint in the application is accessible to any caller who knows the expected token structure. Attackers escalate privileges by setting `"role": "admin"` in the payload, impersonate arbitrary users by setting `"sub"` to any user ID, and bypass multi-factor authentication by crafting tokens that assert the second factor was completed.
+
+The `jwt.decode()` mistake is particularly common because the function name sounds authoritative, developers assume that if decoding succeeds, the token is valid. API documentation and tutorials do not always clearly distinguish between `decode` (inspection only) and `verify` (cryptographic validation). The error is extremely easy to introduce during rapid development and can persist unnoticed because the application continues to function normally with legitimate tokens.
+
+Bug bounty programmes regularly receive high-severity reports for `jwt.decode()` misuse. Because the bypass requires no special tools or prior access, it is reliably exploitable by any attacker who can observe a valid token (e.g., from browser developer tools or a network proxy).
+
+## What Gets Flagged
+
+The rule only looks at files that import or require `jsonwebtoken`, and resolves the names bound to it (`jwt`, `jsonwebtoken`, a namespace import, `decode` imported by name or `as` an alias). A `decode()` is reported when the file's code never calls `verify()` and the token is not a variable assigned, a few lines above, from something other than the request (a token the server issued and stored itself). Test files, comments and string literals are skipped. VNX-JWT-001 and VNX-JWT-004 cover overlapping ground across more languages.
+
+```javascript
+const jwt = require('jsonwebtoken');
+const token = req.headers.authorization.replace(/^Bearer\s+/i, '');
+const claims = jwt.decode(token);                                  // FLAGGED (file never verifies)
+
+import { decode as readToken } from 'jsonwebtoken';
+const payload = readToken(token);                                  // FLAGGED
+
+jwt.verify(token, key, { algorithms: ['RS256', 'none'] }, cb);     // FLAGGED: 'none'
+
+// Not flagged
+const { header } = jwt.decode(token, { complete: true });          // header only...
+return jwt.verify(token, keys[header.kid], { algorithms: ['RS256'] }); // ...then verified
+const shown = jwtDecode(token);                                    // browser jwt-decode package
+```
+
+## Remediation
+
+1. **Always use `jwt.verify()` with the signing secret or public key.** Pass the exact algorithm(s) you expect to prevent algorithm confusion attacks.
+
+2. **Never include `"none"` in the accepted algorithms list.**
+
+3. **Validate the decoded claims** (expiry, issuer, audience) either via `jwt.verify()` options or manually after verification.
+
+4. **Treat `jwt.decode()` as a debugging tool only**, it should never appear in authentication or authorization code paths.
+
+```javascript
+// SAFE: verify signature with explicit algorithm and secret from env
+const jwt = require('jsonwebtoken');
+const SECRET = process.env.JWT_SECRET; // loaded at startup, never hardcoded
+
+app.use((req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Missing token' });
+  }
+  const token = authHeader.slice(7);
+
+  try {
+    const payload = jwt.verify(token, SECRET, {
+      algorithms: ['HS256'],    // explicit allowlist, never 'none'
+      issuer: 'https://yourapp.com',
+      audience: 'api',
+    });
+    req.user = payload;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: 'Invalid or expired token' });
+  }
+});
+
+// SAFE: using jsonwebtoken verify with RS256 (asymmetric)
+const publicKey = fs.readFileSync('./keys/public.pem');
+const payload = jwt.verify(token, publicKey, { algorithms: ['RS256'] });
+```
+
+## References
+
+- [CWE-347: Improper Verification of Cryptographic Signature](https://cwe.mitre.org/data/definitions/347.html)
+- [CAPEC-196: Session Credential Falsification through Forging](https://capec.mitre.org/data/definitions/196.html)
+- [OWASP JWT Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [jsonwebtoken npm package, verify() documentation](https://github.com/auth0/node-jsonwebtoken#jwtverifytoken-secretorpublickey-options-callback)
+- [Auth0: Critical vulnerabilities in JWT libraries (algorithm confusion)](https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-018
+// nosec vnx-node-018
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-018 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

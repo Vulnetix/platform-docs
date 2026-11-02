@@ -1,0 +1,110 @@
+---
+title: "VNX-CS-003: C# XXE: XML parser resolves external entities"
+nav: "VNX-CS-003"
+description: "Detects C# XML parsers given an XmlUrlResolver, DTD processing enabled without XmlResolver = null on frameworks where the default resolver fetches entities, and XmlDocument/XmlTextReader parses that are unsafe by default on .NET Framework 4.5.1 and older."
+order: 687
+sources: ["cli/internal/sast/rules/vnx-cs-003.rego", "cli/website/content/docs/sast-rules/vnx-cs-003.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-CS-003` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | C# |
+| CWE | [CWE-611](https://cwe.mitre.org/data/definitions/611.html) |
+| CAPEC | [CAPEC-221](https://capec.mitre.org/data/definitions/221.html) |
+| ATT&CK | [T1190](https://attack.mitre.org/techniques/T1190/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `xxe` `xml` `csharp` |
+| Source | [`internal/sast/rules/vnx-cs-003.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-cs-003.rego) |
+
+## Overview
+
+This rule reports the XML parser configurations in C# code that permit XML External Entity (XXE) injection. An `XmlResolver` set to an `XmlUrlResolver` (inline or through a variable) is always reported on `XmlDocument` and `XmlTextReader`, and on `XmlReaderSettings` when the same settings also enable DTDs. `DtdProcessing = DtdProcessing.Parse` and `ProhibitDtd = false` are reported when no `XmlResolver = null` sits beside them, unless every project file in the scan targets .NET Framework 4.5.2+ or .NET (Core), where the default resolver is null. When a project targets .NET Framework 4.5.1 or older (`TargetFrameworkVersion` v2.0 to v4.5.1, or `net20` to `net451`), `XmlDocument.Load`/`LoadXml` and `new XmlTextReader(...)` on non-constant input are also reported, because those parsers resolve external entities by default there. Documents loaded from string constants, `DtdProcessing.Prohibit`/`Ignore` and `ProhibitDtd = true` are not reported.
+
+XXE vulnerabilities arise because the XML standard includes a mechanism, external entities, that instructs the parser to fetch a URI and substitute its contents into the document before processing. When that URI points to a local file path like `file:///etc/passwd`, the contents of that file appear in the parsed document and can be read by the application, then returned to the attacker in an error message or response body. When the URI points to an internal HTTP endpoint, the same mechanism enables Server-Side Request Forgery (SSRF).
+
+Modern .NET XML APIs (XDocument, XmlReader with default settings) disable external entity resolution by default, but older APIs (XmlDocument, XmlTextReader) and explicit configuration changes can re-enable it.
+
+## Why This Matters
+
+XXE attacks have been in the OWASP Top 10 for over a decade and are responsible for significant data breaches. By crafting a malicious XML document that includes an external entity declaration pointing to a sensitive file, an attacker can exfiltrate `/etc/passwd`, `/etc/shadow`, application configuration files, source code, or cloud instance metadata endpoints (`http://169.254.169.254/`). Depending on the parser's network access, out-of-band XXE can exfiltrate data even when the response is not reflected back.
+
+In .NET applications, XXE is particularly common in SOAP-based web service handlers, file upload processors, and report generation pipelines that parse user-submitted XML. The vulnerability frequently goes undetected because the parser configuration is set once (perhaps buried in a base class or helper method) and then used throughout the codebase. A single misconfigured `XmlDocument` instance used in a deserialization path can expose the entire server's filesystem.
+
+Blind XXE, where the exfiltrated data is sent via a DNS lookup or HTTP request to an attacker-controlled server rather than included in the response, is harder to detect with manual testing but can be found reliably with static analysis rules like this one.
+
+## What Gets Flagged
+
+```csharp
+// FLAGGED: XmlUrlResolver explicitly enables external entity fetching
+var doc = new XmlDocument();
+doc.XmlResolver = new XmlUrlResolver();   // allows file:// and http:// fetches
+doc.Load(userInputStream);
+
+// FLAGGED (unless every project targets .NET Framework 4.5.2+ or .NET): DTD parsing with the default resolver
+var settings = new XmlReaderSettings();
+settings.DtdProcessing = DtdProcessing.Parse;
+var reader = XmlReader.Create(userInputStream, settings);
+
+// FLAGGED (same condition): ProhibitDtd = false on XmlTextReader (legacy API)
+var reader = new XmlTextReader(userInputStream);
+reader.ProhibitDtd = false;
+
+// FLAGGED when a project targets .NET Framework 4.5.1 or older: unsafe default resolver
+XmlDocument doc = new XmlDocument();
+doc.Load(context.Request.InputStream);
+
+// NOT FLAGGED: resolver disabled before loading
+var safe = new XmlDocument { XmlResolver = null };
+safe.Load(input);
+```
+
+## Remediation
+
+1. Set `XmlResolver = null` on any `XmlDocument` instance that parses external input, this is the single most important change.
+2. Set `DtdProcessing = DtdProcessing.Prohibit` in `XmlReaderSettings` for all reader instances that process untrusted XML.
+3. Migrate away from `XmlTextReader` with `ProhibitDtd = false`; use `XmlReader.Create()` with explicit settings instead.
+4. Prefer `XDocument.Load()` or `XDocument.Parse()` from `System.Xml.Linq`, which uses `XmlReader` under the hood with safe defaults, for new code.
+
+```csharp
+// SAFE: XmlDocument with resolver disabled
+var doc = new XmlDocument();
+doc.XmlResolver = null;       // disables external entity resolution
+doc.Load(userInputStream);
+
+// SAFE: XmlReaderSettings with DTD processing prohibited
+var settings = new XmlReaderSettings
+{
+    DtdProcessing = DtdProcessing.Prohibit,
+    XmlResolver = null,
+};
+using var reader = XmlReader.Create(userInputStream, settings);
+
+// SAFE: XDocument with safe defaults
+var xdoc = XDocument.Load(userInputStream);
+```
+
+## References
+
+- [CWE-611: Improper Restriction of XML External Entity Reference](https://cwe.mitre.org/data/definitions/611.html)
+- [OWASP XXE Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html)
+- [Microsoft Docs: XML external entity (XXE) injection in .NET](https://learn.microsoft.com/en-us/dotnet/standard/data/xml/xml-security-guidelines)
+- [OWASP .NET Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html)
+- [CAPEC-221: Data Serialization External Entities Blowup](https://capec.mitre.org/data/definitions/221.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-cs-003
+// nosec vnx-cs-003
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-cs-003 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

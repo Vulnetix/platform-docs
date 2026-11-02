@@ -1,0 +1,94 @@
+---
+title: "VNX-CS-006: C# System.Random output used for a token, password, key, salt, nonce or session value"
+nav: "VNX-CS-006"
+description: "Detects C# calls to System.Random (Next, NextInt64, NextDouble, NextBytes, GetItems) whose result becomes a password, token, key, salt, nonce, IV, session or CSRF value, an OTP or a reset code."
+order: 690
+sources: ["cli/internal/sast/rules/vnx-cs-006.rego", "cli/website/content/docs/sast-rules/vnx-cs-006.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-CS-006` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | C# |
+| CWE | [CWE-338](https://cwe.mitre.org/data/definitions/338.html) |
+| CAPEC | [CAPEC-112](https://capec.mitre.org/data/definitions/112.html) |
+| ATT&CK | [T1600](https://attack.mitre.org/techniques/T1600/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `weak-random` `cryptography` `csharp` |
+| Source | [`internal/sast/rules/vnx-cs-006.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-cs-006.rego) |
+
+## Overview
+
+This rule reports a `Next`, `NextInt64`, `NextDouble`, `NextSingle`, `NextBytes` or `GetItems` call on `System.Random` (an inline `new Random(...)`, `Random.Shared`, or a variable, field or parameter declared as `Random`) when the value is security-sensitive: the line or the enclosing method's name names a password, token, secret, key, salt, nonce, IV, session, CSRF token, OTP/PIN, reset, verification or invitation code, or the assigned variable or `NextBytes` buffer is used that way within four lines (`aes.IV = buffer`). The declaration of the `Random` instance is not reported, nor is `System.Random` used for shuffling, jitter, colours or sampling, `RandomNumberGenerator`, `RNGCryptoServiceProvider`, BouncyCastle `SecureRandom`, test projects, comments and string literals. A value that only becomes a secret in another method is not followed.
+
+`System.Random` is a pseudo-random number generator (PRNG) seeded from a time-based value. It is designed for statistical simulations, games, and non-security use cases that need fast, repeatable sequences. It is not designed to be unpredictable. Its output can be predicted from a small number of observed values, and because its default seed is derived from the current timestamp, an attacker who knows approximately when the value was generated can brute-force the seed and reproduce the entire output sequence.
+
+`System.Security.Cryptography.RandomNumberGenerator` (and its convenience method `RandomNumberGenerator.GetBytes()`) uses the operating system's cryptographically secure entropy source (CryptGenRandom on Windows, getrandom/urandom on Linux/macOS) and produces output that is computationally indistinguishable from true randomness.
+
+## Why This Matters
+
+Predictable random numbers in security contexts lead directly to authentication and confidentiality failures. If password reset tokens, session identifiers, CSRF tokens, or encryption key material are generated with `System.Random`, an attacker who can observe or guess the approximate generation timestamp can reproduce the sequence and predict valid tokens or keys. This has been exploited against real applications: PHP's `rand()`, Java's `java.util.Random`, and .NET's `System.Random` have all been targeted in disclosed vulnerabilities.
+
+A concrete attack scenario: a web application generates a password reset token using `new Random(Environment.TickCount).Next()`. An attacker requests a password reset, notes the approximate time, and tries all seeds within a 10-second window, roughly 10,000 candidates. Each seed produces at most a small number of plausible tokens, making the search space trivially small for an automated attack.
+
+`Random.NextBytes()` is particularly dangerous when used to fill key buffers or initialisation vectors, because cryptographic key material with low entropy is vulnerable to exhaustive key search even when the encryption algorithm itself is strong.
+
+## What Gets Flagged
+
+```csharp
+// FLAGGED: System.Random used near password/token handling
+var rng = new Random();
+string token = rng.Next(100000, 999999).ToString();
+// ... token used as password reset code
+
+// FLAGGED: NextBytes() called to fill key material
+var keyBytes = new byte[32];
+new Random().NextBytes(keyBytes);    // FLAGGED: not cryptographically secure
+var aes = Aes.Create();
+aes.Key = keyBytes;
+```
+
+## Remediation
+
+1. Replace all security-sensitive random number generation with `System.Security.Cryptography.RandomNumberGenerator.GetBytes()` (static method available since .NET 6) or `using var rng = RandomNumberGenerator.Create()` for older targets.
+2. For generating random integers within a range, use `RandomNumberGenerator.GetInt32(fromInclusive, toExclusive)` (.NET 6+) rather than scaling byte output manually.
+3. For token generation, prefer `Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))` to produce a URL-safe 256-bit token.
+4. Reserve `System.Random` strictly for non-security use cases: unit test data, simulations, random sampling for analytics.
+
+```csharp
+// SAFE: cryptographically secure token generation
+byte[] tokenBytes = RandomNumberGenerator.GetBytes(32);
+string resetToken = Convert.ToBase64String(tokenBytes);
+
+// SAFE: secure AES key generation
+using var aes = Aes.Create();
+aes.GenerateKey();    // key filled from OS entropy source
+
+// SAFE: secure random integer in a range (.NET 6+)
+int otp = RandomNumberGenerator.GetInt32(100000, 1000000);
+```
+
+## References
+
+- [CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)](https://cwe.mitre.org/data/definitions/338.html)
+- [Microsoft Docs: RandomNumberGenerator class](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator)
+- [OWASP Cryptographic Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)
+- [OWASP .NET Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html)
+- [CAPEC-112: Brute Force](https://capec.mitre.org/data/definitions/112.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-cs-006
+// nosec vnx-cs-006
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-cs-006 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

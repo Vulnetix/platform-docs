@@ -1,0 +1,11 @@
+/docs/cli-reference/sca/	/sca/reference/flags/
+/docs/cli-reference/sca-autofix/	/sca/autofix/how-fixes-apply/
+/docs/cli-reference/fix/	/sca/autofix/fix/
+/docs/cli-reference/reachability/	/sca/reachability/overview/
+/docs/cli-reference/reachability/usage/	/sca/reachability/output/
+/docs/cli-reference/reachability/languages/	/sca/reachability/languages/
+/docs/cli-reference/reachability/troubleshooting/	/sca/reachability/troubleshooting/
+/docs/cli-reference/reachability/internals/	/sca/reachability/internals/
+/docs/cli-reference/containers/	/sca/containers/containers/
+/docs/cli-reference/image/	/sca/containers/image/
+/docs/cli-reference/license/	/sca/license/license/

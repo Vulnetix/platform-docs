@@ -1,0 +1,136 @@
+---
+title: "VNX-SWIFT-003: Swift credential stored in UserDefaults"
+nav: "VNX-SWIFT-003"
+description: "Detects a password, token, secret, API key, PIN or other credential written to UserDefaults/NSUserDefaults (set, setValue, setObject) or kept in a SwiftUI @AppStorage property, both of which store an unencrypted plist."
+order: 977
+sources: ["cli/internal/sast/rules/vnx-swift-003.rego", "cli/website/content/docs/sast-rules/vnx-swift-003.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-SWIFT-003` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Swift |
+| CWE | [CWE-311](https://cwe.mitre.org/data/definitions/311.html) |
+| CAPEC | [CAPEC-37](https://capec.mitre.org/data/definitions/37.html) |
+| ATT&CK | [T1409](https://attack.mitre.org/techniques/T1409/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `insecure-storage` `swift` `ios` |
+| Source | [`internal/sast/rules/vnx-swift-003.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-swift-003.rego) |
+
+## Overview
+
+This rule reports a Swift write to `UserDefaults` (`set`, `setValue` or `setObject` on `UserDefaults.standard`, `UserDefaults(suiteName:)`, `NSUserDefaults.standardUserDefaults()`, or a variable the file declares as `UserDefaults`) whose value or key names a credential, and a SwiftUI `@AppStorage` property, which is backed by `UserDefaults`, whose key or property name does. A credential is a name ending with password, passwd, passcode, secret, token, apiKey, privateKey, credential(s), pinCode/PIN, sessionId, cardNumber, cvv or ssn, or a password text field's `.text`.
+
+It does not report booleans, numbers, dates and `nil` under any key, keys that describe rather than hold a credential (`hasSeenTokenPrompt`, `tokenExpiry`), reads and `removeObject`, `set(_:forKey:)` on receivers that are not `UserDefaults`, Keychain code, string literals, comments and test files.
+
+`UserDefaults` (formerly `NSUserDefaults`) serialises data to a plaintext property list file stored at `Library/Preferences/<bundle-id>.plist` in the application sandbox. This file is not encrypted at the application layer. While iOS encrypts the file system at rest using hardware-backed data protection, the plist is stored under the default protection class `NSFileProtectionCompleteUntilFirstUserAuthentication`, which means it is accessible whenever the device has been unlocked at least once after boot, including while the screen is locked.
+
+This maps to [CWE-311: Missing Encryption of Sensitive Data](https://cwe.mitre.org/data/definitions/311.html).
+
+## Why This Matters
+
+The `UserDefaults` plist is included in iTunes and iCloud device backups by default. An attacker with access to a backup, obtained from an insecure backup destination, a compromised macOS machine, or a social engineering attack against Apple support, can extract the plist and read all stored values in plain text using any standard property list editor.
+
+On jailbroken devices, any process running as `mobile` can read another application's preferences plist without special permissions. Malware on a jailbroken device routinely harvests `UserDefaults` from banking, email, and social applications to collect session tokens. Additionally, MDM profiles can read application preferences on enrolled devices, creating a risk of credential exposure in enterprise deployments.
+
+iOS provides the Keychain specifically to address these threats. The Keychain encrypts each item with a key derived from the device passcode and the item's accessibility class. Items marked `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` can only be read when the device is unlocked and cannot be restored to a different device, providing strong protection against backup extraction and device transfer attacks.
+
+## What Gets Flagged
+
+```swift
+// FLAGGED: authentication token written to UserDefaults
+UserDefaults.standard.set(authToken, forKey: "auth_token")
+
+// FLAGGED: password persisted in preferences
+UserDefaults.standard.set(password, forKey: "userPassword")
+
+// FLAGGED: API key stored unencrypted
+defaults.set(apiKey, forKey: "api_key")
+
+// FLAGGED: private key material in UserDefaults
+UserDefaults.standard.set(privateKey, forKey: "privateKey")
+
+// FLAGGED: SwiftyUserDefaults subscript and a credential dictionary
+Defaults[\.authToken] = response.token
+UserDefaults.standard.set(["username": user, "password": pass], forKey: "lastLogin")
+
+// NOT FLAGGED: flags, dates and encrypted values
+UserDefaults.standard.set(true, forKey: "hasStoredToken")
+UserDefaults.standard.set(try encrypt(token), forKey: "blob")
+```
+
+## Remediation
+
+1. **Replace all `UserDefaults` writes of sensitive data with Keychain writes.** The iOS Security framework's Keychain services API provides hardware-backed encryption at no additional complexity cost.
+
+   ```swift
+   // SAFE: store a credential in the Keychain
+   import Security
+
+   enum KeychainError: Error {
+       case saveFailed(OSStatus)
+       case loadFailed(OSStatus)
+       case itemNotFound
+   }
+
+   func saveToKeychain(value: String, key: String) throws {
+       guard let data = value.data(using: .utf8) else { return }
+       let query: [CFString: Any] = [
+           kSecClass: kSecClassGenericPassword,
+           kSecAttrService: Bundle.main.bundleIdentifier ?? "app",
+           kSecAttrAccount: key,
+           kSecValueData: data,
+           kSecAttrAccessible: kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+       ]
+       // Delete any existing item before adding
+       SecItemDelete(query as CFDictionary)
+       let status = SecItemAdd(query as CFDictionary, nil)
+       guard status == errSecSuccess else {
+           throw KeychainError.saveFailed(status)
+       }
+   }
+   ```
+
+2. **Use a Keychain wrapper library to reduce boilerplate.** Libraries such as KeychainAccess or SwiftKeychainWrapper provide a `UserDefaults`-like interface backed by the Keychain, making migration straightforward.
+
+   ```swift
+   // SAFE: Keychain wrapper with familiar interface
+   import KeychainAccess
+
+   let keychain = Keychain(service: "com.example.MyApp")
+   try keychain.set(authToken, key: "auth_token")
+   let token = try keychain.getString("auth_token")
+   ```
+
+3. **Audit all `UserDefaults` usage.** Search for `.set(` calls on `UserDefaults` instances and review every key being written. Non-sensitive preferences (theme, locale, feature flags) can remain in `UserDefaults`; credentials, tokens, and keys must move to the Keychain.
+
+4. **Apply the correct accessibility class.** Use `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` for most credentials. Avoid `kSecAttrAccessibleAlways` or any class without `ThisDeviceOnly` unless you explicitly need iCloud Keychain synchronisation and have assessed the implications.
+
+5. **Migrate existing users' data.** On first launch after the update, read any credentials previously stored in `UserDefaults`, move them to the Keychain, and then delete the `UserDefaults` entries.
+
+## References
+
+- [CWE-311: Missing Encryption of Sensitive Data](https://cwe.mitre.org/data/definitions/311.html)
+- [OWASP Mobile Security Testing Guide – MSTG-STORAGE-1 (Local Storage)](https://mas.owasp.org/MASTG/tests/ios/MASVS-STORAGE/MASTG-TEST-0053/)
+- [Apple – Keychain Services](https://developer.apple.com/documentation/security/keychain_services)
+- [Apple – Protecting user data with improved data protections](https://developer.apple.com/news/releases/)
+- [Apple – SecItemAdd](https://developer.apple.com/documentation/security/1401659-secitemadd)
+- [CAPEC-37: Retrieve Embedded Sensitive Data](https://capec.mitre.org/data/definitions/37.html)
+- [MITRE ATT&CK T1409 – Stored Application Data](https://attack.mitre.org/techniques/T1409/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-swift-003
+// nosec vnx-swift-003
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-swift-003 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

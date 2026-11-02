@@ -1,0 +1,111 @@
+---
+title: "VNX-CS-008: C# SSRF: request data chooses the host of an HttpClient, WebClient or WebRequest call"
+nav: "VNX-CS-008"
+description: "Detects C# HttpClient, WebClient, WebRequest.Create, HttpRequestMessage, RestClient, Flurl and BaseAddress/RequestUri URLs whose scheme and host come from HTTP request data or a controller action parameter, with no host allowlist check."
+order: 692
+sources: ["cli/internal/sast/rules/vnx-cs-008.rego", "cli/website/content/docs/sast-rules/vnx-cs-008.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-CS-008` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | C# |
+| CWE | [CWE-918](https://cwe.mitre.org/data/definitions/918.html) |
+| CAPEC | [CAPEC-664](https://capec.mitre.org/data/definitions/664.html) |
+| ATT&CK | [T1090](https://attack.mitre.org/techniques/T1090/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `ssrf` `csharp` |
+| Source | [`internal/sast/rules/vnx-cs-008.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-cs-008.rego) |
+
+## Overview
+
+This rule reports the URL argument of an `HttpClient` method (`GetAsync`, `GetStringAsync`, `PostAsync`, `GetFromJsonAsync`...) or a `WebClient` method (`DownloadString`, `DownloadFile`, `OpenRead`, `UploadString`...) on a receiver declared or created as an `HttpClient`/`WebClient`, `WebRequest.Create`, `new HttpRequestMessage(method, url)`, `new RestClient(url)`, and `BaseAddress`/`RequestUri` assignments, when the URL **begins** with request data (`Request.Query`, `Request.Form`, `Request[...]`, a `TextBox.Text`, a string action parameter, a `[FromQuery]` or minimal-API parameter): the value alone, wrapped in `new Uri(...)`, after only a scheme (`"http://" + host`), or through a variable built that way. Request data that only fills the path or query of a URL with a literal host (`"/api/items/" + id`) is not reported, nor are configuration URLs, URLs checked against a host allowlist or an `IsAllowed`/`IsValid` method, non-HTTP receivers such as `IDistributedCache.GetAsync`, and parameters of non-controller methods.
+
+Server-Side Request Forgery (SSRF) occurs when a server-side component makes an HTTP request to a URL that is fully or partially controlled by an external party. The request originates from the server rather than from the client's browser, so it carries the server's network identity and access credentials. This allows attackers to reach internal services, cloud metadata endpoints, and other resources that are not directly accessible from the internet.
+
+## Why This Matters
+
+SSRF is a critical vulnerability class that entered the OWASP Top 10 as its own category (A10:2021) due to its prevalence in cloud-hosted applications. In cloud environments, the instance metadata service (IMDS) endpoint at `169.254.169.254` is accessible from every EC2, Azure VM, and GCP instance. An SSRF vulnerability allows an attacker to reach this endpoint and retrieve instance metadata including IAM role credentials, which can be used to access AWS S3 buckets, DynamoDB tables, and other services with the instance's permissions.
+
+Beyond cloud credential theft, SSRF can be used to port-scan internal networks (by observing connection timing and error messages), access internal HTTP services that assume requests come only from trusted sources (dashboards, admin APIs, microservices), and bypass IP-based access controls. In some configurations, SSRF can escalate to remote code execution via internal services that accept commands.
+
+Real-world SSRF exploits include the 2019 Capital One breach, where an SSRF vulnerability in a WAF allowed access to AWS metadata credentials, resulting in the exposure of over 100 million customer records. This maps to CAPEC-664 and ATT&CK T1090.
+
+## What Gets Flagged
+
+```csharp
+// FLAGGED: HttpClient.GetAsync with variable URL from request parameter
+string targetUrl = Request.Query["url"];
+using var client = new HttpClient();
+var response = await client.GetAsync(targetUrl);  // SSRF: user controls target
+
+// FLAGGED: WebClient.DownloadString with a query-string URL
+string feed = Request.QueryString["feed"];
+using (var wc = new WebClient())
+{
+    litFeed.Text = wc.DownloadString(feed);
+}
+
+// FLAGGED: the host is interpolated after the scheme
+var res = await http.GetAsync($"http://{host}/status");
+
+// FLAGGED: Flurl sends to the string it is called on
+var result = await callbackUrl.WithHeader("X-Test", "1").PostJsonAsync(body);
+
+// NOT FLAGGED: the host is fixed, the value only fills the path
+var res = await _client.GetAsync($"/api/catalog-items/{id}");
+```
+
+## Remediation
+
+1. Validate the target URL against an allowlist of permitted hostnames before making the request. Reject or sanitise any URL that does not match the allowlist.
+2. Use `Uri.TryCreate` to parse the URL and then check `uri.Host` against a set of permitted hosts.
+3. Disable redirects, or validate redirect destinations against the same allowlist to prevent redirect-based SSRF bypass.
+4. Consider blocking requests to private IP ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16, 127.0.0.1, ::1) regardless of hostname, using DNS resolution validation.
+
+```csharp
+// SAFE: allowlist validation before issuing HTTP request
+private static readonly HashSet<string> AllowedHosts = new(StringComparer.OrdinalIgnoreCase)
+{
+    "api.example.com",
+    "cdn.example.com"
+};
+
+public async Task<string> FetchExternalResource(string userUrl)
+{
+    if (!Uri.TryCreate(userUrl, UriKind.Absolute, out var uri) ||
+        (uri.Scheme != "https") ||
+        !AllowedHosts.Contains(uri.Host))
+    {
+        throw new ArgumentException("URL is not in the permitted allowlist.");
+    }
+
+    using var client = new HttpClient();
+    return await client.GetStringAsync(uri);
+}
+```
+
+## References
+
+- [CWE-918: Server-Side Request Forgery (SSRF)](https://cwe.mitre.org/data/definitions/918.html)
+- [OWASP – Server-Side Request Forgery Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+- [OWASP .NET Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/DotNet_Security_Cheat_Sheet.html)
+- [Microsoft Security Advisory – SSRF mitigations in Azure](https://learn.microsoft.com/en-us/azure/security/fundamentals/network-best-practices)
+- [CAPEC-664: Server-Side Request Forgery](https://capec.mitre.org/data/definitions/664.html)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-cs-008
+// nosec vnx-cs-008
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-cs-008 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

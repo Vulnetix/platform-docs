@@ -1,0 +1,14 @@
+/docs/cli-reference/cdx/	/sbom/generate/cdx/
+/docs/cli-reference/sbom/	/sbom/generate/cdx/
+/docs/cli-reference/bom/	/sbom/read/import-and-validate/
+/docs/cli-reference/cbom/	/sbom/cbom/overview/
+/docs/cli-reference/aibom/	/sbom/aibom/overview/
+/docs/cbom/	/sbom/cbom/overview/
+/docs/cbom/algorithms/	/sbom/cbom/algorithms/
+/docs/cbom/standards-matrix/	/sbom/cbom/standards-matrix/
+/docs/cbom/catalog-format/	/sbom/cbom/catalog-format/
+/docs/aibom/	/sbom/aibom/overview/
+/docs/aibom/supported-tools/	/sbom/aibom/supported-tools/
+/docs/aibom/libraries/	/sbom/aibom/libraries/
+/docs/aibom/infrastructure/	/sbom/aibom/infrastructure/
+/docs/aibom/catalog-format/	/sbom/aibom/catalog-format/

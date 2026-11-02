@@ -1,0 +1,140 @@
+---
+title: "VNX-PHP-004: PHP open redirect"
+nav: "VNX-PHP-004"
+description: "Detect header('Location: ...') and Refresh headers, wp_redirect() and PSR-7 withHeader('Location') whose destination is decided by a request value, enabling open redirects. Framework redirect helpers are reported by VNX-PHP-022."
+order: 832
+sources: ["cli/internal/sast/rules/vnx-php-004.rego", "cli/website/content/docs/sast-rules/vnx-php-004.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PHP-004` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | PHP |
+| CWE | [CWE-601](https://cwe.mitre.org/data/definitions/601.html) |
+| CAPEC | [CAPEC-194](https://capec.mitre.org/data/definitions/194.html) |
+| ATT&CK | [T1566](https://attack.mitre.org/techniques/T1566/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `open-redirect` `web` `phishing` |
+| Source | [`internal/sast/rules/vnx-php-004.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-php-004.rego) |
+
+## Overview
+
+This rule flags PHP code that sends an HTTP redirect itself, with `header('Location: ...')` (also `header(sprintf('Location: %s', ...))`, a `Refresh: N; URL=` header, and a `header(` call split across lines), WordPress `wp_redirect()` or a PSR-7 `withHeader('Location', ...)`, where the target URL is taken from a request value (superglobals, `filter_input()`, `getallheaders()`, PSR-7 request accessors) without validation. Framework redirect helpers (Laravel and CodeIgniter `redirect()`, `redirect()->to()`/`away()`, `Redirect::to()`/`away()`, Symfony `new RedirectResponse()` and `$this->redirect()`) are the same weakness and are reported by [VNX-PHP-022](/sast/rules/vnx-php-022/), so one redirect is one finding. An attacker can supply any URL as the redirect target and use your legitimate domain as a launchpad to deliver phishing pages, malware downloads, or OAuth token theft pages. This maps to [CWE-601: URL Redirection to Untrusted Site (Open Redirect)](https://cwe.mitre.org/data/definitions/601.html).
+
+## Why This Matters
+
+An open redirect turns your domain's reputation into an attack asset. Because the initial request originates from your site (`https://yourapp.com/login?redirect=https://evil.com`), email security filters, browser warnings, and cautious users who hover over links all see a URL on a domain they trust. Phishing campaigns that leverage open redirects on legitimate sites have materially higher click rates than direct links to attacker infrastructure.
+
+The risk extends beyond phishing. OAuth 2.0 authorization flows that use a `redirect_uri` parameter to deliver tokens are a particularly high-value target: if the authorization server allows your domain as a valid redirect host, an open redirect on your domain can be chained with an OAuth flow to redirect an access token to an attacker-controlled server. This is a known attack class documented in the OAuth 2.0 Security Best Current Practice (RFC 9700).
+
+## What Gets Flagged
+
+A redirect whose destination starts with a request value, or follows only a scheme or a bare `/`, inline or through a variable assigned from one a few lines above.
+
+```php
+// FLAGGED
+header("Location: " . $_GET["url"]);
+header("Location: {$_POST["dest"]}", true, 302);
+
+$back = $_SERVER["HTTP_REFERER"];
+header("Location: $back");
+
+$host = $_GET["host"];
+header("Location: https://" . $host . "/welcome");
+
+header(
+    "Location: " . $_POST["back"]
+);
+wp_redirect( $_POST["redirect_to"] );
+return $response->withHeader("Location", $_GET["r"]);
+```
+
+Not flagged: a destination whose literal prefix already fixes a host or path (`"Location: /login?next=" . $x`, `"https://shop.example.com/item/" . $sku`, `"info.php?id=" . $id`); a value checked with `in_array()`, `parse_url()` or `preg_match()` first (a `strpos()` substring test does not count); `wp_safe_redirect()`, a value passed through `wp_validate_redirect()`; values whose origin is not visible in the file; framework redirect helpers such as `redirect($request->input("next"))`, which are reported by [VNX-PHP-022](/sast/rules/vnx-php-022/).
+
+## Remediation
+
+1. **Validate the redirect target with `parse_url()` and an allowlist of permitted hosts.** Extract the host component from the supplied URL and verify it matches a set of domains your application owns:
+
+```php
+// SAFE: validate host against an allowlist before redirecting
+function safe_redirect(string $url): void {
+    $allowed_hosts = ['yourapp.com', 'www.yourapp.com', 'api.yourapp.com'];
+
+    $parsed = parse_url($url);
+
+    // Reject anything that has a host not in the allowlist,
+    // or that lacks a host (relative paths are OK, check separately).
+    if (isset($parsed['host']) && !in_array($parsed['host'], $allowed_hosts, true)) {
+        http_response_code(400);
+        exit('Invalid redirect destination');
+    }
+
+    header('Location: ' . $url);
+    exit;
+}
+
+$next = $_GET['next'] ?? '/dashboard';
+safe_redirect($next);
+```
+
+2. **Prefer relative paths over absolute URLs for on-site redirects.** If the redirect only ever needs to navigate within your application, accept only a path (no scheme or host) and prepend your own origin:
+
+```php
+// SAFE: only allow relative paths; prepend own origin
+$path = $_GET['next'] ?? '/dashboard';
+
+// Strip scheme/host, keep only path, query, fragment
+$parsed = parse_url($path);
+if (isset($parsed['scheme']) || isset($parsed['host'])) {
+    $path = '/dashboard'; // fallback for absolute URLs
+}
+
+header('Location: ' . $path);
+exit;
+```
+
+3. **Use an indirect reference map for a small number of destinations.** If you have a fixed set of post-login or post-action destinations, map numeric or token keys to URLs and never expose the raw URL in the request:
+
+```php
+// SAFE: indirect reference map, user supplies a key, not a URL
+$destinations = [
+    'dashboard' => '/dashboard',
+    'profile'   => '/user/profile',
+    'settings'  => '/user/settings',
+];
+
+$key  = $_GET['next'] ?? 'dashboard';
+$dest = $destinations[$key] ?? $destinations['dashboard'];
+
+header('Location: ' . $dest);
+exit;
+```
+
+4. **Always call `exit` immediately after `header('Location: ...')`.** PHP continues executing the script after setting a redirect header unless you explicitly exit. Code that runs after an unexited redirect header may still be exploitable.
+
+## References
+
+- [CWE-601: URL Redirection to Untrusted Site (Open Redirect)](https://cwe.mitre.org/data/definitions/601.html)
+- [CAPEC-194: Fake the Source of Data](https://capec.mitre.org/data/definitions/194.html)
+- [OWASP Unvalidated Redirects and Forwards Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)
+- [OWASP PHP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html)
+- [PHP manual: header()](https://www.php.net/manual/en/function.header.php)
+- [PHP manual: parse_url()](https://www.php.net/manual/en/function.parse-url.php)
+- [RFC 9700 – OAuth 2.0 Security Best Current Practice](https://www.rfc-editor.org/rfc/rfc9700)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-php-004
+// nosec vnx-php-004
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-php-004 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

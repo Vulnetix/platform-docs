@@ -1,0 +1,131 @@
+---
+title: "VNX-PY-002: eval()/exec() usage in Python"
+nav: "VNX-PY-002"
+description: "Detect eval() and exec() (and Pillow ImageMath.eval) called on a non-constant argument, which executes arbitrary code when any part of it is user-controlled."
+order: 856
+sources: ["cli/internal/sast/rules/vnx-py-002.rego", "cli/website/content/docs/sast-rules/vnx-py-002.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-002` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-94](https://cwe.mitre.org/data/definitions/94.html) |
+| CAPEC | [CAPEC-35](https://capec.mitre.org/data/definitions/35.html) |
+| ATT&CK | [T1059.006](https://attack.mitre.org/techniques/T1059/006/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `code-injection` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-py-002.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-002.rego) |
+
+## Overview
+
+This rule flags calls to Python's built-in `eval()` and `exec()` functions. Both functions evaluate their string argument as executable Python code, making them equivalent to giving an attacker a Python shell if any portion of the argument originates from user input, a network response, a file, or any other external source. Even usage with seemingly static input is dangerous because it establishes a pattern that is easy to accidentally extend with dynamic content. This maps to [CWE-94: Improper Control of Generation of Code (Code Injection)](https://cwe.mitre.org/data/definitions/94.html).
+
+## Why This Matters
+
+A successful code injection via `eval()` or `exec()` gives an attacker the same privileges as the Python process. In a web application context this typically means the ability to read environment variables (and therefore secrets and credentials), open outbound network connections, read or write arbitrary files, and execute system commands. Unlike many other vulnerability classes, there is no partial exploitation, the attacker has full control once the injection succeeds.
+
+Developers often reach for `eval()` as a shortcut to parse structured data (JSON-like expressions, configuration, arithmetic) or to implement plugin systems. Every one of those use cases has a safe, purpose-built alternative. The `exec()` function is commonly used in code generation or test tooling, but even in those contexts restricting the globals/locals dictionaries does not provide meaningful security, an attacker can escape the restriction using `__builtins__` introspection.
+
+## What Gets Flagged
+
+A call to the `eval()` or `exec()` builtin (bare or as `builtins.eval`/`builtins.exec`), or to Pillow's `ImageMath.eval()`/`ImageMath.unsafe_eval()`, whose code argument is not a constant string: a variable, a request value, an f-string, a concatenation or a format call.
+
+Not flagged: `ast.literal_eval()`, methods and definitions that happen to be named `eval`/`exec` (`model.eval()`, `app.exec()`), a constant literal such as `eval("6 * 7")`, executing the source of a file the code opens itself (`exec(compile(f.read(), path, "exec"))`, `exec(open(path).read())`), and comments or strings that mention the functions. Two shapes are reported by a more specific rule instead, so the line appears once: `eval`/`exec` of Flask or Django request data (`eval(request.args.get("expr"))`, or through a variable assigned from it) is reported by VNX-94 (code injection), and `exec`/`eval` of an embedded blob decoded on the spot (`exec(zlib.decompress(base64.b64decode(BLOB)))`) is reported by VNX-506 (embedded malicious code). Request data that only reaches the call through a longer chain VNX-94 does not follow, such as an encode/decode round trip, is still reported here.
+
+```python
+# FLAGGED: two-line flow from the request
+expression = request.POST.get("expression")
+value = eval(expression)
+
+# FLAGGED: f-string built code
+exec(f"import {module_name} as handler")
+
+# FLAGGED: Pillow ImageMath.eval hands the expression to eval()
+out = ImageMath.eval(expr, r=r, g=g, b=b)
+
+# FLAGGED: eval with user input, direct RCE
+result = eval(request.form["expression"])
+
+# FLAGGED: exec with string concatenation
+exec("import " + user_supplied_module)
+
+# FLAGGED: even with restricted globals, escape is possible
+exec(user_code, {"__builtins__": {}})
+
+# FLAGGED: eval inside a helper function still executes arbitrary code
+def parse_expr(s):
+    return eval(s)
+```
+
+## Remediation
+
+1. **For parsing data literals, use `ast.literal_eval()`.** This function only evaluates Python literals (strings, numbers, tuples, lists, dicts, booleans, and `None`). It raises a `ValueError` for anything that is not a safe literal and cannot execute arbitrary code.
+
+```python
+import ast
+
+# SAFE: parses only Python literals, raises ValueError for anything else
+value = ast.literal_eval(user_input)
+```
+
+2. **For parsing structured data, use a dedicated parser.**
+
+```python
+import json
+
+# SAFE: parse JSON without executing code
+data = json.loads(user_input)
+```
+
+3. **For arithmetic evaluation, use a math-safe library.**
+
+```python
+import simpleeval  # pip install simpleeval
+
+# SAFE: evaluates arithmetic expressions without code execution
+result = simpleeval.simple_eval(expression)
+```
+
+4. **For plugin and extension systems, use importlib with an explicit allowlist.**
+
+```python
+import importlib
+
+ALLOWED_PLUGINS = {"plugin_a", "plugin_b", "plugin_c"}
+
+def load_plugin(name: str):
+    if name not in ALLOWED_PLUGINS:
+        raise ValueError(f"Unknown plugin: {name}")
+    return importlib.import_module(f"myapp.plugins.{name}")
+```
+
+5. **For template rendering, use a template engine.** Replace `exec`-based string templating with Jinja2 or similar, which separates code from data by design.
+
+6. **If you genuinely need dynamic code execution (e.g., a REPL or notebook), isolate it.** Run the dynamic code in a subprocess with reduced privileges, a container, or a sandbox such as `RestrictedPython`.
+
+## References
+
+- [CWE-94: Improper Control of Generation of Code](https://cwe.mitre.org/data/definitions/94.html)
+- [OWASP Code Injection](https://owasp.org/www-community/attacks/Code_Injection)
+- [Python docs – ast.literal_eval](https://docs.python.org/3/library/ast.html#ast.literal_eval)
+- [Python docs – Built-in functions: eval](https://docs.python.org/3/library/functions.html#eval)
+- [CAPEC-35: Leverage Executable Code in Non-Executable Files](https://capec.mitre.org/data/definitions/35.html)
+- [MITRE ATT&CK T1059.006 – Command and Scripting Interpreter: Python](https://attack.mitre.org/techniques/T1059/006/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-002
+// nosec vnx-py-002
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-002 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

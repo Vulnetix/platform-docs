@@ -1,0 +1,152 @@
+---
+title: "VNX-NODE-002: eval() or new Function() in JavaScript"
+nav: "VNX-NODE-002"
+description: "Reports eval(), new Function()/Function(), vm.runIn*Context/compileFunction/new vm.Script with a non-constant argument, and setTimeout/setInterval given a code string built from variables."
+order: 798
+sources: ["cli/internal/sast/rules/vnx-node-002.rego", "cli/website/content/docs/sast-rules/vnx-node-002.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-NODE-002` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | JavaScript / TypeScript |
+| CWE | [CWE-94](https://cwe.mitre.org/data/definitions/94.html) |
+| CAPEC | [CAPEC-35](https://capec.mitre.org/data/definitions/35.html) |
+| ATT&CK | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `code-injection` `dangerous-function` |
+| Source | [`internal/sast/rules/vnx-node-002.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-node-002.rego) |
+
+## Overview
+
+This rule detects calls to `eval()` and `new Function()` in JavaScript and TypeScript source files. Both constructs compile and execute a string as JavaScript at runtime. When any part of that string is derived from user input, a query parameter, request body, WebSocket message, or any other external source, an attacker can run arbitrary code with the full privileges of the Node.js process. This maps to CWE-94 (Improper Control of Generation of Code).
+
+`eval()` and `new Function()` are **not disabled by default** in Node.js. They are available in every JavaScript runtime and must be explicitly avoided through code review, linting rules, and Content Security Policy enforcement.
+
+## Why This Matters
+
+Code injection via `eval()` is one of the most direct paths to full server compromise. An attacker who can control the argument to `eval()` can read environment variables (stealing secrets and API keys), spawn child processes to execute OS commands, open reverse shells, exfiltrate files, or pivot to internal services. Unlike SQL injection, which is constrained to database operations, JavaScript code injection has unrestricted access to the Node.js runtime and everything it can reach.
+
+The `new Function()` constructor is equally dangerous and is frequently used as an obfuscated substitute for `eval()`. Code like `new Function('return ' + userInput)()` is functionally identical to `eval(userInput)`. Sandboxing libraries such as `vm2` were once considered mitigations, but every version has been bypassed via prototype chain manipulation or native module escapes, the vm2 project was officially abandoned in 2023 following critical sandbox-escape CVEs (CVE-2023-29199, CVE-2023-30547). There is no reliable sandbox for untrusted JavaScript within Node.js.
+
+OWASP ASVS v4 requirement **V5.2.4** states: "Verify that the application does not use eval() or other dynamic code execution features."
+
+## What Gets Flagged
+
+Dynamic code evaluation in `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs` and `.cjs` files whose code argument is not a constant:
+
+```javascript
+// FLAGGED: a computed string evaluated
+const preTax = eval(expr);
+
+// FLAGGED: Function constructor body built by concatenation or interpolation
+const fn = new Function("ctx", "return (" + body + ");");
+return Function(`return ${src}`)();
+
+// FLAGGED: vm with a variable source
+vm.runInNewContext(code, sandbox, { timeout: 50 });
+const script = new vm.Script(source);
+
+// FLAGGED: timer given a code string
+setTimeout("refresh(" + id + ")", 1000);
+```
+
+Not flagged: `eval("require('crypto')")` and `new Function('a', 'b', 'return a + b')` (string literals only), `vm.runInContext("parse(data)", sandbox)`, methods named eval or evaluate (`redis.eval`, `page.evaluate`, mathjs `evaluate`), `declare function eval(...)`, timers given a function, the pattern inside strings or comments, and minified files or lines over 400 characters. An evaluator given Express or Koa request data (`eval(req.body.preTax)`, or a variable assigned or destructured from it) is code injection and is reported by VNX-94, not here, so the line appears once.
+
+## Remediation
+
+1. **Remove `eval()` and `new Function()` entirely.** In virtually every legitimate use case there is a safer alternative that does not require runtime code compilation.
+
+2. **For mathematical expressions**, use a dedicated, safe evaluator library that parses an AST without executing code:
+
+   ```bash
+   npm install mathjs
+   # or
+   npm install expr-eval
+   ```
+
+   ```javascript
+   // SAFE: use mathjs for expression evaluation
+   import { evaluate } from 'mathjs';
+
+   app.post('/calculate', (req, res) => {
+     try {
+       const result = evaluate(req.body.expression); // parses AST, does not eval
+       res.json({ result });
+     } catch (err) {
+       res.status(400).json({ error: 'Invalid expression' });
+     }
+   });
+   ```
+
+3. **For dynamic configuration or plugins**, use JSON for data and require plugins from a fixed local path, never from user-supplied strings:
+
+   ```javascript
+   // SAFE: load plugins from a controlled directory, never from user input
+   const PLUGIN_DIR = path.resolve(__dirname, 'plugins');
+   const pluginName = req.query.plugin.replace(/[^a-z0-9-]/gi, '');
+   const pluginPath = path.join(PLUGIN_DIR, pluginName);
+   if (!pluginPath.startsWith(PLUGIN_DIR)) throw new Error('Invalid plugin');
+   const plugin = require(pluginPath);
+   ```
+
+4. **For template rendering**, pass user data as context variables, never as the template string itself (see also VNX-NODE-011):
+
+   ```javascript
+   // SAFE: template is a static string; user data is only context
+   const template = fs.readFileSync('./templates/email.html', 'utf8');
+   const rendered = ejs.render(template, { name: req.body.name });
+   ```
+
+5. **Add ESLint rules to prevent `eval()` at the linting stage:**
+
+   ```json
+   // .eslintrc.json
+   {
+     "rules": {
+       "no-eval": "error",
+       "no-new-func": "error"
+     }
+   }
+   ```
+
+6. **Apply a Content Security Policy** header that includes `script-src` without `'unsafe-eval'` to prevent client-side `eval()` as a defence-in-depth measure. Note that Express does **not** set any CSP headers by default, use helmet:
+
+   ```javascript
+   // Requires: npm install helmet
+   const helmet = require('helmet');
+   app.use(helmet.contentSecurityPolicy({
+     directives: {
+       scriptSrc: ["'self'"], // no 'unsafe-eval'
+     },
+   }));
+   ```
+
+## References
+
+- [CWE-94: Improper Control of Generation of Code](https://cwe.mitre.org/data/definitions/94.html)
+- [CAPEC-35: Leverage Executable Code in Non-Executable Files](https://capec.mitre.org/data/definitions/35.html)
+- [OWASP ASVS v4 – V5.2.4 Input Validation](https://owasp.org/www-project-application-security-verification-standard/)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [vm2 project abandoned – critical sandbox escape](https://github.com/patriksimek/vm2/issues/533)
+- [mathjs safe expression evaluation](https://mathjs.org/docs/expressions/security.html)
+- [ESLint no-eval rule](https://eslint.org/docs/latest/rules/no-eval)
+- [MDN – eval() security concerns](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!)
+- [MITRE ATT&CK T1059.007 – JavaScript](https://attack.mitre.org/techniques/T1059/007/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-node-002
+// nosec vnx-node-002
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-node-002 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

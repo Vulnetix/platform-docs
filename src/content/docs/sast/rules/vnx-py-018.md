@@ -1,0 +1,129 @@
+---
+title: "VNX-PY-018: Insecure temporary file creation via tempfile.mktemp()"
+nav: "VNX-PY-018"
+description: "Detect Python code that generates a temporary file name without creating the file: tempfile.mktemp() (module aliases and from-imports included) and Python 2 os.tempnam()/os.tmpnam(). mkstemp, NamedTemporaryFile, mkdtemp and pytest's tmp_path_factory.mktemp() are not reported."
+order: 872
+sources: ["cli/internal/sast/rules/vnx-py-018.rego", "cli/website/content/docs/sast-rules/vnx-py-018.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-018` |
+| Severity | Medium |
+| SARIF level | `warning` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-377](https://cwe.mitre.org/data/definitions/377.html) |
+| CAPEC | [CAPEC-29](https://capec.mitre.org/data/definitions/29.html) |
+| ATT&CK | [T1574](https://attack.mitre.org/techniques/T1574/) |
+| CWSS vector | `CWSS:1.0/TI:M/AP:RU/AL:S/IC:N/FC:LT/RP:RU/RL:S/AV:L/AS:N/IN:A/SC:A/BI:M/DI:H/EX:M/EC:N/P:C` |
+| Tags | `tempfile` `race-condition` `toctou` `python` |
+| Source | [`internal/sast/rules/vnx-py-018.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-018.rego) |
+
+## Overview
+
+This rule detects calls to `tempfile.mktemp()`, a deprecated function that returns a filename guaranteed to be unique at the moment of the call but does **not** create the file. The gap between the name being returned and the application opening the file is a classic Time-of-Check to Time-of-Use (TOCTOU) race condition: any process that observes or guesses the generated name can create a file, directory, or symbolic link at that path before the calling application does.
+
+The vulnerability is particularly dangerous in privileged processes. If a setuid binary or a service running as root calls `tempfile.mktemp()` and an attacker wins the race, they can place a symlink pointing to a sensitive system file (`/etc/passwd`, `/etc/shadow`, a TLS private key). The privileged process then reads from or writes to the attacker-controlled target, enabling data exfiltration or privilege escalation.
+
+The fix is straightforward: use `tempfile.NamedTemporaryFile()` (which creates and opens the file atomically) or `tempfile.mkstemp()` (which returns both a file descriptor and a path, having created the file atomically). Both functions use `os.open()` with `O_EXCL` to prevent race conditions at the kernel level.
+
+## Why This Matters
+
+TOCTOU vulnerabilities in temporary file creation have a long history of real-world exploitation. The classic attack scenario involves a predictable `/tmp` filename: many older utilities named temporary files using the process ID (`/tmp/prog.12345`), which an attacker could predict and pre-create as a symlink. Python's `tempfile.mktemp()` generates random names, but randomness alone does not close the race window, it only makes brute-forcing the name harder, not impossible.
+
+In container environments and multi-tenant systems, the risk increases because multiple users share the same `/tmp` filesystem. An attacker with local access can use `inotifywait` or a tight polling loop to race against any process that uses `mktemp()`. The window is small but reliably exploitable on loaded systems where scheduling delays are common.
+
+Beyond active exploitation, auditors and compliance frameworks (FIPS, Common Criteria) flag `tempfile.mktemp()` usage as an automatic finding because its insecurity is inherent to its design, not its configuration.
+
+## What Gets Flagged
+
+```python
+import tempfile
+import os
+
+# FLAGGED: mktemp() returns a path but does not create the file
+def process_upload(data: bytes) -> str:
+    tmp_path = tempfile.mktemp()  # Race window begins here
+    with open(tmp_path, "wb") as f:  # Attacker can win this race
+        f.write(data)
+    return tmp_path
+
+# FLAGGED: mktemp() with suffix/prefix
+def build_report(content: str) -> str:
+    path = tempfile.mktemp(suffix=".html", prefix="report_")
+    with open(path, "w") as f:
+        f.write(content)
+    return path
+
+# FLAGGED: from-import and module alias
+from tempfile import mktemp
+import tempfile as tf
+out = mktemp()
+log = tf.mktemp(".log")
+
+# NOT FLAGGED: pytest creates the directory
+tmpdir = tmp_path_factory.mktemp("certs")
+```
+
+The rule applies only to `.py` files. Methods named `mktemp` on other objects and project functions named `mktemp` are not reported.
+
+## Remediation
+
+1. Replace `tempfile.mktemp()` with `tempfile.NamedTemporaryFile()` for use cases where you need a file object, or `tempfile.mkstemp()` when you need a path.
+2. Use `delete=True` (the default) on `NamedTemporaryFile` so the OS cleans up automatically; use `delete_on_close=False` (Python 3.12+) if the file must be readable by a subprocess.
+3. Never construct `/tmp` paths manually using `os.path.join("/tmp", some_name)`, always use the `tempfile` module functions.
+
+```python
+import tempfile
+import os
+
+# SAFE: NamedTemporaryFile, created atomically, auto-deleted on close
+def process_upload_safe(data: bytes) -> None:
+    with tempfile.NamedTemporaryFile(delete=True) as tmp:
+        tmp.write(data)
+        tmp.flush()
+        process_file(tmp.name)
+    # File is automatically deleted when the context manager exits
+
+# SAFE: mkstemp(), returns (fd, path), file already exists before you get the path
+def build_report_safe(content: str) -> str:
+    fd, path = tempfile.mkstemp(suffix=".html", prefix="report_")
+    try:
+        with os.fdopen(fd, "w") as f:
+            f.write(content)
+        return path
+    except Exception:
+        os.unlink(path)
+        raise
+
+# SAFE: TemporaryDirectory for a whole working directory
+def extract_archive_safe(archive_path: str) -> None:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Work inside tmpdir, cleaned up automatically
+        extract_to(archive_path, tmpdir)
+```
+
+## References
+
+- [CWE-377: Insecure Temporary File](https://cwe.mitre.org/data/definitions/377.html)
+- [Python tempfile Module Documentation](https://docs.python.org/3/library/tempfile.html)
+- [OWASP Path Traversal Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html)
+- [OWASP Python Security Project](https://owasp.org/www-project-python-security/)
+- [CAPEC-29: Leveraging Time-of-Check and Time-of-Use (TOCTOU) Race Conditions](https://capec.mitre.org/data/definitions/29.html)
+- [MITRE ATT&CK T1574 – Hijack Execution Flow](https://attack.mitre.org/techniques/T1574/)
+- [Python Security Considerations – tempfile](https://docs.python.org/3/library/tempfile.html#tempfile.mktemp)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-018
+// nosec vnx-py-018
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-018 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).

@@ -1,0 +1,148 @@
+---
+title: "VNX-PY-017: MD5 or SHA1 used as password hash"
+nav: "VNX-PY-017"
+description: "A password is hashed with MD5 or SHA-1 in a .py file. Reported: hashlib.md5()/hashlib.sha1() (also through `import hashlib as h` and `from hashlib import md5, sha1 as x`), hashlib.new('md5'|'sha1', ...) and PyCryptodome MD5.new()/SHA1.new()/SHA.new() whose argument names a password (password, passwd, passphrase, pwd, pw, a request field keyed 'pass'/'password'), whose argument is a variable assigned from such a value in the 8 lines above, or an .update(password) on a hasher created by one of those calls in the 10 lines above; a call broken across lines is read on its next line. Both algorithms are fast and broken, so a dumped hash is cracked offline in hours; use argon2id, bcrypt, scrypt or PBKDF2 with a high iteration count. Not reported: MD5/SHA-1 of data that is not a password (cache keys, ETags, file checksums), a call with usedforsecurity=False (HTTP digest auth), hashing a password reset token, SHA-256 and the password KDFs, and the calls in comments or string literals. A password passed straight into the call (hashlib.md5(password.encode()), md5(password) after from hashlib import md5, hashlib.new('sha1', password)) is reported by VNX-CRYPTO-007, which covers the same weakness across more algorithms and languages, and not here; this rule keeps the Python shapes that rule does not read: a password reached through a variable assigned a few lines above, a request field read by key, PyCryptodome MD5.new()/SHA1.new(), and an .update(password) on a hasher created earlier."
+order: 871
+sources: ["cli/internal/sast/rules/vnx-py-017.rego", "cli/website/content/docs/sast-rules/vnx-py-017.md"]
+checked: ["cli@4c8c3b7"]
+updated: "01 Nov 2026"
+generated: true
+---
+
+| Field | Value |
+|---|---|
+| Rule ID | `VNX-PY-017` |
+| Severity | High |
+| SARIF level | `error` |
+| Kind | `sast` |
+| Languages | Python |
+| CWE | [CWE-327](https://cwe.mitre.org/data/definitions/327.html) |
+| CAPEC | [CAPEC-49](https://capec.mitre.org/data/definitions/49.html) |
+| ATT&CK | [T1110](https://attack.mitre.org/techniques/T1110/) |
+| CWSS vector | `CWSS:1.0/TI:H/AP:A/AL:A/IC:N/FC:LT/RP:N/RL:A/AV:I/AS:N/IN:A/SC:A/BI:H/DI:H/EX:H/EC:N/P:H` |
+| Tags | `cryptography` `password` `hash` `python` |
+| Source | [`internal/sast/rules/vnx-py-017.rego`](https://github.com/Vulnetix/cli/blob/main/internal/sast/rules/vnx-py-017.rego) |
+
+## Overview
+
+This rule detects Python code that uses `hashlib.md5()`, `hashlib.sha1()`, or `hashlib.new("md5"/"sha1")` to hash passwords. MD5 and SHA-1 were designed as fast message-digest functions for data integrity, not password storage. Because they are optimized for speed, modern GPU hardware can compute billions of MD5 or SHA-1 hashes per second, making brute-force and rainbow-table attacks trivially fast against any password database protected with these algorithms.
+
+Both MD5 and SHA-1 have well-documented cryptographic weaknesses beyond raw speed: MD5 has known collision attacks since 2004, and SHA-1 was officially broken by the SHAttered attack in 2017. Even without these structural weaknesses, the fundamental problem remains: a general-purpose hash is the wrong tool for passwords. Password hashing requires an algorithm that is deliberately slow and memory-hard to resist offline cracking.
+
+The correct choice is a purpose-built password hashing function such as `hashlib.scrypt()` (available in the standard library since Python 3.6), `bcrypt` (via the `bcrypt` package), or `argon2-cffi` (Argon2id, the winner of the Password Hashing Competition). These functions incorporate salt automatically, are designed to be tunable in cost, and remain computationally expensive even on modern hardware.
+
+## Why This Matters
+
+A real-world data breach scenario: an attacker exploits a SQL injection vulnerability and dumps the `users` table. If passwords are stored as unsalted MD5 hashes, the attacker can crack the entire dataset within hours using freely available tools like Hashcat with a consumer GPU. Crackstation's public lookup table alone covers billions of common passwords in MD5 format. Even salted MD5 can be cracked at billions of guesses per second with modern hardware.
+
+The consequences compound quickly. Users reuse passwords across services, so cracked passwords from your breach become credential-stuffing ammunition against banking, email, and other high-value targets. Regulatory frameworks including GDPR, PCI DSS, and NIST SP 800-63B explicitly prohibit the use of MD5 and SHA-1 for password storage.
+
+The attack requires no network access after the initial breach. An offline attacker with the hash database can work indefinitely without triggering any alerts, rate limits, or account lockout policies.
+
+## What Gets Flagged
+
+```python
+import hashlib
+
+# REPORTED BY VNX-CRYPTO-007: the password passed straight into the call
+def hash_password(password: str) -> str:
+    return hashlib.md5(password.encode()).hexdigest()
+
+# FLAGGED: hashlib.new() with md5
+def create_hash(password: str) -> str:
+    h = hashlib.new("md5")
+    h.update(password.encode())
+    return h.hexdigest()
+
+# FLAGGED: hashlib.new() with sha1
+def legacy_hash(password: str) -> str:
+    h = hashlib.new("SHA1")
+    h.update(password.encode())
+    return h.hexdigest()
+```
+
+```python
+from hashlib import md5
+
+# FLAGGED: a request field read two lines up
+raw = request.POST.get("pass")
+stored = md5(raw.encode()).hexdigest()
+
+# NOT FLAGGED: MD5 of data that is not a password
+key = hashlib.md5(url.encode()).hexdigest()
+
+# NOT FLAGGED: HTTP digest auth, declared non-security use
+hashlib.md5(a1.encode(), usedforsecurity=False).hexdigest()
+```
+
+The rule applies only to `.py` files. A password passed straight into the call (`hashlib.md5(password.encode())`, `md5(password)` after `from hashlib import md5`) is reported by [VNX-CRYPTO-007](/sast/rules/vnx-crypto-007/), which covers the same weakness across more algorithms and languages, so the line is reported once; this rule keeps what that rule does not read: a password reached through a variable, a request field read by key, PyCryptodome, and `.update(password)` on a hasher created earlier. A password hashed by a project helper defined elsewhere is a cross-function gap.
+
+## Remediation
+
+1. Replace `hashlib.md5()` / `hashlib.sha1()` with a purpose-built password hashing function.
+2. When migrating an existing system, use a rehash-on-login strategy: verify the old hash for existing users, then store the new hash on successful login.
+3. Tune cost parameters so that hashing takes at least 100–300 ms on your production hardware; increase the parameters periodically as hardware improves.
+
+```python
+import hashlib
+import os
+import bcrypt
+from argon2 import PasswordHasher
+
+# SAFE: hashlib.scrypt (stdlib, Python 3.6+)
+def hash_password_scrypt(password: str) -> str:
+    salt = os.urandom(16)
+    dk = hashlib.scrypt(
+        password.encode(),
+        salt=salt,
+        n=2**14,   # CPU/memory cost factor
+        r=8,
+        p=1,
+        dklen=32,
+    )
+    # Store salt + derived key together
+    return salt.hex() + ":" + dk.hex()
+
+def verify_scrypt(password: str, stored: str) -> bool:
+    salt_hex, dk_hex = stored.split(":")
+    salt = bytes.fromhex(salt_hex)
+    dk = hashlib.scrypt(password.encode(), salt=salt, n=2**14, r=8, p=1, dklen=32)
+    return dk.hex() == dk_hex
+
+# SAFE: bcrypt (pip install bcrypt)
+def hash_password_bcrypt(password: str) -> bytes:
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds=12))
+
+def verify_bcrypt(password: str, hashed: bytes) -> bool:
+    return bcrypt.checkpw(password.encode(), hashed)
+
+# SAFE: Argon2id (pip install argon2-cffi), recommended
+ph = PasswordHasher(time_cost=2, memory_cost=65536, parallelism=2)
+
+def hash_password_argon2(password: str) -> str:
+    return ph.hash(password)
+
+def verify_argon2(password: str, hashed: str) -> bool:
+    return ph.verify(hashed, password)
+```
+
+## References
+
+- [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html)
+- [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+- [OWASP Python Security Project](https://owasp.org/www-project-python-security/)
+- [Python hashlib.scrypt() Documentation](https://docs.python.org/3/library/hashlib.html#hashlib.scrypt)
+- [argon2-cffi Documentation](https://argon2-cffi.readthedocs.io/en/stable/)
+- [NIST SP 800-63B – Digital Identity Guidelines](https://pages.nist.gov/800-63-3/sp800-63b.html)
+- [SHAttered: SHA-1 Collision Attack](https://shattered.io/)
+
+## Suppressing this rule
+
+Put a `nosec` comment on the line, or on line 1 to cover the whole file. Use the comment marker of the file's language (`#`, `//`, `--` or `;`):
+
+```text
+# nosec vnx-py-017
+// nosec vnx-py-017
+```
+
+Or record an ignore rule: `vulnetix ignore add --rule vnx-py-017 --reason "..."`. See [Suppressing findings](/sast/guides/suppressing-findings/).
