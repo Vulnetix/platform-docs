@@ -28,3 +28,8 @@ variable "github_token" {
   sensitive   = true
   default     = ""
 }
+variable "manage_docs_certificate" {
+  description = "Whether Terraform orders the advanced certificate for the retired two-level docs hosts (certificates.tf). Needs a token with SSL and Certificates: Edit."
+  type        = bool
+  default     = false
+}

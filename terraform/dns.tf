@@ -9,10 +9,12 @@
 # Keep in step with public/CNAME. Pages reads that file to decide which domain
 # it serves, and .github/workflows/pages.yml asserts it after every build.
 #
-# The retired docs hostnames (software-factory.vulnetix.com and the old
-# per-product docs sites) are not here: each is a proxied placeholder record
-# plus a 301 rule in vdb-site/terraform/dns.tf, which is the only owner of the
-# zone's redirect ruleset.
+# The retired docs hostnames are not here. Each is a proxied placeholder record
+# in vdb-site/terraform/dns.tf (var.retired_docs_hosts). software-factory is
+# answered by a host-level rule in vdb-site's redirect ruleset; the old product
+# docs hosts are answered by the vulnetix-docs-redirects Worker in redirects/,
+# which maps every old URL to its page. The two-level ones need the advanced
+# certificate in certificates.tf before they can be proxied.
 
 resource "cloudflare_dns_record" "docs" {
   zone_id = var.cloudflare_zone_id

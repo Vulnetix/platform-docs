@@ -60,6 +60,13 @@ jobs:
       - name: Check internal links
         run: node scripts/check-links.mjs dist
 
+      # Every old docs URL must land on a page that exists, and the committed
+      # Worker must be the one the maps build (it is deployed by hand).
+      - name: Check retired-host redirects
+        run: |
+          node scripts/build-redirects.mjs --check dist
+          git diff --exit-code redirects/worker.js || { echo "redirects/worker.js is stale: run node scripts/build-redirects.mjs and commit it"; exit 1; }
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
