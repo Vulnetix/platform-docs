@@ -80,8 +80,12 @@ jobs:
   # unrelated docs fix, but it should turn the run red until someone
   # regenerates and commits.
   #
-  # kind-reference.mjs (config-schemas) joins once it builds against
-  # config-schemas main again; it is checked out already for that step.
+  # kind-reference.mjs writes the page of every Platform IaC kind, the kind
+  # catalogue, the CEL reference and the Terraform resource list. It reads the
+  # latest config-schemas release (a tag, not main), the latest cli release
+  # and the terraform-provider-vulnetix main branch, so a release of either
+  # config-schemas or the cli turns this job red until the pages are
+  # regenerated and committed.
   # mcp-server is private and needs the DOCS_READ_TOKEN secret: a fine-grained
   # token with read access to Vulnetix/mcp-server contents. Without the secret
   # the MCP count check falls back to comparing the pages with each other.
@@ -94,15 +98,45 @@ jobs:
         with:
           path: platform-docs
 
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: platform-docs/.nvmrc
+
+      # The generated kind pages quote a release, not the tip of main. Ask
+      # GitHub for the latest release of each repository.
+      - name: Find the latest releases
+        id: releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest() {
+            node -e 'fetch("https://api.github.com/repos/" + process.argv[1] + "/releases/latest", { headers: { Authorization: "Bearer " + process.env.GH_TOKEN, Accept: "application/vnd.github+json" } }).then((r) => r.json()).then((j) => { if (!/^v\d+\.\d+\.\d+$/.test(j.tag_name)) { console.error("no release", JSON.stringify(j)); process.exit(1); } console.log(j.tag_name); })' "$1"
+          }
+          echo "schemas=$(latest Vulnetix/config-schemas)" >> "$GITHUB_OUTPUT"
+          echo "cli=$(latest Vulnetix/cli)" >> "$GITHUB_OUTPUT"
+
+      # Tags are needed: the generators read which config-schemas release each
+      # cli tag embedded, and which release first had each kind.
       - uses: actions/checkout@v5
         with:
           repository: Vulnetix/cli
           path: cli
+          fetch-depth: 0
+          fetch-tags: true
 
       - uses: actions/checkout@v5
         with:
           repository: Vulnetix/config-schemas
           path: config-schemas
+          ref: ${{ steps.releases.outputs.schemas }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: actions/checkout@v5
+        with:
+          repository: Vulnetix/terraform-provider-vulnetix
+          path: terraform-provider-vulnetix
+          fetch-depth: 0
 
       - uses: actions/checkout@v5
         with:
@@ -119,13 +153,12 @@ jobs:
           path: mcp-server
           token: ${{ secrets.DOCS_READ_TOKEN }}
 
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: platform-docs/.nvmrc
-
       - name: Regenerate the generated pages
         working-directory: platform-docs
+        env:
+          VULNETIX_CLI_VERSION: ${{ steps.releases.outputs.cli }}
         run: |
+          node migration/generators/kind-reference.mjs --schemas ../config-schemas --provider ../terraform-provider-vulnetix --cli ../cli
           node migration/generators/gha-scanners.mjs --cli ../cli
           node migration/generators/github-rules.mjs --cli ../cli
           node migration/generators/sast-rules.mjs --cli ../cli
