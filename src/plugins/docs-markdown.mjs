@@ -56,7 +56,8 @@ const DOCS = fileURLToPath(new URL('../content/docs/', import.meta.url));
 const exists = (path) => {
   const p = path.replace(/^\/|\/$/g, '');
   if (p === '') return true;
-  return existsSync(`${DOCS}${p}.md`) || !/^[a-z-]+(\/[a-z0-9-]+)+$/.test(p);
+  // A section's own page is <section>/index.md (platform-iac/terraform).
+  return existsSync(`${DOCS}${p}.md`) || existsSync(`${DOCS}${p}/index.md`) || !/^[a-z-]+(\/[a-z0-9-]+)+$/.test(p);
 };
 
 export const pendingLinks = {
