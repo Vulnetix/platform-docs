@@ -5,6 +5,7 @@ order: 2
 sources: [cli/cmd/scan.go, cli/cmd/fix.go, cli/internal/lsp/server.go, cli/internal/lsp/settings.go, vulnetix-vscode/package.json]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 The extension runs `vulnetix lsp` from the same CLI your pipeline runs, with the same rules, parsers, VDB and suppression matcher. Differences come from configuration and scope, not from a second engine.
@@ -52,3 +53,7 @@ CI setup is covered under [CLI](/cli/).
 | Organisation quality gate | Not applied | Applied when signed in: see [Quality gates](/quality-gates/) |
 
 When CI reports a finding you did not see, reproduce it locally with the same command your pipeline runs.
+
+## A hard stop before commit or push
+
+Editor findings are advisory: nothing stops you saving, committing or pushing. For a hard stop on your machine, run the CLI from a git hook or the pre-commit framework. See [Local runs and git hooks](/cli/ci-cd/local/).

@@ -5,6 +5,7 @@ order: 1
 sources: [cli/internal/lsp/codeaction.go, cli/internal/lsp/sca.go, cli/internal/scaview/scaview.go, cli/cmd/fix.go]
 checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 ## A direct dependency
@@ -31,6 +32,21 @@ No quick fix is offered when:
 | **Fix:** none available | No release clears Safe Harbour within `vulnetix.sca.maxMajorBump` | Raise `maxMajorBump` (a major bump is usually a code change), or see below |
 | **Malicious package.** | A version bump is not a fix | Remove the dependency |
 | **End of life** | No further security releases are expected | Plan a migration |
+
+## Decide how urgent it is
+
+Before you change a version, read the hover card. A theoretical critical in code you never call is different work from an exploited high.
+
+| On the hover card | What it tells you |
+|---|---|
+| `(CISA KEV)` at the end of the headline, `**CISA KEV**` on an advisory line | Exploitation in the wild is confirmed. Fix it now. |
+| **Exploits:** `N known`, `listed as actively exploited` | Public exploit code exists, or the advisory is on the CISA, VulnCheck or EU KEV list |
+| **Exploits:** `none known` | Exploit data was checked and none was found |
+| *Pro unlocks exploit intel.* | Exploit data was not part of the answer on your plan. This is not the same as none known. |
+| `EPSS n%` on an advisory line | The probability of exploitation in the next 30 days |
+| `CVSS n` on an advisory line | Base severity score |
+
+Reachability (whether your code calls the vulnerable function) is not available in the editor; `vulnetix scan` signed in reports it.
 
 ## A transitive dependency
 

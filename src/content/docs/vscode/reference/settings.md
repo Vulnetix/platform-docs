@@ -5,6 +5,7 @@ order: 1
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/shared/settings.ts, vulnetix-vscode/src/shared/manifests.ts, vulnetix-vscode/src/shared/launch.ts, vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/lsp/client.ts, cli/internal/lsp/settings.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 24 settings are contributed under `contributes.configuration` in `package.json`. Settings with **Read by: nothing yet** appear in the Settings UI and are saved, but no code reads them.

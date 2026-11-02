@@ -6,6 +6,7 @@ order: 2
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/constants.ts, vulnetix-vscode/src/context.ts]
 checked: [vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 All commands are in the Command Palette (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>, <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> on macOS) under the **Vulnetix** category.

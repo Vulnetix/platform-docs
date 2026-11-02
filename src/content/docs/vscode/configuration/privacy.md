@@ -5,6 +5,7 @@ order: 2
 sources: [vulnetix-vscode/src/shared/launch.ts, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/src/constants.ts, vulnetix-vscode/src/cli/download.ts, cli/cmd/lsp.go, cli/internal/lsp/sca.go, cli/pkg/auth/credentials.go, cli/pkg/cache/cache.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 Scanning is local. File contents, paths and repository names are not sent anywhere. The server publishes nothing to your organisation: there is no upload from the editor.

@@ -5,6 +5,7 @@ order: 1
 sources: [vulnetix-vscode/src/cli/resolve.ts, vulnetix-vscode/src/cli/download.ts, vulnetix-vscode/src/cli/checksums.ts, vulnetix-vscode/src/cli/assets.ts, vulnetix-vscode/src/cli/version.ts, vulnetix-vscode/src/constants.ts, vulnetix-vscode/package.json, cli/cmd/lsp.go, cli/pkg/vdb/client.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 The extension needs a `vulnetix` binary that answers `vulnetix lsp --version` with LSP protocol `1`. It never runs `vulnetix update`: the CLI's self-updater would replace the binary under a running server.

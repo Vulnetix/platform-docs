@@ -6,6 +6,7 @@ order: 3
 sources: [cli/cmd/lsp.go, cli/cmd/root.go, cli/internal/lsp/server.go, cli/internal/lsp/settings.go, cli/internal/lsp/protocol/types.go, cli/internal/lsp/protocol/version.go, cli/internal/lsp/protocol/vulnetix.go]
 checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 `vulnetix lsp` runs the Vulnetix CLI as a Language Server Protocol server over stdin and stdout. The VS Code extension starts it for you; any other LSP client can start it the same way.

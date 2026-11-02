@@ -5,6 +5,7 @@ order: 2
 sources: [cli/internal/lsp/sca.go, cli/internal/lsp/sca_diagnostics.go, cli/internal/lsp/sca_document.go, cli/internal/lsp/codeaction.go, cli/internal/lsp/inlayhint.go, cli/internal/lsp/hover.go, cli/internal/scaview/scaview.go, cli/internal/lsp/settings.go, vulnetix-vscode/package.json]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 The server parses every manifest it finds with the same parsers as `vulnetix scan`, sends the package coordinates to the VDB in bulk, and reports each vulnerable package on the line that declares it. Diagnostics use the source `vulnetix-sca`. Turn the whole feature off with `vulnetix.sca.enabled: false`; hover, inlay hints and quick fixes are then not advertised either.

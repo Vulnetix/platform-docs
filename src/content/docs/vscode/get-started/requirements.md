@@ -5,6 +5,7 @@ order: 3
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/cli/assets.ts, cli/internal/lsp/sca.go, cli/pkg/auth/credentials.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 ## Editor

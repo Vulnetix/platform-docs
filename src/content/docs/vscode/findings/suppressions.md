@@ -5,6 +5,7 @@ order: 4
 sources: [cli/internal/lsp/suppression.go, cli/internal/suppress/suppress.go, cli/internal/memory/memory.go, cli/internal/lsp/settings.go, cli/internal/scaview/scaview.go, vulnetix-vscode/package.json]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 Every finding the server publishes, from every family, passes through one suppression filter. It uses the same matcher as `vulnetix scan`, so a rule that hides a finding in CI hides it in the editor.

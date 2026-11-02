@@ -5,6 +5,7 @@ order: 2
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/.github/workflows/release.yml, vulnetix-vscode/CHANGELOG.md]
 checked: [vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 The extension identifier is `vulnetix.vulnetix`. It is published to [Open VSX](https://open-vsx.org/extension/vulnetix/vulnetix) only.

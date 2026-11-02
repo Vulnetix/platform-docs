@@ -6,6 +6,7 @@ order: 2
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/cli/resolve.ts, vulnetix-vscode/src/shared/launch.ts, cli/install.sh, cli/pkg/cache/cache.go, cli/pkg/auth/credentials.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 The extension declares `extensionKind: ["workspace"]`. In a remote session it is installed and runs on the remote side, next to the files, and so does the CLI it starts. Scanning there is as complete as on a laptop.

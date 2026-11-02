@@ -5,6 +5,7 @@ order: 4
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/README.md, vulnetix-vscode/website/content/docs/, cli/internal/lsp/server.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: planned
 ---
 
 The earlier site at docs.code.vulnetix.com documented the planned design alongside what had shipped. None of the items below exist in extension `0.3.1` or in `vulnetix lsp` at `cli@4c8c3b7`. If you set one of the settings, VS Code ignores it.

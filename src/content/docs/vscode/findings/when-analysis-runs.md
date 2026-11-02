@@ -2,9 +2,10 @@
 title: When analysis runs
 description: Which rules and checks run on open, on each keystroke, on save and when a manifest changes on disk, and which of them use the network.
 order: 1
-sources: [cli/internal/lsp/server.go, cli/internal/lsp/sca.go, cli/internal/sast/kinds.go, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/src/shared/manifests.ts]
+sources: [cli/internal/lsp/server.go, cli/internal/lsp/sca.go, cli/internal/sast/kinds.go, cli/internal/sast/session.go, cli/internal/lsp/settings.go, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/src/shared/manifests.ts]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 The server splits work by cost. Rule evaluation is local and fast except for secrets; dependency checks need the VDB.
@@ -27,6 +28,29 @@ The server splits work by cost. Rule evaluation is local and fast except for sec
 Code, secret, infrastructure and container rules run on documents you have open. A file nobody opens is not checked. Dependency findings are different: the bulk check at startup covers every manifest the server discovers, and findings appear when you open the manifest.
 
 A whole-workspace scan (`vulnetix/scanWorkspace` in the protocol) exists in the server, but the extension has no command that calls it yet. Run `vulnetix scan` in a terminal for a full scan.
+
+## What it costs
+
+The CLI's benchmarks (`cli/internal/sast/session_bench_test.go`) measure the embedded rule set of 1,899 modules:
+
+| Step | Cost |
+|---|---|
+| Compile every rule, one compiler | 1.72 s |
+| Compile across 16 parallel shards | 0.30 s |
+| Prepare the queries for evaluation | 7.5 ms |
+| Check one file against every rule kind | about 231 ms |
+| Check one file against code, infrastructure and container rules only | about 10.4 ms |
+
+Compilation happens once when the server starts and is kept, so it is a startup cost, not a per-check one. The rule set is about 1,092 secret rules, 791 code rules, 7 container rules and 7 infrastructure rules. Secret rules declare no language, so no language filter removes them and each examines every file. That is why secrets run on save.
+
+On a slow machine, such as a 2-core cloud workspace, startup takes longer. To make the server do less:
+
+```jsonc
+{
+  "vulnetix.scan.debounceMs": 1000,    // wait longer after typing stops (default 400)
+  "vulnetix.lsp.memoryLimitMb": 1024   // cap the server's memory (default 2048, minimum 256)
+}
+```
 
 ## Watched files
 

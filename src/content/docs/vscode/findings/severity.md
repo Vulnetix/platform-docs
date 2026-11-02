@@ -5,6 +5,7 @@ order: 5
 sources: [cli/internal/lsp/diagnostics.go, cli/internal/lsp/settings.go, cli/internal/lsp/server.go, vulnetix-vscode/src/shared/severity.ts, vulnetix-vscode/package.json]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 The mapping matches the CLI's SARIF levels, so an Error in the editor is what `vulnetix scan` reports as `error`.

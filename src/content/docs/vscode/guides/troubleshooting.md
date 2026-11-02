@@ -5,6 +5,7 @@ order: 3
 sources: [vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/cli/resolve.ts, vulnetix-vscode/src/cli/download.ts, vulnetix-vscode/src/cli/checksums.ts, vulnetix-vscode/src/cli/version.ts, vulnetix-vscode/src/lsp/client.ts, cli/cmd/lsp.go, cli/internal/lsp/server.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 Start with **Vulnetix: Show Output** (or click the status bar item). The first lines name the extension version, the protocol and CLI range it expects, the binary it chose and where that came from.

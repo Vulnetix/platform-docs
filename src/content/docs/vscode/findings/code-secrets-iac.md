@@ -5,6 +5,7 @@ order: 3
 sources: [cli/internal/lsp/diagnostics.go, cli/internal/lsp/server.go, cli/internal/sast/kinds.go, cli/internal/sast/nosec.go, cli/cmd/scan.go, cli/cmd/lsp.go]
 checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 The server evaluates the same embedded Rego rule set as `vulnetix sast` and `vulnetix scan`, in process, with no network access. Rules are grouped into four kinds:

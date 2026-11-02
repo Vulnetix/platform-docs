@@ -5,6 +5,7 @@ order: 4
 sources: [vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/cli/resolve.ts, vulnetix-vscode/src/cli/download.ts, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/src/shared/diagnostics.ts, cli/internal/lsp/server.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 The extension activates on `onStartupFinished`, and also when the workspace contains a manifest, a Dockerfile, a `.tf` file or `.vulnetix/memory.yaml`. With no folder open it only shows **Vulnetix** in the status bar with the tooltip "Open a folder to scan it".

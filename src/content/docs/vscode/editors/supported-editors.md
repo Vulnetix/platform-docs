@@ -5,6 +5,7 @@ order: 1
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/website/content/docs/editors/]
 checked: [vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: available
 ---
 
 Support depends on one thing: whether the extension host is a Node process with a real filesystem. Anywhere it is, everything works, on a laptop or on a server. The editor's name does not matter, as long as it implements the VS Code extension API at 1.96 or later and can install from Open VSX or a VSIX.

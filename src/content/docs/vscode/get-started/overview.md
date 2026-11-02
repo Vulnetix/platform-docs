@@ -6,6 +6,7 @@ order: 1
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/CHANGELOG.md, cli/cmd/lsp.go, cli/internal/lsp/server.go, belai/internal/profiles/builtin/vulnetix-review.json, pix-ai-coding-assistant/vulnetix/agents/pr-security-reviewer.md]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
 updated: 02 Nov 2026
+status: available
 ---
 
 The extension `vulnetix.vulnetix` has no scanner of its own. It finds or downloads the Vulnetix CLI, starts `vulnetix lsp` as a child process, and talks to it over the Language Server Protocol on stdin and stdout. The server evaluates the CLI's embedded rule set against the files you have open and checks your dependency manifests against the Vulnetix vulnerability database (VDB). Findings arrive as ordinary diagnostics: squiggles in the editor and entries in the Problems panel.
@@ -57,12 +58,7 @@ editor (extension host)  --LSP over stdio-->  vulnetix lsp  --reads-->  workspac
 
 ## Related tools
 
-Two agents review code with the same scanners and VDB. Neither needs the extension, and the extension does not start them. Both write under the project's `.vulnetix/` directory and use the CLI's own credential (`vulnetix auth login`), not the editor's environment.
-
-| Tool | What it does | Docs |
-|---|---|---|
-| Belai `/vulnetix review` | Runs the CLI scanners on the repository, checks each finding against the code, fixes the ones with one clear fix and writes `.vulnetix/belai/code-review-report.md` | [Belai and Vulnetix](/software-factory/belai/vulnetix/) |
-| Pix `pr-security-reviewer` | Reviews a pull request before merge and writes one review with an APPROVE or REQUEST_CHANGES verdict | [Pix](/pix/) |
+Belai's `/vulnetix review` and the Pix `pr-security-reviewer` agent review code with the same scanners and VDB. Neither needs the extension, and the extension does not start them. See [Related tools](/vscode/reference/related-tools/), and [Architecture](/vscode/reference/architecture/) for how the extension, the server and the VDB fit together.
 
 ## Platform IaC
 

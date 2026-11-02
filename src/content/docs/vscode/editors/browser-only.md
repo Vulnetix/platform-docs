@@ -5,6 +5,7 @@ order: 3
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/constants.ts]
 checked: [vulnetix-vscode@9ad08fa]
 updated: 02 Nov 2026
+status: planned
 ---
 
 `vscode.dev` and `github.dev` run the whole editor inside a browser tab. There is no Node process, no way to start a child process, and files come from a virtual filesystem.
