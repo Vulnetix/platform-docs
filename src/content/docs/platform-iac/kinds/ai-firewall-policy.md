@@ -7,7 +7,7 @@ checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
 ---
 
-`AiFirewallPolicy` describes an organization's AI firewall policy: provider allow and deny, model allow and deny lists, guardrails, the recommended baseline and logging. It is the only document in the `vulnetix.com/v1` format that a tool applies to your organization today. The full reference, with every field and rule type, is in the [AI Firewall](/ai-firewall/) segment.
+`AiFirewallPolicy` describes an organization's AI firewall policy: provider allow and deny, model allow and deny lists, guardrails, the recommended baseline and logging. It is the file `.vulnetix/ai-firewall.yaml`, which `vulnetix ai-firewall apply` reconciles. The full reference, with every field and rule type, is in the [AI Firewall](/ai-firewall/) segment.
 
 ```yaml
 apiVersion: vulnetix.com/v1
@@ -59,5 +59,5 @@ spec:
 - **Dry run.** `--dry-run` prints the plan and changes nothing.
 - **Export.** `export` writes the live policy with the baseline pinned off, so applying an export is a no-op. Provider keys are never exported.
 
-> [!CAREFUL] Different from the schema-backed kinds
-> `AiFirewallPolicy` has no `metadata.name`, and `vulnetix config validate` reports it as an unknown kind. Keep it at `.vulnetix/ai-firewall.yaml`, outside `.vulnetix/config/`. The planned engine will take this kind into `config-schemas`, extended with hold policy and capability lists, and the existing file shape will keep working. See [Kind catalogue](/platform-iac/planned/kind-catalogue/).
+> [!WHY] The file works in both places
+> A file is a Platform IaC document by its content, not its folder. `AiFirewallPolicy` is a `vulnetix.com/v1` kind the CLI has known since v3.157.0, so `vulnetix config validate` accepts `.vulnetix/ai-firewall.yaml` (since v3.164.0) and the same document under `.vulnetix/config`. Define it in one of them. `plan` and `apply` read `.vulnetix/config` only until v4, so name the well-known file with `-f` to plan it now. See [Which files are Platform IaC documents](/platform-iac/cli/validate/#which-files-are-platform-iac-documents).

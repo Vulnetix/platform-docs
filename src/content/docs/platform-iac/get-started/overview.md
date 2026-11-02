@@ -15,14 +15,15 @@ Most of it is still being built. This page says exactly what works today and wha
 
 | Piece | What it does | Page |
 |---|---|---|
-| `Vulnetix/config-schemas` | JSON Schema 2020-12 for each kind, published as signed GitHub Release assets with pinned and `latest` URLs. Releases `v1.0.0` and `v1.0.1` contain one kind, `QualityGate`. | [Schema releases](/platform-iac/schemas/releases/) |
+| `Vulnetix/config-schemas` | JSON Schema 2020-12 for each kind, published as signed GitHub Release assets with pinned and `latest` URLs. Release `v1.2.0`, the one the CLI has embedded since v3.157.0, defines 15 kinds; later releases add more. | [Schema releases](/platform-iac/schemas/releases/) |
 | `QualityGate` kind | The tenant's scan quality gate as a document. Validated offline today; not yet applied by any tool. | [QualityGate](/platform-iac/kinds/quality-gate/) |
-| `vulnetix config validate`, `kinds`, `schema` | Offline validation of documents in `.vulnetix/config/` against the schemas built into the CLI. No credentials, no network. CLI v3.153.0 and later. | [Validate documents](/platform-iac/cli/validate/) |
+| `vulnetix config validate`, `kinds`, `schema` | Offline validation of every Platform IaC document, in `.vulnetix/config/` and the three well-known files, against the schemas built into the CLI. No credentials, no network. CLI v3.153.0 and later; the one rule for what a document is, since v3.164.0. | [Validate documents](/platform-iac/cli/validate/) |
 | `vulnetix config set` and `get` | Imperative commands that write and read the quality gate, the EOL policy, the package firewall policy and mirrors, AI firewall entries and jail exemptions. | [Imperative commands](/platform-iac/cli/imperative-commands/) |
-| `AiFirewallPolicy` | `.vulnetix/ai-firewall.yaml`, reconciled with `vulnetix ai-firewall apply` and written by `vulnetix ai-firewall export`. The one document that a tool applies today. | [AiFirewallPolicy](/platform-iac/kinds/ai-firewall-policy/) |
+| `LicenseExceptions` | `.vulnetix/license-exceptions.yaml`, or a document under `.vulnetix/config`. Recorded exceptions to the licence policy; validated offline, not stored by the server yet. | [LicenseExceptions](/platform-iac/kinds/license-exceptions/) |
+| `AiFirewallPolicy` | `.vulnetix/ai-firewall.yaml`, reconciled with `vulnetix ai-firewall apply` and written by `vulnetix ai-firewall export`. A known kind, so `config validate` checks it too. | [AiFirewallPolicy](/platform-iac/kinds/ai-firewall-policy/) |
 
 > [!CAREFUL] Validating is not applying
-> `vulnetix config validate` checks a `QualityGate` document and changes nothing in your organization. To change the stored gate today, use `vulnetix config set quality-gate` and `vulnetix config set eol-policy`. The [QualityGate](/platform-iac/kinds/quality-gate/#set-these-values-today) page maps each field to its flag.
+> `vulnetix config validate` checks documents and changes nothing in your organization. To change the stored gate, use [`vulnetix config plan` and `apply`](/platform-iac/cli/apply/), or `vulnetix config set quality-gate` and `vulnetix config set eol-policy`. The [QualityGate](/platform-iac/kinds/quality-gate/#set-these-values-today) page maps each field to its flag.
 
 ## What is planned
 
@@ -47,6 +48,10 @@ Except where marked available, none of these exist yet. Each is described on the
 | Know whether a schema update can break my files | [Compatibility](/platform-iac/schemas/compatibility/) |
 | Set the org quality gate from a script | [Imperative commands](/platform-iac/cli/imperative-commands/) |
 | Keep AI firewall policy in a repository | [AiFirewallPolicy](/platform-iac/kinds/ai-firewall-policy/) |
+
+## GitHub Actions
+
+Plan on pull requests and apply on the default branch with the [config-plan](/platform-iac/github-actions/config-plan/) and [config-apply](/platform-iac/github-actions/config-apply/) GitHub Actions.
 
 ## Platform IaC
 

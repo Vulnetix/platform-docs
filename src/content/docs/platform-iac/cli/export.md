@@ -8,7 +8,7 @@ checked: [cli@d01f1dbe3, vdb-site@b424ae4]
 updated: 02 Nov 2026
 ---
 
-`vulnetix config export` asks the config engine to render configuration as code. It ships in CLI v4.0.0.
+`vulnetix config export` asks the config engine to render configuration as code. Added in CLI v3.155.0.
 
 ```sh
 vulnetix config export [--kind <Kind>] [--name <name>] [--manager <manager>] [--format yaml|hcl|sh] [-o <file>] [-f <file|dir>]... [--token <token>]

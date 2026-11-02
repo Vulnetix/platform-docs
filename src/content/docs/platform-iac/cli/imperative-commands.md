@@ -8,7 +8,7 @@ checked: [cli@d01f1dbe3, vdb-api@4145f0a]
 updated: 02 Nov 2026
 ---
 
-These commands change your organization's stored settings one call at a time. From CLI v4.0.0, declare settings as documents and use [`vulnetix config apply`](/platform-iac/cli/apply/) instead. `set quality-gate` and `set eol-policy` are deprecated aliases of it; see [Deprecated aliases](#deprecated-aliases).
+These commands change your organization's stored settings one call at a time. Declare settings as documents and use [`vulnetix config apply`](/platform-iac/cli/apply/) instead. `set quality-gate` and `set eol-policy` are deprecated aliases of it; see [Deprecated aliases](#deprecated-aliases).
 
 All of them need `vulnetix auth login`. The organization is the one you are authenticated as; a Teams member resolves to the team's organization. The shared community org cannot store settings and gets HTTP 403.
 
@@ -35,7 +35,7 @@ Every command here has these two flags:
 
 ## Deprecated aliases
 
-From CLI v4.0.0, `vulnetix config set quality-gate` and `vulnetix config set eol-policy` keep their flags and output but send a `QualityGate` document to the config engine, as manager `console`. Each run first prints to standard error:
+Since CLI v3.155.0, `vulnetix config set quality-gate` and `vulnetix config set eol-policy` keep their flags and output but send a `QualityGate` document to the config engine, as manager `console`. Each run first prints to standard error:
 
 ```text
 Deprecated: 'vulnetix config set quality-gate' will be removed; declare a QualityGate document in .vulnetix/config/ and run 'vulnetix config apply'.

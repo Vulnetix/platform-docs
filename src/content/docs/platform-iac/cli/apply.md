@@ -8,7 +8,7 @@ checked: [cli@d01f1dbe3, vdb-site@b424ae4]
 updated: 02 Nov 2026
 ---
 
-`vulnetix config apply` makes a plan as [`vulnetix config plan`](/platform-iac/cli/plan/) does, prints it, asks for confirmation, and then applies exactly that plan. It ships in CLI v4.0.0.
+`vulnetix config apply` makes a plan as [`vulnetix config plan`](/platform-iac/cli/plan/) does, prints it, asks for confirmation, and then applies exactly that plan. Added in CLI v3.155.0. From v4 it also reads the well-known files; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
 
 ```sh
 vulnetix config apply [-f <file|dir|->]... [--manager <manager>] [--prune] [--auto-approve] [--plan-hash <hash>] [--token <token>]

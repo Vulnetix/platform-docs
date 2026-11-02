@@ -35,7 +35,7 @@ Planned behaviour:
 
 ## CLI v4
 
-A major CLI release will add:
+The commands below shipped in CLI v3.155.0. The major release, v4 (upcoming), makes the rest of the imperative commands engine aliases and reads the well-known files in plan and apply; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). The original plan for the commands:
 
 | Planned command | Does |
 |---|---|
