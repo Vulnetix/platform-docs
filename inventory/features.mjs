@@ -196,7 +196,7 @@ f('belai-docs-tooling', 'belai', 'belai/contributing', 'Developing Belai', [pkg(
 const cmd = (...tops) => `^cli-command:(${tops.join('|')})( |$)`;
 // Commands with no docs yet. They match the `cli-undocumented` feature (todo)
 // and are kept out of their group's pattern by NOT_YET.
-const UNDOCUMENTED = ['gha publish', 'gha publish code-scanning', 'gha publish dependency-graph', 'gha publish release-assets', 'api', 'api discover', 'api upload', 'surface', 'surface liveness', 'pix install', 'triage status', 'package-firewall alpine', 'package-firewall debian', 'package-firewall rpm'];
+const UNDOCUMENTED = ['api', 'api discover', 'api upload', 'surface', 'surface liveness', 'pix install', 'triage status', 'package-firewall alpine', 'package-firewall debian', 'package-firewall rpm'];
 const NOT_YET = `(?!(${UNDOCUMENTED.join('|')})$)`;
 const cmdx = (...tops) => `^cli-command:${NOT_YET}(${tops.join('|')})( |$)`;
 const cliF = (id, page, title, match, pages = []) => f(id, 'cli', page, title, match, { status: 'drafted', foundIn: '2026-11-03', pages });
@@ -207,7 +207,8 @@ cliF('cli-auth', '/cli/authentication/overview', 'vulnetix auth', [cmd('auth')])
 cliF('cli-scan', '/cli/commands/scan', 'vulnetix scan and the per-scanner commands', [cmd('scan', 'defend', 'sca', 'sast', 'secrets', 'iac', 'containers', 'malscan', 'cbom', 'aibom', 'image', 'fix', 'report')], ['/cli/commands/analyze', '/cli/ci-cd/overview', '/cli/ci-cd/gitlab-ci', '/ai-firewall/cli/wiring-clients', '/browser-extension/using/sidebar', '/cli/ci-cd/local']);
 cliF('cli-analyze-upload', '/cli/commands/analyze', 'vulnetix analyze and upload', [cmd('analyze', 'upload')], ['/cli/commands/upload']);
 cliF('cli-utilities', '/cli/commands/utilities', 'vulnetix env, version, update, completion and lsp', [cmd('env', 'version', 'update', 'completion', 'lsp')], ['/cli/commands/completion', '/cli/get-started/install']);
-cliF('cli-gha', '/cli/commands/gha', 'vulnetix gha', [cmdx('gha')], ['/cli/ci-cd/gha-command']);
+cliF('cli-gha', '/cli/commands/gha', 'vulnetix gha', [`^cli-command:${NOT_YET}gha(?! publish)( |$)`], ['/cli/ci-cd/gha-command']);
+cliF('cli-gha-publish', '/cli/commands/gha-publish', 'vulnetix gha publish', ['^cli-command:gha publish( |$)'], ['/cli/ci-cd/github-actions', '/cli/reference/sarif', '/cli/reference/artifact-manifest']);
 cliF('cli-attest', '/attestation/get-started/overview', 'vulnetix attest and cdx', [cmd('attest', 'cdx')]);
 cliF('cli-bom', '/sbom/read/import-and-validate', 'vulnetix bom', [cmd('bom')], ['/sbom/read/corpus-queries']);
 cliF('cli-config', '/platform-iac/cli/imperative-commands', 'vulnetix config', [cmd('config')], ['/cli/get-started/overview', '/quality-gates/reference/commands', '/platform-iac/planned/roadmap', '/ai-firewall/cli/commands', '/ai-firewall/policy/providers', '/platform-iac/cli/validate', '/platform-iac/cli/plan', '/platform-iac/cli/apply', '/platform-iac/cli/export']);

@@ -1,19 +1,19 @@
 {
- "generatedAt": "2026-11-02T16:56:07.606Z",
+ "generatedAt": "2026-11-02T21:44:38.135Z",
  "repos": {
-  "vdb-site": "fe1ff17bf2f1480e8103a01a5239102623cf04fa",
+  "vdb-site": "857108d1001aec94318c1a0be02ac4f1294a033d",
   "website": "bdba7fa8a6194f24be50eb21be268674d6816d25",
   "belai": "ea3372a14da0be229c71e917b79d2315f2824a86",
   "saas": "1b029d301ec397ae58e9e401d22ab023e27628fb",
-  "cli": "ae98fe2d11678c8d4e23c0d8448323b119929737",
-  "config-schemas": "cf38823c3f126b4fe080b328dfe119cef2838278",
-  "siem": "e0f71fabf4e7bdd5d85d374d52c2a28c0ea530bd"
+  "cli": "39bb466ed1ffdef5ee41e19a54687465fe61f421",
+  "config-schemas": "998fc541372d67f13580a9e747322f0f46c97f2e",
+  "siem": "3ed91a4eef8c6e8200244dbabc73f73dd3f8ec95"
  },
  "counts": {
   "belai-config": 307,
   "belai-pkg": 147,
   "cli-cmd": 18,
-  "cli-command": 283,
+  "cli-command": 285,
   "cli-flag": 162,
   "cli-sub": 48,
   "code": 58,
@@ -23,8 +23,8 @@
   "doc": 120,
   "enum": 1072,
   "gofile": 318,
-  "guardian-route": 48,
-  "iac-kind": 26,
+  "guardian-route": 51,
+  "iac-kind": 37,
   "model": 42,
   "route": 395,
   "setting": 169,
@@ -4574,6 +4574,22 @@
    "value": "gha publish",
    "sources": [
     "cli/cmd/gha_publish.go"
+   ]
+  },
+  {
+   "id": "cli-command:gha publish advisories",
+   "kind": "cli-command",
+   "value": "gha publish advisories",
+   "sources": [
+    "cli/cmd/gha_publish_advisories.go"
+   ]
+  },
+  {
+   "id": "cli-command:gha publish campaigns",
+   "kind": "cli-command",
+   "value": "gha publish campaigns",
+   "sources": [
+    "cli/cmd/gha_publish_campaigns.go"
    ]
   },
   {
@@ -22998,6 +23014,14 @@
    ]
   },
   {
+   "id": "guardian-route:GET /v1/guardian/surface",
+   "kind": "guardian-route",
+   "value": "GET /v1/guardian/surface",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
    "id": "guardian-route:GET /v1/guardian/triggers",
    "kind": "guardian-route",
    "value": "GET /v1/guardian/triggers",
@@ -23049,6 +23073,14 @@
    "id": "guardian-route:PATCH /v1/guardian/sends/{id}",
    "kind": "guardian-route",
    "value": "PATCH /v1/guardian/sends/{id}",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
+   "id": "guardian-route:PATCH /v1/guardian/sources/tokens/{id}",
+   "kind": "guardian-route",
+   "value": "PATCH /v1/guardian/sources/tokens/{id}",
    "sources": [
     "siem/worker/src/api/routes.ts"
    ]
@@ -23230,6 +23262,14 @@
    ]
   },
   {
+   "id": "guardian-route:PUT /v1/guardian/surface/templates",
+   "kind": "guardian-route",
+   "value": "PUT /v1/guardian/surface/templates",
+   "sources": [
+    "siem/worker/src/api/routes.ts"
+   ]
+  },
+  {
    "id": "iac-kind:AiFirewallPolicy",
    "kind": "iac-kind",
    "value": "AiFirewallPolicy",
@@ -23310,6 +23350,22 @@
    ]
   },
   {
+   "id": "iac-kind:ForgeConnection",
+   "kind": "iac-kind",
+   "value": "ForgeConnection",
+   "sources": [
+    "config-schemas/schemas/ForgeConnection.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:GitHubInstallation",
+   "kind": "iac-kind",
+   "value": "GitHubInstallation",
+   "sources": [
+    "config-schemas/schemas/GitHubInstallation.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:JailExemption",
    "kind": "iac-kind",
    "value": "JailExemption",
@@ -23355,6 +23411,54 @@
    "value": "MalwareIoc",
    "sources": [
     "config-schemas/schemas/MalwareIoc.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:Member",
+   "kind": "iac-kind",
+   "value": "Member",
+   "sources": [
+    "config-schemas/schemas/Member.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:MessagingConnection",
+   "kind": "iac-kind",
+   "value": "MessagingConnection",
+   "sources": [
+    "config-schemas/schemas/MessagingConnection.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:MessagingRoute",
+   "kind": "iac-kind",
+   "value": "MessagingRoute",
+   "sources": [
+    "config-schemas/schemas/MessagingRoute.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:MessagingTemplate",
+   "kind": "iac-kind",
+   "value": "MessagingTemplate",
+   "sources": [
+    "config-schemas/schemas/MessagingTemplate.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:NotificationDefaults",
+   "kind": "iac-kind",
+   "value": "NotificationDefaults",
+   "sources": [
+    "config-schemas/schemas/NotificationDefaults.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:Organization",
+   "kind": "iac-kind",
+   "value": "Organization",
+   "sources": [
+    "config-schemas/schemas/Organization.schema.json"
    ]
   },
   {
@@ -23422,6 +23526,14 @@
    ]
   },
   {
+   "id": "iac-kind:ServiceAccount",
+   "kind": "iac-kind",
+   "value": "ServiceAccount",
+   "sources": [
+    "config-schemas/schemas/ServiceAccount.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:Suppression",
    "kind": "iac-kind",
    "value": "Suppression",
@@ -23430,11 +23542,27 @@
    ]
   },
   {
+   "id": "iac-kind:VaultEntry",
+   "kind": "iac-kind",
+   "value": "VaultEntry",
+   "sources": [
+    "config-schemas/schemas/VaultEntry.schema.json"
+   ]
+  },
+  {
    "id": "iac-kind:VexSource",
    "kind": "iac-kind",
    "value": "VexSource",
    "sources": [
     "config-schemas/schemas/VexSource.schema.json"
+   ]
+  },
+  {
+   "id": "iac-kind:WizConnection",
+   "kind": "iac-kind",
+   "value": "WizConnection",
+   "sources": [
+    "config-schemas/schemas/WizConnection.schema.json"
    ]
   },
   {
