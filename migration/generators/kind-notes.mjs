@@ -291,7 +291,7 @@ The server does not store this kind. \`vulnetix license\` and \`vulnetix scan --
 
   VexSource: {
     sources: ['vdb-site/api/internal/config/vexsource.go', 'vdb-site/api/internal/vexsource/spec.go'],
-    intro: 'How sources are fetched, how statements become suppressions and how a `path` source is uploaded are on [VEX documents as suppression rules](/platform-iac/guides/vex-sources/).\n\n> [!CAREFUL] The Advanced sample is ahead of the server\n> It uses `trust.requireSignature` and `scope.products`, which plan blocks as `unsupported` (see [what plan refuses](#what-plan-refuses-today)). Remove them to apply it.',
+    intro: 'How sources are fetched, how statements become suppressions and how a `path` source is uploaded are on [VEX documents as suppression rules](/platform-iac/guides/vex-sources/). The Advanced sample applies as written. The fields the schema accepts but plan blocks are listed under [what plan refuses](#what-plan-refuses-today), and the schema release carries them in `examples/VexSource/unsupported-features.yaml`.',
     after: `## What plan refuses today
 
 The schema accepts these, and plan blocks them with the condition \`unsupported\`:
