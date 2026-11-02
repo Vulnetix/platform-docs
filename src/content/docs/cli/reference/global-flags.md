@@ -17,6 +17,7 @@ Persistent flags, accepted by every command and subcommand.
 | `--no-progress` | off | No progress bars or spinners |
 | `--no-banner` | off | No startup banner |
 | `--no-analytics` | off | No anonymous usage analytics for this run (sets `VULNETIX_NO_ANALYTICS=1`) |
+| `--artifact-manifest <file>` | | Record every file the command writes in this JSON Lines [artifact manifest](/cli/reference/artifact-manifest/). Also `VULNETIX_ARTIFACT_MANIFEST`. |
 | `--disable-memory` | off | Do not read or write `.vulnetix/memory.yaml`. VDB commands skip their memory side effects. |
 | `--version` | | Print the bare version and exit |
 | `-h`, `--help` | | Help for the command |

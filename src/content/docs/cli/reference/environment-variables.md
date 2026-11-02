@@ -58,6 +58,7 @@ Fallbacks for the `scan`-family flags, first set value wins. See [scan](/cli/com
 | `CI=true` | No banner; no analytics unless also under GitHub Actions; superseded-flag notes are not printed |
 | `DO_NOT_TRACK=1` | No banner, no analytics, no install-script ping |
 | `VULNETIX_NO_ANALYTICS` | Any value: no analytics. `1`: no install-script ping. |
+| `VULNETIX_ARTIFACT_MANIFEST` | Path of the [artifact manifest](/cli/reference/artifact-manifest/), as `--artifact-manifest` |
 | `NO_COLOR` | No colour (as `--color never`) |
 | `COLUMNS` | Output width when not a terminal and `--width` is not set |
 

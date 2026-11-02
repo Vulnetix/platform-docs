@@ -232,7 +232,7 @@ See [VEX](/vex/).
 |---|---|---|
 | `--sca-autofix` (`--fix`), `--sca-autofix-strategy` (`safest`, `stable`, `latest`, `rolling`; default `stable`), `--sca-autofix-manifest`, `--sca-autofix-max-major-bump` (default `0`), `--yes` | fix | [SCA](/sca/) |
 | `--allow`, `--allow-file`, `--license-mode` (`inclusive`, `individual`), `--policy-file`, `--exceptions-file` | license | [SCA](/sca/) |
-| `-R`, `--rule <org/repo>`, `--rule-registry`, `--rule-id`, `--disable-default-rules`, `--list-default-rules`, `--suppress-test-code`, `--snippet-context` (default `-1`), `--no-cache` | SAST family | [SAST](/sast/) |
+| `-R`, `--rule <org/repo>`, `--rule-registry`, `--rule-id`, `--disable-default-rules`, `--list-default-rules`, `--suppress-test-code`, `--snippet-context` (default `-1`), `--no-cache`, `--github-publish` (`code-scanning`, `dependency-graph`) | SAST family; `--github-publish` is on [gha publish](/cli/commands/gha-publish/#publishing-from-a-scan) | [SAST](/sast/) |
 | `--ignore <glob>`, `--ignore-git`, `--ignore-binaries`, `--git-history` (default on), `--git-history-max-commits` (default `500`), `--git-history-max-files` (default `5000`) | secrets | [Secrets](/secrets/) |
 
 ## Global flags

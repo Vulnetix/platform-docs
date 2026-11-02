@@ -18,6 +18,9 @@ Created in the scanned directory (`--path`, or the current directory). Results a
 |---|---|---|
 | `sbom.cdx.json` | `scan`, `sca`, `containers`, `license`, `cdx` | CycloneDX SBOM with vulnerabilities and VEX analysis. Read by `report`. |
 | `sast.sarif` | `scan`, `sast`, `secrets`, `iac` | SARIF for rule findings; only when there are findings |
+| `sca.sarif` | every scan that runs SCA | SARIF for dependency findings. Written even when clean. See [SARIF reference](/cli/reference/sarif/). |
+| `license.sarif` | `license` | SARIF for licence findings. Written even when clean. |
+| `code-scanning/<kind>.sarif` | `gha publish code-scanning` | The per-kind SARIF that was uploaded to GitHub |
 | `containers.sarif` | `containers`, `scan --only containers` | SARIF for container file findings |
 | `malscan.sarif` | `malscan`, the malscan pass of `scan` | SARIF for malware findings |
 | `cbom.cdx.json` | `cbom` (and `scan` unless `--no-cbom`) | CycloneDX CBOM |
@@ -34,9 +37,9 @@ Created in the scanned directory (`--path`, or the current directory). Results a
 
 | File | Read by | Documented in |
 |---|---|---|
-| `config/` (`*.yaml`, `*.yml`, `*.json`) | `config validate` | [Platform IaC](/platform-iac/) |
-| `ai-firewall.yaml` | `ai-firewall apply`, `ai-firewall export` | [AI Firewall](/ai-firewall/) |
-| `license-policy.yaml`, `license-exceptions.yaml` | `license`, `scan` | [SCA](/sca/) |
+| `config/` (`*.yaml`, `*.yml`, `*.json`) | `config validate`, `config plan`, `config apply` | [Platform IaC](/platform-iac/) |
+| `ai-firewall.yaml` | `config validate`, `ai-firewall apply`, `ai-firewall export` | [AI Firewall](/ai-firewall/) |
+| `license-policy.yaml`, `license-exceptions.yaml` | `config validate`, `license`, `scan` | [SCA](/sca/), [LicenseExceptions](/platform-iac/kinds/license-exceptions/) |
 | `agent.yaml` | `agent hook` | [Pix](/pix/) |
 | `capabilities.yaml` | `agent capabilities` (written) | [Pix](/pix/) |
 | `trusted-root.pem` | `attest` | [Attestation](/attestation/) |
