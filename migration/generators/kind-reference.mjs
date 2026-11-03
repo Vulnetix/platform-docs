@@ -18,8 +18,8 @@
 //   the provider          examples/resources/vulnetix_<kind>/ in
 //                         Vulnetix/terraform-provider-vulnetix at its main: the
 //                         HCL samples and the import command
-//   the CLI               its latest release, and the config-schemas release
-//                         its go.mod pinned at each tag
+//   the CLI               the release pinned in releases.json, and the
+//                         config-schemas release its go.mod pinned at each tag
 //   kind-notes.mjs        what the schemas cannot carry (groups, apply
 //                         behaviour), each fact checked against vdb-site,
 //                         vdb-api, package-firewall and ai-firewall
@@ -32,8 +32,9 @@
 // of the latest release works): the stale tip of main is not a release, and the
 // pages quote the release. Defaults are the sibling checkouts, or
 // $CONFIG_SCHEMAS_DIR, $TF_PROVIDER_DIR (and $TF_PROVIDER_REF, default main),
-// $CLI_DIR, $VDB_SITE_DIR. $VULNETIX_CLI_VERSION names the CLI release when
-// `gh` cannot be asked. With --vdb-site, a kind the engine has no adapter for is
+// $CLI_DIR, $VDB_SITE_DIR. The CLI and config-schemas releases are pinned in
+// releases.json (see releases.mjs), so a new release of either changes nothing
+// until the pin is bumped; $VULNETIX_CLI_VERSION overrides the CLI pin. With --vdb-site, a kind the engine has no adapter for is
 // shown as schema only; without it, every kind that is not validate only is
 // shown as served. With --vdb-api, the variables a jail rule may use are checked
 // against jail_when.go. A page whose front matter lacks `generated: true` is
@@ -42,6 +43,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { readPins } from './releases.mjs';
 import { GROUPS, PLANNED, OWNER_TOKEN_KINDS, GUARDIAN_KINDS, EXTERNAL_KINDS, STATUS, CEL_WHERE, JAIL_VARS, jailTable, kindNotes } from './kind-notes.mjs';
 
 const root = new URL('../..', import.meta.url).pathname;
@@ -93,21 +95,23 @@ const schemasTag = gitIn(schemasRepo, 'describe', '--tags', '--exact-match', '--
 const schemasSha = gitIn(schemasRepo, 'rev-parse', '--short=7', 'HEAD');
 const schemasVersion = SEMVER.test(schemasTag) ? schemasTag : schemasSha;
 if (!SEMVER.test(schemasTag)) console.warn(`kind-reference: ${schemasRepo} is not at a release tag (${schemasSha}); the pages will quote a commit, not a release`);
+const pins = readPins();
+if (schemasTag !== pins.configSchemas) console.warn(`kind-reference: ${schemasRepo} is at ${schemasVersion} but releases.json pins config-schemas ${pins.configSchemas}`);
 const schemaTags = sortedTags(schemasRepo);
 const filesAt = Object.fromEntries(schemaTags.map((t) => [t, new Set(gitIn(schemasRepo, 'ls-tree', '--name-only', t, 'schemas/').split('\n').map((f) => basename(f)))]));
 const hasAt = (tag, kind) => filesAt[tag]?.has(`${kind}.schema.json`) ?? false;
 
 // ── The CLI ─────────────────────────────────────────────────────────────────
-// The latest release, and which config-schemas release each CLI tag embedded
-// (its go.mod). A CLI that does not embed a kind refuses it before sending it.
+// The pinned release (releases.json, not whatever is newest today, so a CLI
+// release does not change the pages until the pin is bumped), and which
+// config-schemas release each CLI tag embedded (its go.mod). A CLI that does not
+// embed a kind refuses it before sending it.
 const cliTags = existsSync(cliRepo) ? sortedTags(cliRepo) : [];
 function latestCliRelease() {
-  if (process.env.VULNETIX_CLI_VERSION) return process.env.VULNETIX_CLI_VERSION;
-  try {
-    const t = execFileSync('gh', ['release', 'view', '--repo', 'Vulnetix/cli', '--json', 'tagName', '-q', '.tagName'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
-    if (SEMVER.test(t)) return t;
-  } catch { /* no gh, or no network: fall back to the newest tag */ }
-  return cliTags.at(-1);
+  const v = process.env.VULNETIX_CLI_VERSION || pins.cli;
+  if (!SEMVER.test(v)) throw new Error(`kind-reference: CLI release ${v} is not a vX.Y.Z tag`);
+  if (!cliTags.includes(v)) console.warn(`kind-reference: ${cliRepo} has no tag ${v}; fetch its tags`);
+  return v;
 }
 const cliLatest = latestCliRelease();
 const cliCandidates = cliTags.filter((t) => cliLatest && verCmp(t, cliLatest) <= 0);

@@ -4,7 +4,7 @@ nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
 sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.11.1", "vdb-site@7b71e88", "cli@v3.167.0", "terraform-provider-vulnetix@169ce16"]
+checked: ["config-schemas@v1.11.1", "vdb-site@7b71e88", "cli@v3.169.1", "terraform-provider-vulnetix@169ce16"]
 updated: 03 Nov 2026
 ---
 
@@ -33,7 +33,7 @@ This page is the honest list. The rest of the segment documents what works; this
 
 | Gap | Detail |
 |---|---|
-| The CLI is behind the schemas | The latest CLI release embeds `config-schemas` v1.3.0. `vulnetix config validate`, `plan` and `apply` refuse a kind added in a later release as unknown before sending it, though the engine serves it. Each kind's page says from which CLI release it is known. Use the config API or Terraform until a CLI release embeds the newer schemas. |
+| The CLI trails the schemas by a release | CLI v3.169.1 embeds `config-schemas` v1.10.0; the newest release is v1.11.1. The only kind added since is [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) (v1.11.0), which `vulnetix config validate`, `plan` and `apply` refuse as unknown before sending it, though the engine serves it. Every other kind is known to the CLI. Each kind's page says from which CLI release it is known. Use the config API or Terraform for `ComplianceTarget` until a CLI release embeds v1.11.0 or later. |
 | CLI v4 | The major release is upcoming. It changes the module path, makes the remaining imperative commands aliases of the engine, and has `plan` and `apply` read the well-known files. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). |
 | Registry publishing | The provider and both modules have no release, and the Terraform and OpenTofu registries do not list them. See [Terraform and OpenTofu](/platform-iac/terraform/#registries). |
 | Download as code elsewhere | Other console pages that map to a kind do not have it yet. |
