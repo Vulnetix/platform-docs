@@ -114,7 +114,7 @@ function scanGoRoutes() {
   for (const r of resolved) {
     if (SF_PATH.test(r.path) || SF_HANDLER.test(r.handler)) atom('route', `${r.method} ${r.path}`, 'vdb-site', r.file, { handler: r.handler });
     // Platform IaC: the config engine's routes (plan, apply, export, objects,
-    // management tokens) and the public site config next to them.
+    // drift protection) and the public site config next to them.
     else if (/^\/v1\/config(\/|$)/.test(r.path)) atom('config-route', `${r.method} ${r.path}`, 'vdb-site', r.file, { handler: r.handler });
   }
 }

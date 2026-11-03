@@ -224,7 +224,7 @@ cliF('cli-vex', '/vex/commands/ls-validate-merge', 'vulnetix vex', [cmd('vex')],
 f('cli-undocumented', 'cli', '/cli/get-started/overview', 'CLI commands not documented yet', [`^cli-command:(${UNDOCUMENTED.join('|')})$`], { foundIn: '2026-11-03' });
 
 f('iac-kinds', 'platform-iac', '/platform-iac/kinds/catalogue', 'Platform IaC kinds', ['^iac-kind:'], { status: 'drafted', foundIn: '2026-11-03' });
-f('iac-config-api', 'platform-iac', '/platform-iac/reference/config-api', 'Config engine API and management tokens', ['^config-route:'], { status: 'drafted', foundIn: '2026-11-03' });
+f('iac-config-api', 'platform-iac', '/platform-iac/reference/config-api', 'Config engine API and credentials for automation', ['^config-route:'], { status: 'drafted', foundIn: '2026-11-03' });
 f('guardian-api', 'siem', '/siem/reference/api', 'Guardian console API', ['^guardian-route:'], { status: 'drafted', foundIn: '2026-11-03' });
 
 // ── Status ─────────────────────────────────────────────────────────────────
