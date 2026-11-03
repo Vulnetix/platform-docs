@@ -70,7 +70,7 @@ When you are authenticated and your organisation's quality gate sets a severity,
 | `-o`, `--output` | string, repeatable | | `json-sarif` or `json-report` to stdout, or a path ending `.sarif`, `.sarif.json` or `.report.json`. |
 | `--snippet-context` | int | `-1` | Source lines sent around each uploaded finding. `-1` is 3 lines (5 for a span of 10 or more); `0` sends only the rule's snippet. |
 | `--disable-memory` | bool | `false` | Do not read or write `.vulnetix/memory.yaml`. |
-| `--vex-file`, `--no-vex` | string, bool | | Apply (or ignore) third-party VEX statements before the gates. |
+| `--vex-file`, `--vex`, `--no-vex` | string, string, bool | | Apply (or ignore) third-party VEX statements before the gates. `--vex` also takes an `https://` URL (CLI v4.2.0 and later), and a scan reads the declared `VexSource` documents; `--no-vex` turns all of it off. |
 
 ## Deployment labels
 

@@ -91,7 +91,7 @@ Every finding counts towards `--fail-on`, including those shown under IN TESTS o
 
 ## Accepted, no effect
 
-These are registered on every scan-style command. A SAST-only run ignores them: `--reachability`, `--sca-autofix` (`--fix`), `--sca-autofix-strategy`, `--sca-autofix-manifest`, `--sca-autofix-max-major-bump`, `--yes`, `--allow`, `--allow-file`, `--license-mode`, `--policy-file`, `--exceptions-file`, `--block-eol-severity`, `--bom-manufacturer`, `--lifecycle`, `--vex-file`, `--no-vex`, `--no-malscan`, `--no-ci-package-analysis`, `--no-shell-package-analysis`, `--ignore`, `--ignore-git`, `--ignore-binaries`, `--git-history`, `--git-history-max-commits`, `--git-history-max-files`. The deployment labels `--project`, `--environment`, `--cluster`, `--namespace` and `--tag` are carried on the upload.
+These are registered on every scan-style command. A SAST-only run ignores them: `--reachability`, `--sca-autofix` (`--fix`), `--sca-autofix-strategy`, `--sca-autofix-manifest`, `--sca-autofix-max-major-bump`, `--yes`, `--allow`, `--allow-file`, `--license-mode`, `--policy-file`, `--exceptions-file`, `--block-eol-severity`, `--bom-manufacturer`, `--lifecycle`, `--vex-file`, `--vex`, `--no-vex`, `--no-malscan`, `--no-ci-package-analysis`, `--no-shell-package-analysis`, `--ignore`, `--ignore-git`, `--ignore-binaries`, `--git-history`, `--git-history-max-commits`, `--git-history-max-files`. The deployment labels `--project`, `--environment`, `--cluster`, `--namespace` and `--tag` are carried on the upload.
 
 ## Legacy flags
 

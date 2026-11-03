@@ -33,7 +33,8 @@ vulnetix sca [flags]
 | `--reachability` | string | `both` | `direct`, `transitive`, `both`, `off`. See [Reachability](/sca/reachability/overview/). |
 | `--no-malscan` | bool | `false` | Skip the local malware pass over dependency install directories |
 | `--vex-file` | string, repeatable | none | Apply VEX statements from a file or directory before gates |
-| `--no-vex` | bool | `false` | Ignore `--vex-file` |
+| `--vex` | string, repeatable | none | As `--vex-file`, and an `https://` URL is downloaded for the run. CLI v4.2.0 and later. |
+| `--no-vex` | bool | `false` | Ignore `--vex-file`, `--vex` and the declared `VexSource` documents |
 
 ## Gates
 

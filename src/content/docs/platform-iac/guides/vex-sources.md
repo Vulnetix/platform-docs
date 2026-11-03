@@ -4,13 +4,13 @@ nav: VEX sources
 description: How a VexSource reads OpenVEX and CycloneDX VEX documents from TEA, S3, git, a path or URLs, how each statement becomes a suppression, remediation, triage context or annotation, how often it is fetched, and what plan refuses.
 order: 1
 sources: ["config-schemas/schemas/VexSource.schema.json", "vdb-site/api/internal/config/vexsource.go", "vdb-site/api/internal/vexsource/spec.go", "vdb-site/api/internal/vexsource/mapping.go", "vdb-site/api/internal/vexsource/reconcile.go", "vdb-site/api/internal/vexsource/refresh.go", "vdb-site/api/internal/vexsource/fetch.go", "vdb-site/api/internal/vexsource/fetch_urls.go", "vdb-site/api/internal/vexsource/fetch_s3.go", "vdb-site/api/internal/vexsource/fetch_git.go", "vdb-site/api/internal/vexsource/fetch_tea.go"]
-checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v4.1.0"]
+checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v4.2.0"]
 updated: 03 Nov 2026
 ---
 
 A [`VexSource`](/platform-iac/kinds/vex-source/) names one place VEX documents live. Vulnetix fetches it on a schedule, records each fetch, and keeps the suppression rules that source created in step with the statements it currently holds. The kind page has the fields and the Minimal and Advanced samples in YAML, HCL and CLI; this page is how it behaves.
 
-Before this kind, VEX became suppression rules only when the CLI pushed it: `vulnetix scan --vex-file`, `vex apply --upload` and the commands listed on [VEX sent to Vulnetix](/vex/suppression/sent-to-vulnetix/). The server never fetched a document itself. A `VexSource` is the standing alternative: the tenant chooses to trust a source, and the server reads it.
+Before this kind, VEX became suppression rules only when the CLI pushed it: `vulnetix scan --vex-file` or `--vex`, `vex apply --upload` and the commands listed on [VEX sent to Vulnetix](/vex/suppression/sent-to-vulnetix/). The server never fetched a document itself. A `VexSource` is the standing alternative: the tenant chooses to trust a source, and the server reads it.
 
 ## What a statement does
 
@@ -82,7 +82,19 @@ Since CLI v4.1.0, `vulnetix config apply` uploads that snapshot itself, after th
 - It is uploaded when the plan has nothing to apply too, because the files can change when the document does not.
 - Each upload prints `VexSource/<name>: uploaded a snapshot of <n> document(s) from <path>`. A failed one prints why and makes `apply` exit non-zero, after the other sources have been tried.
 
-The snapshot replaces the last one, so a statement that left the files leaves the console on the next apply. `vulnetix scan` has no flag that reads a `VexSource` in a released CLI. For CI today, commit the VEX to the repository and pass it with [`--vex-file`](/vex/scans/vex-file/).
+The snapshot replaces the last one, so a statement that left the files leaves the console on the next apply.
+
+## What a scan reads
+
+Since CLI v4.2.0 `vulnetix scan` and the scan commands (`sca`, `sast`, `secrets`, `containers`, `iac`) read the `VexSource` documents under `.vulnetix/config` in the directory being scanned and apply their statements before any quality gate, so a CI gate honours what you declared without a second flag. Only the sources the machine can reach are read:
+
+| Source | In a scan |
+|---|---|
+| `path` | Read from disk, relative to the scanned directory and then to `.vulnetix/config` |
+| `urls` | Each `https` URL is fetched (8 MiB, 30 seconds); a failure is a warning |
+| `tea`, `s3`, `git` | Not read. The scan prints a note naming the source. The console fetches these, and the rules they created stay on the server. Pass the same documents with [`--vex`](/vex/scans/vex-file/) to have a CI gate apply them. |
+
+`scope.repos` and `trust.allowedAuthors` are honoured, so a scan never applies a source more widely than declared. `trust.requireSignature`, a `sha256` pin on a URL, `format`, `refresh` and `onError` are not used by a scan. `--no-vex` turns declared sources off. A scan with no `.vulnetix/config` reads none. The scan reads the files itself on every run, so it needs no `config apply` and no login; the snapshot above is only what the console shows. [VEX in a scan](/vex/scans/vex-file/#declared-vexsource-documents) has the details and the messages.
 
 ## Status
 

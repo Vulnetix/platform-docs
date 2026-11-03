@@ -93,7 +93,7 @@ Recorded with the upload, so the console can group scans. They do not change wha
 
 ## Accepted, no effect here
 
-These belong to other scanners in the family and are accepted so a shared command line does not fail: `--reachability`, `--sca-autofix` (`--fix`), `--sca-autofix-strategy`, `--sca-autofix-manifest`, `--sca-autofix-max-major-bump`, `--yes`, `--allow`, `--allow-file`, `--license-mode`, `--policy-file`, `--exceptions-file`, `--block-eol-severity`, `--no-ci-package-analysis`, `--no-shell-package-analysis`, `--no-malscan`, `--bom-manufacturer`, `--lifecycle`. `--vex-file` and `--no-vex` apply third-party VEX statements before the gates; see [VEX](/vex/).
+These belong to other scanners in the family and are accepted so a shared command line does not fail: `--reachability`, `--sca-autofix` (`--fix`), `--sca-autofix-strategy`, `--sca-autofix-manifest`, `--sca-autofix-max-major-bump`, `--yes`, `--allow`, `--allow-file`, `--license-mode`, `--policy-file`, `--exceptions-file`, `--block-eol-severity`, `--no-ci-package-analysis`, `--no-shell-package-analysis`, `--no-malscan`, `--bom-manufacturer`, `--lifecycle`. `--vex-file`, `--vex` (CLI v4.2.0 and later) and `--no-vex` apply third-party VEX statements before the gates; see [VEX in a scan](/vex/scans/vex-file/).
 
 ## Superseded flags
 

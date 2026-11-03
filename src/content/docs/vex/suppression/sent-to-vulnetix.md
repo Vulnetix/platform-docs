@@ -3,7 +3,7 @@ title: VEX sent to Vulnetix
 description: Which commands send VEX documents to /v2/cli.vex-ingest, how the server turns false-positive and won't-fix statements into suppression rules, and the limits, response fields and identity that go with each request.
 order: 3
 sources: [cli/cmd/vex_ingest.go, cli/pkg/vdb/api_cli_vex_ingest.go, cli/cmd/suppress_report.go, cli/pkg/vdb/identity_header.go, cli/internal/ghactx/oidc.go, vdb-api/internal/handler/v2_cli_vex_ingest.go, vdb-sca-match/suppression/ingest.go, vdb-cyclonedx/vexrules/classify.go]
-checked: [cli@4c8c3b71c, vdb-api@4145f0a, vdb-sca-match@ec6757e, vdb-cyclonedx@eaf787c]
+checked: [cli@v4.2.0, vdb-api@4145f0a, vdb-sca-match@ec6757e, vdb-cyclonedx@eaf787c]
 updated: 02 Nov 2026
 ---
 
@@ -19,7 +19,7 @@ Sending is best effort. An unauthenticated run sends nothing, and a failed send 
 
 | Origin | Sent by | Documents |
 |---|---|---|
-| `scan_vex_file` | `scan`, `sca` and the other scan commands with `--vex-file`; `vex apply --upload` | The VEX files you passed |
+| `scan_vex_file` | `scan`, `sca` and the other scan commands with `--vex-file`, `--vex` or a declared `VexSource`; `vex apply --upload` | The VEX documents the scan applied, including ones fetched from a URL |
 | `reconcile` | A scan's reconciliation | The VEX files the scan wrote under `.vulnetix/` |
 | `bom_enrich` | `bom enrich --vex` | The VEX files you passed |
 | `upload` | `vulnetix upload` of an OpenVEX or CSAF file | The uploaded file |

@@ -57,7 +57,7 @@ With the default block severity `critical`, only components already past end of 
 | Ruled out by version (`not affected`, `likely not affected`) | no, unless `--strict` |
 | Covered by an unexpired recorded control | yes, unless `--accept-defended` |
 | Matched by an active ignore rule (local `.vulnetix/memory.yaml` or the org's suppression rules) | no: removed before reporting |
-| Marked not affected by a `--vex-file` statement | no |
+| Marked not affected by a `--vex-file`, `--vex` or declared `VexSource` statement | no |
 
 Ruled-out and defended findings stay in the SBOM, the JSON report and the console. Only the gate input leaves them out. Suppressed findings are removed from every output.
 

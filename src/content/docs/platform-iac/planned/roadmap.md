@@ -4,7 +4,7 @@ nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
 sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.12.0", "vdb-site@7b71e88", "cli@v4.1.1", "terraform-provider-vulnetix@169ce16"]
+checked: ["config-schemas@v1.12.0", "vdb-site@7b71e88", "cli@v4.2.0", "terraform-provider-vulnetix@169ce16"]
 updated: 03 Nov 2026
 ---
 
@@ -37,7 +37,7 @@ This page is the honest list. The rest of the segment documents what works; this
 | Registry publishing | The provider and both modules have no release, and the Terraform and OpenTofu registries do not list them. See [Terraform and OpenTofu](/platform-iac/terraform/#registries). |
 | Download as code elsewhere | Other console pages that map to a kind do not have it yet. |
 | CEL in the CLI | The CLI evaluates no expression: `vulnetix jail` and `vulnetix scan --jail` ask the VDB API, and a suppression's `when` is evaluated on the server. The `event` context has no field in any kind, so [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) conditions are typed. |
-| VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. `vulnetix config apply` uploads a snapshot for a `path` source since CLI v4.1.0, but `vulnetix scan` does not read a `VexSource` in a released CLI. |
+| VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. A scan reads only the `path` and `urls` sources of a `VexSource` since CLI v4.2.0; `tea`, `s3` and `git` sources, and the rules they created, are the console's. `vulnetix config apply` uploads a snapshot for a `path` source since CLI v4.1.0. |
 | Cloud | A per-account [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) document needs a database migration; until it runs, plan blocks it. |
 | SSVC in the CLI | The VDB API still makes its own simpler SSVC decision in the CLI's SCA response and in the remediation plan; neither reads `SsvcPolicy` yet. |
 | Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the console's rotate endpoint stays the way. |

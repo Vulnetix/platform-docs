@@ -101,4 +101,4 @@ These still work, are hidden from `--help`, and print one note at an interactive
 |---|---|
 | `--project`, `--cluster`, `--namespace`, `--environment`, `--tag key=value` | Deployment context on the SBOM and the snapshot. When a flag is absent the first set variable fills it: `VULNETIX_PROJECT`, `CI_PROJECT_NAME`; `VULNETIX_ENVIRONMENT`, `CI_ENVIRONMENT_NAME`, `ENVIRONMENT_NAME`; `VULNETIX_CLUSTER`, `CLUSTER_NAME`, `KUBERNETES_CLUSTER_NAME`; `VULNETIX_NAMESPACE`, `POD_NAMESPACE`, `KUBERNETES_NAMESPACE`. |
 | `--bom-manufacturer`, `--lifecycle` | BOM authoring identity. See [SBOM](/sbom/). |
-| `--vex-file <path>` | Applies third-party VEX before gates are evaluated. Repeatable. `--no-vex` ignores it. |
+| `--vex-file <path>`, `--vex <path or https URL>` | Apply third-party VEX before gates are evaluated. Repeatable. A scan also reads the `VexSource` documents declared in `.vulnetix/config` (CLI v4.2.0). `--no-vex` ignores all of it. See [VEX in a scan](/vex/scans/vex-file/). |

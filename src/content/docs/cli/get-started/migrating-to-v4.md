@@ -4,7 +4,7 @@ nav: Migrating to v4
 description: What changed when the Vulnetix CLI moved from v3 to v4.0.0, the Go module path, the config set and ai-firewall commands that became aliases of the config engine, plan and apply reading the well-known files, and the action version channel.
 order: 4
 sources: [cli/docs/platform-iac.md, cli/docs/PUBLISHING.md, cli/cmd/config_engine.go, cli/cmd/config_engine_alias.go, cli/cmd/config_engine_alias_aifw.go, cli/cmd/config_engine_alias_pfw.go, cli/action.yml, cli/install.sh]
-checked: [cli@v4.1.1]
+checked: [cli@v4.2.0]
 updated: 03 Nov 2026
 ---
 
@@ -31,6 +31,7 @@ v4.0.0 embeds `config-schemas` v1.10.0, the same release as the last v3 releases
 |---|---|
 | v4.1.0 | `config apply` uploads a snapshot of the documents a `VexSource` with a `path` names. See [Path sources](/platform-iac/guides/vex-sources/#path-sources). |
 | v4.1.1 | Embeds config-schemas v1.12.0, which adds `autoUpdate` to `RuntimeSensorPolicy` and, with v1.11.0, `ComplianceTarget` |
+| v4.2.0 | Scans take `--vex <file, directory or https URL>` and read the `path` and `urls` sources of the `VexSource` documents declared in `.vulnetix/config`. See [VEX in a scan](/vex/scans/vex-file/). |
 
 ## Go module path
 

@@ -47,7 +47,7 @@ The OpenVEX justifications are `component_not_present`, `vulnerable_code_not_pre
 Exits `1` when any problem is fatal.
 
 > [!CAREFUL] Scans only fail on unreadable documents
-> `--vex-file` on a scan fails the scan when a document cannot be read or parsed. It does not run these semantic checks. Run `vex validate` in CI before relying on a document.
+> `--vex-file` and `--vex` on a scan fail the scan when a document cannot be read or parsed. It does not run these semantic checks. Run `vex validate` in CI before relying on a document.
 
 ## vex merge
 

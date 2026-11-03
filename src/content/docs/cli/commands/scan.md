@@ -220,9 +220,10 @@ Nothing is inferred from branch names.
 | Flag | Effect |
 |---|---|
 | `--vex-file <file or dir>` | Apply these VEX statements before the gates (repeatable) |
-| `--no-vex` | Ignore `--vex-file` |
+| `--vex <file, dir or https URL>` | As `--vex-file`; an `https://` URL is downloaded for the run (repeatable, CLI v4.2.0 and later) |
+| `--no-vex` | Ignore `--vex-file`, `--vex` and the `VexSource` documents declared in `.vulnetix/config` |
 
-See [VEX](/vex/).
+A scan also reads the `path` and `urls` sources of the declared [`VexSource`](/platform-iac/kinds/vex-source/) documents. See [VEX in a scan](/vex/scans/vex-file/) and [VEX](/vex/).
 
 ## Scanner options passed through
 

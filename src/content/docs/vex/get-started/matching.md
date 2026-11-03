@@ -4,11 +4,11 @@ nav: Matching
 description: The match cascade the CLI uses to decide which VEX statement applies to which vulnerability, from exact purl down to document-wide, and how ties are broken.
 order: 2
 sources: [cli/internal/vex/match.go, cli/internal/vex/apply.go]
-checked: [cli@4c8c3b71c]
+checked: [cli@v4.2.0]
 updated: 02 Nov 2026
 ---
 
-`vex apply`, `bom enrich --vex` and `--vex-file` on a scan all use one matcher. It does not require exact equality on `(vulnerability, purl)`. Exact equality is the usual reason VEX appears to do nothing: the statement is never applied and nothing reports an error.
+`vex apply`, `bom enrich --vex` and `--vex-file`, `--vex` and declared `VexSource` documents on a scan all use one matcher. It does not require exact equality on `(vulnerability, purl)`. Exact equality is the usual reason VEX appears to do nothing: the statement is never applied and nothing reports an error.
 
 | Case | Exact equality | This matcher |
 |---|---|---|
