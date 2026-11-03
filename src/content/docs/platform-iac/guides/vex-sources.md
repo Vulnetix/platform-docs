@@ -4,7 +4,7 @@ nav: VEX sources
 description: How a VexSource reads OpenVEX and CycloneDX VEX documents from TEA, S3, git, a path or URLs, how each statement becomes a suppression, remediation, triage context or annotation, how often it is fetched, and what plan refuses.
 order: 1
 sources: ["config-schemas/schemas/VexSource.schema.json", "vdb-site/api/internal/config/vexsource.go", "vdb-site/api/internal/vexsource/spec.go", "vdb-site/api/internal/vexsource/mapping.go", "vdb-site/api/internal/vexsource/reconcile.go", "vdb-site/api/internal/vexsource/refresh.go", "vdb-site/api/internal/vexsource/fetch.go", "vdb-site/api/internal/vexsource/fetch_urls.go", "vdb-site/api/internal/vexsource/fetch_s3.go", "vdb-site/api/internal/vexsource/fetch_git.go", "vdb-site/api/internal/vexsource/fetch_tea.go"]
-checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v4.2.0"]
+checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v4.4.0"]
 updated: 03 Nov 2026
 ---
 
@@ -27,7 +27,7 @@ A status the formats do not define is skipped and counted.
 
 Statements are matched to findings by **purl**. A statement whose products have no purl, such as a CPE or an unresolved CycloneDX `bom-ref`, is skipped and reported in the fetch's errors. A suppression is anchored on the vulnerability, the purl without its version, and the repository, and carries the product's explicit versions when it names them. A later statement for the same key replaces an earlier one, whichever document it came from. When two carry the same timestamp, the later one in document order wins.
 
-A suppression a source creates is **owned by it**. It goes when the statement leaves the document, and it cannot be changed or deleted through the engine or by hand. [`Suppression`](/platform-iac/kinds/suppression/) documents are for rules you write yourself.
+A suppression a source creates is **owned by it**. It goes when the statement leaves the document, and it cannot be changed or deleted through the engine or by hand. The CLI follows: `vulnetix ignore remove --uuid` refuses such a rule and names the source, `ignore sync` leaves it out of `.vulnetix/memory.yaml`, `ignore list` shows it as `VexSource/<name>`, and deactivating it through the API answers `409`. [`Suppression`](/platform-iac/kinds/suppression/) documents are for rules you write yourself.
 
 ## Where documents come from
 
@@ -92,9 +92,11 @@ Since CLI v4.2.0 `vulnetix scan` and the scan commands (`sca`, `sast`, `secrets`
 |---|---|
 | `path` | Read from disk, relative to the scanned directory and then to `.vulnetix/config` |
 | `urls` | Each `https` URL is fetched (8 MiB, 30 seconds); a failure is a warning |
-| `tea`, `s3`, `git` | Not read. The scan prints a note naming the source. The console fetches these, and the rules they created stay on the server. Pass the same documents with [`--vex`](/vex/scans/vex-file/) to have a CI gate apply them. |
+| `tea`, `s3`, `git` | Not read by the scan: the console fetches these. Since CLI v4.4.0 an authenticated scan applies the statements the console made of them, as the rules it holds for the repository, so a CI gate honours them with no flag. An unauthenticated scan prints a note naming the source and applies none; community mode applies none from the console. |
 
-`scope.repos` and `trust.allowedAuthors` are honoured, so a scan never applies a source more widely than declared. `trust.requireSignature`, a `sha256` pin on a URL, `format`, `refresh` and `onError` are not used by a scan. `--no-vex` turns declared sources off. A scan with no `.vulnetix/config` reads none. The scan reads the files itself on every run, so it needs no `config apply` and no login; the snapshot above is only what the console shows. [VEX in a scan](/vex/scans/vex-file/#declared-vexsource-documents) has the details and the messages.
+`scope.repos` and `trust.allowedAuthors` are honoured, so a scan never applies a source more widely than declared. `trust.requireSignature`, a `sha256` pin on a URL, `format`, `refresh` and `onError` are not used by a scan. `--no-vex` turns declared sources off. A scan with no `.vulnetix/config` reads none. The scan reads those files itself on every run, so a `path` or `urls` source needs no `config apply` and no login; the snapshot above is only what the console shows.
+
+An authenticated scan also applies the statements the console holds for the repository: those of every `VexSource` type, `tea`, `s3` and `git` included, and of VEX documents ingested earlier. They are matched and annotated like a `--vex` document, de-duplicated against the `--vex` documents and the `path` and `urls` sources, never sent back to Vulnetix, and skipped by `--no-vex`. A won't-fix decision is applied as `affected`: the finding is annotated and stays open. A statement recorded with no product matches the vulnerability id across packages, which is coarse. [VEX in a scan](/vex/scans/vex-file/#statements-the-console-holds) has the details and the messages.
 
 ## Status
 

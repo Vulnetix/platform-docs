@@ -4,8 +4,8 @@ nav: Overview
 description: The VEX formats the Vulnetix CLI reads and writes, where VEX statements change scan results, and how ignore rules, nosec comments and VEX suppress findings today.
 order: 1
 sources: [cli/cmd/vex.go, cli/cmd/vex_ingest.go, cli/cmd/suppress.go, cli/cmd/suppress_report.go, cli/internal/vex/read.go, cli/internal/vex/merge.go, cli/internal/triage/vex.go, cli/internal/suppress/suppress.go, vdb-api/internal/handler/v2_cli_vex_ingest.go]
-checked: [cli@v4.2.0, vdb-api@4145f0a]
-updated: 02 Nov 2026
+checked: [cli@v4.4.0, vdb-api@4145f0a]
+updated: 03 Nov 2026
 ---
 
 A VEX statement says whether a product is affected by a vulnerability. The CLI writes VEX for its own triage decisions, reads VEX that anyone else wrote, applies it to SBOMs and scans, and sends it to Vulnetix, where false-positive and won't-fix statements become suppression rules.
@@ -42,7 +42,7 @@ All three are normalised into one statement model, so matching and application w
 |---|---|
 | [`vulnetix vex apply`](/vex/commands/apply/) | Apply statements to an SBOM and report total, suppressed and effective counts |
 | [`vulnetix vex ls`, `validate`, `merge`](/vex/commands/ls-validate-merge/) | Review, check and combine VEX documents |
-| [`--vex-file` and `--vex`](/vex/scans/vex-file/) on `scan`, `sca`, `sast`, `secrets`, `containers`, `iac` | Apply VEX from files, directories and https URLs before the quality gates. `--vex` needs CLI v4.2.0. |
+| [`--vex-file` and `--vex`](/vex/scans/vex-file/) on `scan`, `sca`, `sast`, `secrets`, `containers`, `iac` | Apply VEX from files, directories and https URLs before the quality gates. `--vex` needs CLI v4.2.0. An authenticated scan also applies the console's statements (CLI v4.4.0). |
 | [`vulnetix ignore`](/vex/suppression/ignore-rules/) (alias `suppress`) | Add, list, remove and sync ignore rules |
 | `vulnetix vdb vex get`, `vdb vex list` | Read VEX that Vulnetix holds for a CVE. See [VDB API](/vdb-api/). |
 
@@ -50,7 +50,7 @@ All three are normalised into one statement model, so matching and application w
 
 When a command is authenticated, the VEX it read or wrote is sent to `POST /v2/cli.vex-ingest`, and the findings ignore rules and nosec comments hid are reported to `cli.finalize`. See [VEX sent to Vulnetix](/vex/suppression/sent-to-vulnetix/).
 
-A standing source of suppression rules, read from a TEA server, an S3 bucket, a git repository or URLs, is the `VexSource` kind. Since CLI v4.2.0 a scan also reads the `path` and `urls` sources declared under `.vulnetix/config` itself; see [Declared VexSource documents](/vex/scans/vex-file/#declared-vexsource-documents) and [VEX documents as suppression rules](/platform-iac/guides/vex-sources/).
+A standing source of suppression rules, read from a TEA server, an S3 bucket, a git repository or URLs, is the `VexSource` kind. Since CLI v4.2.0 a scan also reads the `path` and `urls` sources declared under `.vulnetix/config` itself, and since CLI v4.4.0 an authenticated scan applies the statements the console holds for every source type, `tea`, `s3` and `git` included; see [Declared VexSource documents](/vex/scans/vex-file/#declared-vexsource-documents), [Statements the console holds](/vex/scans/vex-file/#statements-the-console-holds) and [VEX documents as suppression rules](/platform-iac/guides/vex-sources/).
 
 ## GitHub Actions
 

@@ -3,8 +3,8 @@ title: scan
 description: vulnetix scan runs every scanner in one pass over a directory, prints one verdict, writes one SBOM, and applies one set of gates. Every flag, output target and file it writes.
 order: 1
 sources: [cli/cmd/scan.go, cli/cmd/scan_report.go, cli/cmd/scan_help.go, cli/internal/scanopts/surface.go, cli/internal/scanopts/failon.go, cli/internal/scanopts/deployment.go, cli/internal/scanopts/authorship.go, cli/internal/report/options.go, cli/cmd/quality_gate_enforce.go, cli/cmd/scan_jail.go]
-checked: [cli@24498404a]
-updated: 02 Nov 2026
+checked: [cli@v4.4.0, vdb-api@6df53b3]
+updated: 03 Nov 2026
 ---
 
 ```sh
@@ -221,9 +221,13 @@ Nothing is inferred from branch names.
 |---|---|
 | `--vex-file <file or dir>` | Apply these VEX statements before the gates (repeatable) |
 | `--vex <file, dir or https URL>` | As `--vex-file`; an `https://` URL is downloaded for the run (repeatable, CLI v4.2.0 and later) |
-| `--no-vex` | Ignore `--vex-file`, `--vex` and the `VexSource` documents declared in `.vulnetix/config` |
+| `--no-vex` | Ignore `--vex-file`, `--vex`, the `VexSource` documents declared in `.vulnetix/config` and the statements the console holds |
 
-A scan also reads the `path` and `urls` sources of the declared [`VexSource`](/platform-iac/kinds/vex-source/) documents. See [VEX in a scan](/vex/scans/vex-file/) and [VEX](/vex/).
+A scan also reads the `path` and `urls` sources of the declared [`VexSource`](/platform-iac/kinds/vex-source/) documents. An authenticated scan also applies the statements the console holds for the repository, including those of `tea`, `s3` and `git` sources (CLI v4.4.0); community mode applies none from the console. See [VEX in a scan](/vex/scans/vex-file/) and [VEX](/vex/).
+
+## SSVC decisions
+
+For an authenticated organization that has stored an [`SsvcPolicy`](/platform-iac/kinds/ssvc-policy/), the SSVC decision a scan reports (the `SSVC-act` tag and the `vulnetix:ssvc` property of each CycloneDX vulnerability) is made under that policy, with mission and well-being from the scanned repository's [criticality](/vulnerability-management/scope/repository-assets/). A decision made under a policy adds `vulnetix:ssvc:priority`, `:source`, `:exploitation`, `:automatable`, `:technicalImpact`, `:missionWellBeing`, and `:rule` and `:dueDays` when they apply. With no stored policy, a community-mode scan, a policy that does not compile, or a database without the policy migration, the scan keeps its previous decision and adds none of them. See [SSVC decisions](/vulnerability-management/prioritisation/ssvc/#in-the-cli-scan-and-the-remediation-plan).
 
 ## Scanner options passed through
 

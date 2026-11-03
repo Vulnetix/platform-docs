@@ -4,7 +4,7 @@ nav: Migrating to v4
 description: What changed when the Vulnetix CLI moved from v3 to v4.0.0, the Go module path, the config set and ai-firewall commands that became aliases of the config engine, plan and apply reading the well-known files, and the action version channel.
 order: 4
 sources: [cli/docs/platform-iac.md, cli/docs/PUBLISHING.md, cli/cmd/config_engine.go, cli/cmd/config_engine_alias.go, cli/cmd/config_engine_alias_aifw.go, cli/cmd/config_engine_alias_pfw.go, cli/action.yml, cli/install.sh]
-checked: [cli@v4.3.0]
+checked: [cli@v4.4.0]
 updated: 03 Nov 2026
 ---
 
@@ -33,6 +33,7 @@ v4.0.0 embeds `config-schemas` v1.10.0, the same release as the last v3 releases
 | v4.1.1 | Embeds config-schemas v1.12.0, which adds `autoUpdate` to `RuntimeSensorPolicy` and, with v1.11.0, `ComplianceTarget` |
 | v4.2.0 | Scans take `--vex <file, directory or https URL>` and read the `path` and `urls` sources of the `VexSource` documents declared in `.vulnetix/config`. See [VEX in a scan](/vex/scans/vex-file/). |
 | v4.3.0 | The `sca`, `sast`, `secrets`, `iac` and `containers` actions and the root action take a `vex` input, one path, directory or `https` URL per line, passed as repeated `--vex`. `license` and `jail` take none. |
+| v4.4.0 | An authenticated scan also applies the VEX statements the console holds for the repository, including those of `tea`, `s3` and `git` `VexSource` sources, de-duplicated against `--vex` documents and never sent back; `--no-vex` skips them and community mode applies none. `ignore remove` refuses a rule a `VexSource` owns and names the source, `ignore sync` leaves such rules out of `memory.yaml`, and `ignore list` shows them under their source. See [Statements the console holds](/vex/scans/vex-file/#statements-the-console-holds). |
 
 ## Go module path
 

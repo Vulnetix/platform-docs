@@ -112,7 +112,7 @@ export const CEL_WHERE = {
     fail: 'The rule is skipped, named in the decision\'s skipped list, and the gateway logs it.',
   },
   SsvcPolicy: {
-    where: 'by the SSVC decision in the Vulnetix site API, on every decision and summary (the summary covers at most 5000 open findings, most severe first, cached for 60 seconds)',
+    where: 'by the SSVC decision in the Vulnetix site API, on every decision and summary (the summary covers at most 5000 open findings, most severe first, cached for 60 seconds), and by the VDB API for the CLI scan and the remediation plan',
     fail: 'The decision point takes its lower value and the decision is still made. An override that fails does not hold.',
   },
   ComplianceTarget: {
@@ -386,8 +386,9 @@ The expressions are CEL over the \`finding\` context, so a policy can use any fi
 - It needs saas migration \`20261228010000_ssvc_policy\`. Until it runs, a tenant decides with the default policy, and a write or an apply is refused naming the migration.
 - Decisions are made when they are read, from the same facts as the risk ranking, with the repository's asset record. Nothing is stored per finding, so a policy change shows at once. The routes are \`GET\`, \`PUT\` and \`DELETE /v1/ssvc/policy\`, \`POST /v1/ssvc/decide\` and \`GET /v1/ssvc/summary\`.
 
-> [!CAREFUL] Two places do not read the policy yet
-> The VDB API still makes its own, simpler SSVC decision in the CLI's SCA response and in the remediation plan, and neither reads this policy. Reading it would change what the CLI reports, because the table needs mission and well-being and an unclassified repository is decided as medium.`,
+## In the CLI scan and the remediation plan
+
+The VDB API decides with this policy in two more places: the CLI's SCA response (\`POST /v2/cli/sca\`, the \`vulnetix:ssvc\` property of each vulnerability) and the remediation plan (\`GET /v2/vuln/{id}/remediation-plan\`, \`response.ssvc\`, which takes an optional \`?repo=owner/name\`). Mission and well-being come from the repository's criticality, and a repository with no asset record is decided as medium.\n\nThe policy applies only when the tenant has stored one. With no stored policy, the community credential, a database without the \`SsvcPolicy\` table, or a stored policy that no longer compiles, both keep the decision they made before policies existed, which is simpler and ignores criticality. A decision made under a policy adds \`vulnetix:ssvc:priority\`, \`:source\`, \`:exploitation\`, \`:automatable\`, \`:technicalImpact\`, \`:missionWellBeing\`, and \`:rule\` and \`:dueDays\` when they apply, to a scanned vulnerability, and \`policy\`, \`missionWellBeing\`, \`source\`, \`rule\` and \`dueDays\` to the plan's \`ssvc\` block. The fields that existed keep their meaning.`,
   },
 
   ApiSpecSource: {

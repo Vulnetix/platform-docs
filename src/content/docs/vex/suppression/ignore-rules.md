@@ -3,8 +3,8 @@ title: Ignore rules
 description: Record a triage decision as an anchored, typed, expiring ignore rule with vulnetix ignore, stored in .vulnetix/memory.yaml and shared with your organisation when authenticated.
 order: 1
 sources: [cli/cmd/suppress.go, cli/cmd/suppress_filter.go, cli/internal/suppress/suppress.go, cli/internal/memory/memory.go]
-checked: [cli@4c8c3b71c]
-updated: 02 Nov 2026
+checked: [cli@v4.4.0]
+updated: 03 Nov 2026
 ---
 
 `vulnetix ignore` (alias `suppress`) records a decision not to act on a finding: a false positive, an accepted risk, a vulnerability mitigated another way. A rule is anchored to what it covers, typed by why it exists, carries a reason, and can expire.
@@ -80,6 +80,8 @@ remote  true    rego_rule      any       vnx-sec-001     internal/handler/login.
 
 `ACTIVE` is false for a deactivated or expired rule. `CATEGORY any` means the rule has no category anchor.
 
+A rule a [`VexSource`](/platform-iac/kinds/vex-source/) made from a VEX statement is listed with the source `VexSource/<name>` and, as its anchor, the vulnerability and product it is about (CLI v4.4.0). It has no rule id; it is the source's, not an ignore rule you wrote.
+
 ## ignore remove
 
 Deactivates rather than deletes, so the audit trail stays.
@@ -94,9 +96,11 @@ Deactivates rather than deletes, so the audit trail stays.
 
 One of `--uuid`, `--rule`, `--finding` or `--value` is required. Use the `UUID` column of `ignore list` for a rule anchored only on a file.
 
+A rule a `VexSource` owns cannot be removed here, since the source's next refresh would write it back. `ignore remove --uuid` refuses it with `the rule for <vulnerability> belongs to VexSource/<name> (<type>) and cannot be removed here`, and a removal by `--finding` never reaches it. The API answers a deactivation of such a rule with `409`. Change or remove the statement at the source, or the `VexSource`. A scan still applies these statements as VEX; see [Statements the console holds](/vex/scans/vex-file/#statements-the-console-holds).
+
 ## ignore sync
 
-Pulls every rule the organisation holds for this repository into `.vulnetix/memory.yaml`. It needs credentials and does not push local rules: a rule reaches Vulnetix when `ignore add` runs authenticated.
+Pulls every rule the organisation holds for this repository into `.vulnetix/memory.yaml`, except the rules a `VexSource` owns: those stay where they are, a scan reads them from Vulnetix, and the command prints how many it left. It needs credentials and does not push local rules: a rule reaches Vulnetix when `ignore add` runs authenticated.
 
 ## .vulnetix/memory.yaml
 

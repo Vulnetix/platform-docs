@@ -969,7 +969,7 @@ A guardrail of rule type \`expression\` takes no pattern: its \`when\` is its wh
 
 ### SsvcPolicy
 
-The SSVC decision evaluates the policy's expressions over the finding, with the repository's asset record, whenever a decision or the summary is read. An expression that fails to evaluate holds for nothing: the decision point takes its lower value (not exploited, not automatable, partial impact) and the decision is still made. An override whose \`when\` fails does not hold, so the table's outcome stands. The summary decides at most 5000 open findings, most severe first, and is cached for 60 seconds per policy.
+The SSVC decision evaluates the policy's expressions over the finding, with the repository's asset record, whenever a decision or the summary is read, and the VDB API does the same for each vulnerability of a CLI scan and for the remediation plan when the tenant has stored a policy. An expression that fails to evaluate holds for nothing: the decision point takes its lower value (not exploited, not automatable, partial impact) and the decision is still made. An override whose \`when\` fails does not hold, so the table's outcome stands. The summary decides at most 5000 open findings, most severe first, and is cached for 60 seconds per policy.
 
 ### DetectionRuleFeed
 

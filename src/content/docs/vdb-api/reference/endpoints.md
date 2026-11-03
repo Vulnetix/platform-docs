@@ -51,7 +51,7 @@ The machine-readable version of most of this is `GET /v2/spec`. Routes marked â€
 | GET | `/vuln/{identifier}/workarounds` | | Workarounds. **inputs** |
 | GET | `/vuln/{identifier}/advisories` | | Vendor advisories. **inputs** |
 | GET | `/vuln/{identifier}/cwe-guidance` | | Remediation guidance for the CVE's CWEs. **inputs** |
-| GET | `/vuln/{identifier}/remediation-plan` | `ecosystem`, `packageManager`, `packageName`, `currentVersion`, `purl`, `containerImage`, `os`, `vendor`, `product`, `registry`, `topology=unknown` (`single-host`, `cluster`, `serverless`, `unknown`), `includeGuidance`, `includeVerificationSteps` | A plan of actions for your context. **inputs** |
+| GET | `/vuln/{identifier}/remediation-plan` | `ecosystem`, `packageManager`, `packageName`, `currentVersion`, `purl`, `containerImage`, `os`, `vendor`, `product`, `registry`, `topology=unknown` (`single-host`, `cluster`, `serverless`, `unknown`), `includeGuidance`, `includeVerificationSteps`, `repo` (`owner/name`) | A plan of actions for your context. With a stored [`SsvcPolicy`](/vulnerability-management/prioritisation/ssvc/#in-the-cli-scan-and-the-remediation-plan), `ssvc` is decided under it, using the criticality of `repo`, and adds `policy`, `missionWellBeing`, `source`, `rule` and `dueDays`. **inputs** |
 
 ## Exploits and threat activity
 

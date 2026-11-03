@@ -4,7 +4,7 @@ nav: "iac"
 description: "The Vulnetix/cli/iac GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/iac/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/iac.md]
-checked: [cli@v4.3.0]
+checked: [cli@v4.4.0]
 updated: 03 Nov 2026
 ---
 
@@ -38,9 +38,9 @@ Runs `vulnetix iac --path <path>`. Credentials are optional: without `org-id` an
 | `github-token` | Token for GitHub publishing, release assets and pull request comments | `${{ github.token }}` |
 | `attest` | Attest the written files with GitHub artifact attestations (needs id-token: write and attestations: write): true or false | `false` |
 | `release-tag` | Attach every file the command wrote to the GitHub release with this tag (needs contents: write) | - |
-| `vex` | VEX documents to apply before the gates, one path, directory or https URL per line (passed as --vex). VexSource documents under .vulnetix/config apply too | - |
+| `vex` | Extra or local VEX documents to apply before the gates, one path, directory or https URL per line (passed as --vex). VexSource documents under .vulnetix/config and, when authenticated, the statements the console holds apply without it | - |
 
-`vex` takes one path, directory or `https` URL per line. Each non-blank line becomes its own `--vex`, with no globbing, so the action does what [`--vex`](/vex/scans/vex-file/) does: a file or directory is read from the workspace, a URL is downloaded for the run, and a URL that cannot be fetched fails the scan. The `VexSource` documents under `.vulnetix/config` apply without the input; their `path` and `urls` sources are read, and a `tea`, `s3` or `git` source is the console's, so pass its documents here. Available from CLI v4.3.0 (`Vulnetix/cli/iac@v4`).
+`vex` takes one path, directory or `https` URL per line. Each non-blank line becomes its own `--vex`, with no globbing, so the action does what [`--vex`](/vex/scans/vex-file/) does: a file or directory is read from the workspace, a URL is downloaded for the run, and a URL that cannot be fetched fails the scan. You do not need the input for the organization's own VEX. The `VexSource` documents under `.vulnetix/config` apply without it, and an authenticated scan (CLI v4.4.0 and later) also applies the statements the console holds for the repository, including those of `tea`, `s3` and `git` sources and of VEX documents ingested earlier, de-duplicated against this input. Use the input for extra or local documents, such as a vendor's file in the workspace. `--no-vex` in `args` turns all of it off, and a community-mode run applies none from the console; see [VEX in a scan](/vex/scans/vex-file/#statements-the-console-holds). Available from CLI v4.3.0 (`Vulnetix/cli/iac@v4`).
 
 `args` is split on spaces and newlines. No shell quoting is applied, and nothing is evaluated.
 
