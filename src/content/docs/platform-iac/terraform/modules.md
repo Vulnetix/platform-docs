@@ -1,15 +1,17 @@
 ---
 title: Terraform modules
 nav: Modules
-description: The two Terraform modules for AWS, aws-onboarding, which connects an AWS account to Vulnetix, and aws-siem-shipping, which ships an account's logs to Guardian. Inputs, outputs, requirements and removal. Registry publishing is pending.
+description: The two Terraform modules for AWS, aws-onboarding, which connects an AWS account to Vulnetix, and aws-siem-shipping, which ships an account's logs to Guardian. Released, installed from Git until the Terraform registry lists them. Inputs, outputs, requirements, limits and removal.
 order: 4
 sources: ["terraform-vulnetix-aws-onboarding/README.md", "terraform-vulnetix-aws-onboarding/variables.tf", "terraform-vulnetix-aws-onboarding/outputs.tf", "terraform-vulnetix-aws-siem-shipping/README.md", "terraform-vulnetix-aws-siem-shipping/variables.tf", "terraform-vulnetix-aws-siem-shipping/outputs.tf"]
-checked: ["terraform-vulnetix-aws-onboarding@main", "terraform-vulnetix-aws-siem-shipping@main"]
+checked: ["terraform-vulnetix-aws-onboarding@v1.0.1", "terraform-vulnetix-aws-siem-shipping@v1.0.0"]
 updated: 03 Nov 2026
 ---
 
-> [!CAREFUL] Publishing pending
-> Both modules are public repositories with no release, and neither is listed on the Terraform registry. Use the Git source below until a release is published. The registry addresses the READMEs name, `Vulnetix/aws-onboarding/vulnetix` and `Vulnetix/aws-siem-shipping/vulnetix`, do not resolve yet.
+> [!CAREFUL] Released, but not on the Terraform registry yet
+> `aws-onboarding` v1.0.1 and `aws-siem-shipping` v1.0.0 are released on GitHub. They are not listed on the Terraform registry, so install them by Git source, as below. The registry addresses the READMEs name, `Vulnetix/aws-onboarding/vulnetix` and `Vulnetix/aws-siem-shipping/vulnetix`, do not resolve yet.
+>
+> The Vulnetix build team has not exercised either module against a real AWS account beyond `terraform validate`, `tflint` and read-only plans. Plan in a non-production account first and read what it will create.
 
 These two modules are for AWS, and are separate from the [provider](/platform-iac/terraform/). They work with Terraform and OpenTofu 1.5 or later. The provider manages Vulnetix's own settings; the modules create the AWS resources that connect an account to Vulnetix. The Vulnetix side of both is the [`AwsConnection`](/platform-iac/kinds/aws-connection/), [`AwsAccount`](/platform-iac/kinds/aws-account/), [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) and [`LogSource`](/platform-iac/kinds/log-source/) kinds.
 
@@ -24,7 +26,7 @@ Vulnetix then uses the role to deploy the `vulnetix-security-pipeline` stack: th
 
 ```hcl
 module "vulnetix_onboarding" {
-  source = "github.com/Vulnetix/terraform-vulnetix-aws-onboarding"
+  source = "git::https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding.git?ref=v1.0.1"
 
   external_id = "<your Vulnetix tenant uuid>"
 }
@@ -34,7 +36,9 @@ output "auditor_role_arn" {
 }
 ```
 
-Apply it with credentials that can create IAM roles, such as an IAM Identity Center administrator. Then give the account id and `auditor_role_arn` to the AWS integration in the Vulnetix console, which deploys the pipeline stack and verifies log delivery. One account has one bootstrap stack. Deploy it in the region the trail should log from. The stack name is fixed, because the console and the role's policy both refer to it.
+Apply it with credentials that can create IAM roles, such as an IAM Identity Center administrator. Then give the account id and `auditor_role_arn` to the AWS integration in the Vulnetix console, which deploys the pipeline stack and verifies log delivery. One account has one bootstrap stack, named `vulnetix-security-bootstrap`. Deploy it in the region the trail should log from. The stack name is fixed, because the console and the role's policy both refer to it, so the module cannot create a second one in the same account and region. Pin `ref=v1.0.1` or later; do not use v1.0.0.
+
+**Adopting a stack the console already deployed.** If the console created `vulnetix-security-bootstrap`, import it instead of creating it, and use v1.0.1. v1.0.0 plans to replace an imported stack, which would delete the `VulnetixSecurityAuditor` role and the CloudTrail log bucket; v1.0.1 ignores the create-only `on_failure` argument that caused it, so an import adopts the stack in place. Import the stack by its name, `terraform import module.vulnetix_onboarding.aws_cloudformation_stack.bootstrap vulnetix-security-bootstrap`, and read the plan before you apply. The module's [README](https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding/blob/v1.0.1/README.md) does not walk through an import yet, so treat that plan as the check.
 
 | Input | Default | Meaning |
 |---|---|---|
@@ -56,7 +60,7 @@ It needs `hashicorp/aws` 5.0 or later. The template is a copy of the one the con
 
 ## aws-siem-shipping
 
-[`Vulnetix/terraform-vulnetix-aws-siem-shipping`](https://github.com/Vulnetix/terraform-vulnetix-aws-siem-shipping) ships an AWS account's logs to Vulnetix Guardian, the Vulnetix SIEM. It is the Terraform form of the CloudFormation stack the Guardian Sources page launches, with the same resource names, so use one or the other in each region. It creates three Firehose delivery streams that post to `ingest.vulnetix.com` over HTTPS with your Guardian ingest token:
+[`Vulnetix/terraform-vulnetix-aws-siem-shipping`](https://github.com/Vulnetix/terraform-vulnetix-aws-siem-shipping) ships an AWS account's logs to Vulnetix Guardian, the Vulnetix SIEM. It is the Terraform form of the CloudFormation stack the Guardian Sources page launches, with the same resource names, so use one or the other in each region: a region that already has the Guardian Sources stack cannot also have this module. It creates three Firehose delivery streams that post to `ingest.vulnetix.com` over HTTPS with your Guardian ingest token:
 
 - `vulnetix-siem-flow`: VPC flow logs for the VPCs you name, in the format Guardian parses.
 - `vulnetix-siem-dns`: Route 53 Resolver query logs for the same VPCs.
@@ -64,9 +68,12 @@ It needs `hashicorp/aws` 5.0 or later. The template is a copy of the one the con
 
 Batches Guardian refuses after five minutes of retries land in `vulnetix-siem-errors-<account>-<region>`, kept for 14 days by default. Nothing here grants Vulnetix any access to the account.
 
+> [!CAREFUL] Flow logs capture all traffic
+> The flow log for each VPC in `vpc_ids` records accepted and rejected traffic, with `traffic_type = "ALL"`, and Resolver query logs record every DNS query in those VPCs. Volume, and with it Firehose and Guardian ingest cost, grows with the traffic. Start with one VPC, or send CloudTrail only, and watch the volume before adding more.
+
 ```hcl
 module "vulnetix_siem" {
-  source = "github.com/Vulnetix/terraform-vulnetix-aws-siem-shipping"
+  source = "git::https://github.com/Vulnetix/terraform-vulnetix-aws-siem-shipping.git?ref=v1.0.0"
 
   ingest_token = var.guardian_ingest_token # gdn_..., from the Guardian Sources page
   vpc_ids      = ["vpc-0abc1234def567890"]

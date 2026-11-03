@@ -222,4 +222,4 @@ A release is a `vX.Y.Z` tag on the repository. Its workflow publishes a GitHub r
 | v1.1.0 | Adds `drift_protection` to `vulnetix_organization`, the [Drift protection](/platform-iac/guides/drift-protection/) switch. Needs a server-side migration to turn on. |
 | v1.0.0 | The first release |
 
-The two AWS [modules](/platform-iac/terraform/modules/) are separate repositories and are not released yet.
+The two AWS [modules](/platform-iac/terraform/modules/) are separate repositories, released as `aws-onboarding` v1.0.1 and `aws-siem-shipping` v1.0.0. They are installed by Git source and are not on the Terraform registry yet.
