@@ -38,7 +38,7 @@ spec:
 
 | Way | Use it when | Credential |
 |---|---|---|
-| `vulnetix config apply` | You keep documents in `.vulnetix/config` or pipe them in; a person or CI applies them. | A `vmt_` config management token, or an owner or admin login |
+| `vulnetix config apply` | You keep documents in `.vulnetix/config` or pipe them in; a person or CI applies them. | The ApiKey of a `developer` or `owner` service account, or an owner login |
 | The `config-apply` workflow node and the GitHub Actions | A config repository should manage the tenant on every push to its default branch, with an approval. | The same token |
 | Terraform or OpenTofu | The rest of your infrastructure is already Terraform. | The same token |
 

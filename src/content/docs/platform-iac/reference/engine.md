@@ -3,9 +3,9 @@ title: The config engine
 nav: Engine
 description: How the server-side engine plans and applies config documents for every kind, how it records who manages an object, what status an object reports, which kinds are written outside the database transaction, and how Guardian kinds are authorized.
 order: 2
-sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/config/engine.go", "vdb-site/api/internal/config/kind.go", "vdb-site/api/internal/config/sideeffects.go", "vdb-site/api/internal/config/external.go", "vdb-site/api/internal/config/guardian.go", "vdb-site/api/internal/handler/config_engine_kinds.go", "vdb-site/api/internal/handler/config_tokens.go", "vdb-site/api/internal/handler/factory_engine_node_config_apply.go"]
-checked: ["vdb-site@cca0d31"]
-updated: 03 Nov 2026
+sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/config/engine.go", "vdb-site/api/internal/config/kind.go", "vdb-site/api/internal/config/sideeffects.go", "vdb-site/api/internal/config/external.go", "vdb-site/api/internal/config/guardian.go", "vdb-site/api/internal/handler/config_engine_kinds.go", "vdb-site/api/internal/orgroles/orgroles.go", "vdb-site/api/internal/config/guardian_assertion.go", "vdb-site/api/internal/handler/factory_engine_node_config_apply.go"]
+checked: ["vdb-site@3c8c323"]
+updated: 04 Nov 2026
 ---
 
 One server-side engine owns every kind. The CLI, the Terraform provider and the console's Download as code all call it, so they accept the same documents and give the same results. The routes are on [Config engine API](/platform-iac/reference/config-api/); the kinds are on the [catalogue](/platform-iac/kinds/catalogue/); the schemas the engine validates against come from `config-schemas` and each carries an `x-vulnetix` annotation (singleton, validate only, `dependsOn`, `secrets`, `celFields`) that the engine, the CLI, the provider and these docs all read.
@@ -24,7 +24,7 @@ Each object records its manager: `terraform`, `console` or `gitops:<repo>`, and 
 
 ## Drift protection
 
-An organisation can make the console and the legacy APIs refuse changes to a kind that has a `terraform` or `gitops:<repo>` object, with the `driftProtection` setting of the [`Organization`](/platform-iac/kinds/organization/) kind. Platform IaC writes (a `vmt_` token, `/v1/config/*`) always pass, and so do reads and exports. A guarded write answers `409 managed_by_platform_iac`, and the guard answers `503` if it cannot read the setting. It is middleware in front of the console routes, not a check in the writers the engine shares, so the engine's own apply is never blocked. See [Drift protection](/platform-iac/guides/drift-protection/).
+An organisation can make the console and the legacy APIs refuse changes to a kind that has a `terraform` or `gitops:<repo>` object, with the `driftProtection` setting of the [`Organization`](/platform-iac/kinds/organization/) kind. Platform IaC writes (everything under `/v1/config/*`) always pass, and so do reads and exports. A guarded write answers `409 managed_by_platform_iac`, and the guard answers `503` if it cannot read the setting. It is middleware in front of the console routes, not a check in the writers the engine shares, so the engine's own apply is never blocked. See [Drift protection](/platform-iac/guides/drift-protection/).
 
 ## Secrets
 
@@ -61,27 +61,18 @@ The two groups are the five [SIEM kinds](#siem-kinds-written-in-guardian) and [`
 
 [`SavedSearch`](/platform-iac/kinds/saved-search/), [`DetectionRule`](/platform-iac/kinds/detection-rule/), [`AlertTrigger`](/platform-iac/kinds/alert-trigger/), [`ScheduledReport`](/platform-iac/kinds/scheduled-report/) and [`LogSource`](/platform-iac/kinds/log-source/) live in Guardian's own store, behind its console API. The engine writes them through that API as a second phase.
 
-- **Credential and tenant.** The engine calls Guardian with the caller's own `vmt_` token (`Authorization: Bearer vmt_...`) and nothing else, and never sends a tenant. Guardian checks the token with a service-to-service introspection call, takes the tenant, role and kinds from the token's record, and requires the tenant Postgres resolves for the token's principal to be the same one. A request can only reach the tenant the token belongs to, with the role and kinds it was issued with. A shared service secret with a tenant header was ruled out: whoever held it could name any tenant.
-- **Before planning,** the engine asks Guardian who the token is, and blocks the plan when Guardian resolves it to another tenant, when the tenant has no Guardian pack, or when Guardian refuses the token.
-- **The cost.** Only a token caller can plan, apply, prune or export these kinds. For a console session or an ApiKey the five kinds are left out of what the caller may change (`kind_not_allowed`), so a session can never prune them.
+- **Credential and tenant.** The engine never sends a tenant. If the caller came with an Authentik access token, the engine forwards that token to Guardian, which already trusts Authentik. Otherwise vdb-site vouches for the caller with a signed assertion in `X-Vulnetix-Assertion`: an ES256 JWT, valid for under a minute, that names the tenant, the principal, a role and the SIEM kinds the caller may change. Guardian verifies the signature against vdb-site's public key and requires the tenant Postgres resolves for the principal to be the same one. A request can only reach the tenant the caller belongs to, with the role it has. A shared service secret with a tenant header was ruled out: whoever held it could name any tenant.
+- **Before planning,** the engine asks Guardian who the caller is, and blocks the plan when Guardian resolves it to another tenant, when the tenant has no Guardian pack, or when Guardian refuses the credential.
+- **Roles.** A service account with the `developer` role is treated as an admin by Guardian: it can write configuration. A member reads only.
 - **Names and references.** Guardian objects have ids, not names. `searchRef` and `ruleRef` are names in documents and Guardian ids on the wire. A reference to an object declared in the same apply works, because objects are written in dependency order. A messaging connection is referenced by the name a [`MessagingConnection`](/platform-iac/kinds/messaging-connection/) was declared under; one nobody declared is addressed by its id, and Guardian checks it belongs to the tenant.
 
-## Roles and tokens
+## Roles
 
 Every Org kind blocks a change by a caller who is not an owner or admin. Role rules are shared with the members page: only an owner grants owner, `admin` is never granted, and a plan whose result has no owner is refused (`no_owner`). The person applying cannot remove themselves; that check runs at apply time, because plan has no principal.
 
-A token for [`Organization`](/platform-iac/kinds/organization/), [`Member`](/platform-iac/kinds/member/), [`ServiceAccount`](/platform-iac/kinds/service-account/) or [`VaultEntry`](/platform-iac/kinds/vault-entry/) must have the owner role: these decide who can act for the tenant, so a leaked admin or member token can never add a member, mint a service account or read a secret into a place it controls. Issuing and managing tokens is on [Config engine API](/platform-iac/reference/config-api/#management-tokens).
+The `developer` role exists for service accounts that apply Platform IaC. It can plan, apply, prune and export every kind except [`Organization`](/platform-iac/kinds/organization/), [`Member`](/platform-iac/kinds/member/), [`ServiceAccount`](/platform-iac/kinds/service-account/) and [`VaultEntry`](/platform-iac/kinds/vault-entry/). Those four decide who can act for the tenant, so a leaked CI credential can never add a member, mint a service account, read a secret into a place it controls, or turn Drift protection off. Only an owner creates a `developer` or `owner` service account, and people are never given `developer`. The credentials are on [Config engine API](/platform-iac/reference/config-api/#credentials-for-automation).
 
-Besides config kinds, a token can hold read scopes:
-
-| Route | A `vmt_` token needs |
-|---|---|
-| `/campaigns` and everything under it | The `campaigns` scope, for GET and HEAD only. Any write with a token is 403. |
-| `GET /v1/ai-firewall/models` | `AiFirewallPolicy` or `AiProvider` |
-| `GET /v1/integrations/github/installations/repos` | The `github-installations` scope |
-| `GET /v1/vex/statements` | `VexSource` or `Suppression` |
-
-Guardian's search, alerts, usage and billing routes refuse tokens. Its configuration routes (searches, rules, triggers, sends and sources) accept a token that lists the matching SIEM kind; the member role reads only.
+Guardian's search, alerts, usage and billing routes are for people signed in to the console. Its configuration routes (searches, rules, triggers, sends and sources) accept the assertion described above; a member reads only.
 
 ## GitOps from a repository
 

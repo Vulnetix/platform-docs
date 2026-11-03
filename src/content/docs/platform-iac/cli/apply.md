@@ -11,7 +11,7 @@ updated: 02 Nov 2026
 `vulnetix config apply` makes a plan as [`vulnetix config plan`](/platform-iac/cli/plan/) does, prints it, asks for confirmation, and then applies exactly that plan. Added in CLI v3.155.0. From CLI v4.0.0, with no `-f`, it also reads the well-known files; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
 
 ```sh
-vulnetix config apply [-f <file|dir|->]... [--manager <manager>] [--prune] [--auto-approve] [--plan-hash <hash>] [--token <token>]
+vulnetix config apply [-f <file|dir|->]... [--manager <manager>] [--prune] [--auto-approve] [--plan-hash <hash>]
 ```
 
 | Flag | Type | Default | Meaning |
@@ -21,7 +21,6 @@ vulnetix config apply [-f <file|dir|->]... [--manager <manager>] [--prune] [--au
 | `--prune` | bool | `false` | Also delete objects this manager owns that the documents no longer declare. |
 | `--auto-approve` | bool | `false` | Apply without asking. |
 | `--plan-hash` | string | | Apply only if the fresh plan has this `planHash`. Counts as approval. |
-| `--token` | string | | As for `plan`. See [Credentials](/platform-iac/cli/plan/#credentials). |
 
 Reading, validation, `valueFrom` secrets and the `metadata.org` check are the same as for `plan`. There is no `-o`: the output is always text.
 

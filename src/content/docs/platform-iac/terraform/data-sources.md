@@ -1,21 +1,21 @@
 ---
 title: Terraform data sources
 nav: Data sources
-description: The six data sources of the vulnetix/resolve provider, what each reads, the token scope it needs, and an example. They read what the engine and the platform hold, so a resource can refer to it.
+description: The six data sources of the vulnetix/resolve provider, what each reads, what it needs, and an example. They read what the engine and the platform hold, so a resource can refer to it.
 order: 3
 sources: ["terraform-provider-resolve/docs/data-sources/kinds.md", "terraform-provider-resolve/docs/data-sources/ai_models.md", "terraform-provider-resolve/docs/data-sources/vex_statements.md", "terraform-provider-resolve/docs/data-sources/github_installation_repos.md", "terraform-provider-resolve/docs/data-sources/detection_rule_feed.md", "terraform-provider-resolve/docs/data-sources/virtual_patches.md", "vdb-site/docs/platform-iac-engine.md"]
 checked: ["terraform-provider-resolve@d7f7612", "vdb-site@b09e595"]
 updated: 03 Nov 2026
 ---
 
-A data source reads something a plan can refer to. All six use the same [config management token](/platform-iac/terraform/#authentication) as the resources, and some need a particular kind or scope on it. The provider's registry reference lists every attribute; this page says what each is for.
+A data source reads something a plan can refer to. All six use the same [credentials](/platform-iac/terraform/#authentication) as the resources. They only read, so any member credential is enough; some also need a plan feature. The provider's registry reference lists every attribute; this page says what each is for.
 
-| Data source | Reads | A `vmt_` token needs |
+| Data source | Reads | Also needs |
 |---|---|---|
-| [`vulnetix_kinds`](#vulnetix_kinds) | `GET /config/kinds` | A config management token |
-| [`vulnetix_ai_models`](#vulnetix_ai_models) | `GET /ai-firewall/models` | `AiFirewallPolicy` or `AiProvider` |
-| [`vulnetix_vex_statements`](#vulnetix_vex_statements) | `GET /vex/statements` | `VexSource` or `Suppression` |
-| [`vulnetix_github_installation_repos`](#vulnetix_github_installation_repos) | `GET /integrations/github/installations/repos` | The `github-installations` scope |
+| [`vulnetix_kinds`](#vulnetix_kinds) | `GET /config/kinds` | |
+| [`vulnetix_ai_models`](#vulnetix_ai_models) | `GET /ai-firewall/models` | |
+| [`vulnetix_vex_statements`](#vulnetix_vex_statements) | `GET /vex/statements` | |
+| [`vulnetix_github_installation_repos`](#vulnetix_github_installation_repos) | `GET /integrations/github/installations/repos` | A GitHub installation |
 | [`vulnetix_detection_rule_feed`](#vulnetix_detection_rule_feed) | `GET /detection-rule-feeds` | A Pro plan or higher |
 | [`vulnetix_virtual_patches`](#vulnetix_virtual_patches) | The same feed routes | A Pro plan or higher |
 

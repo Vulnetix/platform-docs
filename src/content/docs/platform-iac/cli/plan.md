@@ -11,7 +11,7 @@ updated: 02 Nov 2026
 `vulnetix config plan` sends your documents to the config engine and prints what applying them would do. Nothing is changed. Added in CLI v3.155.0. From CLI v4.0.0, with no `-f`, it also reads the well-known files; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
 
 ```sh
-vulnetix config plan [-f <file|dir|->]... [--manager <manager>] [--prune] [--token <token>] [-o text|json]
+vulnetix config plan [-f <file|dir|->]... [--manager <manager>] [--prune] [-o text|json]
 ```
 
 | Flag | Type | Default | Meaning |
@@ -19,7 +19,6 @@ vulnetix config plan [-f <file|dir|->]... [--manager <manager>] [--prune] [--tok
 | `-f`, `--file` | string, repeatable | `.vulnetix/config` | A file, a directory (walked recursively), or `-` for standard input. Read the same way as [validate](/platform-iac/cli/validate/#what-it-reads). |
 | `--manager` | string | `gitops:<owner/repo>` | Who declares these documents: `terraform`, `console` or `gitops:<repo>`. See [The manager](#the-manager). |
 | `--prune` | bool | `false` | Plan a delete for every object this manager owns that the documents no longer declare. |
-| `--token` | string | | Config management token. See [Credentials](#credentials). |
 | `-o`, `--output` | string | `text` | `text` or `json`. |
 
 The command takes no positional arguments.
@@ -50,13 +49,13 @@ The detected `owner/repo` is lowercased, so a local checkout whose remote says `
 
 ## Credentials
 
-The engine changes tenant policy, so plan, apply and export need an owner or admin. The CLI sends the first of:
+The engine changes tenant policy, so plan, apply and export need an owner, or a service account with the `developer` role. The CLI uses the credentials it uses everywhere else, and sends the first of:
 
-1. `--token <token>`, as `Authorization: Bearer <token>`;
-2. the `VULNETIX_CONFIG_TOKEN` environment variable, the same way;
+1. `VULNETIX_API_TOKEN`, as `Authorization: Bearer <token>` (an Authentik access token or a session token);
+2. `VULNETIX_API_KEY` with `VULNETIX_ORG_ID`, as `Authorization: ApiKey <org>:<key>`;
 3. the credential `vulnetix auth login` stored, with its usual header (`Bearer` for a token, `ApiKey` otherwise).
 
-In CI use a config management token (`vmt_...`) in `VULNETIX_CONFIG_TOKEN`. A service account's ApiKey is a member and gets HTTP 403. A 401 or 403 error names the credential source that was tried.
+In CI use the ApiKey of a `developer` service account in `VULNETIX_API_KEY` and `VULNETIX_ORG_ID`. A `member` service account gets HTTP 403. A 401 or 403 error names the credential source that was tried. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
 
 The engine is reached at `https://www.vulnetix.com/api/site/v1`. `VULNETIX_WEB_URL` replaces `https://www.vulnetix.com`, as it does for `vulnetix auth login`.
 
@@ -138,7 +137,7 @@ Code 3 is `ExitPlanBlocked` in `cmd/exit_codes.go`. It shares the number with `v
 vulnetix config plan
 vulnetix config plan -f .vulnetix/config/quality-gate.yaml -o json
 vulnetix config plan --manager gitops:acme/platform-config --prune
-VULNETIX_CONFIG_TOKEN=vmt_... vulnetix config plan --manager terraform
+VULNETIX_ORG_ID=... VULNETIX_API_KEY=... vulnetix config plan --manager terraform
 ```
 
 To apply a plan, see [`vulnetix config apply`](/platform-iac/cli/apply/).

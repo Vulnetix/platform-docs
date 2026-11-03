@@ -37,11 +37,12 @@ export const GROUPS = [
 export const PLANNED = [];
 
 // ── Who acts on a kind ──────────────────────────────────────────────────────
-// vdb-site api/internal/handler/config_tokens.go ownerTokenKinds: a token that
-// lists one of these must have the owner role.
-export const OWNER_TOKEN_KINDS = new Set(['Organization', 'Member', 'ServiceAccount', 'VaultEntry']);
-// vdb-site api/internal/config/siem.go SiemKindNames: written in Guardian with
-// the caller's own vmt_ token, so only a token caller can plan or apply them.
+// vdb-site api/internal/orgroles OwnerOnlyKinds: only an owner may apply these;
+// a service account with the developer role is refused.
+export const OWNER_ONLY_KINDS = new Set(['Organization', 'Member', 'ServiceAccount', 'VaultEntry']);
+// vdb-site api/internal/config/siem.go SiemKindNames: written in Guardian, which
+// vdb-site vouches to for the caller (a signed assertion, or the caller's own
+// Authentik access token).
 export const GUARDIAN_KINDS = new Set(['SavedSearch', 'DetectionRule', 'AlertTrigger', 'ScheduledReport', 'LogSource']);
 // vdb-site api/internal/config/external.go: kinds written in a second phase,
 // after the Postgres transaction commits. Each object has its own result, and
@@ -537,7 +538,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
 - A name that belonged to a deleted account is refused, active or not.
 - A create that rolls back deletes the Authentik user it made. A deactivation that rolls back reactivates it.
 - Delete deactivates. Secret rotation is not declarable yet: the console's rotate endpoint stays the way to rotate.
-- Owner or admin only. A token for this kind needs the owner role.`,
+- Owner only. A service account with the developer role cannot apply this kind.`,
   },
 
   NotificationDefaults: {
@@ -559,7 +560,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
 - The vault service checks the document, so it is refused for the reasons the vault page refuses it.
 - The entry keeps the \`metadata.name\` it was applied under. An undeclared entry is listed under a name derived from its id, type and provider or variable. The type cannot change.
 - Delete revokes the entry, keeping the stub and history. AI firewall and sandbox derives run after the write, in the background, one at a time per tenant.
-- Owner only: a token for this kind needs the owner role.`,
+- Owner only. A service account with the developer role cannot apply this kind.`,
   },
 
   GitHubInstallation: {

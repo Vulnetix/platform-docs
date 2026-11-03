@@ -49,7 +49,7 @@ A fetch reads at most 200 documents, each at most 8 MiB. A source with more repo
 
 ```bash
 curl -X POST https://www.vulnetix.com/api/site/v1/config/vex-sources/vex-bucket/refresh \
-  -H "Authorization: Bearer $VULNETIX_CONFIG_TOKEN"
+  -H "Authorization: ApiKey $VULNETIX_ORG_ID:$VULNETIX_API_KEY"
 ```
 
 When a fetch fails, `onError` decides: `keep-last` (the default) keeps the suppressions from the last good fetch, and `clear` removes them.

@@ -43,7 +43,6 @@ Add under **Settings > Secrets and variables > Actions**:
 |---|---|
 | `VULNETIX_ORG_ID` | Organisation UUID |
 | `VULNETIX_API_KEY` | ApiKey |
-| `VULNETIX_CONFIG_TOKEN` | Config management token (`vmt_...`), only for `config-plan` and `config-apply` |
 
 `api-token` is an alternative to `org-id` plus `api-key`: the server resolves the organisation from the token. Store it as `VULNETIX_API_TOKEN` if you use it.
 
@@ -56,7 +55,6 @@ The actions pass credentials to the CLI only as environment variables of the ste
 | `org-id` | `VULNETIX_ORG_ID` |
 | `api-key` | `VULNETIX_API_KEY` |
 | `api-token` | `VULNETIX_API_TOKEN` |
-| `config-token` | `VULNETIX_CONFIG_TOKEN` |
 | `github-token` | `GITHUB_TOKEN` |
 
 The CLI reads these before any stored file. The actions never run `vulnetix auth login`, so no `.vulnetix/credentials.json` is written into the workspace and no credential appears on a command line or in an uploaded artifact. If a credentials file is present in the workspace anyway, the run step prints a warning.
@@ -332,7 +330,6 @@ The action installs the CLI with the install script, verifies authentication whe
 | `tea-pre-release` | No | `false` | Mark as a pre-release |
 | `tea-visibility` | No | private | `private`, `shared` or `public`. Public cannot be undone. |
 | `tea-dry-run` | No | `false` | Print what would be published, publish nothing |
-| `config-token` | For `config-*` | | Config management token. Passed as `VULNETIX_CONFIG_TOKEN`, never on the command line. |
 | `config-path` | No | `.vulnetix/config` | Documents, one file or directory per line |
 | `config-manager` | No | `gitops:<owner/repo>` | Manager the documents are declared by |
 | `config-prune` | No | `false` | Delete objects this manager owns that the documents no longer declare |
@@ -394,7 +391,8 @@ jobs:
       - uses: actions/checkout@v5
       - uses: Vulnetix/cli@v4
         with:
-          config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
           task: ${{ github.event_name == 'pull_request' && 'config-plan' || 'config-apply' }}
 ```
 

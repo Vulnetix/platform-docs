@@ -136,7 +136,7 @@ Drafts GitHub repository security advisories for this repository's own SAST find
 ## campaigns
 
 ```sh
-VULNETIX_CONFIG_TOKEN=vmt_... GH_TOKEN=$ORG_PAT vulnetix gha publish campaigns --org acme [--recreate-on-scope-change] [--default-days 90] [--dry-run]
+VULNETIX_ORG_ID=... VULNETIX_API_KEY=... GH_TOKEN=$ORG_PAT vulnetix gha publish campaigns --org acme [--recreate-on-scope-change] [--default-days 90] [--dry-run]
 ```
 
 The command is available since v3.166.0 and needs a Pro plan.
@@ -146,7 +146,6 @@ Mirrors each active Vulnetix remediation campaign as a GitHub security campaign 
 | Flag | Default | Meaning |
 |---|---|---|
 | `--org` | `GITHUB_REPOSITORY_OWNER` | GitHub organisation that owns the repositories |
-| `--token` | `VULNETIX_CONFIG_TOKEN` | Vulnetix config management token (`vmt_...`) with the campaigns read scope. The token only reads. |
 | `--recreate-on-scope-change` | `false` | Close and recreate a GitHub campaign whose Vulnetix cohort changed |
 | `--default-days` | `90` | Days until a campaign with no Vulnetix deadline ends |
 | `--dry-run` | `false` | Read from Vulnetix and GitHub, print what would change, write nothing |

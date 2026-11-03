@@ -44,8 +44,7 @@ If the guard cannot read the setting or the ownership records, it refuses the wr
 
 | Always allowed | Why |
 |---|---|
-| A request with a known `vmt_` config management token, on any route | That is Platform IaC. |
-| `/v1/config/*`: plan, apply, export, the object routes, tokens and the Drift protection setting itself | The way to change a managed setting. The engine's own apply never goes through HTTP. |
+| `/v1/config/*`: plan, apply, export, the object routes and the Drift protection setting itself | The way to change a managed setting. The engine's own apply never goes through HTTP. |
 | Every read, every export, Download as code and the ownership listing | Only the four write methods are looked at. |
 | A write to a kind with no managed object, and every write while the switch is off | Nothing to protect. |
 | The switch | Drift protection never blocks itself, so an owner or admin can always turn it off. |
@@ -56,9 +55,9 @@ An owner or admin can turn it on or off at any time, in either direction. Settin
 
 | How | Who |
 |---|---|
-| `driftProtection: true` on the [`Organization`](/platform-iac/kinds/organization/#spec-driftProtection) document, applied with `vulnetix config apply`, Terraform or the config API | A config token with the owner role that lists `Organization` |
-| `PUT /v1/config/drift-protection` with `{"enabled": true}` | An owner or admin session, or a `vmt_` token that lists `Organization` |
-| `GET /v1/config/drift-protection` | Any member session, or a token of any role |
+| `driftProtection: true` on the [`Organization`](/platform-iac/kinds/organization/#spec-driftProtection) document, applied with `vulnetix config apply`, Terraform or the config API | An owner: a person, or an owner service account. A `developer` service account cannot apply `Organization`. |
+| `PUT /v1/config/drift-protection` with `{"enabled": true}` | An owner |
+| `GET /v1/config/drift-protection` | Any member session |
 
 `GET` and `PUT` answer the same object:
 
@@ -148,7 +147,7 @@ The console behaves as follows, and has not been exercised against the live back
 
 Drift protection stops the console and the legacy APIs from changing a managed kind. It is not an access control, and it has these edges:
 
-- **Any known `vmt_` token bypasses it, on any route.** The guard treats the token as Platform IaC. Treat management tokens as the keys to every managed setting; see [management tokens](/platform-iac/reference/config-api/#management-tokens).
+- **Only `/v1/config/*` bypasses it.** A credential that can apply is the key to every managed setting, but it passes only on the config routes. The same ApiKey sent to a console route is refused like anyone else. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
 - **The factory kill switch is exempt.** `POST /factory/stop`, `/factory/resume` and `/factory/a2a/blackout` are emergency controls and must work when everything else is blocked.
 - **Credential rotations are guarded.** Rotating a `ServiceAccount` key or a `VaultEntry` secret from the console is refused while that kind is managed.
 - **Finding triage is not guarded.** Marking a finding a false positive can leave a console `Suppression` rule as a side effect, and that is not blocked. Only `POST /findings/bulk/suppress`, which exists to write rules, is guarded.

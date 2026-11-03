@@ -44,7 +44,7 @@ import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 
 import { join, basename } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { readPins } from './releases.mjs';
-import { GROUPS, PLANNED, OWNER_TOKEN_KINDS, GUARDIAN_KINDS, EXTERNAL_KINDS, STATUS, CEL_WHERE, JAIL_VARS, jailTable, kindNotes } from './kind-notes.mjs';
+import { GROUPS, PLANNED, OWNER_ONLY_KINDS, GUARDIAN_KINDS, EXTERNAL_KINDS, STATUS, CEL_WHERE, JAIL_VARS, jailTable, kindNotes } from './kind-notes.mjs';
 
 const root = new URL('../..', import.meta.url).pathname;
 const argv = process.argv.slice(2);
@@ -544,9 +544,10 @@ const NOTES = kindNotes({ ENGINE_PAGE, CLI });
 
 function tokenText(kind) {
   if (statusOf(kind) === 'validate') return 'None. The server stores nothing for this kind; validating needs no credential.';
-  if (GUARDIAN_KINDS.has(kind)) return `A \`vmt_\` config management token that lists \`${kind}\` in its kinds. The owner or admin role writes; the member role reads only. A console session or an ApiKey is refused with \`kind_not_allowed\`, because the kind is written in Guardian with the caller's own token.`;
-  if (OWNER_TOKEN_KINDS.has(kind)) return `An owner or admin session, or a \`vmt_\` config management token that lists \`${kind}\` in its kinds **and has the owner role**. An admin or member token cannot carry this kind.`;
-  return `An owner or admin session, or a \`vmt_\` config management token with the owner or admin role that lists \`${kind}\` in its kinds. See [Management tokens](/platform-iac/reference/config-api/#management-tokens).`;
+  const creds = '[Credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation)';
+  if (GUARDIAN_KINDS.has(kind)) return `An owner, or a service account with the developer role, or an Authentik access token for either. The kind is written in Guardian, which vdb-site vouches to for the caller; a member can read it but not change it. See ${creds}.`;
+  if (OWNER_ONLY_KINDS.has(kind)) return `An owner: a person signed in as owner, or an owner service account. A service account with the developer role cannot apply this kind. See ${creds}.`;
+  return `An owner, or a service account with the developer role (its ApiKey), or an Authentik access token for either. A member is refused with HTTP 403. See ${creds}.`;
 }
 
 // ── Samples ─────────────────────────────────────────────────────────────────
@@ -563,7 +564,10 @@ function cliBlock(kind, yaml) {
     lines.push(`vulnetix config validate -f - <<'EOF'`, yaml, 'EOF');
     return lines.join('\n');
   }
-  lines.push('export VULNETIX_CONFIG_TOKEN=vmt_...   # a config management token');
+  lines.push(
+    'export VULNETIX_ORG_ID=...    # the organization UUID',
+    'export VULNETIX_API_KEY=...   # the ApiKey of a developer or owner service account',
+  );
   for (const env of [...new Set([...yaml.matchAll(/\benv:\s*([A-Za-z_][A-Za-z0-9_]*)/g)].map((m) => m[1]))]) {
     lines.push(`export ${env}=...   # read on this machine by valueFrom, never written to the document`);
   }

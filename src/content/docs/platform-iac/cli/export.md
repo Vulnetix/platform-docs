@@ -11,7 +11,7 @@ updated: 02 Nov 2026
 `vulnetix config export` asks the config engine to render configuration as code. Added in CLI v3.155.0.
 
 ```sh
-vulnetix config export [--kind <Kind>] [--name <name>] [--manager <manager>] [--format yaml|hcl|sh] [-o <file>] [-f <file|dir>]... [--token <token>]
+vulnetix config export [--kind <Kind>] [--name <name>] [--manager <manager>] [--format yaml|hcl|sh] [-o <file>] [-f <file|dir>]...
 ```
 
 | Flag | Type | Default | Meaning |
@@ -22,7 +22,6 @@ vulnetix config export [--kind <Kind>] [--name <name>] [--manager <manager>] [--
 | `--format` | string | `yaml` | `yaml`, `hcl` or `sh`. |
 | `-o`, `--output` | string | standard output | Write to this file. Missing directories are created; `wrote <file>` goes to standard error. `-` is standard output. |
 | `-f`, `--file` | string, repeatable | | Render these documents instead of the live state (a draft). The filters are ignored. |
-| `--token` | string | | As for `plan`. See [Credentials](/platform-iac/cli/plan/#credentials). |
 
 Note that `-o` is a file here, while on `plan` it is the output format.
 

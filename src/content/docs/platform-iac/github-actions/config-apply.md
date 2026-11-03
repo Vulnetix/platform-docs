@@ -15,10 +15,11 @@ steps:
   - uses: actions/checkout@v5
   - uses: Vulnetix/cli/config-apply@v4
     with:
-      config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
+      org-id: ${{ secrets.VULNETIX_ORG_ID }}
+      api-key: ${{ secrets.VULNETIX_API_KEY }}
 ```
 
-Runs `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--prune]`. The credential is `config-token`, which reaches the CLI only as the environment variable `VULNETIX_CONFIG_TOKEN`; see [Credentials](/cli/ci-cd/github-actions/#credentials).
+Runs `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--prune]`. The credential is the ApiKey of a `developer` or `owner` service account (`org-id` and `api-key`), or an Authentik access token in `api-token`. They reach the CLI only as environment variables. See [Credentials](/cli/ci-cd/github-actions/#credentials).
 
 ## Inputs
 
@@ -34,7 +35,6 @@ Runs `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--
 | `github-token` | Token for GitHub publishing, release assets and pull request comments | `${{ github.token }}` |
 | `attest` | Attest the written files with GitHub artifact attestations (needs id-token: write and attestations: write): true or false | `false` |
 | `release-tag` | Attach every file the command wrote to the GitHub release with this tag (needs contents: write) | - |
-| `config-token` | Config management token (vmt_...). Passed to the CLI as VULNETIX_CONFIG_TOKEN, never on the command line | - |
 | `config-path` | Config documents, one file or directory per line (default: .vulnetix/config) | - |
 | `config-manager` | Manager the documents are declared by (default: gitops:<owner/repo> of this repository) | - |
 | `config-prune` | Delete objects this manager owns that the documents no longer declare: true or false | `false` |
@@ -77,7 +77,8 @@ jobs:
       - uses: actions/checkout@v5
       - uses: Vulnetix/cli/config-apply@v4
         with:
-          config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
           config-prune: false
 ```
 

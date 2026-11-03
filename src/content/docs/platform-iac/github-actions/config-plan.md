@@ -15,10 +15,11 @@ steps:
   - uses: actions/checkout@v5
   - uses: Vulnetix/cli/config-plan@v4
     with:
-      config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
+      org-id: ${{ secrets.VULNETIX_ORG_ID }}
+      api-key: ${{ secrets.VULNETIX_API_KEY }}
 ```
 
-Runs `vulnetix config plan -o json [-f <config-path>]... [--manager] [--prune]`. The credential is `config-token`, which reaches the CLI only as the environment variable `VULNETIX_CONFIG_TOKEN`; see [Credentials](/cli/ci-cd/github-actions/#credentials).
+Runs `vulnetix config plan -o json [-f <config-path>]... [--manager] [--prune]`. The credential is the ApiKey of a `developer` or `owner` service account (`org-id` and `api-key`), or an Authentik access token in `api-token`. They reach the CLI only as environment variables. See [Credentials](/cli/ci-cd/github-actions/#credentials).
 
 ## Inputs
 
@@ -34,7 +35,6 @@ Runs `vulnetix config plan -o json [-f <config-path>]... [--manager] [--prune]`.
 | `github-token` | Token for GitHub publishing, release assets and pull request comments | `${{ github.token }}` |
 | `attest` | Attest the written files with GitHub artifact attestations (needs id-token: write and attestations: write): true or false | `false` |
 | `release-tag` | Attach every file the command wrote to the GitHub release with this tag (needs contents: write) | - |
-| `config-token` | Config management token (vmt_...). Passed to the CLI as VULNETIX_CONFIG_TOKEN, never on the command line | - |
 | `config-path` | Config documents, one file or directory per line (default: .vulnetix/config) | - |
 | `config-manager` | Manager the documents are declared by (default: gitops:<owner/repo> of this repository) | - |
 | `config-prune` | Delete objects this manager owns that the documents no longer declare: true or false | `false` |
@@ -77,7 +77,8 @@ jobs:
       - uses: Vulnetix/cli/config-plan@v4
         id: plan
         with:
-          config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
       - name: Show the counts
         if: ${{ !cancelled() }}
         env:
@@ -90,7 +91,7 @@ jobs:
 
 ## Behaviour
 
-- The token is `config-token` (`vmt_...`), passed as `VULNETIX_CONFIG_TOKEN`, never on the command line. `org-id` and `api-key` are not needed for this action.
+- The credential is `org-id` and `api-key` (the ApiKey of a `developer` or `owner` service account), or `api-token`, passed as environment variables and never on the command line. A `member` service account is refused with HTTP 403.
 - `config-path` is one file or directory per line, each passed as `-f`. With none, no `-f` is passed and the CLI reads its defaults: `.vulnetix/config` and, with CLI v4, the well-known files. `config-manager` defaults to `gitops:<owner/repo>`, lowercased, from `GITHUB_REPOSITORY`.
 - The job summary gets the plan as a table, then blocking conditions and warnings, then the counts. On `pull_request` the same text goes to one comment that starts with `<!-- vulnetix-config-plan -->`; each push updates that comment instead of adding another. A fork's read-only token cannot comment: that is a warning and the summary still has the plan.
 - `result` is `success`, `blocked` (exit code 3, the plan has blocking conditions) or `failure`. `summary` is the plan's counts, for example `0 to create, 1 to update, 0 to delete, 0 unchanged`.

@@ -1,11 +1,11 @@
 ---
 title: Terraform and OpenTofu
 nav: Overview
-description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a config management token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Published on the Terraform registry as vulnetix/resolve; OpenTofu listing is pending.
+description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a service account's ApiKey or an Authentik token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Published on the Terraform registry as vulnetix/resolve; OpenTofu listing is pending.
 order: 1
-sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/handler/config_tokens.go"]
-checked: ["terraform-provider-resolve@v1.1.0", "vdb-site@7b71e88"]
-updated: 03 Nov 2026
+sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/orgroles/orgroles.go"]
+checked: ["terraform-provider-resolve@72cdd43", "vdb-site@3c8c323"]
+updated: 04 Nov 2026
 ---
 
 The `vulnetix/resolve` provider manages Vulnetix configuration as code. Each resource is one `vulnetix.com/v1` config document of one [kind](/platform-iac/kinds/catalogue/), applied through the same [server-side engine](/platform-iac/reference/engine/) as `vulnetix config apply` and the console's Download as code. Resources, their examples and their docs are generated from the kind schemas in [`config-schemas`](https://github.com/Vulnetix/config-schemas), so a resource has the fields its kind has.
@@ -14,23 +14,24 @@ It is one binary for Terraform and OpenTofu, 1.11 or later: secrets use write-on
 
 ## Install
 
-The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). The current release is v1.1.0. A configuration needs the source and a version constraint:
+The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). The current release is v1.2.0. A configuration needs the source and a version constraint:
 
 ```hcl
 terraform {
   required_providers {
     vulnetix = {
       source  = "vulnetix/resolve"
-      version = "~> 1.1"
+      version = "~> 1.2"
     }
   }
 }
 
-# The token is read from VULNETIX_CONFIG_TOKEN when not set here. Keep it out
-# of the configuration: pass it from your CI secret store.
+# The credential is read from VULNETIX_ORG_ID and VULNETIX_API_KEY when not set
+# here. Keep it out of the configuration: pass it from your CI secret store.
 provider "vulnetix" {
   # endpoint = "https://www.vulnetix.com/api/site/v1"
-  # token    = var.vulnetix_token   # a vmt_ config management token
+  # org_id   = var.vulnetix_org_id
+  # api_key  = var.vulnetix_api_key   # the ApiKey of a developer or owner service account
   # manager  = "terraform"
 }
 
@@ -87,15 +88,16 @@ With an override, skip `init` for this provider and run `plan` or `apply` direct
 
 ## Authentication
 
-The provider authenticates with a **config management token**, `vmt_...`, sent as `Authorization: Bearer`. A token acts as a service account of the tenant and carries a role and the list of kinds it may change.
+The provider uses the credentials Vulnetix already issues. Set exactly one of the two forms; both together is an error, and neither gives a warning.
 
-| Argument | Environment variable | Default | Notes |
+| Argument | Environment variable | Sent as | Notes |
 |---|---|---|---|
-| `token` | `VULNETIX_CONFIG_TOKEN` | none | A `vmt_` token. Sensitive. Keep it out of the configuration. |
-| `endpoint` | `VULNETIX_ENDPOINT` | `https://www.vulnetix.com/api/site/v1` | The console API. The engine's routes are under `/config/...`. Set it to point at another deployment. |
-| `manager` | none | `terraform` | Recorded as the owner of every object this provider applies. |
+| `api_key` with `org_id` | `VULNETIX_API_KEY` with `VULNETIX_ORG_ID` | `Authorization: ApiKey <org_id>:<api_key>` | The ApiKey of a service account. Sensitive. Keep it out of the configuration. |
+| `token` | `VULNETIX_API_TOKEN` | `Authorization: Bearer <token>` | An Authentik access token or a session token. It names its own organisation, so there is no `org_id`. Sensitive. |
+| `endpoint` | `VULNETIX_ENDPOINT` | | Default `https://www.vulnetix.com/api/site/v1`. The console API; the engine's routes are under `/config/...`. Set it to point at another deployment. |
+| `manager` | none | | Default `terraform`. Recorded as the owner of every object this provider applies. |
 
-An owner or admin, signed in, issues a token with `POST /v1/config/tokens` and gives it a service account, a role and the kinds. The token is in that answer only. Applying needs the `owner` or `admin` role and every kind the configuration manages. Four kinds, [`Organization`](/platform-iac/kinds/organization/), [`Member`](/platform-iac/kinds/member/), [`ServiceAccount`](/platform-iac/kinds/service-account/) and [`VaultEntry`](/platform-iac/kinds/vault-entry/), need an **owner** token. The five SIEM kinds are written in Guardian with the same token, and need no other credential. A service account's ApiKey is a member and is refused. See [Management tokens](/platform-iac/reference/config-api/#management-tokens) for issuing, rotating and revoking.
+An owner creates the service account with the `developer` role (or `owner`) and gives its ApiKey to the automation. A `developer` can apply every kind except four, [`Organization`](/platform-iac/kinds/organization/), [`Member`](/platform-iac/kinds/member/), [`ServiceAccount`](/platform-iac/kinds/service-account/) and [`VaultEntry`](/platform-iac/kinds/vault-entry/), which need an **owner** credential. The five SIEM kinds are written in Guardian with the same credential. A `member` service account is refused with HTTP 403 on apply. A person's ApiKey works too, if that person is an owner. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
 
 ## Resources
 

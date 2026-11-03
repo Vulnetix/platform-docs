@@ -82,7 +82,7 @@ The legacy fallback applies when the engine answers 401 or 403 (the credential i
 What to expect after the move:
 
 - An alias run makes the object `console`-managed. A later `config apply` from a repository is blocked with `managed_by_other` until the objects are moved to documents in one step.
-- A credential that is not an owner or admin cannot plan or apply through the engine. Use a config management token (`vmt_...`) in CI so the aliases do not fall back.
+- A credential that is not an owner, or a service account with the `developer` role, cannot plan or apply through the engine. Use the ApiKey of a `developer` service account (`VULNETIX_API_KEY` and `VULNETIX_ORG_ID`) in CI so the aliases do not fall back.
 - The declarative path is `config plan`, `config apply` and `config export`. To move to documents, `vulnetix config export` writes the current state.
 
 ### Commands that stay imperative
