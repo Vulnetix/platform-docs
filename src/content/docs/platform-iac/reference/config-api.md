@@ -4,7 +4,7 @@ nav: Config API
 description: Every /v1/config route of the config engine, who may call it, how documents are sent, and the management tokens a machine uses instead of a person's session.
 order: 1
 sources: [vdb-site/api/main.go, vdb-site/api/internal/handler/config_engine.go, vdb-site/api/internal/handler/config_tokens.go, vdb-site/api/internal/handler/vex_source.go, vdb-site/api/internal/handler/config.go, cli/cmd/config_engine_client.go, cli/cmd/auth.go]
-checked: [vdb-site@fe1ff17, cli@c0662b43d]
+checked: [vdb-site@cca0d31, cli@c0662b43d]
 updated: 03 Nov 2026
 ---
 
@@ -36,6 +36,8 @@ A token issued with the `member` role cannot plan, apply or export: those answer
 | `DELETE /config/objects/{kind}/{name}?manager=&force=&sourceRef=` | Deletes one object. Without `force`, only the object's own manager may delete it. |
 | `POST /config/vex-sources/{name}/refresh` | Asks for a [VEX source](/platform-iac/guides/vex-sources/) to be fetched at the next tick. This is how a webhook-only source is told its documents changed. |
 | `POST /config/vex-sources/{name}/snapshot` | Uploads the documents a path source names, each base64 with the hex SHA-256 of its bytes. They replace the source's last snapshot: rules for statements that are gone are removed, as a fetch would. |
+| `GET /config/drift-protection` | The [Drift protection](/platform-iac/guides/drift-protection/) setting: `{enabled, available, managed[]}`. Any member session, or a token of any role. |
+| `PUT /config/drift-protection` | Turns it on or off with `{"enabled": bool}`. An owner or admin session, or a `vmt_` token that lists `Organization`. Answers `409 drift_protection_unavailable` to `true` before the server's migration. |
 | `GET /config/openapi.yaml` | This API as OpenAPI 3.1, with the kind schemas. Public: it holds no organisation data. |
 | `POST /config/tokens` | Issues a management token. The secret is in the reply once. |
 | `GET /config/tokens` | Lists tokens, never the secret or its hash |
@@ -43,6 +45,10 @@ A token issued with the `member` role cannot plan, apply or export: those answer
 | `DELETE /config/tokens/{uuid}` | Revokes a token |
 
 `GET /config` (with no further path) is not part of the engine: it is the site's public feature-flag document.
+
+## Drift protection
+
+`GET` and `PUT /config/drift-protection` read and change the organisation's [Drift protection](/platform-iac/guides/drift-protection/) setting. It is also `spec.driftProtection` of the `Organization` kind. With it on, the console and the legacy APIs answer `409 managed_by_platform_iac` to a write to a kind that has a `terraform` or `gitops` object; every `/config/*` route, and any request with a known `vmt_` token, still passes. The setting is never refused by itself.
 
 ## Sending documents
 

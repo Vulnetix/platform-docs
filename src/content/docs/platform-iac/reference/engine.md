@@ -4,7 +4,7 @@ nav: Engine
 description: How the server-side engine plans and applies config documents for every kind, how it records who manages an object, what status an object reports, which kinds are written outside the database transaction, and how Guardian kinds are authorized.
 order: 2
 sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/config/engine.go", "vdb-site/api/internal/config/kind.go", "vdb-site/api/internal/config/sideeffects.go", "vdb-site/api/internal/config/external.go", "vdb-site/api/internal/config/guardian.go", "vdb-site/api/internal/handler/config_engine_kinds.go", "vdb-site/api/internal/handler/config_tokens.go", "vdb-site/api/internal/handler/factory_engine_node_config_apply.go"]
-checked: ["vdb-site@b09e595"]
+checked: ["vdb-site@cca0d31"]
 updated: 03 Nov 2026
 ---
 
@@ -21,6 +21,10 @@ One server-side engine owns every kind. The CLI, the Terraform provider and the 
 ## Who manages an object
 
 Each object records its manager: `terraform`, `console` or `gitops:<repo>`, and the commit it came from. A manager can delete only objects it manages, and only when asked (`--prune`). A plan shows a change made outside the manager, such as an edit in the console, as drift. Kinds whose objects have no name column of their own (the Guardian kinds, `MalwareIoc`, `VexSource`, `Campaign` and others) keep `metadata.name` on the ownership record. An object nobody declared is exported under a name derived from its fields, so applying that document adopts it.
+
+## Drift protection
+
+An organisation can make the console and the legacy APIs refuse changes to a kind that has a `terraform` or `gitops:<repo>` object, with the `driftProtection` setting of the [`Organization`](/platform-iac/kinds/organization/) kind. Platform IaC writes (a `vmt_` token, `/v1/config/*`) always pass, and so do reads and exports. A guarded write answers `409 managed_by_platform_iac`, and the guard answers `503` if it cannot read the setting. It is middleware in front of the console routes, not a check in the writers the engine shares, so the engine's own apply is never blocked. See [Drift protection](/platform-iac/guides/drift-protection/).
 
 ## Secrets
 

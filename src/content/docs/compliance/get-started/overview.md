@@ -50,3 +50,5 @@ A report you create by hand covers the fixed period you give it, and its evidenc
 ## Platform IaC
 
 Compliance reports themselves have no config-as-code: reports, scope and assessor findings are created in the console or through the [HTTP API](/compliance/reference/api/). What is measured, and how often, is: a [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) document declares a report framework, a SLSA level, NIST SSDF practices or a cryptography policy on a cadence, and [Terraform and OpenTofu](/platform-iac/terraform/) manages it. See [Compliance targets](/compliance/get-started/targets/).
+
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to a compliance target that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an admin to turn Drift protection off.

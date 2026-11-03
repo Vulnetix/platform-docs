@@ -71,3 +71,5 @@ Details of the request path are on [How it works](/package-firewall/get-started/
 ## Platform IaC
 
 The firewall policy and its mirrors are the [`PackageFirewallPolicy`](/platform-iac/kinds/package-firewall-policy/) kind, and the allow and deny lists are [`PackageList`](/platform-iac/kinds/package-list/) documents of purls. A list entry can take a `when` over the package's signals (malware, CVSS, EPSS, KEV, age and more); see [CEL rule expressions](/platform-iac/reference/cel/). `vulnetix config set package-firewall` and `config get package-firewall` are the imperative forms (see [CLI commands](/package-firewall/reference/commands/)). Both kinds have Terraform resources: [Terraform and OpenTofu](/platform-iac/terraform/).
+
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to the package firewall policy or its package lists that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an admin to turn Drift protection off.

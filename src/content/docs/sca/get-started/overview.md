@@ -67,3 +67,5 @@ Run it in a workflow with the [sca](/sca/github-actions/sca/), [containers](/sca
 ## Platform IaC
 
 SCA has no config kind of its own. Its thresholds come from the organisation's quality gate, the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind. The licence files that `vulnetix license` reads are the [`LicensePolicy`](/platform-iac/kinds/license-policy/) and [`LicenseExceptions`](/platform-iac/kinds/license-exceptions/) kinds; the server stores neither, so they stay in the repository. Findings you have decided do not matter are [`Suppression`](/platform-iac/kinds/suppression/) documents or a [`VexSource`](/platform-iac/kinds/vex-source/). See the [kind catalogue](/platform-iac/kinds/catalogue/).
+
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to the quality gate is refused with HTTP 409 `managed_by_platform_iac` if the quality gate is managed as code (by Terraform or a repository). Change it where it is declared, or ask an admin to turn Drift protection off.
