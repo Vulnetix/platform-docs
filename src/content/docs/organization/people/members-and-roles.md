@@ -29,6 +29,7 @@ Your organisation is decided by the address you first signed up with:
 
 - An organisation always keeps an owner. The last owner cannot step down: `409 you are the only owner; promote someone else before stepping down`.
 - You cannot remove yourself: `400`.
+- An owner or admin can switch [Drift protection](/platform-iac/guides/drift-protection/), the setting that makes the console read only for settings managed as code. A member sees its state but cannot change it.
 - The roles a caller may hand out come back as `assignableRoles` from `GET /v1/org/members`. The console renders exactly that list.
 
 ## Joining an organisation

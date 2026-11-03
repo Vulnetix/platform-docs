@@ -3,8 +3,8 @@ title: Drift protection
 nav: Drift protection
 description: The organisation setting that makes the console and the legacy APIs refuse changes to settings managed by Platform IaC, what counts as managed, what is refused with HTTP 409 and what always passes, how an owner or admin switches it, and what it does not cover.
 order: 2
-sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/handler/drift_guard.go", "vdb-site/api/internal/handler/drift_guard_routes.go", "vdb-site/api/internal/handler/drift_guard_exempt.go", "vdb-site/api/internal/handler/drift_protection.go", "config-schemas/schemas/Organization.schema.json"]
-checked: ["config-schemas@v1.15.0", "vdb-site@cca0d31"]
+sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/handler/drift_guard.go", "vdb-site/api/internal/handler/drift_guard_routes.go", "vdb-site/api/internal/handler/drift_guard_exempt.go", "vdb-site/api/internal/handler/drift_protection.go", "config-schemas/schemas/Organization.schema.json", "website/.repo/platform-iac-indicator.md", "website/src/shared/platform-iac-pages.ts", "website/src/components/platform-iac/PlatformIacIndicator.vue", "website/src/components/platform-iac/DriftProtectionSwitch.vue", "website/src/stores/platform-iac.ts"]
+checked: ["config-schemas@v1.15.0", "vdb-site@cca0d31", "website@b548e4c"]
 updated: 03 Nov 2026
 ---
 
@@ -75,7 +75,7 @@ An owner or admin can turn it on or off at any time, in either direction. Settin
 
 `managed` lists, per kind and manager, the objects that are not `console`-managed, which is what the guard would protect. The `PUT` body takes `enabled` and nothing else. Every change is recorded in the config audit log (kind `Organization`, name `default`, field `spec.driftProtection`) with who made it and which token.
 
-A signed-in session also learns the setting from `GET /v1/account`, which carries `driftProtection`. If that read fails, the setting reads as off.
+The console switch is described under [In the console](#in-the-console). A signed-in session also learns the setting from `GET /v1/account`, which carries `driftProtection`. If that read fails, the setting reads as off.
 
 ```yaml
 apiVersion: vulnetix.com/v1
@@ -97,6 +97,52 @@ The setting is stored on the tenant row by a database migration, `20261229050000
 ```
 
 with HTTP 409. An `Organization` document with `driftProtection: false` is in step, and one with `true` fails the apply naming the migration.
+
+## In the console
+
+Since the console release of 3 November 2026, the console shows which pages are managed as code and, with Drift protection on, makes them read only. The server stays the authority: it refuses a write to a managed kind with 409 whatever the page shows.
+
+### The indicator
+
+A console page that edits a kind Platform IaC can manage shows a small branch icon in the top-right of its header, beside the **?** help icon (on its own where the page has no **?**). A page that edits no such kind shows nothing. The page-to-kinds map is fixed in the console: for example Quality gate is `QualityGate`, Jail is `JailPolicy` and `JailExemption`, Integrations is the GitHub, forge, Wiz and AWS kinds, and Members is `Member` and `ServiceAccount`.
+
+| State | When | Hover text |
+|---|---|---|
+| Hidden | The page edits no Platform IaC kind | None |
+| Unlit (dimmed) | The page can be managed as code and none of its kinds has a managed object | `Not managed by Platform IaC` |
+| Advisory (warning colour) | A kind of the page is managed and Drift protection is off | `Managed by Platform IaC (<manager>). Drift protection is off, so changes here may be overwritten at the next apply.` |
+| Enforced (primary colour, check icon) | A kind of the page is managed and Drift protection is on | `Managed by Platform IaC (<manager>). Drift protection is on: change these settings in code.` |
+
+`<manager>` is `Terraform` or `GitOps · <repo>`, and several are joined with a comma. The hover text appears after a short delay and is also the icon's accessible label.
+
+Clicking the icon opens a menu with the same sentence, then the page's managed kinds, each with its manager, `<n> objects` when there is more than one, and the `sourceRef` (the commit the last apply came from) when the server sends one. Below are links to the Platform IaC overview and to the page of each kind the page edits, and, for the switch, the **Drift protection** toggle.
+
+### Where to switch it
+
+- In the indicator's menu, on any page that has one.
+- On **Account** › **Profile** (`/resolve/account`), in the card **Platform IaC drift protection**. It explains the setting and shows the same switch, with the line `On. Settings that Platform IaC manages are read only here, and the server refuses a change made in the console. Change them in code.` or `Off. Settings that Platform IaC manages can still be edited here, and the next apply may overwrite the change.`
+
+An organisation owner or admin can switch it at any time. Anyone else sees the state, the switch is disabled, and it says `Only an organisation owner or admin can switch Drift protection.` The switch takes effect at once and is written to the config audit log like an API change.
+
+### What locked means
+
+On a page whose indicator is **enforced**, the console is read only for the kinds that are managed:
+
+- Fields are read only, and save, delete, add, edit, pause and rotate actions are disabled.
+- Tabs, filters, search, pagination, expanding and collapsing, **Download as code**, copy buttons and links keep working.
+- If a write still reaches the server, for example from a page that had not yet loaded the state, the server's 409 message is shown as a toast and the console reads the state again, so the page turns read only.
+
+The lock is per kind on a page that edits several: the Messaging page locks the connections, routes or templates that are managed and leaves the others editable.
+
+### Limits of the console
+
+The console behaves as follows, and has not been exercised against the live backend by the team that built it, so check it on your own organisation before relying on it.
+
+- **Managed is per kind, not per object.** If any repository's settings are managed as code, the repository settings page lights up and locks, including repositories that are not managed. The server guards the same way.
+- **Some pages are only partly read only.** The write actions are disabled but some fields can still be edited, though nothing saves: the Software Factory workflow canvas, the new-campaign wizard, the Belai host launch fields, and AWS onboarding on the Integrations page.
+- **Cloudflare connect and device enrollment are not Platform IaC kinds,** so they are not locked.
+- **SIEM pages.** The console map includes the Guardian pages (saved searches, detection rules, alert triggers, scheduled reports, log sources), but the server does not guard those kinds, so a lock there is only the console's.
+- **A failed read means nothing is managed.** If the console cannot read `GET /v1/config/drift-protection`, every indicator stays unlit and no page is locked, rather than showing a lock the server would not enforce. The state is read once per session, and again after a switch change or a refused write.
 
 ## What it does not cover
 
