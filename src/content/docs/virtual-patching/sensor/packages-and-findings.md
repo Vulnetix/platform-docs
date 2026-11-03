@@ -44,7 +44,8 @@ A package is matched against its own distribution's advisories first. A distribu
 |---|---|
 | Debian, Ubuntu | The distribution's advisories, for the host's release |
 | Alpine | The distribution's advisories |
-| RHEL, Amazon Linux | The distribution's advisories |
+| RHEL | The distribution's advisories |
+| Amazon Linux 2 and 2023 | The fixed builds in Amazon's own `updateinfo` feed ([ALAS](https://alas.aws.amazon.com/)), for the host's release, ingested daily. An AL2023 package is never judged by an AL2 fix, or the reverse |
 | Arch Linux (and derivatives on `pacman`) | The [Arch Security Tracker](https://security.archlinux.org/), ingested daily |
 
 Rocky, AlmaLinux, Fedora, SUSE and Wolfi hosts take the same path; how much they find depends on the advisories the vulnerability database holds for them.
