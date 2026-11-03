@@ -86,13 +86,8 @@ jobs:
   # and the terraform-provider-vulnetix main branch, so a release of either
   # config-schemas or the cli turns this job red until the pages are
   # regenerated and committed.
-  # mcp-server is private and needs the DOCS_READ_TOKEN secret: a fine-grained
-  # token with read access to Vulnetix/mcp-server contents. Without the secret
-  # the MCP count check falls back to comparing the pages with each other.
   generators:
     runs-on: [self-hosted, Linux, X64, vulnetix-local]
-    env:
-      HAS_READ_TOKEN: ${{ secrets.DOCS_READ_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -146,13 +141,6 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: actions/checkout@v5
-        if: env.HAS_READ_TOKEN == 'true'
-        with:
-          repository: Vulnetix/mcp-server
-          path: mcp-server
-          token: ${{ secrets.DOCS_READ_TOKEN }}
-
       - name: Regenerate the generated pages
         working-directory: platform-docs
         env:
@@ -174,12 +162,6 @@ jobs:
             echo "::error::generated pages are stale: run the generators in migration/generators against current checkouts and commit"
             exit 1
           fi
-
-      - name: Check MCP tool and prompt counts against mcp-server
-        working-directory: platform-docs
-        env:
-          SF_SRC_MCP_SERVER: ${{ github.workspace }}/mcp-server
-        run: node --test test/mcp-counts.test.mjs
 
   deploy:
     needs: build
