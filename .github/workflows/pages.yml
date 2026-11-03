@@ -84,7 +84,7 @@ jobs:
   # catalogue, the CEL reference and the Terraform resource list. It reads the
   # config-schemas and cli releases pinned in migration/generators/releases.json
   # (the pages record the same tags in their `checked:` line) and the
-  # terraform-provider-vulnetix main branch. A release of config-schemas or the
+  # terraform-provider-resolve main branch. A release of config-schemas or the
   # cli therefore adds a warning, not a red run. To move to it, run
   # `node migration/generators/releases.mjs --bump`, check out those tags,
   # run the generators and commit the pages with the new pins.
@@ -129,8 +129,8 @@ jobs:
 
       - uses: actions/checkout@v5
         with:
-          repository: Vulnetix/terraform-provider-vulnetix
-          path: terraform-provider-vulnetix
+          repository: Vulnetix/terraform-provider-resolve
+          path: terraform-provider-resolve
           fetch-depth: 0
 
       - uses: actions/checkout@v5
@@ -144,7 +144,7 @@ jobs:
       - name: Regenerate the generated pages
         working-directory: platform-docs
         run: |
-          node migration/generators/kind-reference.mjs --schemas ../config-schemas --provider ../terraform-provider-vulnetix --cli ../cli
+          node migration/generators/kind-reference.mjs --schemas ../config-schemas --provider ../terraform-provider-resolve --cli ../cli
           node migration/generators/gha-scanners.mjs --cli ../cli
           node migration/generators/github-rules.mjs --cli ../cli
           node migration/generators/sast-rules.mjs --cli ../cli

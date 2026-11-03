@@ -1,17 +1,17 @@
 ---
 title: Terraform and OpenTofu
 nav: Overview
-description: The vulnetix/vulnetix provider for Terraform and OpenTofu. Install, authenticate with a config management token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Publishing to the registries is pending.
+description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a config management token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Publishing to the registries is pending.
 order: 1
-sources: ["terraform-provider-vulnetix/README.md", "terraform-provider-vulnetix/docs/index.md", "terraform-provider-vulnetix/examples/provider/provider.tf", "terraform-provider-vulnetix/templates/resources.md.tmpl", "terraform-provider-vulnetix/cmd/genresources/served.go", "vdb-site/api/internal/handler/config_tokens.go"]
-checked: ["terraform-provider-vulnetix@169ce16", "vdb-site@7b71e88"]
+sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/handler/config_tokens.go"]
+checked: ["terraform-provider-resolve@5e0e9d2", "vdb-site@7b71e88"]
 updated: 03 Nov 2026
 ---
 
 > [!CAREFUL] Publishing pending
-> The provider's source is public at [`Vulnetix/terraform-provider-vulnetix`](https://github.com/Vulnetix/terraform-provider-vulnetix), but it has no release yet, and neither the Terraform registry nor the OpenTofu registry lists `vulnetix/vulnetix`. `terraform init` cannot download it until the first release is published and the registries have it. Until then, [build it from source](#before-the-first-release). The same is true of the two [modules](/platform-iac/terraform/modules/).
+> The provider's source is public at [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve), but it has no release yet, and neither the Terraform registry nor the OpenTofu registry lists `vulnetix/resolve`. `terraform init` cannot download it until the first release is published and the registries have it. Until then, [build it from source](#before-the-first-release). The same is true of the two [modules](/platform-iac/terraform/modules/).
 
-The `vulnetix/vulnetix` provider manages Vulnetix configuration as code. Each resource is one `vulnetix.com/v1` config document of one [kind](/platform-iac/kinds/catalogue/), applied through the same [server-side engine](/platform-iac/reference/engine/) as `vulnetix config apply` and the console's Download as code. Resources, their examples and their docs are generated from the kind schemas in [`config-schemas`](https://github.com/Vulnetix/config-schemas), so a resource has the fields its kind has.
+The `vulnetix/resolve` provider manages Vulnetix configuration as code. Each resource is one `vulnetix.com/v1` config document of one [kind](/platform-iac/kinds/catalogue/), applied through the same [server-side engine](/platform-iac/reference/engine/) as `vulnetix config apply` and the console's Download as code. Resources, their examples and their docs are generated from the kind schemas in [`config-schemas`](https://github.com/Vulnetix/config-schemas), so a resource has the fields its kind has.
 
 It is one binary for Terraform and OpenTofu, 1.11 or later: secrets use write-only arguments, which arrived in 1.11.
 
@@ -23,7 +23,7 @@ Once published, a configuration needs only the source:
 terraform {
   required_providers {
     vulnetix = {
-      source = "vulnetix/vulnetix"
+      source = "vulnetix/resolve"
     }
   }
 }
@@ -41,23 +41,23 @@ resource "vulnetix_quality_gate" "default" {
 }
 ```
 
-Then `terraform init && terraform apply`, or `tofu init && tofu apply`. OpenTofu resolves the same `vulnetix/vulnetix` source from its own registry; nothing else changes.
+Then `terraform init && terraform apply`, or `tofu init && tofu apply`. OpenTofu resolves the same `vulnetix/resolve` source from its own registry; nothing else changes.
 
 ### Before the first release
 
 Build the provider and point Terraform or OpenTofu at the binary with a development override:
 
 ```bash
-git clone https://github.com/Vulnetix/terraform-provider-vulnetix
-cd terraform-provider-vulnetix
-go build -o "$HOME/go/bin/terraform-provider-vulnetix" .
+git clone https://github.com/Vulnetix/terraform-provider-resolve
+cd terraform-provider-resolve
+go build -o "$HOME/go/bin/terraform-provider-resolve" .
 ```
 
 ```hcl
 # ~/.terraformrc, or ~/.tofurc for OpenTofu
 provider_installation {
   dev_overrides {
-    "vulnetix/vulnetix" = "/home/you/go/bin"
+    "vulnetix/resolve" = "/home/you/go/bin"
   }
   direct {}
 }
@@ -190,7 +190,9 @@ The provider is the same binary for both tools and is meant to be published to b
 
 | Registry | Address | Status |
 |---|---|---|
-| Terraform registry | `registry.terraform.io/vulnetix/vulnetix` | Publishing pending. The namespace's signing key is added and the provider published from the repository on the first release. |
-| OpenTofu registry | `registry.opentofu.org/vulnetix/vulnetix` | Publishing pending. Submitted to the registry repository with the same key after the first release. |
+| Terraform registry | `registry.terraform.io/vulnetix/resolve` | Publishing pending. The namespace's signing key is added and the provider published from the repository on the first release. |
+| OpenTofu registry | `registry.opentofu.org/vulnetix/resolve` | Publishing pending. Submitted to the registry repository with the same key after the first release. |
+
+The address is `vulnetix/resolve`: namespace `vulnetix`, type `resolve`. The local name stays `vulnetix`, so the resources keep the `vulnetix_` prefix. Both registries require the repository to be named `terraform-provider-{type}` and the release archives to be named `terraform-provider-{type}_{version}_{os}_{arch}.zip`, which is why the repository is `Vulnetix/terraform-provider-resolve`.
 
 A release is a `vX.Y.Z` tag on the repository. Its workflow publishes a GitHub release in the registry layout: zips per platform, a manifest, `SHA256SUMS` and a detached GPG signature that both registries read.

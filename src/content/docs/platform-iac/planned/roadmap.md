@@ -3,8 +3,8 @@ title: "Platform IaC: what is shipped and what is not"
 nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
-sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.12.0", "vdb-site@7b71e88", "cli@v4.2.0", "terraform-provider-vulnetix@169ce16"]
+sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-resolve/README.md", "website/src/pages/resolve/quality-gate.vue"]
+checked: ["config-schemas@v1.12.0", "vdb-site@7b71e88", "cli@v4.2.0", "terraform-provider-resolve@169ce16"]
 updated: 03 Nov 2026
 ---
 

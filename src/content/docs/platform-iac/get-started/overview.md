@@ -2,7 +2,7 @@
 title: Overview
 description: What Platform IaC is, which Vulnetix configuration you can keep as code, how documents are applied from the CLI, Terraform and a repository, and where each piece is documented.
 order: 1
-sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, vdb-site/docs/platform-iac-engine.md, terraform-provider-vulnetix/README.md]
+sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, vdb-site/docs/platform-iac-engine.md, terraform-provider-resolve/README.md]
 checked: [config-schemas@v1.8.0, cli@v3.166.0, vdb-site@3c0433c]
 updated: 03 Nov 2026
 ---
@@ -27,7 +27,7 @@ spec:
 | Config engine | The server side that plans, applies and exports every kind, records who manages each object, and reports status. All kinds are served except `LicensePolicy` and `LicenseExceptions`, which are validate only. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
 | CLI | `vulnetix config validate`, `kinds` and `schema` work offline; `plan`, `apply` and `export` use the engine. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
 | CEL | A `when` or `selector` expression on jail rules, risk rules, suppressions, package list entries, AI guardrails and detection rule feeds. | [CEL rule expressions](/platform-iac/reference/cel/) |
-| Terraform and OpenTofu | The `vulnetix/vulnetix` provider, one resource per kind, and two AWS modules. Publishing to the registries is pending. | [Terraform and OpenTofu](/platform-iac/terraform/) |
+| Terraform and OpenTofu | The `vulnetix/resolve` provider, one resource per kind, and two AWS modules. Publishing to the registries is pending. | [Terraform and OpenTofu](/platform-iac/terraform/) |
 | GitHub Actions | Plan on pull requests, apply on the default branch. | [config-plan](/platform-iac/github-actions/config-plan/), [config-apply](/platform-iac/github-actions/config-apply/) |
 | Schemas | Signed JSON Schemas, with pinned and `latest` URLs. | [Schema releases](/platform-iac/schemas/releases/) |
 

@@ -1,10 +1,10 @@
 ---
 title: Terraform data sources
 nav: Data sources
-description: The six data sources of the vulnetix/vulnetix provider, what each reads, the token scope it needs, and an example. They read what the engine and the platform hold, so a resource can refer to it.
+description: The six data sources of the vulnetix/resolve provider, what each reads, the token scope it needs, and an example. They read what the engine and the platform hold, so a resource can refer to it.
 order: 3
-sources: ["terraform-provider-vulnetix/docs/data-sources/kinds.md", "terraform-provider-vulnetix/docs/data-sources/ai_models.md", "terraform-provider-vulnetix/docs/data-sources/vex_statements.md", "terraform-provider-vulnetix/docs/data-sources/github_installation_repos.md", "terraform-provider-vulnetix/docs/data-sources/detection_rule_feed.md", "terraform-provider-vulnetix/docs/data-sources/virtual_patches.md", "vdb-site/docs/platform-iac-engine.md"]
-checked: ["terraform-provider-vulnetix@d7f7612", "vdb-site@b09e595"]
+sources: ["terraform-provider-resolve/docs/data-sources/kinds.md", "terraform-provider-resolve/docs/data-sources/ai_models.md", "terraform-provider-resolve/docs/data-sources/vex_statements.md", "terraform-provider-resolve/docs/data-sources/github_installation_repos.md", "terraform-provider-resolve/docs/data-sources/detection_rule_feed.md", "terraform-provider-resolve/docs/data-sources/virtual_patches.md", "vdb-site/docs/platform-iac-engine.md"]
+checked: ["terraform-provider-resolve@d7f7612", "vdb-site@b09e595"]
 updated: 03 Nov 2026
 ---
 

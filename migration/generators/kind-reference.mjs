@@ -16,7 +16,7 @@
 //                         secrets and celFields
 //   examples/<Kind>/*     in config-schemas: the YAML samples
 //   the provider          examples/resources/vulnetix_<kind>/ in
-//                         Vulnetix/terraform-provider-vulnetix at its main: the
+//                         Vulnetix/terraform-provider-resolve at its main: the
 //                         HCL samples and the import command
 //   the CLI               the release pinned in releases.json, and the
 //                         config-schemas release its go.mod pinned at each tag
@@ -55,7 +55,7 @@ const flag = (name, env) => {
 const positional = argv.filter((a, i) => !a.startsWith('--') && !argv[i - 1]?.startsWith('--'))[0];
 const sibling = (n) => join(root, '..', n);
 const schemasRepo = flag('schemas', 'CONFIG_SCHEMAS_DIR') ?? positional ?? sibling('config-schemas');
-const providerRepo = flag('provider', 'TF_PROVIDER_DIR') ?? sibling('terraform-provider-vulnetix');
+const providerRepo = flag('provider', 'TF_PROVIDER_DIR') ?? sibling('terraform-provider-resolve');
 const cliRepo = flag('cli', 'CLI_DIR') ?? sibling('cli');
 const vdbSite = flag('vdb-site', 'VDB_SITE_DIR');
 const vdbApi = flag('vdb-api', 'VDB_API_DIR');
@@ -735,7 +735,7 @@ for (const kind of kinds) {
   body += '## Terraform and OpenTofu\n\n';
   if (tfPresent) {
     const imp = providerFile(`examples/resources/${res}/import.sh`);
-    body += `The resource is \`${res}\` in the \`vulnetix/vulnetix\` provider. Its arguments are the \`spec\` in snake case, beside \`name\`, \`labels\` and \`annotations\` from \`metadata\`. The Minimal and Advanced HCL are above. The provider's own reference is [${res}](https://registry.terraform.io/providers/vulnetix/vulnetix/latest/docs/resources/${snake(kind)}).\n\n`;
+    body += `The resource is \`${res}\` in the \`vulnetix/resolve\` provider. Its arguments are the \`spec\` in snake case, beside \`name\`, \`labels\` and \`annotations\` from \`metadata\`. The Minimal and Advanced HCL are above. The provider's own reference is [${res}](https://registry.terraform.io/providers/vulnetix/resolve/latest/docs/resources/${snake(kind)}).\n\n`;
     body += `Import an object that already exists by its name${meta.singleton ? ' (`default`)' : ''}:\n\n${fence('shell', imp ?? `terraform import ${res}.example <name>`)}\n\n`;
     if (meta.secrets.length) body += `A secret is two arguments, never stored in the plan or the state: ${meta.secrets.map((p) => { const n = snake(p.split('.').at(-1)); return `\`${n}_wo\` (write-only) and \`${n}_wo_version\``; }).join(', ')}. Change the version number to send a new value. See [Secrets](${TF_PAGE}#secrets).\n\n`;
     body += `Install, authentication and how state is read: [Terraform and OpenTofu](${TF_PAGE}).\n\n`;
@@ -757,11 +757,11 @@ for (const kind of kinds) {
     `config-schemas/schemas/${file}`, 'config-schemas/schemas/common.schema.json',
     ...['minimal', 'advanced', ...others.map((o) => o.replace(/\.ya?ml$/, ''))].map((e) => `config-schemas/examples/${kind}/${e}.yaml`),
     ...(celFields.length ? ['config-schemas/cel/variables.go'] : []),
-    ...(tfPresent ? [`terraform-provider-vulnetix/examples/resources/${res}/minimal.tf`, `terraform-provider-vulnetix/examples/resources/${res}/advanced.tf`] : []),
+    ...(tfPresent ? [`terraform-provider-resolve/examples/resources/${res}/minimal.tf`, `terraform-provider-resolve/examples/resources/${res}/advanced.tf`] : []),
     'vdb-site/docs/platform-iac-engine.md', 'vdb-site/api/internal/handler/config_engine_kinds.go',
     ...(notes.sources ?? []),
   ];
-  const checked = [`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-vulnetix@${providerSha}`] : []), ...(cliLatest ? [`cli@${cliLatest}`] : [])];
+  const checked = [`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-resolve@${providerSha}`] : []), ...(cliLatest ? [`cli@${cliLatest}`] : [])];
   const desc = `${clip(firstSentence(schema.description), 160)} Fields, YAML, HCL and CLI samples, and how apply treats it.`;
   const front = [
     '---',
@@ -817,8 +817,8 @@ if (isGenerated(catOut)) {
     `description: ${JSON.stringify('Every Platform IaC config kind, grouped by product, with its status, whether it has a Terraform resource, and a link to its page.')}`,
     'order: 1',
     'generated: true',
-    `sources: ["config-schemas/README.md", "config-schemas/schemas/", "terraform-provider-vulnetix/examples/resources/", "vdb-site/docs/platform-iac-engine.md"]`,
-    `checked: [${[`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-vulnetix@${providerSha}`] : [])].map((c) => JSON.stringify(c)).join(', ')}]`,
+    `sources: ["config-schemas/README.md", "config-schemas/schemas/", "terraform-provider-resolve/examples/resources/", "vdb-site/docs/platform-iac-engine.md"]`,
+    `checked: [${[`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-resolve@${providerSha}`] : [])].map((c) => JSON.stringify(c)).join(', ')}]`,
     '---',
     '',
     '<!-- Generated by migration/generators/kind-reference.mjs from Vulnetix/config-schemas. Edit the schema, kind-notes.mjs or the generator, not this page. -->',
@@ -833,7 +833,7 @@ const tfOut = join(docsRoot, 'terraform', 'resources.md');
 if (isGenerated(tfOut)) {
   mkdirSync(join(tfOut, '..'), { recursive: true });
   const withTf = catalogue.filter((c) => c.tf);
-  let body = `The \`vulnetix/vulnetix\` provider has ${withTf.length} resources, one for each kind the engine stores that the provider's \`${providerRefName}\` branch has generated. Each is one \`vulnetix.com/v1\` document of its kind; its arguments are the kind's \`spec\` in snake case, beside \`name\`, \`labels\` and \`annotations\` from \`metadata\`. A kind's page has the resource's **Minimal** and **Advanced** HCL beside the YAML and CLI forms, the fields, and how apply treats it. For install, authentication, state and secrets, see [Terraform and OpenTofu](${TF_PAGE}).\n\n`;
+  let body = `The \`vulnetix/resolve\` provider has ${withTf.length} resources, one for each kind the engine stores that the provider's \`${providerRefName}\` branch has generated. Each is one \`vulnetix.com/v1\` document of its kind; its arguments are the kind's \`spec\` in snake case, beside \`name\`, \`labels\` and \`annotations\` from \`metadata\`. A kind's page has the resource's **Minimal** and **Advanced** HCL beside the YAML and CLI forms, the fields, and how apply treats it. For install, authentication, state and secrets, see [Terraform and OpenTofu](${TF_PAGE}).\n\n`;
   body += 'Import takes the object\'s name (`metadata.name`); a kind with one object per tenant is named `default`. A secret is a write-only `<name>_wo` argument with a `<name>_wo_version` number.\n\n';
   for (const [group, blurb, ks] of GROUPS) {
     const rowsIn = ks.map((k) => catalogue.find((c) => c.kind === k)).filter(Boolean);
@@ -854,11 +854,11 @@ if (isGenerated(tfOut)) {
     '---',
     'title: Terraform resources',
     'nav: Resources',
-    `description: ${JSON.stringify('Every resource of the vulnetix/vulnetix provider with its kind, how many objects a tenant has, its import command, and links to its Minimal and Advanced HCL.')}`,
+    `description: ${JSON.stringify('Every resource of the vulnetix/resolve provider with its kind, how many objects a tenant has, its import command, and links to its Minimal and Advanced HCL.')}`,
     'order: 2',
     'generated: true',
-    `sources: ["terraform-provider-vulnetix/examples/resources/", "terraform-provider-vulnetix/cmd/genresources/served.go", "config-schemas/schemas/"]`,
-    `checked: [${[`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-vulnetix@${providerSha}`] : [])].map((c) => JSON.stringify(c)).join(', ')}]`,
+    `sources: ["terraform-provider-resolve/examples/resources/", "terraform-provider-resolve/cmd/genresources/served.go", "config-schemas/schemas/"]`,
+    `checked: [${[`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-resolve@${providerSha}`] : [])].map((c) => JSON.stringify(c)).join(', ')}]`,
     '---',
     '',
     '<!-- Generated by migration/generators/kind-reference.mjs from the provider\'s examples and Vulnetix/config-schemas. Edit the generator, not this page. -->',
