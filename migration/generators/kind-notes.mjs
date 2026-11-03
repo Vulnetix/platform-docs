@@ -507,6 +507,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
     sources: ['vdb-site/api/internal/config/organization.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
+- \`driftProtection\` is the [Drift protection](/platform-iac/guides/drift-protection/) switch. It always reads back (\`false\` before the server's migration), \`true\` is refused until that migration is applied, and the setting is never refused by Drift protection itself, so an owner or admin can always turn it off. Turning it on makes the console and the legacy APIs answer \`409 managed_by_platform_iac\` to a write to a managed kind.
 - A singleton that merges: a field left out is left as it is.
 - Domains are written with the account page's writer on the tenant row. Before the column's migration they read as absent and a write is refused.
 - The display name is patched on the Authentik group \`org-<slug>\` (attribute \`display_name\`). That write registers an undo that puts the old name back when the apply does not commit.
