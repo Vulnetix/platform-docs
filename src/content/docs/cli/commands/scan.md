@@ -221,9 +221,9 @@ Nothing is inferred from branch names.
 |---|---|
 | `--vex-file <file or dir>` | Apply these VEX statements before the gates (repeatable) |
 | `--vex <file, dir or https URL>` | As `--vex-file`; an `https://` URL is downloaded for the run (repeatable, CLI v4.2.0 and later) |
-| `--no-vex` | Ignore `--vex-file`, `--vex`, the `VexSource` documents declared in `.vulnetix/config` and the statements the console holds |
+| `--no-vex` | Ignore `--vex-file`, `--vex`, the `VexSource` documents declared in `.vulnetix/config` and the statements the Resolve Platform holds |
 
-A scan also reads the `path` and `urls` sources of the declared [`VexSource`](/platform-iac/kinds/vex-source/) documents. An authenticated scan also applies the statements the console holds for the repository, including those of `tea`, `s3` and `git` sources (CLI v4.4.0); community mode applies none from the console. See [VEX in a scan](/vex/scans/vex-file/) and [VEX](/vex/).
+A scan also reads the `path` and `urls` sources of the declared [`VexSource`](/platform-iac/kinds/vex-source/) documents. An authenticated scan also applies the statements the Resolve Platform holds for the repository, including those of `tea`, `s3` and `git` sources (CLI v4.4.0); community mode applies none from the Resolve Platform. See [VEX in a scan](/vex/scans/vex-file/) and [VEX](/vex/).
 
 ## SSVC decisions
 

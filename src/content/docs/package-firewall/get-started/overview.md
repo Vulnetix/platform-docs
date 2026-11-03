@@ -10,7 +10,7 @@ updated: 03 Nov 2026
 
 The Package Firewall is an authenticating proxy at `https://packages.vulnetix.com`. You point a package manager at it instead of the public registry. For every request it checks your organization's credentials and add-on, fetches the document from an upstream mirror, applies your organization's policy and curation lists, and then serves, filters or refuses the response.
 
-Policy is per organization and applies to every ecosystem your organization can use. You configure it in the console at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall) or with `vulnetix config set package-firewall`.
+Policy is per organization and applies to every ecosystem your organization can use. You configure it in the Resolve Platform at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall) or with `vulnetix config set package-firewall`.
 
 ## Ecosystems
 
@@ -45,7 +45,7 @@ Each ecosystem has a route prefix under `https://packages.vulnetix.com`. Go is s
 | [Terraform](/package-firewall/clients/terraform/) | `terraform` | `/terraform` | filter | Add-on | no | manual |
 
 - **ID** is the value you use for mirrors, curation entries and decision-log filters.
-- **Plan**: Free means every account can use it on any plan: the pkg.go.dev API (`go-dev`) and the AUR (`aur`). Add-on means the organization has the Package Firewall add-on ($125 a month, bought in the console under [Billing](https://www.vulnetix.com/resolve/billing#addons)) or is on the Enterprise plan, which includes every add-on. That covers every other ecosystem, including the Go module proxy at `/`, Arch Linux (pacman), Homebrew and its bottles. The Resolve Platform plan (Community, Pro, Business or Enterprise) no longer decides which ecosystems you can use. A request for an add-on ecosystem without the add-on returns `402`; see [Block responses](/package-firewall/reference/responses/#plan).
+- **Plan**: Free means every account can use it on any plan: the pkg.go.dev API (`go-dev`) and the AUR (`aur`). Add-on means the organization has the Package Firewall add-on ($125 a month, bought in the Resolve Platform under [Billing](https://www.vulnetix.com/resolve/billing#addons)) or is on the Enterprise plan, which includes every add-on. That covers every other ecosystem, including the Go module proxy at `/`, Arch Linux (pacman), Homebrew and its bottles. The Resolve Platform plan (Community, Pro, Business or Enterprise) no longer decides which ecosystems you can use. A request for an add-on ecosystem without the add-on returns `402`; see [Block responses](/package-firewall/reference/responses/#plan).
 - **Cooldown** says whether the [cooldown window](/package-firewall/policy/settings/#cooldown) is enforced for that ecosystem today.
 - **manual** means `vulnetix package-firewall <ecosystem>` exits 1 with `automatic <name> configuration is not implemented yet`. The client page gives the configuration to write yourself.
 

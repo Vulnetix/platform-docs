@@ -7,7 +7,7 @@ checked: [package-firewall@77cd1a5, cli@4c8c3b7, vdb-site@1a06d67, saas@50cedf37
 updated: 03 Nov 2026
 ---
 
-One policy per organization applies to every ecosystem your organization can use (the free ones and, with the Package Firewall add-on, the rest). Set it in the console at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall) on the **Policies** tab, or with `vulnetix config set package-firewall`. The proxy picks up a change within 60 seconds.
+One policy per organization applies to every ecosystem your organization can use (the free ones and, with the Package Firewall add-on, the rest). Set it in the Resolve Platform at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall) on the **Policies** tab, or with `vulnetix config set package-firewall`. The proxy picks up a change within 60 seconds.
 
 ## Settings
 

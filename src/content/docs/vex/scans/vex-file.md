@@ -1,7 +1,7 @@
 ---
 title: VEX in a scan
 nav: --vex and --vex-file
-description: Apply third-party VEX documents to a scan with --vex-file, --vex (a file, a directory or an https URL), the VexSource documents declared in .vulnetix/config and, when authenticated, the statements the console holds, so every quality gate honours them, and read the summary line that says how many findings VEX hid.
+description: Apply third-party VEX documents to a scan with --vex-file, --vex (a file, a directory or an https URL), the VexSource documents declared in .vulnetix/config and, when authenticated, the statements the Resolve Platform holds, so every quality gate honours them, and read the summary line that says how many findings VEX hid.
 order: 1
 sources: [cli/cmd/scan.go, cli/cmd/vex.go, cli/cmd/vex_sources.go, cli/cmd/suppress.go, cli/internal/vex/console.go, cli/internal/scanopts/fromcobra.go, cli/internal/vex/read.go, cli/docs/vex-sources.md]
 checked: [cli@v4.4.0]
@@ -21,7 +21,7 @@ vulnetix sca --vex-file ./vex/ --no-vex     # --no-vex wins
 |---|---|---|
 | `--vex-file` | | VEX file or directory to apply before the gates run. Repeatable. |
 | `--vex` | | A VEX file, a directory or an `https://` URL, as `--vex-file` does. Repeatable. |
-| `--no-vex` | `false` | Ignore every `--vex-file`, every `--vex`, the declared VexSource documents and the statements the console holds |
+| `--no-vex` | `false` | Ignore every `--vex-file`, every `--vex`, the declared VexSource documents and the statements the Resolve Platform holds |
 
 ## Where a scan reads VEX from
 
@@ -31,7 +31,7 @@ vulnetix sca --vex-file ./vex/ --no-vex     # --no-vex wins
 | `--vex <path>` | The same as `--vex-file`. |
 | `--vex <https URL>` | Downloaded for the run, then read like a file. At most 8 MiB and 30 seconds. A plain `http://` URL is refused. |
 | [`VexSource`](/platform-iac/kinds/vex-source/) documents in `.vulnetix/config` | See [Declared VexSource documents](#declared-vexsource-documents). |
-| The Vulnetix console | When the scan is authenticated, the statements the console holds for the repository (CLI v4.4.0). See [Statements the console holds](#statements-the-console-holds). |
+| The Resolve Platform | When the scan is authenticated, the statements the Resolve Platform holds for the repository (CLI v4.4.0). See [Statements the Resolve Platform holds](#statements-the-resolve-platform-holds). |
 
 Every input is merged into one list and applied once. A file named twice is read once. `--vex` and `--vex-file` are two spellings of the same thing, so a command line can mix them.
 
@@ -43,13 +43,13 @@ A `--vex` URL that cannot be fetched fails the scan, with `--vex: <url>: HTTP 40
 
 ### Declared VexSource documents
 
-A scan also reads the [`VexSource`](/platform-iac/kinds/vex-source/) documents under `.vulnetix/config` in the directory being scanned, so a CI gate honours what the organization declared without a second flag. The two sources a machine running the scan can reach are read from the documents themselves; the console fetches the rest, and an authenticated scan reads what it made of them:
+A scan also reads the [`VexSource`](/platform-iac/kinds/vex-source/) documents under `.vulnetix/config` in the directory being scanned, so a CI gate honours what the organization declared without a second flag. The two sources a machine running the scan can reach are read from the documents themselves; the Resolve Platform fetches the rest, and an authenticated scan reads what it made of them:
 
 | `VexSource` source | What the scan does |
 |---|---|
 | `path` | Reads the file or directory. A relative path is tried under the scanned directory, then under `.vulnetix/config`. |
 | `urls` | Fetches each `https` URL, as `--vex` does. |
-| `tea`, `s3`, `git` | Not read from the source. The console fetches these, and an authenticated scan applies the statements it made of them (next section). An unauthenticated scan cannot, and prints `note: VexSource/<name> reads a tea source, which the console fetches; sign in (vulnetix auth login) to have a scan apply its statements, or pass its documents with --vex`. |
+| `tea`, `s3`, `git` | Not read from the source. The Resolve Platform fetches these, and an authenticated scan applies the statements it made of them (next section). An unauthenticated scan cannot, and prints `note: VexSource/<name> reads a tea source, which the Resolve Platform fetches; sign in (vulnetix auth login) to have a scan apply its statements, or pass its documents with --vex`. |
 
 A declared source keeps the limits it was declared with, and the scan never applies it more widely:
 
@@ -60,20 +60,20 @@ Nothing else in the document is read by the scan. `trust.requireSignature` is re
 
 A declared source is best effort, unlike `--vex`. A `path` that does not exist, a URL that cannot be fetched, a `.json` file that is not VEX and a `.vulnetix/config` folder with an invalid document produce a `warning:` line or are skipped, and the scan carries on. The only way to have a source fail the scan is to also name it with `--vex`.
 
-### Statements the console holds
+### Statements the Resolve Platform holds
 
-A `VexSource` of type `tea`, `s3` or `git` is fetched by the console on its refresh. Each statement that is a decision, a not-affected statement or a decision not to fix, becomes a `Suppression` rule keyed by the vulnerability and the product. From CLI v4.4.0 an authenticated scan reads those rules with the statement behind them (the vulnerability, product, justification, status and source) and applies them in the same VEX pass as the documents: the same matching, the same annotation, and the same total, suppressed and effective counts. The annotation names the source as `Vulnetix VexSource/<name>`, and the summary line counts them apart: `12 statement(s) from 1 document(s) and 4 from Vulnetix`.
+A `VexSource` of type `tea`, `s3` or `git` is fetched by the Resolve Platform on its refresh. Each statement that is a decision, a not-affected statement or a decision not to fix, becomes a `Suppression` rule keyed by the vulnerability and the product. From CLI v4.4.0 an authenticated scan reads those rules with the statement behind them (the vulnerability, product, justification, status and source) and applies them in the same VEX pass as the documents: the same matching, the same annotation, and the same total, suppressed and effective counts. The annotation names the source as `Vulnetix VexSource/<name>`, and the summary line counts them apart: `12 statement(s) from 1 document(s) and 4 from Vulnetix`.
 
 | | |
 |---|---|
 | What is applied | Every active rule that came from a VEX statement, for the scanned repository and branch or for none. That is the statements of every `VexSource` type, `path` and `urls` included, and the VEX documents ingested from earlier scans and uploads. A rule scoped to another repository or branch is not applied, and a scan that does not know its repository applies only unscoped rules. |
-| Statuses | `not_affected` closes a finding. A decision not to fix (a won't fix) is `affected`: the finding is annotated and stays open, as for a `--vex` document. A fixed statement is triage evidence on the console, not a rule, so a scan does not receive it. |
-| Product | The narrowest the console recorded: the purl with its version when the statement had one, so a statement about one version does not reach another. A statement recorded with no product speaks about the vulnerability id for every package in the scan, which is coarse. |
+| Statuses | `not_affected` closes a finding. A decision not to fix (a won't fix) is `affected`: the finding is annotated and stays open, as for a `--vex` document. A fixed statement is triage evidence on the Resolve Platform, not a rule, so a scan does not receive it. |
+| Product | The narrowest the Resolve Platform recorded: the purl with its version when the statement had one, so a statement about one version does not reach another. A statement recorded with no product speaks about the vulnerability id for every package in the scan, which is coarse. |
 | When it applies | The scan is authenticated, VEX is on (no `--no-vex`) and an SCA pass runs. It rides on the request the scan already makes for ignore rules, so it adds none. |
-| Community mode | Applies none from the console. The shared community credential has no organization to hold rules, and the scan asks for nothing. |
+| Community mode | Applies none from the Resolve Platform. The shared community credential has no organization to hold rules, and the scan asks for nothing. |
 | Unmatched | Not counted in the "matched no finding" note: most of an organization's statements are about other products. |
 
-A console statement is dropped when a `--vex` document, a `path` or `urls` source or another console rule already says the same: the same vulnerability or an alias of it, the same status, and the same product, or the same package with no version, which speaks about every version. A local statement about one version does not cover a console statement about all of them. Nothing the console holds is sent back to Vulnetix; only the local documents are.
+A Resolve Platform statement is dropped when a `--vex` document, a `path` or `urls` source or another Resolve Platform rule already says the same: the same vulnerability or an alias of it, the same status, and the same product, or the same package with no version, which speaks about every version. A local statement about one version does not cover a Resolve Platform statement about all of them. Nothing the Resolve Platform holds is sent back to Vulnetix; only the local documents are.
 
 A rule a `VexSource` made belongs to that source, whose refresh writes and removes it, so the CLI does not change it:
 
@@ -88,7 +88,7 @@ Replies are bounded at 1000 ordinary rules and 5000 VexSource rules per request.
 
 ### Offline and without a login
 
-Reading VEX from documents needs no Vulnetix credentials and no VDB request. A file, a directory or a `path` source works offline; a URL needs the network for itself only. Without an authenticated session the scan applies those statements and prints the summary, and sends nothing. The console's statements need a session.
+Reading VEX from documents needs no Vulnetix credentials and no VDB request. A file, a directory or a `path` source works offline; a URL needs the network for itself only. Without an authenticated session the scan applies those statements and prints the summary, and sends nothing. The Resolve Platform's statements need a session.
 
 ## Where it is applied
 
@@ -123,6 +123,6 @@ When the scan is authenticated, every VEX document the scan applied, whether it 
     VULNETIX_API_KEY: ${{ secrets.VULNETIX_API_KEY }}
 ```
 
-On GitHub, the `vex` input of the [sca](/sca/github-actions/sca/), [sast](/sast/github-actions/sast/), [secrets](/secrets/github-actions/secrets/), [iac](/iac-scanning/github-actions/iac/) and [containers](/sca/github-actions/containers/) actions and of the [root action](/cli/ci-cd/github-actions/#the-root-action) passes one `--vex` per line (CLI v4.3.0). An authenticated CI scan (CLI v4.4.0) also applies the statements the console holds, including those of `tea`, `s3` and `git` sources, so the `vex` input is for extra or local documents only.
+On GitHub, the `vex` input of the [sca](/sca/github-actions/sca/), [sast](/sast/github-actions/sast/), [secrets](/secrets/github-actions/secrets/), [iac](/iac-scanning/github-actions/iac/) and [containers](/sca/github-actions/containers/) actions and of the [root action](/cli/ci-cd/github-actions/#the-root-action) passes one `--vex` per line (CLI v4.3.0). An authenticated CI scan (CLI v4.4.0) also applies the statements the Resolve Platform holds, including those of `tea`, `s3` and `git` sources, so the `vex` input is for extra or local documents only.
 
 Check the documents first with `vulnetix vex validate --vex .vulnetix/vendor-vex/`: the scan does not run the semantic checks.

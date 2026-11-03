@@ -317,7 +317,7 @@ The action installs the CLI with the install script, verifies authentication whe
 | `task` | No | `info` | What to run. See [Tasks](#tasks). |
 | `path` | No | `.` | Directory to scan, for the scanning tasks |
 | `args` | No | | Extra arguments for the command, separated by spaces or newlines. No shell quoting is applied. |
-| `vex` | No | | VEX documents to apply before the gates, one path, directory or `https` URL per line, each passed as its own `--vex`. For the `sca`, `sast`, `secrets`, `iac` and `containers` tasks (CLI v4.3.0). `license` and `jail` take none. Not needed for the organization's own VEX: the `VexSource` documents under `.vulnetix/config` and, for an authenticated scan (CLI v4.4.0), the statements the console holds apply without it. Use it for extra or local documents. |
+| `vex` | No | | VEX documents to apply before the gates, one path, directory or `https` URL per line, each passed as its own `--vex`. For the `sca`, `sast`, `secrets`, `iac` and `containers` tasks (CLI v4.3.0). `license` and `jail` take none. Not needed for the organization's own VEX: the `VexSource` documents under `.vulnetix/config` and, for an authenticated scan (CLI v4.4.0), the statements the Resolve Platform holds apply without it. Use it for extra or local documents. |
 | `fail-on-findings` | No | `true` | Fail the step when the command exits non-zero. Publishing runs either way. |
 | `github-code-scanning` | No | `false` | Upload SARIF to GitHub code scanning. Needs `security-events: write`. |
 | `dependency-graph` | No | `false` | Submit the SBOM to the GitHub dependency graph. Needs `contents: write`. |

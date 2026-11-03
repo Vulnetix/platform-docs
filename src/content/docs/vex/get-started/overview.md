@@ -42,7 +42,7 @@ All three are normalised into one statement model, so matching and application w
 |---|---|
 | [`vulnetix vex apply`](/vex/commands/apply/) | Apply statements to an SBOM and report total, suppressed and effective counts |
 | [`vulnetix vex ls`, `validate`, `merge`](/vex/commands/ls-validate-merge/) | Review, check and combine VEX documents |
-| [`--vex-file` and `--vex`](/vex/scans/vex-file/) on `scan`, `sca`, `sast`, `secrets`, `containers`, `iac` | Apply VEX from files, directories and https URLs before the quality gates. `--vex` needs CLI v4.2.0. An authenticated scan also applies the console's statements (CLI v4.4.0). |
+| [`--vex-file` and `--vex`](/vex/scans/vex-file/) on `scan`, `sca`, `sast`, `secrets`, `containers`, `iac` | Apply VEX from files, directories and https URLs before the quality gates. `--vex` needs CLI v4.2.0. An authenticated scan also applies the Resolve Platform's statements (CLI v4.4.0). |
 | [`vulnetix ignore`](/vex/suppression/ignore-rules/) (alias `suppress`) | Add, list, remove and sync ignore rules |
 | `vulnetix vdb vex get`, `vdb vex list` | Read VEX that Vulnetix holds for a CVE. See [VDB API](/vdb-api/). |
 
@@ -50,7 +50,7 @@ All three are normalised into one statement model, so matching and application w
 
 When a command is authenticated, the VEX it read or wrote is sent to `POST /v2/cli.vex-ingest`, and the findings ignore rules and nosec comments hid are reported to `cli.finalize`. See [VEX sent to Vulnetix](/vex/suppression/sent-to-vulnetix/).
 
-A standing source of suppression rules, read from a TEA server, an S3 bucket, a git repository or URLs, is the `VexSource` kind. Since CLI v4.2.0 a scan also reads the `path` and `urls` sources declared under `.vulnetix/config` itself, and since CLI v4.4.0 an authenticated scan applies the statements the console holds for every source type, `tea`, `s3` and `git` included; see [Declared VexSource documents](/vex/scans/vex-file/#declared-vexsource-documents), [Statements the console holds](/vex/scans/vex-file/#statements-the-console-holds) and [VEX documents as suppression rules](/platform-iac/guides/vex-sources/).
+A standing source of suppression rules, read from a TEA server, an S3 bucket, a git repository or URLs, is the `VexSource` kind. Since CLI v4.2.0 a scan also reads the `path` and `urls` sources declared under `.vulnetix/config` itself, and since CLI v4.4.0 an authenticated scan applies the statements the Resolve Platform holds for every source type, `tea`, `s3` and `git` included; see [Declared VexSource documents](/vex/scans/vex-file/#declared-vexsource-documents), [Statements the Resolve Platform holds](/vex/scans/vex-file/#statements-the-resolve-platform-holds) and [VEX documents as suppression rules](/platform-iac/guides/vex-sources/).
 
 ## GitHub Actions
 

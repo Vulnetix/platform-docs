@@ -96,7 +96,7 @@ Deactivates rather than deletes, so the audit trail stays.
 
 One of `--uuid`, `--rule`, `--finding` or `--value` is required. Use the `UUID` column of `ignore list` for a rule anchored only on a file.
 
-A rule a `VexSource` owns cannot be removed here, since the source's next refresh would write it back. `ignore remove --uuid` refuses it with `the rule for <vulnerability> belongs to VexSource/<name> (<type>) and cannot be removed here`, and a removal by `--finding` never reaches it. The API answers a deactivation of such a rule with `409`. Change or remove the statement at the source, or the `VexSource`. A scan still applies these statements as VEX; see [Statements the console holds](/vex/scans/vex-file/#statements-the-console-holds).
+A rule a `VexSource` owns cannot be removed here, since the source's next refresh would write it back. `ignore remove --uuid` refuses it with `the rule for <vulnerability> belongs to VexSource/<name> (<type>) and cannot be removed here`, and a removal by `--finding` never reaches it. The API answers a deactivation of such a rule with `409`. Change or remove the statement at the source, or the `VexSource`. A scan still applies these statements as VEX; see [Statements the Resolve Platform holds](/vex/scans/vex-file/#statements-the-resolve-platform-holds).
 
 ## ignore sync
 
