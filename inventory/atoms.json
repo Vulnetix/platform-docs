@@ -9274,15 +9274,6 @@
    "handler": "ConfigObjectDelete"
   },
   {
-   "id": "config-route:DELETE /v1/config/tokens/{uuid}",
-   "kind": "config-route",
-   "value": "DELETE /v1/config/tokens/{uuid}",
-   "sources": [
-    "vdb-site/api/main.go"
-   ],
-   "handler": "ConfigTokenRevoke"
-  },
-  {
    "id": "config-route:GET /v1/config",
    "kind": "config-route",
    "value": "GET /v1/config",
@@ -9337,15 +9328,6 @@
    "handler": "ConfigOwnership"
   },
   {
-   "id": "config-route:GET /v1/config/tokens",
-   "kind": "config-route",
-   "value": "GET /v1/config/tokens",
-   "sources": [
-    "vdb-site/api/main.go"
-   ],
-   "handler": "ConfigTokenList"
-  },
-  {
    "id": "config-route:POST /v1/config/apply",
    "kind": "config-route",
    "value": "POST /v1/config/apply",
@@ -9371,24 +9353,6 @@
     "vdb-site/api/main.go"
    ],
    "handler": "ConfigPlan"
-  },
-  {
-   "id": "config-route:POST /v1/config/tokens",
-   "kind": "config-route",
-   "value": "POST /v1/config/tokens",
-   "sources": [
-    "vdb-site/api/main.go"
-   ],
-   "handler": "ConfigTokenCreate"
-  },
-  {
-   "id": "config-route:POST /v1/config/tokens/{uuid}/rotate",
-   "kind": "config-route",
-   "value": "POST /v1/config/tokens/{uuid}/rotate",
-   "sources": [
-    "vdb-site/api/main.go"
-   ],
-   "handler": "ConfigTokenRotate"
   },
   {
    "id": "config-route:POST /v1/config/validate",
