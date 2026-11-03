@@ -4,7 +4,7 @@ nav: "secrets"
 description: "The Vulnetix/cli/secrets GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/secrets/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/secrets.md]
-checked: [cli@v4.0.0]
+checked: [cli@v4.3.0]
 updated: 03 Nov 2026
 ---
 
@@ -38,6 +38,9 @@ Runs `vulnetix secrets --path <path>`. Credentials are optional: without `org-id
 | `github-token` | Token for GitHub publishing, release assets and pull request comments | `${{ github.token }}` |
 | `attest` | Attest the written files with GitHub artifact attestations (needs id-token: write and attestations: write): true or false | `false` |
 | `release-tag` | Attach every file the command wrote to the GitHub release with this tag (needs contents: write) | - |
+| `vex` | VEX documents to apply before the gates, one path, directory or https URL per line (passed as --vex). VexSource documents under .vulnetix/config apply too | - |
+
+`vex` takes one path, directory or `https` URL per line. Each non-blank line becomes its own `--vex`, with no globbing, so the action does what [`--vex`](/vex/scans/vex-file/) does: a file or directory is read from the workspace, a URL is downloaded for the run, and a URL that cannot be fetched fails the scan. The `VexSource` documents under `.vulnetix/config` apply without the input; their `path` and `urls` sources are read, and a `tea`, `s3` or `git` source is the console's, so pass its documents here. Available from CLI v4.3.0 (`Vulnetix/cli/secrets@v4`).
 
 `args` is split on spaces and newlines. No shell quoting is applied, and nothing is evaluated.
 

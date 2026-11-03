@@ -4,7 +4,7 @@ nav: --vex and --vex-file
 description: Apply third-party VEX documents to a scan with --vex-file, --vex (a file, a directory or an https URL) and the VexSource documents declared in .vulnetix/config, so every quality gate honours them, and read the summary line that says how many findings VEX hid.
 order: 1
 sources: [cli/cmd/scan.go, cli/cmd/vex.go, cli/cmd/vex_sources.go, cli/internal/scanopts/fromcobra.go, cli/internal/vex/read.go, cli/docs/vex-sources.md]
-checked: [cli@v4.2.0]
+checked: [cli@v4.3.0]
 updated: 02 Nov 2026
 ---
 
@@ -97,5 +97,7 @@ When the scan is authenticated, every VEX document the scan applied, whether it 
     VULNETIX_ORG_ID: ${{ secrets.VULNETIX_ORG_ID }}
     VULNETIX_API_KEY: ${{ secrets.VULNETIX_API_KEY }}
 ```
+
+On GitHub, the `vex` input of the [sca](/sca/github-actions/sca/), [sast](/sast/github-actions/sast/), [secrets](/secrets/github-actions/secrets/), [iac](/iac-scanning/github-actions/iac/) and [containers](/sca/github-actions/containers/) actions and of the [root action](/cli/ci-cd/github-actions/#the-root-action) passes one `--vex` per line (CLI v4.3.0). A CI scan does not apply the documents a `tea`, `s3` or `git` `VexSource` fetches in the console, so point `--vex` or the `vex` input at the same documents.
 
 Check the documents first with `vulnetix vex validate --vex .vulnetix/vendor-vex/`: the scan does not run the semantic checks.
