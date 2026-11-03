@@ -205,7 +205,7 @@ Both leave guardrails and model entries the document does not mention alone unle
 - **Export.** \`export\` writes the live policy with the baseline pinned off, so applying an export is a no-op. Provider keys are never exported.
 
 > [!WHY] The file works in both places
-> Since CLI ${CLI.firstFor('AiFirewallPolicy')} \`vulnetix config validate\`, \`plan\` and \`apply\` know this kind, and a file is a Platform IaC document by its content, not its folder. \`.vulnetix/ai-firewall.yaml\` and a document under \`.vulnetix/config\` are the same thing: define the policy in one of them. \`validate\` reads the well-known file since v3.164.0. \`plan\` and \`apply\` read \`.vulnetix/config\` only until v4, so name the well-known file with \`-f\` to plan it now. See [Which files are Platform IaC documents](/platform-iac/cli/validate/#which-files-are-platform-iac-documents).`,
+> Since CLI ${CLI.firstFor('AiFirewallPolicy')} \`vulnetix config validate\`, \`plan\` and \`apply\` know this kind, and a file is a Platform IaC document by its content, not its folder. \`.vulnetix/ai-firewall.yaml\` and a document under \`.vulnetix/config\` are the same thing: define the policy in one of them. \`validate\` reads the well-known file since v3.164.0. \`plan\` and \`apply\` read the well-known file too since CLI v4.0.0 when no \`-f\` is given, so \`config apply --prune\` adopts it. \`ai-firewall apply\` and \`export\` are aliases of the config engine for this kind since v4.0.0. See [Which files are Platform IaC documents](/platform-iac/cli/validate/#which-files-are-platform-iac-documents).`,
   },
 
   AiGovernanceList: {
