@@ -77,7 +77,7 @@ The instance-metadata address `169.254.169.254` is answered by the Worker itself
 
 Each host the sandbox reached is a row on the sandbox's **Egress** tab, with first and last seen, requests, refused requests and a decision:
 
-| Decision | Console label | Means |
+| Decision | Resolve Platform label | Means |
 |---|---|---|
 | `allow` | Allow | Allowed whatever the mode |
 | `deny` | Deny | Refused whatever the mode |

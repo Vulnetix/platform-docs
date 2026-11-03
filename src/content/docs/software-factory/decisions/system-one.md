@@ -31,7 +31,7 @@ Errors are grouped into classes: `unavailable`, `rate_limited`, `quota`, `invali
 
 Settings › System One decisions holds the defaults every decision step inherits. A step can override each one.
 
-| Setting | Console label | Values | Default |
+| Setting | Resolve Platform label | Values | Default |
 |---|---|---|---|
 | `systemone.model` | Default decision model | `clef-flash`, `clef`, `jev`, `tev1` | `clef-flash` |
 | `systemone.min_confidence` | Minimum confidence | 0 to 1 | 0.80 |

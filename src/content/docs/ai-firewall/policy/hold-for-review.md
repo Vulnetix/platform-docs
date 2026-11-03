@@ -43,7 +43,7 @@ Everything else in the four families is held.
 
 ## Settings
 
-| Field | Console label | Values | Default |
+| Field | Resolve Platform label | Values | Default |
 |---|---|---|---|
 | `holdUnknown` | Hold a capability no rule names | `true`, `false` | `false` |
 | `holdTimeoutMinutes` | Timeout in minutes | `0` to `10080` (7 days). `0` never times out. | `0` |

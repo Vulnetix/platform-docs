@@ -19,7 +19,7 @@ Every VDB tool call needs a credential in the `Authorization` header. The server
 
 | Scheme | Header value | Parsed when | Source |
 |---|---|---|---|
-| `ApiKey` | `ApiKey <orgId>:<64-hex>` | `orgId` is a UUID and a colon follows it | Console, `vulnetix auth login`, or `vulnetix_auth_poll` |
+| `ApiKey` | `ApiKey <orgId>:<64-hex>` | `orgId` is a UUID and a colon follows it | Resolve Platform, `vulnetix auth login`, or `vulnetix_auth_poll` |
 | `Bearer` | `Bearer <opaque token>` | token is non-empty | Vulnetix identity provider API token |
 | `Bearer` | `Bearer <jwt>` | token is non-empty | `vdb_token` web session JWT |
 

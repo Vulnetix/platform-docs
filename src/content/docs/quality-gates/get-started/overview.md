@@ -17,7 +17,7 @@ Vulnetix has two organization policies that decide whether CI goes red. They ans
 | Configured as | Nine settings plus four EOL severities, one row per organization | An ordered list of rules, an org default plus optional per-repository overrides |
 | Runs in | `vulnetix scan`, `sca`, `sast`, `secrets`, `containers`, `iac` | `vulnetix jail`, or `--jail` on the scan commands |
 | Exit codes | `0` pass, `1` a gate breached | `0` clear, `1` jailed, `2` usage error, `3` indeterminate |
-| Console | [www.vulnetix.com/resolve/quality-gate](https://www.vulnetix.com/resolve/quality-gate) | [www.vulnetix.com/resolve/jail](https://www.vulnetix.com/resolve/jail) |
+| Resolve Platform | [www.vulnetix.com/resolve/quality-gate](https://www.vulnetix.com/resolve/quality-gate) | [www.vulnetix.com/resolve/jail](https://www.vulnetix.com/resolve/jail) |
 | CLI | `vulnetix config set quality-gate`, `config set eol-policy` | `vulnetix jail`, `jail exempt` |
 
 Both belong to the organization (the tenant), so every member of a Teams organization is held to the same policy.

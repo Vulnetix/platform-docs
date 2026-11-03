@@ -93,7 +93,7 @@ Guardrails, capability rules, hold settings and review approvals are cached per 
 
 ## Where to configure each layer
 
-| Layer | Console tab (`https://www.vulnetix.com/resolve/ai-firewall`) | CLI | Policy file |
+| Layer | Resolve Platform tab (`https://www.vulnetix.com/resolve/ai-firewall`) | CLI | Policy file |
 |---|---|---|---|
 | Providers | Govern (`#govern`) | `vulnetix ai-firewall policy provider` | `spec.providers` |
 | Models | Govern (`#govern`) | `vulnetix ai-firewall policy model` | `spec.models` |

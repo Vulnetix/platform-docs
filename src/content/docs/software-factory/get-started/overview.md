@@ -18,7 +18,7 @@ Everything the factory does is recorded. Every step lands in the [event stream](
 
 Most pages in these docs describe one of these. The console column is the page you see it on, under `https://www.vulnetix.com/resolve/`.
 
-| Object | What it is | Console |
+| Object | What it is | Resolve Platform |
 |---|---|---|
 | Managed org | A GitHub App installation the factory may act on. Nothing outside a managed org is touched. | `factory-repos` |
 | Workflow | A versioned graph of nodes and edges with limits. Drafts are edited; a published version runs. | `factory-workflows` |

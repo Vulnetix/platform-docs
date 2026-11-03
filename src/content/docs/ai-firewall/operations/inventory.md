@@ -42,7 +42,7 @@ A row is keyed by organisation, kind, identity and client: the same MCP server r
 
 The gateway hashes each request's capability set together with the client and remembers the hashes it has already written. An unchanged configuration is written once per `INVENTORY_CACHE_TTL` (1 hour), so `lastSeenAt` can lag by up to an hour. At most 512 capabilities are recorded per observation. Capabilities are recorded before the policy decision, so a blocked request still appears, and first sightings are published to Software Factory as source events.
 
-## Console
+## Resolve Platform
 
 The [AI Firewall page](https://www.vulnetix.com/resolve/ai-firewall) shows the inventory on the capability tabs: **MCP** (`#mcp`), **Tools** (`#tools`), **Clients** (`#clients`) and **Skills** (`#skills`). Each row offers the rule to write against it.
 
@@ -68,7 +68,7 @@ vulnetix ai-firewall inventory --clear
 
 The pretty output has `KIND`, `NAME`, `CLIENT` and `EVIDENCE` columns, an MCP server's URL on a dimmed line under it, and a footer counting clients, MCP servers, tools and skills.
 
-## Console API
+## Resolve Platform API
 
 Session-authenticated, under `https://www.vulnetix.com/api/site/v1`:
 

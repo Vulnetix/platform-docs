@@ -17,7 +17,7 @@ You need a Vulnetix API key: your organisation UUID and a 64-character hex diges
 
 | Method | Steps |
 |---|---|
-| Console | Sign up at [vulnetix.com/vdb-register](https://www.vulnetix.com/vdb-register) and copy the API key from the dashboard. |
+| Resolve Platform | Sign up at [vulnetix.com/vdb-register](https://www.vulnetix.com/vdb-register) and copy the API key from the dashboard. |
 | CLI | `vulnetix auth login` opens a browser sign-in and stores the credential. `vulnetix auth status` shows the organisation and plan. |
 | Inside the agent | Connect with no header, then ask the agent to run `vulnetix_auth_start`. Approve in the browser, and `vulnetix_auth_poll` returns the full header value. See [Authentication](/mcp-server/get-started/authentication/). |
 

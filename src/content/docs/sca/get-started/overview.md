@@ -58,7 +58,7 @@ Paths are relative to the git root of `--path` when it is a repository.
 - [Quickstart](/sca/get-started/quickstart/): a first scan, a CI gate, a fix.
 - [Supported ecosystems](/sca/scanning/ecosystems/): every manifest and lockfile.
 - [Gates and exit codes](/sca/gates/fail-on/): how `--fail-on` and the org [quality gate](/quality-gates/) decide the exit code.
-- [Console findings](/sca/console/resolve/): what an uploaded scan becomes in Resolve.
+- [Resolve Platform findings](/sca/console/resolve/): what an uploaded scan becomes in Resolve.
 
 ## GitHub Actions
 

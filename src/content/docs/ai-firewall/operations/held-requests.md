@@ -32,7 +32,7 @@ A family (tools, MCP servers, skills or clients) that has any `*_allow` rule is 
 
 | Where | What |
 |---|---|
-| Console | Govern tab of the [AI Firewall page](https://www.vulnetix.com/resolve/ai-firewall#govern), **Held now** list. Each entry shows the identity, its kind, the client it came from, the time left before the timeout, and a **Review** link. |
+| Resolve Platform | Govern tab of the [AI Firewall page](https://www.vulnetix.com/resolve/ai-firewall#govern), **Held now** list. Each entry shows the identity, its kind, the client it came from, the time left before the timeout, and a **Review** link. |
 | Software Factory | Each new hold publishes a `capability.held` source event; a workflow can turn it into a review card. The console links to workflow templates matching "ai capability" and to [Checkpoints](/software-factory/decisions/checkpoints/). |
 | Guardian | Each hold is forwarded to the SIEM as a product event |
 | API | `GET /ai-firewall/holds?state=held` |

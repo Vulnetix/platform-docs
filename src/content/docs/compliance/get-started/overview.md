@@ -14,7 +14,7 @@ Evidence is computed when you open or export the report, not stored. Your upload
 
 ## Frameworks
 
-| Framework | `framework` id | Console page | What it maps |
+| Framework | `framework` id | Resolve Platform page | What it maps |
 |---|---|---|---|
 | EU Artificial Intelligence Act | `eu_ai_act` | [/resolve/eu-ai-act](https://www.vulnetix.com/resolve/eu-ai-act) | 21 articles, from Article 4 to Article 73 |
 | NIST AI Risk Management Framework 1.0 | `nist_ai_rmf` | [/resolve/nist-ai-rmf](https://www.vulnetix.com/resolve/nist-ai-rmf) | 22 of the 72 core subcategories |

@@ -14,7 +14,7 @@ updated: 02 Nov 2026
 | SARIF to stdout | `-o json-sarif` | yes |
 | SARIF file | `-o <name>.sarif` or `-o <name>.sarif.json` | yes |
 | JSON report | `-o json-report` or `-o <name>.report.json` | no |
-| Console snapshot | signed in, every run except `--explain` and `--dry-run` | yes |
+| Resolve Platform snapshot | signed in, every run except `--explain` and `--dry-run` | yes |
 
 Only one stdout format is allowed per run: `-o json-sarif -o json-report` is an error. File targets can be combined with each other and with one stdout format. An output path with no recognised extension is rejected (`cannot infer output format`).
 
@@ -111,7 +111,7 @@ vulnetix sast -q -o json-sarif 2>/dev/null \
 
 `--view auto` prints `plain` (one line per finding, as in the [quickstart](/sast/get-started/quickstart/)) in a pipe or when `CI` is set, and the grouped view in a terminal. See [Reading the results](/sast/guides/reading-results/).
 
-## Console snapshot
+## Resolve Platform snapshot
 
 When the CLI has credentials, findings are uploaded per kind and the run prints `SAST snapshot: https://www.vulnetix.com/resolve/scanner-results/<uuid>`. The upload carries each finding with `--snippet-context` lines of surrounding source, its test-suite attribution, the suppressions recorded this run, and the test-runner config files found (path, framework, size and SHA-256, not their contents).
 

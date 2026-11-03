@@ -12,7 +12,7 @@ An organisation is the tenant everything else belongs to: scan data, policies, v
 
 ## The parts
 
-| Part | Console page | Read |
+| Part | Resolve Platform page | Read |
 |---|---|---|
 | Members, roles, invitations and access requests | Account › Members (`/resolve/members`) | [Members and roles](/organization/people/members-and-roles/) |
 | API keys, service accounts for CI, Teams key seats | Account › Members, Account › Profile | [Service accounts and API keys](/organization/people/service-accounts-and-api-keys/) |
@@ -26,7 +26,7 @@ An organisation is the tenant everything else belongs to: scan data, policies, v
 
 | Credential | Header | Works on |
 |---|---|---|
-| Console session (Authentik sign-in) | `vdb_token` cookie or `Authorization: Bearer <JWT>` | everything |
+| Resolve Platform session (Authentik sign-in) | `vdb_token` cookie or `Authorization: Bearer <JWT>` | everything |
 | API key of a person or service account | `Authorization: ApiKey <principalUuid>:<apiKey>` | scan data, findings, policies, campaigns, the CLI. **Not** members, service accounts, key seats, the vault, integrations, messaging or notification settings. |
 
 > [!WHY] Why an API key cannot manage the organisation

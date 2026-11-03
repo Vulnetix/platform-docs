@@ -38,7 +38,7 @@ Rows are written asynchronously in batches. During a maintenance window no rows 
 
 The console filters by **ecosystem**, **action**, **package** and **version**, 50 rows per page by default and up to 100. To review what `warn` mode would have blocked, filter on `WARN` and look for reasons ending `(warn mode: reported, not blocked)`.
 
-## Console views built on the log
+## Resolve Platform views built on the log
 
 The Package Firewall page reads the same log in aggregate:
 

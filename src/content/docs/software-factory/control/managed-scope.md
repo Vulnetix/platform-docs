@@ -68,7 +68,7 @@ Rows added by a webhook or a new installation show as loading until enrichment f
 
 ### Scope settings
 
-| Setting | Console label | Default | Effect |
+| Setting | Resolve Platform label | Default | Effect |
 |---|---|---|---|
 | `scope.orgs` | Managed orgs | managed orgs | The list of managed installation logins, or `"all_active"`. |
 | `scope.interest` | Repos of interest | `any_signal` | Which repositories count as in scope: `any_signal`, `scanned_or_pix` (scanned or in a Pix Sandbox) or `watched_only` (explicitly watched). |

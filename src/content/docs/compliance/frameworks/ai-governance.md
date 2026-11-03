@@ -12,7 +12,7 @@ The three AI frameworks share one evidence base: the AI inventory that `vulnetix
 
 ## EU Artificial Intelligence Act (`eu_ai_act`)
 
-Console: [/resolve/eu-ai-act](https://www.vulnetix.com/resolve/eu-ai-act). The report maps 21 articles of Regulation (EU) 2024/1689, in article order:
+Resolve Platform: [/resolve/eu-ai-act](https://www.vulnetix.com/resolve/eu-ai-act). The report maps 21 articles of Regulation (EU) 2024/1689, in article order:
 
 | Article | Subject |
 |---|---|
@@ -47,7 +47,7 @@ The console page draws the Act's risk pyramid from the classifications on record
 
 ## NIST AI Risk Management Framework (`nist_ai_rmf`)
 
-Console: [/resolve/nist-ai-rmf](https://www.vulnetix.com/resolve/nist-ai-rmf). The report maps 22 of the 72 subcategories in the AI RMF 1.0 core, the ones an AI inventory, scan telemetry and triage records can evidence:
+Resolve Platform: [/resolve/nist-ai-rmf](https://www.vulnetix.com/resolve/nist-ai-rmf). The report maps 22 of the 72 subcategories in the AI RMF 1.0 core, the ones an AI inventory, scan telemetry and triage records can evidence:
 
 | Function | Subcategories mapped |
 |---|---|
@@ -60,7 +60,7 @@ Every export says so: the other 50 subcategories are out of scope and are neithe
 
 ## ISO/IEC 42001:2023 (`iso_42001`)
 
-Console: [/resolve/iso-42001](https://www.vulnetix.com/resolve/iso-42001). The report has two parts.
+Resolve Platform: [/resolve/iso-42001](https://www.vulnetix.com/resolve/iso-42001). The report has two parts.
 
 **Annex A**: 21 of the 38 controls.
 

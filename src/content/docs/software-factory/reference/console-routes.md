@@ -1,5 +1,5 @@
 ---
-title: "Console pages"
+title: "Resolve Platform pages"
 description: "Every Software Factory page in the Vulnetix console and the guide that explains it."
 order: 5
 generated: true

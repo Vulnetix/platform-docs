@@ -14,7 +14,7 @@ Two kinds of report are on this page.
 
 ## OWASP Top 10:2025 (`owasp_top_10`)
 
-Console: [/resolve/owasp-top-10](https://www.vulnetix.com/resolve/owasp-top-10).
+Resolve Platform: [/resolve/owasp-top-10](https://www.vulnetix.com/resolve/owasp-top-10).
 
 Findings in the period are placed in categories by their CWEs.
 
@@ -40,7 +40,7 @@ A **Program assurance** section qualifies the category verdicts: Analysis breadt
 
 ## PCI DSS v4.0.1 (`pci_dss`)
 
-Console: [/resolve/pci-dss](https://www.vulnetix.com/resolve/pci-dss). The catalogue holds all 12 requirement families and 250 requirements, each with its testing procedures.
+Resolve Platform: [/resolve/pci-dss](https://www.vulnetix.com/resolve/pci-dss). The catalogue holds all 12 requirement families and 250 requirements, each with its testing procedures.
 
 | Family | Requirements |
 |---|---|
@@ -73,7 +73,7 @@ Vulnetix telemetry for a family (scanning for Requirement 11, secure development
 
 ## ISO/IEC 27001:2022 Statement of Applicability (`iso_27001`)
 
-Console: [/resolve/iso-27001](https://www.vulnetix.com/resolve/iso-27001). The report is a Statement of Applicability over all 93 Annex A controls and the 25 clause requirements of clauses 4 to 10.
+Resolve Platform: [/resolve/iso-27001](https://www.vulnetix.com/resolve/iso-27001). The report is a Statement of Applicability over all 93 Annex A controls and the 25 clause requirements of clauses 4 to 10.
 
 | Theme | Controls |
 |---|---|
@@ -95,7 +95,7 @@ The export opens with a completion table per theme: Implemented, Partial, Not im
 
 ## OWASP DevSecOps Maturity Model (`owasp_dsomm`)
 
-Console: [/resolve/owasp-dsomm](https://www.vulnetix.com/resolve/owasp-dsomm). The catalogue is DSOMM `activities-2026-07` from [dsomm.owasp.org](https://dsomm.owasp.org/): 193 activities at levels 1 to 5.
+Resolve Platform: [/resolve/owasp-dsomm](https://www.vulnetix.com/resolve/owasp-dsomm). The catalogue is DSOMM `activities-2026-07` from [dsomm.owasp.org](https://dsomm.owasp.org/): 193 activities at levels 1 to 5.
 
 | Dimension | Sub-dimensions | Activities |
 |---|---|---|
@@ -118,7 +118,7 @@ curl -s -X PATCH -H "Authorization: ApiKey ${VULNETIX_ORG_ID}:${VULNETIX_API_KEY
 
 ## EU Cyber Resilience Act readiness (`eu_cra`)
 
-Console: [/resolve/eu-cra](https://www.vulnetix.com/resolve/eu-cra). The report assesses 34 obligations of Regulation (EU) 2024/2847, out of about 65 identifiable in the regulation.
+Resolve Platform: [/resolve/eu-cra](https://www.vulnetix.com/resolve/eu-cra). The report assesses 34 obligations of Regulation (EU) 2024/2847, out of about 65 identifiable in the regulation.
 
 | Section | Ids | Count |
 |---|---|---|

@@ -55,7 +55,7 @@ An org value of `false` for a gate switches it off even if the pipeline passed t
 
 | Where | How |
 |---|---|
-| Console | Resolve, Quality gate (`/resolve/quality-gate`) |
+| Resolve Platform | Resolve, Quality gate (`/resolve/quality-gate`) |
 | CLI | `vulnetix config set quality-gate ...` and `vulnetix config get quality-gate` |
 | As a document | A `QualityGate` (`apiVersion: vulnetix.com/v1`), validated offline with `vulnetix config validate`. See [Platform IaC](/platform-iac/). |
 

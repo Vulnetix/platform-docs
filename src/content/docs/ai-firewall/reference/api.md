@@ -153,7 +153,7 @@ These are the hosted gateway's settings, listed so their effect is predictable. 
 
 An organisation that downgrades keeps its rules; the gateway stops applying them.
 
-## Console API
+## Resolve Platform API
 
 The console calls `https://www.vulnetix.com/api/site/v1` with the signed-in session cookie. It is not a public API and has no token authentication. The AI Firewall routes:
 

@@ -53,7 +53,7 @@ product ──releases──▶ product release ──components[]──▶ comp
 
 Both answer through the same API, so a consumer cannot tell which half an object came from.
 
-## Console
+## Resolve Platform
 
 The TEA Explorer and publishing workspace are at `https://www.vulnetix.com/resolve/tea` and `https://www.vulnetix.com/resolve/tea/publish`. Publishing requires the Pro plan or above.
 

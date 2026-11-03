@@ -11,7 +11,7 @@ A launch configuration is a named, versioned JSON document in your library, of k
 
 It lives only in the library. No host ever holds one: a host cannot report, back up, sync or be asked to install a `launch` item. Applying it turns into ordinary requests: a draft for a sandbox, install requests for a host.
 
-Console: **Hosts › Launch configs** (`/resolve/belai-hosts?tab=launch`). Pick a configuration to edit it, see its versions, and apply it. Saving makes a new version and never touches a machine.
+Resolve Platform: **Hosts › Launch configs** (`/resolve/belai-hosts?tab=launch`). Pick a configuration to edit it, see its versions, and apply it. Saving makes a new version and never touches a machine.
 
 ## Example
 

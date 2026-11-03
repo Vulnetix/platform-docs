@@ -22,7 +22,7 @@ A content guardrail is a rule matched against the text of every request the gate
 
 ## Rule types
 
-| `ruleType` | Console label | `pattern` | Matches when |
+| `ruleType` | Resolve Platform label | `pattern` | Matches when |
 |---|---|---|---|
 | `blocked_pattern` | Blocked pattern | Go RE2 regex, required | any inspected text unit matches |
 | `pii_redact` | PII redaction | RE2 regex, or empty for the built-in detectors | the pattern, or any built-in detector, matches |

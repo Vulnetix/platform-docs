@@ -46,6 +46,6 @@ Hovering fetches that one identifier, unless it is already cached.
 | Affected | `vendor / product @ version (ecosystem)` |
 | Age | Time since publication |
 | Exploits | Exploit maturity, and `N PoC refs` |
-| Link | **Open in Resolve Console**: `https://www.vulnetix.com/resolve/lookup?q=vuln%20<ID>&tab=output` |
+| Link | **Open in Resolve Platform**: `https://www.vulnetix.com/resolve/lookup?q=vuln%20<ID>&tab=output` |
 
 When a lookup fails the card shows the error and keeps the console link. When the daily quota is exhausted it says how long until the reset; see [Quota and cache](/browser-extension/using/quota-and-cache/).

@@ -16,7 +16,7 @@ Guardian has two hosts:
 
 ## Authentication
 
-Console API requests carry `Authorization: Bearer <access token>`, the OIDC access token of a signed-in console session (an RS256 JWT issued by Vulnetix sign-in). Guardian verifies it, looks up the user, and resolves your organisation from the user. No route takes an organisation from the request. Vulnetix API keys are not accepted here.
+Resolve Platform API requests carry `Authorization: Bearer <access token>`, the OIDC access token of a signed-in console session (an RS256 JWT issued by Vulnetix sign-in). Guardian verifies it, looks up the user, and resolves your organisation from the user. No route takes an organisation from the request. Vulnetix API keys are not accepted here.
 
 The template downloads and `/v1/health` need no token.
 
@@ -30,7 +30,7 @@ The template downloads and `/v1/health` need no token.
 
 Errors are JSON: `{ "error": "<message>", "code": "<code>" }`, plus `needs` on a `402`. Codes include `sign_in` (401), `plan` (402), `compile`, `source`, `limit`, `exists` and `in_use` (400), `budget` (429) and `internal` (500).
 
-## Console API
+## Resolve Platform API
 
 All paths are under `https://guardian.vulnetix.com/v1/guardian`.
 

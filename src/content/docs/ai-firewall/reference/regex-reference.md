@@ -66,8 +66,8 @@ A negative lookbehind that excludes a known-safe prefix becomes an alternation o
 
 | Surface | When | Result for a pattern that does not compile |
 |---|---|---|
-| Console editor | as you type | Flags lookarounds before saving |
-| Console API (`POST` and `PUT /v1/ai-firewall/guardrails`) | on save, when the request includes `ruleType` | `400 pattern is not a valid regex (Go RE2 syntax ...)` |
+| Resolve Platform editor | as you type | Flags lookarounds before saving |
+| Resolve Platform API (`POST` and `PUT /v1/ai-firewall/guardrails`) | on save, when the request includes `ruleType` | `400 pattern is not a valid regex (Go RE2 syntax ...)` |
 | CLI API (`vulnetix ai-firewall policy guardrail`) | on create, and on update when `--rule-type` is also passed | `400 pattern is not a valid regex: ...` |
 | `vulnetix ai-firewall apply` | before any server call | refuses the file, with a hint when the pattern has `(?=`, `(?!` or `(?<` |
 | `vulnetix ai-firewall status` | on demand | `guardrail_pattern_invalid` warning for stored rules |

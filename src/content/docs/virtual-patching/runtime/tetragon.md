@@ -101,7 +101,7 @@ sudo vulnetix-sensor --mode guard --bpf-lsm \
 | How | By inode and device, so a renamed or hard-linked copy is refused too |
 | monitor | Reports each match, refuses nothing |
 | guard, enforce | Refuses with `EPERM` |
-| Console decisions | A promote, demote or mode change updates the kernel map at once |
+| Resolve Platform decisions | A promote, demote or mode change updates the kernel map at once |
 | Needs | Root, or `CAP_BPF` with `CAP_SYS_ADMIN`; and `bpf` listed in `/sys/kernel/security/lsm`, which usually means adding it to `lsm=` on the kernel command line |
 | Without them | The sensor logs why and carries on without it |
 

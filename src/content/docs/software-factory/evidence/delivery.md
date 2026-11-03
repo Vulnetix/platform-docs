@@ -29,7 +29,7 @@ A figure the factory has not recorded yet is shown as **Not recorded yet**, neve
 
 ## The pages
 
-| Page | Console path | Shows |
+| Page | Resolve Platform path | Shows |
 |---|---|---|
 | Delivery | the cockpit's Delivery section | Outcomes, agent time, spend by model, decisions, people, value by role, the comparison with a team by hand, and the outcomes ledger |
 | Outcome | `/resolve/factory-outcome` | One outcome traced back to its runs, sessions, decisions and people |

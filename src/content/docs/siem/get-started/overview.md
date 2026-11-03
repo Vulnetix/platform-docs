@@ -27,7 +27,7 @@ Guardian is the Vulnetix SIEM. It collects network flow, DNS, WAF, HTTP and audi
 
 Retention is 31 days on every pack. A search covers at most 30 days.
 
-## Console pages
+## Resolve Platform pages
 
 Guardian is one menu item in the Vulnetix console.
 

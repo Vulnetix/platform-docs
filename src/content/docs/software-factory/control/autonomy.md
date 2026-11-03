@@ -10,7 +10,7 @@ updated: 28 Oct 2026
 
 Autonomy is how far the factory may go on a repository without a person. It is a ladder: each level allows everything below it.
 
-| Level | Console | The factory may |
+| Level | Resolve Platform | The factory may |
 |---|---|---|
 | `observe` | Observe | Read, decide and record. It writes nothing to GitHub. |
 | `suggest` | Suggest | Comment and post reviews. |
@@ -42,7 +42,7 @@ Each [default workflow](/software-factory/workflows/default-workflows/) needs a 
 
 These settings sit in the Autonomy section of Settings:
 
-| Setting | Console label | Range | Default | Effect |
+| Setting | Resolve Platform label | Range | Default | Effect |
 |---|---|---|---|---|
 | `autonomy.concurrency` | Max concurrent runs | 1 to 64 | 4 | Runs of the tenant that may be `running` at once. Others queue. |
 | `autonomy.parked_concurrency` | Max runs waiting for a machine | 1 to 1000 | 50 | Runs that only wait for a host do not use a concurrent slot. This caps how many may wait. |

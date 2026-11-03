@@ -12,7 +12,7 @@ These two reports are not external standards. They answer the questions an audit
 
 ## Scan Coverage (`coverage`)
 
-Console: [/resolve/coverage](https://www.vulnetix.com/resolve/coverage). One row per category, in this order:
+Resolve Platform: [/resolve/coverage](https://www.vulnetix.com/resolve/coverage). One row per category, in this order:
 
 | Category id | Row |
 |---|---|
@@ -57,7 +57,7 @@ The assurance rows (firewall, gate, review, provenance, audit trail and similar)
 
 ## Exposure & Remediation Performance (`exposure`)
 
-Console: [/resolve/exposure](https://www.vulnetix.com/resolve/exposure). A view of the vulnerability program across its lifecycle, in 15 sections, in this order:
+Resolve Platform: [/resolve/exposure](https://www.vulnetix.com/resolve/exposure). A view of the vulnerability program across its lifecycle, in 15 sections, in this order:
 
 | Id | Section |
 |---|---|

@@ -12,7 +12,7 @@ Software Factory has five parts. You use two of them directly: the console in yo
 
 | Part | Where it runs | What it does |
 |---|---|---|
-| Console | Your browser, served from `www.vulnetix.com` | The Software Factory pages under `/resolve/factory*` |
+| Resolve Platform | Your browser, served from `www.vulnetix.com` | The Software Factory pages under `/resolve/factory*` |
 | Factory API and engine | Vulnetix cloud | Stores workflows, runs, settings, budgets, events and the audit ledger. Advances runs. |
 | Schedulers | AWS EventBridge Scheduler, Cloudflare, or a host | Fire cron triggers at the factory API |
 | Hosts | A Pix Sandbox, or your own machine running `belai rc` | Run agent sessions with the repository checked out |

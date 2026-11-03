@@ -1,5 +1,5 @@
 ---
-title: Console API
+title: Resolve Platform API
 description: Every route behind the cloud security pages of the Vulnetix console, with the method, path and purpose. These routes take a signed-in console session.
 order: 50
 nav: API routes

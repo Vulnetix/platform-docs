@@ -82,7 +82,7 @@ Every other rule flags or blocks from the moment it is applied. The agent capabi
 | Route | Behaviour |
 |---|---|
 | `vulnetix ai-firewall apply` | Composes the baseline into the file's guardrails unless `--no-baseline` or `spec.baseline.enabled: false` |
-| Console, Guardrails tab and the capability tabs | Blueprints panel: Add one rule, or Add all the organisation does not already have |
+| Resolve Platform, Guardrails tab and the capability tabs | Blueprints panel: Add one rule, or Add all the organisation does not already have |
 | `vulnetix ai-firewall export` | Writes `spec.baseline.enabled: false`, so re-applying a snapshot adds nothing |
 
 Composition rules in `apply`:

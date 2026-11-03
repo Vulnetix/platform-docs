@@ -28,7 +28,7 @@ With inference logging on, the gateway writes one `AiFirewallLog` row per infere
 
 | Where | How |
 |---|---|
-| Console | **Inference logging** card on the Overview tab of the [AI Firewall page](https://www.vulnetix.com/resolve/ai-firewall) |
+| Resolve Platform | **Inference logging** card on the Overview tab of the [AI Firewall page](https://www.vulnetix.com/resolve/ai-firewall) |
 | CLI | `vulnetix ai-firewall settings --logs` (on), `--no-logs` (off) |
 | Policy file | `spec.settings.logsEnabled: true` in [`.vulnetix/ai-firewall.yaml`](/ai-firewall/reference/policy-file/#specsettings) |
 | Check | `vulnetix ai-firewall status` prints `Inference logging  on` or `off` |
@@ -76,7 +76,7 @@ While logging is on, each row is also forwarded, best effort, to Guardian, the V
 
 The console's [Logs page](https://www.vulnetix.com/resolve/logs#aifw) has an AI Firewall stream with decision charts, the top blocking rules, providers and clients, and a paged table. The range is `24h`, `7d`, `30d` (default) or `90d`.
 
-Console API, session-authenticated, under `https://www.vulnetix.com/api/site/v1`:
+Resolve Platform API, session-authenticated, under `https://www.vulnetix.com/api/site/v1`:
 
 | Request | Parameters | Returns |
 |---|---|---|
