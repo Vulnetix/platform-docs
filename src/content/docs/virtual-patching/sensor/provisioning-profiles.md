@@ -96,7 +96,7 @@ The update changes the binary only. Mode, feeds and the rest of the configuratio
 Set `"autoUpdate": false` in the profile's `config` to stop it, for hosts that take releases on a change window. The console's profile editor has the same switch, "Keep sensors up to date automatically". It is on when the field is absent, and absent from the configuration (and the `configEtag`) until you turn it off, so existing profiles do not change.
 
 > [!CAREFUL] One manual upgrade for older sensors
-> A sensor older than v3.165 has no self-update, so it cannot install one. Upgrade it once with `install.sh` (see [Sensor on hosts](/virtual-patching/runtime/sensor-hosts/)); every later release then installs itself. A development build (`dev`) never updates itself. `autoUpdate` is not yet a field of the `RuntimeSensorPolicy` kind in Platform IaC, so set it in the console or the API for now.
+> A sensor older than v3.165 has no self-update, so it cannot install one. Upgrade it once with `install.sh` (see [Sensor on hosts](/virtual-patching/runtime/sensor-hosts/)); every later release then installs itself. A development build (`dev`) never updates itself. In Platform IaC it is `spec.autoUpdate` of [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) (`auto_update` in Terraform); only `false` is stored.
 
 Changing `credentialMode` on a profile applies to devices that enroll after the change. Existing devices keep the credential they were issued until they enroll again.
 
