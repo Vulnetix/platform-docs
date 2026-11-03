@@ -8,7 +8,7 @@ checked: [cli@d01f1dbe3, vdb-site@b424ae4]
 updated: 02 Nov 2026
 ---
 
-`vulnetix config plan` sends your documents to the config engine and prints what applying them would do. Nothing is changed. Added in CLI v3.155.0. From v4 it also reads the well-known files; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
+`vulnetix config plan` sends your documents to the config engine and prints what applying them would do. Nothing is changed. Added in CLI v3.155.0. From CLI v4.0.0, with no `-f`, it also reads the well-known files; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
 
 ```sh
 vulnetix config plan [-f <file|dir|->]... [--manager <manager>] [--prune] [--token <token>] [-o text|json]
@@ -29,9 +29,10 @@ The command takes no positional arguments.
 1. Reads the documents. If none are found (for example, `.vulnetix/config/` does not exist), it fails with exit 2 instead of planning nothing, because planning nothing with `--prune` would delete every object the manager owns.
 2. Validates every document offline, exactly as [`vulnetix config validate`](/platform-iac/cli/validate/) does. Any problem is printed on standard error and nothing is sent.
 3. Resolves `valueFrom` secrets on this machine. See [Secrets](#secrets).
-4. Sends `POST /api/site/v1/config/plan` with the documents, the manager, `prune`, and `sourceRef`: `GITHUB_SHA`, or else the checkout's `HEAD` commit.
-5. Refuses if a document's `metadata.org` is not the tenant the plan was made for. The engine also blocks it, with `org_mismatch`.
-6. Prints the plan.
+4. Replaces each `file:` field with the file's text as `body`. `DetectionRule`, `AgentProfile` and `LibraryItem` name a text file with `file:` where other documents carry `body:`, and the server never reads a path. The path is read relative to the config root (the directory given with `-f`, else `.vulnetix/config`), then the document's directory. An absolute path, a path that climbs out of the root and a symlink that leaves it are refused, so a document in a pull request cannot make a plan send another file.
+5. Sends `POST /api/site/v1/config/plan` with the documents, the manager, `prune`, and `sourceRef`: `GITHUB_SHA`, or else the checkout's `HEAD` commit.
+6. Refuses if a document's `metadata.org` is not the tenant the plan was made for. The engine also blocks it, with `org_mismatch`.
+7. Prints the plan.
 
 ## The manager
 

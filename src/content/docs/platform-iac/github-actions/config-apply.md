@@ -4,7 +4,7 @@ nav: "config-apply"
 description: "The Vulnetix/cli/config-apply GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 2
 sources: [cli/config-apply/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/config-apply.md]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -13,7 +13,7 @@ Installs the CLI and applies [Platform IaC](/platform-iac/) documents through th
 ```yaml
 steps:
   - uses: actions/checkout@v5
-  - uses: Vulnetix/cli/config-apply@v3
+  - uses: Vulnetix/cli/config-apply@v4
     with:
       config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
 ```
@@ -24,7 +24,7 @@ Runs `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v3.158.0), a major channel (v3, the newest v3 release) or latest | `v3` |
+| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
 | `org-id` | Vulnetix organization ID (UUID), used with api-key. Optional: without credentials the CLI runs in community mode | - |
 | `api-key` | Vulnetix API key. Passed to the CLI as VULNETIX_API_KEY, never on the command line | - |
@@ -75,7 +75,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/config-apply@v3
+      - uses: Vulnetix/cli/config-apply@v4
         with:
           config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
           config-prune: false
@@ -87,6 +87,8 @@ jobs:
 
 - Each run plans again and applies only that fresh plan, so a push that races another push fails with a 409 instead of applying something nobody planned.
 - `config-prune: true` deletes objects this manager owns that the documents no longer declare. Review a plan with it on before applying.
+- With no `config-path`, no `-f` is passed: CLI v4 reads `.vulnetix/config` and the well-known files, so `config-prune: true` adopts an `AiFirewallPolicy` declared in `.vulnetix/ai-firewall.yaml`. A `config-path` is passed as `-f` and reads only what it names. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
+- A partial apply (HTTP 207, or an object that ended in phase `Failed`) exits 1 and fails the step; the rest of the plan stays applied.
 - Exit code 3 means the plan has blocking conditions and nothing was applied: `result` is `blocked`. The exit codes are those of [apply](/platform-iac/cli/apply/#exit-codes).
 - Use `config-plan` on pull requests and this action on the default branch.
 - The action needs `jq` on the runner.

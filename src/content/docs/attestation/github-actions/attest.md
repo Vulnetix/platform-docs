@@ -4,7 +4,7 @@ nav: "attest"
 description: "The Vulnetix/cli/attest GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/attest/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/attest.md]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -13,7 +13,7 @@ Installs the CLI and runs [`vulnetix attest verify`](/attestation/verify/attest-
 ```yaml
 steps:
   - uses: actions/checkout@v5
-  - uses: Vulnetix/cli/attest@v3
+  - uses: Vulnetix/cli/attest@v4
     with:
       subject: dist/app.tar.gz
 ```
@@ -24,7 +24,7 @@ Runs `vulnetix attest verify <subject>`. Credentials are optional: without `org-
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v3.158.0), a major channel (v3, the newest v3 release) or latest | `v3` |
+| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
 | `org-id` | Vulnetix organization ID (UUID), used with api-key. Optional: without credentials the CLI runs in community mode | - |
 | `api-key` | Vulnetix API key. Passed to the CLI as VULNETIX_API_KEY, never on the command line | - |
@@ -77,7 +77,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
         run: gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern 'sbom.cdx.json*'
-      - uses: Vulnetix/cli/attest@v3
+      - uses: Vulnetix/cli/attest@v4
         with:
           subject: sbom.cdx.json
       - name: Check the GitHub attestation

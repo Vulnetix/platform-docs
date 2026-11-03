@@ -3,12 +3,12 @@ title: Imperative config commands
 nav: Imperative commands
 description: vulnetix config set and get for the quality gate, the EOL policy and the package firewall. Every flag, the null value that unsets a field, the API each command calls and its errors.
 order: 5
-sources: [cli/cmd/config.go, cli/cmd/config_engine_alias.go, cli/cmd/config_ai_firewall.go, cli/cmd/config_jail.go, cli/pkg/vdb/api_cli.go, cli/pkg/vdb/client.go, cli/cmd/quality_gate_enforce.go, vdb-api/internal/handler/v2_cli_quality_gate.go, vdb-api/internal/handler/v2_cli_package_firewall.go, saas/prisma/models/quality-gate.prisma]
-checked: [cli@d01f1dbe3, vdb-api@4145f0a]
-updated: 02 Nov 2026
+sources: [cli/cmd/config.go, cli/cmd/config_engine_alias.go, cli/cmd/config_engine_alias_aifw.go, cli/cmd/config_engine_alias_pfw.go, cli/cmd/config_ai_firewall.go, cli/cmd/config_jail.go, cli/pkg/vdb/api_cli.go, cli/pkg/vdb/client.go, cli/cmd/quality_gate_enforce.go, vdb-api/internal/handler/v2_cli_quality_gate.go, vdb-api/internal/handler/v2_cli_package_firewall.go, saas/prisma/models/quality-gate.prisma]
+checked: [cli@v4.0.0, vdb-api@4145f0a]
+updated: 03 Nov 2026
 ---
 
-These commands change your organization's stored settings one call at a time. Declare settings as documents and use [`vulnetix config apply`](/platform-iac/cli/apply/) instead. `set quality-gate` and `set eol-policy` are deprecated aliases of it; see [Deprecated aliases](#deprecated-aliases).
+These commands change your organization's stored settings one call at a time. Declare settings as documents and use [`vulnetix config apply`](/platform-iac/cli/apply/) instead. Since CLI v4.0.0, `set quality-gate`, `set eol-policy` and the policy form of `set package-firewall` are aliases of it, and so are `ai-firewall apply` and `ai-firewall export`; see [Aliases of the config engine](#aliases-of-the-config-engine). The mirror form of `set package-firewall`, `set jail`, `set ai-firewall provider|model|guardrail` and every `get` stay imperative and are not deprecated.
 
 All of them need `vulnetix auth login`. The organization is the one you are authenticated as; a Teams member resolves to the team's organization. The shared community org cannot store settings and gets HTTP 403.
 
@@ -33,9 +33,16 @@ Every command here has these two flags:
 > [!CAREFUL] Any member can change org policy
 > The `/v2/cli.*` write endpoints check that the caller is authenticated to a real organization, not which role the caller has. A member's API key can change the organization's quality gate and package firewall. Restrict who holds keys accordingly.
 
-## Deprecated aliases
+## Aliases of the config engine
 
-Since CLI v3.155.0, `vulnetix config set quality-gate` and `vulnetix config set eol-policy` keep their flags and output but send a `QualityGate` document to the config engine, as manager `console`. Each run first prints to standard error:
+| Command | Document | Since | Deprecation warning |
+|---|---|---|---|
+| `config set quality-gate` | `QualityGate` | v3.155.0 | Every run |
+| `config set eol-policy` | `QualityGate` | v3.155.0 | Every run |
+| `config set package-firewall`, policy form | `PackageFirewallPolicy` | v4.0.0 | When it falls back to the legacy endpoint |
+| `ai-firewall apply`, `ai-firewall export` | `AiFirewallPolicy` | v4.0.0 | When it falls back to the legacy endpoints |
+
+An alias keeps its flags and output but sends a document to the config engine, as manager `console`. The legacy endpoint stays as the fallback, with a warning that says why, for a credential the engine refuses. The rest of this section describes `set quality-gate` and `set eol-policy`; the other aliases follow the same fallback rules, and `ai-firewall apply` also falls back for a local `--catalog` baseline. Each `set quality-gate` and `set eol-policy` run first prints to standard error:
 
 ```text
 Deprecated: 'vulnetix config set quality-gate' will be removed; declare a QualityGate document in .vulnetix/config/ and run 'vulnetix config apply'.
@@ -120,7 +127,7 @@ Two forms, chosen by the positional arguments.
 
 ### Policy form
 
-No positional arguments. Only the flags you pass are changed.
+No positional arguments. Only the flags you pass are changed. Since CLI v4.0.0 this form is an [alias of the config engine](#aliases-of-the-config-engine) for `PackageFirewallPolicy`; the mirror form below is not.
 
 ```sh
 vulnetix config set package-firewall --cvss-threshold 7 --block-malware --cooldown-days 3

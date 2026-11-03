@@ -8,7 +8,7 @@ checked: [cli@4c8c3b7]
 updated: 02 Nov 2026
 ---
 
-You need the Vulnetix CLI v3 on your `PATH` (see [/cli/](/cli/) for install). No account is needed: without credentials the scan runs fully and uploads nothing of yours.
+You need the Vulnetix CLI on your `PATH` (see [/cli/](/cli/) for install). No account is needed: without credentials the scan runs fully and uploads nothing of yours.
 
 ## 1. Scan a directory
 

@@ -4,7 +4,7 @@ nav: "setup"
 description: "The Vulnetix/cli/setup GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/setup/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/setup.md]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -13,7 +13,7 @@ Installs the Vulnetix CLI and adds it to `PATH` for the later steps of the job. 
 ```yaml
 steps:
   - uses: actions/checkout@v5
-  - uses: Vulnetix/cli/setup@v3
+  - uses: Vulnetix/cli/setup@v4
 ```
 
 Runs no command.
@@ -22,7 +22,7 @@ Runs no command.
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v3.158.0), a major channel (v3, the newest v3 release) or latest | `v3` |
+| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
 
 ## Outputs
@@ -55,7 +55,7 @@ jobs:
       VULNETIX_API_KEY: ${{ secrets.VULNETIX_API_KEY }}
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/setup@v3
+      - uses: Vulnetix/cli/setup@v4
       - run: vulnetix auth verify
       - name: Scan
         run: |
@@ -76,7 +76,7 @@ jobs:
 ## Behaviour
 
 - The binary goes to `$RUNNER_TEMP/vulnetix-bin`, which is appended to `$GITHUB_PATH`. The action sets `VULNETIX_CLI_INSTALLED` in `$GITHUB_ENV`, so a second Vulnetix action in the same job that asks for the same `version` skips the download.
-- `version` takes an exact tag (`v3.164.1`), a major channel (`v3`, the newest v3 release) or `latest`. The default is `v3`. See [Versions and release channels](/cli/ci-cd/versions-and-channels/).
+- `version` takes an exact tag (`v4.0.0`), a major channel (`v4`, the newest v4 release) or `latest`. The default is the channel of the action ref: `v4` for `@v4`, `v3` for `@v3`. See [Versions and release channels](/cli/ci-cd/versions-and-channels/).
 - `binary-path` copies a binary you built earlier in the job instead of downloading a release.
 - The installer is the `install.sh` shipped at the action's ref. It verifies the binary against the release checksums.
 - Credentials are not inputs here. Give them to the steps that run commands, as `env:`, so they exist only where they are used.

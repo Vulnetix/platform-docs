@@ -34,13 +34,16 @@ curl -fsSL https://cli.vulnetix.com/install.sh | sh
 curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --install-dir "$HOME/.local/bin"
 
 # Pin a release
-curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --version v3.154.0
+curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --version v4.0.0
+
+# Stay on v3 (frozen at v3.169.2)
+curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --version v3
 ```
 
 | Option | Environment | Default | Meaning |
 |---|---|---|---|
 | `--install-dir <dir>` | `INSTALL_DIR` | `/usr/local/bin` | Where `vulnetix` is written. If the directory cannot be created or written, the script falls back to `$HOME/.local/bin` and says so. |
-| `--version <tag>` | `VERSION` | `latest` | A release tag such as `v3.154.0`, a major channel such as `v3` (the newest v3 release), or `latest`. Each is resolved to a concrete tag before downloading. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). |
+| `--version <tag>` | `VERSION` | `latest` | A release tag such as `v4.0.0`, a major channel such as `v4` (the newest v4 release), or `latest`. `v3` still resolves, to the last v3 release. Each is resolved to a concrete tag before downloading. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). |
 | `--help` | | | Print usage. |
 
 What the script does, in order:
@@ -111,7 +114,7 @@ Open a new terminal for the `Path` change to apply.
 
 ## How a release reaches each channel
 
-Pushing a full version tag (`v3.158.0`, or a pre-release such as `v3.158.0-rc.1`) runs the release workflow. One GitHub release feeds every channel, so a channel is never ahead of the release assets.
+Pushing a full version tag (`v4.0.0`, or a pre-release such as `v4.1.0-rc.1`) runs the release workflow. One GitHub release feeds every channel, so a channel is never ahead of the release assets.
 
 | Channel | Updated by | When it has the new version |
 |---|---|---|
@@ -121,7 +124,7 @@ Pushing a full version tag (`v3.158.0`, or a pre-release such as `v3.158.0-rc.1`
 | Scoop ([Vulnetix/scoop-bucket](https://github.com/Vulnetix/scoop-bucket)) | The `update-packages` job rewrites `bucket/vulnetix.json` with hashes from `checksums.txt` | When the job finishes |
 | Nix flake | The `update-packages` job sets `version` in the repository's `flake.nix` | When the job finishes; see [Building from source](#building-from-source) |
 | Go module proxy | Nothing to publish: `proxy.golang.org` indexes the tag | Usually 5 to 15 minutes after the tag is pushed |
-| GitHub Action (`Vulnetix/cli@v3`) | The floating major tag `v3` is moved to the new release | When the tag is moved |
+| GitHub Action (`Vulnetix/cli@v4`) | The floating major tag `v4` is moved to the new release | When the tag is moved |
 
 `update-packages` runs only for the newest release, so an older release that finishes late never rolls Homebrew, Scoop or the flake back.
 
@@ -132,18 +135,18 @@ If a new release does not show up:
 | Symptom | Check |
 |---|---|
 | `brew upgrade` or `scoop update` still installs the old version | Run `brew update` or `scoop update` first so the tap or bucket is refreshed, then check the release workflow's `update-packages` job finished |
-| `go install …@latest` installs an older version | The proxy has not indexed the tag yet. Ask for the tag (`@v3.158.0`) or wait. A stale module cache can be cleared with `go clean -modcache`. |
+| `go install …@latest` installs an older version | The proxy has not indexed the tag yet. Ask for the tag (`@v4.0.0`) or wait. A stale module cache can be cleared with `go clean -modcache`. |
 | A direct download returns 404 | The asset name is `vulnetix-<os>-<arch>` (`.exe` on Windows) with no archive; check [Release assets](#release-assets) |
 
 ## Building from source
 
 > [!CAREFUL] go install and the Nix flake do not build outside Vulnetix
-> The CLI depends on `github.com/Vulnetix/vdb-sca-match`, which is a private repository. `go install github.com/vulnetix/cli/v3@latest`, `go build` in a clone, and `nix run github:Vulnetix/cli` all fail to fetch it unless your Git credentials can read that repository. The flake also ships with `vendorHash = pkgs.lib.fakeHash`, so `nix build` stops at the hash check even with access. Use a prebuilt binary.
+> The CLI depends on `github.com/Vulnetix/vdb-sca-match`, which is a private repository. `go install github.com/vulnetix/cli/v4@latest`, `go build` in a clone, and `nix run github:Vulnetix/cli` all fail to fetch it unless your Git credentials can read that repository. The flake also ships with `vendorHash = pkgs.lib.fakeHash`, so `nix build` stops at the hash check even with access. Use a prebuilt binary.
 
-With access, the module path needs its `/v3` suffix, and the binary built is a source build:
+With access, the module path needs its `/v4` suffix, and the binary built is a source build:
 
 ```sh
-GOPRIVATE=github.com/Vulnetix/* go install github.com/vulnetix/cli/v3@latest
+GOPRIVATE=github.com/Vulnetix/* go install github.com/vulnetix/cli/v4@latest
 ```
 
 ## Updating
@@ -155,7 +158,7 @@ vulnetix update
 | How it was installed | What `vulnetix update` does |
 |---|---|
 | Release binary (script, download, Homebrew, Scoop) | Downloads the latest release asset for this OS and architecture and replaces the running binary in place |
-| `go install` (the binary is in `$GOBIN`, `$GOPATH/bin` or `~/go/bin`) | Runs `go install github.com/vulnetix/cli/v3@latest` |
+| `go install` (the binary is in `$GOBIN`, `$GOPATH/bin` or `~/go/bin`) | Runs `go install github.com/vulnetix/cli/v4@latest` |
 | Source build (version contains `-dev`, or no commit was stamped) | Refuses: `this binary was built from source` |
 
 `vulnetix update` does not check the download against `checksums.txt`; the install script does. Under Homebrew or Scoop, update with the package manager so its records stay correct.

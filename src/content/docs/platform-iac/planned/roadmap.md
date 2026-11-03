@@ -4,7 +4,7 @@ nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
 sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.11.1", "vdb-site@7b71e88", "cli@v3.169.1", "terraform-provider-vulnetix@169ce16"]
+checked: ["config-schemas@v1.11.1", "vdb-site@7b71e88", "cli@v4.0.0", "terraform-provider-vulnetix@169ce16"]
 updated: 03 Nov 2026
 ---
 
@@ -18,7 +18,7 @@ This page is the honest list. The rest of the segment documents what works; this
 | Config engine | Plan, apply, export and per-object routes. Every kind is served except `LicensePolicy` and `LicenseExceptions`, which are validate only. Managers, prune, drift, `valueFrom` secrets, status phases and `vmt_` management tokens. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
 | CEL | One evaluator, five contexts, four functions, and cost limits. Evaluated in the VDB API (jail), the Software Factory gate, the ranking ladder, the suppression engine, the package firewall, the AI firewall and detection rule feed publishing. | [CEL rule expressions](/platform-iac/reference/cel/) |
 | VEX sources | `VexSource` reads OpenVEX and CycloneDX VEX from TEA, S3, git and URLs. | [VEX documents as suppression rules](/platform-iac/guides/vex-sources/) |
-| CLI | `vulnetix config validate`, `kinds`, `schema`, `plan`, `apply` and `export`, and the imperative `set` and `get`. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
+| CLI | `vulnetix config validate`, `kinds`, `schema`, `plan`, `apply` and `export`, and the imperative `set` and `get`. CLI v4.0.0 (3 November 2026) has `plan` and `apply` read the well-known files and makes `ai-firewall apply|export` and the policy form of `config set package-firewall` aliases of the engine. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
 | GitHub Actions | `config-plan` on pull requests and `config-apply` on the default branch. | [config-plan](/platform-iac/github-actions/config-plan/), [config-apply](/platform-iac/github-actions/config-apply/) |
 | GitOps in Software Factory | The `config-apply` workflow node plans on a push to a config repository's default branch and applies after approval. | [`FactoryWorkflow`](/platform-iac/kinds/factory-workflow/#gitops-from-a-repository) |
 | Terraform and OpenTofu provider | Public source; one generated resource per kind the engine stores, six data sources. | [Terraform and OpenTofu](/platform-iac/terraform/) |
@@ -33,8 +33,7 @@ This page is the honest list. The rest of the segment documents what works; this
 
 | Gap | Detail |
 |---|---|
-| The CLI trails the schemas by a release | CLI v3.169.1 embeds `config-schemas` v1.10.0; the newest release is v1.11.1. The only kind added since is [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) (v1.11.0), which `vulnetix config validate`, `plan` and `apply` refuse as unknown before sending it, though the engine serves it. Every other kind is known to the CLI. Each kind's page says from which CLI release it is known. Use the config API or Terraform for `ComplianceTarget` until a CLI release embeds v1.11.0 or later. |
-| CLI v4 | The major release is upcoming. It changes the module path, makes the remaining imperative commands aliases of the engine, and has `plan` and `apply` read the well-known files. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). |
+| The CLI trails the schemas by a release | CLI v4.0.0 embeds `config-schemas` v1.10.0, as the last v3 releases did; the newest release is v1.11.1. The only kind added since is [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) (v1.11.0), which `vulnetix config validate`, `plan` and `apply` refuse as unknown before sending it, though the engine serves it. Every other kind is known to the CLI. Each kind's page says from which CLI release it is known. Use the config API or Terraform for `ComplianceTarget` until a CLI release embeds v1.11.0 or later. |
 | Registry publishing | The provider and both modules have no release, and the Terraform and OpenTofu registries do not list them. See [Terraform and OpenTofu](/platform-iac/terraform/#registries). |
 | Download as code elsewhere | Other console pages that map to a kind do not have it yet. |
 | CEL in the CLI | The CLI evaluates no expression: `vulnetix jail` and `vulnetix scan --jail` ask the VDB API, and a suppression's `when` is evaluated on the server. The `event` context has no field in any kind, so [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) conditions are typed. |

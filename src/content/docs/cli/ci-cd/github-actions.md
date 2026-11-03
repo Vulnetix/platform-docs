@@ -3,7 +3,7 @@ title: GitHub Actions
 description: The Vulnetix GitHub Actions, the root action's inputs and outputs, credentials, permissions, and complete workflows for scanning with gates, code scanning, the dependency graph, artifacts and attestations.
 order: 2
 sources: [cli/action.yml, cli/action-lib/run.sh, cli/action-lib/install.sh, cli/action-lib/finish.sh, cli/action-lib/config.sh, cli/action-lib/publish.sh, cli/tools/actiongen/spec.go, cli/docs/github-actions.md, cli/cmd/gha.go, cli/cmd/upload.go, cli/cmd/gha_submit.go, cli/install.sh]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -11,8 +11,8 @@ There are three ways to run the CLI in a workflow:
 
 | Approach | Use it for |
 |---|---|
-| A per-command action, `uses: Vulnetix/cli/<name>@v3` | One command, with publishing to GitHub, an artifact upload, attestation and release assets in the same step. [Table below](#an-action-for-each-command). |
-| The root action, `uses: Vulnetix/cli@v3` with `task:` | The same commands behind one action reference. |
+| A per-command action, `uses: Vulnetix/cli/<name>@v4` | One command, with publishing to GitHub, an artifact upload, attestation and release assets in the same step. [Table below](#an-action-for-each-command). |
+| The root action, `uses: Vulnetix/cli@v4` with `task:` | The same commands behind one action reference. |
 | The install script in a `run:` step | Any command or flag the actions do not expose. |
 
 All three install the released binary; none needs a Go toolchain. The per-command actions and the root action share the same scripts, so the same inputs behave the same way.
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli@v3
+      - uses: Vulnetix/cli@v4
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}
@@ -128,7 +128,7 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/sca@v3
+      - uses: Vulnetix/cli/sca@v4
         id: sca
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
@@ -136,7 +136,7 @@ jobs:
           args: --fail-on high,kev,malware
           artifact-name: vulnetix-sca
           attest: true
-      - uses: Vulnetix/cli/github-publish@v3
+      - uses: Vulnetix/cli/github-publish@v4
         if: ${{ !cancelled() }}
         with:
           sarif: .vulnetix/sca.sarif
@@ -153,7 +153,7 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/sast@v3
+      - uses: Vulnetix/cli/sast@v4
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}
@@ -191,7 +191,7 @@ jobs:
       - name: Install Vulnetix CLI
         run: |
           curl -fsSL --retry 5 --retry-all-errors -o "$RUNNER_TEMP/vulnetix-install.sh" https://cli.vulnetix.com/install.sh
-          sh "$RUNNER_TEMP/vulnetix-install.sh" --install-dir "$HOME/.local/bin" --version v3
+          sh "$RUNNER_TEMP/vulnetix-install.sh" --install-dir "$HOME/.local/bin" --version v4
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - run: vulnetix auth verify
       - name: Scan
@@ -204,7 +204,7 @@ jobs:
           if-no-files-found: warn
 ```
 
-`--github-publish code-scanning` uploads the scan's SARIF at its end, so the separate `github/codeql-action/upload-sarif` step is not needed. `--version v3` installs the newest v3 release; see [Versions and release channels](/cli/ci-cd/versions-and-channels/). Under Actions, `scan` prints the plain view, adds workflow-command annotations on the manifest lines, and appends a Markdown summary to the job summary.
+`--github-publish code-scanning` uploads the scan's SARIF at its end, so the separate `github/codeql-action/upload-sarif` step is not needed. `--version v4` installs the newest v4 release; see [Versions and release channels](/cli/ci-cd/versions-and-channels/). Under Actions, `scan` prints the plain view, adds workflow-command annotations on the manifest lines, and appends a Markdown summary to the job summary.
 
 To report without blocking the merge, add `continue-on-error: true` to the scan step rather than removing the gate.
 
@@ -278,7 +278,7 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/sbom@v3
+      - uses: Vulnetix/cli/sbom@v4
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}
@@ -295,7 +295,7 @@ To publish a release to the Transparency Exchange API instead, use the [`tea-rel
 ## The root action
 
 ```yaml
-      - uses: Vulnetix/cli@v3
+      - uses: Vulnetix/cli@v4
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}
@@ -303,7 +303,7 @@ To publish a release to the Transparency Exchange API instead, use the [`tea-rel
           github-code-scanning: true
 ```
 
-The action installs the CLI with the install script, verifies authentication when `api-key` or `api-token` is set, and runs the task. `@v3` is a moving major tag; pin an exact release tag or a commit SHA for a reproducible workflow. The `version` input chooses the CLI release separately from the action ref.
+The action installs the CLI with the install script, verifies authentication when `api-key` or `api-token` is set, and runs the task. `@v4` is a moving major tag, and `@v3` still works: it keeps a v3 binary. Pin an exact release tag or a commit SHA for a reproducible workflow. The `version` input chooses the CLI release separately from the action ref.
 
 ### Inputs
 
@@ -312,7 +312,7 @@ The action installs the CLI with the install script, verifies authentication whe
 | `org-id` | No | | Organisation UUID, used with `api-key`. Passed as `VULNETIX_ORG_ID`. Without credentials the CLI runs in community mode. |
 | `api-key` | No | | ApiKey. Passed as `VULNETIX_API_KEY`, never on the command line. |
 | `api-token` | No | | API token. The server resolves the organisation. Passed as `VULNETIX_API_TOKEN`. |
-| `version` | No | `v3` | CLI release to install: an exact tag (`v3.164.1`), a major channel (`v3`, the newest v3 release) or `latest`. A `v` is added if missing. |
+| `version` | No | `v4` | CLI release to install: an exact tag (`v4.0.0`), a major channel (`v4`, the newest v4 release) or `latest`. A `v` is added if missing. |
 | `binary-path` | No | | Use this already-built binary instead of downloading a release, for example one built earlier in the job. |
 | `task` | No | `info` | What to run. See [Tasks](#tasks). |
 | `path` | No | `.` | Directory to scan, for the scanning tasks |
@@ -337,7 +337,7 @@ The action installs the CLI with the install script, verifies authentication whe
 | `config-prune` | No | `false` | Delete objects this manager owns that the documents no longer declare |
 | `validate-only` | No | `false` | `config-plan` only: validate the documents offline instead of planning |
 
-The default `version` is the major channel that matches the action ref, so a workflow pinned to `@v3` installs a v3 binary. At the v4 cut the default of `Vulnetix/cli@v4` becomes `v4` and `@v3` keeps its own. See [Versions and release channels](/cli/ci-cd/versions-and-channels/).
+The default `version` is the major channel that matches the action ref, so `Vulnetix/cli@v4` installs the newest v4 release and a workflow still pinned to `@v3` keeps a v3 binary, which is unchanged since v3.169.2. Change the ref to `@v4` to move; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/). See [Versions and release channels](/cli/ci-cd/versions-and-channels/).
 
 ### Tasks
 
@@ -391,7 +391,7 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli@v3
+      - uses: Vulnetix/cli@v4
         with:
           config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
           task: ${{ github.event_name == 'pull_request' && 'config-plan' || 'config-apply' }}

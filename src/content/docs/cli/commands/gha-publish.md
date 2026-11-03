@@ -16,7 +16,7 @@ updated: 03 Nov 2026
 | [`dependency-graph`](#dependency-graph) | A CycloneDX SBOM as a dependency graph snapshot | v3.161.0 |
 | [`release-assets`](#release-assets) | Files, or everything in the artifact manifest, to a release | v3.162.0 |
 | [`advisories`](#advisories) | Draft repository security advisories for SAST findings | v3.163.0 |
-| [`campaigns`](#campaigns) | Vulnetix remediation campaigns as GitHub security campaigns | Not released yet |
+| [`campaigns`](#campaigns) | Vulnetix remediation campaigns as GitHub security campaigns | v3.166.0 |
 
 The GitHub Actions use these commands: the `github-code-scanning`, `dependency-graph` and `release-tag` inputs of every action, and the [github-publish action](/cli/github-actions/github-publish/).
 
@@ -139,8 +139,7 @@ Drafts GitHub repository security advisories for this repository's own SAST find
 VULNETIX_CONFIG_TOKEN=vmt_... GH_TOKEN=$ORG_PAT vulnetix gha publish campaigns --org acme [--recreate-on-scope-change] [--default-days 90] [--dry-run]
 ```
 
-> [!CAREFUL] campaigns is not in a release yet
-> The command is in the CLI source and ships in a release after v3.165.0. Flags may change before then. It needs a Pro plan.
+The command is available since v3.166.0 and needs a Pro plan.
 
 Mirrors each active Vulnetix remediation campaign as a GitHub security campaign named `[Vulnetix] <name>`. A campaign's open items are matched to the organisation's open code scanning alerts: an alert belongs to an item when its rule ID is the item's finding ID and, for a package, the alert names it. Publish code scanning first so the alerts exist. The campaign ends at the Vulnetix deadline, or `--default-days` days from creation, and its contact link points back at the Vulnetix campaign. A completed or archived Vulnetix campaign closes its GitHub campaign.
 

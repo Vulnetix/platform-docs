@@ -102,7 +102,7 @@ Three documents have a fixed path outside `.vulnetix/config`, because other comm
 
 `config validate` reads them and the folder. A singleton kind may be defined in its well-known file or under `.vulnetix/config`, not both and not twice: that is an error that names both places. A licence file written before documents carried `apiVersion` and `kind` is read as its file's kind, so an older repository keeps working.
 
-`config plan` and `config apply` read the folder only in v3. A well-known file named with `-f` is planned. They read the well-known files from v4; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
+In v3, `config plan` and `config apply` read the folder only, and a well-known file named with `-f` is planned. From CLI v4.0.0 they read the well-known files too when no `-f` is given; see [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
 
 > [!WHY] Why one rule
 > Before v3.164.0 a file's folder and name decided what it was, and `AiFirewallPolicy` had to stay out of `.vulnetix/config`. Now the content decides, so `.vulnetix/config` can sit beside SARIF or SBOM files the CLI wrote, and a repository can keep a policy in the path its command already reads.

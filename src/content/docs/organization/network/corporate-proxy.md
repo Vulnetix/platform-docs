@@ -92,7 +92,7 @@ curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --install-dir ~/.local
 
 ### GitHub Actions on a self-hosted runner
 
-The `Vulnetix/cli@v3` action downloads the released binary with `install.sh`, so it needs `cli.vulnetix.com` and `github.com`; it does not need Go.
+The `Vulnetix/cli@v4` action downloads the released binary with `install.sh`, so it needs `cli.vulnetix.com` and `github.com`; it does not need Go.
 
 ```yaml
 jobs:
@@ -103,7 +103,7 @@ jobs:
       NO_PROXY: ${{ vars.CORPORATE_NO_PROXY }}
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli@v3
+      - uses: Vulnetix/cli@v4
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}

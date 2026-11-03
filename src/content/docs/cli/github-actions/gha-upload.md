@@ -4,7 +4,7 @@ nav: "gha-upload"
 description: "The Vulnetix/cli/gha-upload GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 4
 sources: [cli/gha-upload/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/gha-upload.md]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -13,7 +13,7 @@ Installs the CLI and runs [`vulnetix gha upload`](/cli/ci-cd/gha-command/), whic
 ```yaml
 steps:
   - uses: actions/checkout@v5
-  - uses: Vulnetix/cli/gha-upload@v3
+  - uses: Vulnetix/cli/gha-upload@v4
     with:
       org-id: ${{ secrets.VULNETIX_ORG_ID }}
       api-key: ${{ secrets.VULNETIX_API_KEY }}
@@ -25,7 +25,7 @@ Runs `vulnetix gha upload --json`. Credentials are optional: without `org-id` an
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v3.158.0), a major channel (v3, the newest v3 release) or latest | `v3` |
+| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
 | `org-id` | Vulnetix organization ID (UUID), used with api-key. Optional: without credentials the CLI runs in community mode | - |
 | `api-key` | Vulnetix API key. Passed to the CLI as VULNETIX_API_KEY, never on the command line | - |
@@ -71,7 +71,7 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/sast@v3
+      - uses: Vulnetix/cli/sast@v4
         with:
           artifact-name: sast-reports
           fail-on-findings: false
@@ -86,7 +86,7 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/gha-upload@v3
+      - uses: Vulnetix/cli/gha-upload@v4
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}

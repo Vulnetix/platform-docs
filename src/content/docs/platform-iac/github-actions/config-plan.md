@@ -4,7 +4,7 @@ nav: "config-plan"
 description: "The Vulnetix/cli/config-plan GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/config-plan/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/config-plan.md]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -13,7 +13,7 @@ Installs the CLI, plans the [Platform IaC](/platform-iac/) documents against the
 ```yaml
 steps:
   - uses: actions/checkout@v5
-  - uses: Vulnetix/cli/config-plan@v3
+  - uses: Vulnetix/cli/config-plan@v4
     with:
       config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
 ```
@@ -24,7 +24,7 @@ Runs `vulnetix config plan -o json [-f <config-path>]... [--manager] [--prune]`.
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v3.158.0), a major channel (v3, the newest v3 release) or latest | `v3` |
+| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
 | `org-id` | Vulnetix organization ID (UUID), used with api-key. Optional: without credentials the CLI runs in community mode | - |
 | `api-key` | Vulnetix API key. Passed to the CLI as VULNETIX_API_KEY, never on the command line | - |
@@ -74,7 +74,7 @@ jobs:
       pull-requests: write     # the plan comment
     steps:
       - uses: actions/checkout@v5
-      - uses: Vulnetix/cli/config-plan@v3
+      - uses: Vulnetix/cli/config-plan@v4
         id: plan
         with:
           config-token: ${{ secrets.VULNETIX_CONFIG_TOKEN }}
@@ -91,10 +91,10 @@ jobs:
 ## Behaviour
 
 - The token is `config-token` (`vmt_...`), passed as `VULNETIX_CONFIG_TOKEN`, never on the command line. `org-id` and `api-key` are not needed for this action.
-- `config-path` is one file or directory per line, each passed as `-f`. The default is `.vulnetix/config`. `config-manager` defaults to `gitops:<owner/repo>`, lowercased, from `GITHUB_REPOSITORY`.
+- `config-path` is one file or directory per line, each passed as `-f`. With none, no `-f` is passed and the CLI reads its defaults: `.vulnetix/config` and, with CLI v4, the well-known files. `config-manager` defaults to `gitops:<owner/repo>`, lowercased, from `GITHUB_REPOSITORY`.
 - The job summary gets the plan as a table, then blocking conditions and warnings, then the counts. On `pull_request` the same text goes to one comment that starts with `<!-- vulnetix-config-plan -->`; each push updates that comment instead of adding another. A fork's read-only token cannot comment: that is a warning and the summary still has the plan.
 - `result` is `success`, `blocked` (exit code 3, the plan has blocking conditions) or `failure`. `summary` is the plan's counts, for example `0 to create, 1 to update, 0 to delete, 0 unchanged`.
-- Which files are read: [Which files are Platform IaC documents](/platform-iac/cli/validate/#which-files-are-platform-iac-documents). `plan` reads `.vulnetix/config` only until v4; from v4 it also reads the well-known files. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
+- Which files are read: [Which files are Platform IaC documents](/platform-iac/cli/validate/#which-files-are-platform-iac-documents). With no `config-path`, `plan` reads `.vulnetix/config` and the well-known files from CLI v4.0.0 (v3 read `.vulnetix/config` only). Any `config-path` is passed as `-f`, which reads only what it names. See [Migrating from v3 to v4](/cli/get-started/migrating-to-v4/).
 - The action needs `jq` on the runner.
 
 ## See also

@@ -4,7 +4,7 @@ nav: "Overview"
 description: "What every pipeline needs, on any CI system: installing the CLI, credentials, choosing commands and outputs, gating, exit codes and publishing other tools' reports."
 order: 1
 sources: [cli/install.sh, cli/action.yml, cli/cmd/scan.go, cli/cmd/upload.go, cli/cmd/gha.go, cli/internal/config/config.go, cli/internal/scanopts/failon.go, cli/cmd/exit_codes.go, cli/Dockerfile]
-checked: [cli@3e6fd831d]
+checked: [cli@v4.0.0]
 updated: 03 Nov 2026
 ---
 
@@ -27,7 +27,7 @@ The install script needs `sh`, `curl` or `wget`, and CA certificates. It verifie
 | Debian, Ubuntu slim | `apt-get update && apt-get install -y --no-install-recommends curl ca-certificates` |
 | UBI, Fedora | `microdnf install -y curl` or `dnf install -y curl` |
 
-Pin a release for reproducible pipelines (`--version v3.164.1`), take the newest release of a major with a channel (`--version v3`), or leave it unpinned to get fixes without editing pipelines. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). There is no published Vulnetix CLI container image: install into your build image, or bake an image of your own once (see [Containers](/cli/ci-cd/containers/)).
+Pin a release for reproducible pipelines (`--version v4.0.0`), take the newest release of a major with a channel (`--version v4`), or leave it unpinned to get fixes without editing pipelines. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). There is no published Vulnetix CLI container image: install into your build image, or bake an image of your own once (see [Containers](/cli/ci-cd/containers/)).
 
 ## Credentials
 
@@ -99,7 +99,7 @@ The CLI uses Go's standard proxy handling: `HTTPS_PROXY`, `HTTP_PROXY` and `NO_P
 
 ## GitHub Actions: one action per command
 
-On GitHub, each command has a composite action, `uses: Vulnetix/cli/<name>@v3`. It installs the CLI, runs the command, and can publish to code scanning and the dependency graph, upload the files it wrote as an artifact, attest them and attach them to a release. Credentials are passed as environment variables only.
+On GitHub, each command has a composite action, `uses: Vulnetix/cli/<name>@v4`. It installs the CLI, runs the command, and can publish to code scanning and the dependency graph, upload the files it wrote as an artifact, attest them and attach them to a release. Credentials are passed as environment variables only.
 
 | Action | Page |
 |---|---|
