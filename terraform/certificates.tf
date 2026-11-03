@@ -20,7 +20,12 @@ resource "cloudflare_certificate_pack" "retired_docs" {
 
   zone_id               = var.cloudflare_zone_id
   type                  = "advanced"
-  certificate_authority = "google"
+  # Let's Encrypt, not Google: while these hosts are CNAMEs to vulnetix.github.io a
+  # CA follows the CNAME and reads GitHub's CAA records, which allow DigiCert,
+  # Let's Encrypt and Sectigo only. A Google (pki.goog) pack stayed in
+  # pending_validation with "CAA records block issuance". Let's Encrypt is also in
+  # the apex CAA set, so it validates now and the hosts can be switched with no TLS gap.
+  certificate_authority = "lets_encrypt"
   validation_method     = "txt"
   validity_days         = 90
   hosts = [
