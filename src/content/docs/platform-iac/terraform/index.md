@@ -1,15 +1,12 @@
 ---
 title: Terraform and OpenTofu
 nav: Overview
-description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a config management token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Publishing to the registries is pending.
+description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a config management token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Published on the Terraform registry as vulnetix/resolve; OpenTofu listing is pending.
 order: 1
 sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/handler/config_tokens.go"]
-checked: ["terraform-provider-resolve@5e0e9d2", "vdb-site@7b71e88"]
+checked: ["terraform-provider-resolve@v1.1.0", "vdb-site@7b71e88"]
 updated: 03 Nov 2026
 ---
-
-> [!CAREFUL] Publishing pending
-> The provider's source is public at [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve), but it has no release yet, and neither the Terraform registry nor the OpenTofu registry lists `vulnetix/resolve`. `terraform init` cannot download it until the first release is published and the registries have it. Until then, [build it from source](#before-the-first-release). The same is true of the two [modules](/platform-iac/terraform/modules/).
 
 The `vulnetix/resolve` provider manages Vulnetix configuration as code. Each resource is one `vulnetix.com/v1` config document of one [kind](/platform-iac/kinds/catalogue/), applied through the same [server-side engine](/platform-iac/reference/engine/) as `vulnetix config apply` and the console's Download as code. Resources, their examples and their docs are generated from the kind schemas in [`config-schemas`](https://github.com/Vulnetix/config-schemas), so a resource has the fields its kind has.
 
@@ -17,13 +14,14 @@ It is one binary for Terraform and OpenTofu, 1.11 or later: secrets use write-on
 
 ## Install
 
-Once published, a configuration needs only the source:
+The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). The current release is v1.1.0. A configuration needs the source and a version constraint:
 
 ```hcl
 terraform {
   required_providers {
     vulnetix = {
-      source = "vulnetix/resolve"
+      source  = "vulnetix/resolve"
+      version = "~> 1.1"
     }
   }
 }
@@ -32,6 +30,7 @@ terraform {
 # of the configuration: pass it from your CI secret store.
 provider "vulnetix" {
   # endpoint = "https://www.vulnetix.com/api/site/v1"
+  # token    = var.vulnetix_token   # a vmt_ config management token
   # manager  = "terraform"
 }
 
@@ -41,11 +40,32 @@ resource "vulnetix_quality_gate" "default" {
 }
 ```
 
-Then `terraform init && terraform apply`, or `tofu init && tofu apply`. OpenTofu resolves the same `vulnetix/resolve` source from its own registry; nothing else changes.
+Then `terraform init && terraform apply`. `terraform init` downloads the provider from the registry and checks it against the release's signed checksums. The local name stays `vulnetix`, so resources are `vulnetix_*` even though the source address is `vulnetix/resolve`. `~> 1.1` accepts any 1.x release from 1.1 on and never a 2.0; pin `version = "1.1.0"` for an exact release. Commit `.terraform.lock.hcl` so every machine installs the same build.
 
-### Before the first release
+To authenticate, see [Authentication](#authentication). The provider needs Terraform or OpenTofu 1.11 or later.
 
-Build the provider and point Terraform or OpenTofu at the binary with a development override:
+### OpenTofu
+
+> [!CAREFUL] OpenTofu registry listing is pending
+> The OpenTofu registry accepts the provider's signing key, but `vulnetix/resolve` is not listed there yet, so `tofu init` cannot find it (`does not have a provider named`). Until it is listed, `tofu init` cannot install the provider from the registry. To use it with OpenTofu now, [build it from source](#building-from-source).
+
+The provider is the same binary for both tools. Once the OpenTofu registry lists it, the configuration above works unchanged with `tofu init && tofu apply`.
+
+### Verifying a release
+
+Each release publishes zips per platform, a manifest, `terraform-provider-resolve_<version>_SHA256SUMS` and a detached signature `..._SHA256SUMS.sig`. Releases are signed with the RSA key `9BC243B2CE39D50B4ACEFA84BE9293952EA5128B`. The registry returns the public key with the download details of a version, under `signing_keys.gpg_public_keys`. To check a release by hand, import the key, download the two files from the [GitHub release](https://github.com/Vulnetix/terraform-provider-resolve/releases) and run:
+
+```bash
+curl -s https://registry.terraform.io/v1/providers/vulnetix/resolve/1.1.0/download/linux/amd64 \
+  | jq -r '.signing_keys.gpg_public_keys[0].ascii_armor' | gpg --import
+gpg --verify terraform-provider-resolve_1.1.0_SHA256SUMS.sig terraform-provider-resolve_1.1.0_SHA256SUMS
+```
+
+Confirm that the fingerprint `gpg` reports is the one above, then check the zip you use against `SHA256SUMS` with `sha256sum -c`.
+
+### Building from source
+
+To run a build of your own, for OpenTofu until it is listed or to try a change, build the provider and point the tool at the binary with a development override:
 
 ```bash
 git clone https://github.com/Vulnetix/terraform-provider-resolve
@@ -63,7 +83,7 @@ provider_installation {
 }
 ```
 
-With an override, skip `terraform init` for this provider and run `plan` or `apply` directly.
+With an override, skip `init` for this provider and run `plan` or `apply` directly.
 
 ## Authentication
 
@@ -184,15 +204,22 @@ resource "vulnetix_ai_provider" "vllm" {
 
 ## OpenTofu
 
-The provider is the same binary for both tools and is meant to be published to both registries. Everything above applies to OpenTofu 1.11 or later: write-only arguments, ephemeral variables and import. The provider's acceptance suite runs under both.
+The provider is the same binary for both tools. Everything above applies to OpenTofu 1.11 or later: write-only arguments, ephemeral variables and import. The provider's acceptance suite runs under both. Installing it through the OpenTofu registry is pending its listing; see [OpenTofu](#opentofu) under Install.
 
 ## Registries
 
 | Registry | Address | Status |
 |---|---|---|
-| Terraform registry | `registry.terraform.io/vulnetix/resolve` | Publishing pending. The namespace's signing key is added and the provider published from the repository on the first release. |
-| OpenTofu registry | `registry.opentofu.org/vulnetix/resolve` | Publishing pending. Submitted to the registry repository with the same key after the first release. |
+| Terraform registry | [`registry.terraform.io/vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest) | Published. v1.0.0 and v1.1.0 are listed. |
+| OpenTofu registry | `registry.opentofu.org/vulnetix/resolve` | Pending listing. The registry accepts the signing key, but the provider is not listed yet and `tofu init` fails with `does not have a provider named`. |
 
 The address is `vulnetix/resolve`: namespace `vulnetix`, type `resolve`. The local name stays `vulnetix`, so the resources keep the `vulnetix_` prefix. Both registries require the repository to be named `terraform-provider-{type}` and the release archives to be named `terraform-provider-{type}_{version}_{os}_{arch}.zip`, which is why the repository is `Vulnetix/terraform-provider-resolve`.
 
 A release is a `vX.Y.Z` tag on the repository. Its workflow publishes a GitHub release in the registry layout: zips per platform, a manifest, `SHA256SUMS` and a detached GPG signature that both registries read.
+
+| Release | Change |
+|---|---|
+| v1.1.0 | Adds `drift_protection` to `vulnetix_organization`, the [Drift protection](/platform-iac/guides/drift-protection/) switch. Needs a server-side migration to turn on. |
+| v1.0.0 | The first release |
+
+The two AWS [modules](/platform-iac/terraform/modules/) are separate repositories and are not released yet.
