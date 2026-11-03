@@ -2,9 +2,9 @@
 title: vulnetix image
 description: Inventory one container image layer by layer, from a registry, a local engine or a saved archive, and record it so Safe Harbour can compare its base image with equivalents.
 order: 2
-sources: [cli/cmd/image.go, cli/internal/imagesrc/imagesrc.go, cli/internal/imagesrc/flatten.go]
-checked: [cli@4c8c3b7, website@ad775f3]
-updated: 02 Nov 2026
+sources: [cli/cmd/image.go, cli/cmd/image_registry.go, cli/internal/imagesrc/tenantauth.go, vdb-site/docs/scan-registries.md, cli/internal/imagesrc/imagesrc.go, cli/internal/imagesrc/flatten.go]
+checked: [cli@v4.6.0, vdb-site@9cf42d7, website@ad775f3]
+updated: 03 Nov 2026
 ---
 
 ```bash
@@ -37,7 +37,22 @@ The command reads one image, inventories its packages layer by layer, and record
 | `docker`, `podman` | The local engine, exported with its `save` command |
 | `archive` | A tarball from `docker save` or `podman save` |
 
-Registry credentials stay on your machine. Only the inventory is sent.
+Your Docker credentials stay on your machine. Only the inventory is sent.
+
+## Private registries
+
+When you are signed in, `vulnetix image` first tries the organization's own [registry connection](/organization/integrations/private-registries/) for the registry and repository it is about to read. This is in the CLI release after v4.5.0: v4.5.0 and earlier use your Docker credentials only.
+
+It asks Vulnetix for a pull token with `POST /v1/scan-registries/oci-token`, naming the registry and the repository. Vulnetix answers with the registry's own short-lived token for that one repository, which the registry expires within minutes and the CLI refreshes during a long pull. The stored login never reaches your machine.
+
+| Answer | What the CLI does |
+|---|---|
+| A token | Pulls with it |
+| `403 no_connection`: no enabled `oci` connection serves this host and repository, the plan has no registry credentials, or you are not an owner, admin or member | Silently uses your Docker credentials |
+| `409 no_ephemeral_credential`: the registry has no token service (it asks for basic authentication) or the connection stores a bearer token | Prints a note and uses your `docker login` |
+| Any other failure, such as being offline | Prints a note and uses your Docker credentials |
+
+The feature can add access and never removes it. The request names the registry and the repository, so `--no-upload` and community runs, which have no account, do not make it. It is not verified against a real third-party registry; the CLI is tested against a fake registry with a token service.
 
 ## What is recorded
 
