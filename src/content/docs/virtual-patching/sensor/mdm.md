@@ -4,7 +4,7 @@ description: Enroll vulnetix-sensor on managed Linux devices with no person sign
 order: 3
 nav: MDM
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/provision_cmds.go, cli/internal/sensor/provision/client.go, cli/deploy/sensor/install.sh]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 An MDM enrollment needs no person at the device. The MDM puts a private signing key on the device and runs the installer as root; the sensor signs its own enrollment with the key, and the site gives it a credential from the profile that lists the integration.
@@ -51,6 +51,12 @@ curl -fsSL "https://raw.githubusercontent.com/Vulnetix/cli/$VERSION/deploy/senso
 ```
 
 Needs `curl`, outbound HTTPS to `raw.githubusercontent.com`, `github.com` and `www.vulnetix.com`, systemd, and a correct clock (the 5 minute window). Most managed Linux devices sync time over NTP already.
+
+## Autoscaled and short-lived hosts
+
+A pool of CI runners, or any group of interchangeable hosts that live minutes, would otherwise appear as a new host per instance, none of them ever removed. Add `--fleet <name>` to the enrol command (`vulnetix-sensor enroll ... --fleet github-runner-x64`; use `--mdm-device-id` for the instance id, because the DMI serial is absent or shared on cloud images). The name is 1 to 63 characters of `a-z`, `0-9`, `.`, `-` and `_`, and it is a label outside the signed message.
+
+The members of a fleet are reported as one repository named for the fleet, so their findings are one list, not one per instance. The site stores one package list for each distinct package set, so forty runners built from one image store it once, and the others show that list. A member that has said nothing for 30 minutes (5 minutes after a goodbye) is retired: it stops appearing in the sensor list, its device credential is revoked, and a package list another member holds is dropped. A spot reclaim sends no goodbye, which is why silence retires it. Do not bake an enrolment into an image: an image that carries the sensor key makes every instance launched from it the same sensor. Enrol each instance at boot, with a key read from a secret store and removed afterwards.
 
 ## Intune
 

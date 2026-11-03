@@ -4,7 +4,7 @@ description: For org admins, how a profile decides which devices it covers, whic
 order: 2
 nav: Provisioning profiles
 sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 A profile replaces the hand-written `/etc/vulnetix-sensor.env` and the per-host flags. It is kept on the site; every device enrolled under it pulls its configuration from there.
@@ -68,6 +68,7 @@ The `config` block is what every device under the profile runs. A flag given on 
 | `allowUserStop` | `true` lets `systemctl stop` work at `hardened` and `locked` | `false` | none |
 | `heartbeatAlertMinutes` | 1 to 10080 | `15` | none |
 | `autoUpdate` | `false` stops the sensor installing new releases ([Self-update](#self-update)) | Updates on | none |
+| `allowMajorUpdate` | `true` lets the sensor take a release with a higher major version ([Self-update](#self-update)) | Held on its major version | none |
 
 Values are checked when you save: an unknown mode, protection or credential mode, a duration that does not parse, a feed reference that is not one of the [three forms](/virtual-patching/sensor/feeds/#reference-forms), an unavailable catalog feed, or more than 100 feeds, 200 emails or 50 domains is refused.
 
@@ -90,6 +91,10 @@ An enrolled sensor keeps itself on the latest CLI release with nobody at the hos
 2. runs the new binary with `--version` before swapping it in,
 3. replaces the installed binary atomically, keeping the old one beside it as `.prev`,
 4. sends a goodbye with the reason `upgrade` and signals the running sensor, which the service restarts onto the new binary.
+
+The swap is not the end of the update. It stays pending until the new sensor reaches the server: the sensor writes a health stamp once its first report is accepted. If that has not happened five minutes after the swap, or the sensor unit has failed a minute after it, the guard puts `.prev` back, restarts the sensor on it, and never takes that release on this host again; the next release is taken. A host that cannot reach the server at all waits up to an hour before the verdict, so an outage does not condemn a good release. The guard unit also runs the previous binary's `guard-rescue` before the new binary's `guard-check`, so a release that cannot start (and so cannot run its own guard) is still rolled back. An update is not made at all when the previous binary cannot be kept.
+
+A release with a higher major version (v3 to v4) is held, and the sensor says which release is waiting, until the profile sets `"allowMajorUpdate": true`. A major release can change the profile format, the units and the protocol. Like `autoUpdate` it is absent from the configuration until you turn it on, and the console's profile editor has the switch "Allow a new major version"; in Platform IaC it is `spec.allowMajorUpdate` of [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) (`allow_major_update` in Terraform).
 
 The update changes the binary only. Mode, feeds and the rest of the configuration still come from the profile, and an edit still reaches the device the way [How edits reach devices](#how-edits-reach-devices) describes.
 
