@@ -67,6 +67,7 @@ The `config` block is what every device under the profile runs. A flag given on 
 | `protection` | `standard`, `hardened`, `locked` ([Protection](/virtual-patching/sensor/protection/)) | Set it on every profile | none |
 | `allowUserStop` | `true` lets `systemctl stop` work at `hardened` and `locked` | `false` | none |
 | `heartbeatAlertMinutes` | 1 to 10080 | `15` | none |
+| `autoUpdate` | `false` stops the sensor installing new releases ([Self-update](#self-update)) | Updates on | none |
 
 Values are checked when you save: an unknown mode, protection or credential mode, a duration that does not parse, a feed reference that is not one of the [three forms](/virtual-patching/sensor/feeds/#reference-forms), an unavailable catalog feed, or more than 100 feeds, 200 emails or 50 domains is refused.
 
@@ -80,6 +81,22 @@ The `configEtag` is the SHA-256 of the configuration and the profile uuid, so it
 | Config poll | Every 5 minutes the device pulls `GET /v1/runtime/provisioning/config` with the etag it holds; an unchanged profile answers `304`. This is the fallback when the long-poll is not running. |
 
 An edit reaches a connected sensor within seconds, and every sensor within about 5 minutes. On a change the sensor writes the new configuration, applies a new mode, hold time or feed list live, and restarts itself when the change needs one (a new listener, forwarding or the inventory interval). Nothing is reinstalled.
+
+## Self-update
+
+An enrolled sensor keeps itself on the latest CLI release with nobody at the host. The guard that runs every minute as root checks `github.com/Vulnetix/cli/releases/latest` at most every 6 hours. When there is a newer tag it:
+
+1. downloads that release's `vulnetix-sensor` binary for the host's architecture and checks its SHA-256 against the release's `checksums.txt` (a mismatch stops the update),
+2. runs the new binary with `--version` before swapping it in,
+3. replaces the installed binary atomically, keeping the old one beside it as `.prev`,
+4. sends a goodbye with the reason `upgrade` and signals the running sensor, which the service restarts onto the new binary.
+
+The update changes the binary only. Mode, feeds and the rest of the configuration still come from the profile, and an edit still reaches the device the way [How edits reach devices](#how-edits-reach-devices) describes.
+
+Set `"autoUpdate": false` in the profile's `config` to stop it, for hosts that take releases on a change window. The console's profile editor has the same switch, "Keep sensors up to date automatically". It is on when the field is absent, and absent from the configuration (and the `configEtag`) until you turn it off, so existing profiles do not change.
+
+> [!CAREFUL] One manual upgrade for older sensors
+> A sensor older than v3.165 has no self-update, so it cannot install one. Upgrade it once with `install.sh` (see [Sensor on hosts](/virtual-patching/runtime/sensor-hosts/)); every later release then installs itself. A development build (`dev`) never updates itself. `autoUpdate` is not yet a field of the `RuntimeSensorPolicy` kind in Platform IaC, so set it in the console or the API for now.
 
 Changing `credentialMode` on a profile applies to devices that enroll after the change. Existing devices keep the credential they were issued until they enroll again.
 
