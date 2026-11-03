@@ -5,14 +5,14 @@ description: Configure npm, pnpm, Bun and both Yarn generations to resolve throu
 order: 3
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/npm/npm.go, package-firewall/internal/handler/root_dispatch.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@77cd1a5]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Registry URL | `https://packages.vulnetix.com/npm/` |
 | Ecosystem ID | `npm` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: blocked and cooldown versions are removed from the packument |
 | Cooldown | yes, from the packument's `time` map |
 | Default mirror | `https://registry.npmjs.org` |

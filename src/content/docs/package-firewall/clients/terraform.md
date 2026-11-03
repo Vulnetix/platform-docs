@@ -5,14 +5,14 @@ description: Route Terraform registry lookups for providers and modules through 
 order: 24
 sources: [package-firewall/internal/ecosystem/terraform/terraform.go, package-firewall/internal/handler/root_dispatch.go, package-firewall/internal/auth/basic.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Base URL | `https://packages.vulnetix.com/terraform` |
 | Ecosystem ID | `terraform` |
-| Plan | Enterprise |
+| Plan | Add-on |
 | Mode | filter: `versions` lists are filtered; `.../download` requests are checked |
 | Cooldown | no (no publish time in the registry API) |
 | Default mirror | `https://registry.terraform.io` |

@@ -4,14 +4,14 @@ description: Point conda channels at the Package Firewall, which streams repodat
 order: 11
 sources: [package-firewall/internal/ecosystem/conda/conda.go, package-firewall/internal/ecosystem/ecosystem.go, cli/pkg/packagefirewall/ecosystem.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Channel URL | `https://packages.vulnetix.com/conda/<channel>` |
 | Ecosystem ID | `conda` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | gate: `repodata.json` is streamed unchanged; `.conda` and `.tar.bz2` downloads are checked |
 | Cooldown | no (gate mode) |
 | Default mirror | `https://conda.anaconda.org` |

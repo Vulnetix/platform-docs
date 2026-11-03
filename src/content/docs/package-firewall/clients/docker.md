@@ -5,14 +5,14 @@ description: Pull container images through the Package Firewall's OCI registry e
 order: 18
 sources: [package-firewall/internal/ecosystem/oci/oci.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go, package-firewall/internal/handler/ecosystem_handler.go]
 checked: [package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Registry host | `packages.vulnetix.com` (OCI API under `/v2`) |
 | Ecosystem ID | `oci` |
-| Plan | Enterprise |
+| Plan | Add-on |
 | Mode | filter for `tags/list`; gate for manifests requested by tag; blobs and digest manifests streamed unchanged |
 | Cooldown | no |
 | Default mirror | `https://registry-1.docker.io` |

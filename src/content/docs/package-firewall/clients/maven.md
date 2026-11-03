@@ -5,14 +5,14 @@ description: Route Maven through the Package Firewall with a settings.xml mirror
 order: 7
 sources: [cli/pkg/packagefirewall/config.go, cli/internal/managedfile/file.go, package-firewall/internal/ecosystem/maven/maven.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Repository URL | `https://packages.vulnetix.com/maven/` |
 | Ecosystem ID | `maven` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: blocked versions are removed from `maven-metadata.xml` |
 | Cooldown | no (Maven metadata has no publish time) |
 | Default mirror | `https://repo1.maven.org/maven2` |

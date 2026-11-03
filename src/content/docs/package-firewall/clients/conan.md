@@ -4,14 +4,14 @@ description: Register the Package Firewall as a Conan 2 remote and disable Conan
 order: 10
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/conan/conan.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Remote URL | `https://packages.vulnetix.com/conan` |
 | Ecosystem ID | `conan` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | gate: recipe and package downloads are checked |
 | Cooldown | no |
 | Default mirror | `https://center2.conan.io` (Conan 2 API) |

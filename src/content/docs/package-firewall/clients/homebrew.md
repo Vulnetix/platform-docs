@@ -4,7 +4,7 @@ description: Route Homebrew's formula API and bottle downloads through the Packa
 order: 16
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/homebrew/homebrew.go, package-firewall/internal/ecosystem/homebrew_bottle/homebrew_bottle.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/fw/fw.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
@@ -12,7 +12,7 @@ updated: 02 Nov 2026
 | API URL | `https://packages.vulnetix.com/homebrew/api` |
 | Bottle URL | `https://packages.vulnetix.com/homebrew-bottle` |
 | Ecosystem IDs | `homebrew` (API), `homebrew-bottle` (bottles) |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter for `formula.json`, `cask.json` and per-formula JSON; gate for bottle manifests on ghcr.io |
 | Cooldown | no |
 | Default mirrors | `https://formulae.brew.sh` (API), `https://ghcr.io` (bottles) |

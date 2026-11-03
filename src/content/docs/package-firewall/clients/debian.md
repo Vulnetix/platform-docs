@@ -5,14 +5,14 @@ description: Point APT at the Package Firewall, which serves signed indexes unch
 order: 19
 sources: [package-firewall/internal/ecosystem/debian/debian.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go, cli/cmd/config.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Repository URL | `https://packages.vulnetix.com/debian` |
 | Ecosystem ID | `debian` |
-| Plan | Enterprise |
+| Plan | Add-on |
 | Mode | gate: `dists/` is streamed unchanged; `pool/**/<name>_<version>_<arch>.deb` is checked |
 | Cooldown | no |
 | Default mirror | `https://deb.debian.org` |

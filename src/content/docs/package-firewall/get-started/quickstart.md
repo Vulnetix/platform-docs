@@ -4,7 +4,7 @@ description: Point npm at the Package Firewall, turn on malware and KEV blocking
 order: 4
 sources: [cli/cmd/package_firewall.go, cli/pkg/packagefirewall/config.go, cli/cmd/config.go, package-firewall/internal/fw/fw.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 This walks through npm. Every other ecosystem follows the same three steps; see its [client page](/package-firewall/#ecosystems).
@@ -16,7 +16,7 @@ vulnetix auth login
 vulnetix auth status
 ```
 
-npm needs a Pro, Teams or Enterprise plan. Go and Arch Linux work on Community.
+npm needs the Package Firewall add-on, or the Enterprise plan, which includes it. The pkg.go.dev API (`go-dev`) and the AUR (`aur`) are free on every plan. See [Billing](https://www.vulnetix.com/resolve/billing#addons).
 
 ## 2. Configure npm
 

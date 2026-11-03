@@ -5,14 +5,14 @@ description: Configure pip, uv and Poetry to resolve through the Package Firewal
 order: 4
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/pypi/pypi.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Index URL | `https://packages.vulnetix.com/pypi/simple/` |
 | Ecosystem ID | `pypi` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: blocked files are removed from the Simple index |
 | Cooldown | yes |
 | Default mirror | `https://pypi.org` |

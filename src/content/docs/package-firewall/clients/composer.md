@@ -4,14 +4,14 @@ description: Replace Packagist with the Package Firewall's Composer repository a
 order: 9
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/composer/composer.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Repository URL | `https://packages.vulnetix.com/composer` |
 | Ecosystem ID | `composer` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: Packagist v2 metadata is filtered |
 | Cooldown | yes |
 | Default mirror | `https://repo.packagist.org` |

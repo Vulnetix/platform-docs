@@ -5,7 +5,7 @@ description: The order of checks the Package Firewall runs on every request, wha
 order: 2
 sources: [package-firewall/internal/handler/ecosystem_handler.go, package-firewall/internal/handler/curation_gate.go, package-firewall/internal/handler/deps.go, package-firewall/internal/handler/proxy.go, package-firewall/internal/handler/root_dispatch.go, package-firewall/internal/upstream/mirror.go, package-firewall/.repo/maintenance_mode.md]
 checked: [package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 Every ecosystem except Go goes through the same handler. Go uses its own module-proxy handler with the same checks in the same order.
@@ -16,8 +16,8 @@ Every ecosystem except Go goes through the same handler. Go uses its own module-
 |---|---|---|
 | 1 | Parse `Authorization` (Basic, or Bearer for clients that cannot send Basic). | `401`, `WWW-Authenticate: Basic realm="Vulnetix Package Firewall"` |
 | 2 | Validate the credentials (cached). | `401` for bad or inactive credentials, `503` when the identity backend is unreachable |
-| 3 | Load the organization's policy, mirrors, plan and curation lists. | `500` |
-| 4 | Plan entitlement for the ecosystem. | `402`, logged `BLOCK` |
+| 3 | Load the organization's policy, mirrors, plan, add-on and curation lists. | `500` |
+| 4 | Entitlement for the ecosystem: free (`go-dev`, `aur`), the Package Firewall add-on, or the Enterprise plan. | `402`, logged `BLOCK` |
 | 5 | Parse the request path into package, version and kind (metadata, artifact, passthrough). | `404` for a path the adapter does not recognise |
 | 6 | Fetch from the first active mirror that answers. | `502`, logged `ERROR` |
 | 7 | Passthrough paths and upstream `404`/`410` are streamed unchanged. | logged `PASS` |
@@ -31,13 +31,13 @@ The deny list runs before the malware gates on purpose: the client and the decis
 
 ## Tenant, not member
 
-Policy, mirrors, curation lists and the plan belong to the organization (the tenant). A Teams member who authenticates with their own credentials gets the organization's policy, not an empty one of their own.
+Policy, mirrors, curation lists, the plan and the add-on belong to the organization (the tenant). A Teams member who authenticates with their own credentials gets the organization's policy, not an empty one of their own.
 
 ## Caching
 
 | What | How long |
 |---|---|
-| Organization config (policy, mirrors, plan, lists) | 60 seconds |
+| Organization config (policy, mirrors, plan, add-on, lists) | 60 seconds |
 | Organization config when the deny list is not empty | 15 seconds |
 | Credential validation | cached per org and key |
 

@@ -5,14 +5,14 @@ description: Add a dnf or yum repository that points at the Package Firewall, wi
 order: 20
 sources: [package-firewall/internal/ecosystem/rpm/rpm.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go]
 checked: [package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Repository URL | `https://packages.vulnetix.com/rpm/<path on the mirror>` |
 | Ecosystem ID | `rpm` |
-| Plan | Enterprise |
+| Plan | Add-on |
 | Mode | gate: anything under `repodata/` is streamed unchanged; `<name>-<version>-<release>.<arch>.rpm` is checked |
 | Cooldown | no |
 | Default mirror | `https://dl.fedoraproject.org` |

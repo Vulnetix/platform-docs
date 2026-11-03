@@ -4,14 +4,14 @@ description: Point Julia's Pkg at the Package Firewall's Pkg server and authenti
 order: 13
 sources: [package-firewall/internal/ecosystem/julia/julia.go, package-firewall/internal/auth/basic.go, package-firewall/internal/ecosystem/ecosystem.go, cli/pkg/packagefirewall/ecosystem.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Pkg server | `https://packages.vulnetix.com/julia` |
 | Ecosystem ID | `julia` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | gate: `/registries` is streamed unchanged; `/registry`, `/package` and `/artifact` tarballs are checked |
 | Cooldown | no |
 | Default mirror | `https://pkg.julialang.org` |

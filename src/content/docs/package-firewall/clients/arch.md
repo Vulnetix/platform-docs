@@ -5,7 +5,7 @@ description: Point paru and yay at the Package Firewall's AUR prefix and pacman'
 order: 17
 sources: [cli/pkg/packagefirewall/config.go, cli/pkg/packagefirewall/ecosystem.go, package-firewall/internal/ecosystem/aur/aur.go, package-firewall/internal/ecosystem/arch/arch.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | AUR | Official repos |
@@ -13,7 +13,7 @@ updated: 02 Nov 2026
 | URL | `https://packages.vulnetix.com/aur` | `https://packages.vulnetix.com/arch` |
 | Ecosystem ID | `aur` | `arch` |
 | Clients | paru, yay | pacman |
-| Plan | Community | Community |
+| Plan | Free | Add-on |
 | Mode | filter: the RPC result list is filtered | gate: signed databases unchanged; `.pkg.tar.zst` downloads checked |
 | Cooldown | yes | no |
 | Default mirror | `https://aur.archlinux.org` | `https://geo.mirror.pkgbuild.com` |

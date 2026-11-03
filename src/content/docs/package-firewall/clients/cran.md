@@ -4,14 +4,14 @@ description: Point R's repos option at the Package Firewall, which serves PACKAG
 order: 12
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/cran/cran.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Repository URL | `https://packages.vulnetix.com/cran` |
 | Ecosystem ID | `cran` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | gate: `src/contrib/PACKAGES` is streamed unchanged; `<name>_<version>.tar.gz` downloads are checked |
 | Cooldown | no |
 | Default mirror | `https://cran.r-project.org` |

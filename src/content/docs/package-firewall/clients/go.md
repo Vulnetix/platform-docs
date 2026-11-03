@@ -5,14 +5,14 @@ description: Point the go command at the Package Firewall's module proxy with GO
 order: 1
 sources: [cli/cmd/package_firewall.go, cli/internal/managedfile/shell.go, package-firewall/internal/handler/proxy.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@77cd1a5]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Proxy URL | `https://packages.vulnetix.com` (served at the root) |
 | Ecosystem ID | `go` |
-| Plan | Community |
+| Plan | Add-on |
 | Mode | native module proxy |
 | Cooldown | yes, on `@v/<version>.info` |
 | Default mirrors | `https://proxy.golang.org` (0), `https://goproxy.io` (1), `https://goproxy.cn` (2) |

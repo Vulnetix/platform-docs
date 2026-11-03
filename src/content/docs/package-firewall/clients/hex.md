@@ -5,14 +5,14 @@ description: Point mix and rebar3 at the Package Firewall's Hex mirror with HEX_
 order: 14
 sources: [cli/pkg/packagefirewall/config.go, cli/cmd/package_firewall.go, package-firewall/internal/ecosystem/hex/hex.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Mirror URL | `https://packages.vulnetix.com/hex` |
 | Ecosystem ID | `hex` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | gate: the signed registry is streamed unchanged; `tarballs/*.tar` and `docs/*.tar` are checked |
 | Cooldown | no (gate mode) |
 | Default mirror | `https://repo.hex.pm` |

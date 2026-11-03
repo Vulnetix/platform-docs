@@ -4,7 +4,7 @@ description: How the VDB API counts requests against a daily quota per API key, 
 order: 2
 sources: [vdb-api/internal/middleware/ratelimit.go, vdb-api/internal/handler/deps.go, vdb-api/internal/handler/appconfig.go, vdb-site/api/internal/handler/tierconfig.go, cli/pkg/vdb/client.go, cli/cmd/vdb.go]
 checked: [vdb-api@4145f0a, vdb-site@1a06d67, cli@4c8c3b71c]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 The VDB API limits how many requests each API key makes in a day. There is no per-second or per-minute limit.
@@ -14,8 +14,8 @@ The VDB API limits how many requests each API key makes in a day. There is no pe
 | Plan | `X-VDB-Plan` | Requests per day |
 |---|---|---|
 | Community | `community` | 50 |
-| Pro | `pro` | 2,000 |
-| Teams | `teams` | 100,000 per API key; 10 API keys included |
+| Pro | `pro` | 2,000 per API key; 1 API key included, more at $25 a month each |
+| Teams | `teams` | 100,000 per API key; 10 API keys included, the most a Teams organisation can create |
 | Enterprise | `enterprise` | Set per contract, often unlimited |
 
 These are the defaults that `GET https://www.vulnetix.com/api/site/v1/config` publishes in `tiers[].max_requests_per_day`. Vulnetix can set a different limit for one organisation, so the number that applies to you is the one in your own `RateLimit-DayLimit` header. Prices are on [vulnetix.com/pricing](https://www.vulnetix.com/pricing).

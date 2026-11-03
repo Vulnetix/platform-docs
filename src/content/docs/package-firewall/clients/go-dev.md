@@ -5,14 +5,14 @@ description: Route pkgsite-cli's pkg.go.dev API calls through the Package Firewa
 order: 2
 sources: [cli/cmd/package_firewall.go, package-firewall/internal/ecosystem/godev/godev.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | API base URL | `https://packages.vulnetix.com/go-dev/v1beta` |
 | Ecosystem ID | `go-dev` |
-| Plan | Community |
+| Plan | Free |
 | Mode | filter; a single package or module document can be blocked whole |
 | Cooldown | no |
 | Default mirror | `https://pkg.go.dev` |

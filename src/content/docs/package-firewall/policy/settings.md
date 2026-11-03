@@ -4,10 +4,10 @@ description: Every Package Firewall policy setting, its CLI flag, API field and 
 order: 1
 sources: [saas/prisma/models/package-firewall.prisma, cli/cmd/config.go, vdb-site/api/internal/handler/package_firewall.go, vdb-site/api/internal/handler/package_firewall_lists.go, package-firewall/internal/types/types.go, package-firewall/internal/policy/checker.go, package-firewall/internal/handler/ecosystem_handler.go, package-firewall/internal/handler/proxy.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [package-firewall@77cd1a5, cli@4c8c3b7, vdb-site@1a06d67, saas@50cedf37]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
-One policy per organization applies to every ecosystem your plan includes. Set it in the console at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall) on the **Policies** tab, or with `vulnetix config set package-firewall`. The proxy picks up a change within 60 seconds.
+One policy per organization applies to every ecosystem your organization can use (the free ones and, with the Package Firewall add-on, the rest). Set it in the console at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall) on the **Policies** tab, or with `vulnetix config set package-firewall`. The proxy picks up a change within 60 seconds.
 
 ## Settings
 

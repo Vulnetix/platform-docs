@@ -4,14 +4,14 @@ description: Replace crates.io with the Package Firewall's sparse registry and g
 order: 5
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/cargo/cargo.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Registry | `sparse+https://packages.vulnetix.com/cargo/` |
 | Ecosystem ID | `cargo` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: blocked versions are dropped from the sparse index |
 | Cooldown | yes |
 | Default mirror | `https://index.crates.io` |

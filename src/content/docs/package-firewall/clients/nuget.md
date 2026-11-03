@@ -4,14 +4,14 @@ description: Replace nuget.org with the Package Firewall's NuGet v3 feed for dot
 order: 8
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/nuget/nuget.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Service index | `https://packages.vulnetix.com/nuget/v3/index.json` |
 | Ecosystem ID | `nuget` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter |
 | Cooldown | yes |
 | Default mirror | `https://api.nuget.org` |

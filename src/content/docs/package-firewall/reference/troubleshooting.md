@@ -4,7 +4,7 @@ description: Diagnose Package Firewall status codes, credentials that are not se
 order: 2
 sources: [package-firewall/internal/handler/ecosystem_handler.go, package-firewall/internal/upstream/mirror.go, package-firewall/internal/handler/deps.go, cli/cmd/package_firewall.go, cli/pkg/packagefirewall/config.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 ## First checks
@@ -22,7 +22,7 @@ curl -s -o /dev/null -D - -H "Authorization: Basic $AUTH" https://packages.vulne
 | Status | Likely cause | Fix |
 |---|---|---|
 | `401` | The tool is not sending credentials, or they are wrong. | Re-run `vulnetix package-firewall <ecosystem>`. Check the tool reads the file the CLI wrote (table below). Check `~/.netrc` is mode `600`. |
-| `402` | The ecosystem needs a higher plan. | See the plan column on the [overview](/package-firewall/#ecosystems). |
+| `402` | The ecosystem needs the Package Firewall add-on. | See the plan column on the [overview](/package-firewall/#ecosystems), then add it under [Billing](https://www.vulnetix.com/resolve/billing#addons). |
 | `403` | Deny list, or `allowlist_only` with no entry. | Read `X-Vulnetix-Firewall-Reason`. Ask for an allow entry or a deny removal. |
 | `404` on everything | The mirror URL is missing a path (Debian), or the path is not one the adapter knows. | See [Mirrors](/package-firewall/operations/mirrors/) and the client page. |
 | `422`, `423`, `425`, `426`, `428` | A policy block. | See [Block responses](/package-firewall/reference/responses/). |

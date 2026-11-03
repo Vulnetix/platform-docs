@@ -5,7 +5,7 @@ description: Every HTTP status the Package Firewall returns, the block reasons b
 order: 1
 sources: [package-firewall/internal/fw/fw.go, package-firewall/internal/handler/ecosystem_handler.go, package-firewall/internal/handler/proxy.go, package-firewall/internal/policy/checker.go, package-firewall/.repo/maintenance_mode.md]
 checked: [package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 A block returns the same status, body and headers for every ecosystem. Most package managers show only the status code; the headers carry the reason.
@@ -21,7 +21,7 @@ A block returns the same status, body and headers for every ecosystem. Most pack
 | `422 Unprocessable Content` | `eol` | End of life, or more than the version lag behind the newest. Also any unmapped reason. | Move to a supported version. |
 | `403 Forbidden` | `denylisted` | The package or version is on your deny list. | Ask whoever owns curation. |
 | `403 Forbidden` | `not_allowlisted` | The ecosystem is in `allowlist_only` and the package has no allow entry. | Request an allow entry. |
-| `402 Payment Required` | `plan` | The ecosystem is not in your plan. | Upgrade; see [pricing](https://www.vulnetix.com/pricing). |
+| `402 Payment Required` | `plan` | The ecosystem needs the Package Firewall add-on, which your organization does not have. The pkg.go.dev API and the AUR are free. | Add it under [Billing](https://www.vulnetix.com/resolve/billing#addons). Enterprise includes it. |
 
 In filtered ecosystems a blocked version is usually removed from the metadata, so a normal resolve never sees an error. You get the status when you request that exact version, for example from a lockfile.
 
@@ -55,7 +55,7 @@ Message: `Package published <RFC 3339 time> is within <N> days cooldown period`.
 
 ### plan
 
-`<Ecosystem> firewall requires a <tier> plan`. The body adds `"upgrade": "/pricing"`.
+`<Display> firewall requires the Package Firewall add-on`, for example `npm firewall requires the Package Firewall add-on`. The body adds `"upgrade": "https://www.vulnetix.com/resolve/billing#addons"`. The reason stays `plan` so the decision log and existing filters keep working.
 
 ## JSON body
 
@@ -67,7 +67,7 @@ Message: `Package published <RFC 3339 time> is within <N> days cooldown period`.
 }
 ```
 
-A plan block has `"error": "upgrade required"` and `"upgrade": "/pricing"`.
+A plan block has `"error": "upgrade required"` and `"upgrade": "https://www.vulnetix.com/resolve/billing#addons"`.
 
 ## Other statuses
 
@@ -96,7 +96,7 @@ Set on every block and every advisory. Values are single-line ASCII, at most 102
 | `X-Vulnetix-Firewall-Ecosystem` | `homebrew-bottle` | when known |
 | `X-Vulnetix-Firewall-Cvss`, `-Epss`, `-Cess` | `9.8` | score-based decisions |
 | `X-Vulnetix-Firewall-Digest` | `sha256:...` | known-bad digest |
-| `X-Vulnetix-Firewall-Required-Tier`, `-Plan` | `enterprise`, `pro` | `402` |
+| `X-Vulnetix-Firewall-Required-Addon` | `package-firewall` | `402` |
 | `X-Vulnetix-Firewall-Published-At`, `-Cooldown-Days` | `2026-10-30T09:12:00Z`, `7` | `425` |
 | `X-Vulnetix-Firewall-Retry-After` | `86400` | `425`, alongside `Retry-After` |
 | `X-Vulnetix-Firewall-List-Entry`, `-List-Version` | entry ID, `*` | a curation entry matched |

@@ -5,7 +5,7 @@ description: Point gem and Bundler at the Package Firewall, including the Bundle
 order: 6
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/gem/gem.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
@@ -13,7 +13,7 @@ updated: 02 Nov 2026
 | Source URL | `https://packages.vulnetix.com/gem/` |
 | Ecosystem ID | `gem` |
 | CLI command | `vulnetix package-firewall gem` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: the compact index is filtered |
 | Cooldown | yes |
 | Default mirror | `https://rubygems.org` |

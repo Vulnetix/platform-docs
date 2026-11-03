@@ -5,14 +5,14 @@ description: Point dart pub and flutter pub at the Package Firewall with PUB_HOS
 order: 15
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/auth/basic.go, package-firewall/internal/ecosystem/pub/pub.go, package-firewall/internal/ecosystem/ecosystem.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Hosted URL | `https://packages.vulnetix.com/pub` |
 | Ecosystem ID | `pub` |
-| Plan | Pro |
+| Plan | Add-on |
 | Mode | filter: `/api/packages/<name>` is filtered by version |
 | Cooldown | yes |
 | Default mirror | `https://pub.dev` |

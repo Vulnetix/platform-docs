@@ -5,14 +5,14 @@ description: Point Berkshelf and knife at the Package Firewall's Supermarket API
 order: 23
 sources: [package-firewall/internal/ecosystem/chef/chef.go, package-firewall/internal/ecosystem/ecosystem.go, cli/pkg/packagefirewall/ecosystem.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Supermarket URL | `https://packages.vulnetix.com/chef` |
 | Ecosystem ID | `chef` |
-| Plan | Enterprise |
+| Plan | Add-on |
 | Mode | filter: `/api/v1/cookbooks/<name>` is filtered by version; cookbook downloads are checked |
 | Cooldown | yes |
 | Default mirror | `https://supermarket.chef.io` |

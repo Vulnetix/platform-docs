@@ -4,14 +4,14 @@ description: Add the Package Firewall as a Helm chart repository, and set the ch
 order: 22
 sources: [cli/pkg/packagefirewall/config.go, package-firewall/internal/ecosystem/helm/helm.go, package-firewall/internal/ecosystem/ecosystem.go, cli/cmd/config.go]
 checked: [cli@4c8c3b7, package-firewall@333285f]
-updated: 02 Nov 2026
+updated: 03 Nov 2026
 ---
 
 | | |
 |---|---|
 | Repository URL | `https://packages.vulnetix.com/helm` |
 | Ecosystem ID | `helm` |
-| Plan | Enterprise |
+| Plan | Add-on |
 | Mode | filter: `index.yaml` is filtered; `.tgz` chart downloads are checked |
 | Cooldown | yes, from each chart version's `created` time |
 | Default mirror | `https://evgkrsk.github.io/nxs-universal-chart` |
