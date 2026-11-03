@@ -70,7 +70,8 @@ The environment variables are `VULNETIX_ORG_ID` and `VULNETIX_API_KEY` for the A
 
 Rules that follow:
 
-- The role decides what a credential may do. A service account's role is set when it is created: `member` (the default), `developer` or `owner`. Only an owner creates a `developer` or `owner` service account, and nobody can grant a role above their own. People are never given `developer`.
+- The role decides what a credential may do. `developer` is an ordinary organisation role, for people and for service accounts, beside `owner` and `member`. A service account's role is set when it is created: `member` (the default), `developer` or `owner`. Only an owner grants `developer` or `owner`, to a person or to a service account, and nobody can grant a role above their own.
+- A person with the `developer` role signs in as themselves (`vulnetix auth login`) and can plan, apply and export like a `developer` service account. They cannot invite or remove people, change roles, create service accounts, or manage billing or the vault.
 - A service account with the `member` role can read but not plan, apply or export. It is refused with `403`.
 - A `developer` service account cannot apply `Organization`, `Member`, `ServiceAccount` or `VaultEntry`, so a leaked CI credential cannot add a person, mint another service account, read a secret or turn Drift protection off.
 - An Authentik token comes from the `platform-iac` application at `https://auth.vulnetix.com/application/o/platform-iac/` (client id `vulnetix-platform-iac`, `client_credentials` grant, one hour). Authentik only issues one to a service account that is stamped as a Vulnetix principal and holds the `developer` or `owner` role; a `member` is refused at the token endpoint. The server then requires the user to be active and in the organisation's group. The token's claims never name the organisation; the server looks the user up.

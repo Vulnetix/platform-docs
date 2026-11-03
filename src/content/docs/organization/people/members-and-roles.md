@@ -1,6 +1,6 @@
 ---
 title: Members and roles
-description: How people join an organisation, the owner and member roles, access requests, what an owner can do to another member's account, and the API behind the Members page.
+description: How people join an organisation, the owner, developer and member roles, access requests, what an owner can do to another member's account, and the API behind the Members page.
 order: 1
 sources: [vdb-site/api/internal/handler/org_roles.go, vdb-site/api/internal/handler/members.go, vdb-site/api/internal/handler/org_members_admin.go, vdb-site/api/internal/handler/provision.go, vdb-site/.repo/org-provisioning.md, website/.repo/org-members-and-roles.md, vdb-site/api/main.go]
 checked: [vdb-site@1a06d67, website@ad775f3]
@@ -24,6 +24,7 @@ Your organisation is decided by the address you first signed up with:
 | Role | Can |
 |---|---|
 | `owner` | Everything below, plus invite, approve, change roles, remove members, manage service accounts and API keys, write the vault, messaging and GitHub App settings. Only an owner can make another owner. |
+| `developer` | Everything a `member` can, plus plan, apply and export [Platform IaC](/platform-iac/) for every kind except `Organization`, `Member`, `ServiceAccount` and `VaultEntry`, with `vulnetix auth login` or the console. It cannot invite, approve, change roles or remove people, create service accounts, switch Drift protection, or manage billing or the vault. Only an owner can grant it, to a person or to a [service account](/organization/people/service-accounts-and-api-keys/). |
 | `member` | Use the console and the API. Read the vault, messaging and members lists. Triage, suppress and edit prioritisation and campaigns (see the warning on [Vulnerability management](/vulnerability-management/)). |
 | `admin` | Retired. An organisation created before the retirement may still have admins; they keep owner-like management rights but can only hand out `member`, until an owner changes their role. Nobody can be given `admin`. |
 
@@ -77,8 +78,8 @@ Every route on this page takes the console session only: the `vdb_token` cookie,
 
 | Status | Error |
 |---|---|
-| 400 | `the admin role cannot be assigned; use owner or member`, `unknown role; use owner or member`, `please enter a valid email address`, `you cannot remove yourself` |
-| 403 | `only owners and admins can invite` (and `... change roles`, `... remove members`, `... approve access`), `only an owner can grant the owner role`, `you cannot assign roles` |
+| 400 | `the admin role cannot be assigned; use owner, developer or member`, `unknown role; use owner, developer or member`, `please enter a valid email address`, `you cannot remove yourself` |
+| 403 | `only owners and admins can invite` (and `... change roles`, `... remove members`, `... approve access`), `only an owner can grant the owner role` (or the `developer` role), `you cannot assign roles` |
 | 409 | `you are the only owner; promote someone else before stepping down` |
 | 502 | the identity provider could not be reached |
 

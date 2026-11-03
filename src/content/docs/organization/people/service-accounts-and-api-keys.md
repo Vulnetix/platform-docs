@@ -47,8 +47,28 @@ Owners create them on the Members page. The routes below take the console sessio
 | Rule | Value |
 |---|---|
 | `name` | 3 to 40 characters: lowercase letters, digits and hyphens, starting and ending with a letter or digit (`^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$`) |
-| Role | Always `member`. A service account cannot invite, approve or create other credentials. |
-| Response | `{principalUuid, name, kind, secret, apiKey}`. **Shown once.** The secret is stored encrypted in the identity provider and cannot be read back. |
+| `role` | `member` (the default), `developer` or `owner`. Only an owner may ask for `developer` or `owner`. A service account cannot invite, approve or create other credentials, whatever its role. |
+| Response | `{principalUuid, name, kind, role, secret, apiKey}`. **Shown once.** The secret is stored encrypted in the identity provider and cannot be read back. |
+
+The Members page asks an owner which role the new account gets, and for a `developer` or `owner` account its one-time dialog shows the two variables to set.
+
+| Role | The account can |
+|---|---|
+| `member` | Scan, upload and read: the CLI in CI, and the API. It cannot plan or apply Platform IaC. |
+| `developer` | Also plan, apply and export [Platform IaC](/platform-iac/) for every kind except `Organization`, `Member`, `ServiceAccount` and `VaultEntry`. It cannot manage people, billing, service accounts or the vault. |
+| `owner` | Everything an owner can, including those four kinds. Use sparingly. |
+
+### Using one for Platform IaC
+
+A `developer` service account is the credential for Terraform, `vulnetix config apply` and the GitHub Actions. It is the same pair of variables as for the CLI in CI:
+
+```sh
+export VULNETIX_ORG_ID=<principalUuid>
+export VULNETIX_API_KEY=<apiKey>
+vulnetix config plan
+```
+
+The provider reads the same two names. An Authentik access token (`VULNETIX_API_TOKEN`) works for the same account where your setup already issues tokens. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
 
 | Method | Path | Does |
 |---|---|---|
