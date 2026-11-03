@@ -4,7 +4,7 @@ nav: VEX sources
 description: How a VexSource reads OpenVEX and CycloneDX VEX documents from TEA, S3, git, a path or URLs, how each statement becomes a suppression, remediation, triage context or annotation, how often it is fetched, and what plan refuses.
 order: 1
 sources: ["config-schemas/schemas/VexSource.schema.json", "vdb-site/api/internal/config/vexsource.go", "vdb-site/api/internal/vexsource/spec.go", "vdb-site/api/internal/vexsource/mapping.go", "vdb-site/api/internal/vexsource/reconcile.go", "vdb-site/api/internal/vexsource/refresh.go", "vdb-site/api/internal/vexsource/fetch.go", "vdb-site/api/internal/vexsource/fetch_urls.go", "vdb-site/api/internal/vexsource/fetch_s3.go", "vdb-site/api/internal/vexsource/fetch_git.go", "vdb-site/api/internal/vexsource/fetch_tea.go"]
-checked: ["config-schemas@v1.7.0", "vdb-site@b09e595"]
+checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v4.1.0"]
 updated: 03 Nov 2026
 ---
 
@@ -73,7 +73,16 @@ The Advanced sample on the kind page applies as written. A document that uses th
 
 ## Path sources
 
-A `path` source plans with the warning `cli_only`: the server shows only the snapshot that is uploaded for it. `POST /config/vex-sources/{name}/snapshot` uploads the documents a path source names, each base64 with the hex SHA-256 of its bytes, and replaces the source's last snapshot, removing the rules for statements that are gone as a fetch would. The CLI does not call it yet: `vulnetix config apply` does not upload a snapshot, and `vulnetix scan` has no flag that reads a `VexSource`. For CI today, commit the VEX to the repository and pass it with [`--vex-file`](/vex/scans/vex-file/).
+A `path` source plans with the warning `cli_only`: the server shows only the snapshot that is uploaded for it. `POST /config/vex-sources/{name}/snapshot` uploads the documents a path source names, each base64 with the hex SHA-256 of its bytes, and replaces the source's last snapshot, removing the rules for statements that are gone as a fetch would.
+
+Since CLI v4.1.0, `vulnetix config apply` uploads that snapshot itself, after the apply:
+
+- The path is read as given when absolute, else under the config root and then the repository root. A file is one document. A directory contributes the `.json` files directly in it that are VEX (OpenVEX, CycloneDX VEX or CSAF VEX), so a folder that also holds an SBOM or SARIF is fine. A file you name that is not VEX is an error.
+- A snapshot holds at most 10 documents of at most 8 MiB each.
+- It is uploaded when the plan has nothing to apply too, because the files can change when the document does not.
+- Each upload prints `VexSource/<name>: uploaded a snapshot of <n> document(s) from <path>`. A failed one prints why and makes `apply` exit non-zero, after the other sources have been tried.
+
+The snapshot replaces the last one, so a statement that left the files leaves the console on the next apply. `vulnetix scan` has no flag that reads a `VexSource` in a released CLI. For CI today, commit the VEX to the repository and pass it with [`--vex-file`](/vex/scans/vex-file/).
 
 ## Status
 

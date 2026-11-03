@@ -4,7 +4,7 @@ nav: Roadmap
 description: What of Platform IaC is available now, what is not yet, and where each piece is documented. The config engine, the kinds, the CLI commands, the Terraform provider and the modules, with their gaps.
 order: 1
 sources: ["config-schemas/README.md", "vdb-site/docs/platform-iac-engine.md", "cli/go.mod", "cli/docs/platform-iac.md", "terraform-provider-vulnetix/README.md", "website/src/pages/resolve/quality-gate.vue"]
-checked: ["config-schemas@v1.11.1", "vdb-site@7b71e88", "cli@v4.0.0", "terraform-provider-vulnetix@169ce16"]
+checked: ["config-schemas@v1.12.0", "vdb-site@7b71e88", "cli@v4.1.1", "terraform-provider-vulnetix@169ce16"]
 updated: 03 Nov 2026
 ---
 
@@ -33,11 +33,11 @@ This page is the honest list. The rest of the segment documents what works; this
 
 | Gap | Detail |
 |---|---|
-| The CLI trails the schemas by a release | CLI v4.0.0 embeds `config-schemas` v1.10.0, as the last v3 releases did; the newest release is v1.11.1. The only kind added since is [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) (v1.11.0), which `vulnetix config validate`, `plan` and `apply` refuse as unknown before sending it, though the engine serves it. Every other kind is known to the CLI. Each kind's page says from which CLI release it is known. Use the config API or Terraform for `ComplianceTarget` until a CLI release embeds v1.11.0 or later. |
+| The CLI embeds one schema release | CLI v4.1.1 embeds `config-schemas` v1.12.0, the newest release, so every kind is known to it. A kind added in a later schema release is refused by `vulnetix config validate`, `plan` and `apply` as unknown before anything is sent, though the engine may serve it, until a CLI release embeds that schema. Each kind's page says from which CLI release it is known. Use the config API or Terraform for such a kind meanwhile. |
 | Registry publishing | The provider and both modules have no release, and the Terraform and OpenTofu registries do not list them. See [Terraform and OpenTofu](/platform-iac/terraform/#registries). |
 | Download as code elsewhere | Other console pages that map to a kind do not have it yet. |
 | CEL in the CLI | The CLI evaluates no expression: `vulnetix jail` and `vulnetix scan --jail` ask the VDB API, and a suppression's `when` is evaluated on the server. The `event` context has no field in any kind, so [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) conditions are typed. |
-| VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. `vulnetix config apply` does not upload a snapshot for a `path` source, and `vulnetix scan` does not read a `VexSource`. |
+| VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. `vulnetix config apply` uploads a snapshot for a `path` source since CLI v4.1.0, but `vulnetix scan` does not read a `VexSource` in a released CLI. |
 | Cloud | A per-account [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) document needs a database migration; until it runs, plan blocks it. |
 | SSVC in the CLI | The VDB API still makes its own simpler SSVC decision in the CLI's SCA response and in the remediation plan; neither reads `SsvcPolicy` yet. |
 | Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the console's rotate endpoint stays the way. |

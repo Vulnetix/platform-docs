@@ -4,7 +4,7 @@ nav: Migrating to v4
 description: What changed when the Vulnetix CLI moved from v3 to v4.0.0, the Go module path, the config set and ai-firewall commands that became aliases of the config engine, plan and apply reading the well-known files, and the action version channel.
 order: 4
 sources: [cli/docs/platform-iac.md, cli/docs/PUBLISHING.md, cli/cmd/config_engine.go, cli/cmd/config_engine_alias.go, cli/cmd/config_engine_alias_aifw.go, cli/cmd/config_engine_alias_pfw.go, cli/action.yml, cli/install.sh]
-checked: [cli@v4.0.0]
+checked: [cli@v4.1.1]
 updated: 03 Nov 2026
 ---
 
@@ -23,7 +23,14 @@ Nothing forces a move. v3 is frozen at v3.169.2 (commit `f52af4d`): the `v3` tag
 | Action `version` default | `v3` | `v4` for `Vulnetix/cli@v4`. `@v3` keeps `v3`. |
 | `install.sh` with no version, `latest` | The newest release, v3 or later | The newest release, v4 |
 
-v4.0.0 embeds `config-schemas` v1.10.0, the same release as the last v3 releases. The CLI gained no kind with the major version: [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) (config-schemas v1.11.0) is still refused as unknown by `config validate`, `plan` and `apply`.
+v4.0.0 embeds `config-schemas` v1.10.0, the same release as the last v3 releases, so the major version added no kind: [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) (config-schemas v1.11.0) is refused as unknown by `config validate`, `plan` and `apply` in v4.0.0 and v4.1.0. v4.1.1 embeds config-schemas v1.12.0 and knows it.
+
+## Releases since v4.0.0
+
+| Release | Change |
+|---|---|
+| v4.1.0 | `config apply` uploads a snapshot of the documents a `VexSource` with a `path` names. See [Path sources](/platform-iac/guides/vex-sources/#path-sources). |
+| v4.1.1 | Embeds config-schemas v1.12.0, which adds `autoUpdate` to `RuntimeSensorPolicy` and, with v1.11.0, `ComplianceTarget` |
 
 ## Go module path
 
