@@ -4,7 +4,7 @@ nav: Overview
 description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a service account's ApiKey or an Authentik token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Published on the Terraform registry as vulnetix/resolve; OpenTofu listing is pending.
 order: 1
 sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/orgroles/orgroles.go"]
-checked: ["terraform-provider-resolve@72cdd43", "vdb-site@3c8c323"]
+checked: ["terraform-provider-resolve@v1.3.0", "vdb-site@fcbbdd3"]
 updated: 04 Nov 2026
 ---
 
@@ -14,14 +14,14 @@ It is one binary for Terraform and OpenTofu, 1.11 or later: secrets use write-on
 
 ## Install
 
-The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). The current release is v1.2.0. A configuration needs the source and a version constraint:
+The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). The current release is v1.3.0. A configuration needs the source and a version constraint:
 
 ```hcl
 terraform {
   required_providers {
     vulnetix = {
       source  = "vulnetix/resolve"
-      version = "~> 1.2"
+      version = "~> 1.3"
     }
   }
 }
