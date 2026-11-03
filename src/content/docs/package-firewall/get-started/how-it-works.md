@@ -53,6 +53,7 @@ A policy change in the console or CLI takes effect within a minute, or within 15
 | Filter-mode bulk policy query fails | The metadata is served with whatever blocks were computed, and the error is logged. |
 | An adapter cannot rewrite a metadata document | The original document is served. |
 | Version lag set, but the adapter cannot list versions | Version lag is not enforced for that ecosystem; the proxy logs it. |
+| Version lag and cooldown both set | Lag counts from the newest version still served: blocked versions, and npm versions inside the cooldown, are skipped when ranking. A package whose newest releases are all cooling down still serves the releases just before them. |
 | An org with no policy row yet | In-memory defaults: every threshold `0`, every block off, default mirrors. Curation lists are not loaded. |
 | Maintenance mode | Requests are still proxied. Decision-log writes, enrichment and mirror backfill are skipped. Responses carry `X-Maintenance-Mode: true` and `X-Vulnetix-Maintenance-Impact: package-firewall-log-capture-paused`. |
 
