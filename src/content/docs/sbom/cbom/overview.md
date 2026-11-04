@@ -54,6 +54,19 @@ Each algorithm also carries its CycloneDX `nistQuantumSecurityLevel` (0 to 6) an
 | `--fail-on` | string | `none` | Comma-separated statuses that exit `1` when found: `quantum-vulnerable`, `deprecated`, `hybrid`, `quantum-safe` |
 | `--no-upload` | bool | `false` | Do not send the CBOM to Vulnetix. It is sent automatically when you are authenticated. |
 | `--cbom-include-ignored` | bool | `false` | Include files matched by `.gitignore` |
+| `--lifecycle` | string | derived | Comma-separated lifecycle phases, overriding the derived set |
+| `--project`, `--cluster`, `--namespace`, `--environment`, `--tag` | string | inferred | Deployment labels. See [Document identity and deployment labels](/sbom/reference/document-metadata/). |
+| `--sign` | bool | `false` | Sign the document with this machine's OIDC identity. See [Signing documents](/attestation/sign/signing-documents/). |
+| `--bom-manufacturer`, `--bom-manufacturer-url` | string | repository owner | `metadata.manufacturer`. See [Who made it](/sbom/author/identity/). |
+| `--bom-author` | string, repeatable | | `metadata.authors`, as `Name <email>` |
+| `--bom-supplier`, `--bom-supplier-url` | string | | `metadata.supplier` |
+| `--bom-serial`, `--bom-version` | string, int | new UUID, `1` | `serialNumber` and `version` |
+| `--component-name`, `-version`, `-type`, `-group`, `-purl` | string | from git | `metadata.component`. See [The subject component](/sbom/author/subject/). |
+| `--bom-license` | string, repeatable | | `metadata.licenses`, the licence of the document |
+| `--bom-property` | `name=value`, repeatable | | `metadata.properties` |
+| `--bom-overlay` | string, repeatable | | A CycloneDX fragment merged in before validation. See [Overlay files](/sbom/author/overlay/). |
+
+The identity, deployment and signing flags arrived in CLI v4.15.0 and work as they do on [`cdx`](/sbom/generate/cdx/). See [Author and customise](/sbom/author/overview/).
 
 `--disable-memory` (a global flag) turns off the memory tracking described below.
 
@@ -76,7 +89,7 @@ vulnetix cbom --catalog ./extra-algos.json      # extend the built-in catalog
 | Certificate | `cryptographic-asset` with `assetType: certificate`, plus a `related-crypto-material` key |
 | Crypto library | `library` |
 
-Posture and the standards matrix are carried in `vulnetix:crypto/*` properties. The document is schema-validated before it is written. It names `vulnetix-cbom` in `metadata.tools` and claims the `discovery` lifecycle phase.
+Posture and the standards matrix are carried in `vulnetix:crypto/*` properties. The document is schema-validated before it is written. It names `vulnetix-cbom` in `metadata.tools` and claims the `discovery` lifecycle phase. `metadata.manufacturer` is your organisation, resolved as for [`cdx`](/sbom/author/identity/#the-manufacturer). Before CLI v4.15.0 only the git owner was used.
 
 ## Memory and resolved assets
 

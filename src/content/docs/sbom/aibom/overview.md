@@ -47,6 +47,19 @@ The built-in catalog is version `2026.06.4`: 84 AI coding agents, 73 AI provider
 | `--system-root` | string | `/` | The filesystem `--include-system` describes: a mounted volume, an unpacked image, or `/proc/<pid>/root` |
 | `--no-upload` | bool | `false` | Do not send the AIBOM to Vulnetix. It is sent automatically when you are authenticated. |
 | `--aibom-include-ignored` | bool | `false` | Include files matched by `.gitignore` |
+| `--lifecycle` | string | derived | Comma-separated lifecycle phases, overriding the derived set |
+| `--project`, `--cluster`, `--namespace`, `--environment`, `--tag` | string | inferred | Deployment labels. See [Document identity and deployment labels](/sbom/reference/document-metadata/). |
+| `--sign` | bool | `false` | Sign the document with this machine's OIDC identity. See [Signing documents](/attestation/sign/signing-documents/). |
+| `--bom-manufacturer`, `--bom-manufacturer-url` | string | repository owner | `metadata.manufacturer`. See [Who made it](/sbom/author/identity/). |
+| `--bom-author` | string, repeatable | | `metadata.authors`, as `Name <email>` |
+| `--bom-supplier`, `--bom-supplier-url` | string | | `metadata.supplier` |
+| `--bom-serial`, `--bom-version` | string, int | new UUID, `1` | `serialNumber` and `version` |
+| `--component-name`, `-version`, `-type`, `-group`, `-purl` | string | from git | `metadata.component`. See [The subject component](/sbom/author/subject/). |
+| `--bom-license` | string, repeatable | | `metadata.licenses`, the licence of the document |
+| `--bom-property` | `name=value`, repeatable | | `metadata.properties` |
+| `--bom-overlay` | string, repeatable | | A CycloneDX fragment merged in before validation. See [Overlay files](/sbom/author/overlay/). |
+
+The identity, deployment and signing flags arrived in CLI v4.15.0 and work as they do on [`cdx`](/sbom/generate/cdx/). See [Author and customise](/sbom/author/overview/).
 
 `--disable-memory` (a global flag) turns off the memory tracking described below.
 
@@ -70,7 +83,7 @@ vulnetix aibom --catalog ./extra-rules.json     # extend the built-in catalog
 | Model name | `machine-learning-model`, with a `modelCard` |
 | Model weight file in the repository | `data` |
 
-Evidence is carried in `vulnetix:ai/*` properties. A value the IaC pass could not verify carries `vulnetix:ai/confidence-gap` set to `true` and a `vulnetix:ai/gap-reason`. The document is schema-validated before it is written. It names `vulnetix-aibom` in `metadata.tools` and claims the `design` and `discovery` lifecycle phases.
+Evidence is carried in `vulnetix:ai/*` properties. A value the IaC pass could not verify carries `vulnetix:ai/confidence-gap` set to `true` and a `vulnetix:ai/gap-reason`. The document is schema-validated before it is written. It names `vulnetix-aibom` in `metadata.tools` and claims the `design` and `discovery` lifecycle phases. `metadata.manufacturer` is your organisation, resolved as for [`cdx`](/sbom/author/identity/#the-manufacturer). Before CLI v4.15.0 only the git owner was used.
 
 ## Memory and resolved components
 

@@ -90,7 +90,7 @@ Validation checks two things: that the document parses at its declared spec vers
 | Unique identifier (purl or bom-ref) | component |
 | Licence | component |
 | Cryptographic hash | component |
-| Supplier | component |
+| Supplier (`supplier`, or `publisher` or `group`; `supplier` counts from CLI v4.17.1) | component |
 
 ```text
 [OK]    Unique document identifier               1/1

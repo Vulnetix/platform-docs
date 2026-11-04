@@ -24,6 +24,8 @@ The Vulnetix CLI writes three kinds of CycloneDX bill of materials and reads SBO
 
 `vulnetix sbom` produces and `vulnetix bom` inspects. `sbom` is an alias of `cdx`, so it always means CycloneDX.
 
+Every command that writes a document can be told who made it, what it describes and what else belongs in it, from flags, environment variables or an overlay file. See [Author and customise](/sbom/author/overview/).
+
 `vulnetix scan` runs the package, crypto and AI inventory passes as part of a full scan. The standalone commands exist for when you want the file, the terminal table, or a CI gate such as `cbom --fail-on`.
 
 ## Quick start
@@ -69,4 +71,4 @@ Run the generators in a workflow with the [sbom](/sbom/github-actions/sbom/), [c
 
 ## Platform IaC
 
-There is no config-as-code for SBOM generation: every option is a command-line flag, and no kind covers it. See the [kind catalogue](/platform-iac/kinds/catalogue/).
+There is no config-as-code kind for SBOM generation. Options are flags and environment variables, and the content you state yourself can live in an [overlay file](/sbom/author/overlay/) committed with the code. See the [kind catalogue](/platform-iac/kinds/catalogue/).

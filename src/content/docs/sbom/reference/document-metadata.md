@@ -3,9 +3,9 @@ title: Document identity and deployment labels
 nav: Identity and labels
 description: How the CLI fills metadata.manufacturer, metadata.tools and metadata.lifecycles in the documents it writes, and the deployment label flags and environment variables stamped into metadata.properties.
 order: 1
-sources: [cli/internal/scanopts/authorship.go, cli/internal/scanopts/deployment.go, cli/internal/cdx/authorship.go, cli/cmd/cdx.go]
-checked: [cli@4c8c3b71c]
-updated: 02 Nov 2026
+sources: [cli/internal/scanopts/authorship.go, cli/internal/scanopts/deployment.go, cli/internal/cdx/authorship.go, cli/cmd/cdx.go, cli/cmd/scan.go, cli/cmd/image.go, cli/internal/triage/vex.go]
+checked: [cli@v4.17.1]
+updated: 04 Nov 2026
 ---
 
 ## Who made the document
@@ -14,19 +14,24 @@ updated: 02 Nov 2026
 |---|---|
 | `metadata.tools.components` | The command that wrote it, at the CLI version: `vulnetix-cdx`, `vulnetix-cbom`, `vulnetix-aibom`, `vulnetix-vex`, `vulnetix-bom-import`, `vulnetix-bom-enrich` |
 | `metadata.manufacturer` | The organisation that ran the scan, not Vulnetix. Omitted when nothing resolves it. |
+| `metadata.authors`, `metadata.supplier` | Only what you state. VEX documents from `triage` and `jail` name `Vulnetix` as the author. |
 | `metadata.lifecycles` | The phases the data was captured at |
 
 ### Manufacturer resolution
 
-The first source that answers wins.
+On `cdx`, `aibom`, `cbom` and the scan family, the first source that answers wins.
 
 | Order | Source |
 |---|---|
 | 1 | `--bom-manufacturer` |
 | 2 | `VULNETIX_BOM_MANUFACTURER` |
-| 3 | The repository owner the CI provider states (GitHub, GitLab, Azure DevOps, Bitbucket, Jenkins) |
-| 4 | The owner in the local git remote |
-| 5 | The Vulnetix organisation id the run authenticated as (`VULNETIX_ORG_ID` or `--org-id`), as an identifier rather than a name |
+| 3 | `metadata.manufacturer` in an [overlay file](/sbom/author/overlay/) |
+| 4 | The repository owner the CI provider states (GitHub, GitLab, Azure DevOps, Bitbucket, Jenkins) |
+| 5 | The owner in the local git remote |
+
+The Vulnetix organisation id the run authenticated as (`VULNETIX_ORG_ID` or `--org-id`) never names a manufacturer. When a name resolves, it is added as the manufacturer's `bom-ref`, `urn:uuid:<org id>`. `vulnetix image` writes no manufacturer.
+
+Before CLI v4.15.0, `aibom` and `cbom` used only the git owner, and a scan that rewrote a `.vulnetix/sbom.cdx.json` which already had a `metadata` block kept the manufacturer that file had. A rescan now keeps the file's `serialNumber`, adds 1 to its `version`, and records this run's identity. See [Who made the document](/sbom/author/identity/) for every identity member you can set.
 
 ### Lifecycle phases
 

@@ -212,6 +212,7 @@ Labels stamped on the SBOM and the published snapshot. Flags win; otherwise the 
 | `--tag key=value` | | Extra label, repeatable. A pair with no `=` is dropped. |
 | `--bom-manufacturer` | `VULNETIX_BOM_MANUFACTURER` | CycloneDX `metadata.manufacturer`. Defaults to the repository owner the CI system reports. |
 | `--lifecycle` | | Comma list of `design`, `pre-build`, `build`, `post-build`, `operations`, `discovery`, `decommission`. An unknown phase is an error. Default: derived from what was read. |
+| `--bom-author`, `--bom-supplier`, `--bom-serial`, `--bom-version`, `--bom-license`, `--bom-property`, `--bom-overlay`, `--component-*` | `VULNETIX_BOM_*`, `VULNETIX_COMPONENT_*` | The rest of the document's identity and content. See [Author and customise](/sbom/author/overview/). |
 
 Nothing is inferred from branch names.
 

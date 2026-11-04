@@ -69,6 +69,16 @@ Paths matched by `.gitignore` are skipped unless you pass `--cdx-include-ignored
 | `--project`, `--cluster`, `--namespace`, `--environment`, `--tag` | string | inferred | Deployment labels. See [Document identity and deployment labels](/sbom/reference/document-metadata/). |
 | `--bom-manufacturer` | string | repository owner | Organisation that created the BOM |
 | `--lifecycle` | string | derived | Comma-separated lifecycle phases, overriding the derived set |
+| `--bom-manufacturer`, `--bom-manufacturer-url` | string | repository owner | `metadata.manufacturer`. See [Who made it](/sbom/author/identity/). |
+| `--bom-author` | string, repeatable | | `metadata.authors`, as `Name <email>` |
+| `--bom-supplier`, `--bom-supplier-url` | string | | `metadata.supplier` |
+| `--bom-serial`, `--bom-version` | string, int | new UUID, `1` | `serialNumber` and `version` |
+| `--component-name`, `-version`, `-type`, `-group`, `-purl` | string | from git | `metadata.component`. See [The subject component](/sbom/author/subject/). |
+| `--bom-license` | string, repeatable | | `metadata.licenses`, the licence of the document |
+| `--bom-property` | `name=value`, repeatable | | `metadata.properties` |
+| `--bom-overlay` | string, repeatable | | A CycloneDX fragment merged in before validation. See [Overlay files](/sbom/author/overlay/). |
+
+The identity and customisation flags are described in [Author and customise](/sbom/author/overview/). Each has a `VULNETIX_BOM_*` or `VULNETIX_COMPONENT_*` environment variable.
 
 Distro packages found with `--include-system` carry the `distro=`, `arch=`, `epoch=` and `upstream=` purl qualifiers, which is what distro security advisories match on.
 

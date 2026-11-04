@@ -41,7 +41,7 @@ Read in this order; the first complete source wins. See [Credential precedence](
 
 ## Deployment labels and BOM identity
 
-Fallbacks for the `scan`-family flags, first set value wins. See [scan](/cli/commands/scan/#deployment-context-and-bom-identity).
+Fallbacks for the flags of the `scan` family, `cdx`, `aibom` and `cbom`. A flag wins over its variable; for a label, the first variable set wins. See [scan](/cli/commands/scan/#deployment-context-and-bom-identity) and [Author and customise](/sbom/author/overview/#environment-variables).
 
 | Variable | Flag |
 |---|---|
@@ -50,6 +50,12 @@ Fallbacks for the `scan`-family flags, first set value wins. See [scan](/cli/com
 | `VULNETIX_CLUSTER`, then `CLUSTER_NAME`, `KUBERNETES_CLUSTER_NAME` | `--cluster` |
 | `VULNETIX_NAMESPACE`, then `POD_NAMESPACE`, `KUBERNETES_NAMESPACE` | `--namespace` |
 | `VULNETIX_BOM_MANUFACTURER` | `--bom-manufacturer` |
+| `VULNETIX_BOM_MANUFACTURER_URL` | `--bom-manufacturer-url` |
+| `VULNETIX_BOM_AUTHORS` | `--bom-author` (comma- or semicolon-separated) |
+| `VULNETIX_BOM_SUPPLIER`, `VULNETIX_BOM_SUPPLIER_URL` | `--bom-supplier`, `--bom-supplier-url` |
+| `VULNETIX_BOM_SERIAL`, `VULNETIX_BOM_VERSION` | `--bom-serial`, `--bom-version` |
+| `VULNETIX_BOM_LICENSES`, `VULNETIX_BOM_PROPERTIES`, `VULNETIX_BOM_OVERLAY` | `--bom-license`, `--bom-property`, `--bom-overlay` (comma- or semicolon-separated) |
+| `VULNETIX_COMPONENT_NAME`, `_VERSION`, `_TYPE`, `_GROUP`, `_PURL` | `--component-name`, `-version`, `-type`, `-group`, `-purl` |
 
 ## Output, banner and analytics
 

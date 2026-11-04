@@ -36,6 +36,8 @@ All three are normalised into one statement model, so matching and application w
 | `affected` | `exploitable` | `known_affected` | no, adds an action statement |
 | `under_investigation` | `in_triage` | `under_investigation` | no |
 
+To state one of these CycloneDX states on a finding in an SBOM the CLI writes, set `vulnerabilities[].analysis` in an [overlay file](/sbom/author/overlay/#vulnerability-analysis).
+
 ## Commands
 
 | Command | Does |

@@ -209,7 +209,7 @@ cliF('cli-analyze-upload', '/cli/commands/analyze', 'vulnetix analyze and upload
 cliF('cli-utilities', '/cli/commands/utilities', 'vulnetix env, version, update, completion and lsp', [cmd('env', 'version', 'update', 'completion', 'lsp')], ['/cli/commands/completion', '/cli/get-started/install']);
 cliF('cli-gha', '/cli/commands/gha', 'vulnetix gha', [`^cli-command:${NOT_YET}gha(?! publish)( |$)`], ['/cli/ci-cd/gha-command']);
 cliF('cli-gha-publish', '/cli/commands/gha-publish', 'vulnetix gha publish', ['^cli-command:gha publish( |$)'], ['/cli/ci-cd/github-actions', '/cli/reference/sarif', '/cli/reference/artifact-manifest']);
-cliF('cli-attest', '/attestation/get-started/overview', 'vulnetix attest and cdx', [cmd('attest', 'cdx')]);
+cliF('cli-attest', '/attestation/get-started/overview', 'vulnetix attest and cdx', [cmd('attest', 'cdx')], ['/sbom/author/overview', '/sbom/author/identity', '/sbom/author/subject', '/sbom/author/licences-and-properties', '/sbom/author/overlay']);
 cliF('cli-bom', '/sbom/read/import-and-validate', 'vulnetix bom', [cmd('bom')], ['/sbom/read/corpus-queries']);
 cliF('cli-config', '/platform-iac/cli/imperative-commands', 'vulnetix config', [cmd('config')], ['/cli/get-started/overview', '/quality-gates/reference/commands', '/platform-iac/planned/roadmap', '/ai-firewall/cli/commands', '/ai-firewall/policy/providers', '/platform-iac/cli/validate', '/platform-iac/cli/plan', '/platform-iac/cli/apply', '/platform-iac/cli/export']);
 cliF('cli-ignore', '/iac-scanning/guides/suppression', 'vulnetix ignore', [cmd('ignore')]);

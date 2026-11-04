@@ -4,8 +4,8 @@ nav: "sbom"
 description: "The Vulnetix/cli/sbom GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/sbom/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/sbom.md]
-checked: [cli@v4.0.0]
-updated: 03 Nov 2026
+checked: [cli@v4.17.1]
+updated: 04 Nov 2026
 ---
 
 Installs the CLI and runs [`vulnetix cdx`](/sbom/generate/cdx/), which writes one CycloneDX SBOM for the directory to `.vulnetix/sbom.cdx.json`. It can sign the SBOM with the runner's OIDC identity, attest it, submit it to the GitHub dependency graph and attach it to a release.
@@ -38,9 +38,18 @@ Runs `vulnetix cdx --path <path> [--sign]`. Credentials are optional: without `o
 | `github-token` | Token for GitHub publishing, release assets and pull request comments | `${{ github.token }}` |
 | `attest` | Attest the written files with GitHub artifact attestations (needs id-token: write and attestations: write): true or false | `false` |
 | `release-tag` | Attach every file the command wrote to the GitHub release with this tag (needs contents: write) | - |
-| `sign` | Sign the SBOM with the runner's OIDC identity (needs id-token: write): true or false | `false` |
+| `sign` | Sign the document with the runner's OIDC identity (needs id-token: write): true or false | `false` |
+| `bom-manufacturer` | Organisation that created the BOM (`metadata.manufacturer`); defaults to the repository owner | - |
+| `bom-author` | Author of the document as `Name <email>`, one per line (`metadata.authors`; passed as `--bom-author`) | - |
+| `bom-supplier` | Supplier of the component the BOM describes (`metadata.supplier`) | - |
+| `bom-license` | Licence of the document itself, an SPDX id or expression (`metadata.licenses`) | - |
+| `bom-property` | Document property as `name=value`, one per line (`metadata.properties`; passed as `--bom-property`) | - |
+| `bom-overlay` | CycloneDX JSON fragments merged into the document before validation, one path per line (passed as `--bom-overlay`) | - |
 
 `args` is split on spaces and newlines. No shell quoting is applied, and nothing is evaluated.
+
+
+The identity inputs arrived in CLI v4.15.0. Values without spaces, such as `--bom-serial` and `--component-version`, go in `args` or the `VULNETIX_BOM_*` and `VULNETIX_COMPONENT_*` environment variables. See [Overlay files](/sbom/author/overlay/#github-actions).
 
 ## Outputs
 
