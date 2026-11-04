@@ -27,7 +27,7 @@ generated: true
 
 This rule flags `jinja2.Environment()` calls that explicitly set `autoescape=False`. When Jinja2's autoescape is disabled, any string value rendered into a template is inserted verbatim into the HTML output. If that value contains HTML or JavaScript (from user input, a database field, or an API response), the browser will execute it as code rather than display it as text, a classic reflected or stored cross-site scripting (XSS) vulnerability. This maps to [CWE-79: Improper Neutralization of Input During Web Page Generation](https://cwe.mitre.org/data/definitions/79.html).
 
-## Why This Matters
+## Why this matters
 
 XSS in a web application allows an attacker to execute JavaScript in the victim's browser in the context of the target origin. The consequences depend on the application's functionality but typically include session token theft (leading to account takeover), keylogging, UI redirection, form hijacking, and in applications with high privileges (admin panels, financial dashboards), the ability to perform any action the victim user can perform.
 
@@ -35,7 +35,7 @@ Stored XSS is particularly damaging: a single injection that writes to a databas
 
 Jinja2's `autoescape=False` is the default in older versions, and many code examples from documentation and tutorials were written before autoescape became the recommended default. This means legacy codebases often have autoescape disabled throughout, not just in isolated places.
 
-## What Gets Flagged
+## What gets flagged
 
 `autoescape=False` passed to a Jinja2 `Environment`, `SandboxedEnvironment`, `Template` or Starlette `Jinja2Templates`, or assigned (`app.jinja_env.autoescape = False`); an `"autoescape": False` entry in Flask `jinja_options` or Django `TEMPLATES` `OPTIONS`; a Jinja2 `Environment` with no `autoescape` argument in web code; and `{% autoescape false %}` blocks in templates. `autoescape=True`, `select_autoescape()`, code generators and test templates are not reported.
 

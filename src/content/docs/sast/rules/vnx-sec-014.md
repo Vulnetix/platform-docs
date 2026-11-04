@@ -27,13 +27,13 @@ generated: true
 
 This rule reports a quoted literal of at least 6 characters assigned to a name that ends in `password`, `passwd`, `passphrase`, `secret_key`/`secretKey` or `_pwd` (`DB_PASSWORD`, `adminPassword`, `self.password`, `$db_password`, `@smtp_password`), the same name used as an object, dict, hash or JSON key or as a keyword argument, and a bare value on such a line in YAML, `.properties`, `.ini`, `.conf` and `.env` files. It does not report values read from the environment or interpolated (`${DB_PASSWORD}`, `%s`, f-strings), values with spaces (labels), field names (`password_confirmation`), placeholders (`changeme`, `<password>`, `********`), comparisons, SQL text, concatenations (`'--password='.$pw`), test and fixture paths, translation catalogues and config templates (`.example`, `.sample`, `.dist`). Hardcoded passwords in source code are one of the most common and impactful security findings: they are committed to version control, visible to everyone with repository access, cannot be rotated without a code change, and often end up in logs, error messages, and backups.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded passwords represent a fundamental violation of the principle that secrets and code should live in separate, independently access-controlled systems. Every developer who clones the repository knows the password. Every CI/CD pipeline that checks out the code has the password in its workspace. Every historical commit containing the password preserves it indefinitely even after rotation.
 
 A particularly common scenario is developers hardcoding a default or weak password during initial development, meaning to replace it before production, but the "temporary" value gets deployed and stays for months or years. The 2021 Verkada security camera breach, for example, was partly attributed to a super-admin password found hardcoded in source code.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: hardcoded database password

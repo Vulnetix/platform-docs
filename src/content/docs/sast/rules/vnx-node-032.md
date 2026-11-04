@@ -27,11 +27,11 @@ generated: true
 
 This rule detects calls to the Angular `DomSanitizer` methods `bypassSecurityTrustHtml`, `bypassSecurityTrustStyle`, `bypassSecurityTrustScript`, `bypassSecurityTrustUrl` and `bypassSecurityTrustResourceUrl` when the argument is not a constant. These methods mark a value as safe, so Angular binds it into the page without sanitising it. When the value carries data from a query parameter, an API response or a database row, it is a cross-site scripting hole (CWE-79). The argument may start on the line after the opening parenthesis.
 
-## Why This Matters
+## Why this matters
 
 Angular escapes and sanitises every template binding by default. The bypass methods turn that off for one value. An attacker who controls the value, for example through a search query that is reflected into the page or a product description stored by another user, runs script in the victim's session. Wrapping the value in a template literal such as `` `<code>${orderId}</code>` `` does not help, because the interpolated data is still unsanitised.
 
-## What Gets Flagged
+## What gets flagged
 
 ```typescript
 // FLAGGED: query parameter trusted as HTML

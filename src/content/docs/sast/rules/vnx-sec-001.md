@@ -27,7 +27,7 @@ generated: true
 
 This rule detects AWS access key IDs matching the `AKIA[0-9A-Z]{16}` pattern hardcoded anywhere in source files. AWS access key IDs are one half of the credential pair used for programmatic access to AWS services; combined with the corresponding secret access key (detected by VNX-SEC-003), they grant full API access to whatever IAM permissions the key owner holds. Hardcoding them in source code puts them at risk of exposure through public repositories, code review tools, or log files.
 
-## Why This Matters
+## Why this matters
 
 AWS access key IDs committed to a repository have been the root cause of some of the largest cloud breaches on record. Automated bots continuously scan GitHub, GitLab, and Bitbucket for `AKIA` prefixes; a key can be found and abused within minutes of a public push. A compromised key can be used to spin up EC2 instances for crypto mining, exfiltrate data from S3 buckets, pivot through IAM roles, or destroy an entire AWS environment. The 2019 Capital One breach and numerous smaller incidents traced back to exposed AWS credentials.
 
@@ -35,7 +35,7 @@ Even in private repositories, keys exposed in git history persist indefinitely. 
 
 Hardcoded secrets are never secure, there is no "safe" value to use as a placeholder or default. Any `AKIA` pattern in source code must be treated as compromised.
 
-## What Gets Flagged
+## What gets flagged
 
 A standalone 20-character token that starts with `AKIA` (long-term IAM user key), `ASIA` (STS session key), `ABIA`, `ACCA` or `A3T` and continues with 16 base32 characters, in any file: SDK configuration, Terraform providers, `.env` files, shell exports and JSON session documents.
 

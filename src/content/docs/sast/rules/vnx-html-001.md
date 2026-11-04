@@ -29,13 +29,13 @@ This rule detects uses of the `|safe` filter in Jinja2 template files (`.html`, 
 
 XSS via template filters is particularly insidious because the vulnerability lives in the presentation layer rather than the business logic, making it easy to overlook in code review. Developers often apply `|safe` as a shortcut when rendering rich-text content (Markdown output, WYSIWYG editor content, or translated strings) without realizing that any user-controlled segment of that content becomes an injection vector. Even a single unescaped attribute in an otherwise-trusted HTML string can allow script injection.
 
-## Why This Matters
+## Why this matters
 
 Stored and reflected XSS attacks allow an adversary to execute arbitrary JavaScript in the context of a victim's browser session. This grants access to session cookies (enabling account takeover), the ability to modify page DOM to harvest credentials, access to browser APIs including geolocation and camera, and the ability to make authenticated requests on the victim's behalf. Attacks can propagate virally in user-generated content platforms, a single stored payload may execute for every user who views an infected page.
 
 The `|safe` filter is one of the most common sources of XSS in Python web applications built on Flask and Django. Its misuse has been identified in numerous CVEs affecting open-source projects, CMS platforms, and internal tooling. When combined with markdown-to-HTML rendering, even indirect user influence over the rendered string (via profile fields, comments, or file names) is sufficient to trigger the vulnerability.
 
-## What Gets Flagged
+## What gets flagged
 
 ```html
 {# FLAGGED: user input rendered without escaping #}

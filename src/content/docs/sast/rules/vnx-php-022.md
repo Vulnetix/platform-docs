@@ -31,7 +31,7 @@ Open redirect vulnerabilities arise when the redirect destination is taken from 
 
 The common framework patterns are a redirect helper called with request data, and a chained redirect where a variable derived from user input is used as the redirect target several lines after the original assignment.
 
-## Why This Matters
+## Why this matters
 
 Open redirects are frequently used as a component in phishing campaigns and OAuth token theft attacks. In phishing, the trusted domain lends credibility to the malicious link, users who hover over the URL see the organisation's domain and proceed to click. The redirect then sends them to a credential-harvesting page styled to look like the real site.
 
@@ -39,7 +39,7 @@ In OAuth flows, an open redirect on the authorisation server can be chained with
 
 Applications that implement "return to previous page after login" functionality are especially prone to open redirects because they naturally store and follow a user-specified URL.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: CodeIgniter redirect with a request value

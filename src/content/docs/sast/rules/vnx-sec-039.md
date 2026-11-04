@@ -27,11 +27,11 @@ generated: true
 
 This rule detects GitLab personal access tokens matching the `glpat-[\w-]{20}` pattern. These tokens grant API access to the user's GitLab account including the ability to clone private repos, push code, read the container registry, and access package registries.
 
-## Why This Matters
+## Why this matters
 
 A leaked GitLab PAT can be used to exfiltrate source code, push malicious commits to private repos, and access the GitLab container and package registries, which often hold production Docker images. GitLab Enterprise audit logs will show the token's IP and user-agent for every API call.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged (legacy 20-character and routable `glpat-` tokens):
 

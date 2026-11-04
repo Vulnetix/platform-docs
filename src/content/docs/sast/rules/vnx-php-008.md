@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to `phpinfo()` in production PHP code (tests, CLI-guarded and debug-guarded calls excepted). `phpinfo()` outputs a comprehensive HTML page summarising the PHP runtime environment. While indispensable during local development, any reachable `phpinfo()` output in a production environment hands an attacker a detailed reconnaissance report about your server without requiring any vulnerability to exploit. This maps to [CWE-200: Exposure of Sensitive Information to an Unauthorized Actor](https://cwe.mitre.org/data/definitions/200.html).
 
-## Why This Matters
+## Why this matters
 
 The `phpinfo()` output page reveals an unusually dense set of reconnaissance data in a single request. Specifically, an attacker learns:
 
@@ -41,7 +41,7 @@ The `phpinfo()` output page reveals an unusually dense set of reconnaissance dat
 
 With this information an attacker can precisely target exploit payloads to the exact versions running on your server, identify which security controls are missing, and find internal hostnames or credentials exposed through environment variables.
 
-## What Gets Flagged
+## What gets flagged
 
 A call to the `phpinfo()` function, with any argument, in code that is not a test or fixture.
 

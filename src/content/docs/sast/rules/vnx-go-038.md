@@ -29,13 +29,13 @@ This rule flags Go HTTP handlers that bind the request body into a value (`json.
 
 This vulnerability class has been responsible for significant security incidents, including the 2012 GitHub mass-assignment vulnerability where an attacker added their SSH key to the Ruby on Rails organisation by exploiting unfiltered model binding.
 
-## Why This Matters
+## Why this matters
 
 Web frameworks that bind request bodies to structs are convenient for rapid development, but they create a hidden contract: every exported field in the target struct becomes a potential attack surface. Developers often reuse a single domain model struct for both internal operations (where fields like `IsAdmin` or `CreatedAt` are set by the system) and API request binding (where only a subset of fields should be writable by the user). When these two concerns are conflated, an attacker who reads the API documentation, examines a JavaScript bundle, or inspects network responses can identify internal field names and submit them in requests.
 
 The impact depends on what privileged fields exist in the struct. Privilege escalation (`IsAdmin: true`), bypassing subscription paywalls (`IsPremium: true`), overwriting audit trails (`CreatedAt`), and injecting values into fields used in database queries or business logic are all observed real-world consequences. The vulnerability is particularly insidious because the exploit payload looks identical to a legitimate request, it simply includes additional JSON keys that the developer did not anticipate being set.
 
-## What Gets Flagged
+## What gets flagged
 
 A request body bound into a value that is then saved whole:
 

@@ -29,13 +29,13 @@ This rule flags instances where SQL queries are constructed by concatenating str
 
 This maps to [CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')](https://cwe.mitre.org/data/definitions/89.html).
 
-## Why This Matters
+## Why this matters
 
 SQL injection occurs when user input is incorrectly allowed to influence SQL queries. Attackers can inject malicious SQL that can read, modify, or delete data, bypass authentication, or even execute administrative operations on the database server.
 
 This is one of the most critical web application security risks and can lead to complete data breach, data manipulation, or loss of data integrity.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a value concatenated where SQL expects a literal (after a
 quote or a comparison) in a statement that is run or is complete. The

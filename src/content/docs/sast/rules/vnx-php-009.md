@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to `preg_replace()` that include the `/e` modifier in the pattern string. The `/e` flag causes PHP to evaluate the replacement string as PHP code after performing the substitution, effectively turning any `preg_replace()` call that operates on user-controlled input into an `eval()` call. This modifier was deprecated in PHP 5.5.0 and entirely removed in PHP 7.0.0; code that uses it either belongs to a legacy codebase still running PHP 5 or was written without awareness of the security implications. This maps to [CWE-94: Improper Control of Generation of Code ('Code Injection')](https://cwe.mitre.org/data/definitions/94.html).
 
-## Why This Matters
+## Why this matters
 
 The `/e` modifier was designed to allow dynamic replacement strings in regex substitution, but it was fundamentally unsafe because the evaluated expression is constructed from the match result before any sanitization can be applied. If an attacker controls any part of the string being searched, the subject of `preg_replace()`, they can inject PHP code into the replacement result, which is then executed. Unlike `eval()` on a variable, the code injection is indirect and easy to miss in a code review.
 
@@ -35,7 +35,7 @@ Consider a CMS that uses `preg_replace()` with `/e` to process template tags in 
 
 Legacy PHP 5 applications are the primary target, but `/e` usage also appears in code that was migrated to PHP 7 with the broken assumption that PHP silently ignores the flag (it does not, it raises a fatal error, so code using `/e` on PHP 7+ either never reaches this line in production, or the application is pinned to PHP 5).
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches `.php` files where `preg_replace()` or `preg_filter()` is given a pattern literal whose closing delimiter (any delimiter, including `{}` pairs) is followed only by valid PCRE modifiers that include `e`. The pattern may be inline, on the next lines of a call broken across lines, in an array of patterns, or in a variable assigned within the 15 lines above. Not flagged: `preg_replace_callback()`, patterns such as `'/edit/'` whose trailing text is not a modifier list, and the call inside a comment or string literal.
 

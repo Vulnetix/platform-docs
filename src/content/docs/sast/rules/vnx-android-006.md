@@ -29,7 +29,7 @@ This rule examines `<string>` and `<item type="string">` elements in Android val
 
 When a credential is placed in `strings.xml`, it is compiled verbatim into the APK's `resources.arsc` file. Anyone who downloads or decompiles the APK, using freely available tools such as `apktool`, `jadx`, or `dex2jar`, can extract every string resource in seconds. This vulnerability maps to CWE-798 (Use of Hard-coded Credentials).
 
-## Why This Matters
+## Why this matters
 
 APK decompilation is trivial. Android applications are distributed as ZIP archives containing DEX bytecode and compiled resources. A credentialed attacker requires no reverse engineering skills beyond running `apktool d app.apk` to recover all string resources, including API keys, cloud service credentials, and third-party SDK tokens. Entire GitHub repositories exist specifically to collect API keys extracted from published APKs.
 
@@ -37,7 +37,7 @@ The consequences depend on what service the credential accesses. A leaked Fireba
 
 The correct approach is never to include long-lived credentials in client-side code. Credentials that must be present at runtime should be fetched from a server-side endpoint after authenticating the user, or injected via the CI/CD pipeline as `BuildConfig` fields from secrets manager-backed environment variables, and even then only for credentials that can be safely scoped to the build artifact.
 
-## What Gets Flagged
+## What gets flagged
 
 ```xml
 <resources>

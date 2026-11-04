@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to `pickle.load()`, `pickle.loads()`, `cPickle.load()`, and `cPickle.loads()`. The Python pickle format is a bytecode stream for a stack-based virtual machine. When Python deserializes a pickle stream it executes the bytecode, which means a malicious pickle payload can run arbitrary Python code, including importing modules, calling functions, and executing system commands, before your application logic ever sees the data. There is no option to safely load an untrusted pickle. This maps to [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html).
 
-## Why This Matters
+## Why this matters
 
 Pickle-based remote code execution is trivial to exploit. An attacker only needs to craft a Python object that implements `__reduce__` returning a callable and arguments. When Python deserializes this object it calls the callable automatically:
 
@@ -45,7 +45,7 @@ payload = pickle.dumps(Exploit())
 
 This payload is only a few bytes and trivially embeds in any data channel that uses pickle: file uploads, API responses, Redis cache entries, message queue messages, or ML model files. Unlike SQL injection or XSS, there is no input validation or escaping that makes pickle safe, the code executes before you can inspect the data.
 
-## What Gets Flagged
+## What gets flagged
 
 A call to `load()`, `loads()` or `Unpickler()` of `pickle`, `cPickle`, `_pickle`, `dill` or `cloudpickle`, through the module, an `import pickle as pkl` alias (a dotted path such as `import six.moves.cPickle as pk` included), or a name imported with `from pickle import loads as unpickle`; and `jsonpickle.decode()` without `safe=True`.
 

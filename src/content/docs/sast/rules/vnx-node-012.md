@@ -29,13 +29,13 @@ This rule detects DOM-based XSS sinks that the other two XSS rules do not own: j
 
 Each sink is reported once, by the rule that owns it: an assignment to `.innerHTML` or `.outerHTML` is reported by [VNX-NODE-027](/sast/rules/vnx-node-027/) in every file type, and `insertAdjacentHTML`, `document.write` and `dangerouslySetInnerHTML` in a JavaScript or TypeScript file by [VNX-NODE-005](/sast/rules/vnx-node-005/), not here. When the content is dynamic, fetched from an API, derived from URL parameters, read from `localStorage`, or received from a WebSocket, an attacker who can influence that content can inject `<script>` tags or inline event handlers that execute in the victim's browser. This is CWE-79 (Improper Neutralization of Input During Web Page Generation, Cross-site Scripting).
 
-## Why This Matters
+## Why this matters
 
 DOM-based XSS is particularly subtle because the malicious payload never reaches the server, it exists entirely in the client-side code path and may not be detected by server-side WAFs or input validation. An attacker can craft a URL with a fragment or query parameter that a JavaScript-heavy application reads and injects into the DOM. The payload steals session cookies, reads `localStorage` tokens, silently submits forms, or injects persistent content into the page.
 
 `document.write()` is especially dangerous because it can completely replace the page content after load, and its usage in modern applications is almost always a legacy anti-pattern. Vue's `v-html` is the framework-specific equivalent of `innerHTML`, it bypasses Vue's built-in template XSS protections and must only be used with pre-sanitized content.
 
-## What Gets Flagged
+## What gets flagged
 
 The value written as HTML must read a DOM source, build markup by splicing in a non-literal, or be a property of response data. For the framework raw-HTML bindings any non-constant expression is reported.
 

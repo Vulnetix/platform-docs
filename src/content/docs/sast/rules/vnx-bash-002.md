@@ -29,7 +29,7 @@ This rule reports a shell script that runs code it has just downloaded with `cur
 
 This pattern downloads content from a remote URL and immediately executes it in the current shell session. There is no opportunity to inspect the script, verify its cryptographic signature, or check its hash against a known-good value. Any compromise of the remote server, CDN, DNS record, or network path (MITM) results in arbitrary command execution on the host running the script. This vulnerability maps to CWE-494 (Download of Code Without Integrity Check) and CWE-829 (Inclusion of Functionality from Untrusted Control Sphere).
 
-## Why This Matters
+## Why this matters
 
 The `curl | bash` pattern is used extensively in software installation documentation and CI/CD setup scripts, which makes it feel normal, but normalisation does not eliminate the risk. In 2018, the `event-stream` npm package was compromised to steal Bitcoin wallets by an attacker who had been granted maintainer access. In 2021, the Codecov breach allowed attackers to modify a bash installer script (`bash <(curl -s https://codecov.io/bash)`) to exfiltrate environment variables, including CI secrets, from thousands of organisations including Twitch, HashiCorp, and Confluent.
 
@@ -37,7 +37,7 @@ The attack surface is broad: DNS hijacking, BGP hijacking, CDN compromise, TLS c
 
 CAPEC-310 (Scanning for Vulnerable Software) and T1059.004 (Unix Shell) are relevant: attackers actively look for CI/CD pipelines that use this pattern as an initial access vector.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 curl -fsSL https://get.example.com/install.sh | bash                    # FLAGGED

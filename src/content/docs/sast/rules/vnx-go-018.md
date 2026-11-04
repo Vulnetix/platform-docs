@@ -29,13 +29,13 @@ This rule detects calls to `os.WriteFile()`, `os.Create()`, or `ioutil.WriteFile
 
 Path traversal in file write operations is significantly more severe than path traversal in read operations. While a read traversal leaks data, a write traversal can achieve remote code execution by overwriting interpreted scripts, web server configuration, or process init files. CAPEC-139 (Relative Path Traversal) and MITRE ATT&CK T1083 (File and Directory Discovery) document the broader family of path manipulation techniques.
 
-## Why This Matters
+## Why this matters
 
 File upload handlers are a recurring source of path traversal vulnerabilities. A common pattern in Go web servers is to take a filename from a multipart form field, construct a path by joining it with an upload directory, and write the file. If the filename is used directly without sanitisation, a value such as `"../../etc/cron.d/backdoor"` will write outside the upload directory. Even without `../` sequences, an absolute path like `/etc/passwd` can overwrite critical system files if the process runs as root or with elevated privileges.
 
 Go's `filepath.Clean()` function resolves `.` and `..` elements and removes redundant separators, but it does not confine the result to a base directory. After cleaning, the path must be checked with `strings.HasPrefix(cleanedPath, baseDir)` or `filepath.Rel()` to confirm it remains within the intended directory. Forgetting the prefix check after calling `filepath.Clean()` is itself a common mistake.
 
-## What Gets Flagged
+## What gets flagged
 
 ```go
 // FLAGGED: user-supplied filename written directly to disk

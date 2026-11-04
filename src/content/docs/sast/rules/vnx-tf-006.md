@@ -31,7 +31,7 @@ IMDSv2 (the more secure version) requires a preliminary PUT request to obtain a 
 
 This rule corresponds to [CWE-918: Server-Side Request Forgery (SSRF)](https://cwe.mitre.org/data/definitions/918.html).
 
-## Why This Matters
+## Why this matters
 
 SSRF vulnerabilities allow an attacker to cause the server to make HTTP requests to arbitrary URLs. When IMDSv1 is enabled, an SSRF vulnerability in any application running on the EC2 instance can be used to retrieve IAM role credentials from `http://169.254.169.254/latest/meta-data/iam/security-credentials/<role-name>`. These temporary credentials can then be used from outside AWS to authenticate as the instance's IAM role.
 
@@ -39,7 +39,7 @@ This attack vector was used in the well-publicized 2019 Capital One data breach 
 
 IMDSv1 credentials theft is particularly insidious because the IAM credentials retrieved are temporary (typically valid for 6 hours) but automatically rotate, giving the attacker ongoing access as long as the SSRF vulnerability persists. The attack does not require any special AWS knowledge, the endpoint is well-documented and the exploitation steps are publicly available.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_instance" "api" {

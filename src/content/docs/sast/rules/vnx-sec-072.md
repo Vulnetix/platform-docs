@@ -29,7 +29,7 @@ This rule reports a literal assigned to a name that ends in a credential word (`
 
 It does not report values read from the environment or configuration, names that only contain a credential word (`TOKEN_URL`, `passwordField`, `secretName`, `tokenizer`, `nextPageToken`), comparisons, placeholders and low-entropy values (`YOUR_API_KEY...`, `0000...`, `changeme`, word phrases), dotted identifiers, lowercase word lists, `sha256-` integrity hashes, lowercase secret-store paths (`projects/p/secrets/db-password/versions/3`), comment lines, prose and HTML files, `examples/`, `samples/`, `demo/` and `docs/` directories, and test, fixture, vendored and generated files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 API_KEY = "<40 random letters and digits>"
@@ -47,7 +47,7 @@ API_KEY = os.environ["API_KEY"]
 TOKEN_URL = "https://auth.acme-corp.io/oauth2/v3/token"
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded generic high-entropy api key / secret values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

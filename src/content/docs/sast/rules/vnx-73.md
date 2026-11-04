@@ -29,11 +29,11 @@ VNX-73 maps to [CWE-73: External Control of File Name or Path](https://cwe.mitre
 
 Java path traversal (servlet and Spring request values reaching `new File`, `Paths.get`, `Files.*` and friends) is reported by [VNX-JAVA-009](/sast/rules/vnx-java-009/), and Node.js path traversal (`req.query`/`req.params`/`req.body` reaching `fs.*`, `res.sendFile` or `res.download`) by [VNX-NODE-010](/sast/rules/vnx-node-010/). This rule does not read those languages, so one path traversal is reported once.
 
-## Why This Matters
+## Why this matters
 
 When the caller chooses the path, they choose the file: `../../etc/passwd`, an absolute path, another tenant's upload, or for `include`/`require` a PHP file to execute. Reads leak secrets and source, writes and deletes corrupt or destroy data.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 return send_file(request.args.get("path"))

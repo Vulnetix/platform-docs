@@ -29,13 +29,13 @@ This rule detects calls to `res.writeHead()`, `res.setHeader()`, and `res.header
 
 CSP does not prevent XSS from occurring, it is a defense-in-depth control that limits the impact of XSS that does occur. A strict CSP that prohibits inline scripts and restricts script sources to trusted domains prevents the most common post-XSS actions (data exfiltration, credential harvesting) by blocking the injected script from making outbound requests or loading attacker-controlled resources. This vulnerability is classified as CWE-693 (Protection Mechanism Failure).
 
-## Why This Matters
+## Why this matters
 
 Modern browser security models rely on security headers as a key layer of defense. The absence of a CSP means that if any XSS vulnerability exists elsewhere in the application (or in a third-party script), the attacker's injected code operates with unrestricted capabilities: it can load arbitrary external scripts, exfiltrate data to any domain, inject UI elements, or redirect the page. CSP reports (via `report-uri` or `report-to`) also provide runtime visibility into XSS attempts, which is lost without the header.
 
 Regulators and security auditors (PCI-DSS, SOC 2 assessors) increasingly flag missing security headers as findings. Bug bounty programs typically accept missing CSP on sensitive pages as a valid low-to-medium severity report. Implementing CSP is a high-leverage control that pays dividends across all XSS vectors simultaneously.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: the express() line, when the project renders or serves HTML

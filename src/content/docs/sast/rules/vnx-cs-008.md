@@ -29,7 +29,7 @@ This rule reports the URL argument of an `HttpClient` method (`GetAsync`, `GetSt
 
 Server-Side Request Forgery (SSRF) occurs when a server-side component makes an HTTP request to a URL that is fully or partially controlled by an external party. The request originates from the server rather than from the client's browser, so it carries the server's network identity and access credentials. This allows attackers to reach internal services, cloud metadata endpoints, and other resources that are not directly accessible from the internet.
 
-## Why This Matters
+## Why this matters
 
 SSRF is a critical vulnerability class that entered the OWASP Top 10 as its own category (A10:2021) due to its prevalence in cloud-hosted applications. In cloud environments, the instance metadata service (IMDS) endpoint at `169.254.169.254` is accessible from every EC2, Azure VM, and GCP instance. An SSRF vulnerability allows an attacker to reach this endpoint and retrieve instance metadata including IAM role credentials, which can be used to access AWS S3 buckets, DynamoDB tables, and other services with the instance's permissions.
 
@@ -37,7 +37,7 @@ Beyond cloud credential theft, SSRF can be used to port-scan internal networks (
 
 Real-world SSRF exploits include the 2019 Capital One breach, where an SSRF vulnerability in a WAF allowed access to AWS metadata credentials, resulting in the exposure of over 100 million customer records. This maps to CAPEC-664 and ATT&CK T1090.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: HttpClient.GetAsync with variable URL from request parameter

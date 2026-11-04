@@ -29,13 +29,13 @@ This rule detects `exec.Command` and `exec.CommandContext` calls (including `gol
 
 > **Go idiom note:** Passing arguments as separate parameters to `exec.Command` IS the idiomatic Go default. The `os/exec` package was designed to avoid shell invocation entirely, using `fmt.Sprintf` to construct a combined command string is an anti-pattern that goes against the package's design. The secure approach is also the natural one.
 
-## Why This Matters
+## Why this matters
 
 OS command injection gives an attacker direct access to the host operating system under the same privileges as the running process. In a cloud or container environment that typically means the ability to read secrets from environment variables or mounted volumes, exfiltrate data, install backdoors, move laterally to other services on the same network, or destroy data. Unlike SQL injection, which is constrained to the database, command injection exposes the entire host. The risk is amplified in Go services that accept external input (web handlers, gRPC services, CLIs) because Go programs often run with elevated container or system privileges.
 
 OWASP ASVS v4.0 requirement **V5.2.2** requires that unstructured data be sanitized to enforce safety measures such as allowed characters and length. For OS command construction, the only reliable enforcement is to never construct a shell string at all.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires when `exec.Command` or `exec.CommandContext` starts a shell (`sh`, `bash`, `zsh`, `cmd`, `powershell`, `pwsh`...) with `-c`, `/C` or `-Command` and the script is built with `fmt.Sprintf` or `+`, read from the request, or held in a variable assigned from one of those a few lines up. A call broken over several lines is read as one. It also fires when the program name itself is formatted or request-supplied. A formatted value passed as its own argument to a fixed program (`exec.Command("git", "log", fmt.Sprintf(...))`) is not reported: no shell parses it. Nor is a value passed as a positional parameter (`sh -c 'grep "$1" f' sh value`) or quoted with `shellescape.Quote`. A script whose only formatted pieces are integers (`fmt.Sprintf("kill -0 %d", pid)`, `strconv.Itoa`) is not reported either: an integer cannot carry shell syntax.
 

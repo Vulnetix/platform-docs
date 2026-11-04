@@ -27,13 +27,13 @@ generated: true
 
 This rule detects GCP API keys matching the `AIza[0-9A-Za-z\-_]{35}` pattern in source files. GCP API keys are simple credentials used to call Google APIs such as Maps, Places, YouTube, Vision, and Translation. Unlike service account keys, they do not authenticate as a specific identity, but they do authorize API calls that may incur costs or expose data. An unrestricted GCP API key found in a public repository can lead to significant billing fraud and data exfiltration.
 
-## Why This Matters
+## Why this matters
 
 GCP API keys have been abused extensively to run up fraudulent bills against the key owner's account. There are documented cases of developers committing Google Maps API keys to public GitHub repositories only to find tens of thousands of dollars in unexpected charges days later as bots discovered and exploited the keys for geocoding, translation, or other paid API calls. Some GCP APIs also expose sensitive data, a leaked Vision API key can be used to analyze images at your expense, or a Firebase key may expose real-time database access.
 
 Because GCP API keys do not expire and are not tied to a user identity, detecting their unauthorized use requires careful review of GCP Console logs. The key remains usable until it is explicitly deleted or restricted.
 
-## What Gets Flagged
+## What gets flagged
 
 A standalone 39-character token, `AIza` followed by 35 URL-safe base64 characters, in any file: script URLs (`?key=AIza...`), Android string resources, Firebase web configuration, Java constants, request parameters and `.env` files.
 

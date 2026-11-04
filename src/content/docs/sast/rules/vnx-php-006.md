@@ -27,13 +27,13 @@ generated: true
 
 This rule flags calls to `unserialize()` and `maybe_unserialize()` (a WordPress helper) where the input comes from user-controlled superglobals (`$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`), inline or through a variable assigned from one, unless `allowed_classes` restricts object creation. PHP's serialization format can encode arbitrary object graphs; when `unserialize()` processes attacker-supplied data, it instantiates PHP objects and calls their `__wakeup()` and `__destruct()` magic methods during the deserialization process, before any application logic has a chance to validate the result. This maps to [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html).
 
-## Why This Matters
+## Why this matters
 
 PHP Object Injection (POI) is a code execution primitive that does not require a file write or a file inclusion vulnerability. An attacker constructs a serialized string that, when deserialized, instantiates objects from classes already loaded in the application. By chaining together classes whose `__wakeup()`, `__destruct()`, `__toString()`, or other magic methods perform dangerous operations, writing files, executing commands, making HTTP requests, the attacker assembles a "gadget chain" that executes arbitrary code when the string is deserialized.
 
 Ready-made gadget chains exist for virtually every major PHP framework and CMS. Tools like `phpggc` (PHP Generic Gadget Chains) automate the generation of exploit payloads targeting Symfony, Laravel, WordPress, Zend/Laminas, Yii, Magento, and Drupal. If your application uses any of these frameworks and calls `unserialize()` on untrusted data, it is almost certainly exploitable without any further preconditions.
 
-## What Gets Flagged
+## What gets flagged
 
 A call whose deserialised value is a request value, inline (optionally wrapped in a decoding function) or through a variable assigned from one a few lines above, with no `allowed_classes` option that disables or restricts object creation.
 

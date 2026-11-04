@@ -31,7 +31,7 @@ The core danger is that deserialisation with these types is effectively a code-e
 
 Microsoft has marked `BinaryFormatter` obsolete (SYSLIB0011) in .NET 5+ and disabled it by default in .NET 7+. Applications still using these types are carrying a high-severity known-unsafe dependency.
 
-## Why This Matters
+## Why this matters
 
 Insecure deserialization has been in the OWASP Top 10 since 2017 and has produced some of the most severe vulnerabilities in widely used .NET software. CVE-2019-1391 (Microsoft SharePoint), CVE-2020-0688 (Microsoft Exchange), and dozens of Jenkins, Jira, and WebLogic CVEs all exploited unsafe deserialisation to achieve Remote Code Execution without authentication. The attack surface is particularly dangerous in middleware: any application that deserialises objects from HTTP request bodies, cookies, view state, distributed caches, or message queues is potentially reachable by an attacker who has no other foothold on the system.
 
@@ -39,7 +39,7 @@ Insecure deserialization has been in the OWASP Top 10 since 2017 and has produce
 
 `JavaScriptSerializer` with a custom `JavaScriptTypeResolver` can reconstruct arbitrary types from JSON, similar to `BinaryFormatter`. Even without a type resolver, using these serialisers for untrusted input is considered unsafe in modern .NET security guidance.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: the Deserialize call on a BinaryFormatter (constructing one to Serialize is not reported)

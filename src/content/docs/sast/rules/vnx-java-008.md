@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Java code that reads a URL or hostname from a servlet request parameter (`request.getParameter`, `req.getParameter`) and immediately uses it to construct a `java.net.URL`, `URI`, `HttpURLConnection`, Spring `RestTemplate` call, or Spring `WebClient` request. When the destination of a server-side HTTP request is attacker-controlled, the result is Server-Side Request Forgery (CWE-918): the attacker can use the application as a proxy to reach internal services that are not directly accessible from the internet.
 
-## Why This Matters
+## Why this matters
 
 In cloud-hosted environments (AWS, GCP, Azure), the instance metadata service is reachable at a well-known address (`169.254.169.254` for AWS IMDSv1). A single SSRF request to `http://169.254.169.254/latest/meta-data/iam/security-credentials/` returns the IAM role name; a follow-up request returns temporary AWS credentials with whatever permissions the role holds. The 2019 Capital One breach, which exposed over 100 million customer records, began with an SSRF vulnerability in a WAF that allowed an attacker to extract IAM credentials from the EC2 metadata service.
 
 Beyond cloud metadata, SSRF can be used to reach internal microservices that trust requests from within the VPC (authentication bypasses), interact with services on `localhost` that are not exposed externally (Redis, Memcached, Elasticsearch, internal admin panels), perform port scanning of the internal network, and in some configurations exploit services speaking non-HTTP protocols via `gopher://`, `ftp://`, or `file://` schemes.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `new URL()`, RestTemplate `getForObject`/`getForEntity`/`exchange`..., `WebClient.create()`/`baseUrl()`/`uri()`, `HttpRequest.newBuilder()`, Apache `new HttpGet(...)`, OkHttp `Request.Builder().url()`, `Jsoup.connect()` and `new Socket(host, ...)` when the URL or host reads the request, is a `@RequestParam`/`@PathVariable`/`@RequestHeader`/`@RequestBody` parameter, or is a variable assigned from one through up to two intermediate assignments within the 40 lines above. It does not report a URL with a fixed scheme and host in front (`"https://catalog.example/items/" + id`), a value checked by a host allowlist or `startsWith` guard first, configured URLs, or a URL handed in as a plain method parameter. Building a `URI` alone is not a request and is not reported. `JdbcTemplate.execute(sql)` (any receiver named like `jdbc` or `sql`) runs a database statement, not an HTTP request, so it is not reported here even though its name matches the RestTemplate pattern; SQL built from the request there is reported by [VNX-JAVA-003](/sast/rules/vnx-java-003/).
 

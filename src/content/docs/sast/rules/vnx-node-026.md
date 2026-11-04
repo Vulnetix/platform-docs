@@ -31,7 +31,7 @@ The key difference from `execFile()` is that `spawn()` by default accepts a sepa
 
 This is a subtle but serious footgun: developers often add `shell: true` to work around quoting issues or to enable shell features like environment variable expansion, without realising it opens a command injection path.
 
-## Why This Matters
+## Why this matters
 
 Command injection via `shell: true` has the same impact as any other OS command injection, arbitrary code execution with the privileges of the Node.js process. The risk is compounded because `spawn()` with `shell: true` is often used in code that is otherwise well-structured (using argument arrays), giving the false impression that it is safe.
 
@@ -39,7 +39,7 @@ In practice, even "safe-looking" argument arrays are not safe when `shell: true`
 
 CI/CD pipelines, developer tooling, and build systems are the highest-risk areas. These applications frequently invoke external commands and sometimes accept repository names, branch names, or user-provided parameters that are passed to those commands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 const { spawn } = require('child_process');

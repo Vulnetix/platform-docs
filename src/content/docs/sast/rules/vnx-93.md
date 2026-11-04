@@ -33,11 +33,11 @@ VNX-93 maps to [CWE-93: Improper Neutralization of CRLF Sequences ('CRLF Injecti
 
 Request data can be used inline, interpolated, or through a variable assigned from it in the 25 lines above. Not reported: values passed through CR/LF replacement, `filter_var`/`FILTER_VALIDATE_EMAIL` or an encoding call, values validated before use, request data only in a mail body, Python `EmailMessage` (its default policy rejects CR/LF in headers), and lines that write a response body or a log. HTTP response headers are covered by VNX-GO-012, VNX-JAVA-017 and VNX-644.
 
-## Why This Matters
+## Why this matters
 
 Mail headers and line protocols such as SMTP end each header or command with CRLF. A request value containing `%0d%0a` ends the line early, so the attacker adds `Bcc:` recipients to a contact form (turning it into a spam relay), changes the sender, or issues further SMTP commands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 <?php

@@ -31,7 +31,7 @@ Cipher Block Chaining (CBC) mode encrypts each plaintext block by XORing it with
 
 Authenticated Encryption with Associated Data (AEAD) modes such as AES-GCM combine encryption and a Message Authentication Code (MAC) in a single operation, making any ciphertext modification detectable before decryption. Using AES-GCM instead of AES-CBC eliminates both padding oracle attacks and bit-flipping.
 
-## Why This Matters
+## Why this matters
 
 Padding oracle attacks have been exploited in practice against a wide range of systems, including ASP.NET ViewState (POET), Oracle PeopleSoft, and numerous custom implementations that used CBC mode with PKCS#7 padding and exposed error information through timing differences or distinct error messages. The attack requires only that the application behave differently for valid versus invalid padding, a property that is difficult to eliminate in CBC-based systems.
 
@@ -39,7 +39,7 @@ Bit-flipping attacks against CBC are relevant wherever encrypted data influences
 
 Switching to AES-GCM eliminates both attack classes and is supported natively by PHP's OpenSSL extension with no additional dependencies.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: AES-CBC used with openssl_encrypt()

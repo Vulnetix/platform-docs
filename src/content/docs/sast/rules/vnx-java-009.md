@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Java file-access code, `new File(...)`, `new FileInputStream(...)`, `new FileReader(...)`, `Paths.get(...)`, and `Files.readAllBytes(Paths.get(...))`, where the path argument is sourced directly from `request.getParameter()` or `req.getParameter()` without validation or canonicalization. An attacker can supply `../` sequences to escape the intended directory and access arbitrary files on the server's filesystem. This is path traversal, CWE-22.
 
-## Why This Matters
+## Why this matters
 
 Path traversal is a direct path to sensitive file disclosure. On a typical Linux-hosted Java application, an attacker submitting `filename=../../../../etc/passwd` can retrieve the system password file. More targeted inputs like `../../../../home/app/.ssh/id_rsa` (private SSH keys), `../../../../opt/app/application.properties` (database credentials), or `../../../../proc/self/environ` (environment variables containing secrets injected at deployment time) can provide everything needed for lateral movement.
 
 Write variants are even more dangerous: an attacker able to supply a path to a `FileOutputStream` or `FileWriter` call can overwrite the application's configuration files, inject a JSP web shell into the webroot, or corrupt critical system files. Combined with a file upload endpoint, path traversal enables persistent code execution.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the file or path call whose argument carries request data: a servlet request value, `MultipartFile.getOriginalFilename()`, a Spring or JAX-RS annotated handler parameter, or a local assigned from one up to five assignments earlier in the same method (the look-back stops at the method declaration, at most 120 lines up). Paths checked with `startsWith` after normalising or canonicalising, names tested for `..`, names reduced with `FilenameUtils.getName` or converted to numbers, and request bodies written as file content are not reported.
 

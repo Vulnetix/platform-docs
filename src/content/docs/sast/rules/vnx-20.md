@@ -27,11 +27,11 @@ generated: true
 
 VNX-20 maps to [CWE-20: Improper Input Validation](https://cwe.mitre.org/data/definitions/20.html). It reports the concrete, recognisable form of the weakness: the project has declared its validation rules, but the code that should act on the result never does, so invalid input is processed as if it had passed.
 
-## Why This Matters
+## Why this matters
 
 Validation annotations, schemas and validator chains look like protection in review. When their result is dropped, nothing is rejected: a negative quantity, an oversized string or a missing required field reaches the business logic and the database. Every later control that assumed validated input is then wrong.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // BindingResult declared, never read before the next method

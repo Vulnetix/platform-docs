@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a Telegram Bot API token: the bot's numeric id (8 to 10 digits), a colon and the 35-character secret that begins `AA`, quoted, assigned, inside an `api.telegram.org/bot<token>/` URL or in a `.env` file. The token is redacted in the finding's snippet.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded telegram bot api token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: token passed to the bot framework

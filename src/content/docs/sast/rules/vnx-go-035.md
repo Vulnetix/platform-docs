@@ -29,13 +29,13 @@ This rule flags any `http.Cookie` struct literal in Go source code that does not
 
 The flag has been supported by every major browser since 2009 and carries no functional cost for server-side session management. Its absence is almost always an oversight rather than a deliberate decision, making it a high-signal, low-noise indicator of a security gap.
 
-## Why This Matters
+## Why this matters
 
 Cross-site scripting remains one of the most prevalent vulnerabilities in web applications. When an attacker can execute arbitrary JavaScript in a victim's browser context, whether via a stored, reflected, or DOM-based XSS, the first action is typically to exfiltrate `document.cookie`. A session cookie without `HttpOnly` is directly readable, allowing the attacker to replay the cookie from another machine and hijack the session without ever obtaining the user's password.
 
 This pattern is actively exploited in the wild. Browser extensions, injected third-party scripts, and supply-chain compromises of JavaScript dependencies can all read non-`HttpOnly` cookies silently. The `HttpOnly` flag does not prevent all XSS damage, but it eliminates the most common and most immediately impactful consequence: session hijacking. Even applications that believe they have no XSS vulnerabilities benefit from defence-in-depth, because new XSS vectors are regularly discovered in frameworks and libraries. CAPEC-63 (Simple Script Injection) describes the attack pattern this flag directly mitigates.
 
-## What Gets Flagged
+## What gets flagged
 
 A cookie sent to the browser without `HttpOnly`, or with it turned off:
 

@@ -29,13 +29,13 @@ This rule flags `tls.Config` struct literals or assignments where `MinVersion` o
 
 Go's `crypto/tls` package defaults to `tls.VersionTLS12` as `MinVersion` since Go 1.18, but explicitly setting the minimum to an older version overrides this safe default and creates a regression that may go unnoticed in code review.
 
-## Why This Matters
+## Why this matters
 
 TLS 1.0 and TLS 1.1 rely on cipher constructions and negotiation mechanisms that are no longer considered safe. BEAST (Browser Exploit Against SSL/TLS) exploits a CBC-mode IV predictability issue in TLS 1.0 that allows session cookie decryption. POODLE (Padding Oracle On Downgraded Legacy Encryption) attacks SSLv3 but a variant affects TLS 1.0's CBC ciphersuites. Both attacks require an active network position (man-in-the-middle or on the same network segment), but coffee-shop Wi-Fi and cloud shared-tenancy environments make this a realistic threat model for web applications.
 
 Beyond direct cryptographic attacks, TLS 1.0 and 1.1 lack support for secure cipher suites available in TLS 1.2 (AEAD ciphers such as AES-GCM and ChaCha20-Poly1305) and TLS 1.3 (which eliminates all non-AEAD options entirely). PCI-DSS 3.2 made TLS 1.2 the minimum mandatory version for all payment processing environments. Major browsers (Chrome, Firefox, Safari, Edge) have removed support for TLS 1.0 and 1.1. Continuing to allow these versions primarily serves legacy clients that represent a negligible fraction of modern traffic while materially increasing risk. MITRE ATT&CK T1068.003 covers exploitation of weakened cryptographic configurations.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires on `tls.Config` fields that reference deprecated version constants.
 

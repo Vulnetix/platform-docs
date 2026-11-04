@@ -29,7 +29,7 @@ This rule flags Go code where `gob.NewDecoder` reads an HTTP request body or an 
 
 > **Go idiom note:** Using `encoding/json` with `io.LimitReader` for HTTP request bodies IS the idiomatic Go default for public-facing APIs. Using `encoding/gob` to decode untrusted network input is NOT idiomatic and requires explicit justification. The secure approach, JSON with a size limit, is the standard Go HTTP handler pattern.
 
-## Why This Matters
+## Why this matters
 
 Unlike JSON or Protocol Buffers, gob encodes full Go type information in the stream. A crafted gob payload can force the decoder to allocate very large slices, deeply nested maps, or recursive pointer structures that exhaust available memory or stack space. Because the Go runtime doesn't impose a default decode-size limit, a single malicious request can take down the entire process. Gob also silently populates unexported fields and interface values in ways that may violate application invariants, potentially leading to logic bugs or authorization bypasses.
 
@@ -37,7 +37,7 @@ OWASP ASVS v4.0 requirement **V5.5.3** prohibits deserialization of untrusted da
 
 Neither `go vet` nor `staticcheck` detect this pattern directly, it requires semantic analysis of the data source feeding the decoder, making this a valuable additional check.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `gob.NewDecoder` when its reader is client-controlled: an HTTP request body (`*http.Request.Body` under any parameter name, gin's `c.Request.Body`, echo's `c.Request().Body`, fiber's `c.Body()`, fasthttp's `ctx.PostBody()`) or a connection returned by `Listener.Accept`, either directly or through a variable assigned from it in the same function.
 

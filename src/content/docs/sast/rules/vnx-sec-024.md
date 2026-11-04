@@ -27,7 +27,7 @@ generated: true
 
 This rule detects JavaScript and TypeScript code that stores authentication tokens (access tokens, refresh tokens, ID tokens) in the browser's `localStorage`. While `localStorage` is convenient, it is accessible to **any** JavaScript running on the page, including scripts injected via Cross-Site Scripting (XSS) attacks. A single XSS vulnerability anywhere in your application or its third-party dependencies allows an attacker to exfiltrate all tokens stored in `localStorage`.
 
-## Why This Matters
+## Why this matters
 
 Storing OAuth tokens in `localStorage` creates a direct path from XSS to account takeover:
 
@@ -37,7 +37,7 @@ Storing OAuth tokens in `localStorage` creates a direct path from XSS to account
 - **Refresh tokens are especially dangerous.** If a refresh token is stolen, the attacker can mint new access tokens indefinitely, surviving even password changes
 - **Regulatory implications.** GDPR, SOC 2, and PCI DSS all require appropriate protection of authentication credentials; `localStorage` does not meet this bar
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // Flagged: the key names a token

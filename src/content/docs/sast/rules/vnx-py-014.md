@@ -27,7 +27,7 @@ generated: true
 
 This rule flags XML parsers that are configured, or used, so that they resolve external entities: a SAX parser with `feature_external_ges`/`feature_external_pes` switched on (which minidom and pulldom then inherit), an lxml `XMLParser(resolve_entities=True)` or `no_network=False`, `xmltodict.parse(..., disable_entities=False)`, and lxml `etree.fromstring`/`XML`/`parse` given request data with no explicit parser. The standard library's `xml.etree`, `minidom` and `sax` parsers with their defaults are not reported, because current Python does not fetch external entities with them. When an XML parser processes an external entity declaration (`<!ENTITY xxe SYSTEM "file:///etc/passwd">`), it fetches and substitutes the referenced resource. This allows an attacker who can provide XML input to read arbitrary local files, probe internal network services, or cause denial of service via entity expansion. This maps to [CWE-611: Improper Restriction of XML External Entity Reference](https://cwe.mitre.org/data/definitions/611.html).
 
-## Why This Matters
+## Why this matters
 
 XXE is a serious vulnerability because it allows attackers to read files outside the web root using only a crafted XML document. In a typical attack the payload looks like:
 
@@ -48,7 +48,7 @@ When parsed without XXE protections, the server substitutes the contents of `/et
 
 Python's `xml.etree.ElementTree` documentation states it is not secure against maliciously constructed data, but on current Python its default parsers do not fetch external entities; entity expansion (billion laughs) remains a separate denial-of-service concern that this rule does not cover. External entities become reachable when a parser is explicitly configured to resolve them, or with lxml's default parser on older releases.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: SAX external entities switched on (minidom/pulldom inherit this)

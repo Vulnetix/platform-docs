@@ -29,7 +29,7 @@ This rule flags instances where file upload functionality is implemented using G
 
 This maps to [CWE-434: Unrestricted Upload of File with Dangerous Type](https://cwe.mitre.org/data/definitions/434.html).
 
-## Why This Matters
+## Why this matters
 
 File upload functionality is a common feature in web applications, but it presents significant security risks if not properly implemented. Without file type validation, attackers can upload:
 - Malicious scripts (.php, .py, .sh) that can be executed on the server
@@ -39,7 +39,7 @@ File upload functionality is a common feature in web applications, but it presen
 
 These vulnerabilities can lead to remote code execution, data theft, server compromise, or use of the server as a malware distribution point.
 
-## What Gets Flagged
+## What gets flagged
 
 A handler that receives an uploaded file and saves it under the name the client sent, with no check anywhere in the handler of what kind of file it is.
 

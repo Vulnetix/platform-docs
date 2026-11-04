@@ -31,7 +31,7 @@ This rule detects GraphQL servers where introspection is explicitly enabled (`in
 
 **OWASP ASVS v4:** V13.4.1, Verify that a query allowlist or a combination of depth limiting and amount limiting is in place for GraphQL APIs, and that introspection is disabled in production environments.
 
-## Why This Matters
+## Why this matters
 
 Attackers routinely send introspection queries as an early reconnaissance step against any GraphQL endpoint they discover. With the full schema, an attacker immediately knows:
 
@@ -42,7 +42,7 @@ Attackers routinely send introspection queries as an early reconnaissance step a
 
 Tools like [graphql-voyager](https://github.com/graphql-kit/graphql-voyager) and [InQL](https://github.com/doyensec/inql) are specifically designed to visualise and attack GraphQL APIs using introspection results. Even after disabling introspection, note that **field suggestion** (covered separately in VNX-GQL-004) can still allow schema enumeration, both controls should be applied together.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: introspection: true in Apollo Server config

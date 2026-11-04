@@ -31,7 +31,7 @@ This rule flags `headers().disable()`, `frameOptions().disable()`, `httpStrictTr
 
 The `X-Frame-Options` header is the primary defence against clickjacking: it prevents the application from being embedded in an `<iframe>` on a third-party page. Without it, an attacker can overlay an invisible iframe of the legitimate application over a deceptive page, tricking users into performing authenticated actions (transferring funds, changing account settings, approving access) without their knowledge.
 
-## Why This Matters
+## Why this matters
 
 Clickjacking attacks are difficult for users to detect because the malicious page looks entirely legitimate, the attacker's visible UI element is placed precisely over a hidden, transparent iframe of the target application. The user interacts with what appears to be a harmless button or link but is actually submitting an authenticated request to the target application.
 
@@ -39,7 +39,7 @@ When `headers().disable()` is used, the application also loses `Strict-Transport
 
 Spring Security's default header configuration is safe and suitable for most applications. The `headers().disable()` call is most often introduced by developers following outdated tutorials or copying configurations from non-security-sensitive internal tools. The fix is always to restore the default or configure the headers explicitly rather than disable them.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: X-Frame-Options explicitly disabled

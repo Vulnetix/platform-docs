@@ -29,7 +29,7 @@ This rule flags Go code that writes a zip or tar entry to a path built from the 
 
 > **Go idiom note:** Go's `archive/zip` and `archive/tar` packages do NOT sanitise entry names, this is documented behaviour, and the responsibility for path validation lies entirely with the calling code. There is no safe default: the secure pattern (validating with `filepath.Rel` or rejecting `..` components) must be implemented explicitly. This is NOT Go idiomatic by default because the standard library deliberately leaves the policy to the application.
 
-## Why This Matters
+## Why this matters
 
 Zip Slip was disclosed in 2018 and affected thousands of projects across every major language ecosystem. In Go, the standard `archive/zip` and `archive/tar` packages do not sanitise entry names, the application must validate them. A crafted archive with an entry named `../../../etc/cron.d/backdoor` will extract to that exact path if the extraction code blindly joins the entry name with a destination directory. Arbitrary file write typically leads directly to remote code execution.
 
@@ -37,7 +37,7 @@ OWASP ASVS v4.0 requirement **V12.5.2** requires that only explicitly allowed fi
 
 `go vet` does not detect this pattern. [staticcheck](https://staticcheck.dev/) does not have a dedicated Zip Slip check. Neither [`gosec`](https://github.com/securego/gosec) nor the Go compiler will warn about the missing validation step.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the line where an archive entry's name enters a destination path that is then written. Entries are a `*zip.File` from `range r.File` (or a `*zip.File` parameter) and a `*tar.Header` from `tr.Next()`; the name is `.Name` (or `.FileHeader.Name`), directly or through a variable assigned from it. The path is built with `filepath.Join`, `path.Join` or string concatenation and passed to `os.Create`, `OpenFile`, `Mkdir`/`MkdirAll`, `WriteFile`, `Symlink`, `Link`, `Rename` or `Chmod`. A tar entry's `Linkname` passed to `os.Symlink`/`os.Link` is reported too.
 

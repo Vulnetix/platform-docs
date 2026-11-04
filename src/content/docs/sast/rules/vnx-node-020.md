@@ -31,7 +31,7 @@ A non-random IV is catastrophic for stream ciphers and counter-based modes (CTR,
 
 The correct alternatives are `crypto.createCipheriv()` and `crypto.createDecipheriv()`, which accept an explicit IV. The IV must be generated with `crypto.randomBytes(ivLength)` for each encryption operation and transmitted alongside the ciphertext (the IV does not need to be secret).
 
-## Why This Matters
+## Why this matters
 
 Deterministic IV encryption breaks confidentiality at the protocol level regardless of key strength. An attacker does not need to break AES, they only need to obtain two ciphertexts encrypted with the same password (and therefore the same IV) and XOR them. For web applications this is easily achievable: encrypt the same plaintext twice to get a reference ciphertext and use it to decode other messages.
 
@@ -39,7 +39,7 @@ For AES-GCM, the consequences are worse. The GCM authentication tag is computed 
 
 The deprecation of `createCipher` is Node.js's own signal that this API is unsafe. Any code still using it is depending on functionality that is intentionally unavailable in modern Node.js versions.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: createCipher uses a deterministic IV derived from password

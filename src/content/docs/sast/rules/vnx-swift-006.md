@@ -31,7 +31,7 @@ Not reported: `arc4random()`, `arc4random_uniform()`, `arc4random_buf()`, `Syste
 
 This maps to [CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)](https://cwe.mitre.org/data/definitions/338.html).
 
-## Why This Matters
+## Why this matters
 
 Security properties of tokens, keys, nonces, and salts depend entirely on their unpredictability. A PRNG that is predictable, or one whose internal state can be reconstructed from observed outputs, allows an attacker to enumerate possible values, dramatically reducing the search space for brute-force attacks.
 
@@ -41,7 +41,7 @@ The attack is most impactful when a predictable PRNG is used to generate passwor
 
 Apple's `SecRandomCopyBytes` and the CryptoKit framework's `SymmetricKey` and `Nonce` types use the OS CSPRNG (`/dev/random` backed by the Secure Enclave) and are the correct choice for all security-sensitive random data generation on Apple platforms.
 
-## What Gets Flagged
+## What gets flagged
 
 ```swift
 // FLAGGED: libc rand() for a reset token

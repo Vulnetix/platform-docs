@@ -29,7 +29,7 @@ This rule reports a stack allocation whose size is decided at run time without a
 
 The core problem is that `alloca()` provides no way to detect or handle exhaustion of available stack space. If the requested size is large, whether due to a logic error, a large input, or attacker manipulation, the function silently adjusts the stack pointer past the end of the available stack, overwriting memory below the stack in process (typically memory belonging to other stack frames, signal handlers, or the kernel guard page). This either causes a crash or, in the absence of guard pages, corrupts adjacent stack data including return addresses and saved registers.
 
-## Why This Matters
+## Why this matters
 
 `alloca()` failures are silent and do not propagate as errors; code that calls `alloca()` and then uses the returned pointer has no way to detect that the allocation exceeded the available stack space. This is fundamentally different from `malloc()` which returns `NULL` on failure and allows the programmer to handle the error gracefully.
 
@@ -37,7 +37,7 @@ When the size passed to `alloca()` comes from external input, a packet length fi
 
 Even without explicit attacker control, `alloca()` is dangerous when called inside loops (stack usage grows with each iteration until function return) or in functions that are themselves called recursively. A deep call tree with `alloca()` at each level can exhaust the stack even with modest per-call sizes. This is CWE-1325 (Improperly Controlled Sequential Memory Allocation) as well as CWE-676.
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: size from the lengths of caller strings

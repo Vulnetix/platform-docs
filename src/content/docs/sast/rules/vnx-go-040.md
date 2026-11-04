@@ -29,13 +29,13 @@ This rule flags calls to the standard `log` package, `log/slog`, `zap`, `logrus`
 
 Sensitive data in logs is a persistent, silent risk: unlike a live API response, log data accumulates in files, is shipped to centralised aggregation platforms, archived to cold storage, and often retained for months or years.
 
-## Why This Matters
+## Why this matters
 
 Log infrastructure is rarely treated with the same security controls as credential storage systems. Log files are often world-readable on servers, replicated to insecure backup destinations, forwarded to cloud SIEM platforms with less granular access control, and visible to support engineers, DevOps personnel, and external contractors. A single `log.Printf("user %s authenticated with password %s", user, password)` statement can expose that password to dozens of people and systems that have no business need to see it.
 
 Beyond internal exposure, compliance frameworks including PCI-DSS (Requirement 3), HIPAA (§164.312), GDPR (Article 32), and SOC 2 (CC6.1) explicitly prohibit logging authentication credentials, payment card data, and other sensitive personal information. A log file containing passwords or card numbers can constitute a reportable data breach. Attackers who compromise a logging pipeline or SIEM gain access to an aggregated, searchable archive of credentials across all users and time periods, a far more valuable target than a single account compromise.
 
-## What Gets Flagged
+## What gets flagged
 
 A logging call whose arguments (not its message text) carry a secret:
 

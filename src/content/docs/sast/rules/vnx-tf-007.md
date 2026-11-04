@@ -31,7 +31,7 @@ A publicly accessible Kubernetes API server is a high-value target for several c
 
 This rule corresponds to [CWE-200: Exposure of Sensitive Information to an Unauthorized Actor](https://cwe.mitre.org/data/definitions/200.html).
 
-## Why This Matters
+## Why this matters
 
 The Kubernetes API server is the most sensitive component of any Kubernetes cluster. Every administrative action, deploying workloads, reading secrets, modifying RBAC policies, accessing pod logs, flows through the API server. An attacker who can authenticate to the API server (or exploit an unauthenticated vulnerability in it) has complete control over all workloads running on the cluster.
 
@@ -39,7 +39,7 @@ EKS clusters running production workloads frequently have Kubernetes Secrets con
 
 Public EKS endpoints face automated scanning that discovers new clusters within minutes. While AWS requires valid credentials to make most API calls, `kubectl` cluster CVEs (such as the path traversal vulnerability CVE-2018-1002105) have demonstrated that even partially unauthenticated access to a public API server can be leveraged to escalate privileges.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_eks_cluster" "main" {

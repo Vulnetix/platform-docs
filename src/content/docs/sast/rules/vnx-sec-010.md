@@ -27,7 +27,7 @@ generated: true
 
 This rule detects npm access tokens matching `npm_[0-9a-zA-Z]{36}` and PyPI upload tokens matching `pypi-AgEIcHlwaS5vcmc[0-9A-Za-z\-_]{50,}` (and the TestPyPI `pypi-AgENdGVzdC5weXBpLm9yZw` form) in any file, plus a literal `_authToken=` / `_auth=` / `_password=` value in `.npmrc` , `npmAuthToken:` or `npmAuthIdent:` in `.yarnrc.yml`, and a literal `password =` in `.pypirc`. Values read from the environment (`${NPM_TOKEN}`), placeholders, identifiers such as `npm_config_registry`, and test, fixture and vendored paths are not reported. These tokens authenticate publish operations to package registries. A compromised publish token allows an attacker to release a malicious version of any package the token owner controls, potentially affecting every downstream user of that package, a textbook supply chain attack mapped to MITRE ATT&CK T1195.002.
 
-## Why This Matters
+## Why this matters
 
 Package registry tokens are among the most dangerous credentials to expose because their impact extends far beyond the token owner. A single leaked npm publish token can be used to inject malicious code into a package that is downloaded by thousands or millions of developers and end users. The 2021 `ua-parser-js` and `coa` hijacking incidents demonstrated exactly this attack: malicious versions containing credential stealers were published to npm and downloaded hundreds of thousands of times before detection.
 
@@ -38,7 +38,7 @@ npm token types and their risk:
 - **Publish tokens**: Require 2FA for interactive use but allow publishing
 - **Read-only tokens**: Lower risk but still expose package metadata
 
-## What Gets Flagged
+## What gets flagged
 
 ```ini
 # FLAGGED: npm token hardcoded in .npmrc

@@ -31,7 +31,7 @@ LDAP injection is the directory-protocol equivalent of SQL injection. A filter l
 
 PHP's `ldap_escape()` function (added in PHP 5.6) provides correct escaping for both filter values (`LDAP_ESCAPE_FILTER`) and distinguished name components (`LDAP_ESCAPE_DN`). All user input must be passed through the appropriate escape function before insertion into LDAP filters.
 
-## Why This Matters
+## Why this matters
 
 LDAP injection in authentication flows allows attackers to log in as any user, including administrators, without knowing their password. This is particularly impactful in corporate environments where the LDAP directory is an Active Directory server that contains privileged accounts and group memberships.
 
@@ -39,7 +39,7 @@ Beyond authentication bypass, LDAP injection can be used to enumerate directory 
 
 Applications that use LDAP for address book lookups, user profile retrieval, or group-based authorisation are all vulnerable if they concatenate user input into filter strings. The attack requires no special tools, a simple browser or `curl` command is sufficient.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: username from POST concatenated into LDAP filter

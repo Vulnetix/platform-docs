@@ -29,7 +29,7 @@ This rule finds a release (`free(p)`, `g_free`, `kfree`, `vfree`, `kvfree`, `OPE
 
 Use-after-free occurs when a program frees a heap-allocated object and then accesses memory through the now-dangling pointer. After `free()` returns the memory to the allocator, the contents of that memory are undefined, the allocator may have modified them, a subsequent allocation may have reused the memory with different contents, or the memory may have been returned to the OS. Reading through a freed pointer yields unpredictable or attacker-influenced data; writing through one corrupts the heap.
 
-## Why This Matters
+## Why this matters
 
 Use-after-free vulnerabilities are among the most exploited memory safety bugs in modern software. Chrome, Firefox, the Linux kernel, and countless other production systems have had critical use-after-free CVEs. The reason they are so exploitable is that an attacker who can trigger a specific allocation between the `free()` and the subsequent access can control the contents of the freed memory, by allocating an object of their choice in the same heap slot, and influence the behaviour of the use through carefully crafted data.
 
@@ -37,7 +37,7 @@ In browsers and language runtimes, use-after-free bugs are routinely turned into
 
 The pattern is also a common source of security-relevant logic bugs even when not directly exploitable for code execution: reading freed memory can return credentials, session tokens, or other sensitive data that a previous allocation stored in that memory region.
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: node freed, then its next field read

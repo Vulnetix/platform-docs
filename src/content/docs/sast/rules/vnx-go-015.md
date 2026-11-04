@@ -27,7 +27,7 @@ This rule detects a positive `WaitGroup.Add()` call inside the `go func` literal
 
 The correct pattern is to call `wg.Add(n)` synchronously in the goroutine-launching code, before calling `go func()`, so that the counter is incremented before `Wait()` could possibly be called. The goroutine body then calls `defer wg.Done()` to decrement the counter when it finishes.
 
-## Why This Matters
+## Why this matters
 
 Race conditions in concurrency primitives are some of the hardest bugs to reproduce, because they depend on goroutine scheduling order which varies between runs, CPU counts, and system load. A `WaitGroup` misuse that works reliably on a developer laptop with one CPU may fail intermittently in production on a 64-core host or under high concurrency.
 
@@ -35,7 +35,7 @@ When `wg.Wait()` returns prematurely because the goroutine had not yet called `w
 
 Go's race detector (`go test -race`) will often surface this pattern, but only if the racy interleaving actually occurs during the test run, which is not guaranteed.
 
-## What Gets Flagged
+## What gets flagged
 
 ```go
 // FLAGGED: wg.Add() called inside the goroutine body

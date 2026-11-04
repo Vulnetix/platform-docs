@@ -29,7 +29,7 @@ This rule reports each GraphQL server constructed in JavaScript or TypeScript (`
 
 A project counts as mitigated when any of its files sets `hideSchemaDetailsFromClientErrors: true` (Apollo Server), uses GraphQL Armor (`ApolloArmor`, `EnvelopArmor`, `blockFieldSuggestions`), installs a disable-suggestions plugin, or rewrites "Did you mean" messages in a `formatError`/`maskError` hook. Error masking alone (`maskedErrors` in graphql-yoga) does not hide validation errors, so it is not counted. Test files, comments and string literals are not reported; servers in other languages are not covered.
 
-## Why This Matters
+## Why this matters
 
 Schema information is a reconnaissance asset for attackers. Many GraphQL deployments disable introspection in production to prevent automated schema dumping, but field suggestions bypass that control entirely: an attacker can enumerate the schema field by field by submitting slightly misspelled field names and reading the suggestions in the error responses. This technique is documented in GraphQL security research and is implemented in tools such as `clairvoyance`.
 
@@ -37,7 +37,7 @@ CAPEC-118 (Collect and Analyze Information) and MITRE ATT&CK T1592 (Gather Victi
 
 Disabling suggestions does not reduce functionality for legitimate users, it only affects what error messages reveal when a query contains a typo. Authenticated developer tooling should connect to non-production environments where suggestions can remain enabled.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: Apollo Server with default (suggesting) validation errors

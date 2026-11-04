@@ -31,7 +31,7 @@ A token hardcoded in source code is exposed to everyone who can access the repos
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 DigitalOcean infrastructure, Droplets, managed databases, Spaces object storage, App Platform deployments, often forms the backbone of production applications. A personal access token with full API scope allows an attacker to enumerate and access all of these resources, exfiltrate data from managed databases, delete or replace running Droplets, exfiltrate files from Spaces buckets, and spin up additional infrastructure at the account owner's expense for cryptocurrency mining or other malicious purposes.
 
@@ -39,7 +39,7 @@ Personal access tokens are particularly sensitive because DigitalOcean's API doe
 
 Because git history is permanent until actively rewritten, a token committed even briefly remains accessible to anyone with historical access to the repository. Automated secret scanning by malicious actors frequently targets public repositories within minutes of a push.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `dop_v1_` followed by exactly 64 lowercase hex characters, delimited on both sides, in any file:
 

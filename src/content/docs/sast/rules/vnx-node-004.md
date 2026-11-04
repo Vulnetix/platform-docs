@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Express applications, identified by the presence of `express()` in a file, that do not import or apply the `helmet` middleware. Helmet sets a collection of HTTP response headers that instruct browsers to enforce security policies: Content Security Policy, HTTP Strict Transport Security, X-Frame-Options, X-Content-Type-Options, and others. Without these headers, browsers apply permissive defaults that enable clickjacking, MIME-type sniffing attacks, cross-site scripting amplification, and protocol downgrade attacks. This maps to CWE-693 (Protection Mechanism Failure).
 
-## Why This Matters
+## Why this matters
 
 HTTP security headers are a browser-enforced second line of defence. If an attacker finds an XSS vector in your application, a strong Content Security Policy can prevent injected scripts from loading external payloads or exfiltrating data. Without `X-Frame-Options` or the frame-ancestors CSP directive, your login page can be embedded in an invisible iframe on an attacker's site and used to steal clicks or credentials (clickjacking). Without `Strict-Transport-Security`, a network-level attacker can downgrade HTTPS connections to HTTP on the first visit. Without `X-Content-Type-Options: nosniff`, a browser may execute a file uploaded as an image if it detects executable content, a classic polyglot attack.
 
 These are all issues that bypass server-side controls entirely; they are enforced, or not, by the browser. Helmet provides all of them in a single, well-maintained package with sensible defaults that you can tighten incrementally.
 
-## What Gets Flagged
+## What gets flagged
 
 The first `express()` application created in a file that imports `express`, when no file in the same package (the files under the nearest directory with a `package.json`) applies security headers:
 

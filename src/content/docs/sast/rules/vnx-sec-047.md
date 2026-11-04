@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a Shopify Admin API access token (`shpat_`), custom app access token (`shpca_`), private app password (`shppa_`) or shared secret (`shpss_`), each followed by exactly 32 hexadecimal characters and standing alone. The prefix inside a longer identifier (`myshpat_...`), a body of the wrong length, placeholders (`shpat_xxxx...`, `shpat_000...`), environment lookups and test, fixture and vendored paths are not reported, and the snippet is redacted.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded shopify access token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

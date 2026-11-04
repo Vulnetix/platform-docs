@@ -27,13 +27,13 @@ generated: true
 
 This rule detects SendGrid API keys matching the pattern `SG.[0-9A-Za-z\-_]{22}.[0-9A-Za-z\-_]{43}` in any file, standing on its own rather than inside a longer token. Placeholder and low-entropy keys (`SG.xxxx...`), lock files, minified bundles and test, fixture and vendored paths are not reported. SendGrid API keys authenticate requests to the SendGrid email delivery API, which can send transactional emails, marketing campaigns, or bulk messages at scale. Depending on the permissions granted to the key, an attacker with access to it can send emails impersonating your domain, access your contact lists, read previously sent message data, and damage your sending reputation.
 
-## Why This Matters
+## Why this matters
 
 Email is the primary vector for phishing and social engineering attacks. A leaked SendGrid API key with `mail.send` permission allows an attacker to send emails that appear to come from your verified domain, bypassing SPF, DKIM, and DMARC checks because the email is genuinely being sent through your legitimate SendGrid account. Recipients have no way to distinguish these emails from real ones.
 
 Beyond phishing, an attacker can use your SendGrid account to send bulk spam, which will damage your domain's sending reputation and cause your legitimate emails to be delivered to spam folders. SendGrid may also suspend your account for abuse, disrupting your transactional email pipeline (password resets, order confirmations, etc.). Recovering from a burned sending reputation can take weeks or months.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: SendGrid API key hardcoded

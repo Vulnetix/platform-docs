@@ -29,7 +29,7 @@ This rule reports Java and Kotlin `putString()` calls on a recognisable `SharedP
 
 `SharedPreferences` stores data as a plaintext XML file under the app's private data directory (e.g., `/data/data/com.example.app/shared_prefs/`). While `MODE_PRIVATE` prevents other apps from reading the file directly, the data remains fully visible on rooted devices, is included in unencrypted `adb backup` archives, and can be recovered through memory forensics or device backup services. This vulnerability maps to CWE-312 (Cleartext Storage of Sensitive Information).
 
-## Why This Matters
+## Why this matters
 
 Many high-profile Android breaches have involved credential theft from plaintext local storage. Attackers who obtain a device backup, via a compromised computer running `adb`, a malicious backup app, or a cloud backup service, can trivially extract `SharedPreferences` XML files and read every stored value. On rooted devices, any app can open another app's `SharedPreferences` files directly. Memory forensics tools such as LiME can dump app heap and reconstruct the `SharedPreferences` map without ever touching the filesystem.
 
@@ -37,7 +37,7 @@ The Android Keystore system exists precisely to address this risk. Credentials e
 
 OWASP MASTG test MASTG-TEST-0001 (Testing Local Data Storage for Sensitive Data) specifically checks for credentials in `SharedPreferences` and considers it a critical finding.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: an auth token through an editor variable

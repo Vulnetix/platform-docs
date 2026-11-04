@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a Twilio API key SID: `SK` followed by exactly 32 lowercase hexadecimal characters, not inside a longer word or hex run (`DISK3f2a...`, `TASK...`, a 34-character hash). Placeholders (`SKxxxx...`, `SK000...`), low-entropy values and test, fixture and vendored paths are not reported, and the snippet is redacted. Account SIDs (`AC...`) are identifiers and are not reported. These keys (different from the Account SID + Auth Token pair) are issued via the Twilio console and grant the ability to send SMS, make voice calls, and read account logs.
 
-## Why This Matters
+## Why this matters
 
 A leaked Twilio API key is sufficient to drain the account balance via SMS pumping fraud (sending thousands of messages to premium-rate numbers controlled by the attacker) or to use the account for phishing and account-takeover campaigns (e.g. by sending "your account was compromised, click here" messages).
 

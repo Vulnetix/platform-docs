@@ -31,7 +31,7 @@ The rule resolves which names are bound to either module (`require`, default or 
 
 The underlying weakness is that these libraries conflate data and code. Unlike `JSON.parse()`, which operates on a strict grammar with no executable constructs, these libraries extend the format to support JavaScript functions, and functions are code. Any deserialization library that can execute code must never be used with untrusted input.
 
-## Why This Matters
+## Why this matters
 
 The node-serialize IIFE exploit was disclosed in 2017 and demonstrated complete remote code execution on any Node.js application that deserializes user-controlled input with the library. The attack requires no authentication and no prior knowledge of the application, an attacker simply sends a crafted JSON payload to any endpoint that passes the request body to `unserialize()`. The exploit is trivial to reproduce, widely documented, and continues to appear in production applications.
 
@@ -39,7 +39,7 @@ The impact of a successful exploit is full server compromise: the injected JavaS
 
 The CVE-2017-5941 advisory for `node-serialize` was published eight years ago, yet the package still appears regularly in dependency trees due to transitive imports. Developers who inherit these dependencies may not be aware that any request path passing data through `unserialize()` is a critical RCE vector.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 const serialize = require('node-serialize');

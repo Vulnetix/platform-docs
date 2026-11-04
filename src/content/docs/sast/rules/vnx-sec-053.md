@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a SonarQube or SonarCloud token as a whole token: a user token (`squ_`), a project analysis token (`sqp_`) or a global analysis token (`sqa_`), each followed by exactly 40 lower-case hex characters. Identifiers that only start with those prefixes, placeholder bodies, CI secret references and test paths are not reported. Snyk tokens are reported by VNX-SEC-1020 and VNX-SEC-1021.
 
-### What Gets Flagged
+### What gets flagged
 
 ```properties
 sonar.token=squ_<40 hex characters>
@@ -37,7 +37,7 @@ sonar.token=squ_<40 hex characters>
 mvn sonar:sonar -Dsonar.login='sqa_<40 hex characters>'
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded sonarqube api token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

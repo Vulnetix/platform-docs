@@ -27,7 +27,7 @@ generated: true
 
 This rule flags Ruby projects that have a `Gemfile` but no corresponding `Gemfile.lock`. The `Gemfile.lock` records the exact resolved version of every gem in the dependency graph, direct and transitive, at the time `bundle install` was last run. Without it, running `bundle install` on a fresh checkout resolves version constraints fresh from RubyGems.org, meaning two builds from the same source tree can install entirely different code depending on what was published between the two runs. This maps to [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html).
 
-## Why This Matters
+## Why this matters
 
 Without a `Gemfile.lock`, a dependency confusion attack, a compromised gem maintainer account, or a typosquat package on RubyGems.org can silently inject malicious code into your build. The substituted gem arrives as a legitimately resolved version that satisfies your floating constraint (e.g., `gem 'rails', '~> 7.0'`). Neither the developer nor the CI system sees anything unusual, the build completes successfully with malicious code included.
 
@@ -35,7 +35,7 @@ In CI/CD pipelines, where `bundle install` runs on every push, this attack is re
 
 The `Gemfile.lock` also enables `bundle exec`, which runs commands using exactly the gem versions recorded in the lock file, preventing version skew between local development and production environments. Bundler's official rationale guide specifically states that the lock file is essential for reproducible builds.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports line 1 of an application `Gemfile` that has no `Gemfile.lock` in the same directory.
 

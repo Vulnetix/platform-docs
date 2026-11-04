@@ -27,7 +27,7 @@ generated: true
 
 This rule flags PHP code where a password, token, hash or signature check is decided by the loose equality operator (`==` or `!=`) rather than the strict equality operator (`===` or `!==`). PHP's loose comparison performs type coercion before comparing values, and the coercion rules produce counterintuitive results that attackers can exploit to bypass authentication, skip access checks, and forge token comparisons. This maps to [CWE-697: Incorrect Comparison](https://cwe.mitre.org/data/definitions/697.html).
 
-## Why This Matters
+## Why this matters
 
 PHP's type juggling is one of the most misunderstood aspects of the language's runtime. The `==` operator converts both operands to a common type before comparing, and the conversion rules create a class of authentication bypasses that look correct to a developer reading the code but behave unexpectedly at runtime.
 
@@ -39,7 +39,7 @@ Beyond magic hashes, loose comparison enables:
 - `0 == "any_string_not_starting_with_a_digit"`, in PHP 7, any string that does not start with a digit compares equal to `0`
 - Array vs scalar comparisons that produce unexpected results
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches `.php` files where a loose comparison decides a check an attacker can pass through type juggling:
 

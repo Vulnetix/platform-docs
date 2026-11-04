@@ -31,7 +31,7 @@ Both MD5 and SHA-1 have well-documented cryptographic weaknesses beyond raw spee
 
 The correct choice is a purpose-built password hashing function such as `hashlib.scrypt()` (available in the standard library since Python 3.6), `bcrypt` (via the `bcrypt` package), or `argon2-cffi` (Argon2id, the winner of the Password Hashing Competition). These functions incorporate salt automatically, are designed to be tunable in cost, and remain computationally expensive even on modern hardware.
 
-## Why This Matters
+## Why this matters
 
 A real-world data breach scenario: an attacker exploits a SQL injection vulnerability and dumps the `users` table. If passwords are stored as unsalted MD5 hashes, the attacker can crack the entire dataset within hours using freely available tools like Hashcat with a consumer GPU. Crackstation's public lookup table alone covers billions of common passwords in MD5 format. Even salted MD5 can be cracked at billions of guesses per second with modern hardware.
 
@@ -39,7 +39,7 @@ The consequences compound quickly. Users reuse passwords across services, so cra
 
 The attack requires no network access after the initial breach. An offline attacker with the hash database can work indefinitely without triggering any alerts, rate limits, or account lockout policies.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 import hashlib

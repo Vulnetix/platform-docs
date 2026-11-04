@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a Square access token: a production or sandbox access token (`EAAA` followed by 56 to 64 base64url characters) or a legacy OAuth access token (`sq0atp-` followed by 22 to 43 characters), standing alone rather than inside a longer base64 run. `EAAA` inside an embedded image, font or certificate, placeholders (`EAAAxxxx...`, `sq0atp-REPLACE...`), low-entropy values, environment lookups and test, fixture and vendored paths are not reported, and the snippet is redacted.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded square access token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

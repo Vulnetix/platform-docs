@@ -33,7 +33,7 @@ Beyond pattern leakage, ECB provides no authentication or integrity protection. 
 
 **Secure behavior is NOT the Kotlin or Android default.** Calling `Cipher.getInstance("AES")` without a full transformation string causes the JCE provider to fall back to `AES/ECB/PKCS5Padding` on many Android versions. Specifying a safe mode (`AES/GCM/NoPadding`) explicitly is required, there is no safe default to rely on.
 
-## Why This Matters
+## Why this matters
 
 The canonical demonstration of ECB's weakness is the "ECB penguin": an image of Tux the Linux mascot encrypted with AES/ECB still clearly shows the penguin's outline in the ciphertext because the structure of the image is preserved. The same effect applies to any structured data: database records with fixed-width fields, protocol messages with repeated headers, or any plaintext with recognisable patterns.
 
@@ -43,7 +43,7 @@ Android applications in particular have historically used `Cipher.getInstance("A
 
 OWASP Mobile Application Security Verification Standard (MASVS) requires under MASVS-CRYPTO-1 that apps must not use cryptographic protocols or algorithms considered deprecated for security purposes. ECB mode fails this control. Android's `KeyProperties` class provides named constants (`BLOCK_MODE_GCM`, `BLOCK_MODE_CBC`) to make safe choices explicit.
 
-## What Gets Flagged
+## What gets flagged
 
 ```kotlin
 // FLAGGED: explicit ECB with any block cipher

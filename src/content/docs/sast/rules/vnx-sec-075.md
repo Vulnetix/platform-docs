@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a literal WireGuard key, a 32-byte value in base64 (43 characters and a closing `=`), written as `PrivateKey =` or `PresharedKey =` in a wg-quick/INI configuration, or, in a file that mentions WireGuard, assigned to a `private_key`-style name (Ansible variables, sing-box JSON, Nix modules, `WIREGUARD_PRIVATE_KEY=` environment entries) or passed to `wgtypes.ParseKey()`. The key is masked in the finding's snippet.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded wireguard private key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```ini
 # FLAGGED: /etc/wireguard/wg0.conf

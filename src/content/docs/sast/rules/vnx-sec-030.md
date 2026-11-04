@@ -31,7 +31,7 @@ When a client secret is hardcoded in source code, an attacker who obtains it can
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 Google OAuth applications are frequently used for social login and for accessing Google Workspace APIs on behalf of users or service accounts. The client secret is the application's proof of identity in the three-legged OAuth flow. An attacker who has both the client ID (which is semi-public) and the client secret can construct a malicious OAuth flow that uses the victim application's identity.
 
@@ -39,7 +39,7 @@ A practical attack involves the attacker registering a redirect URI on their own
 
 Even without user-facing attacks, a leaked client secret enables an attacker to make API calls that consume the application's quota, potentially disrupting service availability, or to enumerate the application's OAuth configuration for further attacks.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `GOCSPX-` followed by exactly 28 base64url characters, delimited on both sides, and a legacy 24-character `client_secret` value in a file that also holds a Google client id:
 

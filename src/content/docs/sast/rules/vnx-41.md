@@ -27,11 +27,11 @@ generated: true
 
 VNX-41 maps to [CWE-41: Improper Resolution of Path Equivalence](https://cwe.mitre.org/data/definitions/41.html). It reports a prefix check against a base directory where the checked path was built (joined, resolved, concatenated) but not canonicalised, inline or through a variable assigned in the 15 lines above.
 
-## Why This Matters
+## Why this matters
 
 `/srv/files/../../etc/passwd` starts with `/srv/files`, and so does `/srv/files-backup/x`. A containment check on the raw string, or on a `java.nio.file.Path` that has not been normalised, accepts both. The check looks like path-traversal protection and is not.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 if (!f.getAbsolutePath().startsWith(ROOT)) { ... }

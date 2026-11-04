@@ -31,13 +31,13 @@ This is a supply chain risk: a compromised mirror or a package maintainer's inad
 
 The rule checks for the absence of `=` in the package install argument, which is the pinning syntax for both `apt-get` (`pkg=1.2.3-4`) and `apk` (`pkg=1.2.3`). Commented-out lines are excluded to avoid false positives on documentation or disabled instructions.
 
-## Why This Matters
+## Why this matters
 
 Package managers resolve unversioned install requests at build time against whatever is currently published in the package repository. An attacker who can influence that repository, through a compromised mirror, a typosquatting attack, or a dependency confusion attack, can serve a malicious package version to any Dockerfile that does not specify an exact version. CAPEC-538 (Open-Source Library Manipulation) and MITRE ATT&CK T1195.001 (Compromise Software Dependencies and Development Tools) document this class of attack.
 
 Beyond active attacks, unversioned installs mean that a security scan of an image built today may not flag an issue that was present in an image built last week, because the packages are different. This makes vulnerability management across image versions significantly harder. Pinning versions also means that when a CVE is published for a specific package version, you can immediately determine which of your images are affected by searching for that version string in your Dockerfiles rather than having to re-scan every image.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports each OS package install command in a `RUN` step (after `&&`, on a continuation line, inside a `RUN` heredoc or `ONBUILD RUN`) when at least one named package has no version. Options that take a value (`-o Dpkg::Options::=...`, `-t release`, `--virtual name`) are understood, so an `=` inside an option is not a pin.
 

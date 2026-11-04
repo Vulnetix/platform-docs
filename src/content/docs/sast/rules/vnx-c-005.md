@@ -29,7 +29,7 @@ This rule reports a C or C++ allocation whose size can wrap: `malloc`, `xmalloc`
 
 This vulnerability most commonly arises when computing the size of an array of structures: `malloc(count * sizeof(struct foo))`. If `count` is attacker-controlled and large, the multiplication can overflow a `size_t` or `int`, wrapping to a small value. The allocator returns a small buffer, but the code subsequently writes `count` elements into it, overflowing the heap allocation. The same issue applies to `realloc()` calls that grow a buffer based on arithmetic involving incoming data lengths.
 
-## Why This Matters
+## Why this matters
 
 Integer overflow in allocation sizes has been the root cause of significant heap overflows in widely deployed software. The PHP `gdImageCreate` overflow (CVE-2006-4484), various OpenSSL allocation vulnerabilities, and numerous media parsing vulnerabilities follow this exact pattern: a size computed from input data overflows and produces an undersized buffer, followed by a write that extends far past the allocation boundary.
 
@@ -37,7 +37,7 @@ Heap overflows of this type are often directly exploitable for remote code execu
 
 The subtlety that makes this vulnerability persistent is that the code looks correct: `malloc(n * sizeof(T))` is idiomatic C. The overflow only occurs with a specific range of large input values, making it easy to miss in testing.
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: record count from the wire multiplied by the element size

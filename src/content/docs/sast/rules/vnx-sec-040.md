@@ -27,11 +27,11 @@ generated: true
 
 This rule detects GitLab infrastructure tokens for pipeline triggers, deploy tokens, runner authentication, Kubernetes agents, CI/CD jobs, OAuth applications, incoming mail, feature flags, feeds, SCIM provisioning, and runner registration.
 
-## Why This Matters
+## Why this matters
 
 Each of these tokens grants a specific kind of automated access. A leaked runner authentication token (glrt-) lets the attacker register their own runner and execute arbitrary code inside your CI jobs. A leaked Kubernetes agent token (glagent-) gives the attacker a foothold in your cluster.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged (prefix plus a token body of the documented shape):
 

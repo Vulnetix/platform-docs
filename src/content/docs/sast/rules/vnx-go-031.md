@@ -29,13 +29,13 @@ This rule flags Go code that uses a JWT's claims without verifying its signature
 
 The most well-known exploit of this class is the `alg: none` attack, where an attacker strips the signature and sets the algorithm field to `"none"`. Libraries that accept whatever algorithm the token header specifies will then skip signature verification entirely. Even libraries that reject `alg: none` by default may be misused when the key function is omitted or returns without error unconditionally.
 
-## Why This Matters
+## Why this matters
 
 JWTs are widely used to carry authentication and authorization state between services. If an application parses a JWT and reads its claims without verifying the signature, the entire trust model of the token collapses. Any user who can observe a legitimate token can modify the `sub`, `role`, or `exp` fields, re-encode the header and payload in base64url, append no signature, and present the result as a valid token. The application will grant the forged claims without any server-side state check.
 
 This attack requires no special capability, only the ability to decode a JWT (which is trivially done with any base64 decoder) and construct a new one. Real-world incidents include privilege escalation in multi-tenant SaaS platforms where the `alg: none` technique was used to forge admin tokens. CAPEC-64 (Using Slashdot Effect) and related JWT-specific attack patterns are well-documented in penetration testing toolkits.
 
-## What Gets Flagged
+## What gets flagged
 
 Code that trusts a token's claims without verifying its signature.
 

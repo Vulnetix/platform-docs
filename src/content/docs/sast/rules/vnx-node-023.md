@@ -29,7 +29,7 @@ In js-yaml 3.x, `load()` and `loadAll()` default to `DEFAULT_FULL_SCHEMA`, which
 
 The rule reports a js-yaml `load()`/`loadAll()` call (through a name bound to the module, or imported by name or `as` an alias) with no safe schema whose argument is caller-supplied: a request value or an uploaded file buffer (`req.body/query/params/file(s)`, `ctx.request`, `event.body`, `file.buffer`), directly or through a variable assigned from one within the previous 15 lines, including the call written inside a `vm.runInContext()` script. It also reports `load()` with an explicit `DEFAULT_FULL_SCHEMA` and non-constant input. It does not report `safeLoad()`, a `JSON_SCHEMA`/`CORE_SCHEMA`/`FAILSAFE_SCHEMA`/`DEFAULT_SAFE_SCHEMA` argument, `load()` of the program's own files (a request value that only picks which file to read does not supply the YAML), `load()` without a schema when the project's `package.json` depends on js-yaml 4 or later, or the `yaml` and `yamljs` packages.
 
-## Why This Matters
+## Why this matters
 
 Insecure deserialization is consistently listed in the OWASP Top 10 and has been exploited in numerous real-world supply-chain and application attacks. In the case of js-yaml, a single crafted YAML file, whether submitted via an API, read from a user-supplied path, or embedded in a malicious npm package, can execute arbitrary code in the context of the Node.js process.
 
@@ -37,7 +37,7 @@ YAML is widely used for configuration files, CI/CD pipeline definitions, Kuberne
 
 Upgrading to js-yaml 4.x and using `yaml.load()` with an explicit safe schema, or using `yaml.safeLoad()` in 3.x, eliminates the code execution vector entirely.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: js-yaml 3 load() of the request body

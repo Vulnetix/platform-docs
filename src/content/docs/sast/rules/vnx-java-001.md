@@ -27,7 +27,7 @@ generated: true
 
 This rule detects calls to `Runtime.getRuntime().exec()` where the command string is built using the `+` operator, indicating that user-supplied data may be concatenated directly into the command. When the concatenated value is attacker-controlled, the result is OS command injection (CWE-78): the attacker can inject additional shell commands that the JVM executes with the privileges of the running process.
 
-## Why This Matters
+## Why this matters
 
 Command injection is consistently ranked in the OWASP Top 10 because it grants an attacker the same capabilities as a direct shell session. On a typical Java application server running as a service account, a successful injection can read application secrets, exfiltrate database credentials, install a reverse shell, or pivot to other internal systems.
 
@@ -35,7 +35,7 @@ The single-string form of `Runtime.exec()` passes the command to the operating s
 
 Unlike SQL injection, command injection has no parameterized equivalent in the single-string API, the only safe path is to move to an API that never invokes a shell.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `Runtime.getRuntime().exec()` (or a variable assigned from `Runtime.getRuntime()`) whose command is concatenated or formatted with a non-constant value, reads a request value, or is a variable assigned that way within the 40 lines above. It also reports a `ProcessBuilder` or `pb.command()` that runs a shell (`sh -c`, `bash -c`, `cmd /c`, `powershell -Command`), inline or through a list built with `add("-c")`, whose script is built the same way. Two further shapes are reported: `Runtime.exec(cmd, envp[, dir])` whose environment array carries a request value (one attacker-chosen entry such as `LD_PRELOAD`, `PATH` or `BASH_ENV` changes what the child runs), and a shell started through an argument array held in a local (`String[] args = {a1, a2, ...}` handed to `new ProcessBuilder(args)`, `pb.command(args)` or `exec(args)`, where the first two elements are a shell and its flag, directly or through locals assigned as literals on any branch) when a later element carries a request value or a non-constant operand.
 

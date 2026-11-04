@@ -31,7 +31,7 @@ This rule flags two patterns: direct calls to `File.createTempFile()`, and strin
 
 The secure replacement, `Files.createTempFile()` in a restricted temporary directory combined with `PosixFilePermissions` set to `OWNER_READ | OWNER_WRITE`, creates the file with a randomly generated name and restricts access to the owning process from the moment of creation, leaving no window for race conditions.
 
-## Why This Matters
+## Why this matters
 
 Local privilege escalation and data exfiltration attacks frequently exploit insecure temporary file handling. On a multi-tenant server, a shared hosting environment, a CI runner, or any container where multiple processes share a filesystem, an unprivileged attacker can monitor `/tmp` with `inotifywait`, detect newly created files matching predictable name patterns, and race to read or replace them before the application writes sensitive content.
 
@@ -39,7 +39,7 @@ Symlink attacks are particularly reliable: the attacker pre-creates `/tmp/app-ex
 
 The same class of vulnerability affects automated pipelines and build tools that write intermediate artifacts to `/tmp` with predictable names. Build systems running as the CI service account are high-value targets precisely because they often have elevated repository or deployment permissions.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: File.createTempFile() without restrictive permissions

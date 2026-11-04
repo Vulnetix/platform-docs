@@ -27,7 +27,7 @@ generated: true
 
 This rule detects connection URLs using unencrypted protocol schemes, `redis://`, `amqp://`, `ftp://`, `telnet://`, and `ldap://`, in source files. These protocols transmit all data, including authentication credentials, in cleartext. Anyone with the ability to observe network traffic between your application and the target service can intercept passwords, read data payloads, and replay or modify messages. Each of these protocols has a secure TLS-wrapped equivalent that should be used instead.
 
-## Why This Matters
+## Why this matters
 
 The assumption that internal network traffic is "safe" from interception has been repeatedly invalidated. Cloud environments, microservice meshes, and containerised workloads share physical and virtual network infrastructure. A compromised container, a misconfigured cloud security group, or a lateral-movement foothold can put an attacker in a position to sniff internal traffic. Technologies like ARP spoofing, BGP hijacking, and compromised network devices have all been used to intercept "internal" traffic.
 
@@ -40,7 +40,7 @@ Specific protocol risks:
 
 **OWASP ASVS v4** requirement V9.1.1 mandates that all communications use TLS, and V9.1.2 prohibits fallback to plaintext protocols. Cleartext protocol use is also a violation of PCI DSS Requirement 4.2 (never send unprotected card data over open public networks) and HIPAA's Technical Safeguard for encryption in transit (45 CFR § 164.312(e)(2)(ii)).
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: plaintext Redis connection

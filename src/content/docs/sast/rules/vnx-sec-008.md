@@ -27,13 +27,13 @@ generated: true
 
 This rule detects connection strings matching the pattern `<scheme>://<user>:<password>@<host>` for PostgreSQL, MySQL, MongoDB (including mongodb+srv), Redis, and MSSQL embedded in source files. Database connection strings with embedded credentials are a critical finding because they expose not only the password but also the database host, port, and database name, giving an attacker everything needed to connect directly to your database from the internet if it is not properly network-isolated.
 
-## Why This Matters
+## Why this matters
 
 A database is typically the most sensitive component in an application, it holds user data, financial records, health information, or business secrets. A hardcoded connection string in a public repository gives an attacker immediate access to that data if the database is reachable from the internet (for example, a MongoDB Atlas cluster, Heroku Postgres instance, or Railway database with public IP). Even for databases behind a firewall, the credential is exposed to anyone who can read the source code, which in a company includes all developers and CI systems.
 
 Hardcoded connection strings also make credential rotation painful, because every instance of the string must be found and updated across the codebase and all deployment configurations.
 
-## What Gets Flagged
+## What gets flagged
 
 A connection URL of the form `scheme://user:password@host` with a literal password, for PostgreSQL, MySQL/MariaDB, MongoDB (including `mongodb+srv`), Redis (`redis`/`rediss`, including an empty user), SQL Server (`mssql`/`sqlserver`) and CockroachDB, with an optional driver suffix (`postgresql+psycopg2`, `mysql+pymysql`) or `jdbc:` prefix; a JDBC URL with a `password=` parameter; and a Go `go-sql-driver/mysql` DSN (`user:password@tcp(host:3306)/db`), which has no scheme. Code, config, `.env` and compose files are covered.
 

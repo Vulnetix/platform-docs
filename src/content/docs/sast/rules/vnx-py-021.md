@@ -31,7 +31,7 @@ SSLv2 and SSLv3 were deprecated decades ago: SSLv3 is vulnerable to the POODLE a
 
 The correct approach is to use `ssl.PROTOCOL_TLS_CLIENT` (for clients) or `ssl.PROTOCOL_TLS_SERVER` (for servers), set `context.minimum_version = ssl.TLSVersion.TLSv1_2`, and let Python negotiate the best mutually supported version with the peer. This ensures TLS 1.3 is used when available while maintaining backward compatibility with servers that only support TLS 1.2.
 
-## Why This Matters
+## Why this matters
 
 Exploiting weak TLS versions is a well-studied attack technique. The POODLE attack against SSLv3 allows a network attacker to decrypt encrypted HTTP cookies in approximately 256 requests by exploiting padding oracle behavior in CBC mode. BEAST (TLS 1.0) enables a chosen-plaintext attack against HTTPS sessions. In practice, these attacks require an attacker who can observe network traffic, a realistic assumption on shared Wi-Fi networks, corporate proxies, and cloud environments with misconfigured network policies.
 
@@ -39,7 +39,7 @@ Beyond active exploitation, applications that negotiate TLS 1.0 or 1.1 fail PCI 
 
 Python itself removed or restricted several of these constants across versions (e.g., `PROTOCOL_SSLv2` was removed in Python 3.10, `PROTOCOL_SSLv3` in 3.6), so code using them may also raise `AttributeError` at runtime on modern Python.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 import ssl

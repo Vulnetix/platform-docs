@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Rust code that constructs a `std::process::Command` using the `format!` macro to build the command string, or that invokes a shell interpreter (`sh -c`) through `Command`. When user-controlled input is interpolated into the command string, an attacker can inject shell metacharacters (`;`, `|`, `&&`, `$(...)`) to execute arbitrary commands on the host system.
 
-## Why This Matters
+## Why this matters
 
 Command injection is consistently ranked among the most critical application vulnerabilities:
 
@@ -36,7 +36,7 @@ Command injection is consistently ranked among the most critical application vul
 - **Shell invocation amplifies risk:** Passing arguments through `sh -c` exposes the full shell metacharacter surface (pipes, redirections, command substitution)
 - **Exploitation is trivial:** If user input flows into a command string, the attacker simply includes `;malicious_command` in their input
 
-## What Gets Flagged
+## What gets flagged
 
 **A shell given a non-literal command string** (the finding is on the `Command::new` line, whether the builder is chained on one line or split across lines):
 

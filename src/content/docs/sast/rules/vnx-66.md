@@ -27,11 +27,11 @@ generated: true
 
 VNX-66 maps to [CWE-66: Improper Handling of File Names that Identify Virtual Resources](https://cwe.mitre.org/data/definitions/66.html). It reports a client-supplied upload file name used as the on-disk file name, on the write line or through a variable assigned from it in the 15 lines above.
 
-## Why This Matters
+## Why this matters
 
 On Windows, `CON`, `PRN`, `AUX`, `NUL`, `COM1`-`COM9` and `LPT1`-`LPT9` name devices in every directory, with or without an extension. An upload called `aux.png` or `con.txt` does not create a file: the write blocks the worker, vanishes into `NUL`, or goes to a serial port. `Path.GetFileName`, `basename` and `FilenameUtils.getName` remove directories but leave the device name intact.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 f = request.files["document"]

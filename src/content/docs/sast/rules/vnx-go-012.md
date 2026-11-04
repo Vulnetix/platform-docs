@@ -29,7 +29,7 @@ This rule flags Go code where a response header is set from a query, form or rou
 
 > **Go idiom note:** `net/http` replaces CR and LF in header values with spaces when it writes a response, so on servers built on it (net/http, gin, echo, chi, gorilla) the attacker cannot add headers or split the response. What remains is that the attacker chooses the content of the header: a `Location`, a `Content-Disposition` filename, a `Content-Language`. Servers that write header values without that replacement can be split. Allow-listing or encoding header values must be done explicitly either way.
 
-## Why This Matters
+## Why this matters
 
 HTTP header injection is a foundational web security vulnerability. By injecting `\r\n` into a response header value, an attacker can add arbitrary headers (e.g., `Set-Cookie` for session fixation), inject a blank line followed by a malicious HTML body (response splitting for reflected XSS), or poison shared caches (CDN or reverse proxy) with attacker-controlled content.
 
@@ -37,7 +37,7 @@ OWASP ASVS v4.0 requirement **V5.2.1** requires that all untrusted HTML input is
 
 `go vet` does not detect this pattern. [staticcheck](https://staticcheck.dev/) does not have a dedicated check for header CRLF injection. This rule provides detection that neither standard toolchain nor common linters cover.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a response-header write (`w.Header().Set/Add`, `w.Header()[k] = ...`, gin `c.Header`, echo `c.Response().Header().Set`, fiber `c.Set`/`c.Append`, fasthttp `ctx.Response.Header.Set/Add`) whose value is a query, form or route parameter (`r.URL.Query().Get`, `q.Get`/`q[k]` on `q := r.URL.Query()`, `FormValue`, `PostFormValue`, `Form.Get`, `mux.Vars`, `chi.URLParam`, `r.PathValue`, gin/echo/fiber `Query`/`Param`/`QueryParam`, fasthttp `QueryArgs().Peek`), inline or through a variable assigned from one in the same function.
 

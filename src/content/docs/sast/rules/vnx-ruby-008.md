@@ -31,7 +31,7 @@ The Open3 pipeline family is particularly risky compared to simpler subprocess A
 
 This rule corresponds to [CWE-78: Improper Neutralization of Special Elements used in an OS Command](https://cwe.mitre.org/data/definitions/78.html).
 
-## Why This Matters
+## Why this matters
 
 Command injection via Open3 pipeline methods is particularly dangerous because the attacker gains the ability to execute arbitrary shell commands with the privileges of the web server process. Unlike simpler injection vulnerabilities, command injection provides immediate code execution rather than requiring further exploitation steps.
 
@@ -39,7 +39,7 @@ A typical attack scenario involves a file-processing endpoint that pipes a user-
 
 Even when application input is partially validated, shell metacharacter injection is a persistent risk. Developers often sanitize for SQL or HTML but forget that the shell interprets characters such as `;`, `|`, `` ` ``, `$(`, `>`, and `<` as special instructions. A robust fix requires removing the shell entirely from the subprocess call by passing commands as explicit argument arrays.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports an Open3 call in its single-string (shell) form whose command string interpolates, concatenates or formats request input (`params`, `request.*`, cookies, Rack env keys, an upload's `original_filename`), directly or through a variable assigned from it a few lines above. Argument-list and array forms, constant commands and input passed through `Shellwords.escape` are not reported.
 

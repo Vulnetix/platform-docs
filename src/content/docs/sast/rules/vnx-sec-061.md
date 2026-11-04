@@ -29,7 +29,7 @@ This rule reports a PostgreSQL connection URL that embeds a literal password: `p
 
 It does not report a password that is interpolated or templated (`${VAR}`, `$VAR`, `{{ }}`, `%s`, `<password>`, f-string or template-literal fields, concatenation), a default or placeholder word (`password`, `postgres`, `changeme`, the user name itself), a server on localhost or a documentation host (`example.com`, `*.test`, a bare `host` or `hostname`), 127.0.0.1 or ::1, URLs without a password, Markdown/reStructuredText/AsciiDoc and `*.example`/`*.sample`/`*.template` files, or test, fixture, vendored and generated files. VNX-SEC-008 reports the same URLs for every database scheme.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: SQLAlchemy URL with a literal password
@@ -46,7 +46,7 @@ spring.datasource.url=jdbc:postgresql://pg.acme.internal:5432/shop?user=shop&pas
 DATABASE_URL = f"postgresql://{os.environ['PGUSER']}:{os.environ['PGPASSWORD']}@db:5432/app"
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded postgresql connection string with credentials values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

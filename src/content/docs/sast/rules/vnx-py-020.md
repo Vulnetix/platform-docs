@@ -31,7 +31,7 @@ This class of vulnerability is known as **zip slip** or **path traversal during 
 
 Python 3.12 introduced the `filter` parameter to `extractall()` as the preferred mitigation. Passing `filter='data'` restricts extraction to safe files, rejecting absolute paths, `..` components, and special files. For older Python versions, members must be filtered manually before passing them to `extractall(members=safe_members)`.
 
-## Why This Matters
+## Why this matters
 
 Zip slip attacks have been exploited against production systems in a variety of languages and frameworks. The [Snyk zip slip research](https://snyk.io/research/zip-slip-vulnerability) documented vulnerable extractors in Java, Ruby, Go, Python, and .NET. In Python specifically, the `tarfile` module has been widely used in deployment tooling, package managers, CI/CD scripts, and data pipelines, all high-value targets where writing an arbitrary file can lead to code execution.
 
@@ -39,7 +39,7 @@ A realistic attack scenario: a user-uploaded archive is processed by a data pipe
 
 The vulnerability is especially insidious because malicious archives look identical to legitimate ones in most archive viewers and the error only manifests at extraction time.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 import tarfile

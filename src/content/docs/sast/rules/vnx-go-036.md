@@ -29,13 +29,13 @@ This rule flags Go code that implements ECB (Electronic Codebook) block cipher m
 
 Go's standard library deliberately omits ECB mode from `crypto/cipher`, its absence is intentional. When developers implement ECB themselves or import a third-party package that exposes it, this rule raises a finding.
 
-## Why This Matters
+## Why this matters
 
 The canonical demonstration of ECB's weakness is the "ECB penguin": encrypting the Tux Linux mascot image with ECB-AES produces output where the penguin's outline remains clearly visible because regions of uniform colour map to uniform ciphertext blocks. The same structural leak occurs with any structured or partially-predictable plaintext, encrypted database records, JSON payloads, filesystem blocks, and network packets all contain repeated or predictable patterns that ECB makes visible.
 
 In practice, an adversary with access to ECB-encrypted ciphertexts can perform chosen-plaintext attacks to recover plaintext by observing when ciphertext blocks repeat, use statistical analysis to fingerprint content even without decryption, and detect when two records share common prefix or suffix values, leaking business-sensitive relationships. These attacks require no knowledge of the key and succeed even against AES-256 in ECB mode, demonstrating that algorithm strength is irrelevant when the mode is fundamentally broken. CAPEC-32 (XSS via HTTP Request Headers) and broader cryptanalysis patterns both rely on this structural weakness.
 
-## What Gets Flagged
+## What gets flagged
 
 ECB through a library, or ECB written by hand:
 

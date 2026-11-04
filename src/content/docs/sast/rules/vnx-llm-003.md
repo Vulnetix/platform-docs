@@ -27,11 +27,11 @@ generated: true
 
 An LLM provider API key, such as an OpenAI key (sk-), an Anthropic key (sk-ant-), or a similar credential, is hardcoded as a string literal in source code or configuration. Hardcoded keys are committed to version control and can be exposed through repository leaks, logs, or build artifacts, allowing anyone who discovers the key to consume your quota or access your data.
 
-## Why This Matters
+## Why this matters
 
 LLM API keys are credentials with real monetary value. A leaked OpenAI key can be used to run expensive inference jobs at your cost, access fine-tuned models, retrieve embeddings from your data, or abuse your usage tier. Attackers actively scan GitHub for exposed keys and begin exploiting them within minutes of exposure. Unlike database passwords, API keys for LLM services are often directly monetizable without any further lateral movement.
 
-## What Gets Flagged
+## What gets flagged
 
 Anthropic (`sk-ant-api03-...`), OpenAI project/service-account/admin (`sk-proj-`, `sk-svcacct-`, `sk-admin-`) and classic (`sk-...T3BlbkFJ...`) keys anywhere in a file, and a high-entropy literal assigned to a provider-named key variable or passed as `api_key`/`apiKey` to a provider client.
 

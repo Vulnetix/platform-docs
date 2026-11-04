@@ -29,13 +29,13 @@ This rule flags Go code where SQL queries are constructed using `fmt.Sprintf` an
 
 > **Go idiom note:** Parameterized queries ARE the idiomatic Go default for `database/sql`. The `DB.Query`, `DB.QueryRow`, and `DB.Exec` methods all accept variadic arguments that are passed to the driver as parameters, the safe path is the natural API. Using `fmt.Sprintf` to build SQL is an active step away from how the standard library is designed to be used.
 
-## Why This Matters
+## Why this matters
 
 SQL injection is consistently ranked in the OWASP Top 10 because its impact is catastrophic and exploitation is straightforward. An attacker who can inject into a login query can authenticate as any user, including administrators, without knowing their password. An injected `UNION SELECT` can dump entire tables, customer records, payment data, credentials, in a single request. Destructive payloads (`DROP TABLE`, mass `DELETE`) can cause irreversible data loss. In databases like PostgreSQL that support `COPY TO/FROM` or stored procedures with filesystem access, SQL injection can escalate to remote code execution on the database host. The `fmt.Sprintf` pattern in Go is especially dangerous because it looks innocuous and is easy to introduce during rapid development.
 
 OWASP ASVS v4.0 requirement **V5.3.4** requires that all database queries use parameterized queries or stored procedures to prevent SQL injection. Requirement **V5.3.5** extends this to all dynamic database queries, and **V5.3.6** mandates that ORMs use parameterized queries.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires when a `database/sql`, sqlx, pgx or GORM call (`Query`, `QueryRow`, `Exec`, `Prepare` and their `Context` forms, `Raw`, `Queryx`, `MustExec`, `NamedExec`, sqlx `Select`/`Get`, GORM `Where`/`Or`/`Not`/`Having`/`Joins`/`Order`/`Group`) receives SQL built with `fmt.Sprintf` or `+` so that a value lands where a bind parameter belongs: inside quotes, after `=`/`LIKE`, in `IN (...)`, `VALUES (...)` or `LIMIT`/`OFFSET`. A request value is reported in any position, including a table or `ORDER BY` slot. The SQL may be built inline, in a variable a few lines up (multi-line raw strings and `+=` clauses included) or across several lines of the call. Parameterised queries (`$1`, `?`, `@name`), `%d`, server-chosen identifiers, `strings.Repeat("?,", n)` placeholder lists and `pq.QuoteIdentifier` values are not reported.
 

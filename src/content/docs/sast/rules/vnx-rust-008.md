@@ -31,7 +31,7 @@ The rule follows a value taken from the request (a `Path(name)`, `Path((a, b))`,
 
 This rule corresponds to [CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')](https://cwe.mitre.org/data/definitions/22.html).
 
-## Why This Matters
+## Why this matters
 
 Path traversal vulnerabilities in file-serving endpoints are straightforward to exploit and can have severe consequences. An attacker does not need to compromise the server or find an authentication bypass, they simply send a crafted URL to an endpoint that was intended for legitimate file access.
 
@@ -39,7 +39,7 @@ A typical attack begins with the attacker sending a request like `GET /files/../
 
 In microservice architectures, the file server may run alongside services whose configuration files contain secrets for databases, message queues, or cloud providers. A path traversal vulnerability in the file-serving handler can expose the credentials of entirely unrelated services on the same host.
 
-## What Gets Flagged
+## What gets flagged
 
 The finding is reported on the line where the request value reaches the path or file operation.
 

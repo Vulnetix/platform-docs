@@ -27,11 +27,11 @@ generated: true
 
 This rule flags server-side template engine calls, Jinja2's `render_template_string()`, Mako's `Template()`, Node.js Pug/EJS/Handlebars compile/render functions, and Ruby's `ERB.new()`, Erubi, Haml, Slim and Rails `render inline:`, whose template source (first argument) is HTTP request data, used directly or through a variable assigned from it in the 25 lines above. Request data passed as template context is not reported. Server-Side Template Injection (SSTI) allows an attacker to inject template directives that are evaluated by the template engine with full application privileges, often leading to arbitrary code execution. This maps to [CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')](https://cwe.mitre.org/data/definitions/95.html).
 
-## Why This Matters
+## Why this matters
 
 SSTI is frequently confused with XSS, but the consequences are far worse: instead of JavaScript executing in a visitor's browser, arbitrary code executes on the server. In Jinja2, the payload `{{''.__class__.__mro__[1].__subclasses__()}}` enumerates all Python classes; from there an attacker can reach `subprocess` and execute OS commands. In Pug (formerly Jade), `-` prefix lines execute arbitrary JavaScript. The vulnerability is subtle because the same template engine that is safe when rendering `render_template('page.html', name=name)` becomes catastrophically dangerous when the template source itself comes from user input via `render_template_string(name)`.
 
-## What Gets Flagged
+## What gets flagged
 
 The template SOURCE (first argument) carries request data, directly or through a variable assigned from it:
 

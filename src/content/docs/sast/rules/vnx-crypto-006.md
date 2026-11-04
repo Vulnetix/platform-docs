@@ -27,13 +27,13 @@ generated: true
 
 This rule detects RSA key generation with bit sizes of 512, 768, or 1024 bits, all of which are too small for modern cryptographic security requirements. RSA security depends on the difficulty of factoring the product of two large primes; advances in hardware, distributed computing, and factoring algorithms (GNFS) have progressively reduced the effective security of smaller RSA keys to the point where 1024-bit keys are within reach of well-funded attackers. NIST has recommended a minimum of 2048 bits since 2010 and recommends 3072 or 4096 bits for keys that must remain secure beyond 2030. This maps to CWE-326 (Inadequate Encryption Strength).
 
-## Why This Matters
+## Why this matters
 
 A 512-bit RSA key can be factored in hours on commodity hardware; a 768-bit key was publicly factored in 2009 using a distributed computation across hundreds of machines over two years (a computation now achievable much faster). The 1024-bit key size sits in a grey zone: NIST deprecated it for U.S. government use after 2013, and academic research projects have estimated it is within reach of nation-state-scale cryptanalytic efforts.
 
 In practice, if your application generates RSA key pairs for TLS certificates, SSH host keys, JWT signing keys, or data encryption and those keys are 1024 bits or less, an attacker who invests sufficient computational resources can factor the public key, derive the private key, and then decrypt all past and future traffic protected by that key (enabling retroactive decryption of captured ciphertext). MITRE ATT&CK T1557 documents the adversary-in-the-middle scenarios this enables.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reads the key size argument of an RSA key-generation call (a number, or a constant assigned a number in the same file) and reports it when it is below 2048:
 

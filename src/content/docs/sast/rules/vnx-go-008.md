@@ -27,11 +27,11 @@ generated: true
 
 This rule flags `math/rand` values used as secrets. While `math/rand` is appropriate for non-security uses such as shuffling a playlist or randomizing test data, it is a pseudo-random number generator seeded deterministically and its output sequence can be predicted or reconstructed by an attacker. Any security-sensitive value, session tokens, password reset links, CSRF nonces, API keys, or one-time codes, that is generated with `math/rand` is potentially guessable. This maps to [CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)](https://cwe.mitre.org/data/definitions/338.html).
 
-## Why This Matters
+## Why this matters
 
 The output of `math/rand` is fully determined by its seed. In Go 1.20 and earlier, `math/rand` defaulted to a constant seed of 1 unless explicitly seeded, meaning the same sequence of numbers appeared in every process that forgot to call `rand.Seed`. Even with a time-based seed, an attacker who can observe a few generated values (or who knows approximately when the process started) can reconstruct the internal state and predict all future outputs. A session token with only 32 bits of effective entropy drawn from `math/rand` can be brute-forced in seconds. Token guessing attacks (MITRE ATT&CK T1110 – Brute Force) targeting predictable session identifiers or password reset tokens are well-documented and actively exploited.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires on a call to `math/rand` or `math/rand/v2` (`Read`, `Int`, `Intn`/`IntN`, `Int31`/`Int63` and their `n` forms, `Uint32`/`Uint64`, `N`, `Float64`, `Perm`, `Shuffle`), under the package's import alias or on a generator made with `rand.New` in the same file, when the line, a line within the next four that the assigned value flows into (`n := rand.Int63()` then `token := strconv.FormatInt(n, 36)`), or the enclosing function's name says the value is a token, password, secret, nonce, salt, OTP, PIN, CSRF value, session id, API or signing key, password-reset or verification code, or credential. OTP and PIN must sit at a word or camelCase boundary, so `rootPath` and `hotPartition` are not secrets, and a bare `Reset()` is state, not a reset code. The import alone is not reported.
 

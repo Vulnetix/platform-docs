@@ -31,7 +31,7 @@ An XML External Entity attack begins with a crafted XML document containing a DT
 
 The `noent` option specifically enables entity substitution, it is the parameter that must be `false` when parsing untrusted XML. Similarly, `dtdload` should not be enabled as it allows loading external DTD files, which in turn can declare external entities.
 
-## Why This Matters
+## Why this matters
 
 XXE has appeared in the OWASP Top 10 for multiple consecutive cycles and has been exploited in significant real-world incidents. The attack allows unauthenticated file disclosure, an attacker with the ability to send XML to the application can read any file readable by the Node.js process, including `/etc/passwd`, SSH private keys, application configuration files with database credentials, and cloud metadata endpoints (`http://169.254.169.254/latest/meta-data/`).
 
@@ -39,7 +39,7 @@ The SSRF variant of XXE is particularly dangerous in cloud environments: the clo
 
 `libxmljs` is less commonly used than browser-native XML parsing but appears in document processing pipelines, XML-based API integrations, and SAML assertion parsing. SAML parsing is a high-value target because XXE in a SAML processor can allow authentication bypass, the attacker injects XML that evaluates to a legitimate user's assertion.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: noent:true enables external entity expansion

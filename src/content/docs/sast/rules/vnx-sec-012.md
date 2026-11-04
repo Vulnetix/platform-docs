@@ -27,7 +27,7 @@ generated: true
 
 This rule reports three shapes: the `Access-Control-Allow-Origin` header set to the request's own `Origin` header (directly or through a variable read from it a few lines above) with no allowlist check on the origin; the header set to `*` (`w.Header().Set`, `response[...] =`, PHP `header()`, nginx `add_header`, Apache `Header set`, the ingress-nginx `cors-allow-origin` annotation); and CORS middleware configured for every origin (AWS CDK `allowOrigins: Cors.ALL_ORIGINS`, FastAPI `allow_origins=["*"]`, Flask-CORS `CORS(app)`, django-cors-headers `CORS_ALLOW_ALL_ORIGINS = True`, gin `AllowAllOrigins`, rs/cors `AllowOriginFunc` returning true, Spring `allowedOriginPatterns("*")` and bare `@CrossOrigin`, ASP.NET Core `AllowAnyOrigin()` and `SetIsOriginAllowed(_ => true)`, Laravel and rack-cors wildcards). It does not report a wildcard whose configuration explicitly disables credentials nearby, specific origins, an origin checked against an allowlist, the header sent by client code (`fetch`/`axios` request headers), assertions, tests and documentation. CORS in JavaScript and TypeScript servers (`res.setHeader`, the `cors` package, Fastify and NestJS) is reported by VNX-942, so one problem is not reported twice; for those files this rule reports only the AWS CDK construct. CORS controls which websites can read responses from your API using cross-origin JavaScript. Setting it too broadly means any malicious website can make authenticated requests to your API on behalf of a logged-in user and read the responses.
 
-## Why This Matters
+## Why this matters
 
 There is an important distinction between two types of permissive CORS:
 
@@ -37,7 +37,7 @@ There is an important distinction between two types of permissive CORS:
 
 The CORS misconfiguration in the 2018 British Airways breach (MITRE ATT&CK T1189) exemplifies how attackers exploit this to steal session tokens and payment data.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: FastAPI wildcard CORS

@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to `Marshal.load()`, `Marshal.restore()`, `YAML.load()`, and `YAML.unsafe_load()` in Ruby source files. Both Marshal and the unsafe YAML loading functions can instantiate arbitrary Ruby objects and execute code during deserialization. When the serialized data comes from an attacker-controlled source, a cookie, an API payload, a message queue, a database field that users can influence, deserialization becomes a remote code execution primitive. This maps to [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html).
 
-## Why This Matters
+## Why this matters
 
 Ruby's Marshal format is a binary serialization of the complete Ruby object graph, including class references. When Marshal deserializes data, it allocates objects and calls their `initialize` and custom deserialization hooks. An attacker who can supply arbitrary Marshal data can trigger the execution of any method in any class loaded in the Ruby process, by constructing an object graph that chains together gadgets, objects whose normal lifecycle methods (like `to_s`, `respond_to_missing?`, or `marshal_load`) perform dangerous operations.
 
@@ -35,7 +35,7 @@ The Ruby on Rails framework has historically been vulnerable to deserialization 
 
 `YAML.load()` in Ruby's Psych library (prior to Psych 4, released with Ruby 3.1) deserializes arbitrary Ruby objects by default because YAML has a type tag system that maps to Ruby class names. `YAML.unsafe_load()` explicitly opts back into this behavior on Psych 4+.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `Marshal.load`/`Marshal.restore`, `Oj.load` in object mode, `Oj.object_load`, `JSON.load` and `JSON.parse(..., create_additions: true)` when the data comes from outside the process: request input, a Base64-decoded blob, an HTTP or message body, or a socket, on the call line or through a variable assigned from it a few lines above. `YAML.load` is reported by [VNX-RUBY-007](/sast/rules/vnx-ruby-007/).
 

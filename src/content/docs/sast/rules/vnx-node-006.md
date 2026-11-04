@@ -27,13 +27,13 @@ generated: true
 
 This rule detects deep-merge and deep-assign operations, `_.merge()`, `_.defaultsDeep()`, `_.set()`, `deepmerge()` and `$.extend(true, ...)`, applied to user-controlled input such as `req.body` or `req.query`. If the user input contains a key like `__proto__` or `constructor`, the merge operation walks the prototype chain and injects properties into `Object.prototype` itself, polluting every object in the process. This is CWE-915 (Improperly Controlled Modification of Dynamically-Determined Object Attributes).
 
-## Why This Matters
+## Why this matters
 
 Prototype pollution is deceptively powerful. When `Object.prototype` is modified, every plain object (`{}`) in the runtime inherits the injected property. A payload like `{ "__proto__": { "isAdmin": true } }` can elevate privileges silently across the entire application, any subsequent `if (user.isAdmin)` check becomes true for all users, not just administrators.
 
 In more severe cases, polluting properties used by template engines, module loaders, or serialization libraries can escalate to remote code execution. Multiple CVEs have been disclosed against lodash (CVE-2019-10744, CVE-2020-8203), jQuery (CVE-2019-11358), and other widely used libraries due to prototype pollution in their merge implementations. Lodash versions below 4.17.21 are known to be exploitable. Simply upgrading may not be sufficient if your own code performs the merge.
 
-## What Gets Flagged
+## What gets flagged
 
 A deep merge or path assignment with an argument from the request (`req.body`, `req.query`, `req.params`, `await request.json()`, `ctx.request.body`, `event.body`, `location.hash`...), directly or through a variable assigned from one in the 15 lines above:
 

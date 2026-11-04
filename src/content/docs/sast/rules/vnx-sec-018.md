@@ -27,7 +27,7 @@ generated: true
 
 This rule detects API keys for major AI providers in source files: Anthropic keys matching `sk-ant-[A-Za-z0-9\-_]{20,}`, OpenAI project keys matching `sk-proj-[A-Za-z0-9]{20,}`, and Hugging Face tokens matching `hf_[A-Za-z0-9]{34,}`. These keys authenticate requests to large language model APIs and other AI services. Leaking them results in unauthorized use charged to your account, potential data exfiltration through the API, and abuse of your usage limits and rate limits.
 
-## Why This Matters
+## Why this matters
 
 AI API costs can be substantial, GPT-4, Claude, and similar models charge per token, and an attacker with access to your API key can run unlimited queries at your expense. Automated bots scan public repositories specifically for AI provider key patterns, and abuse often begins within minutes of a key being committed to a public repository. Beyond financial harm, an attacker using your API key could use your account's conversation history and organisational context to extract sensitive business information that has been submitted to the API in previous requests.
 
@@ -35,7 +35,7 @@ Hugging Face tokens with write or admin scopes can modify model repositories, da
 
 **OWASP ASVS v4** requirement V2.10.1 prohibits storing service credentials in source code, requiring instead that they be loaded from environment variables or secrets management infrastructure at runtime.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: Anthropic API key hardcoded

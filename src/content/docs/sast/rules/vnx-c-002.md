@@ -29,7 +29,7 @@ This rule reports a printf-family call whose format argument is not a string lit
 
 A format string vulnerability occurs when attacker-controlled data is used as the format string itself. The `printf` family parses the format string for specifiers (`%s`, `%d`, `%x`, `%n`, etc.) and pulls corresponding arguments off the call stack. If the attacker controls the format string, they can read arbitrary stack values using `%x` or `%s`, or write the count of bytes printed to an attacker-chosen address using `%n`, enabling arbitrary memory writes with no overflow required.
 
-## Why This Matters
+## Why this matters
 
 Format string vulnerabilities were a defining vulnerability class of the early 2000s and remain in production code today, particularly in logging paths and error-handling code where a variable message is passed directly to a print function for convenience.
 
@@ -45,7 +45,7 @@ Even where `%n` is disabled by the platform's libc (Microsoft's CRT disables it 
 
 **OWASP ASVS v4.0:** V5.2.1, Verify that the application uses memory-safe string, safer memory copy, and pointer arithmetic to detect or prevent stack, buffer, or heap overflows.
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: a received or composed string printed as the format

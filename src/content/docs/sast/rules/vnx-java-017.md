@@ -27,7 +27,7 @@ generated: true
 
 This rule flags Java servlet and Spring handler code where a value sourced from user input, via `getParameter()`, `getHeader()`, `getQueryString()`, `getPathInfo()`, or a Spring `@RequestParam`/`@PathVariable`/`@RequestHeader`/`@CookieValue` argument, is passed to `response.addHeader()`, `response.setHeader()`, or `response.sendRedirect()` without stripping carriage-return (`\r`, `%0d`) and line-feed (`\n`, `%0a`) characters. This maps to [CWE-113: Improper Neutralization of CRLF Sequences in HTTP Headers](https://cwe.mitre.org/data/definitions/113.html).
 
-## Why This Matters
+## Why this matters
 
 HTTP headers are delimited by `\r\n` sequences. If user-supplied text containing these characters reaches a header or redirect URL, an attacker can:
 
@@ -47,7 +47,7 @@ HTTP headers are delimited by `\r\n` sequences. If user-supplied text containing
 - CVE-2020-13933, Apache Shiro redirect URL injection enabling response splitting.
 - CVE-2016-4430, Apache Struts open redirect and response splitting via `redirect:` prefix.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: user-controlled value passed directly to setHeader()

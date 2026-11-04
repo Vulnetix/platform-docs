@@ -29,7 +29,7 @@ This rule reports a MySQL or MariaDB connection URL that embeds a literal passwo
 
 It does not report a password that is interpolated or templated (`${VAR}`, `$VAR`, `{{ }}`, `%s`, `<password>`, template-literal fields, concatenation), a default or placeholder word (`password`, `root`, `mysql`, `changeme`, the user name itself), a server on localhost or a documentation host (`example.com`, `*.test`, a bare `host` or `hostname`), 127.0.0.1 or ::1, URLs without a password, Markdown/reStructuredText/AsciiDoc and `*.example`/`*.sample`/`*.template` files, or test, fixture, vendored and generated files. VNX-SEC-008 reports the same URLs for every database scheme.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: SQLAlchemy URL with a literal password
@@ -46,7 +46,7 @@ DATABASE_URL="mysql://prisma:<password>@aws.connect.psdb.cloud/blog?sslaccept=st
 const url = `mysql://${process.env.DB_USER}:${process.env.DB_PASS}@db:3306/app`;
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded mysql connection string with credentials values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

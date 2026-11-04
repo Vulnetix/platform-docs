@@ -29,13 +29,13 @@ This rule flags Go HTTP handler functions whose **name** is the login path (`Log
 
 Credential stuffing, the automated testing of username/password pairs from data breaches, is one of the most common attack techniques against web applications, responsible for billions of fraudulent login attempts daily.
 
-## Why This Matters
+## Why this matters
 
 Without rate limiting, an attacker can attempt authentication with unlimited speed, constrained only by network bandwidth and the server's processing capacity. Modern credential-stuffing tools such as Sentry MBA, OpenBullet, and similar frameworks operate against millions of accounts simultaneously using distributed bot networks that rotate IP addresses, defeat simple IP-based rate limits, and appear as legitimate traffic. Even a modest password list of one million common passwords becomes a viable brute-force attack against a single account if there is no lockout.
 
 The consequences range from account takeover and financial fraud to regulatory exposure under GDPR, PCI-DSS, and SOC 2, all of which include requirements around authentication security. MITRE ATT&CK T1110 (Brute Force) specifically covers credential stuffing, password spraying, and password cracking, all of which are directly enabled by the absence of authentication rate limiting. CAPEC-49 (Password Brute Forcing) describes the full attack pattern in detail. Well-implemented rate limiting reduces the practical value of credential stuffing to near zero.
 
-## What Gets Flagged
+## What gets flagged
 
 A login handler, by declaration or as an inline route, in a project with no rate limiting anywhere in its production Go code:
 

@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Java database access code, using raw JDBC (`Statement.executeQuery`, `Statement.executeUpdate`, `createStatement()`), Spring `JdbcTemplate`, or JPA `EntityManager`, where a SQL query string is assembled by concatenating user-supplied values with the `+` operator rather than using parameterized placeholders. This is SQL injection (CWE-89), the most exploited web vulnerability class for over two decades.
 
-## Why This Matters
+## Why this matters
 
 SQL injection gives an attacker direct access to the database. Depending on the database user's privileges and the database engine, the attacker can bypass authentication by supplying `' OR '1'='1`, dump every row from every table, modify or delete data, call stored procedures that read local files (`LOAD_FILE`, `OPENROWSET`), or in some configurations execute OS commands (`xp_cmdshell` in SQL Server, `COPY TO/FROM PROGRAM` in PostgreSQL).
 
 Automated exploitation tools such as SQLMap can fully compromise a vulnerable application in minutes once an injectable parameter is identified. The consequences span data breaches, regulatory fines under GDPR/HIPAA/PCI DSS, and complete application compromise.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the SQL argument of JDBC (`executeQuery`, `executeUpdate`, `execute`, `addBatch`, `prepareStatement`, `prepareCall`), Spring `JdbcTemplate` (`query*`, `update`, `batchUpdate`, `execute`), Hibernate `createSQLQuery` and Android `rawQuery`/`execSQL` calls when it is concatenated or formatted with a non-constant value, reads a request value, or is a variable assigned that way within the 40 lines above (multi-line assignments and `sql += ...` included).
 

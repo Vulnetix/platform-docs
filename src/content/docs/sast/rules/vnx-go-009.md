@@ -27,11 +27,11 @@ generated: true
 
 This rule flags Go code that renders a `text/template` template into an HTTP response or loads HTML files with it. Go ships two template packages: `text/template` for generating arbitrary text output, and `html/template` for generating HTML. The critical difference is that `html/template` automatically escapes all values interpolated into the template based on their context (HTML body, attribute, URL, JavaScript, CSS), preventing cross-site scripting. `text/template` performs no escaping whatsoever, it inserts values verbatim. Using `text/template` to render HTML responses means any user-controlled content that reaches the template can inject arbitrary HTML and JavaScript into the page. This maps to [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html).
 
-## Why This Matters
+## Why this matters
 
 XSS allows an attacker to execute arbitrary JavaScript in the context of a victim's browser session on your site. The attacker's script runs with the same privileges as your own JavaScript, it can read and exfiltrate session cookies and local storage (including authentication tokens), capture keystrokes and form inputs (e.g., passwords typed after the page loads), make authenticated API calls on the victim's behalf, redirect the user to a phishing page, or modify the page's DOM to display fraudulent content. Stored XSS is particularly severe: an attacker who can store a malicious payload in your database (via a form submission, API call, or injected record) will execute that payload in the browser of every user who views the affected page. MITRE ATT&CK T1059.007 covers XSS as a client-side script execution technique.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the line where a `text/template` template produces HTML:
 

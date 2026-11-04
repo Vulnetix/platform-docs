@@ -27,7 +27,7 @@ generated: true
 
 This rule flags HTTP method calls on the `requests` library (`get`, `post`, `put`, `patch`, `delete`, `head`, `options`) that include `verify=False`. The `verify` parameter controls whether requests validates the server's TLS certificate against trusted Certificate Authorities. Setting it to `False` disables this validation entirely, meaning any server, including one presenting a self-signed, expired, or forged certificate, will be trusted. This makes HTTPS connections functionally equivalent to plain HTTP from a confidentiality and integrity perspective. This maps to [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html).
 
-## Why This Matters
+## Why this matters
 
 TLS certificate validation is the mechanism that proves you are actually talking to the server you intended to reach. Without it, any network-adjacent attacker can intercept the connection, present their own certificate, and read or modify all traffic in both directions, a man-in-the-middle (MITM) attack. This matters most for:
 
@@ -38,7 +38,7 @@ TLS certificate validation is the mechanism that proves you are actually talking
 
 The `verify=False` shortcut is often introduced as a temporary workaround for certificate problems (expired certs, self-signed internal CA, wrong hostname) and then forgotten. The underlying certificate problem needs to be fixed, not bypassed.
 
-## What Gets Flagged
+## What gets flagged
 
 A `requests` or `httpx` request call, or an httpx `Client`/`AsyncClient`/`HTTPTransport`, given `verify=False` (on the call line or a continuation line), and `session.verify = False`. Test files, docstrings and comments are not reported.
 

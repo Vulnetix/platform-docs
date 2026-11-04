@@ -27,13 +27,13 @@ generated: true
 
 This rule flags `insertAdjacentHTML()`, `document.write()`/`writeln()` and React's `dangerouslySetInnerHTML` prop in JavaScript and TypeScript source files. An assignment to `.innerHTML` or `.outerHTML` is the same weakness and is reported by [VNX-NODE-027](/sast/rules/vnx-node-027/), so one sink is never shown twice; the same sinks in HTML pages and Vue or Svelte components are [VNX-NODE-012](/sast/rules/vnx-node-012/)'s. These mechanisms inject raw HTML directly into the DOM. When the injected content includes any user-controlled data, from a database record, URL parameter, API response, or user profile field, an attacker can embed `<script>` tags or event handler attributes that execute arbitrary JavaScript in other users' browsers. This is CWE-79 (Improper Neutralization of Input During Web Page Generation, Cross-site Scripting).
 
-## Why This Matters
+## Why this matters
 
 Stored XSS via innerHTML is one of the most common and impactful web vulnerabilities. An attacker who finds a stored-XSS path can inject a payload that silently executes every time another user loads the page. Typical payloads steal session cookies, exfiltrate CSRF tokens, hijack form submissions to forward credentials to an attacker-controlled server, or inject a keylogger. In admin panels, a single stored-XSS finding can lead to account takeover for every administrator who views the compromised content.
 
 React specifically named its prop `dangerouslySetInnerHTML` to make developers pause, but the warning is easy to ignore under deadline pressure, and the property is frequently used to render rich text from a CMS or user-generated HTML. The danger is identical to vanilla `innerHTML`: if the content has not been sanitised through a dedicated HTML sanitisation library, the application is vulnerable.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: template literal / concatenation

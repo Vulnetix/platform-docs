@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Rust code that uses `unsafe` blocks or declares `unsafe fn` functions. The `unsafe` keyword tells the Rust compiler to disable its memory safety checks within the annotated scope, placing the burden of correctness entirely on the developer. While `unsafe` is sometimes necessary for FFI, hardware access, or performance-critical code, it is the primary vector for memory safety vulnerabilities in Rust programs.
 
-## Why This Matters
+## Why this matters
 
 Rust's safety guarantees, no null pointer dereferences, no data races, no buffer overflows, no use-after-free, only hold in safe Rust. The moment you write `unsafe`, you opt out of these guarantees and can introduce:
 
@@ -38,7 +38,7 @@ Rust's safety guarantees, no null pointer dereferences, no data races, no buffer
 
 Unsafe Rust is not inherently wrong, the standard library itself uses it extensively, but every unsafe block is a location that demands manual review and careful invariant documentation. This rule surfaces those locations so they receive the scrutiny they require.
 
-## What Gets Flagged
+## What gets flagged
 
 Unsafe regions with no safety justification on the same line or in the comment block directly above (attributes and doc comments in between are skipped):
 

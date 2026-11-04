@@ -31,7 +31,7 @@ The vulnerability is particularly dangerous in privileged processes. If a setuid
 
 The fix is straightforward: use `tempfile.NamedTemporaryFile()` (which creates and opens the file atomically) or `tempfile.mkstemp()` (which returns both a file descriptor and a path, having created the file atomically). Both functions use `os.open()` with `O_EXCL` to prevent race conditions at the kernel level.
 
-## Why This Matters
+## Why this matters
 
 TOCTOU vulnerabilities in temporary file creation have a long history of real-world exploitation. The classic attack scenario involves a predictable `/tmp` filename: many older utilities named temporary files using the process ID (`/tmp/prog.12345`), which an attacker could predict and pre-create as a symlink. Python's `tempfile.mktemp()` generates random names, but randomness alone does not close the race window, it only makes brute-forcing the name harder, not impossible.
 
@@ -39,7 +39,7 @@ In container environments and multi-tenant systems, the risk increases because m
 
 Beyond active exploitation, auditors and compliance frameworks (FIPS, Common Criteria) flag `tempfile.mktemp()` usage as an automatic finding because its insecurity is inherent to its design, not its configuration.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 import tempfile

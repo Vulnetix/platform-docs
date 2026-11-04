@@ -29,7 +29,7 @@ This rule reports a Linear credential written into a file: a personal API key (`
 
 It does not report bare prefixes in a prefix check, placeholder bodies (`xxxx`, `YOUR_KEY_HERE`), identifiers that merely begin `lin_api_`, keys read from the environment, or test, fixture and vendored paths.
 
-## What Gets Flagged
+## What gets flagged
 
 ```typescript
 // FLAGGED: API key passed to the SDK
@@ -47,7 +47,7 @@ env:
 export const linear = new LinearClient({ apiKey: process.env.LINEAR_API_KEY });
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded linear api key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

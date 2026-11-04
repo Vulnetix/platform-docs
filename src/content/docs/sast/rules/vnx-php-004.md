@@ -27,13 +27,13 @@ generated: true
 
 This rule flags PHP code that sends an HTTP redirect itself, with `header('Location: ...')` (also `header(sprintf('Location: %s', ...))`, a `Refresh: N; URL=` header, and a `header(` call split across lines), WordPress `wp_redirect()` or a PSR-7 `withHeader('Location', ...)`, where the target URL is taken from a request value (superglobals, `filter_input()`, `getallheaders()`, PSR-7 request accessors) without validation. Framework redirect helpers (Laravel and CodeIgniter `redirect()`, `redirect()->to()`/`away()`, `Redirect::to()`/`away()`, Symfony `new RedirectResponse()` and `$this->redirect()`) are the same weakness and are reported by [VNX-PHP-022](/sast/rules/vnx-php-022/), so one redirect is one finding. An attacker can supply any URL as the redirect target and use your legitimate domain as a launchpad to deliver phishing pages, malware downloads, or OAuth token theft pages. This maps to [CWE-601: URL Redirection to Untrusted Site (Open Redirect)](https://cwe.mitre.org/data/definitions/601.html).
 
-## Why This Matters
+## Why this matters
 
 An open redirect turns your domain's reputation into an attack asset. Because the initial request originates from your site (`https://yourapp.com/login?redirect=https://evil.com`), email security filters, browser warnings, and cautious users who hover over links all see a URL on a domain they trust. Phishing campaigns that leverage open redirects on legitimate sites have materially higher click rates than direct links to attacker infrastructure.
 
 The risk extends beyond phishing. OAuth 2.0 authorization flows that use a `redirect_uri` parameter to deliver tokens are a particularly high-value target: if the authorization server allows your domain as a valid redirect host, an open redirect on your domain can be chained with an OAuth flow to redirect an access token to an attacker-controlled server. This is a known attack class documented in the OAuth 2.0 Security Best Current Practice (RFC 9700).
 
-## What Gets Flagged
+## What gets flagged
 
 A redirect whose destination starts with a request value, or follows only a scheme or a bare `/`, inline or through a variable assigned from one a few lines above.
 

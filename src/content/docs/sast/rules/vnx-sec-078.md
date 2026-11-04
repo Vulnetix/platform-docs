@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a Doppler personal token, `dp.pt.` followed by 43 mixed-case alphanumeric characters, quoted, assigned (`DOPPLER_TOKEN=...`), passed to `doppler --token` or sent in an `Authorization` header. The token is redacted in the finding's snippet.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded doppler api token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 # FLAGGED

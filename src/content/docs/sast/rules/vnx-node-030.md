@@ -29,13 +29,13 @@ This rule detects TURN relays configured to forward traffic to reserved addresse
 
 TURN servers that do not enforce a blocklist of reserved IP ranges can be abused by any authenticated WebRTC client to probe and relay traffic to internal hosts, including the host itself (localhost), private cloud services, Kubernetes API servers, and instance metadata endpoints. The attack leverages the TURN protocol's relay semantics: the client asks the TURN server to allocate a relay address and then sends data to an arbitrary peer IP, causing the server to originate outbound connections from its own network interface.
 
-## Why This Matters
+## Why this matters
 
 SSRF via TURN relay is a documented attack class that has affected open-source TURN server projects and custom implementations alike. It is particularly dangerous in cloud environments because the TURN server can reach the instance metadata service (`169.254.169.254`) and retrieve temporary IAM credentials, which then grant the attacker the cloud permissions of the server's service identity. In Kubernetes environments, the TURN server may be able to reach the API server or other pods on the cluster network.
 
 Unlike traditional SSRF that requires an HTTP endpoint, TURN-based SSRF also works for arbitrary TCP and UDP protocols, enabling port scanning, service fingerprinting, and data exfiltration from internal services that do not speak HTTP. The attack surface is as wide as all hosts reachable from the TURN server's network interface.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: a node-turn server (the library has no peer-address deny list)

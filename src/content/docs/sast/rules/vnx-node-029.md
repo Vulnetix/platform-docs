@@ -29,13 +29,13 @@ This rule detects calls to `cookie()` or `res.cookie()` in JavaScript files wher
 
 Session tokens are the most valuable target of XSS attacks: a stolen session token provides the attacker with the victim's authenticated identity without requiring their password. The `HttpOnly` flag is one of the simplest and most effective mitigations for this attack path. It does not prevent all XSS impacts, but it specifically and reliably removes the ability to steal cookies via `document.cookie`, significantly raising the cost of a successful XSS exploitation.
 
-## Why This Matters
+## Why this matters
 
 Session hijacking via XSS-based cookie theft is one of the most impactful and easily executed web attacks. Once an attacker has a valid session token, they can impersonate the victim for as long as the session remains active, bypassing MFA, accessing sensitive account data, and performing actions on the victim's behalf. The attack requires no interaction beyond a successful XSS payload, which can be delivered via a crafted link, an injected ad, or a compromised third-party script.
 
 The `HttpOnly` flag has been supported by all major browsers since Internet Explorer 6, making it a zero-cost, universally compatible mitigation. Its absence is flagged as a finding in penetration tests, bug bounty programs, and compliance audits (PCI-DSS requirement 6.4). It should be set on all cookies that do not require client-side JavaScript access, which, for session and authentication cookies, is always the case.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: a token cookie with no options (Express defaults to script-readable)

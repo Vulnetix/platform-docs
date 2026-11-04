@@ -27,11 +27,11 @@ generated: true
 
 This rule detects Heroku API keys (v2 format) matching the `HRKU-AA[0-9a-zA-Z_-]{58}` pattern. Heroku API keys grant full account access including the ability to deploy applications, modify add-ons (e.g. Postgres, Redis), and read environment variables containing credentials.
 
-## Why This Matters
+## Why this matters
 
 A leaked Heroku API key is sufficient to push a malicious build to a production app, attach to the production database, and exfiltrate customer data. Because Heroku's git push deploy model is git-based, the attacker can deploy without re-authentication if they have a key with `deploy` scope.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged:
 

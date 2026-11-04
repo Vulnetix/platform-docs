@@ -29,7 +29,7 @@ This rule detects two concrete shapes. First, audience or issuer validation swit
 
 The JWT specification defines the `aud` (audience) claim to identify the recipients that the JWT is intended for, and the `iss` (issuer) claim to identify the principal that issued the JWT. Verifying both claims ensures that a token can only be used with the service it was issued for, by the issuer you trust. Libraries do not verify these claims by default, explicit options must be passed to each decode or verify call.
 
-## Why This Matters
+## Why this matters
 
 In a microservices architecture or multi-application environment, multiple services may share a signing key, for convenience or because tokens are issued by a central identity provider. Without audience verification, a JWT issued for the `payments-service` with a payload like `{ "sub": "user123", "role": "admin" }` can be presented to the `admin-console` service. If both services share a key and neither verifies `aud`, the admin console accepts the token and grants admin access.
 
@@ -37,7 +37,7 @@ CAPEC-196 (Session Credential Falsification through Forging) and MITRE ATT&CK T1
 
 Issuer verification prevents a third-party identity provider, or a compromised internal service, from issuing tokens that a victim service accepts. Together, audience and issuer verification bind tokens to their intended context.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: audience verification switched off

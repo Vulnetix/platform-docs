@@ -29,13 +29,13 @@ This rule flags instances where HTTP redirect functions (like `http.Redirect`) u
 
 This maps to [CWE-601: URL Redirection to Untrusted Site ('Open Redirect')](https://cwe.mitre.org/data/definitions/601.html).
 
-## Why This Matters
+## Why this matters
 
 Open redirect vulnerabilities occur when an application accepts user-controlled input to determine the destination of a redirect without proper validation. Attackers can craft URLs that appear to link to a trusted site but actually redirect victims to malicious sites for phishing, malware distribution, or credential theft.
 
 These vulnerabilities are often overlooked but can be highly effective in social engineering attacks because the initial URL appears legitimate.
 
-## What Gets Flagged
+## What gets flagged
 
 A redirect whose target the requester chooses: a query, form or route parameter that reaches `http.Redirect`, a framework `Redirect`, or a `Location` header, directly or through one variable built from it.
 

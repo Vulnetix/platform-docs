@@ -31,7 +31,7 @@ Without a required permission, any application installed on the same device can 
 
 On API level 31 and above, Android requires an explicit `android:exported` attribute on any component that has an intent filter, so the number of unintentionally exported components is growing as developers add the attribute to satisfy the build requirement without adding the corresponding permission.
 
-## Why This Matters
+## Why this matters
 
 An exported component with no permission check is effectively a public API on the device. Any other app, including a malicious one side-loaded or installed from a third-party store, can invoke it. Depending on the component type the impact varies: an exported Activity may expose a sensitive screen or deep link flow without authentication; an exported Service may allow binding and triggering privileged background operations; an exported BroadcastReceiver may allow injecting fake system events; an exported ContentProvider may allow reading or writing arbitrary data rows.
 
@@ -39,7 +39,7 @@ A real-world example is the CVE-2013-4787 (Master Key) class of Android vulnerab
 
 The CAPEC-1 attack pattern ("Accessing/Intercepting/Modifying HTTP Cookies") and the broader class of privilege escalation attacks on Android (ATT&CK T1427) rely on the ability to invoke exported components that were not intended for third-party use.
 
-## What Gets Flagged
+## What gets flagged
 
 ```xml
 <!-- FLAGGED: exported, no permission -->

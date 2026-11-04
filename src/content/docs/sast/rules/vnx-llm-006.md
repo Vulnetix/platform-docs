@@ -31,7 +31,7 @@ This rule flags Python code where the text of an LLM response (`.choices[0].mess
 
 Even in the absence of a prompt injection attack, interpolating LLM output into SQL is dangerous because the model can produce unexpected output due to hallucination or ambiguous prompts. Parameterised queries are the correct defence in all cases.
 
-## Why This Matters
+## Why this matters
 
 The combination of LLM-based query generation and dynamic SQL construction is increasingly common in "natural language to SQL" (NL2SQL) applications, where user queries like "show me all orders over $1000" are translated by an LLM into SQL. If the LLM's output is interpolated directly into `cursor.execute()`, the application is vulnerable to SQL injection through prompt engineering.
 
@@ -39,7 +39,7 @@ An attacker who understands that the application uses an LLM to generate SQL can
 
 The impact of SQL injection is well understood: full database read/write access, data exfiltration, data destruction, and in some database configurations, operating system command execution via `xp_cmdshell` or `COPY TO/FROM`. NL2SQL applications that skip parameterisation expose this full impact to anyone who can interact with the natural language interface.
 
-## What Gets Flagged
+## What gets flagged
 
 The text of an LLM response, used directly or through up to two assignments, executed as SQL or interpolated into a query at `.execute()`, `.executescript()`, `.execute(text(...))`, Django `.raw()`, `pandas.read_sql()` or LangChain `db.run()`.
 

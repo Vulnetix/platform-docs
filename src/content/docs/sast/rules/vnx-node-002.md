@@ -29,7 +29,7 @@ This rule detects calls to `eval()` and `new Function()` in JavaScript and TypeS
 
 `eval()` and `new Function()` are **not disabled by default** in Node.js. They are available in every JavaScript runtime and must be explicitly avoided through code review, linting rules, and Content Security Policy enforcement.
 
-## Why This Matters
+## Why this matters
 
 Code injection via `eval()` is one of the most direct paths to full server compromise. An attacker who can control the argument to `eval()` can read environment variables (stealing secrets and API keys), spawn child processes to execute OS commands, open reverse shells, exfiltrate files, or pivot to internal services. Unlike SQL injection, which is constrained to database operations, JavaScript code injection has unrestricted access to the Node.js runtime and everything it can reach.
 
@@ -37,7 +37,7 @@ The `new Function()` constructor is equally dangerous and is frequently used as 
 
 OWASP ASVS v4 requirement **V5.2.4** states: "Verify that the application does not use eval() or other dynamic code execution features."
 
-## What Gets Flagged
+## What gets flagged
 
 Dynamic code evaluation in `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs` and `.cjs` files whose code argument is not a constant:
 

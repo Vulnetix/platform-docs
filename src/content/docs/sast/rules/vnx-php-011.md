@@ -31,7 +31,7 @@ String concatenation into SQL is the canonical form of SQL injection and remains
 
 The deprecated `mysql_*` function family (removed in PHP 7.0) does not support prepared statements at all, meaning any codebase still using these functions is both vulnerable and running on an unsupported PHP version.
 
-## Why This Matters
+## Why this matters
 
 SQL injection allows an attacker to read any data the database user can access, including tables beyond those the application is intended to query. Depending on database configuration, it can also modify or delete data, execute stored procedures, read OS files via `LOAD DATA INFILE` or `xp_cmdshell`, and in some configurations achieve remote code execution on the database host.
 
@@ -39,7 +39,7 @@ Authentication bypass is a particularly common outcome: a login form that constr
 
 PHP applications with long lifespans often accumulate dozens of SQL query construction sites, making systematic review essential. The rule fires on the co-occurrence of a query function and a superglobal on the same line, which is the most direct signal of unsanitised concatenation.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: user input concatenated into mysql_query()

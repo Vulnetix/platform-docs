@@ -29,11 +29,11 @@ This rule flags instances where dynamic code execution functions like `eval()` o
 
 This maps to [CWE-94: Improper Control of Generation of Code ('Code Injection')](https://cwe.mitre.org/data/definitions/94.html).
 
-## Why This Matters
+## Why this matters
 
 Dynamic code execution functions allow code to be generated and executed at runtime. When these functions process user-controlled input without proper validation, attackers can inject malicious code that will be executed with the privileges of the application. This can lead to complete system compromise, data theft, or malware installation.
 
-## What Gets Flagged
+## What gets flagged
 
 Go has no `eval()`, so the rule looks for the embedded interpreters,
 expression engines and template parsers that play its part, and reports them

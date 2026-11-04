@@ -27,7 +27,7 @@ generated: true
 
 This rule detects usage of symmetric ciphers that are known to be cryptographically broken or officially deprecated: DES (56-bit key, exhaustively brute-forced in 1998), Triple-DES/3DES (Sweet32 birthday attack), RC4 (statistical biases, BEAST/CRIME variants), and Blowfish (64-bit block size, Sweet32 vulnerability). All of these algorithms have been replaced by AES, and their continued use creates exploitable weaknesses in data confidentiality. This maps to CWE-327 (Use of a Broken or Risky Cryptographic Algorithm).
 
-## Why This Matters
+## Why this matters
 
 **DES** has an effective key length of 56 bits, which was broken by the EFF's "Deep Crack" hardware in under 23 hours in 1998. Any modern attacker with cloud access can brute-force DES-encrypted data in minutes.
 
@@ -37,7 +37,7 @@ This rule detects usage of symmetric ciphers that are known to be cryptographica
 
 **Blowfish**, like 3DES, uses a 64-bit block size and is vulnerable to Sweet32. It was a reasonable choice in the 1990s but has no place in new code.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches cipher names and API calls across all supported languages:
 

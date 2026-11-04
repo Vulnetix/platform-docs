@@ -29,7 +29,7 @@ This rule flags instances where file paths are constructed using user-controlled
 
 This maps to [CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')](https://cwe.mitre.org/data/definitions/22.html).
 
-## Why This Matters
+## Why this matters
 
 Path traversal vulnerabilities occur when user input is used to construct file paths without proper validation, allowing attackers to navigate outside of the intended directory structure. This can lead to:
 - Reading sensitive files (like `/etc/passwd`, application source code, or configuration files)
@@ -37,7 +37,7 @@ Path traversal vulnerabilities occur when user input is used to construct file p
 - Accessing application source code, configuration, or credentials
 - Modifying or deleting critical system files
 
-## What Gets Flagged
+## What gets flagged
 
 A file operation whose path contains a request value, inline, through its variable, or through one path built from it with `filepath.Join`, `fmt.Sprintf` or concatenation.
 

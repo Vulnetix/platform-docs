@@ -31,7 +31,7 @@ When user input is embedded in the filename or arguments of a shell command, an 
 
 The rule covers both the concise `Process.Start(string fileName, string arguments)` overload and the object-initialiser pattern that sets `StartInfo.FileName` or `StartInfo.Arguments` separately, since both patterns appear in real-world .NET codebases.
 
-## Why This Matters
+## Why this matters
 
 A command injection vulnerability gives an attacker the ability to run arbitrary programs on the server under the identity of the web application process. A single semicolon, pipe character, or backtick in an unvalidated argument can route execution to a second command chosen entirely by the attacker. With a foothold on the server, attackers pivot to reading credentials, installing reverse shells, accessing cloud metadata endpoints, and moving laterally inside the network.
 
@@ -39,7 +39,7 @@ Real-world examples abound: CVE-2014-6271 (Shellshock) and CVE-2021-44228 (Log4S
 
 Even when user input is passed as an argument rather than a filename, command interpretation by `cmd.exe` or `/bin/sh` can allow argument injection, for instance, many command-line tools accept `--exec`, `--output`, or similar flags as arguments that significantly change program behaviour. The only safe approach is either to avoid shelling out entirely or to pass arguments as a structured list rather than a parsed string.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: a shell given a command built from a value

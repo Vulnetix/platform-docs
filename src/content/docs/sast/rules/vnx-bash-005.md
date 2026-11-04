@@ -29,7 +29,7 @@ This rule reports a literal credential written into a shell script (`.sh`, `.bas
 
 Hardcoded credentials embedded directly in script files are visible to anyone with read access to the repository, build artifact, container image, or deployed filesystem. They cannot be rotated without a code change and a new deployment, and they appear in every copy of the codebase including forks, cached CI artefacts, and version control history. Even after the secret is removed from the file, it remains readable in `git log` unless the entire history is rewritten.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded secrets are one of the most consistently exploited vulnerability classes found in public repositories. Automated scanners constantly crawl GitHub for credential patterns, and a secret committed even briefly will typically be captured before it can be revoked. The 2022 CircleCI breach and numerous AWS key exposure incidents have shown that CI/CD environment scripts are a particularly high-value target.
 
@@ -37,7 +37,7 @@ In containerised environments, shell scripts are often baked into Docker images 
 
 Beyond the immediate credential exposure, hardcoded secrets tend to be long-lived because rotating them requires coordinating a code change, a deployment, and updates to any environment that has a copy of the old value. This extended exposure window dramatically increases the blast radius of a compromise.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 DB_PASSWORD="Pr0d-Backup!2024"                          # FLAGGED

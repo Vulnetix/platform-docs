@@ -29,13 +29,13 @@ This rule flags Go projects that have a `go.mod` file but no corresponding `go.s
 
 > **Go idiom note:** Committing `go.sum` to version control IS the idiomatic Go default and is the approach recommended in the official Go module documentation. Omitting it is always a deliberate (and insecure) exception.
 
-## Why This Matters
+## Why this matters
 
 Without a `go.sum`, a compromised module proxy, a DNS hijack, or a typosquat package can silently substitute malicious code into your build. The attacker does not need access to your repository, they only need to interfere with the module download path between your build environment and the module origin. In CI/CD pipelines this risk is elevated because builds frequently download fresh dependencies from the internet. A single poisoned module can exfiltrate secrets, establish persistence, or tamper with application logic before your code even starts. MITRE ATT&CK technique T1195.001 (Supply Chain Compromise: Compromise Software Dependencies) describes exactly this attack class.
 
 OWASP ASVS v4.0 requirement **V14.2.1** requires that all components are up to date and verified. The Go checksum database (`sum.golang.org`) provides a transparency log of all published module versions; `go.sum` is the per-project anchor that ties your dependency tree to verified entries in that log.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reads each `go.mod`. It reports the module's first `require` directive when the module requires at least one module fetched from outside the repository and either no `go.sum` sits in the same directory or a `.gitignore` between the repository root and the module excludes `go.sum`.
 

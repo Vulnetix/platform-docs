@@ -31,7 +31,7 @@ When `--privileged` appears in a Dockerfile instruction, it means the image itse
 
 Running privileged containers is one of the most reliable container escape primitives available to attackers. Multiple public exploits and CTF challenges demonstrate that a process inside a privileged container can mount the host filesystem, load kernel modules, and gain root on the host within seconds.
 
-## Why This Matters
+## Why this matters
 
 A privileged container shares the host's Linux capability set in full. An attacker who achieves code execution inside such a container, through a dependency vulnerability, a deserialization bug, or a misconfigured application, can immediately pivot to the host by mounting `/dev/sda`, injecting into the host cgroup namespace, or loading a kernel module that grants persistent access.
 
@@ -39,7 +39,7 @@ CAPEC-122 (Privilege Abuse) and MITRE ATT&CK T1611 (Escape to Host) document thi
 
 The principle of least privilege requires that containers be granted only the specific Linux capabilities they need. If a container requires access to a specific device or system call, the correct approach is to grant that individual capability with `--cap-add` or the Compose `cap_add` key, rather than removing all restrictions wholesale.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports configuration that actually runs a container privileged:
 

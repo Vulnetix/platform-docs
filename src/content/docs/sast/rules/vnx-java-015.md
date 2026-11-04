@@ -29,7 +29,7 @@ This rule flags Java code where `createQuery()`, `createNativeQuery()`, or `crea
 
 JPQL and HQL are **not** immune to injection just because they abstract the database. They share the same vulnerability class as raw SQL when queries are built by concatenation, and every ORM framework ultimately translates the query into database-specific SQL before execution.
 
-## Why This Matters
+## Why this matters
 
 Injection vulnerabilities have topped the OWASP Top 10 for over a decade. The JPA/Hibernate abstraction layer gives many developers a false sense of security: JPQL looks different from SQL, so it must be safe. It is not. An attacker who can control the `name` parameter in a query like:
 
@@ -48,7 +48,7 @@ can close the literal, append `OR '1'='1`, and return every user in the table. W
 - CVE-2022-22978, Spring Security authorization bypass via path manipulation (closely related class of JPQL filter bypass)
 - CVE-2016-6652, Spring Data JPA SpEL injection via repository method name binding
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: string concatenation in createQuery()

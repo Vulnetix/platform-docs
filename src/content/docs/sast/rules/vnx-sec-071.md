@@ -29,7 +29,7 @@ This rule reports `_gitlab_session` followed by `=` (a `Cookie` header, `documen
 
 It does not report the cookie name on its own (Rails `session_store key: "_gitlab_session"`), a value read from a variable or the environment, placeholder values (all zeros, `xxxx...`), and generated, vendored and test-suffixed files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```sh
 curl -s -H "Cookie: _gitlab_session=<32 hex>" https://gitlab.acme-corp.io/api/v4/projects
@@ -45,7 +45,7 @@ Not flagged:
 cookies = {"_gitlab_session": os.environ["GITLAB_SESSION"]}
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded gitlab session cookie values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

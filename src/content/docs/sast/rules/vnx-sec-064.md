@@ -29,7 +29,7 @@ This rule reports a Redis connection URL that embeds a literal password: `redis:
 
 It does not report a password that is interpolated or templated (`${VAR}`, `$VAR`, `{{ }}`, `%s`, `<password>`, f-string or template-literal fields, concatenation), a default or placeholder word (`password`, `redis`, `default`, `changeme`, the user name itself), a server on localhost or a documentation host (`example.com`, `*.test`, a bare `host` or `hostname`), 127.0.0.1 or ::1, URLs without a password, Markdown/reStructuredText/AsciiDoc and `*.example`/`*.sample`/`*.template` files, or test, fixture, vendored and generated files. VNX-SEC-008 and VNX-SEC-577 report the same URLs.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: redis-py URL with a literal password
@@ -47,7 +47,7 @@ production:
 REDIS_URL = f"redis://:{REDIS_PASSWORD}@redis:6379/0"
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded redis connection string with credentials values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

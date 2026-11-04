@@ -31,7 +31,7 @@ This rule detects `DocumentBuilderFactory`, `SAXParserFactory`, dom4j `SAXReader
 
 Beyond entity expansion, the same lack of DOCTYPE hardening leaves the parser vulnerable to XML External Entity (XXE) attacks (CWE-611), where entity references point to file:// URIs or SSRF-capable http:// URIs that can read local files or probe internal services.
 
-## Why This Matters
+## Why this matters
 
 Any application that parses XML from external sources, REST API payloads, uploaded documents, message queue bodies, webhook callbacks, is a potential target. The Billion Laughs attack requires no authentication and no knowledge of application internals; the attacker only needs to find an XML parsing endpoint and send a crafted payload.
 
@@ -39,7 +39,7 @@ The attack is reliable because Java's default XML parser configuration is permis
 
 Successful XML DoS attacks have been used to disrupt financial transaction processing systems, healthcare data exchange endpoints (HL7/FHIR parsers), and enterprise integration middleware. Recovery from a JVM OOM crash triggered by an XML bomb can take minutes, and if the endpoint is publicly accessible the attack can be repeated faster than the service recovers.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: DocumentBuilderFactory without DOCTYPE protection

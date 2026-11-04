@@ -31,7 +31,7 @@ These functions share a fundamental design flaw: they write into the destination
 
 `gets` is the most dangerous of the set: it was entirely removed from the C11 standard (ISO/IEC 9899:2011) precisely because it cannot be used safely under any circumstances, there is no interface to pass a buffer size. All other functions in this family can theoretically be used safely only when the programmer can statically guarantee that the source will always be shorter than the destination, a guarantee that is almost never verifiable when input originates from external sources.
 
-## Why This Matters
+## Why this matters
 
 Buffer overflows via unbounded string copies are one of the oldest and most well-studied vulnerability classes, yet they continue to appear in real-world disclosures for network daemons, parsers, and embedded systems. Stack-based overflows can overwrite saved return addresses, enabling an attacker to redirect execution to shellcode or a return-oriented programming (ROP) chain. Heap-based overflows can corrupt heap metadata or adjacent allocations, enabling controlled writes to arbitrary memory locations.
 
@@ -44,7 +44,7 @@ Real-world examples:
 
 Exploitation of this class maps to ATT&CK T1203 (Exploitation for Client Execution) and CAPEC-100 (Overflow Buffers).
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: source from the environment, destination has no size

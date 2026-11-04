@@ -29,7 +29,7 @@ This rule flags PHP `include`, `require`, `include_once`, and `require_once` sta
 
 > **PHP default behavior:** `allow_url_include` is **Off** by default since PHP 5.2.0, which prevents RFI. However, `allow_url_fopen` is **On** by default, and LFI works regardless of either setting, the attacker only needs the web process to be able to read the targeted file.
 
-## Why This Matters
+## Why this matters
 
 LFI allows an attacker to include any file readable by the web server process. Against a typical PHP application this means:
 
@@ -45,7 +45,7 @@ If `allow_url_include` is enabled (non-default but common on legacy hosts), the 
 
 **OWASP ASVS v4.0 mapping:** V12.3.1, Verify that user-submitted filenames are validated against an allowlist of permitted extensions; V5.2.4, Verify that the application does not use dynamic file inclusion.
 
-## What Gets Flagged
+## What gets flagged
 
 An inclusion statement (with or without parentheses) whose path holds a request value, inline or through a variable assigned from one a few lines above. In-place filters such as `str_replace("../", "", $file)` do not clear the value.
 

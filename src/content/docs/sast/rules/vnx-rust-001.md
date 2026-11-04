@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Rust project directories where `Cargo.toml` is present but `Cargo.lock` is absent. Without a lock file, `cargo build` resolves dependency version ranges non-deterministically at build time: the exact versions selected depend on what is available in the crates.io index at that moment. This means two builds of the same source tree can silently incorporate different dependency versions, including versions that introduce security vulnerabilities or malicious code. This maps to CWE-829 (Inclusion of Functionality from Untrusted Control Sphere).
 
-## Why This Matters
+## Why this matters
 
 Supply chain attacks against package registries have become one of the most effective attack vectors in software security. The `cargo` ecosystem has seen incidents including the `rustdecimal` typosquatting attack and the broader pattern of maintainer account takeovers used to push malicious patch releases. When a crate you depend on is compromised (e.g., `serde@1.0.193` becomes malicious), a build without a lock file will pull the compromised version if it satisfies your version constraint in `Cargo.toml`.
 
@@ -35,7 +35,7 @@ With a `Cargo.lock` file committed to version control, the exact version hash of
 
 The Cargo team's official guidance is that all binary crates (applications) should commit `Cargo.lock`, and MITRE ATT&CK T1195.001 (Compromise Software Dependencies and Development Tools) covers this attack class directly.
 
-## What Gets Flagged
+## What gets flagged
 
 The finding is reported on line 1 of the `Cargo.toml` of a crate that declares at least one dependency (`[dependencies]`, `[dev-dependencies]`, `[build-dependencies]`, `[workspace.dependencies]`, `[target.*.dependencies]` or a `[dependencies.<name>]` table) when no `Cargo.lock` exists in that directory or any ancestor:
 

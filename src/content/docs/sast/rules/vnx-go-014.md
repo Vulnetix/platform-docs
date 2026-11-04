@@ -30,7 +30,7 @@ The idiomatic Go pattern for safe mutex usage is to call `defer mu.Unlock()` imm
 
 The rule follows each lock to the end of its function. It reports the lock when there is no deferred unlock for that receiver and either the function never unlocks it, or a `return` or `panic` is reached before the first matching `Unlock`. A short critical section that locks, does its work and unlocks with nothing that can exit in between is correct and is not reported, and neither is a lock followed by any `defer`red unlock (or a `defer func() {` block) further down. Wrapper methods named `Lock`/`RLock` (whose caller owns the unlock) and test files are skipped. There is no full data-flow analysis: a panic raised by a call in the middle of a critical section is not seen.
 
-## Why This Matters
+## Why this matters
 
 Deadlocks in Go services are particularly insidious because they are silent: the process continues to run, passes health checks that only test process liveness, and consumes memory and file descriptors, but stops serving requests. A single code path that panics while holding a mutex will cause all subsequent requests that touch the same resource to hang until the process is restarted.
 
@@ -38,7 +38,7 @@ MITRE ATT&CK T1499 (Endpoint Denial of Service) covers resource exhaustion attac
 
 Go's `go vet` and `staticcheck` tools catch some deadlock patterns but do not reliably detect the missing-defer case, making this a valuable additional check.
 
-## What Gets Flagged
+## What gets flagged
 
 ```go
 // FLAGGED: Lock() not followed immediately by defer Unlock()

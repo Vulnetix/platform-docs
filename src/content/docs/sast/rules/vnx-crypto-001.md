@@ -29,13 +29,13 @@ This rule detects invocations of the MD5 hashing algorithm across six languages 
 
 An MD5 digest that protects a security value is reported by a more precise rule, so the same line is not reported twice: a password passed straight into it by [VNX-CRYPTO-007](/sast/rules/vnx-crypto-007/), and a digest with a password, secret, token, session id, cookie, signature, salt, nonce, CSRF value or API key named around the call by [VNX-327](/sast/rules/vnx-327/).
 
-## Why This Matters
+## Why this matters
 
 The most damaging consequence of MD5 is in password storage: if your database is breached and passwords are stored as plain MD5 hashes, attackers can reverse the majority of them in minutes using precomputed tables or GPU-accelerated cracking. Large-scale breaches at LinkedIn (2012), RockYou (2009), and Adobe (2013) all involved weak hashing schemes similar to MD5, resulting in hundreds of millions of account takeovers.
 
 For file integrity and digital signatures, the SHAttered and Flame malware attacks demonstrated that MD5 collisions can be exploited to forge certificate signatures and code-signing payloads. Even when MD5 is used "only for checksums," an attacker controlling the data source can produce two different files with the same MD5 digest, negating the integrity guarantee entirely. CAPEC-97 (Cryptanalysis) covers this attack class.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches language-specific MD5 invocation patterns in source files:
 

@@ -29,13 +29,13 @@ This rule flags any Go source file that sets `InsecureSkipVerify: true` inside a
 
 > **Go idiom note:** Full TLS certificate validation IS the Go default. A default `http.Client{}` or `tls.Config{}` with no fields set performs complete chain and hostname verification against the system trust store. Setting `InsecureSkipVerify: true` is an explicit, non-default override that must be actively written, the secure behavior requires no code at all.
 
-## Why This Matters
+## Why this matters
 
 TLS serves two purposes: encrypting traffic in transit and authenticating the remote endpoint. `InsecureSkipVerify` disables the second. An attacker on the same network, a shared Wi-Fi, a cloud VPC, a compromised router, can present a fake certificate and intercept all traffic your application sends or receives. This is a man-in-the-middle attack (MITRE ATT&CK T1557). In practice this means API keys, session tokens, database credentials, and user data transmitted over what appears to be a secure HTTPS connection are fully visible to the attacker. The pattern commonly appears when developers work around certificate issues during development and the flag accidentally ships to production.
 
 OWASP ASVS v4.0 requirement **V9.1.2** requires that TLS certificates be valid, not expired, not revoked, and that the hostname matches. Requirement **V9.1.3** requires that only strong cipher suites are used. `InsecureSkipVerify` violates V9.1.2 entirely by design.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires on `InsecureSkipVerify: true` in a struct literal and on `x.InsecureSkipVerify = true`, in production Go code. A debug switch (`if debug {`) does not make it safe. It does not fire when the value comes from a variable, flag or environment value (the operator's choice), when `true` is set inside an `if` whose condition names the insecure option (`if o.Insecure {`, like `curl -k`), when the same config installs its own `VerifyPeerCertificate` or `VerifyConnection` callback (certificate pinning), in `_test.go`/testdata code, or in comments and strings.
 

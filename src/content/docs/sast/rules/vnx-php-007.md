@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to PHP's `extract()` function that operate directly on superglobals: `$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_SERVER`, and `$_FILES`. The `extract()` function imports each key of an associative array as a variable into the current scope. When an attacker controls the keys, as they do with any superglobal, they can inject variables of any name and value into the function's local scope, silently overwriting variables that were set before the call, including authentication flags, access control decisions, and database connection handles. This maps to [CWE-621: Variable Extraction Error](https://cwe.mitre.org/data/definitions/621.html).
 
-## Why This Matters
+## Why this matters
 
 Legacy PHP applications from the `register_globals` era (PHP 4 and early PHP 5) often used `extract($_GET)` or `extract($_POST)` at the top of pages as a convenience shortcut. This practice directly mirrors `register_globals = On`, a setting removed in PHP 5.4 specifically because it enabled exactly this class of attack. If a page does:
 
@@ -41,7 +41,7 @@ An attacker simply requests `?isAdmin=1` and gains admin access. The attack work
 
 The attack is equally effective against variables that influence SQL queries, file paths, or include statements, all of the variable-based vulnerabilities in this rule set can be enabled or worsened by a prior `extract()` call.
 
-## What Gets Flagged
+## What gets flagged
 
 Any construct that turns request fields into variables of the current scope.
 

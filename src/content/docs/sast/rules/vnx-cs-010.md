@@ -41,7 +41,7 @@ Deliberately not reported:
 
 Database connection strings in source code are one of the highest-impact forms of credential exposure. They typically contain the server, the database, the user and the password in a single string, which is everything needed to connect directly and read or change all stored data. Unlike API keys with limited scope, direct database credentials usually grant full read/write access to the application's data.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded database credentials in C# source code are a consistently high-severity finding in security audits and bug bounty programs. A connection string with a password committed to a repository, even a private one, is durable exposure: the credentials live on in version control history, build logs, CI artefact archives, every clone, and the compiled assembly, where `strings` recovers them. If the repository is later made public, forked, or accessed by an attacker, the credentials are immediately available.
 
@@ -49,7 +49,7 @@ The 2017 Uber breach and numerous other high-profile incidents involved credenti
 
 In .NET applications, connection strings belong in configuration that can be overridden by environment variables, or entirely in Azure Key Vault, AWS Secrets Manager, or .NET's User Secrets in development. `Scaffold-DbContext` even emits `#warning To protect potentially sensitive information in your connection string, you should move it out of source code.` above the string it writes into `OnConfiguring`. This maps to ATT&CK T1552 (Unsecured Credentials) and CAPEC-191 (Read Sensitive Constants Within an Executable).
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: literal password passed to a connection

@@ -29,7 +29,7 @@ This rule reports the string `Basic <base64>` (an `Authorization` header in a `.
 
 It does not report headers built from variables (`"Basic " + token`, f-strings, `${VAR}`, `$(...)`), text that does not decode to a credential (`Basic authentication`, `Basic realm`), default or placeholder pairs (`admin:password`, `user:pass`, a password equal to the user), comment lines, Markdown/reStructuredText/AsciiDoc, and test, fixture, vendored and generated files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 HEADERS = {"Authorization": "Basic c3ZjLWRlcGxveTpUcTh2TDJtWnA5V3g="}   # svc-deploy:Tq8vL2mZp9Wx
@@ -46,7 +46,7 @@ headers = {"Authorization": "Basic " + token}
 DEFAULT = {"Authorization": "Basic YWRtaW46cGFzc3dvcmQ="}   # admin:password
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded http basic authentication header values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

@@ -27,13 +27,13 @@ generated: true
 
 This rule flags calls to Python's built-in `eval()` and `exec()` functions. Both functions evaluate their string argument as executable Python code, making them equivalent to giving an attacker a Python shell if any portion of the argument originates from user input, a network response, a file, or any other external source. Even usage with seemingly static input is dangerous because it establishes a pattern that is easy to accidentally extend with dynamic content. This maps to [CWE-94: Improper Control of Generation of Code (Code Injection)](https://cwe.mitre.org/data/definitions/94.html).
 
-## Why This Matters
+## Why this matters
 
 A successful code injection via `eval()` or `exec()` gives an attacker the same privileges as the Python process. In a web application context this typically means the ability to read environment variables (and therefore secrets and credentials), open outbound network connections, read or write arbitrary files, and execute system commands. Unlike many other vulnerability classes, there is no partial exploitation, the attacker has full control once the injection succeeds.
 
 Developers often reach for `eval()` as a shortcut to parse structured data (JSON-like expressions, configuration, arithmetic) or to implement plugin systems. Every one of those use cases has a safe, purpose-built alternative. The `exec()` function is commonly used in code generation or test tooling, but even in those contexts restricting the globals/locals dictionaries does not provide meaningful security, an attacker can escape the restriction using `__builtins__` introspection.
 
-## What Gets Flagged
+## What gets flagged
 
 A call to the `eval()` or `exec()` builtin (bare or as `builtins.eval`/`builtins.exec`), or to Pillow's `ImageMath.eval()`/`ImageMath.unsafe_eval()`, whose code argument is not a constant string: a variable, a request value, an f-string, a concatenation or a format call.
 

@@ -31,7 +31,7 @@ The rule reads the enclosing block of each CIDR attribute rather than searching 
 
 This rule corresponds to [CWE-1220: Insufficient Granularity of Access Control](https://cwe.mitre.org/data/definitions/1220.html).
 
-## Why This Matters
+## Why this matters
 
 Security groups are the primary network-level access control in AWS. When a security group allows traffic from `0.0.0.0/0`, the protected resource is reachable from anywhere on the internet. This dramatically expands the attack surface: automated scanners probe every public IP address for open ports, and any vulnerability in the exposed service, an unpatched CVE, a weak password, or a misconfigured endpoint, can be exploited by attackers worldwide.
 
@@ -39,7 +39,7 @@ The practical consequences depend on what service is exposed. An SSH port (22) o
 
 Even for services that are intended to be publicly accessible (web servers on port 443), best practice is to restrict as much as operationally possible and to use a load balancer or CDN as the public endpoint, keeping the underlying instances in private subnets.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_security_group" "bastion" {

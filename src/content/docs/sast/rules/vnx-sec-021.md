@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Twilio credentials in source files: API keys matching `SK[a-f0-9]{32}` and Account SIDs matching `AC[a-f0-9]{32}`. Twilio credentials authenticate requests to the Twilio API for SMS messaging, voice calls, WhatsApp, video conferencing, and email services. An Account SID combined with an Auth Token (or an API key pair) provides full programmatic access to all communication services on the account, including the ability to send messages, make calls, and access call logs.
 
-## Why This Matters
+## Why this matters
 
 Leaked Twilio credentials enable several high-impact attack scenarios. The most immediate is SMS-based fraud and harassment: an attacker can use your account to send bulk SMS messages to phone numbers around the world, generating large bills on your Twilio account. Twilio charges per message, and a sustained attack can accumulate thousands of dollars in charges within hours.
 
@@ -35,7 +35,7 @@ Beyond financial harm, an attacker can use your Twilio account to conduct SMS ph
 
 There are documented cases of attackers stealing Twilio credentials from source repositories and using them to intercept 2FA codes for downstream attacks on other services, as demonstrated by the 2022 Twilio breach that affected Okta, Signal, and other companies in a supply chain compromise.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # Flagged: a 32-character auth token assigned to a name that says what it is

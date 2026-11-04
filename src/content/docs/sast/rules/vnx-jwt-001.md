@@ -29,7 +29,7 @@ A token is decoded and trusted without its signature being verified: PyJWT/pytho
 
 **OWASP ASVS v4:** [3.5.3](https://asvs.dev/v4.0.3/V3-Session-management/) – Stateless session tokens must use digital signatures and other countermeasures to protect against null cipher and key substitution attacks.
 
-## Why This Matters
+## Why this matters
 
 JWT authentication relies entirely on signature verification. The signature is a cryptographic proof that the token was issued by a party holding the signing key and that its contents have not been altered. Disabling verification means any JSON payload, base64url-encoded and passed as a token, will be accepted regardless of its source or content.
 
@@ -65,7 +65,7 @@ A vulnerable library that calls a single algorithm-agnostic `verify()` without c
 | **java-jwt** (Java/Auth0) | No. `Algorithm` is a mandatory, typed constructor parameter. There is no `Algorithm.NONE` constant; you must explicitly construct a signing algorithm. |
 | **golang-jwt** (Go) | No. `alg=none` is rejected unless the caller explicitly passes `jwt.UnsafeAllowNoneSignatureType` as the key, a deliberately conspicuous opt-in. |
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: verify_signature=False bypasses all signature checks (PyJWT)

@@ -27,7 +27,7 @@ generated: true
 
 This rule detects `WebSocket.Server` instantiation without a `verifyClient` callback, and Socket.IO servers configured with `cors: { origin: '*' }`. Both patterns make the server vulnerable to Cross-Site WebSocket Hijacking (CSWSH), where a malicious web page silently opens a WebSocket connection using the victim's browser credentials (cookies, HTTP authentication) and reads or controls the authenticated session. This is CWE-1385 (Missing Origin Validation in WebSockets).
 
-## Why This Matters
+## Why this matters
 
 Unlike regular HTTP requests, WebSocket upgrade requests include cookies and HTTP authentication headers automatically. The WebSocket API does not enforce the Same-Origin Policy at the protocol level, browsers allow any page to initiate a WebSocket connection to any server. This means a malicious site at `https://evil.example` can open a WebSocket to `wss://bank.example/ws` and the victim's session cookie will be included in the upgrade request.
 
@@ -37,7 +37,7 @@ The `ws` library's `WebSocket.Server` does **not** perform origin validation by 
 
 **OWASP ASVS v4:** V13.5.2, Verify that WebSocket connections are authenticated and only accept connections from the expected origins.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: no verifyClient and no origin check in the file

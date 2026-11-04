@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Java code that sends HTTP request data back to the browser inside an HTML response without encoding it. The value can come straight from `request.getParameter()`, `getHeader()`, `getCookies()`, `getQueryString()`, `getPathInfo()` or `getRequestURI()`, from an annotated Spring or JAX-RS handler parameter (`@RequestParam`, `@PathVariable`, `@RequestBody`), or from a local assigned from one of those. An attacker who gets a victim to follow a crafted link makes the page run the attacker's script in the victim's session. This is reflected cross-site scripting, CWE-79.
 
-## Why This Matters
+## Why this matters
 
 Script that runs in the origin of your application can read anything the user can read and do anything the user can do: it can steal session tokens that are not `HttpOnly`, submit forms, change the account email, or rewrite the page to harvest credentials. A reflected value needs no stored data, only a link, so it spreads by email, chat and search results.
 
 Output encoding is the control that works, because it is applied at the one place the context is known. Input validation helps but cannot stand in for it: a name such as `O'Brien` is valid input and still breaks out of a single-quoted attribute.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the response write whose argument carries request data:
 

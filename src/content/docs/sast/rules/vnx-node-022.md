@@ -31,7 +31,7 @@ Unlike Node.js built-in `child_process.execFile()`, which accepts a command and 
 
 Command injection via `shelljs` typically results in full remote code execution with the privileges of the Node.js process. In containerised or cloud environments where the application runs as root or with broad IAM permissions, the impact is amplified significantly.
 
-## Why This Matters
+## Why this matters
 
 Shell injection is one of the highest-impact vulnerabilities in web applications. An attacker who can control the argument to `shell.exec()` can read and exfiltrate any file on the server, modify system files, install persistent backdoors, pivot to internal network services, and exfiltrate cloud instance credentials via the metadata API.
 
@@ -39,7 +39,7 @@ Shell injection is one of the highest-impact vulnerabilities in web applications
 
 The danger is compounded by the fact that escaping shell arguments correctly is notoriously error-prone. Even well-intentioned sanitisation often misses edge cases. The correct fix is to avoid the shell entirely by using `child_process.execFile()` or `child_process.spawn()` with `shell: false` and a separated argument array.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 const shell = require('shelljs');

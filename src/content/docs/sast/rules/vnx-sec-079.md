@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a GitHub fine-grained personal access token, `github_pat_` followed by 22 alphanumeric characters, an underscore and 59 more, on its own, assigned, in an `Authorization` header or inside a clone URL. The token is redacted in the finding's snippet.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded github fine-grained personal access token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED

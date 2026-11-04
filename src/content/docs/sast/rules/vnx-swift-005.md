@@ -31,7 +31,7 @@ Both patterns represent privilege escalation opportunities for JavaScript runnin
 
 This maps to [CWE-272: Least Privilege Violation](https://cwe.mitre.org/data/definitions/272.html).
 
-## Why This Matters
+## Why this matters
 
 WebView components are among the highest-risk surfaces in mobile applications because they execute arbitrary HTML and JavaScript. When an app renders content from external URLs, user-generated content, or third-party iframes, any cross-site scripting (XSS) vulnerability in that content can be exploited against the native application context. The `javaScriptCanOpenWindowsAutomatically` setting extends what a successful XSS can accomplish: the attacker-controlled script can open additional windows, potentially loading attacker-controlled content in what appears to be the legitimate application interface.
 
@@ -39,7 +39,7 @@ WebView components are among the highest-risk surfaces in mobile applications be
 
 Hybrid applications that expose Swift-JavaScript bridges (using `WKScriptMessageHandler` or `addJavaScriptInterface`) are particularly sensitive to this class of vulnerability because XSS can directly invoke native code.
 
-## What Gets Flagged
+## What gets flagged
 
 ```swift
 // FLAGGED: JavaScript window opening enabled in WKPreferences

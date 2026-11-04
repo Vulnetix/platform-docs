@@ -27,7 +27,7 @@ generated: true
 
 This rule detects calls to logging functions (`console.log`, `logger.info`, `logger.debug`, `print`, `println`, `System.out.print`, etc.) where the argument references variables or parameters named `password`, `passwd`, `secret_key`, `api_key`, `apikey`, `private_key`, `auth_token`, or `access_token`. Logging sensitive data is a common developer mistake that creates a persistent secondary copy of secrets in log files, standard output streams, monitoring dashboards, and log aggregation services.
 
-## Why This Matters
+## Why this matters
 
 Log files have very different access control properties than application secrets. Logs are often:
 - Aggregated into centralized systems (Splunk, Elasticsearch, Datadog, CloudWatch) accessible to many team members
@@ -38,7 +38,7 @@ Log files have very different access control properties than application secrets
 
 A password logged during a failed authentication attempt, a token logged when a request is made, or an API key logged in a "debug mode" that was accidentally left enabled can persist in log infrastructure long after the credential is rotated in the application. If the log system is breached, every secret that was ever logged becomes available to the attacker.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: password logged in debug statement

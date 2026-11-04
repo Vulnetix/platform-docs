@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Stripe secret API keys matching the patterns `sk_live_[0-9a-zA-Z]{24,}` and `sk_test_[0-9a-zA-Z]{24,}` in source files. Stripe secret keys are used to make authenticated requests to the Stripe API and provide complete control over a Stripe account: creating charges, issuing refunds, accessing customer payment methods, creating subscriptions, and downloading financial reports. Live keys (`sk_live_`) operate against real payment data; test keys (`sk_test_`) affect only the Stripe test environment but still represent a credential management failure.
 
-## Why This Matters
+## Why this matters
 
 A leaked Stripe live secret key gives an attacker the ability to issue refunds draining your balance, create fraudulent charges to your customers' saved payment methods, download your entire customer and transaction database, create new API keys and webhooks for persistent access, and exfiltrate payout account details. Stripe tracks API usage and can flag unusual activity, but by the time a finding is raised significant damage may already be done.
 
@@ -35,7 +35,7 @@ Test keys (`sk_test_`) are less immediately dangerous but their presence indicat
 
 Note that Stripe also issues restricted keys and publishable keys, this rule specifically targets secret keys because they provide write access to the account.
 
-## What Gets Flagged
+## What gets flagged
 
 A standalone `sk_live_` (live mode) or `sk_test_` (test mode) token of 24 or more alphanumeric characters: assigned to `stripe.api_key`, `Stripe.api_key` or `stripe.Key`, passed to `require('stripe')(...)` or `\Stripe\Stripe::setApiKey(...)`, or set in a `.env` file.
 

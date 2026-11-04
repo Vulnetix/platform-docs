@@ -29,7 +29,7 @@ This rule detects JWT operations that explicitly use or accept the `none` algori
 
 The `none` algorithm was originally included in the JWT specification to support use cases where JWTs are transmitted over already-authenticated channels and a signature would be redundant. In practice, its inclusion in production authentication flows is almost always a mistake or a deliberate attack. Several high-profile CVEs have been filed against JWT libraries that accepted `none` by default or allowed it to be specified in the token header.
 
-## Why This Matters
+## Why this matters
 
 The `none` algorithm attack on JWTs is well documented: an attacker takes a valid token, decodes the header (which is just base64), changes the `alg` field to `"none"`, re-encodes, and strips the signature. A vulnerable library accepts this token as valid because it sees `alg: none` and skips signature verification. This allows complete authentication bypass and identity spoofing.
 
@@ -37,7 +37,7 @@ CAPEC-196 (Session Credential Falsification through Forging) and MITRE ATT&CK T1
 
 The fix is straightforward: always specify a strong algorithm explicitly and never include `none` in the list of accepted algorithms.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: jwt.encode with algorithm='none'

@@ -31,7 +31,7 @@ PHP sessions store state in server-side storage keyed by string names that the a
 
 This class of vulnerability is sometimes called "session poisoning" or "session variable overwrite". It is conceptually similar to mass assignment (VNX-PHP-021) but operates on session state rather than database model attributes. The impact depends on what session variables the application trusts, commonly: `authenticated`, `user_id`, `role`, `is_admin`, `csrf_token`, and `permissions`.
 
-## Why This Matters
+## Why this matters
 
 Session state is the primary mechanism through which PHP applications enforce authentication and authorisation. A vulnerability that allows an attacker to write arbitrary values under arbitrary keys can bypass both. If the attacker can set `$_SESSION['authenticated'] = true` or `$_SESSION['role'] = 'admin'`, they gain the application privileges associated with those values without going through the normal authentication or authorisation flow.
 
@@ -39,7 +39,7 @@ CSRF tokens stored in sessions are also a common target. Overwriting a CSRF toke
 
 The indirect pattern (where the user input is assigned to a variable first, then used as the key) is the harder variant to spot in code review, which is why the rule detects both same-line and multi-line patterns.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: superglobal used directly as session key

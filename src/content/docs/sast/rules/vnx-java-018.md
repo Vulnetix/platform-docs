@@ -31,7 +31,7 @@ PKCS#1 v1.5 padding prepends a structured sequence of bytes to the plaintext bef
 
 OAEP (Optimal Asymmetric Encryption Padding) provides probabilistic encryption and is provably secure in the random oracle model. It does not have a padding oracle vulnerability.
 
-## Why This Matters
+## Why this matters
 
 The ROBOT (Return Of Bleichenbacher's Oracle Threat) vulnerability, disclosed in 2017, demonstrated that 27 of the top 100 Alexa websites, including Facebook, PayPal, and major US government sites, were vulnerable to the 1998 Bleichenbacher attack. An attacker with the ability to make adaptive queries against the TLS handshake could decrypt TLS session keys encrypted under RSA PKCS#1 v1.5, breaking the confidentiality of past and present sessions.
 
@@ -39,7 +39,7 @@ In application code, the risk is equally concrete. An API that uses RSA PKCS#1 v
 
 No-padding mode (`NoPadding`) is even more dangerous: it provides textbook RSA with no randomness, making it trivially malleable. Multiplying a ciphertext by the encryption of a known value produces a ciphertext that decrypts to the plaintext multiplied by the known value, a property that enables chosen-ciphertext attacks without any oracle at all.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: PKCS#1 v1.5 padding is vulnerable to padding oracle attacks

@@ -27,7 +27,7 @@ generated: true
 
 This rule flags Flask `app.run()` calls that include `debug=True`. When Flask runs in debug mode it enables the Werkzeug interactive debugger. This debugger provides an in-browser Python console that evaluates arbitrary code in the context of the running application, by design, for development use. In production, this means any user who triggers an unhandled exception and navigates to the error page has access to an interactive Python shell running as the application's OS user. This maps to [CWE-489: Active Debug Code](https://cwe.mitre.org/data/definitions/489.html).
 
-## Why This Matters
+## Why this matters
 
 The Werkzeug debugger includes a PIN protection mechanism, it generates a PIN from machine-specific information and requires the developer to enter it before the console is accessible. However, this protection has been bypassed multiple times in practice. Depending on the Flask version, the PIN can be derived from:
 
@@ -40,7 +40,7 @@ An attacker who can read any of these values through a separate information disc
 
 Beyond the PIN bypass, even if the PIN were unbreakable, having the debugger present in production generates detailed tracebacks visible to end users, leaking application code, file system paths, and configuration.
 
-## What Gets Flagged
+## What gets flagged
 
 In a file that imports `flask` or `werkzeug` (test files excluded): `run(..., debug=True)` on the Flask application object (a name assigned from `Flask(...)` or `SocketIO(...)`, `app`, `application`, or `create_app()`), including a call broken over several lines; `app.debug = True`; `app.config["DEBUG"] = True` and `app.config.update(DEBUG=True)`; `run_simple(..., use_debugger=True)`; and `DebuggedApplication(..., evalex=True)`.
 

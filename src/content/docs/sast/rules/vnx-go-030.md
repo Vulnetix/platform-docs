@@ -29,13 +29,13 @@ This rule flags Go code that creates an `http.Cookie` struct without setting `Se
 
 This is particularly dangerous for session management. Even if your application enforces HTTPS at the server level, a cookie without the `Secure` flag can be exposed the moment a user's browser makes any HTTP request to your domain, for example, by following a link to `http://` rather than `https://`. Mixed-content scenarios and HTTP-to-HTTPS redirect chains are common in real deployments and create a reliable interception window.
 
-## Why This Matters
+## Why this matters
 
 The `Secure` flag is a defense-in-depth control that operates at the browser level: the browser itself refuses to send the cookie over unencrypted channels regardless of the application's redirect logic. Omitting it means the protection depends entirely on every HTTP request always redirecting to HTTPS, every link in the application using `https://`, and no intermediary ever downgrading the connection, assumptions that frequently fail in practice.
 
 Passive interception on open Wi-Fi networks, HTTP downgrade attacks such as SSLstrip, and DNS-based interception can all expose session cookies that lack the `Secure` attribute. OWASP explicitly requires the `Secure` flag on all sensitive cookies in its Session Management Cheat Sheet, and CAPEC-63 (Simple Script Injection) documents cookie theft as a standard attack goal achievable when this flag is absent.
 
-## What Gets Flagged
+## What gets flagged
 
 A cookie the server sends without the `Secure` attribute.
 

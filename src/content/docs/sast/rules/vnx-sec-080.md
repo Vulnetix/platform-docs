@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a GitHub OAuth access token (`gho_`), GitHub App user-to-server token (`ghu_`), App installation token (`ghs_`) or refresh token (`ghr_`, 36 or 76 characters), quoted, assigned, in an `Authorization` header or inside a clone URL. The token is redacted in the finding's snippet.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded github oauth / app / refresh token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 # FLAGGED: installation token inside a clone URL

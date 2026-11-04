@@ -31,7 +31,7 @@ Reflected XSS occurs when the injected payload is present in the request and ref
 
 PHP's `echo` construct and `print()` function perform no output encoding by default. Every instance that outputs user-supplied data without `htmlspecialchars()` is a potential XSS vector.
 
-## Why This Matters
+## Why this matters
 
 XSS remains one of the most widespread web vulnerabilities and one of the most versatile. An attacker who achieves JavaScript execution in a victim's browser session can steal the session cookie (if `httpOnly` is not set), capture keystrokes including passwords, redirect the user to a phishing site, silently perform authenticated actions (password change, money transfer, account deletion), and exfiltrate data from the page.
 
@@ -39,7 +39,7 @@ Session theft is particularly damaging because it grants the attacker persistent
 
 PHP codebases that mix HTML and PHP logic are especially prone to scattered `echo $_GET[...]` calls that appear throughout template files. A systematic audit is necessary to find all output sites.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 <!-- FLAGGED: GET param echoed directly into HTML -->

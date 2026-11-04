@@ -29,7 +29,7 @@ This rule reports an Airtable credential written into a file: a personal access 
 
 It does not report placeholder or low-entropy bodies, `key`-prefixed names on lines without Airtable context, tokens read from the environment, or test, fixture and vendored paths.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: personal access token passed to pyairtable
@@ -46,7 +46,7 @@ Airrecord.api_key = "key<14 alphanumerics>"
 cache_key = "keyAbc123Def456Gh"
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded airtable personal access token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

@@ -31,7 +31,7 @@ This rule detects PHP `curl_setopt()` calls that set `CURLOPT_SSL_VERIFYPEER` to
 
 Both options are frequently disabled as a shortcut when working with self-signed certificates in development or staging environments and then accidentally committed to production code. Some code is copied from Stack Overflow answers that disable verification "for testing" without recognising the security implications.
 
-## Why This Matters
+## Why this matters
 
 Disabling TLS certificate validation makes HTTPS equivalent to HTTP from a security perspective. A network attacker, anyone who can intercept traffic between the PHP server and the remote endpoint, can present a fake certificate and conduct a full man-in-the-middle attack. They read all data sent and received, modify requests and responses in transit, and inject malicious content without detection.
 
@@ -39,7 +39,7 @@ In API integration contexts, this means an attacker can intercept authentication
 
 In cloud environments where PHP servers make calls to internal services, secrets management endpoints, or metadata APIs, a compromised network path combined with disabled certificate verification creates significant privilege escalation opportunities.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: certificate chain verification disabled

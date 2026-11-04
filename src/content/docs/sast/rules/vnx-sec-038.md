@@ -27,11 +27,11 @@ generated: true
 
 This rule detects Terraform Cloud API tokens matching `<14 chars>.atlasv1.<60-70 chars>`. Terraform Cloud tokens grant the ability to trigger runs that can alter production infrastructure, modify variable values, and read state files (which may contain plaintext secrets for downstream resources).
 
-## Why This Matters
+## Why this matters
 
 A leaked TFC token can trigger a speculative apply that destroys production infrastructure. The attacker can also modify workspace variables (which often contain database credentials) and read state, which frequently contains unredacted secret values.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged (in any file, including `.tfvars` and `.terraformrc`):
 

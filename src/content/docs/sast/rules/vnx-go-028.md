@@ -29,13 +29,13 @@ This rule flags a password passed to a fast general-purpose digest (`md5`, `sha1
 
 Password hashing is a fundamentally different problem from data integrity hashing. A good password hashing algorithm is deliberately slow and incorporates a per-user salt to defeat precomputation attacks. MD5 and SHA-1 have neither of these properties and have additionally been shown to have serious collision vulnerabilities, making them unsuitable for any security-sensitive purpose.
 
-## Why This Matters
+## Why this matters
 
 Real-world breaches consistently demonstrate the danger of weak password hashing. When databases using MD5 or SHA-1 are leaked, attackers can crack the majority of passwords within hours using GPU-accelerated tools like Hashcat. Even salted MD5/SHA-1 hashes provide only marginal additional protection because the underlying compute cost remains negligible. LinkedIn's 2012 breach (117 million unsalted SHA-1 hashes) and Adobe's 2013 breach (3DES-ECB encrypted passwords) are well-known examples of weak credential storage leading to mass account compromise.
 
 OWASP explicitly lists MD5 and SHA-1 as prohibited for password storage in its Password Storage Cheat Sheet, and NIST SP 800-63B prohibits the use of non-adaptive hashing for passwords. The correct algorithms, bcrypt, scrypt, and Argon2, are available in the `golang.org/x/crypto` package and require only a few lines of code to use correctly.
 
-## What Gets Flagged
+## What gets flagged
 
 A value that names a password passed to a general-purpose digest: `md5.Sum`, `sha1.Sum`, `sha256.Sum256`, `sha512.Sum512`, a hasher from `md5.New()`/`sha256.New()` written with it, or a helper named for the digest.
 

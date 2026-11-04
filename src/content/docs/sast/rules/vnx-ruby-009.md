@@ -31,7 +31,7 @@ The danger is compounded by the breadth of methods available on common Rails obj
 
 This rule corresponds to [CWE-94: Improper Control of Generation of Code ('Code Injection')](https://cwe.mitre.org/data/definitions/94.html).
 
-## Why This Matters
+## Why this matters
 
 Dynamic dispatch via `send` is a powerful metaprogramming feature that Rails and Ruby libraries use extensively for legitimate purposes, for example, routing DSLs and attribute accessors. When developers carry this pattern into controller or model code while accepting the method name from user input, they inadvertently expose the entire Ruby object graph to the internet.
 
@@ -39,7 +39,7 @@ A realistic attack scenario: a REST API accepts a JSON body containing `{"action
 
 Even `public_send`, which restricts dispatch to public methods, provides a much larger attack surface than developers typically realise. Protecting against this class of vulnerability requires treating the method name as untrusted data and validating it against a fixed allowlist before any dispatch occurs.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a `send`, `public_send`, `__send__` (with or without a receiver or parentheses) or `try` call in a `.rb` file whose first argument, the method name, comes from `params`, `request.params`/`query_parameters`/`headers` or `cookies`: directly, inside an interpolated or concatenated string, or through a variable assigned from that input within the 15 lines above.
 

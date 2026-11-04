@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Spring Boot configuration files (`application.properties`, `application.yml`, or environment-specific variants) that set `management.endpoints.web.exposure.include` to the wildcard value `*`. This single configuration change exposes every registered actuator endpoint over HTTP, including endpoints that can reveal secrets, crash the JVM, or reconfigure the running application without a restart. The behaviour is covered by CWE-200 (Exposure of Sensitive Information to an Unauthorized Actor).
 
-## Why This Matters
+## Why this matters
 
 Spring Boot Actuator ships with endpoints that are extraordinarily powerful in a development context but dangerous when exposed to the internet or to untrusted internal networks. The `/actuator/heapdump` endpoint produces a full Java heap snapshot that can be analysed offline with tools like Eclipse Memory Analyzer to extract plaintext passwords, JWTs, database credentials, and private keys that happen to be live objects at the time of the dump.
 
 The `/actuator/env` endpoint lists every environment variable, system property, and `@ConfigurationProperties` value, including those that Spring partially masks but that can sometimes be unmasked by other endpoints. The `/actuator/shutdown` endpoint, when enabled, lets any unauthenticated caller terminate the JVM process. The `/actuator/loggers` endpoint allows changing log levels at runtime, which can be abused to force verbose logging of secrets. Real-world breaches (including incidents tied to Alibaba Cloud and misconfigured Kubernetes deployments) have involved exposed actuator endpoints as initial access vectors.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reads `application*.properties|yml|yaml` and `bootstrap*` files outside test resources. It reports a web exposure include of `*` or of a sensitive endpoint (`env`, `heapdump`, `threaddump`, `shutdown`, `jolokia`, `configprops`, `httptrace`, `logfile`, `restart`), an enabled `shutdown` endpoint, and the Spring Boot 1.x switches `management.security.enabled=false` and `endpoints.sensitive=false`. It applies to Java and Kotlin projects, and in YAML it reads the full key path, so an `include` under `jmx` or under an unrelated mapping is ignored. It does not report `health,info,metrics`, exclude lists, JMX exposure, or a project whose Java or Kotlin code secures actuator endpoints with `EndpointRequest`.
 

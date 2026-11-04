@@ -27,7 +27,7 @@ generated: true
 
 This rule detects calls to `DirContext.search()`, `ctx.search()`, or `dirContext.search()` where the LDAP filter argument includes a value read directly from `request.getParameter()` or `req.getParameter()`, as well as patterns where LDAP filter syntax characters are concatenated around a parameter value. Unsanitized user input in an LDAP filter enables LDAP injection (CWE-90), allowing attackers to alter the filter logic, bypass authentication, and exfiltrate directory entries.
 
-## Why This Matters
+## Why this matters
 
 LDAP is commonly used for authentication and authorisation in enterprise applications, particularly those backed by Active Directory or OpenLDAP. LDAP injection attacks against authentication filters are analogous to SQL injection against login queries: by manipulating the filter logic the attacker can authenticate as any user, including administrators.
 
@@ -35,7 +35,7 @@ A filter like `(&(uid=` + username + `)(userPassword=` + password + `))` is vuln
 
 JNDI lookups (particularly in Log4j-style contexts) can also trigger network requests to attacker-controlled LDAP servers, leading to JNDI/RCE as demonstrated by Log4Shell, though that attack vector is distinct from the filter injection detected by this rule.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the search call when its filter or base DN carries request data (a servlet request value, an annotated handler parameter, or a local built from one earlier in the same method). For UnboundID, a `SearchRequest` built from request data is reported where it is constructed; the `conn.search(sr)` that merely runs a prebuilt request is not reported a second time. Filters with `{0}` placeholders, values passed through `LdapEncoder.filterEncode` or `Filter.encodeValue`, and `EqualsFilter`/`AndFilter` objects are not reported.
 

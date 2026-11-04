@@ -33,7 +33,7 @@ It does not report loopback peers and bind addresses (`localhost`, `127.x`, `::1
 
 Plain sockets are appropriate only for communication that is already encrypted at a higher layer (e.g., inside an established SSH tunnel) or for local loopback connections where network interception is not a threat. Any socket that traverses a network that could be accessed by an adversary must use TLS.
 
-## Why This Matters
+## Why this matters
 
 Network eavesdropping is trivially easy on many network segments. Public Wi-Fi networks are the most obvious example, passive sniffing requires no special hardware and is undetectable by the target. But internal corporate networks, cloud virtual networks, and containerised environments are also subject to interception by compromised or malicious hosts with network access.
 
@@ -41,7 +41,7 @@ Man-in-the-middle attacks are a step beyond passive sniffing: by intercepting an
 
 Android applications using plain sockets are particularly exposed because Android devices frequently connect to public or semi-trusted Wi-Fi networks. The Android Network Security Configuration explicitly disallows cleartext traffic by default from API level 28 onwards, a plain socket bypasses this protection because it is not HTTP.
 
-## What Gets Flagged
+## What gets flagged
 
 ```kotlin
 // FLAGGED: plain Socket for outbound connection

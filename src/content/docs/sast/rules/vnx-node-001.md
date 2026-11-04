@@ -29,7 +29,7 @@ This rule detects Node.js projects that have a `package.json` but no correspondi
 
 Lock files are **not generated automatically** by Node.js or npm. You must run `npm install`, `yarn install`, or `pnpm install` explicitly to create one, and then commit it to version control. Without this step, your dependency tree is non-deterministic across environments.
 
-## Why This Matters
+## Why this matters
 
 In a dependency confusion attack, an adversary publishes a public package with the same name as one of your internal packages but a higher version number. Without a lock file pinning exact resolved versions, `npm install` may silently pull the malicious public package instead of your internal one. The 2021 dependency confusion attack by security researcher Alex Birsan demonstrated this against Apple, Microsoft, and dozens of other companies, every affected project lacked pinned dependencies.
 
@@ -37,7 +37,7 @@ Beyond malicious substitution, floating ranges mean that a legitimate upstream p
 
 OWASP ASVS v4 requirement **V10.3.2** states: "Verify that the application only uses software components without known vulnerabilities." Pinning dependencies via a lock file is a prerequisite for this, you cannot audit what you cannot enumerate.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a `package.json` (line 1) that declares at least one entry in `dependencies`, `devDependencies` or `optionalDependencies` when no lock file (`package-lock.json`, `npm-shrinkwrap.json`, `yarn.lock`, `pnpm-lock.yaml`, `bun.lock`, `bun.lockb`, `deno.lock`) exists in the same directory or in an ancestor directory that is a workspace root (`"workspaces"`, `pnpm-workspace.yaml` or `lerna.json`).
 

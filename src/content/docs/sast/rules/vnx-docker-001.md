@@ -29,7 +29,7 @@ This rule detects Dockerfiles that contain a `FROM` instruction but no `USER` di
 
 **Default behaviour:** Running as root IS the Docker default. You must explicitly opt out by adding a `USER` instruction.
 
-## Why This Matters
+## Why this matters
 
 Container isolation is not a security boundary equivalent to a virtual machine. If a container runs as root and an attacker achieves code execution inside it, they can potentially escape to the host or move laterally through the cluster. Multiple published container escape CVEs have been substantially more impactful because the target container process was running as root:
 
@@ -41,7 +41,7 @@ In Kubernetes environments, a root container combined with a `hostPath` volume m
 
 The principle of least privilege applies inside containers just as it does on bare metal: your application almost certainly does not need root to serve HTTP requests, process jobs, or run a database, and running as a non-root user limits what an attacker can do if they compromise the process.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule judges the stage that becomes the image (the last `FROM`). It reports the last `FROM` line when that stage sets no `USER` and inherits none, and the `USER` line when the stage's last `USER` is `root`, `0`, `0:0` or the Windows `ContainerAdministrator` (case-insensitive). A `USER` set only in a builder stage does not carry over, so it does not help.
 

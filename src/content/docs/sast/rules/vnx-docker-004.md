@@ -27,7 +27,7 @@ generated: true
 
 This rule detects `ADD` instructions in Dockerfiles that download content directly from an HTTP or HTTPS URL (e.g., `ADD https://example.com/tool.tar.gz /usr/local/`). While Docker's `ADD` instruction supports URL downloads, it performs no checksum or signature verification of the downloaded content, the build silently accepts whatever bytes the server returns. This creates a supply chain attack vector where a compromised server, a DNS hijack, or a BGP rerouting can substitute malicious content without any build-time detection. This maps to CWE-829 (Inclusion of Functionality from Untrusted Control Sphere).
 
-## Why This Matters
+## Why this matters
 
 When `ADD` fetches from a URL, the Docker daemon connects to that URL at build time and copies the response body into the image layer. There is no built-in mechanism to verify:
 
@@ -39,7 +39,7 @@ This is exactly the attack surface exploited in the 2020 SolarWinds attack and t
 
 The Docker documentation itself discourages using `ADD` with URLs, explicitly recommending `curl` or `wget` with checksum verification instead.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `ADD` instructions whose source is remote (`http://`, `https://`, `git://`, `ssh://` or `git@host:`) and that carry no `--checksum=`. Flags before the source, lowercase instructions, the JSON form, a source on a continuation line and `ONBUILD ADD` are all handled.
 

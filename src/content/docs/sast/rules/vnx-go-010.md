@@ -27,11 +27,11 @@ generated: true
 
 This rule flags Go code that calls `des.NewCipher`, `des.NewTripleDESCipher`, `rc4.NewCipher` or one of the deprecated `golang.org/x/crypto` 64-bit-block ciphers, or lists an RC4/3DES suite in `tls.Config.CipherSuites` or a 3DES/arcfour cipher in an `x/crypto/ssh` `Ciphers` list. DES has a 56-bit effective key length that can be brute-forced in hours with commodity hardware. Triple DES (3DES) was deprecated by NIST in 2017 and is prohibited after 2023 due to the Sweet32 birthday attack. RC4 has serious statistical biases that can leak plaintext, especially in protocols where the same key is reused. Any data encrypted with these algorithms must be treated as potentially exposed. This maps to [CWE-327: Use of a Broken or Risky Cryptographic Algorithm](https://cwe.mitre.org/data/definitions/327.html).
 
-## Why This Matters
+## Why this matters
 
 Cryptographic algorithm selection is a long-lived decision, data encrypted today may need to remain confidential for years. DES was broken publicly in 1999 with a $250,000 machine that cracked it in 22 hours; modern GPUs and cloud computing make this dramatically cheaper. Triple DES provides only 112 bits of effective security rather than 168, and the Sweet32 attack allows plaintext recovery from long-lived sessions using the same key. RC4 was deprecated by the IETF in RFC 7465 (prohibited in TLS) after practical attacks were demonstrated against it in real-world protocols including WEP (Wi-Fi) and SSL. Attackers can decrypt data at rest, intercept and decrypt communications, or forge ciphertexts protected by these algorithms. MITRE ATT&CK T1600 covers weakening cryptography as a technique used to facilitate further compromise.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the line that constructs a weak cipher: `des.NewCipher`, `des.NewTripleDESCipher`, `rc4.NewCipher`, and the deprecated 64-bit-block ciphers from `golang.org/x/crypto` (`blowfish`, `cast5`, `tea`, `xtea`). A constructor passed as a value (a table of selectable ciphers) counts, and an aliased import is resolved. It also reports an RC4 or 3DES TLS suite (`tls.TLS_*_RC4_128_*`, `tls.TLS_*_3DES_EDE_CBC_*`) placed in a `tls.Config` `CipherSuites` list, and a legacy SSH cipher (`"3des-cbc"`, `"arcfour"`, `"arcfour128"`, `"arcfour256"`) placed in an `x/crypto/ssh` `Ciphers` list, which re-enables a cipher the package leaves off by default. The list can be written inline or held in a variable the field is set from.
 

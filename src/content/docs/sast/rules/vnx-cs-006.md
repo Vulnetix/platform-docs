@@ -31,7 +31,7 @@ This rule reports a `Next`, `NextInt64`, `NextDouble`, `NextSingle`, `NextBytes`
 
 `System.Security.Cryptography.RandomNumberGenerator` (and its convenience method `RandomNumberGenerator.GetBytes()`) uses the operating system's cryptographically secure entropy source (CryptGenRandom on Windows, getrandom/urandom on Linux/macOS) and produces output that is computationally indistinguishable from true randomness.
 
-## Why This Matters
+## Why this matters
 
 Predictable random numbers in security contexts lead directly to authentication and confidentiality failures. If password reset tokens, session identifiers, CSRF tokens, or encryption key material are generated with `System.Random`, an attacker who can observe or guess the approximate generation timestamp can reproduce the sequence and predict valid tokens or keys. This has been exploited against real applications: PHP's `rand()`, Java's `java.util.Random`, and .NET's `System.Random` have all been targeted in disclosed vulnerabilities.
 
@@ -39,7 +39,7 @@ A concrete attack scenario: a web application generates a password reset token u
 
 `Random.NextBytes()` is particularly dangerous when used to fill key buffers or initialisation vectors, because cryptographic key material with low entropy is vulnerable to exhaustive key search even when the encryption algorithm itself is strong.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: System.Random used near password/token handling

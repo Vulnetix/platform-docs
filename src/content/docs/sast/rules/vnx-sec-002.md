@@ -27,7 +27,7 @@ generated: true
 
 This rule detects private key material embedded in any source file by matching PEM header markers: `BEGIN RSA PRIVATE KEY`, `BEGIN EC PRIVATE KEY`, `BEGIN DSA PRIVATE KEY`, `BEGIN OPENSSH PRIVATE KEY`, and `BEGIN PRIVATE KEY`. Private keys are the secret half of asymmetric cryptography, whoever possesses them can impersonate services, decrypt TLS traffic, authenticate as the key owner, or sign arbitrary data. Once a private key appears in a git commit, it must be treated as permanently compromised, even if the file is deleted in a later commit.
 
-## Why This Matters
+## Why this matters
 
 Git history is permanent and distributed. When a private key is pushed to a remote, every person or system that has cloned or fetched the repository holds a complete copy, including the commit containing the key. Deleting the file and pushing a new commit does not remove the key from the repository's object store; anyone running `git checkout <old-commit>` or `git show <sha>:<path>` can recover it instantly.
 
@@ -35,7 +35,7 @@ For TLS certificates, an exposed private key allows an attacker to perform man-i
 
 Private keys are never safe in source code, there is no "example" or "placeholder" key that is secure. Any PEM block in a repository is a finding that requires immediate action.
 
-## What Gets Flagged
+## What gets flagged
 
 A `-----BEGIN RSA/EC/DSA/OPENSSH PRIVATE KEY-----` or PKCS#8 `-----BEGIN PRIVATE KEY-----` line that is followed by key material: base64 on the same line (an escaped `\n` string in code, JSON or Terraform), or a base64 line within the next four lines (a `.pem`/`.key` file, a heredoc, a YAML block scalar or a multi-line string, including legacy `Proc-Type: 4,ENCRYPTED` PEM).
 

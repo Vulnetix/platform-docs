@@ -31,13 +31,13 @@ Go's `database/sql` package provides first-class support for parameterised queri
 
 The rule fires in two cases: when `fmt.Sprintf` appears directly inside a database method call on the same line, and when `fmt.Sprintf` is used to build a string containing SQL keywords within a few lines of a subsequent database call.
 
-## Why This Matters
+## Why this matters
 
 SQL injection remains one of the most exploited vulnerability classes in web applications. CAPEC-66 (SQL Injection) and MITRE ATT&CK T1190 (Exploit Public-Facing Application) both document it as a primary initial access technique. A successful SQL injection attack can allow an attacker to read arbitrary data from the database, modify or delete records, bypass authentication entirely, and in some configurations execute operating system commands.
 
 In Go specifically, the temptation to use `fmt.Sprintf` for query construction is high because Go's string formatting is idiomatic and familiar. Unlike dynamic languages where ORM frameworks often enforce parameterisation, Go developers frequently interact with `database/sql` directly, making it easy to slip into `fmt.Sprintf(query, userValue)` patterns without recognising the risk. The fix, using placeholders and passing values as arguments, requires only a small code change and has zero performance cost.
 
-## What Gets Flagged
+## What gets flagged
 
 ```go
 // FLAGGED: fmt.Sprintf used directly inside a Query call

@@ -27,11 +27,11 @@ generated: true
 
 This rule detects Go HTTP handlers where values from `r.URL.Query()`, `r.FormValue()`, or `r.URL.Path` are passed directly as the URL argument to `http.Redirect`. Without validation, an attacker can supply an arbitrary URL that points to a malicious site, causing your server to issue a redirect response that sends the victim's browser to that destination. This maps to [CWE-601: URL Redirection to Untrusted Site ('Open Redirect')](https://cwe.mitre.org/data/definitions/601.html).
 
-## Why This Matters
+## Why this matters
 
 Open redirects are exploited almost exclusively in phishing attacks (MITRE ATT&CK T1566). An attacker crafts a link like `https://yourtrustedsite.com/login?next=https://attacker.example/steal-creds` and shares it with targets. The victim's browser first touches your legitimate domain, satisfying link-preview trust checks, email security scanners, and the victim's own recognition of your brand, then immediately redirects to the attacker's page. The attacker's page can be a pixel-perfect clone of your login form. Victims who notice the initial domain are reassured, while the redirect destination is the one that captures their credentials. This technique is also used to bypass OAuth `redirect_uri` checks in systems that allow redirects through trusted domains.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires when the destination of `http.Redirect`, gin/echo `c.Redirect(code, url)`, fiber `c.Redirect(url)` or a `Location` header starts with a request value (`r.Referer()`, `r.Header.Get`, `r.URL.Query().Get`, `r.FormValue`, gin `c.Query`, echo `c.QueryParam`, `mux.Vars`, `chi.URLParam`, `r.PathValue`...). The value may be inline, in a variable assigned from it a few lines up, or behind a prefix that leaves the host open (`"//"+v`, `"https://"+v`, `"/"+v`). It does not fire for a fixed path or host (`"/items?id="+v`), a destination checked in between (`url.Parse` with a host test, `strings.HasPrefix` that also rejects `//`, an allowlist, `isLocalURL`), the request's own `r.URL.Path`, or configuration values. A bare `strings.HasPrefix(next, "/")` or a `url.Parse` whose result is never tested is not a check and is still reported: `//evil.example` passes the first and parses under the second.
 

@@ -31,7 +31,7 @@ The vulnerability is severe because YAML gadget chains for Ruby have been public
 
 The fix is to use `YAML.safe_load()` or `Psych.safe_load()`, which restrict the permitted types to a small set of Ruby primitives (strings, integers, floats, arrays, hashes, booleans, nil). If your application legitimately needs to deserialize custom classes, pass an explicit `permitted_classes:` array to `safe_load()` rather than using the unrestricted `load()`.
 
-## Why This Matters
+## Why this matters
 
 Insecure deserialization is listed as [OWASP A08:2021](https://owasp.org/Top10/A08_2021-Software_and_Data_Integrity_Failures/) and has been the root cause of critical vulnerabilities in widely used Ruby applications including Rails itself. CVE-2013-0156 allowed remote code execution against any Rails application that accepted XML input by exploiting YAML deserialization via the `to_yaml` / `from_yaml` conversion in the XML parser.
 
@@ -39,7 +39,7 @@ In a typical attack, an attacker sends a specially crafted YAML payload as a req
 
 The attack requires no authentication in endpoints that process YAML from untrusted sources, and it is undetectable via WAF rules because the YAML is syntactically valid.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the call when the YAML (or, for `load_file`, the path) comes from request input, an upload, a Base64-decoded blob or an HTTP or message body, on the call line or through a variable assigned from it a few lines above.
 

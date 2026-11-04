@@ -31,7 +31,7 @@ XXE vulnerabilities arise because the XML standard includes a mechanism, externa
 
 Modern .NET XML APIs (XDocument, XmlReader with default settings) disable external entity resolution by default, but older APIs (XmlDocument, XmlTextReader) and explicit configuration changes can re-enable it.
 
-## Why This Matters
+## Why this matters
 
 XXE attacks have been in the OWASP Top 10 for over a decade and are responsible for significant data breaches. By crafting a malicious XML document that includes an external entity declaration pointing to a sensitive file, an attacker can exfiltrate `/etc/passwd`, `/etc/shadow`, application configuration files, source code, or cloud instance metadata endpoints (`http://169.254.169.254/`). Depending on the parser's network access, out-of-band XXE can exfiltrate data even when the response is not reflected back.
 
@@ -39,7 +39,7 @@ In .NET applications, XXE is particularly common in SOAP-based web service handl
 
 Blind XXE, where the exfiltrated data is sent via a DNS lookup or HTTP request to an attacker-controlled server rather than included in the response, is harder to detect with manual testing but can be found reliably with static analysis rules like this one.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: XmlUrlResolver explicitly enables external entity fetching

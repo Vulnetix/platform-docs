@@ -27,7 +27,7 @@ In an executable shell script (one with a sh/bash/dash/ksh/zsh shebang) that doe
 
 Without `set -e`, a script continues executing even when a command fails with a non-zero exit code. A failed `cp`, `curl`, or database migration command will be silently ignored and subsequent steps will operate on incomplete or incorrect state. Without `set -u`, any typo in a variable name expands to the empty string rather than producing an error, so `rm -rf "$MY_DIR/"` becomes `rm -rf "/"` if `MY_DIR` is unset. Without `pipefail`, a failing command early in a pipeline (`curl ... | jq ...`) is invisible because the pipeline exit code is taken from the last command only.
 
-## Why This Matters
+## Why this matters
 
 Silent failure in shell scripts is a common root cause of data loss, partial deployments, and security configuration mistakes. A deployment script that continues past a failed `gpg --verify` check may install a tampered artifact. A backup script that continues past a failed `tar` invocation may overwrite the previous backup with an empty file, believing the operation succeeded.
 
@@ -35,7 +35,7 @@ From a security perspective, scripts that silently swallow errors are particular
 
 The `pipefail` option is especially important when scripts parse the output of external commands through pipes. Without it, a command injection attempt that causes the first stage of a pipeline to fail goes undetected while the rest of the pipeline continues to execute with potentially attacker-influenced output from a partial run.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 #!/bin/bash

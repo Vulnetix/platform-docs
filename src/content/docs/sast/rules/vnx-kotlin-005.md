@@ -33,7 +33,7 @@ It does not report SHA-256 and stronger, HMAC constructions (`HmacSHA1`, `HmacUt
 
 The appropriate replacement depends on the use case: SHA-256 or SHA-3 for general integrity verification and checksums, and bcrypt, scrypt, or Argon2 for password hashing (which requires a slow, memory-hard function, not a general-purpose hash).
 
-## Why This Matters
+## Why this matters
 
 The consequences of using a broken hash algorithm vary by use case but are consistently serious. For digital signatures and certificate validation, SHA-1 collisions enable attackers to forge trusted documents or certificates. The SHAttered attack demonstrated that two PDFs with identical SHA-1 hashes but different contents could be constructed, enabling document fraud in any system that uses SHA-1 for integrity verification.
 
@@ -41,7 +41,7 @@ For password storage, MD5 and SHA-1 are catastrophically unsuitable: they are fa
 
 In Android and Kotlin applications, MD5 is frequently used for file checksums or cache keys where the full cryptographic implications are not considered. Even non-security-sensitive uses of MD5 can be problematic if the context later evolves to include security-sensitive data.
 
-## What Gets Flagged
+## What gets flagged
 
 ```kotlin
 // FLAGGED: MD5 via JDK MessageDigest

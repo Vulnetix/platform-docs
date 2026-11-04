@@ -31,7 +31,7 @@ When command output is captured without double-quotes, the shell applies word sp
 
 If the output of the substituted command is at all influenced by attacker-controlled data, a filename from a directory listing, a value from a configuration file, or the output of a tool that processes user input, word splitting can turn that single value into multiple shell arguments, potentially injecting additional flags or operands.
 
-## Why This Matters
+## Why this matters
 
 Argument injection via unquoted command substitution is a common source of bugs in shell scripts, and it becomes a security issue whenever the substituted command's output can be influenced by an external party. Consider a script that passes the output of a `basename` or `git rev-parse` call into another command without quoting, an attacker who can create a file or branch with a specially crafted name containing spaces or shell metacharacters can inject extra arguments into the receiving command.
 
@@ -39,7 +39,7 @@ Real-world attacks of this form have been demonstrated in CI/CD pipelines where 
 
 The fix is mechanical and has zero performance cost: simply add double-quotes around every `$(...)`. If the script genuinely needs to split the output of a command into an array, use `mapfile -t arr < <(command)` or `read -ra arr <<< "$(command)"` instead of relying on unquoted word splitting.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 chmod 600 $(find /etc/app -name '*.key')       # FLAGGED: a name with a space becomes two

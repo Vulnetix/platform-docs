@@ -33,7 +33,7 @@ It does not report booleans, numbers, dates and `nil` under any key, keys that d
 
 This maps to [CWE-311: Missing Encryption of Sensitive Data](https://cwe.mitre.org/data/definitions/311.html).
 
-## Why This Matters
+## Why this matters
 
 The `UserDefaults` plist is included in iTunes and iCloud device backups by default. An attacker with access to a backup, obtained from an insecure backup destination, a compromised macOS machine, or a social engineering attack against Apple support, can extract the plist and read all stored values in plain text using any standard property list editor.
 
@@ -41,7 +41,7 @@ On jailbroken devices, any process running as `mobile` can read another applicat
 
 iOS provides the Keychain specifically to address these threats. The Keychain encrypts each item with a key derived from the device passcode and the item's accessibility class. Items marked `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` can only be read when the device is unlocked and cannot be restored to a different device, providing strong protection against backup extraction and device transfer attacks.
 
-## What Gets Flagged
+## What gets flagged
 
 ```swift
 // FLAGGED: authentication token written to UserDefaults

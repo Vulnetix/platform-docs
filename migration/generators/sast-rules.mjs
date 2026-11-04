@@ -223,6 +223,8 @@ function convertProse(md) {
     if (/^\*\*Severity:\*\*/.test(t)) continue;
     let l = line
       .replace(/^(#{1,6} .*?)\s*\{#[^}]+\}\s*$/, '$1')
+      // The rule prose uses title case for its stock headings; the docs use sentence case.
+      .replace(/^(#{2,3} )(What Gets Flagged|Why This Matters|What Is Not Flagged|What Does Not Get Flagged)\s*$/, (_, h, t) => h + t[0] + t.slice(1).toLowerCase())
       .replace(/\]\((?:\.\.\/)?(vnx-[a-z0-9-]+)\/?(#[^)]*)?\)/gi, (_, s, h) => `](${h && !ruleBySlug(s.toLowerCase())?.category ? `/sast/rules/${ruleBySlug(s.toLowerCase())?.slug ?? s.toLowerCase()}/${h}` : ruleHref(s.toLowerCase())})`)
       .replace(/\]\((?:\.\.\/)+([a-z-]+(?:\/[a-z0-9-]+)*)\/?(#[^)]*)?\)/g, (m, p, h) => (OLD_LINKS[p] ? `](${OLD_LINKS[p]}${h ?? ''})` : m))
       .replace(/\]\((custom-rules)\/?\)/g, '](/sast/guides/custom-rules/)')

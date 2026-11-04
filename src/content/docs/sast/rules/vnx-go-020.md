@@ -29,13 +29,13 @@ This rule flags instances where `template.HTML` is used to mark a string as safe
 
 This maps to [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html).
 
-## Why This Matters
+## Why this matters
 
 The `template.HTML` function in Go's `html/template` package tells the template engine that the provided string is safe HTML and should not be escaped. When this function is used with user-controlled input (such as form data, URL parameters, or HTTP headers), an attacker can inject malicious JavaScript that will execute in victims' browsers.
 
 XSS vulnerabilities can lead to session hijacking, credential theft, defacement, or malware distribution. The vulnerability is particularly dangerous because it exploits the trust users have in a legitimate website.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a trusted-content conversion (`template.HTML`, `HTMLAttr`,
 `JS`, `JSStr`, `CSS`, `URL`, `Srcset`) whose argument is request data, markup

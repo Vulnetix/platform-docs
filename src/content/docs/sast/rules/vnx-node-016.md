@@ -27,7 +27,7 @@ generated: true
 
 This rule detects cases where user-supplied HTTP request data (`req.query`, `req.body`, `req.params`) reaches `new RegExp()`, `RegExp()`, `String.prototype.match()` or `String.prototype.matchAll()`, directly or through a variable assigned from it a few lines above (`.search()` is not reported: too many search clients share the name). Because Node.js runs on a single-threaded event loop, a single malicious regex pattern with catastrophic backtracking can freeze the entire server for seconds to minutes, denying service to all other requests. This is CWE-1333 (Inefficient Regular Expression Complexity).
 
-## Why This Matters
+## Why this matters
 
 ReDoS exploits the backtracking behaviour of most regex engines. Certain patterns, especially those with nested quantifiers like `(a+)+` or alternations sharing overlapping characters like `(a|aa)+`, cause the engine to explore an exponentially growing number of possible matches when the input does not match. JavaScript's V8 engine uses a backtracking NFA that is vulnerable to this class of attack.
 
@@ -37,7 +37,7 @@ Real-world examples include vulnerabilities in `moment.js`, `minimatch`, `expres
 
 **OWASP ASVS v4:** V12.5.2, Verify that regular expressions from untrusted sources are rejected or executed in a sandboxed environment.
 
-## What Gets Flagged
+## What gets flagged
 
 The pattern must come from the request, on the same line or through a variable assigned from it a few lines above.
 

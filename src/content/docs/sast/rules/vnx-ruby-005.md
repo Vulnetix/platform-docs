@@ -27,13 +27,13 @@ generated: true
 
 This rule flags uses of `.html_safe` and `raw()` in Ruby source files and Rails templates. Rails automatically HTML-escapes string values inserted into view templates with `<%= %>`. Calling `.html_safe` on a string marks it as trusted, and `raw()` is an alias that does the same thing, both bypass the automatic escaping. When applied to strings that contain user-controlled content, this directly enables cross-site scripting (XSS). This maps to [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html).
 
-## Why This Matters
+## Why this matters
 
 Cross-site scripting allows an attacker to inject JavaScript that runs in the browser of any user who views the page. In a Rails application, stored XSS (where the injected content is saved to the database and served to other users) is the most impactful variant: a single injected payload can steal session cookies, capture keystrokes, exfiltrate form values, redirect users to phishing pages, or perform actions on the user's behalf (CSRF via XSS).
 
 Because Rails escapes by default, `.html_safe` is by design an escape hatch, and it is often added by developers who want to render HTML content they generated themselves, such as links, formatted dates, or localized strings containing HTML tags. The problem arises when the "trusted" string has been contaminated by a user-supplied value somewhere in its construction chain. A helper method that builds an HTML snippet with `.html_safe` at the end is safe only if every input to that snippet is also escaped; one unescaped interpolation anywhere in the chain produces XSS.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reads `.rb`, `.erb`, `.haml` and `.slim` files and reports escaping switched off for a value that is not a fixed string.
 

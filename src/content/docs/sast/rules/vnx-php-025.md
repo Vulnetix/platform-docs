@@ -31,7 +31,7 @@ The mcrypt library itself (libmcrypt) has been unmaintained since 2003. It imple
 
 PHP's recommended replacement is the OpenSSL extension (`openssl_encrypt()`, `openssl_decrypt()`), which is actively maintained, supports modern authenticated encryption modes (AES-GCM, ChaCha20-Poly1305), and is available on all current PHP installations. PHP 7.2+ also ships with the Sodium extension (`sodium_crypto_secretbox()`, etc.), which provides a modern, audited, and difficult-to-misuse cryptography API.
 
-## Why This Matters
+## Why this matters
 
 Using deprecated and removed PHP functions has two categories of impact. The first is operational: code that calls mcrypt functions will throw a fatal error on PHP 7.2+, meaning applications that have not yet migrated are running on PHP 7.1 or earlier, which has reached end-of-life and no longer receives security patches for the PHP runtime itself.
 
@@ -39,7 +39,7 @@ The second impact is cryptographic: mcrypt's commonly used algorithms are insecu
 
 Applications that encrypt sensitive data (credentials, personal information, health records, payment details) using these algorithms provide weaker protection than they appear to, and the ciphertext may be decryptable by a determined attacker.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: mcrypt_encrypt with deprecated algorithm

@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a RubyGems.org API key, `rubygems_` followed by exactly 48 lower-case hex characters as a whole token, wherever it appears: `~/.gem/credentials`, `GEM_HOST_API_KEY` in a workflow, a Rakefile or a shell script. Not reported: the bare prefix, shorter or longer hex runs, placeholder bodies, `${{ secrets.X }}` references, and test, fixture or vendored paths.
 
-### What Gets Flagged
+### What gets flagged
 
 ```yaml
 :rubygems_api_key: rubygems_<48 hex characters>
@@ -38,7 +38,7 @@ env:
   GEM_HOST_API_KEY: "rubygems_<48 hex characters>"
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded rubygems api token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

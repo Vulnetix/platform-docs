@@ -29,7 +29,7 @@ This rule reports `cleartextTrafficPermitted="true"` on the `<base-config>` of a
 
 When cleartext traffic is permitted, the app sends HTTP requests without TLS encryption. Any passive observer on the same Wi-Fi network, a rogue access point, or an active man-in-the-middle attacker can intercept, read, and modify all HTTP communication between the device and any server the app contacts over cleartext. This vulnerability maps to CWE-319 (Cleartext Transmission of Sensitive Information).
 
-## Why This Matters
+## Why this matters
 
 Public Wi-Fi interception is a well-documented real-world attack. Tools like `mitmproxy`, `Bettercap`, and `SSLstrip` allow attackers on shared networks to transparently intercept and modify HTTP traffic. Users who connect to a hotel, airport, or café Wi-Fi are routinely targeted. When a banking or healthcare app permits cleartext traffic, authentication tokens, session cookies, and personal data flow in the clear over the network layer.
 
@@ -37,7 +37,7 @@ Android's decision to default-block cleartext traffic from API 28 onwards was a 
 
 The ATT&CK technique T1557 (Man-in-the-Middle) covers exactly this class of attack: an adversary positioned between the app and the server manipulates traffic, which is trivially achievable when TLS is not used.
 
-## What Gets Flagged
+## What gets flagged
 
 ```xml
 <!-- FLAGGED: cleartext allowed for every host -->

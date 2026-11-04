@@ -31,7 +31,7 @@ The `postMessage` API is designed to enable safe cross-origin communication betw
 
 When a receiver processes messages without origin validation, any malicious frame embedded on the same page, via an advertisement, a third-party widget, or an XSS vector on another path, can send crafted messages that the application processes as trusted input.
 
-## Why This Matters
+## Why this matters
 
 Cross-site WebSocket hijacking (CSWSH) and postMessage-based XSS are commonly exploited in single-page applications and micro-frontend architectures where multiple origins communicate via `postMessage`. An attacker who can get a victim to visit a page they control (or who can inject a frame into a trusted page) can send arbitrary messages to the vulnerable handler.
 
@@ -39,7 +39,7 @@ Depending on what the handler does with the message, the attacker can inject con
 
 Applications that use `postMessage` for OAuth flows, payment widget communication, or embedding third-party content are particularly sensitive. A missing origin check in an OAuth redirect handler, for example, can allow token theft.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: message listener with no event.origin check

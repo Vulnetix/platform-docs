@@ -32,7 +32,7 @@ Not reported: arithmetic on values that did not come from a decode, floats and s
 
 This rule corresponds to [CWE-190: Integer Overflow or Wraparound](https://cwe.mitre.org/data/definitions/190.html).
 
-## Why This Matters
+## Why this matters
 
 Integer overflow in size and length calculations is a classic source of security vulnerabilities. The Rust language makes such bugs non-exploitable for memory safety, there are no buffer overflows in safe Rust, but overflow in size calculations can still lead to logic vulnerabilities, denial of service, and incorrect security decisions.
 
@@ -40,7 +40,7 @@ A representative scenario: a network protocol parser accumulates the sizes of re
 
 Similarly, a loop counter that overflows can produce an infinite loop or an incorrect termination condition. An allocation calculated as `capacity + extra` that wraps to a very small number can lead to a panic on the next heap allocation or to a buffer that is much smaller than the code expects.
 
-## What Gets Flagged
+## What gets flagged
 
 The finding is reported on the arithmetic line, either the same line as the decode or a later line (within 40 lines) that uses the decoded variable, unless a comparison against a limit or a `min`/`clamp` on that variable comes between them.
 

@@ -31,7 +31,7 @@ Database instances contain an application's most sensitive data: user records, t
 
 This rule corresponds to [CWE-1220: Insufficient Granularity of Access Control](https://cwe.mitre.org/data/definitions/1220.html).
 
-## Why This Matters
+## Why this matters
 
 Database services are among the highest-value targets in any infrastructure. A successful unauthorized connection to a production database typically results in complete data exfiltration, as the attacker gains access to the entire dataset through standard query interfaces without needing any application-level exploits.
 
@@ -39,7 +39,7 @@ Internet-exposed RDS endpoints face continuous automated attacks. Within hours o
 
 Even when strong passwords are used, a publicly accessible database endpoint provides no defence in depth. If a zero-day vulnerability is discovered in the database engine, all publicly accessible instances become immediately exploitable. Keeping the database in a private subnet means an attacker must first compromise a system inside the VPC before they can even reach the database, providing time to detect and respond.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_db_instance" "main" {

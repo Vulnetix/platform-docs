@@ -29,7 +29,7 @@ This rule detects Python code that uses a value read from the request as the *pa
 
 Not reported: a pattern passed through `re.escape()`, a fixed or configured pattern, user text used only as the subject being searched (`EMAIL.match(email)`), argparse and settings values, and comments or strings that merely mention the call.
 
-## Why This Matters
+## Why this matters
 
 Regular Expression Denial of Service (ReDoS) is a practical, low-effort attack. A single HTTP request with a carefully crafted regex pattern can:
 
@@ -40,7 +40,7 @@ Regular Expression Denial of Service (ReDoS) is a practical, low-effort attack. 
 
 Python's `re` module uses a backtracking NFA engine, which is inherently vulnerable to patterns with nested quantifiers or ambiguous alternations. Even patterns that look harmless, like `(a+)+b`, can exhibit exponential backtracking.
 
-## What Gets Flagged
+## What gets flagged
 
 This rule flags lines where a request parameter is passed directly to a `re` function:
 

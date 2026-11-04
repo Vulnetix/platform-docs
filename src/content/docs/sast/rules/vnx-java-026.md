@@ -31,7 +31,7 @@ This rule flags `new FileSystemResource/UrlResource/PathResource/FileUrlResource
 
 Path traversal is a frequent companion vulnerability: if the user-supplied value is not canonicalised and checked against a permitted base directory, an attacker can supply `../../etc/passwd` or `../../application.properties` to read arbitrary files. This rule targets the access-control gap; a separate path-traversal rule covers the canonicalisation gap.
 
-## Why This Matters
+## Why this matters
 
 File download endpoints are high-value targets because they often serve sensitive business data, invoices, medical records, contracts, or source code exports. An IDOR vulnerability on a file endpoint means that simply changing a filename parameter from `report-1001.pdf` to `report-1002.pdf` gives an attacker access to another user's data. If the filenames are predictable (sequential IDs, usernames, dates), the entire dataset can be enumerated with a simple script.
 
@@ -39,7 +39,7 @@ The damage extends beyond user data. If the application server has read access t
 
 Regulatory frameworks including HIPAA, GDPR, and PCI-DSS impose breach notification requirements when personal data is accessed without authorisation, making IDOR vulnerabilities on file endpoints significant compliance events.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: FileSystemResource constructed from PathVariable without auth check

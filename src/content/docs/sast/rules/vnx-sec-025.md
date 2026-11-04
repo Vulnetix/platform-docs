@@ -31,7 +31,7 @@ Azure Storage Account keys provide unrestricted access to every resource within 
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 Azure Storage is commonly used to store application logs, database backups, user-uploaded content, and configuration files, all of which may contain sensitive data. An attacker who obtains a storage account key gains immediate access to all of this data regardless of network controls, private endpoint configurations, or firewall rules that might otherwise protect the account.
 
@@ -39,7 +39,7 @@ Beyond data exfiltration, a compromised storage key can be used to tamper with d
 
 Keys committed to version control are particularly dangerous because they persist in git history even after the file is modified. An attacker who gains read access to the repository at any point in time can retrieve historical commits containing the key. Rotation alone is insufficient if the old key was not also revoked.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports an 88-character base64 value (86 characters plus `==`) only when the line, or the lines just above it in a multi-line call, says it is a storage key:
 

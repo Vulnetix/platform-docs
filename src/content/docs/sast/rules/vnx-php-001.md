@@ -29,7 +29,7 @@ This rule fires when an application's `composer.json` requires Composer packages
 
 > **PHP default behavior:** Composer does NOT enforce a lock file by default. Running `composer install` without a `composer.lock` present silently resolves versions from the registry. Commit the lock file to version control and enforce `composer install` (not `composer update`) in CI to get deterministic builds.
 
-## Why This Matters
+## Why this matters
 
 Without a `composer.lock`, an attacker who can influence the Packagist registry, through a typosquatted package, a compromised maintainer account, or a dependency confusion attack, can inject malicious code into your build without ever touching your repository. The substituted package arrives as a legitimately resolved version of a floating range you declared. In CI/CD pipelines where `composer install` runs on every push, this attack is repeatable and invisible unless integrity checks exist.
 
@@ -37,7 +37,7 @@ Real-world impact from compromised Packagist packages has included exfiltration 
 
 **OWASP ASVS v4.0 mapping:** V14.2.1, Verify that all components are up to date, preferably using a dependency checker during build or compile time.
 
-## What Gets Flagged
+## What gets flagged
 
 An application manifest (`"type": "project"`, or no `"name"`) that requires at least one `vendor/package` in `require` or `require-dev`, with no `composer.lock` in the same directory. The finding is reported on `composer.json`, line 1.
 

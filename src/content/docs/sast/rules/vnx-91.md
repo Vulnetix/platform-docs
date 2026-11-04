@@ -27,11 +27,11 @@ generated: true
 
 VNX-91 maps to [CWE-91: XML Injection (aka Blind XPath Injection)](https://cwe.mitre.org/data/definitions/91.html). It reports a line that builds XML text from a string literal holding a tag and a request value, directly or through a variable assigned from the request in the 15 lines above, in a file that parses, sends or declares XML.
 
-## Why This Matters
+## Why this matters
 
 A value like `bob</name><role>admin</role><name>` closes the element it was meant to fill and adds new ones. The parser, a SOAP service or a downstream system then trusts structure the attacker wrote: an extra role, a changed price, a second order line, or an entity declaration that turns into XXE.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 String xml = "<user><name>" + request.getParameter("name") + "</name>";

@@ -27,13 +27,13 @@ generated: true
 
 This rule detects instantiation of Java XML parser factories, `DocumentBuilderFactory`, `SAXParserFactory`, `XMLInputFactory`, `TransformerFactory`, and `SchemaFactory`, in files that do not also configure the features required to disable external entity resolution. Without these protections, any XML document processed by the parser can include an external entity declaration that causes the parser to fetch a remote URL or a local file path, disclosing the result to the attacker. This is XML External Entity injection, CWE-611.
 
-## Why This Matters
+## Why this matters
 
 XXE is a deceptively simple attack. An attacker submits an XML document containing a DOCTYPE declaration that defines an entity whose value is a `file:///etc/passwd` URI. The parser resolves the entity, reads the file, and substitutes its content into the document, which the application may then echo back in an error message, an API response, or a log entry. The same technique works against `file:///proc/self/environ` (environment variables), private key files, and application configuration files containing database credentials.
 
 Beyond file disclosure, an attacker can use `http://` entities to make the server issue HTTP requests to internal addresses (SSRF), probe internal ports, and in some configurations interact with services that speak non-HTTP protocols by exploiting `gopher://` support. The "Billion Laughs" variant uses nested entity expansion to exhaust parser memory and crash the service (denial of service). XXE has appeared in high-profile CVEs against enterprise Java frameworks including Spring MVC, Apache Solr, and various SOAP stacks.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the line that creates a `DocumentBuilderFactory`, `SAXParserFactory`, `XMLInputFactory`, `XMLReaderFactory.createXMLReader()`, dom4j `SAXReader` or JDOM `SAXBuilder` (and a `TransformerFactory` or `SchemaFactory` in a file that loads a `StreamSource` or compiles a schema) when that factory variable is not hardened within the 40 lines after it is created. Hardening only inside an `if`/`else` branch does not count. A factory passed to a helper in a file that applies hardening does count, and so does an assignment broken after `=` or a `setFeature(` whose arguments continue on the next line. A `setFeature`/`setProperty` line that explicitly re-enables DTDs or external entities is also reported.
 

@@ -27,13 +27,13 @@ generated: true
 
 This rule detects cases where HMAC digests, hash values, authentication tokens, or signatures are compared using standard equality operators (`==` in Python, `===` in JavaScript). Standard string comparison is not constant-time: it returns early as soon as it finds the first mismatching character. This timing difference, nanoseconds per character, is measurable over a network and allows an attacker to mount a timing side-channel attack, gradually discovering the expected value one character at a time. This maps to CWE-208 (Observable Timing Discrepancy).
 
-## Why This Matters
+## Why this matters
 
 Timing attacks sound theoretical but are practical against web services. By sending thousands of requests where a token differs in one position and measuring average response times, an attacker can statistically determine whether each character of the submitted value matches the expected value. For webhook signature verification (where HMAC-SHA256 is compared to a submitted header), this could allow an attacker to forge signatures without the secret key.
 
 GitHub, Stripe, Slack, and virtually every other webhook provider explicitly documents "use constant-time comparison" in their security recommendations precisely because this attack works. The attack is easier when the attacker controls part of the input (e.g., submitting a webhook with a known partial signature) and has high-resolution timing access (on-premises or low-latency cloud), but timing information also leaks through TCP retransmissions and other network artefacts at larger scale.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: direct == comparison of HMAC digest

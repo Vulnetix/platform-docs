@@ -31,7 +31,7 @@ The rule matches `jwt.sign(payload, 'literal')` and `jwt.verify(token, 'literal'
 
 Hardcoded secrets are functionally equivalent to no secret at all for anyone with read access to the repository. Every JWT the application signs with a known secret can be forged, every session can be hijacked, and every HMAC can be replicated by an attacker who has recovered the key from source code.
 
-## Why This Matters
+## Why this matters
 
 Source code is rarely as private as developers assume. It may be checked in to a shared Git repository, present in build artefacts, included in Docker images, visible to CI/CD pipeline runners, or accessible to any employee with repository read access. Once a secret appears in a commit, it is permanently recorded in Git history even if subsequently removed, any clone made before the removal retains the secret.
 
@@ -39,7 +39,7 @@ For JWT secrets, compromise means an attacker can sign arbitrary tokens assertin
 
 Real-world incidents: hardcoded secrets in public GitHub repositories are continuously harvested by automated scanners. The GitGuardian 2024 report found hardcoded secrets in one in ten public commits. Internal repositories are not immune, insider threats, accidental repository visibility changes, and repository exposure during security incidents all create paths to secret discovery.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: hardcoded string literal as JWT signing secret

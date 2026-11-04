@@ -31,7 +31,7 @@ SSH host key verification is the only mechanism that prevents a man-in-the-middl
 
 The correct approach is to use `RejectPolicy` (which raises an exception for unknown host keys) combined with a pre-populated `known_hosts` file loaded via `client.load_system_host_keys()` or `client.load_host_keys()`. Alternatively, implement a custom `MissingHostKeyPolicy` subclass that validates a key fingerprint against a trusted allowlist.
 
-## Why This Matters
+## Why this matters
 
 A man-in-the-middle attack against SSH is not theoretical, it is a well-understood technique that any attacker on the network path between client and server can execute. In cloud deployments, container networking, and Kubernetes environments, the "network path" includes any compromised node, misconfigured network policy, or ARP/DNS poisoning attack. When `AutoAddPolicy` is in use, the attacker simply presents their own SSH host key; the client accepts it without complaint and begins sending credentials and data to the attacker's server.
 
@@ -39,7 +39,7 @@ The impact is severe: SSH is commonly used to run administrative commands, trans
 
 Automated deployment systems and CI/CD pipelines are particularly at risk because they typically run with elevated privileges, connect to many hosts, and are not monitored for interactive anomalies the way human SSH sessions might be.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 import paramiko

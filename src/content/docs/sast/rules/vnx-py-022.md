@@ -31,13 +31,13 @@ SQL built in a single expression (concatenation, `%` formatting, `.format()` or 
 
 Python database drivers, including `sqlite3`, `psycopg2`, `MySQLdb`, `cx_Oracle`, and `pyodbc`, all support parameterized query APIs that separate SQL structure from data values. When parameterized queries are used, the driver handles quoting and escaping internally, making injection structurally impossible regardless of the input content. Despite this, string-formatted queries remain common in Python codebases due to the language's expressive string formatting syntax, which makes it syntactically tempting to build queries inline.
 
-## Why This Matters
+## Why this matters
 
 SQL injection is consistently ranked as one of the most critical web application vulnerabilities and has led to some of the largest data breaches in history. A successful injection can exfiltrate entire databases, bypass authentication, modify or delete records, and in some database configurations (e.g., PostgreSQL with `COPY TO/FROM PROGRAM`, MySQL `INTO OUTFILE`) achieve remote code execution on the database host.
 
 Python's `executescript()` method for SQLite is particularly dangerous: it executes multiple SQL statements in a single call, so an injected payload can easily terminate the current statement and append a `DROP TABLE` or `SELECT` statement, making the impact immediate and severe. Old-style `%` formatting and `.format()` produce identically dangerous results but may appear safer to developers unfamiliar with the distinction between format strings and parameterized queries.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: an f-string piece joined into the query

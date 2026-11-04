@@ -27,13 +27,13 @@ generated: true
 
 This rule detects token-issuing calls (jsonwebtoken `jwt.sign()` and jose `new SignJWT()`, PyJWT `jwt.encode()`, jjwt `Jwts.builder()` and Auth0 `JWT.create()`, golang-jwt `jwt.NewWithClaims()`, ruby-jwt `JWT.encode()`, firebase/php-jwt `JWT::encode()`) where neither the call itself nor a payload, claims or options variable it uses (assigned within 25 lines above) sets an expiry. Test files are not reported, and a payload built in another function or file is a documented gap. A JWT without expiration is valid forever, from the moment it is issued until the signing secret is rotated or the token is explicitly blocklisted (which requires server-side state, defeating much of the purpose of JWTs). This maps to CWE-613 (Insufficient Session Expiration).
 
-## Why This Matters
+## Why this matters
 
 JWTs are commonly used as stateless session tokens, the server does not store them, so there is no built-in revocation mechanism. This is by design, but it places extra importance on short lifetimes. If a token without expiration is leaked from a user's device, a log file, a network capture, or a third-party service, the attacker has a permanent credential.
 
 A sliding session attack exploits this directly: an attacker who steals one token can replay it months or years later, long after the legitimate user has changed their password. Because JWTs are stateless, a password change does not invalidate previously issued tokens unless the application explicitly tracks and rejects them. Short-lived access tokens (15 minutes to 1 hour) combined with a refresh token pattern are the standard mitigation: the refresh token is stored securely and exchanged for new access tokens, and can be revoked server-side if needed.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: jwt.sign() without expiresIn

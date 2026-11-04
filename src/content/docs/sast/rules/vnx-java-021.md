@@ -31,7 +31,7 @@ This rule flags calls to SLF4J, Log4j, java.util.logging, and similar logger fac
 
 The detection is intentionally broad: even if a developer passes a redacted value, the naming pattern on the same line as a logger call is sufficient to warrant review. False positives are preferable to missed credential leaks in logging code.
 
-## Why This Matters
+## Why this matters
 
 Log files are often treated as low-sensitivity output, but they are widely accessible, by all developers on a team, by CI/CD workers, by log aggregation services, and by cloud storage. A password or session token logged even once at DEBUG level during a troubleshooting session can persist in archived logs for years. If those logs are stored in a shared S3 bucket, shipped to a third-party SIEM, or inadvertently committed to a repository, the credential is effectively public.
 
@@ -39,7 +39,7 @@ In incident investigations, analysts routinely search log archives for keywords 
 
 A further risk is that many log backends are not encrypted at rest. Even in environments that encrypt storage, the logging pipeline itself, buffering, aggregation, forwarding, may transmit log entries in cleartext over internal networks. Keeping secrets out of logs eliminates this entire attack surface.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: password variable passed directly to logger

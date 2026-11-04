@@ -29,13 +29,13 @@ This rule detects `IvParameterSpec` and `GCMParameterSpec` built from a fixed va
 
 An initialization vector is designed to introduce randomness into the first block of encryption so that encrypting the same plaintext twice with the same key produces different ciphertexts. When the IV is constant, this randomization is eliminated. In CBC mode, two messages that share a common prefix produce identical ciphertext until the first differing block, leaking information about the plaintext. In CTR and GCM modes, IV reuse is catastrophically worse: it allows an attacker to XOR two ciphertexts and recover the XOR of the plaintexts directly, and in GCM it also invalidates the authentication tag, enabling undetected forgery.
 
-## Why This Matters
+## Why this matters
 
 GCM nonce reuse is one of the most dangerous cryptographic mistakes in practice. When two messages are encrypted under GCM with the same key and nonce (IV), an attacker can recover the authentication key `H` and the keystream for that nonce. This completely breaks both confidentiality and integrity: the attacker can decrypt any message encrypted under that nonce and forge valid authentication tags for arbitrary plaintexts. This attack, sometimes called "GCM nonce reuse" or the "Joux forbidden attack," requires only two ciphertexts produced with the same nonce.
 
 Real-world examples abound. The BEAST attack against TLS 1.0 exploited predictable CBC IVs (not reuse per se, but IV predictability, the conceptual cousin). Disk encryption systems that use a static IV per sector allow an attacker who can observe multiple versions of a sector's contents to perform differential analysis. Many Java application-layer encryption implementations that store encrypted data in databases have been found to use static IVs, meaning the entire database is vulnerable to chosen-plaintext attacks once any plaintext-ciphertext pair is known.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: IvParameterSpec constructed from a string literal

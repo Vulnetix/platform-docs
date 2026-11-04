@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a cookie whose HttpOnly or Secure protection is switched off: `httpOnly: false` / `secure: false` in cookie or session options (Express, Go `http.Cookie` and gorilla `sessions.Options`, ASP.NET `CookieOptions`, Rails `session_store`, Spring YAML), Django and Flask `SESSION_COOKIE_SECURE` / `SESSION_COOKIE_HTTPONLY` / `CSRF_COOKIE_SECURE = False`, `set_cookie(..., secure=False)`, Java `setHttpOnly(false)` / `setSecure(false)`, Spring `server.servlet.session.cookie.*=false`, `CookieSecurePolicy.None`, web.config `httpOnlyCookies="false"`, PHP `ini_set('session.cookie_httponly', 0)` and php.ini, and `false` as the secure/httponly argument of PHP `setcookie()` or gin's `c.SetCookie()`. It also reports a session, token, auth, JWT, remember-me or user-id cookie issued with no HttpOnly setting at all (`res.cookie('session', id)`, `set_cookie('token', t)`, a Go `http.Cookie{}` with no `HttpOnly` field, Java `new Cookie("access_token", t)` with no `setHttpOnly`, PHP `setcookie('appSession', $v)`). It does not report the CSRF/XSRF cookie's HttpOnly (the page must read it), theme or language cookies, flags read from variables or the environment, options passed as a variable, cookies being cleared, development settings files, tests and documentation. SameSite is not checked. Where a rule for one flag reports the same line, the line is left to it, so a missing flag is one finding: Secure in Java, JavaScript/TypeScript and Python is reported by [VNX-614](/sast/rules/vnx-614/); HttpOnly in Go, PHP, Python and Java and on `document.cookie` by [VNX-1004](/sast/rules/vnx-1004/); HttpOnly on an Express/Fastify `res.cookie()`/`reply.setCookie()` and `httpOnly: false` beside a cookie call by [VNX-NODE-029](/sast/rules/vnx-node-029/). This rule keeps the rest: Ruby, C#, Kotlin, web.config, php.ini and `.htaccess`, YAML, gin and fiber cookies, Next.js `cookies().set`, PHP and Go Secure, `setHttpOnly(false)` lines, and cookies only its name list counts as sensitive. These settings control three distinct attack surfaces: HttpOnly prevents JavaScript from reading the cookie (blocking XSS-based session theft), Secure ensures the cookie is only sent over HTTPS (blocking cleartext interception), and SameSite restricts cross-origin sending (blocking CSRF).
 
-## Why This Matters
+## Why this matters
 
 Session cookies are the keys to your users' authenticated sessions. When any of the three security flags are missing or explicitly disabled:
 
@@ -37,7 +37,7 @@ Session cookies are the keys to your users' authenticated sessions. When any of 
 
 Many frameworks set these flags to `False` by default in development for convenience, but production deployments that inherit development configurations become vulnerable.
 
-## What Gets Flagged
+## What gets flagged
 
 ```ruby
 # FLAGGED: Rails session cookie readable by script

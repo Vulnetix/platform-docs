@@ -33,7 +33,7 @@ Beyond speed, both algorithms have known cryptographic weaknesses: MD5 has been 
 
 A password passed straight into the call (`$pass = md5($pass)`, `md5($_POST['password'])`, `sha1($salt . $password)`) is reported by [VNX-CRYPTO-007](/sast/rules/vnx-crypto-007/), a password hashed with a fast hash, so the line is reported once; this rule keeps the PHP shapes that rule does not read: MD5-crypt (`crypt()` with a `$1$` salt), `hash('md4'|'md2', ...)`, and a digest stored under a password name.
 
-## Why This Matters
+## Why this matters
 
 Database breaches that expose password hashes are routine. When those hashes are MD5 or SHA1, the attacker can recover most plaintext passwords quickly. Cracked passwords are then used in credential stuffing attacks against every other service where the user may have reused the same password, email, banking, cloud services. This creates widespread account compromise that extends far beyond the original breach.
 
@@ -41,7 +41,7 @@ Sites like HaveIBeenPwned contain billions of cracked MD5/SHA1 hashes, meaning m
 
 PHP provides `password_hash()` and `password_verify()` as purpose-built functions that handle salting, algorithm selection, and future cost factor upgrades. There is no legitimate reason to use `md5()` or `sha1()` for passwords in modern PHP code.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // REPORTED BY VNX-CRYPTO-007: a password passed straight into the digest

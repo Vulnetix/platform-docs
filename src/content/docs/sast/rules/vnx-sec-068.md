@@ -29,7 +29,7 @@ This rule reports exactly 64 hexadecimal characters (optionally `0x`-prefixed) u
 
 A bare 64-hex value is not a key: transaction and block hashes, `bytes32` constants, storage slots and role ids are not reported. Neither are keys read from the environment, the published Hardhat/Anvil development keys, placeholders (`0x000...`), comment lines, Markdown, and test, fixture, vendored and generated files. Encrypted V3 keystore files are VNX-SEC-700.
 
-## What Gets Flagged
+## What gets flagged
 
 ```js
 const wallet = new ethers.Wallet("0x<64 hex characters>", provider);
@@ -46,7 +46,7 @@ const TX_HASH = "0x<64 hex transaction hash>";
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded ethereum private key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

@@ -27,13 +27,13 @@ generated: true
 
 This rule detects AWS secret access keys embedded in source files by matching variable names such as `aws_secret`, `secret_access_key`, or `aws_secret_access_key` assigned to a 40-character base64 string. The AWS secret access key is the second half of the AWS credential pair; alone it is insufficient for authentication, but when combined with an access key ID (detected by VNX-SEC-001) it provides complete programmatic access to AWS APIs. These two values almost always appear together in the same file or nearby.
 
-## Why This Matters
+## Why this matters
 
 AWS credentials are one of the most targeted secrets in automated scanning operations. Malicious bots continuously crawl public repositories for patterns matching AWS secret keys; a key can be abused for crypto mining, data exfiltration, or infrastructure destruction within minutes of exposure. Secret access keys are 40 characters of base64 and do not have a distinctive prefix like access key IDs, making them harder to detect visually, but the rule matches them by context (the surrounding variable name).
 
 Unlike a password that might be rotated periodically, AWS keys remain valid until explicitly rotated or deleted. Every git clone, CI/CD artifact, or log containing the key becomes a potential leak vector. VNX-SEC-001 and VNX-SEC-003 are designed to be used together since these two values always travel as a pair.
 
-## What Gets Flagged
+## What gets flagged
 
 A 40-character base64 value with high entropy, where AWS says it is a secret access key:
 

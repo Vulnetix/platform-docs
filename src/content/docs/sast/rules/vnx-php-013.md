@@ -31,7 +31,7 @@ An XML External Entity (XXE) attack works by embedding a DTD in the XML document
 
 PHP's libxml-based parsers (`simplexml`, `DOMDocument`, `XMLReader`) all share the same underlying entity loader. The `libxml_disable_entity_loader(true)` function (available in PHP versions before 8.0, where it became a no-op as loading is disabled by default) globally prevents external entity loading for the current request.
 
-## Why This Matters
+## Why this matters
 
 XXE has appeared on the OWASP Top 10 and has been exploited in high-profile attacks against financial services, healthcare, and government systems. The vulnerability is especially dangerous because it operates at the parser level, before any application logic runs, and can expose files the application has never explicitly tried to read.
 
@@ -39,7 +39,7 @@ Common targets in XXE attacks include `/etc/passwd` and `/etc/shadow` for creden
 
 PHP applications that process SAML assertions, RSS/Atom feeds, Office Open XML documents, or any XML-based API integration are at risk. SAML-based single sign-on is a particularly high-value target because XXE in the SAML parser can enable authentication bypass.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: LIBXML_NOENT enables entity substitution, exposes local files

@@ -31,7 +31,7 @@ A hardcoded key is present in source repositories, compiled `.class` files, JAR 
 
 The severity is critical because a compromised key retroactively compromises all data ever encrypted with it. Unlike a compromised password (which only opens the front door), a compromised encryption key opens every locked cabinet in the house, past and present.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded cryptographic keys are a recurring finding in mobile application reverse engineering. Java and Kotlin bytecode can be decompiled with tools like `jadx`, `cfr`, or `procyon` in seconds, the key literal appears exactly as written. For Android apps distributed via the Play Store, any user can download the APK and run it through a decompiler. The Nissan Leaf API exposure (2016) and numerous mobile banking app analyses have demonstrated that this is not a theoretical risk.
 
@@ -39,7 +39,7 @@ In server-side applications, hardcoded keys leak through version control history
 
 For HMAC-signed tokens (such as JWTs), a hardcoded signing key means any party who knows the key can forge tokens for any user in the system. For AES encryption, the attacker can decrypt the entire database. The blast radius is proportional to how widely the key was used, which is typically "everywhere the class was instantiated."
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: key embedded as string literal directly in SecretKeySpec

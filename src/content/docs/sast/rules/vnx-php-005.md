@@ -27,7 +27,7 @@ generated: true
 
 This rule flags PHP code where user-supplied values from `$_GET`, `$_POST`, or `$_REQUEST` are passed directly to functions that initiate outbound HTTP or file-system requests: `file_get_contents()`, `fopen()`, and `curl_setopt()` with `CURLOPT_URL`. When an attacker controls the URL, they can make the server issue requests to internal network addresses, cloud provider metadata endpoints, and other services that are normally unreachable from the public internet. This maps to [CWE-918: Server-Side Request Forgery (SSRF)](https://cwe.mitre.org/data/definitions/918.html).
 
-## Why This Matters
+## Why this matters
 
 In cloud-hosted environments, SSRF is a critical vulnerability because the instance metadata service (IMDS) is accessible at the well-known address `169.254.169.254` from any process running on the host. An attacker who can make the server fetch `http://169.254.169.254/latest/meta-data/iam/security-credentials/` can retrieve short-lived AWS, GCP, or Azure credentials with the permissions of the server's IAM role, often giving them access to S3 buckets, KMS keys, or the ability to call cloud management APIs.
 
@@ -35,7 +35,7 @@ Beyond cloud metadata, SSRF can be used to port-scan internal networks (by varyi
 
 The `CURLOPT_FOLLOWLOCATION` option multiplies the risk: if curl is configured to follow HTTP redirects, an SSRF that initially targets a controlled external URL can chain through redirects to internal addresses, bypassing naive host-validation checks that only examine the initial URL.
 
-## What Gets Flagged
+## What gets flagged
 
 A server-side fetch whose URL starts with a request value, or follows only a scheme such as `http://`, inline or through a variable assigned from one a few lines above.
 

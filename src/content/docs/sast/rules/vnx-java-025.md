@@ -31,7 +31,7 @@ This rule flags a string literal used as a password: a variable, field or consta
 
 Hardcoded credentials are particularly dangerous in microservice architectures where dozens of services may share a single database credential. Rotating a hardcoded credential requires rebuilding and redeploying every service that contains it.
 
-## Why This Matters
+## Why this matters
 
 Public GitHub repositories are continuously scanned by automated tools and threat actors looking for hardcoded credentials. Within minutes of pushing a commit that includes a database password or API key, that credential can be found and exploited. Even private repositories are at risk: former employees, compromised developer accounts, and accidental repository visibility changes have all been sources of credential exposure.
 
@@ -39,7 +39,7 @@ Compiled Java artifacts also expose hardcoded credentials. JAR and WAR files can
 
 A 2023 GitGuardian report found hardcoded credentials in over 10 million public GitHub commits. The Uber 2016 breach and numerous AWS credential exposures have involved hardcoded credentials committed to source control.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: password constant

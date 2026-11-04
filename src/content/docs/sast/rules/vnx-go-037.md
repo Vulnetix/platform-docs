@@ -29,13 +29,13 @@ This rule flags Go web applications that serve pages to browsers (an html/templa
 
 The rule reports once per file, at the first line that serves a page, and only in a project that declares `func main` (a library or framework that only provides a renderer does not choose its users' headers). It stays silent when any non-test Go file in the project mentions a security header or a security-headers middleware (`unrolled/secure`, `gin-contrib/secure`, `middleware.Secure`), because a header set in middleware protects handlers in every other file. JSON and status-only responses, test servers and mocks are not reported.
 
-## Why This Matters
+## Why this matters
 
 Browser security headers form a second line of defence against injection and UI-redressing attacks. `X-Frame-Options: DENY` or the `frame-ancestors` CSP directive prevents clickjacking, where an attacker overlays an invisible iframe of a legitimate site onto a malicious page to capture clicks and credential entry. `X-Content-Type-Options: nosniff` prevents MIME-type confusion attacks where a browser might execute an uploaded image as JavaScript. `Strict-Transport-Security` (HSTS) ensures that once a user visits your site over HTTPS, all subsequent requests are automatically upgraded, closing a downgrade-attack window even if the user types `http://` in their browser.
 
 `Content-Security-Policy` is the most powerful of these headers, allowing you to declare which sources of scripts, styles, fonts, and frames are legitimate, effectively eliminating entire categories of XSS and data-exfiltration attacks even when an injection vulnerability exists in the application. Many large-scale security incidents could have had their impact significantly reduced if a restrictive CSP had been in place. These headers cost nothing to serve and provide substantial depth-in-defence value.
 
-## What Gets Flagged
+## What gets flagged
 
 In a project with a `func main`, the first line of each file that serves a browser-rendered page, when no production Go file sets a security header or uses a security-headers middleware:
 

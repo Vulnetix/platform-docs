@@ -31,7 +31,7 @@ The Docker documentation and every major linting tool explicitly recommend using
 
 This rule does not flag `ADD` instructions that explicitly reference an HTTP or HTTPS URL, as those are covered separately by VNX-DOCKER-004 which focuses on remote URL integrity verification.
 
-## Why This Matters
+## Why this matters
 
 The implicit tar extraction behaviour of `ADD` creates two practical risks. First, if a `.tar`, `.tar.gz`, `.tgz`, or similar archive is placed in the build context, intentionally or as a build artefact, and an `ADD` instruction copies a directory that contains it, Docker extracts the archive into the image without any explicit instruction to do so. This can add unexpected files to the image, potentially increasing the attack surface.
 
@@ -39,7 +39,7 @@ Second, the dual behaviour makes security reviews harder. An auditor scanning a 
 
 CAPEC-185 (Malicious Software Update) and MITRE ATT&CK T1195.002 (Compromise Software Supply Chain) apply when the unexpected extraction or fetch introduces content that was not intended to be in the image.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `ADD` instructions whose sources are local and not archives, in every form: flags, the JSON form, globs, continuation lines and `ONBUILD ADD`.
 

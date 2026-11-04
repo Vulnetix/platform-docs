@@ -27,7 +27,7 @@ generated: true
 
 This rule detects GitHub personal access tokens with the `ghp_` or `ghs_` prefix and GitLab personal access tokens with the `glpat-` prefix hardcoded in source files. These tokens authenticate API requests to GitHub and GitLab on behalf of a user and carry the full scope of permissions granted at token creation. Because they are long-lived and reusable, a single leaked token can be used to read private repositories, push malicious code, modify CI/CD pipelines, or enumerate organization members.
 
-## Why This Matters
+## Why this matters
 
 GitHub personal access tokens with `repo` scope grant read and write access to every repository the user owns. `admin:org` scope grants control over organization settings, membership, and webhooks. A leaked token enables a supply chain attack: an attacker can push commits or modify GitHub Actions workflows to inject malicious code into your release pipeline without triggering any authentication alerts.
 
@@ -35,7 +35,7 @@ GitLab personal access tokens (`glpat-`) similarly carry whatever scopes were gr
 
 GitHub has built-in secret scanning that detects `ghp_` and `glpat-` prefixes and can notify you or block pushes. Even so, once a token is in history it must be revoked.
 
-## What Gets Flagged
+## What gets flagged
 
 A standalone GitHub classic personal access, OAuth, user-to-server, installation or refresh token (`ghp_`, `gho_`, `ghu_`, `ghs_`, `ghr_` followed by 36 characters), a GitHub fine-grained token (`github_pat_...`), or a GitLab personal/project access token (`glpat-` followed by 20 or more characters, including the newer dotted format), on its own, inside a clone URL or in a header.
 

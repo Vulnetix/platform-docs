@@ -29,7 +29,7 @@ This rule flags Python code that uses `render_template_string()` or `jinja2.Temp
 
 > **Default behavior:** Flask's `render_template_string()` does NOT sandbox the template expression. Any template syntax in the string is executed with full Jinja2 permissions. Passing user input as the template string, rather than as a context variable, is insecure by design; there is no flag to make it safe.
 
-## Why This Matters
+## Why this matters
 
 Jinja2 templates execute Python-like expressions inside `{{ }}` and `{% %}` blocks. When user input becomes part of the template string itself (rather than a variable passed to a static template), the attacker can inject template syntax. A classic probe is `{{7*7}}`, if the server responds with `49` instead of the literal string `{{7*7}}`, the endpoint is confirmed vulnerable.
 
@@ -43,7 +43,7 @@ From there, Jinja2's sandbox is weak. An attacker can traverse Python's object h
 
 Unlike XSS, SSTI does not require a victim user to be present, the attacker exploits the server directly. The impact is full server compromise: arbitrary code execution with the application's privileges, access to all environment variables and secrets, and the ability to read or modify any file the process can reach.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches patterns where user input flows directly into `render_template_string` or `Template` as the template itself.
 

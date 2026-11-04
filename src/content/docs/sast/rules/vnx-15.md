@@ -27,11 +27,11 @@ generated: true
 
 VNX-15 maps to [CWE-15: External Control of System or Configuration Setting](https://cwe.mitre.org/data/definitions/15.html). It reports a request value written into a setting that governs the whole process, either directly on the setting line or through a variable assigned from the request in the 15 lines above.
 
-## Why This Matters
+## Why this matters
 
 Environment variables, include paths, runtime configuration and the database catalog are read by every later request, library and child process. A caller who can set `HTTP_PROXY`, `include_path`, `sys.path` or the active catalog can redirect outbound traffic, load code from a directory they choose, switch databases or silence logging for everybody, not just for their own request.
 
-## What Gets Flagged
+## What gets flagged
 
 ```go
 os.Setenv("TZ", r.FormValue("tz"))

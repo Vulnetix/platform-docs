@@ -48,7 +48,7 @@ MD5 and SHA-1 are hash functions with known collision attacks. MD5 collisions ca
 
 DES has a 56-bit key, which is exhaustively searchable in hours. RC2 and RC4 are similarly weak. TripleDES offers at most 112 bits of security, has a 64-bit block (Sweet32), is deprecated by NIST, and is slower than AES.
 
-## Why This Matters
+## Why this matters
 
 The practical break of MD5 has had real security consequences. The Flame malware (2012) used an MD5 collision attack to forge a valid Microsoft code-signing certificate, allowing it to appear as legitimately signed Windows Update software. This allowed the malware to spread within networks that trusted Microsoft's signing infrastructure. SHA-1 TLS certificates were deprecated by all major browsers by 2017 precisely because chosen-prefix collisions make certificate forgery practical.
 
@@ -56,7 +56,7 @@ For password storage, MD5 and SHA-1 are catastrophically weak: they are fast has
 
 In .NET these algorithms remain available for legacy interoperability, and the .NET analyzers CA5350 and CA5351 flag them. The `*CryptoServiceProvider` and `*Managed` classes are obsolete (SYSLIB0021) in current .NET. CAPEC-97 (Cryptanalysis) and ATT&CK T1600 both relate to this class of cryptographic weakness.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: MD5 for a password hash

@@ -31,7 +31,7 @@ S3 buckets with public ACLs have been the source of some of the largest data bre
 
 This rule corresponds to [CWE-200: Exposure of Sensitive Information to an Unauthorized Actor](https://cwe.mitre.org/data/definitions/200.html).
 
-## Why This Matters
+## Why this matters
 
 S3 buckets are used throughout AWS-based applications as the de facto storage layer for user uploads, application logs, static assets, data lake storage, database backups, and deployment artifacts. A bucket that is accidentally made public exposes every object in it to the entire internet, often including objects that were never intended to be public at all, log files, configuration backups, database dumps, and private user content.
 
@@ -39,7 +39,7 @@ An attacker who discovers a public bucket using automated scanning tools (which 
 
 The `public-read-write` ACL is particularly dangerous: it allows anyone on the internet to not only read existing objects but also upload new objects to the bucket, potentially hosting malware, defacement content, or using the bucket's bandwidth for distribution.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_s3_bucket" "assets" {

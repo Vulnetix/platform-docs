@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a web or file-transfer URL (`http://`, `https://`, `ws://`, `wss://`, `ftp://`, `ftps://`, `sftp://`, also `git+https://`) whose user-info segment carries a literal password. The password is masked in the finding's snippet.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded url with embedded credentials values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: password inside a package-index URL

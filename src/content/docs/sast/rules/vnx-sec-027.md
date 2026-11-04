@@ -31,7 +31,7 @@ As the adoption of AI/ML infrastructure grows, Hugging Face tokens have become h
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 Hugging Face hosts both public and private model repositories. Organizations frequently host fine-tuned proprietary models, confidential datasets, and internal tooling on private Hugging Face repositories. A leaked API token grants an attacker the ability to download proprietary model weights and training data, modify or delete hosted models, publish malicious model versions to a trusted repository (potentially poisoning downstream users), and make inference API calls at the token owner's expense.
 
@@ -39,7 +39,7 @@ Token theft from source code is particularly common in AI/ML projects because re
 
 Hugging Face tokens are also scoped at creation time. A token created with `write` scope on all repositories provides a much larger blast radius than a read-only token, but both warrant immediate revocation on exposure.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `hf_` followed by 34 to 40 letters or digits, delimited on both sides, with the entropy of a random token:
 

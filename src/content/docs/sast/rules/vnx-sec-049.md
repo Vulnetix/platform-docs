@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a complete Anthropic Admin API key in any file: source, `.env`, YAML or a shell script. The token must be whole: `sk-ant-admin01-`, a 93-character body, and the closing `AA`. A bare prefix, a truncated key, a placeholder body (`xxxx…`, `your-admin-key-here`), keys under test, fixture or vendored paths, and ordinary `sk-ant-api03-` workspace keys are not reported.
 
-### What Gets Flagged
+### What gets flagged
 
 ```python
 ADMIN_KEY = "sk-ant-admin01-<93 characters>AA"
@@ -37,7 +37,7 @@ ADMIN_KEY = "sk-ant-admin01-<93 characters>AA"
 curl -H "x-api-key: sk-ant-admin01-<93 characters>AA" https://api.anthropic.com/v1/organizations/users
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded anthropic admin api key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

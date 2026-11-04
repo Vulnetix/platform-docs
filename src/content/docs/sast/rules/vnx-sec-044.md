@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a complete Microsoft Teams incoming webhook URL: `https://<tenant>.webhook.office.com/webhookb2/<group-guid>@<tenant-guid>/IncomingWebhook/<32-hex>/<guid>` and the legacy `https://outlook.office.com/webhook/...` and `outlook.office365.com` forms. Truncated URLs, placeholder GUIDs (all zeros, `xxxxxxxx-...`), URLs read from the environment, Power Automate workflow URLs and test, fixture and vendored paths are not reported, and the snippet is redacted. These URLs grant the ability to post messages to a Teams channel and are commonly leaked in CI logs and public config files.
 
-## Why This Matters
+## Why this matters
 
 A leaked Teams webhook URL lets any attacker post to the channel, which is often the same channel where incident-response and security alerts are delivered. The attacker can use this for phishing (fake "your password expires today" messages), social engineering, or simply to drown out real alerts with noise.
 

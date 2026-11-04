@@ -25,7 +25,7 @@ generated: true
 
 This rule detects calls to `.unwrap()` and `.expect()` on `Result<T, E>` and `Option<T>` values in Rust `.rs` source files. Both methods will panic, terminating the current thread or the entire process (in single-threaded contexts), if the value is `Err` or `None` at runtime. While `.unwrap()` and `.expect()` are useful during prototyping and in tests, their presence in production application code represents unhandled error paths that can be triggered by unexpected inputs, network conditions, or file system states. This maps to CWE-248 (Uncaught Exception).
 
-## Why This Matters
+## Why this matters
 
 Rust's type system forces you to explicitly acknowledge that a `Result` or `Option` might be an error or absent value, `.unwrap()` is the escape hatch that says "I'm sure this won't fail, crash me if I'm wrong." In production systems, this confidence is often misplaced:
 
@@ -38,7 +38,7 @@ When a panic propagates in a multi-threaded Rust service, Tokio and async runtim
 
 Beyond availability, panics can expose internal state through stack traces in error responses, and abrupt task termination can leave shared data structures in inconsistent states if locks are held when the panic propagates.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `.unwrap()` / `.expect(...)` applied directly to the parse or decode of a value that arrives at runtime, including when the call is split across lines:
 

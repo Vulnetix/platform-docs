@@ -27,13 +27,13 @@ generated: true
 
 This rule detects cases where user-controlled request data (`req.*` or `request.*`) is passed as the first argument to template engine `render` or `compile` functions, `ejs.render()`, `pug.render()`, `Handlebars.compile()`, `nunjucks.renderString()`, lodash `_.template()`, doT, Mustache, Eta and swig, either directly or through a variable or concatenation built from the request a few lines above. When a user can control the template string itself (rather than just the data bound into the template), they can embed template directives that execute arbitrary server-side code. This is CWE-1336 (Improper Neutralization of Special Elements Used in a Template Engine).
 
-## Why This Matters
+## Why this matters
 
 Server-side template injection (SSTI) is a critical remote code execution vulnerability. Template engines are designed to execute code within their template syntax, that is their purpose. When user input becomes the template, the user gains the ability to call any function available in the template engine's context. In EJS, a payload like `<%= process.env.DATABASE_PASSWORD %>` leaks secrets. A payload like `<%= require('child_process').execSync('id').toString() %>` executes OS commands. The same applies to Pug (`#{root.process.mainModule.require('child_process').execSync('id')}`), Handlebars, and Nunjucks.
 
 This is a common mistake in applications that offer users a "custom email template", "report template", or "message format" feature. Developers think they are providing a restricted formatting language but are actually handing users a full code execution primitive.
 
-## What Gets Flagged
+## What gets flagged
 
 The template source (the first argument of `render`, `compile` or `renderString`) must come from the request. Data passed as the second, context argument is the safe use and is not reported.
 

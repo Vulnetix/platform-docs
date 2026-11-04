@@ -31,7 +31,7 @@ GraphQL, like SQL, has a strict query language syntax. When user input is embedd
 
 **OWASP ASVS v4:** V5.3.4, Verify that data selection or database queries (e.g. SQL, HQL, ORM, NoSQL) use parameterized queries, ORMs, entity frameworks, or are otherwise protected from injection attacks.
 
-## Why This Matters
+## Why this matters
 
 GraphQL query injection is the GraphQL analogue of SQL injection. An attacker who can inject into an operation string can:
 
@@ -58,7 +58,7 @@ This closes the `search` field selection and opens an additional `adminUsers` fi
 
 The OWASP Web Security Testing Guide and OWASP GraphQL Cheat Sheet both explicitly identify server-side query construction from user input as a high-severity injection vector.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: template literal with request body interpolated into operation

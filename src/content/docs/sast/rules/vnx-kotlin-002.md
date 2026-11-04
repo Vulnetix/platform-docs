@@ -33,7 +33,7 @@ It does not report 2048 bits or more, EC, EdDSA or symmetric key sizes (`ec.init
 
 Undersized RSA keys affect every operation that uses the key pair: TLS certificates with a 1024-bit RSA key allow decryption of captured traffic once the key is factored; JWT signing keys allow token forgery; code-signing keys allow malicious package distribution. The impact is systemic because a single weak key can compromise all data ever protected by it.
 
-## Why This Matters
+## Why this matters
 
 The academic and practical threat to sub-2048-bit RSA keys is well documented. The Number Field Sieve algorithm has been continuously improved, and cloud computing has dramatically reduced the cost of the required computation. A 1024-bit RSA modulus is now estimated to require roughly the computational equivalent of a few months of a medium-sized cloud deployment to factor, well within the budget of a nation-state adversary or serious criminal organisation.
 
@@ -41,7 +41,7 @@ From an attacker's perspective, factoring a weak key is a one-time investment th
 
 Android applications and embedded Kotlin services are particularly at risk because developers sometimes choose smaller key sizes for performance on constrained hardware, not realising that modern hardware can handle 2048-bit RSA without meaningful overhead in most use cases.
 
-## What Gets Flagged
+## What gets flagged
 
 ```kotlin
 // FLAGGED: 1024-bit RSA key

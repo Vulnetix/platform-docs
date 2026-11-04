@@ -29,7 +29,7 @@ This rule reports a Notion integration token written into a file: the current fo
 
 It does not report bare prefixes in a prefix check, placeholder or low-entropy bodies, `secret_` identifiers in files unrelated to Notion, tokens read from the environment, or test, fixture and vendored paths.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: token passed to the SDK
@@ -46,7 +46,7 @@ notion = Client(auth="secret_<43 alphanumerics>")
 export const notion = new Client({ auth: process.env.NOTION_TOKEN });
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded notion api token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

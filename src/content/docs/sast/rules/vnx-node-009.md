@@ -27,13 +27,13 @@ generated: true
 
 This rule detects cases where user-supplied request data (`req.query`, `req.body`, `req.params`) is passed directly as the URL argument to HTTP client calls, `fetch()`, `axios.get()`, `axios.post()`, `axios()`, `http.get()`, `got()`, or `request()`. Server-Side Request Forgery (SSRF) allows an attacker to make the server issue HTTP requests to arbitrary destinations, including internal services, cloud metadata APIs, and localhost-bound administrative interfaces that are not accessible from the public internet. This is CWE-918 (Server-Side Request Forgery).
 
-## Why This Matters
+## Why this matters
 
 SSRF is particularly devastating in cloud-hosted environments. In AWS, GCP, and Azure, the instance metadata service runs on a fixed non-routable IP (169.254.169.254) and provides IAM credentials, SSH keys, and configuration data to any process that can reach it via localhost. An attacker who can make your server fetch an arbitrary URL can request `http://169.254.169.254/latest/meta-data/iam/security-credentials/` and obtain temporary cloud credentials with the permissions of your compute instance's role, often enough for full account takeover.
 
 Beyond cloud metadata, SSRF enables attackers to port-scan your internal network, reach Redis or Memcached instances with no authentication, trigger internal webhooks, or interact with admin interfaces on `localhost:9200` (Elasticsearch), `localhost:8500` (Consul), or similar services that assume they are unreachable from outside.
 
-## What Gets Flagged
+## What gets flagged
 
 The destination of the request (the first argument, or the `url`/`host`/`hostname`/`baseURL` member of an options object) must come from the incoming request, on the same line or through a variable assigned from it a few lines above.
 

@@ -27,7 +27,7 @@ generated: true
 
 This rule specifically targets GitLab personal access tokens (PATs), project access tokens, and group access tokens with the `glpat-` prefix pattern `glpat-[A-Za-z0-9\-_]{20,}`. While VNX-SEC-004 detects both GitHub and GitLab tokens, this rule focuses exclusively on the GitLab PAT format and provides more targeted guidance. GitLab tokens with broad scopes (`api`, `write_repository`, `sudo`) grant extensive control over repositories, CI/CD pipelines, group settings, and on self-managed instances, potentially the entire GitLab installation.
 
-## Why This Matters
+## Why this matters
 
 GitLab access tokens can carry any combination of the following scopes: `api` (full API access), `read_api`, `read_user`, `read_repository`, `write_repository`, `read_registry`, `write_registry`, `sudo` (admin impersonation), and `create_runner`. A token with `api` scope is effectively a complete set of the token owner's permissions, including access to every project, group, and organization-level setting they can reach.
 
@@ -35,7 +35,7 @@ GitLab project access tokens and group access tokens can be configured with main
 
 GitLab has built-in token detection but detection alone is insufficient, the token must be revoked and replaced.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: GitLab PAT hardcoded

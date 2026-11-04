@@ -31,7 +31,7 @@ PyTorch version 1.13 introduced the `weights_only=True` parameter, which restric
 
 The `safetensors` format (developed by Hugging Face) is a safer alternative that natively supports only tensor data and has no deserialisation vulnerability by design. Migrating model storage to safetensors is the most robust long-term solution.
 
-## Why This Matters
+## Why this matters
 
 Machine learning model files are increasingly distributed through public repositories (Hugging Face Hub, PyTorch Hub, TensorFlow Hub), model registries, and artifact stores. An attacker who can supply or modify a model file, through a compromised registry, a dependency confusion attack, a poisoned training pipeline, or a man-in-the-middle on an unverified download, can achieve code execution on any machine that loads the file with `torch.load()`.
 
@@ -39,7 +39,7 @@ The attack is reliable and requires no vulnerability in the application code. A 
 
 This attack vector is particularly concerning in MLOps pipelines where models are automatically downloaded and loaded as part of training or inference workflows. A single poisoned model in a shared model registry can compromise every node in a distributed training cluster or every inference server in a deployment.
 
-## What Gets Flagged
+## What gets flagged
 
 A `torch.load()` call (also through `import torch as th`) whose arguments, including continuation lines of a multi-line call, do not pass `weights_only=True`, or pass `weights_only=False`.
 

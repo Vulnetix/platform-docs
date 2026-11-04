@@ -27,7 +27,7 @@ generated: true
 
 This rule flags Java code where `ZipEntry.getName()` is passed directly to `new File()` or `Paths.get()` without first verifying that the resolved path remains within the intended destination directory. A maliciously crafted ZIP archive can contain entry names such as `../../../../etc/cron.d/backdoor` or `../webapps/ROOT/shell.jsp` that, when joined with a destination directory and written to disk, place files entirely outside the target folder. This is the "Zip Slip" vulnerability, a specialised form of path traversal covered by [CWE-22: Improper Limitation of a Pathname to a Restricted Directory](https://cwe.mitre.org/data/definitions/22.html).
 
-## Why This Matters
+## Why this matters
 
 Java's `ZipEntry.getName()` returns the raw string stored in the archive's central directory with no sanitization whatsoever. When an application naively constructs an output path by joining a destination directory with the entry name, the OS path resolution rules (`..` segments stepping up directories) cause the output path to escape the intended directory.
 
@@ -42,7 +42,7 @@ The vulnerability is particularly dangerous because it exploits a design blind s
 
 Zip Slip affects all archive formats that support path components in entry names: ZIP, JAR, WAR, TAR, GZip, 7-Zip, CPIO, APK, and RAR. The same pattern applies to `TarArchiveEntry.getName()` in Apache Commons Compress and similar APIs in other libraries.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the output-path call whose arguments contain an archive entry's `getName()`, directly or through a local assigned from it, when no `getCanonicalPath`/`normalize()` plus `startsWith` check or `..` test appears within a few lines. Listing or logging entry names and `File.getName()` are not reported.
 

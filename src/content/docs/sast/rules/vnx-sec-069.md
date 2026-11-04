@@ -29,7 +29,7 @@ This rule reports an age secret key, `AGE-SECRET-KEY-1` (X25519) or `AGE-SECRET-
 
 It does not report public recipients (`age1...`), the bare `AGE-SECRET-KEY-1` prefix used in format checks, plugin identities (`AGE-PLUGIN-YUBIKEY-1...`, which name a hardware key rather than hold one), keys of the wrong length or alphabet, placeholder runs (`AGE-SECRET-KEY-1XXXX...`), and generated, vendored and test-suffixed files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```sh
 SOPS_AGE_KEY=AGE-SECRET-KEY-1<58 Bech32 characters>
@@ -42,7 +42,7 @@ creation_rules:
   - age: age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded age secret key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

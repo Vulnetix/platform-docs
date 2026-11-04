@@ -29,7 +29,7 @@ In library code, panicking inside a `Result`-returning function is especially ha
 
 This rule corresponds to [CWE-755: Improper Handling of Exceptional Conditions](https://cwe.mitre.org/data/definitions/755.html).
 
-## Why This Matters
+## Why this matters
 
 Rust's type system distinguishes between unrecoverable errors (bugs, invariant violations), which should use `panic!()`, and recoverable errors (I/O failures, parse errors, network timeouts), which should use `Result`. Mixing these in a `Result`-returning function undermines the guarantees that make Rust code predictable and safe to integrate.
 
@@ -37,7 +37,7 @@ In a server application, any code path reachable from a network request that pan
 
 Beyond denial of service, unexpected panics can also leave resources (file handles, database transactions, locks) in an inconsistent state. Depending on the application, this can lead to data corruption or security-relevant state inconsistencies.
 
-## What Gets Flagged
+## What gets flagged
 
 Each `panic!`, and each `.unwrap()` / `.expect(...)` applied directly to a fallible operation (I/O, an awaited future, parsing or deserialising, a database call, `env::var`, `try_into`), is judged by the function that directly encloses it, whose signature may span several lines:
 

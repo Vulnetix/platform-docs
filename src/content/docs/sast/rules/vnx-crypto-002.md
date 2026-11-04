@@ -27,13 +27,13 @@ generated: true
 
 This rule detects invocations of the SHA-1 hashing algorithm across six languages (Python, Node.js, Go, Java, Ruby, and PHP). SHA-1 produces a 160-bit digest and was the dominant cryptographic hash function through the 2000s, appearing in TLS certificates, code signing, and Git object IDs. However, practical chosen-prefix collision attacks have been demonstrated (SHAttered in 2017, SHA-1 is a Shambles in 2020), making it unsuitable for any new security application. This maps to CWE-328 (Use of Weak Hash).
 
-## Why This Matters
+## Why this matters
 
 The 2017 SHAttered attack by Google and CWI Amsterdam produced the first real-world SHA-1 collision: two PDF files with the same SHA-1 digest but different content. The cost dropped further with the 2020 "SHA-1 is a Shambles" paper, which demonstrated a chosen-prefix collision for approximately $45,000 in cloud compute, well within the budget of organized criminal groups and nation-state actors.
 
 The practical implication is that any system using SHA-1 for certificate fingerprinting, code-signing validation, or file integrity verification can be fooled into accepting a maliciously crafted substitute document. All major certificate authorities stopped issuing SHA-1 certificates in 2016, browsers distrust SHA-1 TLS certificates, and NIST formally deprecated SHA-1 for digital signatures in 2011. If your code still calls SHA-1 today, it is carrying technical debt that creates exploitable risk. MITRE ATT&CK T1557 (Adversary-in-the-Middle) covers the interception scenarios enabled by weak MAC and signature schemes.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches SHA-1 invocations in source files across multiple languages:
 

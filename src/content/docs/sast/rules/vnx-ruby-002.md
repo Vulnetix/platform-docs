@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to `eval()` and `system()` in Ruby source files. Both functions allow arbitrary code or OS command execution. When an argument to either function is derived from user-supplied input, HTTP parameters, environment variables, file contents, an attacker can execute arbitrary Ruby code or shell commands on the server. `eval` maps to [CWE-94: Code Injection](https://cwe.mitre.org/data/definitions/94.html); `system` maps to [CWE-78: OS Command Injection](https://cwe.mitre.org/data/definitions/78.html).
 
-## Why This Matters
+## Why this matters
 
 `eval()` compiles and executes an arbitrary string as Ruby source code in the current binding. Any application that constructs an eval argument from user-supplied data is functionally equivalent to exposing a remote code execution endpoint. Even partial control of the input is sufficient for exploitation, injecting a method call, string escape sequence, or closing delimiter can redirect execution.
 
@@ -35,7 +35,7 @@ This rule flags calls to `eval()` and `system()` in Ruby source files. Both func
 
 The [Rails Security Guide](https://guides.rubyonrails.org/security.html#command-line-injection) explicitly warns against constructing shell commands with user input. RuboCop's `Security/Eval` cop flags `eval` calls for the same reason. This rule also covers backtick execution (`` `cmd` ``) and `Kernel#exec` with string arguments, which share the same risk surface.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the call when request input (`params`, `request.params`/`body`/`headers`/..., `cookies`, an upload's `original_filename`) reaches it, on the same line or through a variable assigned from it a few lines above.
 

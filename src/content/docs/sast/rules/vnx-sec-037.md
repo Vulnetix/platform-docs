@@ -32,11 +32,11 @@ This rule detects HashiCorp Vault tokens in three formats:
 
 Vault tokens grant the ability to read every secret the token's policy allows, which often includes database credentials, API keys, and signing keys for downstream services.
 
-## Why This Matters
+## Why this matters
 
 A leaked Vault token is the keys to the kingdom for whatever secrets Vault is managing. Unlike cloud-issued tokens, Vault policies are entirely under your control, a token with `database/creds/read` grants the ability to issue short-lived database credentials on demand, which can then be used to exfiltrate the entire database.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged:
 

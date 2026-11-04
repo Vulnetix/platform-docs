@@ -27,7 +27,7 @@ generated: true
 
 This rule flags Java code where `xpath.evaluate()` or `xpath.compile()` receives user-controlled input from HTTP request parameters, or where XPath expressions are assembled using string concatenation (`+`). An attacker can manipulate the injected expression to bypass authentication checks, extract all data from the underlying XML document, or enumerate its structure. This is [CWE-643: Improper Neutralization of Data within XPath Expressions](https://cwe.mitre.org/data/definitions/643.html).
 
-## Why This Matters
+## Why this matters
 
 XPath expressions describe paths through an XML document tree. When user input is interpolated directly into the expression string, an attacker can inject XPath operators to alter query logic. Unlike SQL databases, XML documents have no per-element access control: a single injected expression can traverse the entire document tree and return arbitrary nodes.
 
@@ -35,7 +35,7 @@ Authentication bypass is a common consequence. A filter such as `//user[name='IN
 
 XPath injection is not as widely known as SQL injection, which means it is more likely to appear in code review blind spots and static analysis exclusion lists. Because Java's `javax.xml.xpath` API lacks native parameterization, the fix requires a deliberate design choice rather than a simple API swap.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the call whose expression (first) argument carries request data, a servlet request value, an annotated handler parameter or a local built from one, or concatenates a `String` parameter of the enclosing method between quotes (`'" + name + "'`). Expressions using `$variables` with an `XPathVariableResolver`, values encoded with `encodeForXPath` or parsed as numbers, and request data used as the document being queried are not reported.
 

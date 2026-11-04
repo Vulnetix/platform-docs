@@ -27,7 +27,7 @@ generated: true
 
 This rule detects code that explicitly disables TLS/SSL certificate validation. When certificate verification is turned off, the TLS handshake completes without confirming the server's identity, meaning an attacker positioned between the client and server can intercept and modify all traffic. This is one of the most severe transport-layer security misconfigurations, captured by CWE-295 (Improper Certificate Validation).
 
-## Why This Matters
+## Why this matters
 
 TLS certificate validation is the foundation of trust on the internet. The TLS handshake proves that you are talking to `api.example.com` and not an attacker's server. When you set `verify=False`, `InsecureSkipVerify: true`, or `rejectUnauthorized: false`, you strip out this proof entirely, the encrypted channel still exists, but you have no way to know who is on the other end.
 
@@ -35,7 +35,7 @@ In corporate and cloud environments, man-in-the-middle attacks via rogue Wi-Fi, 
 
 Developers often disable verification to deal with self-signed certificates in development or to bypass corporate MITM proxies. These workarounds should never reach production code, but they frequently do. CAPEC-94 (Man in the Middle Attack) describes the full attack scenario.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches the most common verification-bypass patterns across Python, Node.js and Go. Java (a trust-all `X509TrustManager`, a `HostnameVerifier` that returns true, `NoopHostnameVerifier`, `TrustAllStrategy`/`TrustSelfSignedStrategy`, Netty `InsecureTrustManagerFactory`) is reported by [VNX-JAVA-006](/sast/rules/vnx-java-006/), so a Java line is reported once:
 

@@ -31,7 +31,7 @@ When a variable is unquoted inside `[ ]`, the shell performs word splitting on i
 
 The security impact is more direct when the variable value is attacker-controlled. An adversary who can set a variable to a string with carefully placed spaces or shell metacharacters can manipulate conditional logic, bypass checks, or inject additional arguments into the test command.
 
-## Why This Matters
+## Why this matters
 
 Argument injection through word splitting is a subtle but serious vulnerability class in shell scripts. Unlike obvious command injections via `eval`, unquoted variable expansion attacks exploit the shell's own parsing rules. A file named `foo bar` in a directory, or an environment variable containing a space set by a malicious actor earlier in a pipeline, can silently change the logic of a security check.
 
@@ -39,7 +39,7 @@ Consider an access-control script that checks a username from an environment var
 
 ATT&CK technique T1059.004 covers Unix shell abuse, and CAPEC-88 describes argument injection, both are relevant here because exploiting this pattern can allow an attacker to alter the behaviour of security-relevant conditional checks in scripts.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 target_dir=$1

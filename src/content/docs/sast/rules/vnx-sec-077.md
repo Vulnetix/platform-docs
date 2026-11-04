@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a Mapbox public access token: `pk.`, its base64url payload (`eyJ...`), a dot and a 22-character signature, quoted, assigned to `mapboxgl.accessToken`, in a tile URL (`?access_token=pk...`) or in a `.env` file. Public tokens are meant for browser code, so the finding asks you to confirm the token is URL- and scope-restricted, and to rotate it if it is not.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded mapbox access token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED

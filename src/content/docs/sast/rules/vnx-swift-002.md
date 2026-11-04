@@ -33,7 +33,7 @@ It does not report the sensitive word inside the message text alone (`"wrong pas
 
 This maps to [CWE-532: Insertion of Sensitive Information into Log File](https://cwe.mitre.org/data/definitions/532.html).
 
-## Why This Matters
+## Why this matters
 
 Diagnostic logging is one of the most common routes through which credentials and personal data leave a controlled environment. Development teams add logging for debugging and rarely audit it before release. Once a password or token appears in the system log, it is no longer under the application's control: it persists in the log store, is included in crash reports that may be sent to Apple or third-party crash analytics SDKs, and can be read by any code running on the device.
 
@@ -41,7 +41,7 @@ On devices enrolled in Mobile Device Management, administrators (and compromised
 
 Switching from `NSLog` to the modern `os_log` API with the `.private` privacy annotation ensures that sensitive values are redacted in the system log in non-development builds, limiting exposure to the developer's own machine during active debugging sessions.
 
-## What Gets Flagged
+## What gets flagged
 
 ```swift
 // FLAGGED: password value logged via NSLog

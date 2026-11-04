@@ -29,7 +29,7 @@ This rule reports a curl command that passes a literal credential with `-u user:
 
 It does not report credentials taken from variables or commands (`$USER:$PASS`, `${NEXUS_PASS}`, `$(cat ...)`), a user with no password (curl prompts for it), `--negotiate -u :`, default or placeholder pairs (`user:password`, `admin:admin`, `changeme`), the `-u` of another command (`sudo -u`, `docker run -u`, a command after a pipe), comment lines, Markdown/reStructuredText/AsciiDoc, and test, fixture, vendored and generated files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```sh
 curl -fsS -u backup:Tq8vL2mZp9Wx -T dump.sql.gz https://files.acme-corp.io/backups/
@@ -49,7 +49,7 @@ curl -u "${NEXUS_USER}:${NEXUS_PASS}" https://nexus.acme-corp.io/
 curl -u deployer https://nexus.acme-corp.io/
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded curl command with embedded credentials values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

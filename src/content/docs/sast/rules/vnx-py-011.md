@@ -27,13 +27,13 @@ generated: true
 
 This rule flags Python code that constructs SQL queries using string formatting (`f-strings`, `%`-formatting, or `.format()`) or raw string concatenation. When user-supplied values are interpolated directly into SQL strings, an attacker can inject SQL syntax that alters the query's meaning, reading data they should not see, bypassing authentication, modifying records, or deleting tables. The rule covers Django's `.raw()` and `.extra()`, SQLAlchemy's `text()` and `execute()`, and raw `cursor.execute()` calls with psycopg2, sqlite3, and similar DB-API 2 drivers. This maps to [CWE-89: SQL Injection](https://cwe.mitre.org/data/definitions/89.html).
 
-## Why This Matters
+## Why this matters
 
 SQL injection is consistently ranked among the most impactful web vulnerabilities and is straightforward to exploit. A single injectable query can give an attacker read access to the entire database, including password hashes, session tokens, PII, and any stored credentials. With write access, they can modify or delete records, create admin accounts, or corrupt data integrity. On some database configurations (MSSQL with xp_cmdshell enabled, PostgreSQL COPY TO/FROM) SQL injection can escalate to OS command execution.
 
 Despite being a well-understood problem with a simple fix, SQL injection remains in OWASP Top 10 A03:2021 (Injection) because developers continue to reach for string formatting as the natural way to insert a value into a string, without recognising that SQL parsing happens after string construction.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule covers a broad set of patterns across popular Python database libraries:
 

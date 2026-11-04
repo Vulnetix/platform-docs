@@ -29,13 +29,13 @@ This rule flags Go source code where variables with names like `password`, `pass
 
 Default and hardcoded passwords are among the most frequently exploited weaknesses in deployed software. IoT devices, network appliances, and web applications with factory-default credentials have been the root cause of major botnets and infrastructure attacks. Even when intended only for development, such credentials frequently survive into production environments through misconfigured deployments or operator error.
 
-## Why This Matters
+## Why this matters
 
 Attackers routinely scan for services using default credentials as one of the first steps in reconnaissance. Tools like Shodan, Masscan, and Metasploit modules automate this at internet scale. A single default password left in a deployed service can grant full administrative access without any exploitation of other vulnerabilities. MITRE ATT&CK technique T1078.003 (Valid Accounts: Local Accounts) covers the use of default or hardcoded credentials to gain initial access.
 
 Beyond active exploitation, hardcoded credentials embedded in source code become a persistent liability: they are often committed to public repositories, included in packaged binaries, and copied between projects. Rotating them typically requires a code change and redeployment, meaning they persist in production for far longer than dynamically managed secrets.
 
-## What Gets Flagged
+## What gets flagged
 
 A common default password used as a credential.
 

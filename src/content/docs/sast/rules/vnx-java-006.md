@@ -29,13 +29,13 @@ This rule detects two closely related patterns that render TLS completely ineffe
 
 This rule owns every Java certificate- and host-name-validation bypass; [VNX-CRYPTO-005](/sast/rules/vnx-crypto-005/) covers the same weakness in Python, Node.js and Go and does not report Java files.
 
-## Why This Matters
+## Why this matters
 
 TLS's security guarantees rest entirely on two checks: (a) the server's certificate is signed by a trusted certificate authority, and (b) the certificate's Common Name or Subject Alternative Names match the hostname the client intended to connect to. Disabling either check means that any attacker who can intercept the network traffic, on a shared Wi-Fi network, inside a corporate proxy, via BGP hijacking, or through a compromised DNS resolver, can silently substitute their own certificate. The client connects to the attacker's server, believing it is speaking to the intended destination. All traffic is decrypted, modified, and re-encrypted in a classic man-in-the-middle (MitM) position.
 
 In a microservices environment, a MitM position between internal services means an attacker who has already breached one service can intercept API calls, steal JWT tokens, modify responses in flight, and exfiltrate sensitive data without triggering any TLS alarm. These patterns are commonly introduced during development ("I just need to bypass the self-signed certificate warning") and then forgotten in production code.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports trust-everything code, not names: an empty (or return-only) `checkServerTrusted()`, a `verify(String, SSLSession)` or `isTrusted(X509Certificate[], String)` that just returns `true`, a `(hostname, session) -> true` lambda given to a hostname-verifier setter or assigned to a `HostnameVerifier`, a `loadTrustMaterial` lambda returning `true`, and the constants `NoopHostnameVerifier`, `ALLOW_ALL_HOSTNAME_VERIFIER`, `AllowAllHostnameVerifier`, `TrustAllStrategy`, `TrustSelfSignedStrategy` and Netty `InsecureTrustManagerFactory.INSTANCE`. Class or field names such as `TrustAllCerts`, an empty `checkClientTrusted`, imports, comments, strings and test files are not reported.
 

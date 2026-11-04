@@ -27,11 +27,11 @@ generated: true
 
 VNX-59 maps to [CWE-59: Improper Link Resolution Before File Access ('Link Following')](https://cwe.mitre.org/data/definitions/59.html). It reports writes through a path that another local user can plant a symbolic link at, and the check-then-open race that lets a link be swapped in.
 
-## Why This Matters
+## Why this matters
 
 Anyone on the host can create `/tmp/appd.pid` before your program does, as a symbolic link to `~victim/.bashrc` or `/etc/cron.d/x`. A plain `fopen(..., "w")`, `os.Create` or `chmod` then follows the link and truncates, overwrites or re-permissions the target with your program's privileges. `access()` followed by `open()` has the same problem: the file checked is not necessarily the file opened.
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 int fd = open("/tmp/appd.pid", O_WRONLY | O_CREAT | O_TRUNC, 0600);  /* owner-only, but no O_EXCL */

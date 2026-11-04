@@ -27,11 +27,11 @@ generated: true
 
 This rule detects DigitalOcean personal access tokens (`dop_v1_<64 hex>`) and OAuth tokens (`doo_v1_<64 hex>`) hardcoded in source files. These tokens grant full API access to the user's DigitalOcean account, including the ability to create and destroy droplets, modify load balancers, and read state databases.
 
-## Why This Matters
+## Why this matters
 
 DigitalOcean tokens are commonly leaked via `.env` files committed to GitHub. The compromise pattern is well-documented: bots scan for `dop_v1_` / `doo_v1_` prefixes, validate the token, and immediately spin up cryptomining droplets billed to the victim.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged (`dop_v1_`, `doo_v1_` or `dor_v1_` followed by exactly 64 lower-case hex characters):
 

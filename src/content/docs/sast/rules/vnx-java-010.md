@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Spring Security configuration code that explicitly disables CSRF (Cross-Site Request Forgery) protection through any of the supported API forms: `csrf().disable()`, `csrf(csrf -> csrf.disable())`, `csrf(AbstractHttpConfigurer::disable)`, `.csrf().ignoringAntMatchers(...)`, or the shorthand `csrf.disable()`. Disabling CSRF protection removes the token check that prevents malicious websites from submitting state-changing requests on behalf of authenticated users. This is CWE-352.
 
-## Why This Matters
+## Why this matters
 
 A CSRF attack works by inducing an authenticated user's browser to send a request to your application. Because browsers automatically include cookies with cross-origin requests, a session cookie present in the browser is sent along with the forged request. Without a CSRF token, a unique, unpredictable value tied to the user's session that a cross-origin attacker cannot read, your server has no way to distinguish a legitimate form submission from a forged one.
 
@@ -35,7 +35,7 @@ Practical consequences include account takeover (an attacker can change a victim
 
 `csrf().disable()` is commonly added during development to simplify API testing with `curl` or Postman, and is sometimes cargo-culted into stateless REST APIs on the assumption that they are not vulnerable. Stateless APIs that use cookie-based session authentication are vulnerable. Stateless APIs using `Authorization: Bearer` headers with JWTs are generally safe, as browsers do not automatically attach custom headers to cross-origin requests, but the Spring configuration should reflect the actual authentication mechanism.
 
-## What Gets Flagged
+## What gets flagged
 
 A Java security configuration (or Spring Security XML file) that turns CSRF protection off, including the `.csrf()` and `.disable()` calls split over two lines. Exempting specific paths, a configuration in the same file that is stateless (`SessionCreationPolicy.STATELESS`) and authenticates with bearer tokens or JWTs, and test configurations are not reported.
 

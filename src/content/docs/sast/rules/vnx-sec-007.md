@@ -27,7 +27,7 @@ generated: true
 
 This rule detects two categories of Slack credentials in source files: API tokens matching the pattern `xox[baprs]-[0-9]{10,13}-[0-9a-zA-Z]{10,}`, and incoming webhook URLs matching `https://hooks.slack.com/services/T.../B.../...`. Slack tokens authenticate bot, user, and app interactions with the Slack API, while webhooks allow posting messages to channels. Both types of credential, if exposed, can be used to read workspace content, send messages impersonating your application, or enumerate workspace members.
 
-## Why This Matters
+## Why this matters
 
 Slack workspaces frequently contain sensitive business information: product roadmaps, customer data shared in support channels, internal credentials pasted in chats, and personnel discussions. A leaked bot token with `channels:read` and `messages:read` scopes can silently exfiltrate months of conversation history. Tokens with `chat:write` scope can impersonate your bot to send phishing messages to team members within the workspace.
 
@@ -40,7 +40,7 @@ Token types by prefix:
 - `xoxs-`: Workspace token (legacy)
 - `xoxr-`: Refresh token
 
-## What Gets Flagged
+## What gets flagged
 
 A Slack bot, user, workspace, refresh or legacy token (`xoxb-`, `xoxp-`, `xoxa-`, `xoxo-`, `xoxr-`, `xoxs-` followed by a numeric team or user id and a secret segment), and an incoming-webhook or workflow URL (`https://hooks.slack.com/services/T.../B.../<secret>`, `/workflows/T.../A.../<id>/<secret>`, `/triggers/T.../<id>/<secret>`).
 

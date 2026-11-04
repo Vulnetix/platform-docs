@@ -29,13 +29,13 @@ This rule flags Go code that parses JWTs without validating the `aud` (audience)
 
 Audience validation is a mandatory check in multi-service or multi-tenant architectures. It ensures that even a cryptographically valid, unexpired token cannot be used outside of its intended context. This is particularly important in microservice deployments where many services may share a common identity provider and signing infrastructure.
 
-## Why This Matters
+## Why this matters
 
 In a typical microservice deployment, an API gateway issues JWTs scoped to specific backend services. If a downstream service does not validate the `aud` claim, an attacker who obtains a token intended for a low-privilege service (e.g., a public-facing read-only API) can replay it against a high-privilege internal service (e.g., an admin management API) if both share the same JWT signing key. The token is cryptographically valid and unexpired, the only distinguishing factor is the audience claim.
 
 This attack is subtle because it requires no token forgery, only token replay across service boundaries. It is especially prevalent in platforms where developers share JWT secrets across environments or services for operational convenience, unknowingly enabling cross-service token replay. RFC 7519 requires that recipient systems validate the `aud` claim when it is present, and OAuth 2.0 frameworks mandate it for bearer tokens.
 
-## What Gets Flagged
+## What gets flagged
 
 A JWT verification whose own arguments carry no `jwt.WithAudience`, in a file where nothing else checks the audience, and an OIDC verifier with the client-ID check turned off:
 

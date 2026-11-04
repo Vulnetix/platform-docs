@@ -29,7 +29,7 @@ This rule reports calls that pass a command string to a shell (`system`, `popen`
 
 All four of these functions pass their argument to a shell for interpretation. `system()` and `popen()` invoke `/bin/sh -c <command>`, `p2open()` is a Solaris extension that does the same, and `wordexp()` performs shell-style word expansion including variable substitution and command substitution. When any portion of the command string derives from external input, user-supplied data, environment variables, filenames read from the filesystem, HTTP headers, or network packet fields, an attacker who controls that portion can inject shell metacharacters (`;`, `|`, `&&`, `$(...)`, `` ` ``) to execute arbitrary commands.
 
-## Why This Matters
+## Why this matters
 
 OS command injection is consistently ranked in the OWASP Top 10 and requires no memory corruption knowledge to exploit, semicolons and pipes are the only primitives needed. A single unguarded `system()` call that incorporates network-supplied data can give an attacker full remote code execution at the privilege level of the running process.
 
@@ -45,7 +45,7 @@ Embedded systems and network appliances are especially affected because they fre
 
 **OWASP ASVS v4.0:** V5.2.4, Verify that the application avoids the use of `eval()` or other dynamic code execution features. Where there is no alternative, any user input being included must be sanitized or sandboxed before being executed.
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: command composed from a caller-supplied host name

@@ -29,7 +29,7 @@ This rule detects `ARG` and `ENV` instructions in Dockerfiles whose variable nam
 
 **Default behaviour:** Docker provides no protection for secrets placed in `ARG` or `ENV` instructions. All values are stored in image metadata and in layer history, and are accessible to anyone who can pull the image.
 
-## Why This Matters
+## Why this matters
 
 Docker image layers are content-addressed and immutable. Every `RUN`, `COPY`, and `ENV` instruction creates a new layer, and all layers, including intermediate ones, are stored in the image manifest. Running `docker history --no-trunc <image>` or `docker inspect` reveals the full build-time arguments and environment variables from every layer. This means that `ENV DATABASE_PASSWORD=s3cr3t` will be visible to anyone who can pull the image, including read-only registry users, CI pipelines, and, critically, in the event of a registry breach.
 
@@ -39,7 +39,7 @@ Even with `ARG` (which Docker does not expose in the final image environment by 
 
 CAPEC-191 (Read Sensitive Constants Within an Executable) captures the inspection attack, and MITRE ATT&CK T1552.001 (Credentials in Files) covers the persistence of secrets in build artefacts.
 
-## What Gets Flagged
+## What gets flagged
 
 Except for a password embedded in a URL (`scheme://user:password@host`, reported whatever the variable is called), the variable name must say it holds a credential (`PASSWORD`, `PASSWD`, `PASSPHRASE`, `SECRET`, `TOKEN`, `APIKEY`, `CREDENTIAL(S)`, `PRIVATEKEY`, a `PASS`/`PW`/`_PWD` word, or a name ending in `_KEY`). Reported: `ENV` with a literal value (in the `KEY=value` form, the legacy `KEY value` form, several pairs on one line and on continuation lines), `ENV` that copies a build arg into the image, and any credential-named `ARG`. The snippet is redacted.
 

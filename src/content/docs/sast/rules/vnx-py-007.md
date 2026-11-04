@@ -27,13 +27,13 @@ generated: true
 
 This rule flags calls to `subprocess.call()`, `subprocess.run()`, `subprocess.Popen()`, `subprocess.check_call()`, and `subprocess.check_output()` that include `shell=True`. When `shell=True` is set, Python passes the entire command to `/bin/sh -c` (on Unix) or `cmd.exe /c` (on Windows) rather than executing the binary directly. This means the shell interprets the command string, processing metacharacters such as `;`, `&&`, `||`, `|`, `$()`, and backticks. If any part of the command string is derived from user input, the attacker can inject additional shell commands. This maps to [CWE-78: Improper Neutralization of Special Elements used in an OS Command](https://cwe.mitre.org/data/definitions/78.html).
 
-## Why This Matters
+## Why this matters
 
 Command injection via `shell=True` is one of the most impactful vulnerability classes in web applications. The attacker gains the ability to run arbitrary OS commands with the same privileges as the Python process. In a typical deployment this means reading application secrets, exfiltrating database contents, modifying files, pivoting to adjacent services on the internal network, or establishing a reverse shell.
 
 Developers use `shell=True` for convenience, it allows shell features like globbing, pipes, and environment variable expansion in a single string. But the same parsing that makes those features work will also parse an attacker's injected metacharacters. Sanitising user input to remove metacharacters is not a reliable defence because the set of dangerous characters is large and context-dependent (differ between shells, quoting styles, and encoding schemes).
 
-## What Gets Flagged
+## What gets flagged
 
 A subprocess call (`call`, `run`, `Popen`, `check_call`, `check_output`, through the module, an alias or an imported name) with `shell=True` anywhere in the call, including a call broken over several lines, whose command is not a constant string; `subprocess.getoutput`/`getstatusoutput` and `asyncio.create_subprocess_shell` with a non-constant command; and a call whose argument list starts an explicit shell (`["sh", "-c", f"..."]`, `["cmd.exe", "/c", x]`, inline or appended to a list just above).
 

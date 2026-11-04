@@ -27,11 +27,11 @@ generated: true
 
 This rule detects AWS Bedrock long-lived API keys matching the `ABSK[A-Za-z0-9+/]{109,269}={0,2}` pattern hardcoded anywhere in source files. Bedrock long-lived keys are valid until explicitly revoked and grant full programmatic access to every foundation model the IAM principal is allowed to call. Combined with prompt-injection attacks, a leaked Bedrock key can be abused to run up large bills, exfiltrate user data sent to the model, or train downstream attackers on a competitor's prompts.
 
-## Why This Matters
+## Why this matters
 
 Anthropic, Cohere, Meta Llama, Mistral, Stability, and Amazon Titan models are all served through Bedrock. A leaked key lets any attacker who finds it run inference, fine-tune models, and consume provisioned throughput, the cost of which is charged to your AWS account. Unlike `AKIA` access keys, Bedrock keys are not surfaced by GitHub Secret Scanning's partner program, so they often linger in public repos for weeks before revocation.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged (a standalone `ABSK` token of 109 to 269 base64 characters):
 

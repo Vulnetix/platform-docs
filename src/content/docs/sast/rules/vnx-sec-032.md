@@ -31,7 +31,7 @@ PGP private keys are used to sign data (including software releases, git commits
 
 This rule corresponds to [CWE-321: Use of Hard-coded Cryptographic Key](https://cwe.mitre.org/data/definitions/321.html).
 
-## Why This Matters
+## Why this matters
 
 PGP private keys are among the most sensitive credentials that can be committed to a repository. Unlike an API token that can be revoked by a single API call, the consequences of a PGP private key leak extend to the past as well as the future. Every document, email, or software release ever signed with this key can now be forged retroactively. Every message encrypted to this key's public key can be decrypted.
 
@@ -39,7 +39,7 @@ In software development contexts, PGP keys are commonly used to sign release art
 
 The git history problem makes this particularly severe: rewriting history to remove the key requires a force-push to all branches, invalidation of all open pull requests, and coordination with every developer who has cloned the repository. Without a complete history rewrite, the key remains accessible indefinitely.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the `-----BEGIN PGP PRIVATE KEY BLOCK-----` header when key material follows it, either a base64 line within the next eight lines or escaped newlines and base64 on the same line:
 

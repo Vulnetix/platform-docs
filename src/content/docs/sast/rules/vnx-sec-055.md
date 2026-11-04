@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a New Relic credential as a whole token: a user API key (`NRAK-` and 27 characters), an insert key (`NRII-` and 27 to 32 characters), an ingest license key (36 characters ending in `NRAL`), or a browser key (`NRJS-` and 19 hex characters) held in configuration. The browser key inside the `NREUM` loader snippet is public by design and is not reported, nor are bare prefixes, placeholders, template or environment references, and test paths.
 
-### What Gets Flagged
+### What gets flagged
 
 ```python
 NEW_RELIC_API_KEY = "NRAK-<27 characters>"
@@ -38,7 +38,7 @@ common: &default_settings
   license_key: '<36 characters>NRAL'
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded new relic api key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

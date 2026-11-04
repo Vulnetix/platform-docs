@@ -31,7 +31,7 @@ A publish token hardcoded in source code represents one of the most serious supp
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 npm package supply chain attacks are a well-documented attack vector with real-world impact. High-profile incidents have demonstrated how a single compromised publish token can result in malicious code being distributed to tens of thousands of downstream projects within hours of a release. The malicious code runs during `npm install` (via lifecycle scripts) or at runtime, exfiltrating secrets, establishing reverse shells, or installing cryptocurrency miners.
 
@@ -39,7 +39,7 @@ Even read-only tokens hardcoded in source represent a risk if the organization u
 
 Token exposure in source code is especially dangerous because npm tokens do not expire by default. A token committed years ago and never rotated remains valid until explicitly revoked.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `npm_` followed by exactly 36 letters or digits, delimited on both sides, in any file, and a legacy UUID token assigned to `_authToken` or `npmAuthToken` in `.npmrc` or `.yarnrc.yml`:
 

@@ -27,7 +27,7 @@ generated: true
 
 This rule detects signed JSON Web Tokens: three base64url segments whose header and payload decode to JSON objects, whose header names a signing algorithm other than `none`, and whose `exp` claim (if any) is still in the future. Tokens in test, spec, fixture and mock paths, in Markdown and other prose files, the public jwt.io sample token (`sub` 1234567890, John Doe), and Supabase anon keys (`role: anon`, public by design) are not reported. JWTs are Base64url-encoded tokens with three dot-separated parts: a header (starts with `eyJ`), a payload, and a signature. They are widely used for authentication and session management. Hardcoding a JWT in source code exposes the token and all its claims, including user identity, roles, and permissions, in version history where it may remain accessible indefinitely.
 
-## Why This Matters
+## Why this matters
 
 A critical misconception about JWTs is that they are encrypted, most are not. The header and payload are merely Base64url-encoded, meaning anyone who intercepts or finds the token can decode it to read its contents without any key. Run `echo 'eyJ...' | base64 -d` (with appropriate padding) to decode a JWT payload and see its claims. Only JWE (JSON Web Encryption) tokens provide confidentiality; standard JWS (signed) tokens do not.
 
@@ -35,7 +35,7 @@ This means a hardcoded JWT in source code exposes user identity claims, roles, e
 
 Hardcoded JWTs commonly appear in test fixtures, where developers create tokens for specific roles or permissions. Even test-environment tokens should not be committed if the signing secret or service is shared with production.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: a long-lived service token committed as a default

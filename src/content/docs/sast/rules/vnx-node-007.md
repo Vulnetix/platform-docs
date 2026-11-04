@@ -27,13 +27,13 @@ generated: true
 
 This rule detects SQL query strings assembled via string concatenation (`+`) or template literals with interpolation (`` ` `` with `${}`) when passed to database query methods in Node.js (`mysql`, `mysql2`, `pg`, `knex`, `sequelize`). When any interpolated value comes from user input, a request parameter, body field, or query string, an attacker can manipulate the SQL statement structure to bypass authentication, extract data from arbitrary tables, modify or delete records, or in some configurations execute OS commands. This is CWE-89 (Improper Neutralization of Special Elements used in an SQL Command).
 
-## Why This Matters
+## Why this matters
 
 SQL injection has been the number-one web application vulnerability for over two decades and remains in the OWASP Top 10. A single injectable query can expose an entire database: an attacker uses `UNION SELECT` to combine results from any table, `OR '1'='1'` to bypass authentication, or `; DROP TABLE users--` to cause catastrophic data loss. In MySQL and SQL Server configurations with file privilege, `INTO OUTFILE` and `LOAD DATA INFILE` can be used to read and write server files, potentially escalating to OS-level compromise.
 
 Node.js applications are particularly susceptible because template literals make it syntactically natural to embed variables directly in strings, and developers coming from languages with built-in ORM abstractions may not realise they are writing raw SQL.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: concatenation

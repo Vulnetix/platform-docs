@@ -30,7 +30,7 @@ Rust's `as` casting is intentionally defined as a bit-reinterpretation or modulo
 
 This rule corresponds to [CWE-681: Incorrect Conversion between Numeric Types](https://cwe.mitre.org/data/definitions/681.html) and [CWE-190: Integer Overflow or Wraparound](https://cwe.mitre.org/data/definitions/190.html).
 
-## Why This Matters
+## Why this matters
 
 Integer truncation bugs are a well-documented class of security vulnerability. In C and C++ they have caused countless memory safety issues; in Rust the memory safety guarantees prevent buffer overflows at the language level, but the incorrect values produced by truncation can still cause logic-level vulnerabilities.
 
@@ -38,7 +38,7 @@ A representative attack scenario: a web service reads a `Content-Length` header,
 
 Sign-change casts introduce a different class of bug: a user-supplied offset that is positive as a `u64` becomes negative as `i64`, reversing the direction of pointer arithmetic or causing an array access to underflow.
 
-## What Gets Flagged
+## What gets flagged
 
 A lossy cast of a parsed or decoded integer, on the same line or on a later line through the variable it was bound to:
 

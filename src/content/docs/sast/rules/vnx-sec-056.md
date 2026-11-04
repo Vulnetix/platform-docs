@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a Sentry auth token as a whole token: a user auth token (`sntryu_` and 64 hex characters), an organisation auth token (`sntrys_` followed by its base64 JSON claims, `eyJ…`, and the secret part), or a legacy 64-hex token assigned to `SENTRY_AUTH_TOKEN` or to `token` in `.sentryclirc`. The DSN (a public ingest identifier), bare prefixes, placeholders such as `sntrys_YOUR_TOKEN_HERE`, environment references and test paths are not reported.
 
-### What Gets Flagged
+### What gets flagged
 
 ```ini
 [auth]
@@ -38,7 +38,7 @@ token = sntryu_<64 hex characters>
 sentryVitePlugin({ org: "acme", project: "web", authToken: "sntrys_eyJ<claims>_<secret>" })
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded sentry auth token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

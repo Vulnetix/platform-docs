@@ -29,7 +29,7 @@ A container that is running but unhealthy continues to receive traffic from load
 
 The rule only fires on images that have a `CMD` or `ENTRYPOINT`, builder stages, scratch-based stages, and base images without an entrypoint are not flagged, as adding a health check to them is either not meaningful or not possible.
 
-## Why This Matters
+## Why this matters
 
 In production container environments, the container lifecycle is managed by an orchestrator rather than a human operator. When an application enters a degraded state, such as a Go process that is stuck waiting on a locked mutex, a Node.js event loop that is blocked, or a web server that has exhausted its thread pool, the orchestrator has no way to know this has happened unless the container itself reports its health.
 
@@ -37,7 +37,7 @@ Without a `HEALTHCHECK`, rolling deployments may complete successfully while the
 
 This also matters for security incident response: a compromised container that has been forced into a crash loop or degraded state is more likely to be detected and replaced if health checks are in place, reducing the window of exposure.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule judges the image's final stage. It counts as a service when it, or an earlier stage it is built `FROM`, has an `EXPOSE` or a `CMD`/`ENTRYPOINT` that starts a server (nginx, httpd, php-fpm, gunicorn, uvicorn, puma, node, `npm start`, java, dotnet, redis-server, postgres, supervisord and similar). The finding is on the final `FROM` line.
 

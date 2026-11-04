@@ -31,7 +31,7 @@ The practical consequence is that the "S" in HTTPS provides no security guarante
 
 This rule corresponds to [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html).
 
-## Why This Matters
+## Why this matters
 
 `VERIFY_NONE` is often introduced as a quick fix for SSL certificate errors during development, a self-signed cert, an expired cert in a staging environment, or a corporate proxy with its own root CA that is not in the system trust store. The fix makes the error disappear, and the code is sometimes committed and deployed to production without the developer realising the implication.
 
@@ -39,7 +39,7 @@ In production, the consequences can be severe. API credentials, OAuth tokens, we
 
 The Ruby ecosystem makes `VERIFY_PEER` the correct and default option for a reason: it enforces that the certificate chain is valid, trusted, and matches the hostname. Developers encountering certificate errors should fix the underlying certificate problem rather than disabling verification.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a `.rb` line (outside test and spec files) that assigns or passes `OpenSSL::SSL::VERIFY_NONE`, qualified or bare, or sets `verify_mode` to `0`.
 

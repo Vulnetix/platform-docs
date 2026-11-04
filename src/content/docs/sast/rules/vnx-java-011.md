@@ -27,13 +27,13 @@ generated: true
 
 This rule detects instantiation and use of Spring Expression Language (SpEL) via `SpelExpressionParser`, OGNL evaluation via `OgnlUtil` or `Ognl.getValue`, and generic scripting engines via `ScriptEngineManager` or `ScriptEngine.eval()`, particularly when the expression string is derived from request parameters. Evaluating attacker-controlled data as a programming expression grants the same capabilities as direct code execution. This is CWE-917 (Improper Neutralization of Special Elements used in an Expression Language Statement).
 
-## Why This Matters
+## Why this matters
 
 Expression language engines are designed to be powerful. SpEL can call arbitrary Java methods on any object in the evaluation context, including `Runtime.exec()`, `ProcessBuilder`, and reflection-based class loading. An attacker who can control the expression string can execute OS commands, read and write files, exfiltrate environment variables, and load remote classes into the JVM, all without any exploit primitive beyond the ability to submit a string.
 
 SpEL injection has been demonstrated in high-profile CVEs: CVE-2022-22963 (Spring Cloud Function, CVSS 9.8) allowed unauthenticated RCE by sending a SpEL expression in the `spring.cloud.function.routing-expression` HTTP header. CVE-2018-1273 (Spring Data Commons) exploited SpEL evaluation of user-supplied property paths in Spring Data REST. OGNL injection is the mechanism behind the long series of Apache Struts RCE vulnerabilities including CVE-2017-5638 (S2-045, the Equifax breach vector).
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the evaluation call (`parseExpression`, `Ognl.getValue`, `createValueExpression`, `ELProcessor.eval`, `ScriptEngine.eval`, `MVEL.eval`, `buildConstraintViolationWithTemplate` and similar) when one of its arguments is a servlet request value, an annotated handler parameter, the value a `ConstraintValidator` is judging, or a local assigned from one a few lines above. Creating a parser or engine, evaluating constants, and SpEL evaluated with a `SimpleEvaluationContext` are not reported.
 

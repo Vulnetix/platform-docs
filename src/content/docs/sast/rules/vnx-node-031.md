@@ -29,13 +29,13 @@ This rule detects `console.log`, `console.info`, `console.warn`, `console.error`
 
 Sensitive values commonly end up in logs through debugging practices (logging request bodies or full objects), error handling (logging caught exceptions that include the originating data), and audit trails that inadvertently capture authentication material. Once written to a log, sensitive data may propagate to SIEM systems, cold storage, third-party log management services, and developer workstations, each an additional attack surface.
 
-## Why This Matters
+## Why this matters
 
 Credentials and tokens written to logs are a documented attack path for credential theft, privilege escalation, and compliance violation. Attackers who compromise a log aggregation system (e.g., a poorly secured Elasticsearch cluster or a shared Splunk instance) gain access to every sensitive value ever logged. Security researchers and red teams routinely discover API keys, JWT tokens, database passwords, and PII in application logs during penetration tests.
 
 From a compliance perspective, logging passwords or cardholder data (card numbers, CVV) violates PCI-DSS Requirements 3 and 10, and logging authentication tokens or PII without appropriate controls violates GDPR and HIPAA. Breach disclosures frequently cite logging of sensitive data as an aggravating factor. Unlike a compromised secret that can be rotated, historical log entries containing that secret may be retained in backups for years.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: the password argument

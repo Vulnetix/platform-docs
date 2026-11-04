@@ -27,7 +27,7 @@ generated: true
 
 This rule flags ActiveRecord query calls, `where()`, `find_by_sql()`, `execute()`, and `connection.execute()`, where the SQL string is constructed using Ruby string interpolation (`#{...}`) or where the method receives a string literal that indicates user-controlled data may be embedded directly. SQL injection allows an attacker who controls part of the query to change its logical structure, bypassing WHERE clauses, extracting data from other tables, or, depending on database permissions, modifying or deleting data. This maps to [CWE-89: Improper Neutralization of Special Elements used in an SQL Command](https://cwe.mitre.org/data/definitions/89.html).
 
-## Why This Matters
+## Why this matters
 
 SQL injection in Rails applications is especially dangerous because ActiveRecord's expressive query interface makes it easy to write code that looks safe but is not. A developer familiar with `User.where(name: name)` (safe) might write `User.where("name = '#{name}'")` (vulnerable) for a more complex condition, the two look syntactically similar but have completely different security properties.
 
@@ -35,7 +35,7 @@ A successful SQL injection against a production database allows an attacker to e
 
 Because ActiveRecord generates real SQL under the hood, the `string(form)` of `where()` is the most common injection vector in Rails codebases, developers use it for complex conditions and unknowingly open the door to injection.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a query method whose SQL string (first argument) inserts request input, a variable assigned from it a few lines above, or a parameter of the enclosing method or scope lambda; a raw `params[...]` used as the SQL fragment; and a variable holding such a string built above.
 

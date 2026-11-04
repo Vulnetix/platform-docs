@@ -27,13 +27,13 @@ generated: true
 
 This rule detects file-system operations, `fs.readFile`, `fs.readFileSync`, `fs.createReadStream`, `path.join`, `path.resolve`, and `res.sendFile`, where the path argument is drawn directly from user-supplied request data (`req.params`, `req.query`). Without strict path validation, an attacker can supply a filename containing `../` sequences to traverse out of the intended directory and read arbitrary files on the server. This is CWE-22 (Improper Limitation of a Pathname to a Restricted Directory, Path Traversal).
 
-## Why This Matters
+## Why this matters
 
 Path traversal allows an attacker to read any file that the Node.js process has permission to access, application source code, configuration files, environment variable files (`.env`), database credentials, private keys, and operating system files like `/etc/passwd`. In a cloud environment, this commonly leads to reading instance credentials from well-known paths.
 
 The attack is simple: instead of requesting `/files/report.pdf`, an attacker sends `/files/../../../../etc/passwd` or URL-encodes the traversal as `%2e%2e%2f` to bypass naive string filtering. The `path.join` function does resolve `..` sequences, but it does not constrain the result to a specific directory, `path.join('/var/files', '../../etc/passwd')` legitimately returns `/etc/passwd`. Normalisation alone is not sufficient defence.
 
-## What Gets Flagged
+## What gets flagged
 
 The path (first argument) of a file-system read, write, stream, list, stat or delete, or of `res.sendFile`/`res.download`, must come from the request, on the same line or through a variable assigned from it a few lines above.
 

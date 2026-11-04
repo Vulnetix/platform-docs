@@ -31,7 +31,7 @@ This rule reports an `IFS` change that escapes the code that needed it, in Bash 
 
 The security impact arises when global IFS manipulation changes how input strings are tokenised in a security-relevant context. A script that sets `IFS=":"` to parse a path list may inadvertently alter how a later command parses a filename, URL, or user-supplied value, leading to unexpected argument splitting or misinterpreted data.
 
-## Why This Matters
+## Why this matters
 
 IFS manipulation bugs are subtle because they are non-local: the assignment might appear dozens of lines before the code it affects, and the effect only manifests when a variable contains the separator character. Scripts that work correctly in testing may fail in production when inputs happen to contain the modified separator.
 
@@ -39,7 +39,7 @@ From an attacker's perspective, if a script globally sets `IFS` to a character t
 
 A particularly dangerous pattern is a script that processes a list with a custom IFS and then passes an unsanitised value through a pipeline where the modified IFS causes unexpected splitting of what should be a single argument. CAPEC-15 (Catching Exception Throw/Signal from Privileged Block) and ATT&CK T1059.004 both relate to this class of shell behaviour manipulation.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 split_fields() {

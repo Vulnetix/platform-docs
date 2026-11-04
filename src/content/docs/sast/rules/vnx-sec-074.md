@@ -27,11 +27,11 @@ generated: true
 
 This rule reads every YAML document whose top-level `kind` is `Secret` (multi-document files included) and reports each entry in its `data:` or `stringData:` block whose key names a credential (password, token, secret, key, auth, credentials, connection string, `.dockerconfigjson`) and whose value is a literal. Base64 in `data:` is an encoding, not encryption.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded kubernetes secret manifest with credentials values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```yaml
 # FLAGGED: the password and API key entries

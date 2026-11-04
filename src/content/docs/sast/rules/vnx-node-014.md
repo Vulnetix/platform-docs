@@ -27,7 +27,7 @@ generated: true
 
 This rule detects MongoDB query method calls, `find()`, `findOne()`, `findOneAndUpdate()`, `updateOne()`, `deleteOne()`, `deleteMany()`, where the filter argument is supplied directly from `req.body` or `req.query`. Unlike SQL injection, which manipulates a query string, NoSQL injection exploits the fact that MongoDB query filters are JavaScript objects: an attacker who can control the filter object can inject MongoDB query operators (`$where`, `$gt`, `$ne`, `$regex`) to bypass authentication, extract data conditionally, or match unintended documents. This is CWE-943 (Improper Neutralization of Special Elements in Data Query Logic).
 
-## Why This Matters
+## Why this matters
 
 NoSQL injection via MongoDB operators is a well-documented and frequently exploited attack. The classic authentication bypass works because a developer writes `User.findOne(req.body)` expecting `{ username: "alice", password: "secret" }`, but an attacker sends `{ "username": "admin", "password": { "$ne": "" } }`. The `$ne` (not-equal) operator matches any user whose password is not an empty string, which is all of them, so the query returns the first admin user without knowing the password.
 
@@ -37,7 +37,7 @@ Real-world consequences include complete authentication bypass, unauthorised dat
 
 **OWASP ASVS v4:** V5.3.4, Verify that the application protects against NoSQL injection attacks.
 
-## What Gets Flagged
+## What gets flagged
 
 The filter (first argument) must carry a body or query value, which a parser can turn into an operator object such as `{"$ne": null}`, or a `$where` clause must be built from any request value.
 

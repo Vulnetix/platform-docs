@@ -29,7 +29,7 @@ This rule reports the string `Bearer <token>` (an `Authorization` header in a `.
 
 It does not report headers built from variables (`"Bearer " + token`, `${TOKEN}`, `$(gcloud auth print-access-token)`, `{{ .Values.token }}`), low-entropy or placeholder values (`invalid_token_format`, `YOUR_ACCESS_TOKEN`, the jwt.io sample token), comment lines, Markdown/reStructuredText/AsciiDoc, and test, fixture, vendored and generated files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```sh
 curl -s -H 'Authorization: Bearer <40 random characters>' https://ci.acme-corp.io/api/v4/trigger
@@ -45,7 +45,7 @@ Not flagged:
 curl -H "Authorization: Bearer ${GITLAB_TOKEN}" https://gitlab.acme-corp.io/api/v4/projects
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded http bearer authentication header values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

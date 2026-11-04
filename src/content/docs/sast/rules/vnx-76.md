@@ -27,11 +27,11 @@ generated: true
 
 VNX-76 maps to [CWE-76: Improper Neutralization of Equivalent Special Elements](https://cwe.mitre.org/data/definitions/76.html). It reports a single-pass removal, a replacement with the empty string, of a sequence that an attacker can reassemble from the pieces left behind.
 
-## Why This Matters
+## Why this matters
 
 Deleting a sequence once does not remove it from the input, only from one spelling of it. `....//` becomes `../`, `<scr<script>ipt>` becomes `<script>`, `&;&` becomes `&&` once `;` is also stripped, and `hthttp://tp://` becomes `http://`. The filter gives the appearance of protection and the attack still lands.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 return q.replace("UNION", "").replace(" ", "")

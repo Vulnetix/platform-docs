@@ -27,7 +27,7 @@ generated: true
 
 This rule flags ActiveRecord method calls, `create()`, `new()`, `update()`, `update_attributes()`, and `assign_attributes()`, where the raw `params` hash (or a slice of it) is passed directly without filtering through Rails strong parameters. Mass assignment allows an attacker to set any attribute on a model that ActiveRecord will accept, including fields that should only be set by the application itself: `admin`, `role`, `confirmed`, `balance`, `permissions`, and any other attribute present in the database schema. This maps to [CWE-915: Improperly Controlled Modification of Dynamically-Determined Object Attributes](https://cwe.mitre.org/data/definitions/915.html).
 
-## Why This Matters
+## Why this matters
 
 Mass assignment was one of the most impactful vulnerabilities in early Rails applications. The most famous real-world case involved GitHub in 2012: a researcher demonstrated that passing `public_keys[user][organization_attributes][repos_attributes][0][public_key_attributes][user_attributes][bypass]=true` to a mass-assignment endpoint allowed forking a private repository that belonged to a different user, a full authorization bypass achieved entirely through parameter manipulation, with no exploit code required.
 
@@ -35,7 +35,7 @@ Modern Rails 4+ applications are protected by strong parameters (`ActionControll
 
 The consequences range from horizontal privilege escalation (setting `confirmed = true` to skip email verification), to vertical privilege escalation (setting `admin = true` or `role = 'admin'`), to financial fraud (modifying `balance` or `discount_rate`), depending on what attributes your models expose.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports, in `.rb` files:
 

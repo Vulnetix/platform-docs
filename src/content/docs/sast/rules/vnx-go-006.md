@@ -27,11 +27,11 @@ generated: true
 
 This rule detects Go HTTP handlers that pass `r.FormValue()` or `r.URL.Query()` values directly to `http.Get`, `http.Post`, or `http.NewRequest` without validating the destination. Server-side request forgery (SSRF) allows an attacker to make your server perform HTTP requests to destinations of their choosing, typically internal services that are not exposed to the internet. This maps to [CWE-918: Server-Side Request Forgery (SSRF)](https://cwe.mitre.org/data/definitions/918.html).
 
-## Why This Matters
+## Why this matters
 
 In cloud environments, SSRF is a critical vulnerability class because virtually every major cloud platform exposes an instance metadata service at a well-known IP address (`169.254.169.254` on AWS, GCP, and Azure). By making your server fetch that URL, an attacker can retrieve IAM credentials, account identifiers, and bootstrap tokens, granting them access to your entire cloud infrastructure without any other foothold. Beyond the metadata service, SSRF enables attackers to probe and interact with internal microservices, databases, and management interfaces that are firewalled from the public internet. It can also be used to bypass IP-based allowlists, as the requests originate from your trusted server.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires when `http.Get`/`Head`/`Post`/`PostForm`, `http.NewRequest(WithContext)`, a client's `Get`/`Post`, resty `R().Get`, `httputil.NewSingleHostReverseProxy` or `net.Dial`/`tls.Dial` receives a destination that starts with a request value: a query, form, header or path parameter, or a field of a struct decoded from the request body. The value may be inline, parsed with `url.Parse`, held in a variable assigned a few lines up, or follow a prefix that leaves the host open (`"http://"+v`, `fmt.Sprintf("http://%s/...", v)`). It does not fire for a fixed scheme and host followed by a path (`"https://api.github.com/repos/"+v`), configured destinations, a value checked against an allowlist or host comparison, a client whose dialer rejects private addresses, or cache and database `Get` calls.
 

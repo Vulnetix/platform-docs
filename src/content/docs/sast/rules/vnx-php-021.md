@@ -31,7 +31,7 @@ Mass-assignment vulnerabilities arise when applications pass entire request data
 
 The `Model::unguard()` call globally disables mass-assignment protection for the application lifetime, affecting all models regardless of their individual configuration. This is sometimes seen in seeders or test factories but is catastrophic if left in production bootstrap code.
 
-## Why This Matters
+## Why this matters
 
 Mass-assignment privilege escalation has been used in multiple real-world attacks and was famously exploited against GitHub in 2012, where an attacker used mass-assignment to add an SSH key to any repository. In Laravel applications, the most common targets are boolean fields like `is_admin`, `email_verified`, or `active`, and role or permission identifiers.
 
@@ -39,7 +39,7 @@ The attack is simple: the attacker adds extra fields to a form POST or JSON requ
 
 Laravel's `$fillable` approach (explicit allowlist) is safer than `$guarded` (blacklist) because an allowlist requires developers to consciously decide what to permit, while a blacklist requires them to anticipate and list everything that must be denied, easy to get wrong as models evolve.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: $guarded = [] disables all mass-assignment protection

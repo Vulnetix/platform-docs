@@ -31,7 +31,7 @@ Unlike environment-injected credentials or IAM instance roles, hardcoded credent
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 AWS access keys for IAM users are long-lived credentials that provide persistent, programmatic access to AWS resources. Unlike temporary credentials issued by IAM roles (which expire after hours), IAM user access keys remain valid until explicitly rotated or deleted. An attacker who extracts an access key from a Terraform file can use it indefinitely unless the key is revoked.
 
@@ -39,7 +39,7 @@ Terraform state files and configuration files are frequently stored in version c
 
 Compromised Terraform provider credentials are particularly high-value because they typically have broad permissions: Terraform needs to create, modify, and delete infrastructure resources, so the associated IAM user or role often has significant access. An attacker using these credentials can provision additional infrastructure (for cryptomining), exfiltrate data from S3 and databases, modify security group rules to create backdoors, and cover their tracks by modifying CloudTrail settings.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 provider "aws" {

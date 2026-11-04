@@ -31,7 +31,7 @@ GraphQL's flexible query language creates DoS attack surfaces that HTTP-layer co
 
 **OWASP ASVS v4:** V13.4.1, Verify that a query allowlist or a combination of depth limiting and amount limiting is used to prevent GraphQL DoS as a result of expensive, nested queries.
 
-## Why This Matters
+## Why this matters
 
 GraphQL's flexible query structure creates unique denial-of-service opportunities that HTTP-layer rate limiting cannot fully address:
 
@@ -64,7 +64,7 @@ GraphQL's flexible query structure creates unique denial-of-service opportunitie
 
 Real-world GraphQL DoS attacks have taken production services offline within seconds because the default GraphQL execution engine has no built-in query complexity limits. The OWASP GraphQL Cheat Sheet explicitly calls out both batching and depth limiting as required controls.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: batching enabled without compensating controls

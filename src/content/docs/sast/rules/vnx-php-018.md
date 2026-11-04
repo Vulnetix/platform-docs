@@ -31,7 +31,7 @@ This rule detects calls to the PHP debug output functions `var_dump()`, `print_r
 
 Debug output functions are commonly added during development and forgotten when code is merged to production. A single exposed endpoint that dumps `$_ENV` can leak every secret in the deployment environment.
 
-## Why This Matters
+## Why this matters
 
 Information disclosure is frequently the first step in a multi-stage attack. An attacker who can access a debug endpoint learns the exact server software and PHP version (enabling targeted exploits), the database hostname and credentials (enabling direct database access), API keys for third-party services (enabling lateral movement), the filesystem layout (enabling path traversal exploitation), and session tokens for currently authenticated users (enabling account takeover).
 
@@ -39,7 +39,7 @@ In cloud deployments, `$_ENV` or `$_SERVER` may contain AWS/GCP/Azure credential
 
 Debug output that is conditionally shown only in development can still be dangerous if the condition check relies on an HTTP header or query parameter that an attacker can spoof.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: session data dumped to response

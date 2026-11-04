@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a hard-coded Datadog API key (32 lower-case hex characters) or application key (40 hex characters). The value must be assigned to a Datadog key name (`DD_API_KEY`, `DD_APP_KEY`, `datadog_api_key`), or to a generic `api_key`/`app_key`/`apiKey`/`apiKeyAuth` when the file is Datadog configuration: a path naming datadog, or a line naming Datadog within eight lines above (`provider "datadog"`, `from datadog import`, `@datadog/datadog-api-client`, a `datadog:` block). Not reported: hex values with no Datadog context, the public RUM client token (`pub…`), variable or environment references, placeholders and test paths.
 
-### What Gets Flagged
+### What gets flagged
 
 ```sh
 DD_API_KEY=<32 hex characters>
@@ -40,7 +40,7 @@ provider "datadog" {
 }
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded datadog api / app key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

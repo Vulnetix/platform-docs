@@ -31,7 +31,7 @@ This rule flags any Python file that instantiates or calls one of the dangerous 
 
 The risk is not theoretical: any input that reaches the LLM, user messages, document content, web search results fetched by the agent, database records summarised by the agent, can contain injected instructions. The model's instruction-following capability, which is its primary feature, becomes a liability when the instructions can come from untrusted sources.
 
-## Why This Matters
+## Why this matters
 
 The combination of LLM agent + code execution tool + prompt injection is a reliable RCE primitive. Unlike traditional web application vulnerabilities that require specific injection points and payload crafting, prompt injection is general: any text the model processes can contain instructions, and the model has no reliable mechanism to distinguish legitimate instructions from injected ones.
 
@@ -39,7 +39,7 @@ A realistic attack chain: (1) a user submits a document to a RAG (retrieval-augm
 
 This attack does not require any vulnerability in the application code, only the presence of a code execution tool and a prompt injection vector (which is any external input the model processes). Security research has demonstrated this attack chain against multiple deployed LangChain applications.
 
-## What Gets Flagged
+## What gets flagged
 
 Instantiating `PythonREPLTool`, `PythonAstREPLTool`, `PythonREPL`, `ShellTool` or `BashProcess`, calling `create_python_agent()`, building `LLMMathChain` or `PALChain`, `load_tools()` naming `"python_repl"` or `"terminal"`, and `allow_dangerous_code=True`.
 

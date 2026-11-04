@@ -35,7 +35,7 @@ Java IVs that the Java weak-IV rule reads are reported by VNX-1204, not here, so
 
 The IV (initialization vector), nonce, and salt all serve the same essential purpose: they introduce uniqueness and unpredictability into cryptographic operations so that encrypting the same plaintext twice with the same key produces different ciphertext, and so that deriving a key from the same password twice produces a different derived key. When these values are hardcoded or zeroed, this uniqueness property is entirely eliminated.
 
-## Why This Matters
+## Why this matters
 
 The consequences of a static IV or nonce depend on the cipher mode, but all of them are severe. For stream ciphers and counter modes (CTR, GCM, ChaCha20-Poly1305), reusing the same nonce with the same key is catastrophic: two ciphertexts encrypted with the same key and nonce can be XORed together to cancel the keystream, immediately recovering the XOR of the two plaintexts without any knowledge of the key. This is called a "two-time pad" attack and requires only two captured ciphertexts.
 
@@ -43,7 +43,7 @@ Real-world examples of nonce reuse vulnerabilities include WPA2's KRACK attack (
 
 For KDFs like PBKDF2, bcrypt, and Argon2, a hardcoded or zero salt means all passwords are hashed with the same salt. This allows precomputed rainbow tables to be built for the specific salt value, eliminating the performance cost that KDFs are designed to impose on attackers. This is covered by CWE-760 and maps to CAPEC-112 and ATT&CK T1600.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: a literal IV and a literal PBKDF2 salt

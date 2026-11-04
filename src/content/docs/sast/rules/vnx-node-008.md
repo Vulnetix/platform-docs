@@ -27,13 +27,13 @@ generated: true
 
 This rule detects Express route handlers where user-supplied request data (`req.query`, `req.params`, `req.body`, `request.query`) is passed directly to `res.redirect()` without validation. An open redirect allows an attacker to craft a URL on your trusted domain that redirects the victim to an arbitrary external site. This is CWE-601 (URL Redirection to Untrusted Site, Open Redirect).
 
-## Why This Matters
+## Why this matters
 
 Open redirects are highly effective phishing enablers. An attacker constructs a link like `https://your-trusted-app.com/login?next=https://evil.com/phish` and sends it to targets. Because the link hostname is your legitimate domain, email security filters, link previews, and users familiar with your brand are all more likely to trust it. The victim clicks, lands briefly on your server, and is immediately bounced to the attacker's convincing replica of your login page. Credentials entered there go directly to the attacker.
 
 Open redirects are also used as a redirect step in OAuth flows. An attacker who can control the redirect target may be able to capture OAuth authorization codes or access tokens by pointing the redirect to an attacker-controlled page that logs the query string.
 
-## What Gets Flagged
+## What gets flagged
 
 A redirect whose target **begins** with request data, directly or through a variable assigned from it a few lines above:
 

@@ -29,7 +29,7 @@ This rule flags Python code that loads ML model files or serialized data with lo
 
 > **Default behavior:** `torch.load()` uses pickle by default in all PyTorch versions prior to 2.6. Starting with PyTorch 2.6, `weights_only=True` became the default, but only for new code, any existing call without the parameter still uses the old unsafe default. `numpy.load()` has `allow_pickle=False` as the default since NumPy 1.16.3, so the rule only fires when it is explicitly set to `True`. `pickle.load()` is **always** unsafe regardless of version; VNX-PY-003 reports it.
 
-## Why This Matters
+## Why this matters
 
 ML model files are a relatively new and rapidly growing attack surface. Model files are large binary objects that are routinely shared via model hubs (Hugging Face Hub, PyTorch Hub, TensorFlow Hub), emailed between teams, downloaded from papers and blog posts, and committed to source repositories. Unlike source code, model files are not human-readable, so malicious payloads are invisible without specialised tooling.
 
@@ -37,7 +37,7 @@ Because PyTorch's `.pt`/`.pth` format uses pickle internally, any `.pt` file is 
 
 This threat is not theoretical: researchers have published proof-of-concept malicious PyTorch models, and model scanning tools like Protect AI's `modelscan` detect them in real-world model repositories.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: standard torch.load, uses pickle internally (PyTorch < 2.6 default)

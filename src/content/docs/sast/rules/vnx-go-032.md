@@ -29,13 +29,13 @@ This rule flags Go code that never enforces a JWT's expiry: claims validation sw
 
 Session expiration is one of the fundamental controls in authentication system design. Short-lived tokens limit the window of opportunity for an attacker who has obtained a token through XSS, network interception, or a compromised log file. Skipping expiration validation removes this protection entirely, turning a JWT into a permanent credential that cannot be revoked without additional infrastructure.
 
-## Why This Matters
+## Why this matters
 
 In practice, tokens get leaked through browser history, log files, referrer headers, and client-side vulnerabilities. A short expiration window, typically 15 minutes to 1 hour for access tokens, significantly reduces the damage caused by any single token leak. Without expiration enforcement, a leaked token obtained through any channel remains valid until the signing secret is rotated or a deny-list entry is added, both of which require additional infrastructure and manual intervention.
 
 This is especially significant in microservice architectures where JWTs are passed between services as bearer tokens. A compromised internal service can replay old tokens to peer services indefinitely if none of them enforce expiration. The combination of missing expiration validation with missing signature validation (VNX-GO-031) effectively makes JWTs equivalent to opaque strings with no security properties.
 
-## What Gets Flagged
+## What gets flagged
 
 Verification that skips the expiry check, and tokens issued with no expiry at all.
 

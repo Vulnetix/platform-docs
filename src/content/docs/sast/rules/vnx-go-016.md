@@ -28,13 +28,13 @@ This rule detects code that parses an integer using `strconv.Atoi()`, `strconv.P
 
 In security-sensitive contexts this class of bug has historically been exploited for authentication bypasses (where a user ID wraps to an admin ID), length confusion in buffer sizing (leading to heap overflows), and off-by-one errors in access controls. Go's type system does not provide any runtime error on an out-of-range integer cast, the truncation is silent and the resulting value is silently incorrect.
 
-## Why This Matters
+## Why this matters
 
 `strconv.Atoi` returns an `int`, which is 64 bits on all 64-bit platforms. Casting that value to `int32` or smaller without checking whether it fits is a latent bug. An attacker who controls the string input, from an HTTP query parameter, a JSON body field, or a configuration value, can supply a value that parses successfully but produces a different integer after the cast.
 
 CAPEC-92 (Forced Integer Overflow) documents this technique. A concrete example: an API that parses a page size parameter with `strconv.Atoi` and casts to `int16` will silently wrap for values above 32767 (`"65536"` → `0`), potentially causing a zero-length allocation or an infinite loop. If the cast is to `uint8` and the original value is negative (e.g., `"-1"` → `255` when converted to unsigned), an attacker might bypass a range check that only tested for non-negative values before the cast.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule follows the parsed variable through the rest of the function (up to 40 lines) and reports a conversion that cannot hold the parsed range. The range comes from the parser: `Atoi` is a signed 64-bit `int`, and `ParseInt`/`ParseUint` take theirs from the `bitSize` argument (0 means 64). Targets are the narrow integer types, `os.FileMode`/`fs.FileMode` (`uint32`) and types the file declares over them (`type Port uint16`).
 

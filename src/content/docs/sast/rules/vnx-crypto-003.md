@@ -27,13 +27,13 @@ generated: true
 
 This rule detects AES encryption configured to use ECB (Electronic Codebook) mode across multiple languages. ECB is the simplest block cipher mode: each 16-byte plaintext block is encrypted independently with the same key, producing a deterministic ciphertext for every distinct plaintext block. This means identical plaintext blocks always produce identical ciphertext blocks, making ECB semantically insecure and unsuitable for encrypting any structured or repetitive data. The vulnerability maps to CWE-327 (Use of a Broken or Risky Cryptographic Algorithm).
 
-## Why This Matters
+## Why this matters
 
 The canonical demonstration of ECB's weakness is the "ECB penguin": encrypting a bitmap image of Tux the Linux mascot with AES-ECB produces a ciphertext that still clearly shows the outline of the penguin, because large uniform-color regions produce repeating ciphertext blocks. This visual example captures the deeper problem: any structured data, database rows, credit card numbers, JSON payloads with fixed keys, leaks statistical patterns even when "encrypted."
 
 In practice, an attacker observing ECB-encrypted ciphertext can determine which blocks of plaintext are equal without knowing the key. For protocols that encrypt tokens or session data, this enables a block rearrangement attack: the attacker can swap ciphertext blocks to alter decrypted content in predictable ways (a form of chosen-ciphertext attack). ECB-encrypted storage has been identified as a contributing weakness in several payment system compromises.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports cipher constructions that select ECB mode, by name or by default:
 

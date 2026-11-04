@@ -27,7 +27,7 @@ generated: true
 
 This rule flags instantiation of `java.util.Random` or calls to `Math.random()` in contexts where the random value is used for a security-sensitive purpose. Both APIs are linear-congruential generators (LCG) seeded with a 48-bit value. Their output is entirely predictable if an attacker can observe even a small sample of generated values. This maps to [CWE-330: Use of Insufficiently Random Values](https://cwe.mitre.org/data/definitions/330.html).
 
-## Why This Matters
+## Why this matters
 
 `java.util.Random` was designed for simulations, games, and statistical sampling, not security. Its 48-bit seed space means only 2^48 possible sequences exist. A determined attacker who observes a few generated values can reconstruct the internal state and predict all past and future outputs within milliseconds on a modern CPU. When that output is a session token, a password-reset link, or an encryption nonce, the attacker can:
 
@@ -47,7 +47,7 @@ The same analysis applies to `Math.random()`, which delegates to a shared `java.
 - CVE-2009-3274, Firefox temporary file names predictable due to weak PRNG seeding.
 - Various Java session token vulnerabilities in early application servers tied to `java.util.Random`-backed session ID generation.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: java.util.Random used for token generation

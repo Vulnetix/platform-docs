@@ -31,7 +31,7 @@ A webshell is a PHP script uploaded as a disguised file (e.g., named `shell.php.
 
 > **PHP default behavior:** PHP performs no validation on uploaded files beyond checking that the upload completed without error. `$_FILES['file']['type']` is the MIME type claimed by the HTTP client and is entirely attacker-controlled, it is not derived from the file content. PHP does not inspect file content, validate extensions, or restrict upload destinations. All five safeguards listed below are the application's responsibility.
 
-## Why This Matters
+## Why this matters
 
 Webshell upload is a critical initial access technique used in real-world breaches across every industry. Once in place, a webshell provides persistent, unauthenticated access to the server with the privileges of the web server process (typically `www-data` or `apache`). From there an attacker can read all application source code and credentials, exfiltrate database contents, pivot to internal network services, and establish long-term persistence.
 
@@ -45,7 +45,7 @@ Bypassing naive upload validation is straightforward and well-documented:
 
 **OWASP ASVS v4.0 mapping:** V12.2.1, Verify that user-uploaded files are stored outside the web root or in a cloud storage bucket. V12.2.2, Verify that user-uploaded files are not served with executable permissions. V12.2.3, Verify that user-uploaded files cannot be served as HTML or JavaScript.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches `move_uploaded_file()` whose destination (the second argument) contains `$_FILES[...]['name']`, a `$_GET`/`$_POST`/`$_REQUEST`/`$_COOKIE` value, or a variable built from one within the 40 lines above, and Laravel/Symfony `->move()`/`->storeAs()`/`->storePubliclyAs()` given `getClientOriginalName()` or `getClientOriginalExtension()`, inline or through a variable built from either. The call is treated as validated, and not flagged, when the 40 lines above extract the extension (`pathinfo(..., PATHINFO_EXTENSION)`, `strrpos`/`strrchr`/`explode` on `'.'`, `getClientOriginalExtension()`) and compare it with an allowlist, or `preg_match()` the name against an extension pattern.
 

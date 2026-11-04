@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a Google API key (`AIza` followed by 35 characters) used for the generative AI APIs. The key must be on a line, or within eight lines of one, that names Gemini, PaLM, Vertex AI, the `generativelanguage.googleapis.com` endpoint, or a Google GenAI SDK (`google.generativeai`, `google-genai`, `@google/generative-ai`, `generative-ai-go`). AIza keys without that context (Maps, Firebase web config, generic GCP keys) are covered by VNX-SEC-005 and VNX-SEC-170. Keys read from the environment, placeholder bodies and test paths are not reported.
 
-### What Gets Flagged
+### What gets flagged
 
 ```python
 import google.generativeai as genai
@@ -38,7 +38,7 @@ genai.configure(api_key="AIza<35 characters>")
 GEMINI_API_KEY=AIza<35 characters>
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded google gemini / vertex ai / palm api key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

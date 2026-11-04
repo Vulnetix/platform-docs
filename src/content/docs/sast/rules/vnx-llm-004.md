@@ -31,7 +31,7 @@ This rule flags a value read from an HTTP request, or a variable named as user d
 
 The system prompt often contains confidential instructions, persona definitions, business rules, tool configurations, or sensitive context about the application's internal workings. Once an attacker can inject into the system prompt, they can direct the model to reveal these instructions or to ignore all prior constraints entirely.
 
-## Why This Matters
+## Why this matters
 
 Prompt injection is to LLM applications what SQL injection was to database-backed web applications: a fundamental input-handling flaw that occurs when instructions and data share the same channel without proper separation. The attack surface is particularly large because natural language has no formal escaping mechanism, there is no equivalent of parameterised queries that reliably separates user content from model instructions.
 
@@ -39,7 +39,7 @@ A system prompt containing business-sensitive rules, API keys embedded as contex
 
 Real-world prompt injection attacks have been demonstrated against deployed products including Microsoft Copilot, Google Bard plugins, and numerous LLM-powered chatbots. The attack requires no technical exploitation skill, just crafted natural language.
 
-## What Gets Flagged
+## What gets flagged
 
 User input read from an HTTP request, or a variable named as user data (`user_name`, `userName`, `user_profile`, `user_input`, ...), interpolated into a system prompt: a `role: system` message, Anthropic/Vercel AI SDK `system=`/`system:`, LangChain `SystemMessage`, `("system", ...)` tuples, `PromptTemplate.from_template(f"...")`, or a line inside a function or variable named as a system prompt.
 

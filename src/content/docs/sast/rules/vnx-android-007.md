@@ -27,7 +27,7 @@ generated: true
 
 This rule identifies Java and Kotlin code that calls `Cipher.getInstance()` with a transformation string of either `"AES"` (bare, which defaults to `AES/ECB/PKCS5Padding` on Android's Bouncy Castle provider) or any string starting with `"AES/ECB"`. ECB (Electronic Codebook) mode encrypts each 16-byte block of plaintext independently using the same key, producing the same ciphertext block for identical plaintext blocks. This deterministic property means that patterns in the plaintext are visible in the ciphertext, the canonical example being the "ECB Penguin", where encrypting a bitmap image in ECB mode preserves the visible outline of the image. This vulnerability maps to CWE-327 (Use of a Broken or Risky Cryptographic Algorithm).
 
-## Why This Matters
+## Why this matters
 
 ECB mode is dangerous in practice, not just in theory. Any data with repeated structure, user IDs padded to a block boundary, repeated headers in a file format, sequences of similar records, will reveal that repetition through identical ciphertext blocks. An attacker observing ECB-encrypted database rows can detect when two rows contain the same field value without decrypting anything.
 
@@ -35,7 +35,7 @@ Beyond pattern leakage, ECB mode is also vulnerable to block-rearrangement attac
 
 The correct choices for symmetric encryption on Android are AES-GCM (authenticated encryption, nonce-based, provides both confidentiality and integrity) or AES-CBC with PKCS5Padding paired with a separate HMAC for authentication. AES-GCM is preferred because it combines encryption and authentication into a single primitive, reducing implementation surface.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: ECB mode explicitly specified

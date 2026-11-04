@@ -27,7 +27,7 @@ generated: true
 
 This rule reports, in shell scripts, Dockerfiles, Makefiles, justfiles and CI YAML, a `curl` command with `-k`, `--insecure` or a short-flag cluster containing `k` (`-sSLk`), and a `wget` command with `--no-check-certificate`, including commands continued over several lines, behind `sudo`/`VAR=` prefixes, inside `$(...)` and after `&&`, `;` or `|`. It also reports `git config http.sslVerify false`, `GIT_SSL_NO_VERIFY=1`, `NODE_TLS_REJECT_UNAUTHORIZED=0`, `PYTHONHTTPSVERIFY=0`, `npm config set strict-ssl false`, `pip --trusted-host`, `kubectl`/`helm --insecure-skip-tls-verify`, the same settings in `.wgetrc`, `.curlrc`, `.npmrc`, `pip.conf`, `requirements.txt` and `.gitconfig`, and a curl/wget command line built as a string or argv list in application code. It does not report `-k` belonging to another command in the pipeline (`sort -k 2`), `curl -K` or `--key`, settings turned back on, flags held in variables, `echo` text, test scripts, comments and documentation. These flags instruct the HTTP client to skip TLS certificate validation entirely, meaning connections are made without verifying that the server's certificate is issued by a trusted CA, valid for the target hostname, or not expired. This disables one of the fundamental security guarantees of TLS, that you are communicating with the intended server and not an impersonator.
 
-## Why This Matters
+## Why this matters
 
 In CI/CD pipelines and build scripts, `curl -k` is commonly added as a "quick fix" when a certificate validation error occurs, perhaps the internal service uses a self-signed certificate, or the CA bundle in the container is outdated. The developer gets the pipeline to pass, but the fix introduces a persistent vulnerability.
 
@@ -35,7 +35,7 @@ An attacker who can intercept network traffic between the build agent and the ta
 
 Even in "trusted" internal networks, TLS verification provides defence-in-depth against lateral movement by an already-compromised host.
 
-## What Gets Flagged
+## What gets flagged
 
 ```bash
 # FLAGGED: curl with TLS verification disabled

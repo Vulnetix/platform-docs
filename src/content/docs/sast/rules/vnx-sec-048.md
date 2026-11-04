@@ -27,7 +27,7 @@ generated: true
 
 This rule reports an OpenAI project, service-account or admin key: `sk-proj-`, `sk-svcacct-` or `sk-admin-` followed by at least 40 base64url characters, not inside a longer identifier (`task-proj-...`, `desk-admin-...`). Truncated keys (`sk-proj-...`, `sk-proj-Ab3dEf`), placeholders (`sk-proj-xxxx...`, `sk-proj-your-key-...`), low-entropy values, environment lookups and test, fixture and vendored paths are not reported, and the snippet is redacted. Classic `sk-...T3BlbkFJ...` keys are VNX-SEC-251.
 
-## Why This Matters
+## Why this matters
 
 Hardcoded openai project / service / admin key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

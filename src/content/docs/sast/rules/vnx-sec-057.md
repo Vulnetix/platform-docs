@@ -29,7 +29,7 @@ This rule reports a Grafana credential written into a file: a service account to
 
 It does not report bare prefixes in a prefix check, placeholder bodies (`xxxx`, `0000`, `YOUR_TOKEN`), ordinary JWTs (`eyJhbGci...`), tokens read from the environment, or test, fixture and vendored paths.
 
-## What Gets Flagged
+## What gets flagged
 
 ```go
 // FLAGGED: service account token in a client config
@@ -48,7 +48,7 @@ cloud_access_policy_token = "glc_eyJ<base64 body>=="
 token = os.environ["GRAFANA_SA_TOKEN"]
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded grafana api / service account token values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

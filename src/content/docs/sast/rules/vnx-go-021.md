@@ -29,13 +29,13 @@ This rule flags instances where `fmt.Fprintf` is used to output HTML tags along 
 
 This maps to [CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')](https://cwe.mitre.org/data/definitions/79.html).
 
-## Why This Matters
+## Why this matters
 
 When using `fmt.Fprintf` to generate HTML responses, developers must ensure that any user-controlled data is properly escaped before being included in the output. Failure to escape user input allows attackers to inject malicious JavaScript that will execute in victims' browsers.
 
 XSS vulnerabilities can lead to session hijacking, credential theft, defacement, or malware distribution. This is particularly dangerous in web applications that display user-generated content.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports HTML markup written to an `http.ResponseWriter` (or gin/echo's
 response) with a non-constant value spliced in unescaped. Stored values count:

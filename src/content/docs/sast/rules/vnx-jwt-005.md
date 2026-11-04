@@ -29,7 +29,7 @@ This rule detects sensitive keys (`password`, `passwordHash`, `secret`, `client_
 
 JWT tokens are often stored in browser local storage, cookies, or mobile app storage. They are transmitted in HTTP headers, logged by access log systems, and stored in analytics pipelines. A token containing a password field leaks that password to every system that processes the request, potentially for the full lifetime of the token.
 
-## Why This Matters
+## Why this matters
 
 JWT tokens are bearer tokens: possession equals identity. They are deliberately designed to be passed around, cached, and inspected. A password embedded in a JWT claim is therefore effectively a cleartext credential that travels with every authenticated request. If an attacker can read any log line, any HTTP access log entry, or any network capture that contains the Authorization header, they obtain the user's password without needing to crack anything.
 
@@ -37,7 +37,7 @@ CAPEC-37 (Retrieve Embedded Sensitive Data) and MITRE ATT&CK T1552 (Unsecured Cr
 
 JWT payloads should contain only non-sensitive identifiers: user IDs, roles, session IDs, and expiry claims. If additional claims are required for authorisation, they should be limited to data that is safe to be visible to the token holder and any infrastructure that processes requests.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: password stored in JWT payload

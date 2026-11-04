@@ -31,7 +31,7 @@ Least-privilege IAM policies are the foundational access control mechanism in AW
 
 This rule corresponds to [CWE-269: Improper Privilege Management](https://cwe.mitre.org/data/definitions/269.html).
 
-## Why This Matters
+## Why this matters
 
 Overly permissive IAM policies are one of the most common misconfigurations in AWS environments and a primary vector for privilege escalation. An attacker who compromises a workload running with an overly permissive role, through application-level vulnerabilities, container escape, SSRF, or credential theft, inherits all the permissions of that role.
 
@@ -39,7 +39,7 @@ A wildcard `Action = "*"` policy effectively grants administrative access. Even 
 
 The risk extends beyond direct exploitation: over-permissive roles make the blast radius of any compromise much larger and make incident response much harder, since you cannot determine what an attacker did or did not access.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_iam_policy" "admin" {

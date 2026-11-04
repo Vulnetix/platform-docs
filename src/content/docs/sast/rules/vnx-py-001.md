@@ -27,13 +27,13 @@ generated: true
 
 This rule fires when a Python project has a `pyproject.toml` or `Pipfile` but no corresponding lock file (`uv.lock`, `poetry.lock`, or `Pipfile.lock`). Lock files record the exact resolved versions and integrity hashes of every dependency in the tree. Without one, each new install can silently pull a different version of any transitive dependency, including one that has been compromised or typosquatted. This maps to [CWE-829: Inclusion of Functionality from Untrusted Control Sphere](https://cwe.mitre.org/data/definitions/829.html).
 
-## Why This Matters
+## Why this matters
 
 Without a lock file, floating version ranges such as `requests>=2.28` or `numpy~=1.24` are re-resolved on every fresh install. An attacker who publishes a malicious version of any package in your dependency tree, or who compromises a package maintainer account, can have their code pulled into your production builds without any visible change to your repository. This is the attack class described by MITRE ATT&CK T1195.001 (Supply Chain Compromise: Compromise Software Dependencies) and was demonstrated by real incidents such as the `event-stream` and `PyTorch nightly` supply chain attacks.
 
 Even without a malicious actor, non-deterministic resolution means your CI/CD pipeline may test against one set of dependencies while production runs a different one. Reproducing bugs becomes harder, and security patches applied to a transitive dependency may or may not take effect depending on when a fresh install is triggered.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires on a `Pipfile` with no `Pipfile.lock` beside it (reported on its `[packages]` header), and on a `pyproject.toml` that configures a locking dependency manager (`[tool.poetry]`, `[tool.pdm]` or `[tool.uv]`), declares at least one dependency besides `python`, and has no `uv.lock`, `poetry.lock`, `pdm.lock`, `Pipfile.lock` or `pylock.toml` in its directory. A `uv.lock` in an enclosing directory counts, so uv workspace members are not reported.
 

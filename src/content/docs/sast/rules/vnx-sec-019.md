@@ -27,13 +27,13 @@ generated: true
 
 This rule detects GCP service account key JSON files by matching the string `"type": "service_account"` in source files. Service account keys are downloaded JSON credentials files that authenticate a service account to Google Cloud APIs. They contain a private key, the service account email, and the project ID. Unlike GCP API keys (VNX-SEC-005), service account keys authenticate as an IAM identity with a defined set of IAM roles, often including sensitive permissions like `roles/storage.admin`, `roles/cloudsql.client`, or even `roles/owner`.
 
-## Why This Matters
+## Why this matters
 
 Service account keys are among the most powerful credentials in GCP because they represent a machine identity with persistent, long-lived access. Unlike user credentials that expire or can be protected with 2FA, a service account key file works indefinitely until explicitly revoked. If a key with broad IAM permissions is leaked, an attacker can access all resources the service account is authorized to use, across any GCP project where the service account has been granted roles.
 
 Google Cloud's own best practices recommend against service account keys entirely for workloads that run on GCP, because Workload Identity Federation and attached service accounts provide the same functionality without any credential files. The Google Cloud Security Team considers service account key files to be the highest-priority credential to keep out of source control.
 
-## What Gets Flagged
+## What gets flagged
 
 ```json
 // FLAGGED: GCP service account key JSON file committed to repository

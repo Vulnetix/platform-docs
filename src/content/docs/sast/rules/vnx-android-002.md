@@ -27,13 +27,13 @@ generated: true
 
 This rule reports Android WebViews (Java and Kotlin) that run script an attacker controls. Enabling JavaScript is not a finding on its own. The rule reports a `loadUrl`, `loadData`, `loadDataWithBaseURL` or `postUrl` call in a file that enables JavaScript when the URL or HTML comes from the launching Intent or a deep link (`getIntent()`, `getStringExtra`, `getData`, `getQueryParameter`, Fragment arguments), from external storage, or is a cleartext `http://` address, either directly or through a variable assigned from such a source up to 15 lines above. It also reports `addJavascriptInterface` in a file with such a load, and `setAllowUniversalAccessFromFileURLs(true)` / `setAllowFileAccessFromFileURLs(true)`. A URL checked between the read and the load (`startsWith`, host or scheme comparison, an allow-list or validator) is not reported, nor are `https://` and `file:///android_asset/` literals, `http://localhost`, comments and strings. Flows through other methods or files are not followed. These patterns are captured by CWE-79 (Improper Neutralization of Input During Web Page Generation).
 
-## Why This Matters
+## Why this matters
 
 A WebView with JavaScript enabled and a registered `JavascriptInterface` gives any JavaScript running in that view direct access to the annotated Java methods. If the WebView ever loads attacker-controlled content, a redirected URL, an injected ad, a compromised CDN response, the attacker can call those Java methods and execute arbitrary native code on the device. On Android < 4.2, all public methods of any registered object were callable; from 4.2 onward only methods annotated with `@JavascriptInterface` are exposed, but the risk remains high.
 
 Enabling universal file access (`setAllowUniversalAccessFromFileURLs`) allows a `file://` URL to read any file the app has access to, enabling data theft across origins. Several banking apps have been attacked via this vector, where malicious deep-link payloads loaded a crafted `file://` URL that exfiltrated the app's database. CAPEC-86 documents this class of DOM-based XSS attack directly.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: a URL from the launching Intent loaded into a JavaScript-enabled WebView

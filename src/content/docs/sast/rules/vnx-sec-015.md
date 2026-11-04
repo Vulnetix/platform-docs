@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a JWT issued unsigned or accepted as an unsigned token: `'none'` among the allowed or signing algorithms (`algorithms=["none"]`, `algorithms: ['HS256', 'none']`, `algorithm: 'none'`), PyJWT `algorithm=None`, a `{"alg": "none"}` header literal, Ruby `JWT.encode(payload, nil, 'none')`, jjwt `SignatureAlgorithm.NONE`, the parser option `.unsecured()`, the generic `Jwts.parser()...parse(token)` on a parser given no signing key, and `parseClaimsJwt`/`parseUnsecuredClaims`, auth0 `Algorithm.none()`, Nimbus `PlainJWT`, golang-jwt `SigningMethodNone`/`UnsafeAllowNoneSignatureType`, jose `UnsecuredJWT`, and PHP `JWT::decode` allowing `'none'` or lcobucci `Signer\None`. It does not report specific algorithms, `parseClaimsJws`/`parseSignedClaims`, comparisons that reject `alg: none`, TLS `verify=False`, prose strings, tests and documentation. Signature verification switched off for a signed token (PyJWT/python-jose `options={"verify_signature": False}` or `verify=False`, Ruby `JWT.decode(token, key, false)`, jjwt `parse()` after `setSigningKey`, jwx `WithVerify(false)`, ASP.NET `RequireSignedTokens = false` or a `SignatureValidator` that returns the token unchecked) is the same weakness on the same line, and it is reported by [VNX-JWT-001](/sast/rules/vnx-jwt-001/), not a second time here. When a JWT is configured with the `none` algorithm, the signature section of the token is omitted or set to an empty string, and if the library accepts this, it verifies the token without checking any signature. This means an attacker can craft a token with arbitrary claims, any user ID, any role, any permission, and the application will accept it as valid.
 
-## Why This Matters
+## Why this matters
 
 The JWT `none` algorithm attack is one of the most severe authentication bypasses in web application security. It was first widely publicized as CVE-2015-9235 (PyJWT) and affects many JWT libraries that do not explicitly reject the `none` algorithm. The attack works as follows:
 
@@ -39,7 +39,7 @@ The JWT `none` algorithm attack is one of the most severe authentication bypasse
 
 This is not a theoretical vulnerability, it has been exploited in real applications and widely used CTF challenges. The root cause is library code that treats `none` as a valid algorithm rather than explicitly rejecting it, or application code that passes `algorithms=["none"]` when decoding.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: PyJWT, explicitly accepting none algorithm

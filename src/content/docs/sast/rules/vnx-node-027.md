@@ -29,13 +29,13 @@ This rule detects direct assignment to the `.innerHTML` property in JavaScript f
 
 Unlike reflected or stored XSS that originates on the server, DOM-based XSS from `innerHTML` assignment occurs entirely in the browser. The payload never passes through the server, making it invisible to server-side input validation and many web application firewalls. The vulnerability is triggered when client-side JavaScript reads attacker-controlled data, from the URL fragment, `location.search`, `document.referrer`, `postMessage` events, or local storage, and writes it into the DOM via `innerHTML`.
 
-## Why This Matters
+## Why this matters
 
 DOM XSS is actively exploited in the wild and is frequently discovered in widely-used JavaScript libraries and single-page applications. An attacker who achieves script execution in a victim's browser can steal session cookies, capture keystrokes, redirect to phishing pages, make authenticated API requests, or exfiltrate data from the page. Modern browsers have removed synchronous `<script>` execution via `innerHTML` but remain vulnerable to event handler injection (`<img onerror="...">`), which is sufficient for full script execution.
 
 In Node.js SSR (server-side rendering) contexts, for example, React/Vue/Angular applications with Express back-ends that pass props via `dangerouslySetInnerHTML` or equivalent, the same sink can produce reflected XSS that is indexed by search engines and easily shared as a malicious link.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 // FLAGGED: URL parameter concatenated into markup

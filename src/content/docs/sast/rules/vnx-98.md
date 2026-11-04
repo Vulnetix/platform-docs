@@ -27,11 +27,11 @@ generated: true
 
 This rule flags PHP `include`, `include_once`, `require`, and `require_once` statements whose path carries request data (`$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, `$_FILES`, `php://input`, `filter_input()`, Laravel/Symfony `$request->input()`), inline, interpolated, or through a variable assigned from it in the 25 lines above. A path passed through `basename()` or an integer cast, or checked against an allowlist (`in_array`, `array_key_exists`, `preg_match`) before the include, is not reported. PHP Remote File Inclusion (RFI) allows an attacker to supply a URL (e.g. `http://attacker.com/shell.php`) as the file path, causing the server to fetch and execute arbitrary PHP code from that remote URL, if `allow_url_include` is enabled. Even when RFI is not possible, the same pattern enables Local File Inclusion (LFI), which allows reading sensitive files and, in some configurations, code execution via log-file poisoning or PHP filter chains. This maps to [CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion')](https://cwe.mitre.org/data/definitions/98.html).
 
-## Why This Matters
+## Why this matters
 
 PHP RFI was one of the most prevalent attack classes in the mid-2000s and remains present in legacy codebases and poorly maintained applications today. Even with `allow_url_include = Off` in `php.ini`, the equivalent LFI is still exploitable: attackers read `/etc/passwd`, `/proc/self/environ`, Apache access logs (which can be poisoned with PHP code via the `User-Agent` header), or use `php://filter` chains to achieve code execution. A single `include($_GET['page'])` can compromise the entire server. The second finding category, `include($variable)` without a direct superglobal, is reported at lower severity but is still worth auditing because the variable may receive its value from user input indirectly.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 <?php

@@ -29,13 +29,13 @@ This rule flags instances where HTTP request parameters (from form data, query s
 
 This maps to [CWE-20: Improper Input Validation](https://cwe.mitre.org/data/definitions/20.html).
 
-## Why This Matters
+## Why this matters
 
 HTTP request parameters are controlled by users and can contain malicious input. When applications use this input directly without validation, attackers can inject malicious payloads that exploit vulnerabilities in downstream systems (databases, command shells, etc.) or bypass intended business logic.
 
 Common attacks that result from missing input validation include SQL injection, command injection, cross-site scripting (XSS), path traversal, and business logic bypass.
 
-## What Gets Flagged
+## What gets flagged
 
 Reading a request parameter is not a finding; the rule reports the sink the
 parameter reaches.

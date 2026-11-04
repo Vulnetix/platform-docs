@@ -31,7 +31,7 @@ There are two forms of unintended anonymous bind. The first is an explicit anony
 
 The second form is particularly dangerous because it looks like authenticated code, the DN is provided, but behaves as anonymous because of the empty password. This can occur when a user submits a blank password in a login form and the application passes it directly to `ldap_bind()`.
 
-## Why This Matters
+## Why this matters
 
 Anonymous LDAP access in enterprise environments exposes user account information including usernames, email addresses, phone numbers, department assignments, and group memberships. In Active Directory environments, anonymous or low-privileged LDAP enumeration is frequently the first step in a domain reconnaissance phase following initial access.
 
@@ -39,7 +39,7 @@ The empty-password anonymous bind issue enables authentication bypass. If a web 
 
 For service account binds, using a hardcoded empty password or no password at all exposes the directory to any client that can reach the LDAP port.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: anonymous bind, no DN or password provided

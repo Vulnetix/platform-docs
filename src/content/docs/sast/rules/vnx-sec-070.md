@@ -29,7 +29,7 @@ This rule reports a 1Password service account token (`ops_eyJ` followed by at le
 
 It does not report the bare `ops_eyJ` prefix in token checks, truncated examples (`ops_eyJ...`), CI secret references (`${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}`), `A3-` strings of another layout or with an all-digit body (paper sizes, SKUs, batch numbers), placeholder runs, and generated, vendored and test-suffixed files.
 
-## What Gets Flagged
+## What gets flagged
 
 ```sh
 OP_SERVICE_ACCOUNT_TOKEN=ops_eyJ<base64 JSON>
@@ -46,7 +46,7 @@ env:
   OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded 1password secret key / service account values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

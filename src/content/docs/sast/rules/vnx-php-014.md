@@ -29,7 +29,7 @@ This rule flags PHP code where `session_id()` is called with a value sourced fro
 
 > **PHP default behavior:** PHP's `session_start()` generates a cryptographically secure random session ID by default (via `/dev/urandom` or `CryptGenRandom` on Windows, depending on the `session.entropy_file` setting in PHP 5 or the built-in CSPRNG in PHP 7+). Passing user input to `session_id()` completely bypasses this mechanism. The insecure behavior described here requires the application to opt in, it is not a PHP default.
 
-## Why This Matters
+## Why this matters
 
 Session fixation bypasses password-based authentication entirely. The attacker does not need to know the victim's password, intercept network traffic, or exploit any other vulnerability, they simply wait for the victim to log in using a session ID the attacker already knows. This makes it particularly effective in phishing campaigns where a crafted login URL can carry the attacker-chosen session ID (e.g., `https://example.com/login?PHPSESSID=attacker_chosen_id`).
 
@@ -39,7 +39,7 @@ The attack is especially prevalent in older PHP applications that accepted sessi
 
 **OWASP ASVS v4.0 mapping:** V3.2.1, Verify the application generates a new session token on user authentication. V3.2.3, Verify the application only stores session tokens using secure methods.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule matches `session_id()` called with a superglobal element (`$_GET`, `$_POST`, `$_REQUEST`, `$_COOKIE`, including `$_COOKIE[session_name()]`) or with a variable assigned from one within the 15 lines above, and `ini_set()` calls that turn on `session.use_trans_sid` or turn off `session.use_only_cookies` or `session.use_strict_mode`. Not flagged: `session_id()` as a getter, `session_id(session_create_id())` or another generated value, and the settings set to their safe values. A login that never calls `session_regenerate_id()` cannot be judged line by line and is not reported.
 

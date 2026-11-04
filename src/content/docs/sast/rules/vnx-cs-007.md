@@ -31,7 +31,7 @@ This rule reports `Path.Combine`/`Path.Join` and `MapPath` (any argument), `File
 
 The vulnerability is particularly common in file upload handlers, file download endpoints, and any feature that constructs a filesystem path from a user-supplied filename or path component.
 
-## Why This Matters
+## Why this matters
 
 Path traversal vulnerabilities have affected a wide range of applications including web servers, file managers, and document management systems. The OWASP Top 10 has consistently included path traversal under "Broken Access Control". Exploits are simple: an attacker submits a filename like `../../appsettings.json` or `../../../windows/win.ini` and the server returns the file contents, potentially exposing database connection strings, API keys, and other configuration secrets.
 
@@ -39,7 +39,7 @@ In ASP.NET applications, path traversal in file download endpoints is a common f
 
 The attack is covered by CAPEC-126 (Path Traversal) and ATT&CK T1083 (File and Directory Discovery). Modern WAFs may detect some traversal patterns, but canonicalisation-based bypasses (double-encoding, Unicode normalisation tricks) mean that WAF-only defence is insufficient.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: Path.Combine with query string value, no validation

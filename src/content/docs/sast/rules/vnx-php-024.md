@@ -31,7 +31,7 @@ The `e` modifier was a historically available but deeply insecure feature that w
 
 Even when the replacement string is not directly user-controlled, passing a variable as the options parameter means the `e` modifier could be introduced by any code path that sets that variable, creating an insecure code pattern that is difficult to audit.
 
-## Why This Matters
+## Why this matters
 
 Code injection via `mb_ereg_replace()` with the `e` modifier allows arbitrary PHP code execution in the context of the web server process. Unlike command injection, which requires access to an OS shell, code injection runs inside PHP with direct access to all application state, database connections, session data, file handles, and loaded credentials.
 
@@ -39,7 +39,7 @@ An attacker who can control the replacement string (for example, via a user-supp
 
 The variable options pattern is dangerous even if the `e` modifier is not currently present, because future code changes or configuration values could introduce it. Static analysis cannot guarantee that a variable options parameter will never contain `e`, making the pattern categorically unsafe.
 
-## What Gets Flagged
+## What gets flagged
 
 ```php
 // FLAGGED: options string explicitly contains the 'e' eval modifier

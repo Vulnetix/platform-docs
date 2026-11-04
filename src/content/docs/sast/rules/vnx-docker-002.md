@@ -29,7 +29,7 @@ This rule detects `FROM` instructions in Dockerfiles that use the `:latest` tag 
 
 **Default behaviour:** `:latest` is the Docker default when no tag is specified. You must explicitly opt in to a pinned version or digest.
 
-## Why This Matters
+## Why this matters
 
 Supply chain attacks against container base images have increased sharply. The 2020 SolarWinds compromise and the 2021 Codecov breach both demonstrated that attackers target the dependency supply chain as a reliable path into downstream systems. Repeated incidents on Docker Hub involving typosquatted or hijacked images have shown that when you pin to `:latest`, you have no way to detect that a new base image was silently incorporated into your build.
 
@@ -37,7 +37,7 @@ CAPEC-185 (Malicious Software Update) and MITRE ATT&CK T1195.002 (Compromise Sof
 
 Beyond security, unpinned base images cause operational failures: a breaking change in the upstream image (a removed package, a changed default locale, a new library soname) can fail your build or alter runtime behaviour with no clear signal. Teams commonly discover this at 2 AM when a previously working CI pipeline fails after an upstream maintainer pushed a new `:latest`.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `FROM` instructions, and `COPY --from=` and `RUN --mount=from=` instructions that pull an external image, whose reference has no digest and either no tag or a floating tag (`latest`, `lts`, `stable`, `alpine`, `slim` and combinations such as `lts-alpine`). A `FROM ${BASE}` is resolved through its `ARG` default.
 

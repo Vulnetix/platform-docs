@@ -35,7 +35,7 @@ The rule reports the line that executes the query: an ADO.NET command or data ad
 
 **OWASP ASVS v4:** [V5.3.4](https://github.com/OWASP/ASVS/blob/v4.0.3/4.0/en/0x13-V5-Validation-Sanitization-Encoding.md), Verify that data selection or database queries (e.g. SQL, HQL, ORM, NoSQL) use parameterised queries, ORMs, entity frameworks, or are otherwise protected from database injection attacks.
 
-## Why This Matters
+## Why this matters
 
 An attacker who controls the injected value can terminate the intended query and append arbitrary SQL. In a login form that concatenates the password field into a `WHERE` clause, a classic payload like `' OR '1'='1` bypasses authentication entirely. More damaging payloads can use `UNION SELECT` to dump any table in the database, `xp_cmdshell` to run OS commands (SQL Server), or stacked queries to drop tables.
 
@@ -43,7 +43,7 @@ Beyond data theft, SQL injection frequently leads to full server compromise. Onc
 
 Even "well-sanitised" string concatenation approaches, manual escaping, allow-listing characters, rejecting quotes, are fragile. Encoding context mismatches, multibyte character exploits, and future maintenance that widens the allowed character set each reopen the vulnerability. Parameterised queries make SQL injection structurally impossible at that code path.
 
-## What Gets Flagged
+## What gets flagged
 
 ```csharp
 // FLAGGED: query string built with + operator

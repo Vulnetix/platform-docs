@@ -27,11 +27,11 @@ generated: true
 
 This rule detects Alibaba Cloud access key IDs matching the `LTAI[a-z0-9]{20}` pattern. Alibaba keys are 24 characters long, always begin with `LTAI`, and grant the holder the RAM permissions of the associated user. They are frequently committed by developers working with Aliyun OSS, ECS, or Function Compute.
 
-## Why This Matters
+## Why this matters
 
 Alibaba Cloud hosts a large share of Asia-Pacific e-commerce workloads. A leaked key allows an attacker to spin up ECS instances for cryptomining, exfiltrate OSS bucket contents, manipulate RDS databases, or pivot through RAM roles. Alibaba's RAM service provides CloudTrail-equivalent audit logs via ActionTrail; review `CreateAccessKey`, `RunInstances`, and `GetObject` calls you did not initiate.
 
-## What Gets Flagged
+## What gets flagged
 
 Flagged (a standalone `LTAI` ID of 16 or 24 characters, mixed letters and digits):
 

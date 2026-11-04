@@ -37,7 +37,7 @@ It does not report `URLCredential(trust:)` after the trust was evaluated or pinn
 
 This maps to [CWE-295: Improper Certificate Validation](https://cwe.mitre.org/data/definitions/295.html).
 
-## Why This Matters
+## Why this matters
 
 Disabling TLS certificate validation eliminates the only mechanism that proves the server the application is communicating with is who it claims to be. On any untrusted network, public Wi-Fi, hotel networks, carrier networks with traffic inspection appliances, an attacker can perform a man-in-the-middle (MITM) attack by presenting their own certificate to the client. With validation disabled, the client accepts this certificate and the attacker receives all traffic in cleartext: credentials, session tokens, payment data, health information, and any other sensitive content.
 
@@ -45,7 +45,7 @@ This pattern is extremely common in development codebases. Developers disable va
 
 Certificate pinning, associating the server's specific public key with the application, provides an additional layer of defence beyond standard chain validation. Even if an attacker obtains a certificate from a trusted CA, pinning will reject it unless the public key matches the pinned value.
 
-## What Gets Flagged
+## What gets flagged
 
 ```swift
 // FLAGGED: URLCredential(trust:) unconditionally accepts any certificate

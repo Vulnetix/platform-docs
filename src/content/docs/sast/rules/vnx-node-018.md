@@ -31,7 +31,7 @@ This rule detects two distinct but related patterns in JSON Web Token handling: 
 
 The `none` algorithm attack is a separate vector: some JWT libraries honour the algorithm field in the token header. If the application lists `"none"` as an acceptable algorithm, an attacker removes the signature from a valid token, changes the header algorithm to `"none"`, and submits the modified token. The library accepts it because there is nothing to verify.
 
-## Why This Matters
+## Why this matters
 
 JWT is the dominant authentication mechanism in modern Node.js APIs, and authentication bypass is one of the highest-severity vulnerability classes. When token verification is absent, every protected endpoint in the application is accessible to any caller who knows the expected token structure. Attackers escalate privileges by setting `"role": "admin"` in the payload, impersonate arbitrary users by setting `"sub"` to any user ID, and bypass multi-factor authentication by crafting tokens that assert the second factor was completed.
 
@@ -39,7 +39,7 @@ The `jwt.decode()` mistake is particularly common because the function name soun
 
 Bug bounty programmes regularly receive high-severity reports for `jwt.decode()` misuse. Because the bypass requires no special tools or prior access, it is reliably exploitable by any attacker who can observe a valid token (e.g., from browser developer tools or a network proxy).
 
-## What Gets Flagged
+## What gets flagged
 
 The rule only looks at files that import or require `jsonwebtoken`, and resolves the names bound to it (`jwt`, `jsonwebtoken`, a namespace import, `decode` imported by name or `as` an alias). A `decode()` is reported when the file's code never calls `verify()` and the token is not a variable assigned, a few lines above, from something other than the request (a token the server issued and stored itself). Test files, comments and string literals are skipped. VNX-JWT-001 and VNX-JWT-004 cover overlapping ground across more languages.
 

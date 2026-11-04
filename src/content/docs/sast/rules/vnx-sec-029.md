@@ -31,7 +31,7 @@ Publishing a malicious version of an existing package is one of the most impactf
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 The Python package ecosystem is particularly exposed to supply chain attacks because of how widely packages are consumed and how automatically updates are applied. A hardcoded PyPI token gives an attacker the ability to publish a new version of any package the token has access to, with code that runs during `pip install` via `setup.py` entry points or during normal application use.
 
@@ -39,7 +39,7 @@ High-profile supply chain attacks against popular packages have demonstrated tha
 
 PyPI tokens are also particularly dangerous because, unlike some credentials, they are long-lived by default and do not expire unless explicitly revoked. A token embedded in a Dockerfile or CI configuration file that was public even briefly could have been harvested and retained by a malicious actor.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the PyPI macaroon prefix (`pypi-AgEIcHlwaS5vcmc`, or `pypi-AgENdGVzdC5weXBpLm9yZw` for test.pypi.org) followed by at least 50 base64url characters with the entropy of a real token:
 

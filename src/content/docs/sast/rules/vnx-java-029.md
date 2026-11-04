@@ -29,13 +29,13 @@ This rule reports the line that creates a `DocumentBuilderFactory`, `SAXParserFa
 
 The Java standard library ships with multiple XML parsing APIs, DOM (`DocumentBuilderFactory`), SAX (`SAXParserFactory`), and StAX, each with its own feature flags for controlling entity processing. Configuring each correctly requires explicit, non-obvious `setFeature()` calls that are easy to omit, especially when copying boilerplate parsing code. JDK versions prior to 8u191 had XXE-safe defaults in some APIs but not others; relying on JDK version for safety is fragile.
 
-## Why This Matters
+## Why this matters
 
 XXE attacks can lead to server-side file disclosure (`/etc/passwd`, application config files, private keys), Server-Side Request Forgery (SSRF) to internal services including cloud metadata endpoints, denial of service via recursive entity expansion, and in some configurations remote code execution. SAML authentication libraries parsing XML assertions have historically been prime XXE targets, a successful XXE in a SAML processor can lead to complete authentication bypass.
 
 The impact is amplified in containerized or cloud environments where the application process has access to instance metadata services (AWS `http://169.254.169.254`, GCP, Azure equivalents). An attacker who retrieves IAM credentials via XXE gains the cloud permissions of the application's service identity, potentially enabling lateral movement across the entire cloud account.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: DocumentBuilderFactory with no XXE mitigations

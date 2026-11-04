@@ -27,7 +27,7 @@ generated: true
 
 This rule detects Django code that creates model instances by directly unpacking request data (e.g., `Model.objects.create(**request.data)`) or Django REST Framework serializers that expose all model fields via `fields = '__all__'`. Mass assignment occurs when an attacker includes unexpected fields in a request, such as `is_staff`, `is_superuser`, or `price`, and the application blindly persists them.
 
-## Why This Matters
+## Why this matters
 
 Mass assignment is one of the most exploited web application vulnerabilities because:
 
@@ -39,7 +39,7 @@ Mass assignment is one of the most exploited web application vulnerabilities bec
 
 The OWASP API Security Top 10 lists mass assignment as [API6:2023 – Unrestricted Access to Sensitive Business Flows](https://owasp.org/API-Security/editions/2023/en/0xa6-unrestricted-access-to-sensitive-business-flows/).
 
-## What Gets Flagged
+## What gets flagged
 
 **Pattern 1: Direct request data unpacking into model creation**
 

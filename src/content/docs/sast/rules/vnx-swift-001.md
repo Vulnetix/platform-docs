@@ -33,7 +33,7 @@ Hardcoding secrets directly in source code creates a credential that is permanen
 
 This maps to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 Automated secret scanning tools are routinely run against public GitHub repositories, npm packages, and leaked CI artefacts. Services such as GitHub Secret Scanning, truffleHog, and GitGuardian continuously index public commits and will alert the issuing service the moment a recognised credential pattern appears. Even if the repository is private today, a future repository visibility change, a misconfigured fork, or a compromised CI log can expose it.
 
@@ -41,7 +41,7 @@ Mobile binaries present an additional attack vector. iOS `.ipa` files are ZIP ar
 
 Rotating a hardcoded credential requires a code change, a review cycle, a new build, and re-distribution to all users. For any credential that controls billing, data access, or third-party integrations, this rotation window leaves the service exposed. Storing credentials externally and fetching them at runtime means rotation can happen without touching the binary at all.
 
-## What Gets Flagged
+## What gets flagged
 
 ```swift
 // FLAGGED: API key assigned directly as a string literal

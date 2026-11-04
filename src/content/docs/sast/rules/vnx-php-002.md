@@ -29,7 +29,7 @@ This rule flags a request value (a superglobal, `php://input` or a framework req
 
 > **PHP default behavior:** All of these functions are **enabled by default** in a standard PHP installation. The `disable_functions` directive in `php.ini` is empty by default. Production environments that do not use these functions should explicitly disable them.
 
-## Why This Matters
+## Why this matters
 
 When an attacker controls the argument to one of these functions, they gain the ability to run any OS command with the privileges of the web server process, typically `www-data` or `apache` on Linux. From there they can:
 
@@ -42,7 +42,7 @@ When an attacker controls the argument to one of these functions, they gain the 
 
 **OWASP ASVS v4.0 mapping:** V5.2.4, Verify that the application does not use eval() or other dynamic code execution features; V5.2.2, Verify that the application protects against OS command injection.
 
-## What Gets Flagged
+## What gets flagged
 
 A command or code execution sink whose argument holds a request value, inline or through a variable assigned from one a few lines above (directly or via one intermediate variable).
 

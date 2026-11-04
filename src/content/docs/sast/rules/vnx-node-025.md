@@ -29,7 +29,7 @@ This rule detects `express-session` and `cookie-session` middleware configuratio
 
 The `secure` flag instructs browsers to transmit the cookie only over HTTPS connections. When it is absent or set to `false`, the session cookie is sent with every HTTP request, including over unencrypted connections on coffee shop Wi-Fi, corporate proxies, or any network where traffic is intercepted. The `httpOnly` flag prevents JavaScript running in the page from reading the cookie via `document.cookie`, which limits the damage from XSS attacks, without it, a single reflected or stored XSS vulnerability gives an attacker immediate access to the victim's session token.
 
-## Why This Matters
+## Why this matters
 
 Session token theft is one of the most common and impactful attack outcomes. An attacker who obtains a valid session token can impersonate the authenticated user for the lifetime of the session without knowing their password. Session tokens are high-value targets for both passive network sniffing and active XSS exploitation.
 
@@ -37,7 +37,7 @@ HTTP-only networks are more common than developers expect, developer laptops on 
 
 The combination of `secure: false` and `httpOnly: false` is particularly dangerous: it allows both network interception and JavaScript theft, meaning a single vulnerability anywhere in the application can compromise every authenticated session.
 
-## What Gets Flagged
+## What gets flagged
 
 ```javascript
 const session = require('express-session');

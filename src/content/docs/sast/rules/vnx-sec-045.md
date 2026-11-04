@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a Discord bot token: three dot-separated base64url segments, `<base64 bot id>.<6-character timestamp>.<27- or 38-character HMAC>`. The first segment must be the base64 encoding of a 17 to 20 digit snowflake id, which fixes the possible character at every position (`MT...`, `OD...`, `Nz...`), so JWTs, hashes and other dotted base64 strings are not reported. Placeholders, environment lookups and test, fixture and vendored paths are not reported either, and the snippet is redacted. Discord bot tokens grant the ability to act on behalf of the bot, read every DM the bot receives, post messages to channels the bot is in, and modify server settings the bot has permissions for.
 
-## Why This Matters
+## Why this matters
 
 A leaked Discord bot token can be used to scrape every DM the bot receives, including user reports, support tickets, and personal data. Discord's API does not require a re-authorization flow to use an existing bot token, so the attacker can act as the bot indefinitely until the token is regenerated.
 

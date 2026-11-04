@@ -27,11 +27,11 @@ generated: true
 
 This rule reports a complete Slack webhook URL: an incoming webhook `https://hooks.slack.com/services/T<team>/B<bot>/<24-character secret>` and a Workflow Builder or trigger webhook `https://hooks.slack.com/workflows/...` or `/triggers/...` ending in a 32-character secret. A URL without its secret segment, the documentation placeholder `T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`, URLs built from the environment and test, fixture and vendored paths are not reported, and the snippet is redacted. Slack webhooks let anyone who knows the URL post arbitrary messages to the channel the webhook is wired to. They cannot read messages, but they are routinely abused for phishing (fake "your account was compromised" alerts), spam, and pivoting into a workspace's trust graph.
 
-## Why This Matters
+## Why this matters
 
 Webhook URLs are long, high-entropy strings, but unlike API tokens they are routinely pasted into code samples, blog posts, and Stack Overflow answers. Once exposed, the only way to invalidate them is to delete the webhook in the Slack app configuration and create a new one. Because Slack does not surface webhook URLs in any secret-scanning program, they often go unnoticed in public repos for years.
 
-## What Gets Flagged
+## What gets flagged
 
 ```python
 # FLAGGED: a real team id, bot id and 24-character secret

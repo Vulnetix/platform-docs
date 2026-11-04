@@ -27,13 +27,13 @@ generated: true
 
 This rule detects patterns where a value read from `request.getParameter()` or `req.getParameter()` is passed directly, without validation, to `response.sendRedirect()`, a Spring `ModelAndView` redirect string, or a `RedirectView` constructor. An open redirect allows an attacker to craft a link that appears to originate from your trusted domain but silently redirects the user to an attacker-controlled site. This is CWE-601.
 
-## Why This Matters
+## Why this matters
 
 Open redirects are a reliable tool in phishing campaigns precisely because they abuse the victim's trust in the source domain. An attacker sends a link such as `https://yourapp.example.com/login?next=https://attacker.com/harvest`. The victim sees `yourapp.example.com` in the URL and clicks it. After any authentication flow, the server sends a `302 Location: https://attacker.com/harvest` response and the browser follows it silently. The victim is now on the attacker's page, which may credential-harvest, deliver malware, or redirect again to the real site to avoid suspicion.
 
 Open redirects are also used as an intermediate step in OAuth phishing attacks, where an `open_redirect` on the authorisation server or relying party can be combined with the `redirect_uri` parameter to steal authorisation codes or access tokens. Bug-bounty programmes and security researchers routinely report open redirects, and the presence of one in a login or post-authentication flow raises your overall risk profile.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports `sendRedirect()`, a `"redirect:" + value` view name, `new RedirectView()` and a `Location` header (`setHeader`/`addHeader`, `HttpHeaders.LOCATION`, `ResponseEntity.location(URI.create(...))`) whose target reads the request, is a `@RequestParam`/`@PathVariable`/`@RequestHeader` parameter, or is a variable assigned from one (directly or through one step such as `URLDecoder.decode`) within the 40 lines above. It does not report a target that starts with a fixed local path (`"/account?id=" + id`) or fixed absolute URL, a lookup in a map of allowed destinations, a value checked by an `if` guard (`startsWith`, allowlist `contains`, `isSafe`...) before the redirect, on the value itself or on a `URI` parsed from it, or values from configuration.
 

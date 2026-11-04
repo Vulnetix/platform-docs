@@ -31,13 +31,13 @@ SQL concatenated, `+=`-extended or formatted (`String.format`, `concat()`, `.for
 
 SQL injection remains one of the most prevalent and impactful vulnerabilities in web applications. Despite decades of awareness, string-concatenated queries continue to appear in Java codebases due to developer convenience, copied legacy patterns, and dynamic query generation for reporting or search features. Even a single injectable parameter in an otherwise safe codebase can expose the entire database.
 
-## Why This Matters
+## Why this matters
 
 A successful SQL injection attack can result in complete compromise of the database: full data exfiltration, unauthorized modification or deletion of records, and in some configurations, remote code execution via database-side features such as `xp_cmdshell` (SQL Server) or `LOAD_FILE`/`INTO OUTFILE` (MySQL). Authentication bypass via injection into login queries (`' OR '1'='1`) is a well-documented attack pattern that requires no database knowledge from the attacker.
 
 In regulated environments (PCI-DSS, HIPAA, GDPR), SQL injection leading to data exposure carries mandatory breach notification requirements and significant fines. Attackers actively scan for SQL injection using automated tools; vulnerable endpoints are typically discovered and exploited within hours of exposure.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: a request value appended to the builder

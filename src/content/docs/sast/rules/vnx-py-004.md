@@ -27,7 +27,7 @@ generated: true
 
 This rule flags calls to `yaml.load()` that do not pass an explicit safe Loader (`SafeLoader`, `CSafeLoader`, or `BaseLoader`). Python's PyYAML library supports YAML tags that instantiate arbitrary Python objects during parsing. Without a safe loader, a malicious YAML document can call any Python constructor, effectively giving an attacker the ability to run arbitrary code simply by having their YAML parsed. The vulnerability is exploited by embedding a `!!python/object/apply` or `!!python/object/new` tag in the input. This maps to [CWE-502: Deserialization of Untrusted Data](https://cwe.mitre.org/data/definitions/502.html).
 
-## Why This Matters
+## Why this matters
 
 YAML's full-load feature was designed for serializing and restoring Python objects, a legitimate use case when reading your own trusted data. However, the moment a YAML document crosses a trust boundary (network request body, user-uploaded config file, webhook payload, database value), the full loader becomes an RCE vector. Exploiting it requires no memory corruption or binary exploitation, just a specially crafted string:
 
@@ -39,7 +39,7 @@ YAML's full-load feature was designed for serializing and restoring Python objec
 
 When passed to `yaml.load()` without a safe loader, this YAML calls `subprocess.check_output(["id"])` and returns the result. An attacker can substitute any command or use `os.system` / `subprocess.Popen` to gain a shell, exfiltrate files, or establish persistence.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule flags `yaml.unsafe_load()`/`unsafe_load_all()`, and `yaml.load()`/`load_all()` (through the module, an `import yaml as y` alias, or a name imported with `from yaml import load`) whose loader (the `Loader=` keyword or the second positional argument, read across a call split over several lines) is `Loader`, `UnsafeLoader`, `CLoader` or `CUnsafeLoader`, or is missing.
 

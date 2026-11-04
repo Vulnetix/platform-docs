@@ -35,7 +35,7 @@ Files are C, C++ and Objective-C (`.c`, `.h`, `.cc`, `.cpp`, `.cxx`, `.hpp`, `.m
 
 The generators in this family are designed for statistical uniformity in simulations, games, and procedural generation, not for security. Their internal state is small (typically 32–48 bits), their output is predictable given a small number of observed values, and their seeding via `srand(time(NULL))` or similar is trivially guessable. Using these functions to generate session tokens, nonces, password reset codes, cryptographic keys, or any other security-sensitive random value gives an attacker a tractable search space to find the generated value.
 
-## Why This Matters
+## Why this matters
 
 The predictability of `rand()` and friends has been demonstrated in numerous real-world attacks. A classic example is the exploitation of PHP's `rand()`-seeded session IDs, where attackers who could determine the server's start time (visible via HTTP response headers) could enumerate all possible session tokens. Similar attacks apply whenever a weak PRNG is used to generate tokens, OTPs, or password reset links.
 
@@ -43,7 +43,7 @@ In C and C++ code, a common vulnerable pattern is: `srand(time(NULL)); token = r
 
 This vulnerability is particularly dangerous in key generation, nonce generation for cryptographic protocols, anti-CSRF token generation, and session ID generation. Any of these generated with `rand()` can be predicted by an attacker with modest computational resources, potentially bypassing authentication, defeating replay protection, or recovering encrypted messages. This maps to CAPEC-112 (Brute Force) and ATT&CK T1600 (Weaken Encryption).
 
-## What Gets Flagged
+## What gets flagged
 
 ```c
 // FLAGGED: a reset token built from rand()

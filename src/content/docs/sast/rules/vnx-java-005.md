@@ -27,13 +27,13 @@ generated: true
 
 This rule detects indicators of Java object deserialization without allowlisting, specifically `ObjectInputStream`, `readObject()`, `readUnshared()`, `XMLDecoder`, `XStream`, `enableDefaultTyping()`, and `activateDefaultTyping()`. Deserializing untrusted byte streams through any of these mechanisms can trigger arbitrary code execution via gadget chains: sequences of legitimate library classes whose deserialization callbacks can be chained together to achieve effects such as command execution, class loading from remote URLs, or file system access. This is CWE-502.
 
-## Why This Matters
+## Why this matters
 
 Java's native serialization protocol (`aced 0005` magic bytes) is a remote code execution primitive when common libraries are on the classpath. The 2015 Apache Commons Collections exploit demonstrated that any application using `ObjectInputStream.readObject()` on attacker data while having Commons Collections on the classpath was trivially exploitable, regardless of what the application thought it was deserializing. Similar gadget chains exist for Spring, Hibernate, Groovy, and many other ubiquitous libraries.
 
 The impact is typically unauthenticated remote code execution with the JVM's OS-level privileges. High-profile real-world exploits include the 2017 WebLogic mass exploitation events (CVE-2017-3248, CVE-2019-2725), the JBoss/Jenkins gadget chain exploits, and the continuous stream of Jackson polymorphic deserialization CVEs. The same class of vulnerability underpins the Log4Shell exploit chain, which used JNDI lookups initiated during deserialization.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports the `readObject()`/`readUnshared()` call on an `ObjectInputStream` created in the 40 lines above with no `setObjectInputFilter` on it (and no JVM-wide `setSerialFilter`/`jdk.serialFilter` in the project), `new XMLDecoder(...)`, `xstream.fromXML()` in a file that never restricts XStream types, Jackson `enableDefaultTyping()` and `activateDefaultTyping(LaissezFaireSubTypeValidator...)`, and `SerializationUtils.deserialize()`. It does not report the in-memory deep-copy idiom (bytes the same code just serialised), `ValidatingObjectInputStream` and other look-ahead subclasses, a custom `readObject(ObjectInputStream in)` method, or Jackson typing with a restrictive validator.
 

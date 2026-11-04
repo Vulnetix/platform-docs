@@ -31,7 +31,7 @@ Mailgun API keys are account-level credentials. Unlike more modern API designs t
 
 This rule corresponds to [CWE-798: Use of Hard-coded Credentials](https://cwe.mitre.org/data/definitions/798.html).
 
-## Why This Matters
+## Why this matters
 
 Email sending credentials are high-value targets because they have both direct and indirect utility. Directly, they enable an attacker to send email as your domain, which can be used to send phishing messages to your users, send spam at your expense, and damage your domain's email reputation (leading to deliverability problems for legitimate messages).
 
@@ -39,7 +39,7 @@ Indirectly, Mailgun logs contain metadata about messages sent and received throu
 
 A hardcoded API key in a repository is particularly dangerous if the repository is or ever was public, as automated scanners continuously monitor GitHub and similar platforms for credentials. Even private repositories can be exposed through accidental setting changes, compromised developer accounts, or third-party CI integrations.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a legacy `key-` key (32 lowercase letters or digits) in a file that mentions Mailgun or an `MG_API_KEY`-style name, and the current `<32 hex>-<8 hex>-<8 hex>` form when Mailgun is named within three lines:
 

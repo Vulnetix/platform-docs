@@ -36,7 +36,7 @@ It does not report cookies that set HttpOnly true anywhere between construction 
 
 Session hijacking via XSS and cookie theft is one of the most well-understood and widely exploited attack chains in web security. The HttpOnly flag is a one-line fix that eliminates the cookie-theft vector entirely, making it one of the highest-return security controls available.
 
-## Why This Matters
+## Why this matters
 
 When an attacker finds an XSS vulnerability in a web application, their first action is typically to steal session cookies using `document.cookie` and send them to an external server. With the session cookie, the attacker can impersonate the victim without knowing their password, bypassing multi-factor authentication entirely because the session was already authenticated.
 
@@ -44,7 +44,7 @@ The attack is particularly dangerous because XSS vulnerabilities are common in l
 
 Kotlin applications targeting the JVM or Android may use `javax.servlet.http.Cookie` or Ktor's cookie DSL. Both are covered by this rule. In Ktor, the equivalent is setting `httpOnly = true` in the cookie configuration block.
 
-## What Gets Flagged
+## What gets flagged
 
 ```kotlin
 // FLAGGED: HttpOnly explicitly disabled

@@ -29,13 +29,13 @@ This rule detects Go server bindings using `net.Listen()`, `tls.Listen()`, or `h
 
 Many services are intended to be accessed only from localhost (a metrics endpoint, a debug pprof handler, an internal management API) or only from a specific private network interface. Binding such services to `0.0.0.0` exposes them to any host that can route to the machine. In containerised and cloud environments, this is frequently broader than the developer intends.
 
-## Why This Matters
+## Why this matters
 
 Go's `net/http/pprof` debug handlers, Prometheus metrics endpoints, and internal health endpoints are routinely bound to `0.0.0.0` during development and accidentally left there in production. These endpoints can expose profiling data, goroutine stack traces, heap dumps, and application metrics that provide significant reconnaissance value to an attacker. CAPEC-1 (Accessing/Intercepting/Modifying HTTP Communication) and MITRE ATT&CK T1046 (Network Service Discovery) apply when an exposed service is discovered and enumerated.
 
 In cloud environments, binding to `0.0.0.0` in a container may expose the service through the host's external IP, a load balancer, or a NodePort depending on how networking is configured. A service that was intended to be internal-only becomes publicly accessible. Several real-world incidents, including exposed Kubernetes dashboard and etcd instances, have followed this pattern.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule reports a listener on every interface only when it serves the
 profiling or introspection handlers. Binding an ordinary service to every

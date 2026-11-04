@@ -27,11 +27,11 @@ generated: true
 
 This rule detects Go HTTP handlers that pass values from `r.FormValue()` or `r.URL.Query()` directly to file system operations such as `os.Open`, `os.ReadFile`, `filepath.Join`, or `http.ServeFile`. Without sanitization, an attacker can include `../` sequences in the input to escape the intended directory and access or overwrite arbitrary files on the server. This maps to [CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')](https://cwe.mitre.org/data/definitions/22.html).
 
-## Why This Matters
+## Why this matters
 
 Path traversal gives attackers read (and sometimes write) access to files outside the intended directory. Common targets include `/etc/passwd`, `/etc/shadow`, application configuration files containing database credentials, private keys, environment files (`.env`), and application source code. In write-path scenarios, an attacker who can specify the destination path can overwrite binaries, inject malicious content into configuration files, or plant web shells. The attack is simple and requires no special tooling, just URL-encoding `../` sequences or using absolute paths. In containerized deployments where multiple tenants share a pod, path traversal can cross tenant boundaries.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires when the path argument of `os.Open`, `os.OpenFile`, `os.ReadFile`, `os.ReadDir`, `os.DirFS`, `ioutil.ReadFile`/`ReadDir`, `http.ServeFile`, `http.Dir`, gin `c.File`/`c.FileAttachment`, echo `c.File`/`c.Attachment`/`c.Inline` or fiber `c.SendFile`/`c.Download` contains a request value (`r.FormValue`, `r.URL.Query()`, `r.PathValue`, `mux.Vars`, `ps.ByName`, gin `c.Query`/`c.Param`, echo `c.QueryParam`, fiber `c.Params`...). The value may be inline, in the variable it was assigned to, or in one path built from that variable (`filepath.Join`, `fmt.Sprintf`, `+`). `filepath.Clean` alone is not a check.
 

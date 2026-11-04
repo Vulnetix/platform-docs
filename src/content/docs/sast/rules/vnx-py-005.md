@@ -26,13 +26,13 @@ generated: true
 
 This rule flags calls to functions from Python's `random` module (`random.randint`, `random.choice`, `random.random`, `random.uniform`, `random.randrange`) when the value they produce is stored in, passed as, or returned from something named as a secret (`password`, `token`, `secret`, `nonce`, `salt`, `otp`, `session_id` and similar). The `random` module uses the Mersenne Twister algorithm (MT19937), which is a high-quality statistical PRNG but is explicitly documented as not suitable for security purposes. An attacker who observes enough outputs from a Mersenne Twister can reconstruct its internal 624-integer state and predict all future outputs. This maps to [CWE-338: Use of Cryptographically Weak Pseudo-Random Number Generator](https://cwe.mitre.org/data/definitions/338.html).
 
-## Why This Matters
+## Why this matters
 
 The Mersenne Twister's internal state is fully determinable from 624 consecutive 32-bit outputs, roughly 2.5 KB of observed random data. In a web application context an attacker can collect this data by making requests that return `random`-derived values (session IDs, CSRF tokens, password reset tokens, verification codes). Once the state is known, every future and past value from the same instance is predictable, breaking authentication, CSRF protection, and password reset flows simultaneously.
 
 For a concrete example: if a password reset token is generated with `''.join(random.choices(string.ascii_letters, k=32))`, an attacker who can observe other `random`-derived outputs from the same process can predict the reset token for any account without ever having access to the target's email. The attack requires no elevated privilege, only the ability to observe enough application outputs.
 
-## What Gets Flagged
+## What gets flagged
 
 The rule fires on a `random` module call (through the module, an `import random as r` alias or a name imported with `from random import randint`) whose result is assigned to, passed as a keyword to, or stored under a dict key with a security name (password, token, secret, nonce, salt, otp, session id, api key, csrf, reset/verification code, pin), or that is returned or assigned inside a function with such a name.
 

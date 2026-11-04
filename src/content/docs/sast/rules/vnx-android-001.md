@@ -27,13 +27,13 @@ generated: true
 
 This rule reports two production-hardening mistakes in an Android app: a debuggable release build, and an app that lets the platform back up all of its private data. They are covered by CWE-489 (Active Debug Code) and CWE-921 (Storage of Sensitive Data in a Mechanism without Access Control). Exported components are reported by [VNX-ANDROID-003](/sast/rules/vnx-android-003/) and cleartext traffic (`android:usesCleartextTraffic`) by [VNX-ANDROID-005](/sast/rules/vnx-android-005/).
 
-## Why This Matters
+## Why this matters
 
 When `android:debuggable="true"` is present in a production APK, any user with `adb` access, or any app running with `android.permission.GET_TASKS`, can attach a debugger to the process, inspect heap memory, override method return values, and exfiltrate secrets. The 2012 Skype Android data-leakage incident and several banking-trojan campaigns have exploited debuggable flags left in production releases.
 
 `android:allowBackup="true"` with no backup rules copies the entire private data directory (databases, tokens, session cookies, shared preferences) into cloud backups and device-to-device transfers, and on older platform versions lets any computer with `adb` pull it with `adb backup` without root.
 
-## What Gets Flagged
+## What gets flagged
 
 - `android:debuggable="true"` in an `AndroidManifest.xml`.
 - `debuggable true` (Groovy) or `isDebuggable = true` (Kotlin DSL) inside the `release` build type of `build.gradle` or `build.gradle.kts`.

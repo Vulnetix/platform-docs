@@ -27,7 +27,7 @@ generated: true
 
 This rule reports a JFrog Artifactory credential as a whole token: a legacy API key (`AKCp` followed by 69 letters and digits) or a reference/access token (`cmVmd` followed by 59 letters and digits). Typical places are `.npmrc`, `gradle.properties`, an `X-JFrog-Art-Api` header or a Bearer header. The prefix inside a longer alphanumeric run (base64 data), shorter lookalikes, placeholder bodies, environment references and test paths are not reported.
 
-### What Gets Flagged
+### What gets flagged
 
 ```ini
 //acme.jfrog.io/artifactory/api/npm/npm-virtual/:_password=AKCp<69 characters>
@@ -37,7 +37,7 @@ This rule reports a JFrog Artifactory credential as a whole token: a legacy API 
 TOKEN = "cmVmdGtuOjAx<52 characters>"
 ```
 
-## Why This Matters
+## Why this matters
 
 Hardcoded artifactory / jfrog api key values are routinely scraped by automated bots within minutes of a public push, and then used to access the account, exfiltrate data, or pivot into downstream services. Once the credential is in git history it is permanently in third-party hands.
 

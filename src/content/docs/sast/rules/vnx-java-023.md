@@ -31,7 +31,7 @@ This rule flags two patterns: lines that both call `getOriginalFilename()` and c
 
 Beyond JSP execution, unrestricted upload enables phishing via stored HTML pages, denial of service via very large files or ZIP bombs, and overwriting of configuration files when path traversal is also possible.
 
-## Why This Matters
+## Why this matters
 
 File upload endpoints are frequently targeted because the reward, remote code execution on the server, is immediate and reliable. Web application firewalls and intrusion detection systems are often ineffective against polyglot files (valid image files that are also valid JSP) or double-extension attacks (`shell.jpg.jsp`). The attacker only needs the server to execute the file once to establish a persistent foothold.
 
@@ -39,7 +39,7 @@ Even when uploaded files are stored outside the webroot, path traversal combined
 
 High-profile breaches including the 2017 Equifax breach (Apache Struts, file upload vector) and multiple healthcare sector incidents have been traced to unrestricted file upload combined with server-side script execution.
 
-## What Gets Flagged
+## What gets flagged
 
 ```java
 // FLAGGED: original filename used directly in file write

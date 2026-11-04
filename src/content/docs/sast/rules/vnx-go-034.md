@@ -29,13 +29,13 @@ This rule flags Go code where `http.Redirect` or a `Redirect` call receives a re
 
 This maps to [CWE-601: URL Redirection to Untrusted Site ('Open Redirect')](https://cwe.mitre.org/data/definitions/601.html) and is catalogued under CAPEC-610 (Cellular Traffic Intercept) in its broader redirect-abuse context.
 
-## Why This Matters
+## Why this matters
 
 Open redirects in OAuth flows are particularly dangerous because the authorization server is explicitly trusted to issue redirects as part of the protocol. An attacker who discovers an unvalidated `redirect_uri` parameter can craft a malicious authorization URL. When a legitimate user clicks it, the authorization code is sent to the attacker's server. The attacker can then exchange that code for access tokens, gaining full access to the victim's account without ever seeing their password.
 
 Beyond OAuth, unvalidated redirects undermine phishing defenses. Users are trained to verify the initial domain before clicking, but a redirect from a trusted domain to a malicious one circumvents that check. Security teams and WAF rules that block external links from reaching sensitive applications are also bypassed because the initial request originates from a legitimate host. This technique is referenced in MITRE ATT&CK T1046 under network service scanning and lateral movement via trusted channels.
 
-## What Gets Flagged
+## What gets flagged
 
 An OAuth redirect URI read from the request and used without comparing it with the client's registered URIs:
 

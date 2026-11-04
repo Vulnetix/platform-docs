@@ -31,7 +31,7 @@ EBS volumes store the persistent data for EC2 instances: operating system files,
 
 This rule corresponds to [CWE-311: Missing Encryption of Sensitive Data](https://cwe.mitre.org/data/definitions/311.html).
 
-## Why This Matters
+## Why this matters
 
 EBS encryption protects data at rest with no performance overhead on modern instance types (AES-256 via AWS KMS). Its absence means that data is stored in plaintext throughout its lifecycle, including during snapshot creation (which is used for backups, AMI creation, and cross-region replication) and volume sharing.
 
@@ -39,7 +39,7 @@ EBS snapshots are a particularly common exposure vector. Many organizations make
 
 For databases running on EBS (MySQL, PostgreSQL, or other self-managed databases), unencrypted volumes mean that a database dump taken from the raw volume, bypassing all database-level authentication, would expose all data in plaintext.
 
-## What Gets Flagged
+## What gets flagged
 
 ```hcl
 resource "aws_ebs_volume" "data" {
