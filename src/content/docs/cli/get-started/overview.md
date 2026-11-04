@@ -5,8 +5,10 @@ description: The vulnetix binary runs every Vulnetix scanner, signs in to your o
 order: 1
 sources: [cli/cmd/root.go, cli/cmd/exit_codes.go, cli/pkg/auth/credentials.go, cli/cmd/config_documents.go]
 checked: [cli@24498404a]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+The Vulnetix CLI is for developers and CI pipelines that need to scan code, dependencies and infrastructure where the code lives, and gate a build on the result. It is the way in to most Vulnetix products: the scanners, SBOMs, VEX, signing and the firewalls all start from a `vulnetix` command. Read this segment for what every command shares, and the product's own segment for one scanner's behaviour.
 
 `vulnetix` is one Go binary for Linux, macOS and Windows. It parses your manifests and source locally, asks the Vulnetix VDB about the packages it found, writes its results under `.vulnetix/` in the project, and, when you are signed in, publishes those results to your organisation. Files are not uploaded. What is published is the SBOM and the SARIF, and a SARIF result carries a few lines of source around each finding (`--snippet-context`, `0` turns it off).
 
@@ -82,6 +84,7 @@ Every top-level command in `vulnetix --help`, and the docs segment that owns it.
 | Run Vulnetix in GitHub Actions | [GitHub Actions](/cli/ci-cd/github-actions/) |
 | Send gosec, Trivy or Semgrep results to Vulnetix | [Third-party scanners](/cli/ci-cd/third-party-scanners/) |
 | Check a repository's workflows for injection flaws | [GitHub posture commands](/cli/commands/gha/) |
+| Look up a VNX-GH rule the posture commands report | [GitHub posture rules](/cli/github-rules/overview/) |
 | Tell a pipeline failure from a gate that could not decide | [Exit codes](/cli/reference/exit-codes/) |
 | Know what is in `.vulnetix/` | [Files](/cli/reference/files/) |
 

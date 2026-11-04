@@ -4,8 +4,10 @@ description: Pix is Vulnetix for coding agents. Three hooks and eighteen skills 
 order: 1
 sources: [pix-ai-coding-assistant/README.md, pix-ai-coding-assistant/.claude-plugin/marketplace.json, pix-ai-coding-assistant/vulnetix/hooks/hooks.json, cli/cmd/agent.go, cli/cmd/skills.go, vdb-site/api/internal/handler/belai_items_validate_launch.go, website/sandbox-worker/src/egress.ts, website/src/worker/call/routes.ts]
 checked: [pix-ai-coding-assistant@7aebf02, cli@4c8c3b7, vdb-site@1a06d67, website@ad775f3]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Pix is for developers who write code with an AI coding agent and want that agent to stop at a malicious dependency or a committed credential, and to run Vulnetix procedures that need the working tree. Use Pix when the agent must act on your repository. Use the [MCP server](/mcp-server/) when it only needs to look something up.
 
 Pix is the name for the Vulnetix pieces that work alongside a coding agent. Some run inside the agent you already use. Some are machines and services Vulnetix runs for you.
 
@@ -42,6 +44,7 @@ No credential is needed. The CLI falls back to the shared Community tier: reads 
 
 | I want to | Read |
 |---|---|
+| Wire hooks and skills into my agent step by step | [Quickstart](/pix/get-started/quickstart/) |
 | Stop my agent installing a known-malicious package | [Dependency guard](/pix/hooks/dependency-guard/) |
 | Make the guard warn instead of block, or switch it off | [Policy file](/pix/hooks/policy-file/) |
 | Catch a credential before `git commit` | [Change guard](/pix/hooks/change-guard/) |
@@ -51,6 +54,7 @@ No credential is needed. The CLI falls back to the shared Community tier: reads 
 | Let a sandbox reach `*.pythonhosted.org` and nothing else new | [Egress policy](/pix/sandboxes/egress/) |
 | Check on the factory from my phone | [Voice calls](/pix/calls/voice-calls/) |
 | Fix a hook that says nothing | [Troubleshooting](/pix/get-started/troubleshooting/) |
+| Look up a flag of `vulnetix agent` or `vulnetix skills` | [CLI commands](/pix/reference/commands/) |
 
 ## Platform IaC
 

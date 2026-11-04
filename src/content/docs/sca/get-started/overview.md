@@ -5,8 +5,10 @@ description: What vulnetix sca finds, the commands in the SCA family, what runs 
 order: 1
 sources: [cli/cmd/specialized_scans.go, cli/cmd/fix.go, cli/cmd/image.go, cli/cmd/license.go, cli/cmd/scan.go, cli/cmd/cli_sca.go, cli/cmd/quality_gate_enforce.go]
 checked: [cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+SCA is for developers and CI pipelines that need to know which of a project's dependencies have known vulnerabilities, exploits, malware reports or end-of-life dates, and to move them to a safe version. It works on what your manifests and lockfiles already declare. The [Package Firewall](/package-firewall/) works earlier, at install time, and refuses a bad version before it is downloaded, so use SCA to find and fix what is in a project and the firewall to keep bad versions out.
 
 `vulnetix sca` reads the package manifests and lockfiles in a directory, resolves every dependency to an exact version, and asks the Vulnetix VDB which known vulnerabilities, exploits, malware reports and end-of-life dates apply. It prints the findings, writes a CycloneDX SBOM, and exits non-zero when a gate you set is breached.
 
@@ -59,6 +61,7 @@ Paths are relative to the git root of `--path` when it is a repository.
 - [Supported ecosystems](/sca/scanning/ecosystems/): every manifest and lockfile.
 - [Gates and exit codes](/sca/gates/fail-on/): how `--fail-on` and the org [quality gate](/quality-gates/) decide the exit code.
 - [Resolve Platform findings](/sca/console/resolve/): what an uploaded scan becomes in Resolve.
+- [Flags](/sca/reference/flags/) and [Environment variables](/sca/reference/environment/): every flag `vulnetix sca` accepts, and the variables and caches that tune it.
 
 ## GitHub Actions
 

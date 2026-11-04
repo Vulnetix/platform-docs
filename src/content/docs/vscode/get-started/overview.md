@@ -5,9 +5,11 @@ description: The Vulnetix extension for VS Code and its forks runs the `vulnetix
 order: 1
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/CHANGELOG.md, cli/cmd/lsp.go, cli/internal/lsp/server.go, belai/internal/profiles/builtin/vulnetix-review.json, pix-ai-coding-assistant/vulnetix/agents/pr-security-reviewer.md]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 status: available
 ---
+
+The extension is for developers who want Vulnetix findings while they edit, on the line that causes them, instead of after a push. It runs the same CLI and rules as `vulnetix scan`, so use it for feedback as you type and keep `vulnetix scan` in CI as the check that gates a build.
 
 The extension `vulnetix.vulnetix` has no scanner of its own. It finds or downloads the Vulnetix CLI, starts `vulnetix lsp` as a child process, and talks to it over the Language Server Protocol on stdin and stdout. The server evaluates the CLI's embedded rule set against the files you have open and checks your dependency manifests against the Vulnetix vulnerability database (VDB). Findings arrive as ordinary diagnostics: squiggles in the editor and entries in the Problems panel.
 
@@ -48,6 +50,7 @@ editor (extension host)  --LSP over stdio-->  vulnetix lsp  --reads-->  workspac
 | I want to | Read |
 |---|---|
 | Install it in VS Code, Cursor, VSCodium or another fork | [Install](/vscode/get-started/install/) |
+| Check the editor version, platforms, network access and accounts it needs | [Requirements](/vscode/get-started/requirements/) |
 | Pre-install it in a Dev Container, Gitpod or code-server image | [Remote workspaces and containers](/vscode/editors/remote-and-containers/) |
 | Use an internally vetted CLI binary or a mirror | [The CLI binary](/vscode/configuration/cli-binary/) |
 | Move a vulnerable dependency to a safe version | [Fix a vulnerable dependency](/vscode/guides/fix-a-dependency/) |

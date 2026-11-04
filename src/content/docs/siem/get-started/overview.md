@@ -5,8 +5,10 @@ order: 1
 nav: Overview
 sources: [siem/README.md, siem/worker/src/pipeline.ts, siem/worker/src/billing/packs.ts, siem/worker/src/billing/entitlement.ts, siem/worker/wrangler.jsonc, website/src/router/guardian-routes.test.ts]
 checked: [siem@e0f71fa, website@ad775f37]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Guardian is for security teams that need to search and alert on what is happening across their AWS accounts, Cloudflare zones and Vulnetix products, in one place. Use it for events over time: traffic, DNS, WAF decisions and audit trails. [Cloud security](/cloud-security/) answers a different question, which resources in a connected AWS account are vulnerable or misconfigured right now.
 
 Guardian is the Vulnetix SIEM. It collects network flow, DNS, WAF, HTTP and audit logs from your AWS accounts and Cloudflare zones, plus decisions from Vulnetix products, and keeps them for 31 days. Over that data you can:
 
@@ -62,7 +64,7 @@ Owners and admins buy the pack (**Start Guardian**), create ingest tokens and co
 - [Search syntax](/siem/search/syntax/) and [Tables](/siem/search/tables/).
 - [Alert rules](/siem/detection/rules/) and [Sigma](/siem/detection/sigma/).
 - [Triggers](/siem/alerts/triggers/) and [Scheduled reports](/siem/alerts/scheduled-reports/).
-- [API](/siem/reference/api/).
+- [API](/siem/reference/api/) and [Troubleshooting](/siem/reference/troubleshooting/).
 
 ## Platform IaC
 

@@ -3,7 +3,7 @@ title: Install, update and uninstall
 nav: Install
 description: Install the vulnetix binary with the install script, Homebrew, Scoop or a direct download, keep it current, and remove it.
 order: 2
-sources: [cli/install.sh, cli/internal/update/updater.go, cli/internal/update/checker.go, cli/internal/update/state.go, cli/cmd/root.go, cli/flake.nix, cli/go.mod, cli/.github/workflows/release.yml, homebrew-tap/Formula/vulnetix.rb, scoop-bucket/bucket/vulnetix.json]
+sources: [cli/install.sh, cli/internal/update/updater.go, cli/internal/update/checker.go, cli/internal/update/state.go, cli/cmd/root.go, cli/flake.nix, cli/go.mod, cli/.github/workflows/release.yml, homebrew-tap/Formula/vulnetix.rb, homebrew-tap/Formula/crit-validate.rb, ietf-crit-spec/README.rst, scoop-bucket/bucket/vulnetix.json]
 checked: [cli@24498404a]
 updated: 02 Nov 2026
 ---
@@ -68,6 +68,8 @@ brew uninstall vulnetix
 ```
 
 The formula in [Vulnetix/homebrew-tap](https://github.com/Vulnetix/homebrew-tap) downloads the release binary for the machine's OS and architecture and pins its SHA-256. The release workflow updates it on every release. It does not install shell completions; see [completion](/cli/commands/completion/).
+
+The same tap also carries `crit-validate`, a separate tool and not part of `vulnetix`. It checks CVE records (CVE JSON 5) that carry CRIT extensions against the rules of the [CRIT specification](https://github.com/Vulnetix/ietf-crit-spec), and converts a CRIT record between its JSON form and its vector string. Install it with `brew install vulnetix/tap/crit-validate` (macOS and Linux, amd64 and arm64), or `go install github.com/Vulnetix/ietf-crit-spec/cmd/crit-validate@latest`.
 
 ## Scoop
 

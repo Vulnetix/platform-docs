@@ -11,6 +11,8 @@ Guardian takes AWS logs by push. You deploy a CloudFormation stack that creates 
 
 A second, optional stack creates a read-only role that a Guardian investigation agent assumes. See [The investigation role](#the-investigation-role).
 
+To manage delivery with Terraform or OpenTofu instead, use the [`aws-siem-shipping`](/platform-iac/terraform/modules/#aws-siem-shipping) module. It creates the same Firehose streams with the same resource names, so use either the module or the delivery stack in a region, not both.
+
 ## Templates
 
 Both templates are served without sign-in:

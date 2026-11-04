@@ -5,8 +5,10 @@ description: What vulnetix iac checks in Terraform and other infrastructure code
 order: 1
 sources: [cli/cmd/specialized_scans.go, cli/cmd/scan.go, cli/internal/sast/kinds.go, cli/internal/sast/language_filter.go, cli/internal/sast/input.go, cli/internal/scan/detector.go, cli/cmd/config_documents.go]
 checked: [cli@2449840]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+IaC scanning is for engineers who write Terraform and other infrastructure code and want a misconfiguration caught in the file, before it is applied. It reads the code in your repository, so it reports what you are about to deploy. To check what is already running in a connected AWS account, use [Cloud security](/cloud-security/).
 
 `vulnetix iac` checks infrastructure-as-code files for security misconfigurations: a public S3 ACL, a security group open to `0.0.0.0/0`, an IAM policy that allows `*`, an unencrypted EBS volume. It runs the Rego rules of kind `iac` over your files on your machine and reports each problem against the resource you would change. Credentials are optional.
 
@@ -69,6 +71,7 @@ Nix files (`flake.nix`, `flake.lock`) are detected as IaC manifests, but they on
 | Accept a finding on one resource | [Suppressing findings](/iac-scanning/guides/suppression/) |
 | Look up a flag | [Flags](/iac-scanning/reference/flags/) |
 | Feed SARIF to a code-scanning dashboard | [Output and exit codes](/iac-scanning/reference/output/) |
+| Fix a problem with a scan | [Troubleshooting](/iac-scanning/reference/troubleshooting/) |
 
 ## GitHub Actions
 

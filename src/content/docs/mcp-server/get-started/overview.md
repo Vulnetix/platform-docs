@@ -10,8 +10,10 @@ sources:
   - mcp-server/src/prompts/generated.ts
   - mcp-server/README.md
 checked: [mcp-server@1725a04]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+The MCP server is for developers and security engineers who work through an AI coding agent and want vulnerability answers in that conversation: is this CVE exploited, is this package safe to install, which version fixes it. Your agent calls it as a tool. For the same data from a script or service, call the [VDB API](/vdb-api/) directly or use `vulnetix vdb` from the [CLI](/cli/). To control what your agents send to model providers, use the [AI Firewall](/ai-firewall/), which is a gateway rather than a data source.
 
 The Vulnetix MCP server is a remote MCP endpoint that an AI coding agent calls for vulnerability data. It answers from the Vulnetix VDB, which aggregates CVE.org, NVD, VulnCheck, CISA KEV, GitHub and OSV advisories, EUVD and other sources. There is nothing to install: you add a URL and a header to your client.
 
@@ -55,6 +57,10 @@ A raw vdb-api record for `CVE-2021-44228` is 2,606,571 bytes. `vulnetix_vuln` re
 | Connect a client in two minutes | [Quickstart](/mcp-server/get-started/quickstart/) |
 | Get the exact config for my client | [Clients](/mcp-server/clients/overview/) |
 | Look up a tool's parameters | [Tool reference](/mcp-server/reference/tools/) |
+| Find which tool answers my question | [Tools by question](/mcp-server/tools/overview/) |
+| Follow a worked sequence, such as triaging one CVE | [Guides](/mcp-server/guides/overview/) |
+| Check what the server cannot do | [Limitations](/mcp-server/reference/limitations/) |
+| Read short answers before I connect | [FAQ](/mcp-server/reference/faq/) |
 | Get a key from inside the agent | [Authentication](/mcp-server/get-started/authentication/) |
 | Find out why an exploit list is empty | [Plans and limits](/mcp-server/get-started/plans-and-limits/) |
 | Debug a `-32602` or a 401 | [Troubleshooting](/mcp-server/reference/troubleshooting/) |

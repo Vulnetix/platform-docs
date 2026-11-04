@@ -5,8 +5,10 @@ description: What vulnetix secrets finds, where it looks, what it sends to Vulne
 order: 1
 sources: [cli/cmd/specialized_scans.go, cli/cmd/scan.go, cli/internal/sast/kinds.go, cli/internal/sast/engine.go, cli/internal/sast/input.go, cli/internal/secretscan/inspect.go, cli/cmd/sarif_persist.go, cli/cmd/config_documents.go]
 checked: [cli@2449840]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Secrets scanning is for teams that need to know whether a credential has been written into a repository, its history or its build artefacts, so it can be rotated before someone else finds it. Run it over a whole repository in CI or on demand. To stop a credential at `git commit` inside a coding agent, use the [Pix change guard](/pix/hooks/change-guard/); to stop one being sent to an LLM provider, use the [AI Firewall](/ai-firewall/policy/block-secrets/).
 
 `vulnetix secrets` looks for hard-coded credentials: cloud keys, source-control and CI tokens, AI provider keys, payment keys, database connection strings with passwords, private keys, webhook URLs and about 400 SaaS API tokens. It runs the 1,092 built-in Rego rules of kind `secrets` over your working tree, the printable strings inside binary files, image metadata, decoded Kubernetes `Secret` values and the files changed in your recent git history. It runs on your machine. Credentials are optional.
 
@@ -51,6 +53,7 @@ Nothing, unless you are authenticated. When you are, the CLI posts one SARIF sub
 | Look up a flag | [Flags](/secrets/reference/flags/) |
 | See which providers are covered | [Rules](/secrets/reference/rules/) |
 | Feed SARIF to a code-scanning dashboard | [Output and exit codes](/secrets/reference/output/) |
+| Fix a problem with a scan | [Troubleshooting](/secrets/reference/troubleshooting/) |
 
 ## Related
 

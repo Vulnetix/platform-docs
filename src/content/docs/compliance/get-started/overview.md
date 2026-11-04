@@ -5,8 +5,10 @@ description: Compliance reports map your organisation's scans, findings, invento
 order: 1
 sources: [vdb-site/api/internal/handler/compliance_reports.go, vdb-site/api/internal/handler/compliance_export.go, vdb-site/api/internal/handler/compliance_oscal.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/api/main.go, website/src/shared/routes.ts, website/src/components/compliance/ComplianceReportFrame.vue]
 checked: [vdb-site@1a06d67, website@ad775f37, vdb-cyclonedx@eaf787c]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Compliance reports are for security, risk and GRC staff who must show an assessor or auditor how the organisation meets a framework such as PCI DSS, ISO/IEC 27001 or the EU AI Act. They turn evidence Vulnetix already holds into a per-control status, so the work left is adding what telemetry cannot show. Use a report for a fixed period you hand to a reviewer. Use a [compliance target](/compliance/get-started/targets/) when you want reports made on a cadence, or to measure a SLSA level, NIST SSDF practices or a cryptography policy.
 
 A compliance report is a named, dated view of one framework over your organisation. You choose the framework, the reporting period and which repositories are in scope. Vulnetix maps the evidence it already holds for that scope and period (scanner runs, findings and their triage, VEX, SBOMs, AI and crypto inventories, KEV and end-of-life exposure, quality-gate and firewall policy, provenance) onto the framework's controls, and marks each control with a status. You add what telemetry cannot show: uploaded documents, notes, and for the assessor-driven frameworks, an assessor's finding per control.
 

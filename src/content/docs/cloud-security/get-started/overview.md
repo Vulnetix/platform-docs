@@ -5,8 +5,10 @@ order: 1
 nav: Overview
 sources: [vdb-site/api/main.go, vdb-site/api/internal/handler/integrations_aws.go, vdb-site/api/internal/handler/integrations_aws_stack.go, vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/api/internal/handler/cloud_scheduler.go, cloudscan/README.md]
 checked: [vdb-site@1a06d67, cloudscan@67eeabb, website@ad775f37]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Cloud security is for teams that run workloads in AWS and need findings that name the affected resource, not only the vulnerable package. It answers which ARN in which account is exposed to which CVE or fails which control, and checks Wiz claims from inside the account. Use it for the state of your resources. Use the [SIEM](/siem/) to collect, search and alert on the logs those resources produce.
 
 Cloud security connects your AWS accounts to Vulnetix. A small function, the **probe** (`vulnetix-security-reporter`), runs inside each account, enumerates its resources, and reports findings that name a resource ARN and the CVE or control it fails. The probe is the only thing that reads your account's data. Vulnetix assumes a role in the account to deploy and maintain it, and to start a sweep.
 
@@ -32,6 +34,15 @@ Every cloud finding is an ordinary finding (category `cloud`), so triage, suppre
 ## Plan
 
 Cloud integrations (AWS, the AWS-native sources and Wiz) need the **Pro** plan or above. On a lower plan the console shows the drawer locked with an upgrade link.
+
+## In this section
+
+- [Quickstart](/cloud-security/get-started/quickstart/): connect one account and confirm the probe can read it.
+- [Connect Wiz](/cloud-security/wiz/connect-wiz/) and [How Wiz claims are verified](/cloud-security/wiz/verification/): the Wiz service account and the five verdicts.
+- [Log ingest targets](/cloud-security/logs/log-ingest-targets/): where cloud logs go with each integration.
+- [Probe settings](/cloud-security/reference/probe-settings/): the probe function's environment variables and log lines.
+- [Resolve Platform API](/cloud-security/reference/api/): the routes behind the cloud security console pages.
+- [Troubleshooting](/cloud-security/reference/troubleshooting/): connection, deploy, verify and sweep errors.
 
 ## Related
 

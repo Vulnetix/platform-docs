@@ -58,10 +58,10 @@ updated: 02 Nov 2026
 | `vdb exploit-trends` | `-o <file>` | `/exploit-trends` |
 
 > [!CAREFUL] `exploits poc` and `exploits download` call a route the API does not have
-> Both commands request `GET /v2/exploits/{uuid}/poc`. vdb-api serves exploit archives at `GET /v2/exploits/{exploitUuid}/archive`, and `/poc` is not registered, so the request falls through to the `/{ecosystem}/{group}/{artifact}` package route and fails with `API error (404): {"error":"Package not found", ...}`. Until the CLI is changed, fetch archives with curl from the `/archive` route, using the exploit UUIDs that `vdb exploits archived` lists.
+> Both commands request `GET /v2/exploits/{uuid}/poc`. The API serves exploit archives at `GET /v2/exploits/{exploitUuid}/archive`, and `/poc` is not registered, so the request falls through to the `/{ecosystem}/{group}/{artifact}` package route and fails with `API error (404): {"error":"Package not found", ...}`. Until the CLI is changed, fetch archives with curl from the `/archive` route, using the exploit UUIDs that `vdb exploits archived` lists.
 
 > [!CAREFUL] `vdb triage` returns no items
-> `vdb triage` asks `POST /v2/cli.triage` first and falls back to `GET /v2/triage` only if that call errors. vdb-api's `cli.triage` is still a placeholder that always answers `200` with `"items": []` and the note `cli.triage backend wire-up pending`, so the fallback never runs and the command prints an empty feed whatever the filters. Query `GET /v2/triage` directly until this is fixed; the parameters are in the [endpoint reference](/vdb-api/reference/endpoints/#exploits-and-threat-activity).
+> `vdb triage` asks `POST /v2/cli.triage` first and falls back to `GET /v2/triage` only if that call errors. The API's `cli.triage` is still a placeholder that always answers `200` with `"items": []` and the note `cli.triage backend wire-up pending`, so the fallback never runs and the command prints an empty feed whatever the filters. Query `GET /v2/triage` directly until this is fixed; the parameters are in the [endpoint reference](/vdb-api/reference/endpoints/#exploits-and-threat-activity).
 
 ## Known exploited vulnerabilities
 
@@ -151,7 +151,7 @@ updated: 02 Nov 2026
 `vdb vuln` (and the SCA scanner) can run tree-sitter reachability queries for a vulnerability against your project. `--reachability` takes `both` (the default), `direct` (only the installed package folder), `transitive` (only the rest of the project) or `off`.
 
 > [!CAREFUL] Reachability finds no queries on v2
-> On v2, the CLI requests `GET /v2/vuln/{id}/tree-sitter`, but vdb-api registers that route only on v1 (`GET /v1/vuln/{identifier}/tree-sitter`). The CLI treats the resulting not-found as "no queries for this vulnerability", so reachability reports nothing rather than failing. Pass `--reachability off` to skip the call.
+> On v2, the CLI requests `GET /v2/vuln/{id}/tree-sitter`, but the API registers that route only on v1 (`GET /v1/vuln/{identifier}/tree-sitter`). The CLI treats the resulting not-found as "no queries for this vulnerability", so reachability reports nothing rather than failing. Pass `--reachability off` to skip the call.
 
 ## Commands that refuse `-V v1`
 

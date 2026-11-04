@@ -5,8 +5,10 @@ description: The Vulnetix browser extension finds vulnerability identifiers in t
 order: 1
 sources: [browser-extension/README.md, browser-extension/wxt.config.ts, browser-extension/src/entrypoints/content.ts, browser-extension/src/shared/identifiers.ts, browser-extension/src/lib/api.ts, browser-extension/package.json]
 checked: [browser-extension@d25ce74]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+The browser extension is for anyone who reads advisories, issues and other pages in a browser and wants to know how serious each vulnerability identifier on the page is without copying it into another tool. Use it while reading. To look identifiers up from a terminal or a script, use the [VDB API](/vdb-api/) instead.
 
 The extension scans the text of the page you are reading for identifiers such as `CVE-2024-3094`, `GHSA-...` or `RUSTSEC-...`, and gives you two ways to read them:
 
@@ -29,6 +31,7 @@ Detection runs locally and costs nothing. Looking an identifier up spends a VDB 
 
 | I want to | Read |
 |---|---|
+| Get from install to my first hover card | [Quickstart](/browser-extension/get-started/quickstart/) |
 | Install it from a store, or sideload it | [Install](/browser-extension/get-started/install/) |
 | Sign in with my browser session or an API key | [Sign in](/browser-extension/get-started/sign-in/) |
 | Understand what the hover card shows | [Hover card](/browser-extension/using/hover-card/) |
@@ -37,6 +40,7 @@ Detection runs locally and costs nothing. Looking an identifier up spends a VDB 
 | Know how many lookups I have left | [Quota and cache](/browser-extension/using/quota-and-cache/) |
 | Check whether an identifier format is recognised | [Identifier formats](/browser-extension/reference/identifiers/) |
 | Review the permissions and what is sent | [Permissions and privacy](/browser-extension/reference/permissions-and-privacy/) |
+| Fix a problem with the extension | [Troubleshooting](/browser-extension/reference/troubleshooting/) |
 
 ## Platform IaC
 

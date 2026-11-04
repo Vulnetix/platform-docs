@@ -192,12 +192,23 @@ The machine-readable version of most of this is `GET /v2/spec`. Routes marked �
 | GET | `/msrc/patch-tuesdays` | Microsoft Patch Tuesday releases |
 | GET | `/msrc/patch-tuesday/{date}` | One release |
 | GET | `/msrc/patch-tuesday-preparation` † | The upcoming release, as far as it is known |
-| GET | `/{vendor}/archives` † | Months with advisories, for `redhat`, `broadcom`, `aws`, `cisco`, `alibaba`, `cloudflare`, `suse`, `canonical`, `alpine`, `apple`, `google` |
-| GET | `/{vendor}/archive/{month}` † | That vendor's advisories for a month (`YYYY-MM`) |
+| GET | `/redhat/archives`, `/redhat/archive/{month}` † | Red Hat advisories |
+| GET | `/broadcom/archives`, `/broadcom/archive/{month}` † | Broadcom advisories: VMware, Bitnami, Cloud Foundry and Tanzu |
+| GET | `/aws/archives`, `/aws/archive/{month}` † | AWS advisories: Amazon Linux (ALAS), AWS Security Bulletins and the AWS SDKs |
+| GET | `/cisco/archives`, `/cisco/archive/{month}` † | Cisco PSIRT advisories (`cisco-sa-*`) and records from other sources naming Cisco as vendor |
+| GET | `/alibaba/archives`, `/alibaba/archive/{month}` † | Alibaba Cloud Linux 2 advisories (`ALINUX2-SA-*`) and records naming Alibaba or Aliyun as vendor |
+| GET | `/cloudflare/archives`, `/cloudflare/archive/{month}` † | Cloudflare advisories: GitHub advisories, blog advisories (`CFADVISORY-*`) and changelog advisories (`CFADVISORY-CL-*`) |
+| GET | `/suse/archives`, `/suse/archive/{month}` † | SUSE advisories: SLES (`SUSE-SU-*`), openSUSE (`openSUSE-SU-*`), and Rancher RKE2, K3s and NeuVector |
+| GET | `/google/archives`, `/google/archive/{month}` † | Google advisories: GCVE, Google Cloud, Project Zero, and records naming Google or a Google open source project |
+| GET | `/apple/archives`, `/apple/archive/{month}` † | Records naming Apple as vendor: macOS, iOS, Safari, Xcode and the rest |
+| GET | `/canonical/archives`, `/canonical/archive/{month}` † | Canonical Ubuntu Security Notices (`USN-*`) |
+| GET | `/alpine/archives`, `/alpine/archive/{month}` † | Alpine secdb, Chainguard and Wolfi advisories, with container-origin attribution |
 | GET | `/alpine/registries` † | Alpine package registries |
 | GET | `/google/projects`, `/google/project-zero/recent` † | Google projects and recent Project Zero reports |
 | GET | `/raw/sources` | Sources whose raw upstream records are archived. Teams |
 | GET | `/raw/{source}/{cveId}` | The raw upstream advisory bytes. Teams |
+
+For each vendor, `/archives` lists the months that have advisories, and `/archive/{month}` returns that vendor's advisories for one month, with `{month}` as `YYYY-MM`. Another format is `400` `Invalid month. Use YYYY-MM`. Neither takes query parameters.
 
 ## Cloud
 

@@ -5,8 +5,10 @@ order: 1
 nav: Overview
 sources: [vdb-site/api/internal/handler/defence_formats.go, vdb-site/api/internal/handler/defences.go, vdb-site/api/internal/handler/detection_rule_feeds.go, cli/cmd/defend.go, cli/deploy/sensor/README.md]
 checked: [vdb-site@1a06d67, cli@4c8c3b7, saas@50cedf3]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Virtual patching is for teams that run a vulnerable service they cannot upgrade yet, because no fixed version exists or the upgrade has to wait, and need to stop or see exploit attempts in the meantime. When a fixed version exists and you can take it, use [`vulnetix fix`](/sca/autofix/fix/) to move the dependency to it. Use a virtual patch for the time between the finding and that upgrade.
 
 Vulnetix reads the public proofs of concept for each vulnerability and builds rules from them. A rule is one of two kinds, and the two are never mixed:
 
@@ -43,6 +45,8 @@ Then deploy the rules to the system that runs them:
 | Vulnetix sensor | `MODSECURITY`, `REGEX_L7`, `SIGMA`, `YARA`, `STIX`, `OPENIOC` | [Sidecar](/virtual-patching/runtime/sensor-sidecar/), [DaemonSet](/virtual-patching/runtime/sensor-daemonset/), [Lambda layer](/virtual-patching/runtime/sensor-lambda/), [EC2 and EMR](/virtual-patching/runtime/sensor-hosts/) |
 | Tetragon | Rendered from `SIGMA` | [Tetragon](/virtual-patching/runtime/tetragon/) |
 | A Sigma-capable SIEM | `SIGMA` | [Guardian Sigma rules](/siem/detection/sigma/) |
+
+To take a finding with no fix to a rule running in log-only mode at your edge, follow the [Quickstart](/virtual-patching/get-started/quickstart/). What a sensor reports about the packages on its host, and the host SBOM it produces, is on [Host packages, SBOM and findings](/virtual-patching/sensor/packages-and-findings/).
 
 ## Plans
 

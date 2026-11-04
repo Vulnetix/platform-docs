@@ -4,8 +4,10 @@ description: Software Factory runs workflows of agents against the GitHub reposi
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-access.md, vdb-site/api/internal/handler/factory_access.go, website/.repo/software-factory.md]
 checked: [vdb-site@fe1ff17, website@a31d470]
-updated: 03 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Software Factory is for engineering and security teams that want routine work on their GitHub repositories, such as fixing a vulnerable package or answering a failed check, done by agents without anyone starting each job by hand. The factory starts work from repository events and keeps a person in the loop wherever a workflow asks for one. Use it for work that should happen on its own. Use [Pix](/pix/) when you are working with a coding agent yourself and want Vulnetix inside that session.
 
 Software Factory turns events in your repositories into work done by agents. A pull request opens, a check fails, a scanner finds a vulnerable package, a label is added, a schedule fires: the factory matches the event to a **workflow**, starts a **run**, and walks the run through the workflow's graph. Some steps are decided by a fast classifier model, some are deterministic checks, some dispatch a **crew** of agents to a machine, and some wait for a person. The last step writes the result back to GitHub.
 
@@ -60,13 +62,27 @@ Anyone else gets `403` with `"code": "plan_locked"` and `"requiredPlan": "pro"`.
 
 | I want to | Read |
 |---|---|
+| Go from an empty tenant to a first run | [Quickstart](/software-factory/get-started/quickstart/) |
+| Look up a word these docs use | [Glossary](/software-factory/get-started/glossary/) |
+| See where each part runs before connecting my own machines | [How the pieces fit](/software-factory/get-started/architecture/) |
 | Let the factory draft pull requests on one repository only | [Autonomy](/software-factory/control/autonomy/) |
 | Run a workflow when a label is added | [Labels and commands](/software-factory/workflows/labels-and-commands/) |
 | Stop everything now | [Pause, stop and resume](/software-factory/control/pause-and-stop/) |
 | Find out why a run is held | [Holds and blackouts](/software-factory/control/holds-and-blackouts/) |
 | Cap what one run can spend | [Budgets](/software-factory/cost/budgets/) |
 | Choose which machine a crew runs on | [Hosts and placement](/software-factory/workforce/hosts-and-placement/) |
+| Build a workflow on the canvas | [The workflow builder](/software-factory/workflows/builder/) |
+| Understand why a run is sitting still | [How the engine walks a graph](/software-factory/runs/how-the-engine-runs/) |
+| Start, pause, cancel or retry a run | [Runs and steps](/software-factory/runs/runs-and-steps/) |
+| See how agent commits and comments are marked | [Bot attribution](/software-factory/evidence/attribution/) |
+| Find misconfigured GitHub workflows and settings | [GitHub misconfigurations](/software-factory/evidence/github-misconfigurations/) |
+| Run Belai from a script or CI | [Headless and one-shot runs](/software-factory/belai/headless/) |
+| Send Belai traces to my own collector | [Telemetry and tracing](/software-factory/belai/telemetry/) |
+| Build Belai from source | [Developing Belai](/software-factory/belai/contributing/) |
 | Fix a publish error like `no_trigger` | [Error codes](/software-factory/reference/validation-codes/) |
+| Find the console page for a task | [Console pages](/software-factory/reference/console-routes/) |
+| Look up an API route or an allowed value | [HTTP API](/software-factory/reference/http-api/), [Enumerations](/software-factory/reference/enums/) |
+| Fix a run, host or session that is not working | [Troubleshooting](/software-factory/reference/troubleshooting/) |
 | Check on the factory from my phone | [Calling Pix](/software-factory/pix/calling-pix/) |
 
 ## Elsewhere

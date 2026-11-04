@@ -4,8 +4,10 @@ description: What Platform IaC is, which Vulnetix configuration you can keep as 
 order: 1
 sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, vdb-site/docs/platform-iac-engine.md, terraform-provider-resolve/README.md]
 checked: [config-schemas@v1.8.0, cli@v3.166.0, vdb-site@3c0433c]
-updated: 03 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Platform IaC is for teams that want their Vulnetix settings, such as quality gates, firewall policy, members and connections, reviewed in pull requests and reproducible across organisations instead of clicked into the console. Use it to manage how Vulnetix is configured. To scan your own Terraform or Kubernetes code for misconfigurations, use [IaC scanning](/iac-scanning/).
 
 Platform IaC is Vulnetix configuration written as YAML documents, kept in a repository and checked like code. Every document has the same shape: `apiVersion: vulnetix.com/v1`, a `kind`, `metadata` and a `spec`. Each kind has a published JSON Schema, a page here with its fields and samples, and, where the engine stores it, a Terraform resource.
 

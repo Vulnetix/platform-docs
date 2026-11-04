@@ -5,8 +5,10 @@ description: What vulnetix sast scans, which rules it runs, what it writes, and 
 order: 1
 sources: [cli/cmd/specialized_scans.go, cli/cmd/scan.go, cli/internal/sast/engine.go, cli/internal/sast/kinds.go, cli/internal/sast/input.go, cli/internal/sast/language_filter.go, cli/internal/sast/loader.go]
 checked: [cli@4c8c3b7]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+SAST is for developers and reviewers who want flaws in the code they write, such as injection or unsafe calls, found on their own machine or in CI before the change merges. It reads your source, not your dependencies: use [SCA](/sca/) for vulnerabilities in the packages you depend on, and [Secrets](/secrets/) for hard-coded credentials.
 
 `vulnetix sast` runs static analysis on the source files in a directory. It evaluates the CLI's built-in Rego rules, plus any rule packs you load with `--rule`, on your machine, using the Open Policy Agent engine compiled into the binary. It does not look up dependencies, licences, secrets, containers or IaC.
 
@@ -66,6 +68,7 @@ Signed in, the run also uploads the findings as a SAST snapshot in the Vulnetix 
 | [Flags](/sast/reference/flags/) | Every flag, environment variable and exit code. |
 | [Supported languages](/sast/reference/languages/) | Language keys, file extensions and rule counts. |
 | [Output formats](/sast/reference/output-formats/) | SARIF fields, JSON report, the upload. |
+| [Troubleshooting](/sast/reference/troubleshooting/) | Problems with a scan and how to fix them. |
 | [Rules index](/sast/rules/) | Every built-in rule, filterable. |
 
 ## GitHub Actions

@@ -5,8 +5,10 @@ description: The two organization policies that fail a pipeline, the Quality Gat
 order: 1
 sources: [cli/cmd/quality_gate_enforce.go, cli/cmd/scan.go, cli/cmd/jail.go, cli/cmd/config.go, saas/prisma/models/quality-gate.prisma, saas/prisma/models/jail.prisma, vdb-site/api/main.go]
 checked: [cli@4c8c3b7, saas@50cedf37, vdb-site@1a06d67, config-schemas@9bda9e1]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Quality gates are for the people who own CI policy for an organisation and want every build held to the same rules, whatever flags a pipeline passes. Use the Quality Gate to fail a build on what one scan just found. Use Jail to hold a repository to policy over time, across every tool that reports for it, such as fixing vulnerabilities within a remediation window.
 
 Vulnetix has two organization policies that decide whether CI goes red. They answer different questions and are configured separately.
 
@@ -21,6 +23,8 @@ Vulnetix has two organization policies that decide whether CI goes red. They ans
 | CLI | `vulnetix config set quality-gate`, `config set eol-policy` | `vulnetix jail`, `jail exempt` |
 
 Both belong to the organization (the tenant), so every member of a Teams organization is held to the same policy.
+
+To set a Quality Gate, read a scan's exit code against it and then add the Jail gate, follow the [Quality gates quickstart](/quality-gates/get-started/quickstart/). Every `config set quality-gate`, `config set eol-policy` and `jail` flag is on [CLI commands](/quality-gates/reference/commands/).
 
 ## Quality Gate
 

@@ -5,8 +5,10 @@ description: The Vulnetix Vulnerability Database API serves vulnerability, explo
 order: 1
 sources: [vdb-api/main.go, vdb-api/internal/handler/openapi-v2.json, vdb-api/internal/middleware/auth.go, vdb-api/internal/middleware/ratelimit.go, cli/cmd/vdb.go]
 checked: [vdb-api@4145f0a, cli@4c8c3b71c]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+The VDB API is for developers who need vulnerability data inside their own tools, scripts and services: what affects a package, which version fixes it, whether it is exploited. Call the API when you are writing code against it. Use [`vulnetix vdb`](/vdb-api/cli/commands/) for the same routes from a terminal or a shell script without writing HTTP calls, and the [MCP server](/mcp-server/) when an AI agent is the one asking.
 
 The VDB API is a read API over the Vulnetix Vulnerability Database. You send an advisory id, a package, a purl, a CPE or another [input](/vdb-api/api/inputs/), and it answers with the vulnerability record, affected versions, fixes, exploits, KEV status, scores, detection rules and remediation guidance it holds for it.
 
@@ -70,6 +72,7 @@ The database aggregates public, vendor, government and Vulnetix-derived sources.
 - [Quickstart](/vdb-api/get-started/quickstart/): get a key and make your first queries.
 - [Endpoint reference](/vdb-api/reference/endpoints/): every v2 route, grouped by resource, with its parameters.
 - [`vulnetix vdb` commands](/vdb-api/cli/commands/): the CLI reference.
+- [Troubleshooting](/vdb-api/reference/troubleshooting/): the errors you are most likely to see, and answers that look wrong but are not.
 
 ## Platform IaC
 

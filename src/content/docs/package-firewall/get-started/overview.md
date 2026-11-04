@@ -5,8 +5,10 @@ description: What the Package Firewall proxy does, the ecosystems it fronts, whi
 order: 1
 sources: [package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/handler/ecosystem_handler.go, cli/pkg/packagefirewall/ecosystem.go, cli/cmd/package_firewall.go, cli/cmd/config.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
-updated: 03 Nov 2026
+updated: 04 Nov 2026
 ---
+
+The Package Firewall is for organisations that want to decide which package versions developers, build machines and CI can install, across every ecosystem they use. It acts at install time: a malicious, exploited or too-new version is removed from the metadata or refused before it is downloaded. [SCA](/sca/) works after the fact on the dependencies your manifests and lockfiles already declare, so use SCA to find and fix what is in a project and the firewall to stop a bad version getting in.
 
 The Package Firewall is an authenticating proxy at `https://packages.vulnetix.com`. You point a package manager at it instead of the public registry. For every request it checks your organization's credentials and add-on, fetches the document from an upstream mirror, applies your organization's policy and curation lists, and then serves, filters or refuses the response.
 
@@ -66,7 +68,8 @@ Details of the request path are on [How it works](/package-firewall/get-started/
 1. Sign in with the CLI: `vulnetix auth login`.
 2. Point a package manager at the firewall, for example `vulnetix package-firewall npm`. See [Quickstart](/package-firewall/get-started/quickstart/).
 3. Set a policy: `vulnetix config set package-firewall --block-malware true --block-kev true`. See [Policy settings](/package-firewall/policy/settings/).
-4. Watch decisions in the [decision log](/package-firewall/operations/decision-log/).
+4. Allow or deny named packages and versions with [allow and deny lists](/package-firewall/curation/lists/), and work the [review queue](/package-firewall/curation/review/).
+5. Watch decisions in the [decision log](/package-firewall/operations/decision-log/).
 
 ## Platform IaC
 

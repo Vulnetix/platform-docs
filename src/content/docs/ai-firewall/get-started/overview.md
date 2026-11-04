@@ -11,8 +11,10 @@ sources:
   - vdb-api/internal/handler/ai_firewall_rules.go
   - website/src/pages/resolve/ai-firewall-tabs.ts
 checked: [ai-firewall@339de55, vdb-api@4145f0a, website@ad775f3]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+The AI Firewall is for organisations whose developers and pipelines send prompts to LLM providers through coding agents, SDKs and CI jobs. It puts one policy in front of that traffic: which providers and models may be used, which tools, MCP servers and skills an agent may carry, and which content, such as secrets, must never leave. Use it to control what goes to a model. Use the [MCP server](/mcp-server/) for the opposite direction: it is a tool your agent calls to look up vulnerability data, and it applies no policy to your traffic.
 
 The AI Firewall is a gateway at `https://guardrails.vulnetix.com`. You point an LLM client's base URL at it instead of at the provider and give it your Vulnetix API key instead of the provider key. The gateway checks the request against your organisation's policy, swaps in the provider key it holds for you, and forwards the request. Streaming responses are relayed as server-sent events.
 
@@ -90,6 +92,9 @@ Older links keep working: `#usage` and `#byok` open Connect, `#providers` and `#
 | Allow only some models | [Models](/ai-firewall/policy/models/) |
 | Block secrets in prompts | [Block secrets](/ai-firewall/policy/block-secrets/) |
 | Stop an agent being offered a tool | [Tools](/ai-firewall/policy/tools/) |
+| Understand the order policy is checked in | [How policy is evaluated](/ai-firewall/policy/overview/) |
+| See which tools and MCP servers my agents carry | [Capability inventory](/ai-firewall/operations/inventory/) |
+| Approve or deny a held request | [Reviewing held capabilities](/ai-firewall/operations/held-requests/) |
 | Keep the policy in git | [Policy as code](/ai-firewall/cli/policy-file-workflow/) |
 | Find out why a request was refused | [Error reference](/ai-firewall/reference/errors/) |
 | See what the gateway records | [Data handling](/ai-firewall/security/data-handling/) |

@@ -2,12 +2,12 @@
 title: Allow and deny lists
 description: How Package Firewall allow and deny entries match packages and versions, namespace entries for your own packages, and what an allow entry waives.
 order: 1
-sources: [package-firewall/internal/types/types.go, package-firewall/internal/policy/checker.go, package-firewall/internal/handler/curation_gate.go, package-firewall/internal/handler/proxy.go, vdb-site/api/internal/handler/package_firewall_namespaces.go, vdb-site/api/internal/handler/package_firewall_lists.go, saas/prisma/models/package-firewall.prisma]
+sources: [package-firewall/internal/types/types.go, package-firewall/internal/policy/condition.go, package-firewall/internal/policy/checker.go, package-firewall/internal/handler/curation_gate.go, package-firewall/internal/handler/proxy.go, vdb-site/api/internal/handler/package_firewall_namespaces.go, vdb-site/api/internal/handler/package_firewall_lists.go, saas/prisma/models/package-firewall.prisma]
 checked: [package-firewall@77cd1a5, vdb-site@1a06d67, saas@50cedf37]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
 
-Each organization has one allow list and one deny list, curated on the console's **Curation** tab at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall#curation). There is no CLI for them yet.
+Each organization has one allow list and one deny list, curated on the console's **Curation** tab at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall#curation). They can also be written as a [`PackageList`](/platform-iac/kinds/package-list/) document and applied with `vulnetix config apply`.
 
 ## Entry fields
 
@@ -73,6 +73,40 @@ An allow entry whose package name ends in `/*` or `:*` covers every package unde
 
 > [!CAREFUL] Namespace entries and the cooldown
 > A namespace entry such as `github.com/acme/*` lets a release you cut an hour ago through the cooldown on Go. On npm (`@acme/*`) and the other filtered ecosystems it does not today: the version is still removed from the metadata until the cooldown passes. Maven has no cooldown, so `com.acme:*` only matters for the other rules.
+
+## Conditional entries
+
+An entry declared with the [`PackageList`](/platform-iac/kinds/package-list/) kind can carry a `when`: a CEL condition over the requested version. The entry then applies only to versions for which it is true. A conditional deny entry blocks only those versions, and a conditional allow entry waives only for them. Without `when`, the entry applies to every version it names.
+
+```yaml
+apiVersion: vulnetix.com/v1
+kind: PackageList
+metadata:
+  name: reviewed
+spec:
+  list: allow
+  entries:
+    - purl: pkg:pypi/requests@2.32.3
+      reason: CVSS on this release is a false positive for our use.
+      when: cvss < 9.0 && !kev
+```
+
+The variables are listed on the `PackageList` page, and the functions and limits on [CEL rule expressions](/platform-iac/reference/cel/). In the firewall, the ones that carry a value are `purl`, `ecosystem`, `name`, `version`, `malware`, `cvss`, `epss`, `cess`, `kev`, `eol`, `exploitMaturity`, `badActor` and `now`.
+
+> [!CAREFUL] ageDays and versionLag are not known when a condition runs
+> The firewall evaluates `when` from the version's threat signals, which do not include the publish time or the release count. `ageDays` is always `-1` and `versionLag` always `0`. A condition such as `ageDays < 3` is therefore always true, and `versionLag > 5` always false. The cooldown and version-lag rules are decided separately and are never waived by a conditional allow entry.
+
+A conditional entry is used only where the version's signals are in hand. These skip it, as if it were not there:
+
+- the whole-package gates, such as the bad-actor gate and the allowlist-only gate
+- the cooldown and version-lag waivers, and the bad-actor waiver
+- a deny entry for an exact version the Vulnetix API holds no signals for
+
+A condition that fails to evaluate is logged and the entry does not apply: a deny entry does not block, and an allow entry does not waive.
+
+## Decisions in Guardian
+
+Every firewall decision is also sent to [Guardian](/siem/), the Vulnetix SIEM, for organisations with Guardian active. It needs no token and does not count against the ingest cap. Decisions land in the `product_events` table with `source` `package-firewall`. See [Vulnetix products](/siem/sources/events/#vulnetix-products).
 
 ## Usage tracking
 

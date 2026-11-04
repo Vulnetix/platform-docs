@@ -5,8 +5,10 @@ description: Sign the SBOMs the Vulnetix CLI writes with your CI runner's own OI
 order: 1
 sources: [cli/cmd/attest.go, cli/internal/attest/verify.go, cli/internal/attest/roots.go, cli/internal/cdxsign/sign.go, vdb-cyclonedx/fulcio.go]
 checked: [cli@4c8c3b71c, vdb-cyclonedx@eaf787c]
-updated: 02 Nov 2026
+updated: 04 Nov 2026
 ---
+
+Attestation is for teams that publish SBOMs and other artefacts and need consumers to trust where they came from, and for teams that consume artefacts and need to check that before they use them. It answers who produced a document and what its provenance claims, not what the document says. An [SBOM](/sbom/) lists the components, a [VEX](/vex/) document states whether each vulnerability affects you, and attestation signs and verifies either one.
 
 The CLI signs documents with the identity of the machine that ran it, using public Sigstore, and verifies signatures and provenance on artefacts you consume. Nothing here uses a Vulnetix credential, and the results verify with stock `cosign`.
 
@@ -37,6 +39,8 @@ jobs:
 ```
 
 The job assumes `vulnetix` is on the runner's `PATH`; see [installing the CLI](/cli/). `github.workflow_ref` is `owner/repo/.github/workflows/<file>@<ref>`, which is the certificate identity Fulcio issues to a GitHub Actions job.
+
+To sign and verify your first SBOM step by step, follow the [Attestation quickstart](/attestation/get-started/quickstart/). When signing or verification fails, see [Troubleshooting](/attestation/reference/troubleshooting/).
 
 ## What is signed with what
 
