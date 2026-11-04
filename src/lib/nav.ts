@@ -43,15 +43,19 @@ const SOFTWARE_FACTORY: Segment = {
     ],
   };
 
-const ORDER = [
-  'cli', 'platform-iac', 'software-factory',
-  'sca', 'sast', 'secrets', 'iac-scanning', 'malware',
-  'sbom', 'vex', 'attestation', 'tea',
-  'package-firewall', 'quality-gates', 'ai-firewall',
-  'pix', 'mcp-server', 'vscode', 'browser-extension',
-  'vulnerability-management', 'virtual-patching', 'siem', 'cloud-security',
-  'compliance', 'organization', 'vdb-api',
+// The home page lists the segments under these headings, in this order.
+export interface SegmentGroup { title: string; ids: string[] }
+export const GROUPS: SegmentGroup[] = [
+  { title: 'CLI, configuration as code and Software Factory', ids: ['cli', 'platform-iac', 'software-factory'] },
+  { title: 'Scanners', ids: ['sca', 'sast', 'secrets', 'iac-scanning', 'malware'] },
+  { title: 'SBOM, VEX and attestation', ids: ['sbom', 'vex', 'attestation', 'tea'] },
+  { title: 'Firewalls and policy gates', ids: ['package-firewall', 'quality-gates', 'ai-firewall'] },
+  { title: 'Agents, editors and the browser', ids: ['pix', 'mcp-server', 'vscode', 'browser-extension'] },
+  { title: 'Findings, runtime and cloud', ids: ['vulnerability-management', 'virtual-patching', 'siem', 'cloud-security'] },
+  { title: 'Compliance, your organization and the VDB API', ids: ['compliance', 'organization', 'vdb-api'] },
 ];
+
+const ORDER = GROUPS.flatMap((g) => g.ids);
 
 const files = import.meta.glob<Segment>('../segments/*.json', { eager: true, import: 'default' });
 const rank = (id: string) => {
@@ -61,6 +65,12 @@ const rank = (id: string) => {
 
 export const SEGMENTS: Segment[] = [SOFTWARE_FACTORY, ...Object.values(files)]
   .sort((a, b) => rank(a.id) - rank(b.id) || a.title.localeCompare(b.title));
+
+// GROUPS with their segments; a segment in no group is listed under "More".
+export const SEGMENT_GROUPS: { title: string; segments: Segment[] }[] = [
+  ...GROUPS.map((g) => ({ title: g.title, segments: SEGMENTS.filter((s) => g.ids.includes(s.id)) })),
+  { title: 'More', segments: SEGMENTS.filter((s) => !ORDER.includes(s.id)) },
+].filter((g) => g.segments.length);
 
 export const REPO_URL = 'https://github.com/Vulnetix/platform-docs';
 export const CONSOLE_URL = 'https://www.vulnetix.com/';

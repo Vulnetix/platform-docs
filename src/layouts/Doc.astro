@@ -1,7 +1,7 @@
 ---
 import '../styles/docs.css';
 import { getCollection } from 'astro:content';
-import { SEGMENTS, REPO_URL, CONSOLE_URL, HOME_ID, hrefFor, segmentOf } from '../lib/nav';
+import { SEGMENT_GROUPS, REPO_URL, CONSOLE_URL, HOME_ID, hrefFor, segmentOf } from '../lib/nav';
 import Search from '../components/Search.astro';
 
 interface Props {
@@ -44,7 +44,7 @@ const groups = segment
         .filter((d) => d.id.split('/')[0] === segment.id && d.id.split('/')[1] === s.id && listed(d))
         .map((d, n, all) => ({ id: d.id, label: d.data.nav ?? d.data.title, sub: d.id.split('/').length > 3, group: d.data.group && d.data.group !== all[n - 1]?.data.group ? d.data.group : undefined })),
     })).filter((g) => g.pages.length)
-  : [{ id: 'products', title: 'Products', pages: SEGMENTS.map((s) => ({ id: s.home, label: s.title, sub: false })) }];
+  : SEGMENT_GROUPS.map((g) => ({ id: g.title, title: g.title, pages: g.segments.map((s) => ({ id: s.home, label: s.title, sub: false, group: undefined })) }));
 const flat = segment ? groups.flatMap((g) => g.pages) : [];
 const i = flat.findIndex((p) => p.id === id);
 const prev = i > 0 ? flat[i - 1] : null;

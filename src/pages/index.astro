@@ -1,14 +1,25 @@
 ---
 import Doc from '../layouts/Doc.astro';
-import { HOME_ID, SEGMENTS, hrefFor } from '../lib/nav';
+import { HOME_ID, SEGMENT_GROUPS, hrefFor } from '../lib/nav';
 ---
 <Doc id={HOME_ID} title="Vulnetix documentation" description="User and reference documentation for every Vulnetix product.">
-  <table>
-    <thead><tr><th>Product</th><th>What it covers</th></tr></thead>
-    <tbody>
-      {SEGMENTS.map((s) => (
-        <tr><td><a href={hrefFor(s.home)}>{s.title}</a></td><td>{s.summary}</td></tr>
-      ))}
-    </tbody>
-  </table>
+  <h2 id="start-here">Start here</h2>
+  <ol>
+    <li><a href="/cli/get-started/install/">Install the CLI</a> with the install script, Homebrew, Scoop or a direct download.</li>
+    <li><a href="/cli/get-started/quickstart/">Run your first scan</a>: <code>vulnetix auth login</code>, then <code>vulnetix scan</code> from the project root.</li>
+    <li><a href="https://www.vulnetix.com/resolve/">Open the Resolve Platform</a> to see the scan's findings, triage them and set policy for your organization.</li>
+  </ol>
+  {SEGMENT_GROUPS.map((g) => (
+    <>
+      <h2 id={g.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}>{g.title}</h2>
+      <table>
+        <thead><tr><th>Product</th><th>What it covers</th></tr></thead>
+        <tbody>
+          {g.segments.map((s) => (
+            <tr><td><a href={hrefFor(s.home)}>{s.title}</a></td><td>{s.summary}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  ))}
 </Doc>
