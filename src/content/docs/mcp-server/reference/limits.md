@@ -27,7 +27,7 @@ updated: 02 Nov 2026
 | `vdb_request` `maxBytes` range | 1024 to 1,048,576 | input schema |
 | Device-login code lifetime | 300 s | `DEVICE_TTL_SECONDS` |
 | Device-login poll interval | 5 s | `DEVICE_POLL_INTERVAL_SECONDS` |
-| Device-login vdb-site call timeout | 10 s | `AbortSignal.timeout(10_000)` |
+| Device-login API call timeout | 10 s | `AbortSignal.timeout(10_000)` |
 | Edge flood guard | 100 requests per 10 s per colo and source IP, 10 s block | `terraform/variables.tf` defaults |
 
 Retries apply only to GETs, and only on a network error or a 5xx other than 501. A 4xx, including 429, is never retried. Retries do not count against the 12-call budget.

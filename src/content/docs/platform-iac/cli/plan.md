@@ -129,7 +129,7 @@ The warning `metadata_not_stored` means `metadata.labels` and `metadata.annotati
 | `2` | Usage: no documents found, no manager could be detected, `-o` is not `text` or `json`, or no credential at all. |
 | `3` | The plan has blocking conditions. The plan is still printed. |
 
-Code 3 is `ExitPlanBlocked` in `cmd/exit_codes.go`. It shares the number with `vulnetix jail`'s indeterminate verdict: in both, the code under test is fine and the pipeline's configuration needs fixing.
+Code 3 means the plan was blocked. It shares the number with `vulnetix jail`'s indeterminate verdict: in both, the code under test is fine and the pipeline's configuration needs fixing.
 
 ## Examples
 

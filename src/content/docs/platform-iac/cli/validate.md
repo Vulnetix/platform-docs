@@ -75,7 +75,7 @@ The schema URL in a failure shows `v0.0.0-dev`: it is the `$id` of the embedded 
 | `0` | Every document is valid, or there were no documents. |
 | `1` | Any document is invalid or duplicated; a file could not be read or parsed as YAML (`Error: <path>: document <n>: yaml: ...`); a `-f` path does not exist (`Error: stat <path>: no such file or directory`); an unknown flag or a positional argument. |
 
-The CLI defines `2` (usage) and `3` (indeterminate) in `cmd/exit_codes.go`, but these commands do not use them. A bad flag exits 1.
+These commands do not use codes `2` and `3`. A bad flag exits `1`.
 
 ## Which files are Platform IaC documents
 

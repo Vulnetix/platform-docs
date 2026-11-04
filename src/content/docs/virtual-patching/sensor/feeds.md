@@ -54,7 +54,7 @@ On the sensor, a list line is a kind and a value: `d` a domain, `i` an IPv4 or I
 
 ## Catalog
 
-The catalog is a table in vdb-site (`api/internal/handler/sensor_feed_catalog.go`), served at `GET /v1/runtime/feeds/catalog` to a signed-in person or a sensor credential. It has 21 Vulnetix entries, 23 community entries and 5 unavailable entries. The indicator counts for the Vulnetix rows are what `https://vulnetix.com/malscan-stix/index.json` listed when the table was written; the console shows the count from the last fetch.
+The catalog is built into the Vulnetix API, served at `GET /v1/runtime/feeds/catalog` to a signed-in person or a sensor credential. It has 21 Vulnetix entries, 23 community entries and 5 unavailable entries. The indicator counts for the Vulnetix rows are what `https://vulnetix.com/malscan-stix/index.json` listed when the table was written; the console shows the count from the last fetch.
 
 | Format | Parsed as |
 |---|---|

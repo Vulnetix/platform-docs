@@ -7,7 +7,7 @@ checked: [cli@24498404a]
 updated: 02 Nov 2026
 ---
 
-The codes are defined in `cmd/exit_codes.go` and treated as a contract: changing what one means is a breaking change.
+The codes are a contract: what each one means will not change within a major version.
 
 | Code | Name | Meaning | Produced by |
 |---|---|---|---|

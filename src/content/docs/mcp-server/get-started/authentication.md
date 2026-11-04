@@ -34,7 +34,7 @@ Three tools work with no credential, so a user can get one without leaving the c
 | Tool | Does |
 |---|---|
 | `vulnetix_auth_status` | Says whether the request carried a parseable credential, its `scheme` and `orgId` |
-| `vulnetix_auth_start` | Starts an RFC 8628 device grant at vdb-site and returns `verification_uri`, `user_code`, `expires_in_seconds`, `poll_interval_seconds` and an opaque `handle` |
+| `vulnetix_auth_start` | Starts an RFC 8628 device grant with the Vulnetix API and returns `verification_uri`, `user_code`, `expires_in_seconds`, `poll_interval_seconds` and an opaque `handle` |
 | `vulnetix_auth_poll` | Takes the `handle`, redeems the grant once, and returns `status: "approved"` with `org_id` and `authorization_header`, or `status: "pending"` |
 
 The flow:
@@ -51,7 +51,7 @@ The code expires after 300 seconds. A handle older than that returns an error te
 
 ### What the approval page shows
 
-`vulnetix_auth_start` sends the client's self-reported name (`clientInfo.title` or `clientInfo.name`) to vdb-site as `client_name`, so the page names the app that asked rather than "the Vulnetix CLI". That name is unverified: anyone can start a grant and claim any name. Approve only a sign-in you started.
+`vulnetix_auth_start` sends the client's self-reported name (`clientInfo.title` or `clientInfo.name`) to the Vulnetix API as `client_name`, so the page names the app that asked rather than "the Vulnetix CLI". That name is unverified: anyone can start a grant and claim any name. Approve only a sign-in you started.
 
 ### Why the handle is encrypted
 

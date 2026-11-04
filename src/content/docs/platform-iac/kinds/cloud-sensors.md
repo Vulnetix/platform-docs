@@ -186,7 +186,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 - Only the sources in the schema are written, and only rows whose state changes.
 - `deploy: true` queues the stacks of the accounts the document covers (`"*"`: every enabled account without an override).
 - Deleting an override sends the account back to `"*"`. Deleting `"*"` turns every source off.
-- A per-account document needs saas migration `20261226020000_cloud_native_source_per_account`. Until it runs, plan blocks the document with the migration's name, and `"*"` works as before.
+- A per-account document needs the platform update `20261226020000_cloud_native_source_per_account`. Until it runs, plan blocks the document with the update's name, and `"*"` works as before.
 
 ## Terraform and OpenTofu
 

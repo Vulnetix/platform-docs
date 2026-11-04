@@ -362,7 +362,7 @@ The expressions are CEL over the `finding` context, so a policy can use any find
 - A singleton, named `default`. The engine stores only what differs from the default policy, so a document that spells a default reads back without it.
 - Plan compiles every expression against the `finding` context and refuses unknown values. A stored policy that no longer compiles is not applied: the tenant decides with the default and the routes report a `warning`.
 - Delete deletes the row, which returns the tenant to the default policy.
-- It needs saas migration `20261228010000_ssvc_policy`. Until it runs, a tenant decides with the default policy, and a write or an apply is refused naming the migration.
+- It needs the platform update `20261228010000_ssvc_policy`. Until it runs, a tenant decides with the default policy, and a write or an apply is refused naming the update.
 - Decisions are made when they are read, from the same facts as the risk ranking, with the repository's asset record. Nothing is stored per finding, so a policy change shows at once. The routes are `GET`, `PUT` and `DELETE /v1/ssvc/policy`, `POST /v1/ssvc/decide` and `GET /v1/ssvc/summary`.
 
 ## In the CLI scan and the remediation plan

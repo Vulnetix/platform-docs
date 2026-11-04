@@ -107,8 +107,8 @@ vulnetix config set eol-policy --this-quarter-severity high --retired-severity c
 `skip` means a dependency in that bucket is not reported. Only the flags you pass are changed. These values have no `null`: they always have a value, the default until you set one.
 
 > [!CAREFUL] The buckets are read in two places, with different rules
-> - **On the platform.** Once the organization has a quality gate record, every uploaded scan gets a synthetic `VULNETIX-EOL` finding for each end-of-life dependency, at its bucket's severity (`vdb-api/internal/handler/cli_persist_eol.go`). The first write of either `set quality-gate` or `set eol-policy` creates that record, so either command opts the organization in.
-> - **In the CLI gate.** `vulnetix scan` reads the buckets only when `--block-eol` is in effect, from the scan flag or from `set quality-gate --block-eol true` (`cli/cmd/quality_gate_enforce.go`). Without it, EOL dependencies do not fail the build.
+> - **On the platform.** Once the organization has a quality gate record, every uploaded scan gets a synthetic `VULNETIX-EOL` finding for each end-of-life dependency, at its bucket's severity. The first write of either `set quality-gate` or `set eol-policy` creates that record, so either command opts the organization in.
+> - **In the CLI gate.** `vulnetix scan` reads the buckets only when `--block-eol` is in effect, from the scan flag or from `set quality-gate --block-eol true`. Without it, EOL dependencies do not fail the build.
 >
 > The `QualityGate` schema's `spec.eol.block` description ("The horizon severities are only read when this is true") describes only the CLI gate.
 

@@ -52,17 +52,9 @@ Cold start, the first request against a tenant whose index is not built: 91 ms. 
 |---|---|---|---|
 | Anonymous read of a private object | `401` with a Bearer challenge | `404 OBJECT_UNKNOWN`, the same as an object that does not exist | The anonymous index cannot tell a private object from a missing one, and answering `404` stops a caller probing another tenant's UUIDs. A caller with a credential is unaffected. |
 
-## Run it yourself
+## How the results are produced
 
-The suite lives in `vdb-site/api/internal/teaconformance`. The credential is read from the environment so it never lands in shell history or a report.
-
-```bash
-cd vdb-site
-export TEA_AUTH="ApiKey $VULNETIX_ORG_ID:$VULNETIX_API_KEY"
-just tea-conformance 1.0.0                                          # https://www.vulnetix.com/tea/v1.0.0
-just tea-conformance 1.0.0 https://www.vulnetix.com/tea/public/v1.0.0
-just tea-conformance 0.4.0
-```
+Vulnetix runs a conformance suite against the public server for each specification version above, authenticated as an organisation and anonymously. The suite is part of the server's own tests and is not published. The results on this page are from that run.
 
 Reports are written to `docs/tea/` (override with `TEA_REPORT_DIR`). Point the root at any TEA server to test it.
 

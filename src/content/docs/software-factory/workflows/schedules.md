@@ -99,4 +99,4 @@ A fire that is not due yet, a duplicate, a disabled schedule, or an overlap that
 
 Workflow schedule ids are the trigger's uuid. Agent schedule ids look like `host_<hostId>_<sid>`. Hosts manage their own agent schedules at `/v1/belai/hosts/{hostId}/schedules`. See [Host schedules](/software-factory/workforce/host-schedules/).
 
-Schedulers fire runs at `POST /v1/factory/internal/trigger`, outside the signed-in API. The credential is a signed request body and an internal key header, not a console session. You do not call it yourself.
+A schedule fires its run from the Vulnetix side, so no machine of yours needs to be awake for it.

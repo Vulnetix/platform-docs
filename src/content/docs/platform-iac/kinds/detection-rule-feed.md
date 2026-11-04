@@ -264,7 +264,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 - The spec is replaced whole. Entries are a set keyed by rule table, rule type and rule, each checked to exist and to fit the format, as the console's add does.
 - `publish: true` publishes on every apply that changes the feed. `publish: false` revokes a published feed. Publishing writes S3 from inside the apply transaction, after the feed's rows: a later failure in the same apply rolls the rows back but not the files, and the next publish or revoke of that feed replaces them.
 - The plan gate and the per-type feed cap are the console's.
-- `selector.when` is stored in `DetectionRuleFeed.selector` and evaluated at every publish; see [where each `when` runs](/platform-iac/reference/cel/#where-each-expression-is-evaluated). It needs saas migration `20261226010000_detection_rule_feed_selector`. Until it runs, plan refuses a document with a selector and names the migration.
+- `selector.when` is stored in `DetectionRuleFeed.selector` and evaluated at every publish; see [where each `when` runs](/platform-iac/reference/cel/#where-each-expression-is-evaluated). It needs the platform update `20261226010000_detection_rule_feed_selector`. Until it runs, plan refuses a document with a selector and names the update.
 - A `SNORT_YARA` feed takes entries only: the third-party catalogue has no CVE data, so plan refuses a selector on one.
 
 ## Terraform and OpenTofu

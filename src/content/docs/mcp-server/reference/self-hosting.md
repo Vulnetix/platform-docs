@@ -51,7 +51,7 @@ Set in `vars` in `wrangler.jsonc`.
 | `CF_AIG_GATEWAY` | AI Gateway name | `default` | `default` |
 | `CF_AIG_MODEL` | `{provider}/{model}` | `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast` | same |
 | `VULNETIX_API_URL` | vdb-api base URL | `https://api.vdb.vulnetix.com` | a CloudFront hostname (see below) |
-| `VULNETIX_WEB_URL` | vdb-site base URL for the device grant | `https://www.vulnetix.com` | unset |
+| `VULNETIX_WEB_URL` | Vulnetix web app base URL for the device grant | `https://www.vulnetix.com` | unset |
 | `ALLOWED_HOSTS` | comma-separated hostnames | none | unset |
 
 Add your own hostname to `ALLOWED_HOSTS`, or every request is refused with 403 by the `Host` check.

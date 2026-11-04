@@ -18,7 +18,7 @@ A way logs reach Guardian, backed by a Guardian ingest token of the same type. T
 | Group | [SIEM](/platform-iac/kinds/catalogue/#siem) |
 | Status | **Served.** The [config engine](/platform-iac/reference/engine/) plans and applies it. |
 | Objects per tenant | many, keyed by `metadata.name` |
-| Token and role | An owner, or a service account with the developer role, or an Authentik access token for either. The kind is written in Guardian, which vdb-site vouches to for the caller; a member can read it but not change it. See [Credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation). |
+| Token and role | An owner, or a service account with the developer role, or an Authentik access token for either. The kind is written in Guardian, which the Vulnetix API vouches to for the caller; a member can read it but not change it. See [Credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation). |
 | Secret fields | `spec.cloudflare.apiToken`: read on the client from `valueFrom`, sent once, never exported or shown in a plan |
 | Terraform resource | [`vulnetix_log_source`](/platform-iac/terraform/resources/#vulnetix_log_source), imported by name (see [Terraform and OpenTofu](#terraform-and-opentofu)) |
 | CLI | [`vulnetix config apply`](/platform-iac/cli/apply/), CLI v3.165.1 and later. |

@@ -69,7 +69,7 @@ Pix follows the sessions it started while the call is open, and speaks up when o
 
 ## Memory
 
-Ask Pix to remember something, such as "always use plan mode on vdb-site", and it keeps a note for future calls. The 15 most recent notes go into each call. Ask it to forget one and it reads the note back first. See [Call history and memory](/software-factory/pix/call-history/).
+Ask Pix to remember something, such as "always use plan mode on the payments repository", and it keeps a note for future calls. The 15 most recent notes go into each call. Ask it to forget one and it reads the note back first. See [Call history and memory](/software-factory/pix/call-history/).
 
 ## Time and place
 

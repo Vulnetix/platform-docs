@@ -19,7 +19,7 @@ A state step points at data the run reads or writes. It makes the data part of t
 | Kind | What the step does |
 |---|---|
 | `s3_object` | Writes `state/<ref>.json` under the run's storage folder, holding the run, repository, node and time. |
-| `postgres_table` | Accepted by the validator, but the engine does not support it: the step is skipped, which ends its branch. |
+| `postgres_table` | Not available. A graph that uses it saves, but the step is skipped when it runs, which ends its branch. Use `s3_object` or `kanban_card`. |
 | `kanban_card` | Makes the card named by `ref` (or finds it if it exists), labelled `factory` and `wf-<slug>`. |
 
 The run page lists the storage folders that hold a step's output and the rows that belong to the run, under Storage.

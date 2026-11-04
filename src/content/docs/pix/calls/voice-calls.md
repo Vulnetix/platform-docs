@@ -89,7 +89,7 @@ A call is readable by the person who made it, and by the organisation's owners a
 
 ## Notes between calls
 
-Pix keeps a note only when you ask it to remember something or state a lasting preference ("always use plan mode on vdb-site").
+Pix keeps a note only when you ask it to remember something or state a lasting preference ("always use plan mode on the payments repository").
 
 | Rule | Value |
 |---|---|

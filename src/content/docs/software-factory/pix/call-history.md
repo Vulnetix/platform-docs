@@ -24,7 +24,7 @@ You can give a thumbs up or down on each of Pix's replies; a thumbs down offers 
 
 ## Memory
 
-Pix keeps notes between calls only when you ask, or when you state a lasting preference: "remember that I always want plan mode on vdb-site". It can search them and delete one when you ask, saying which note first. The 15 most recent notes go into each call. Notes never hold anything Pix overheard; only what you asked it to keep or told it as a standing preference.
+Pix keeps notes between calls only when you ask, or when you state a lasting preference: "remember that I always want plan mode on the payments repository". It can search them and delete one when you ask, saying which note first. The 15 most recent notes go into each call. Notes never hold anything Pix overheard; only what you asked it to keep or told it as a standing preference.
 
 > [!WHY] Why Pix remembers only on request
 > A call often includes things you would not want repeated next week. Keeping only what you ask for means you always know what Pix knows.

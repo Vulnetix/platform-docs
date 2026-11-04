@@ -18,7 +18,7 @@ A Guardian saved search. It is the source of a ScheduledReport, an AlertTrigger,
 | Group | [SIEM](/platform-iac/kinds/catalogue/#siem) |
 | Status | **Served.** The [config engine](/platform-iac/reference/engine/) plans and applies it. |
 | Objects per tenant | many, keyed by `metadata.name` |
-| Token and role | An owner, or a service account with the developer role, or an Authentik access token for either. The kind is written in Guardian, which vdb-site vouches to for the caller; a member can read it but not change it. See [Credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation). |
+| Token and role | An owner, or a service account with the developer role, or an Authentik access token for either. The kind is written in Guardian, which the Vulnetix API vouches to for the caller; a member can read it but not change it. See [Credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation). |
 | Terraform resource | [`vulnetix_saved_search`](/platform-iac/terraform/resources/#vulnetix_saved_search), imported by name (see [Terraform and OpenTofu](#terraform-and-opentofu)) |
 | CLI | [`vulnetix config apply`](/platform-iac/cli/apply/), CLI v3.165.1 and later. |
 | Pinned schema | [`v1.18.0/SavedSearch.schema.json`](https://github.com/Vulnetix/config-schemas/releases/download/v1.18.0/SavedSearch.schema.json) |

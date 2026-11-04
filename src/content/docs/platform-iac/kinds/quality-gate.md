@@ -203,10 +203,10 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 | <span id="spec-scaAutofix-maxMajorBump"></span>`spec.scaAutofix.maxMajorBump` | integer | no |  | >= 0 | The most major versions a fix may cross: 0 keeps fixes within the current major, N allows up to N. Any whole number from 0 up, with no upper limit. The --sca-autofix-max-major-bump flag also takes a negative number for no limit, but the gate cannot store one, and a value set here overrides the flag, so a tenant that wants no limit leaves this out. |
 
 > [!CAREFUL] `spec.versionLag`
-> The schema description says "more than this many releases behind the newest". The CLI gate does the opposite: `vulnetix scan --version-lag N` fails a dependency whose installed version is one of the N most recently published versions (`cli/cmd/scan.go`). The CLI behaviour is what runs. A schema fix is pending in `Vulnetix/config-schemas`.
+> The schema description says "more than this many releases behind the newest". The CLI gate does the opposite: `vulnetix scan --version-lag N` fails a dependency whose installed version is one of the N most recently published versions. The CLI behaviour is what runs.
 
 > [!CAREFUL] `spec.eol.block`
-> The description is true of the CLI gate only: `vulnetix scan` reads the horizon severities only when the EOL gate is on. On the platform, once the organization has a quality gate record, uploaded scans get a synthetic `VULNETIX-EOL` finding at the horizon severity whatever `block` says (`vdb-api/internal/handler/cli_persist_eol.go`).
+> The description is true of the CLI gate only: `vulnetix scan` reads the horizon severities only when the EOL gate is on. On the platform, once the organization has a quality gate record, uploaded scans get a synthetic `VULNETIX-EOL` finding at the horizon severity whatever `block` says.
 
 > [!CAREFUL] `spec.scaAutofix.maxMajorBump`
 > The `--sca-autofix-max-major-bump` scan flag also accepts a negative number, meaning no limit. The schema has `minimum: 0`, so a document cannot express "no limit"; leave the field out to keep the flag in charge.

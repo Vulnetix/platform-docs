@@ -34,7 +34,7 @@ Two keys are involved. Your applications hold the **Vulnetix API key** and send 
 | Principal | KMS permissions | Why |
 |---|---|---|
 | Gateway task role | `Decrypt` | Decrypts a key to send it upstream |
-| Resolve Platform API (vdb-site) task role | `Encrypt`, `Decrypt`, `DescribeKey` | Writes keys and vault entries; the vault verifies and rotates entries |
+| Vulnetix API task role | `Encrypt`, `Decrypt`, `DescribeKey` | Writes keys and vault entries; the vault verifies and rotates entries |
 | VDB API task role | `Decrypt`, `DescribeKey` | Verifies Vulnetix API keys, whose HMAC secrets are encrypted under the same key |
 | AWS account root | `kms:*` | Administration and break-glass |
 

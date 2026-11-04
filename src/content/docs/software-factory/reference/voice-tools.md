@@ -36,7 +36,7 @@ The tools Pix can call during a voice call. Pix speaks only figures these tools 
 | <span id="propose_stop"></span>`propose_stop` | Prepare to stop a running session and get the read-back. |
 | <span id="queue_flow"></span>`queue_flow` | Whether a queue is growing: open now, the server's trend against the start of the window, work in against work done, typical wait and the oldest item. stage "queue" is every checkpoint plus queued runs and sessions. |
 | <span id="recall"></span>`recall` | Search the notes kept from earlier calls. |
-| <span id="remember"></span>`remember` | Keep a note for future calls: a preference, a standing instruction or a fact the caller wants kept ("always use plan mode on vdb-site"). Only when they ask you to remember, or state a lasting preference. |
+| <span id="remember"></span>`remember` | Keep a note for future calls: a preference, a standing instruction or a fact the caller wants kept ("always use plan mode on the payments repository"). Only when they ask you to remember, or state a lasting preference. |
 | <span id="repo_activity"></span>`repo_activity` | Everything recent on one repository: session totals, factory runs, open findings, SLSA level. |
 | <span id="run_facts"></span>`run_facts` | One factory run: its steps and their status, and its PR. |
 | <span id="send_followup"></span>`send_followup` | Send a message to a running session's agent, after reading it back to the caller. |

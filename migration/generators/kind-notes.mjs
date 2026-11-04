@@ -141,9 +141,9 @@ return {
       'One per tenant, so `metadata.name` is always `default`. Each `spec` field is optional: a field you leave out leaves the matching `vulnetix scan` flag in charge. A field you set overrides that flag for every authenticated scan in the organization. The engine merges: applying a document changes only the fields it sets.',
     fields: {
       'spec.versionLag':
-        'The schema description says "more than this many releases behind the newest". The CLI gate does the opposite: `vulnetix scan --version-lag N` fails a dependency whose installed version is one of the N most recently published versions (`cli/cmd/scan.go`). The CLI behaviour is what runs. A schema fix is pending in `Vulnetix/config-schemas`.',
+        'The schema description says "more than this many releases behind the newest". The CLI gate does the opposite: `vulnetix scan --version-lag N` fails a dependency whose installed version is one of the N most recently published versions. The CLI behaviour is what runs.',
       'spec.eol.block':
-        'The description is true of the CLI gate only: `vulnetix scan` reads the horizon severities only when the EOL gate is on. On the platform, once the organization has a quality gate record, uploaded scans get a synthetic `VULNETIX-EOL` finding at the horizon severity whatever `block` says (`vdb-api/internal/handler/cli_persist_eol.go`).',
+        'The description is true of the CLI gate only: `vulnetix scan` reads the horizon severities only when the EOL gate is on. On the platform, once the organization has a quality gate record, uploaded scans get a synthetic `VULNETIX-EOL` finding at the horizon severity whatever `block` says.',
       'spec.scaAutofix.maxMajorBump':
         'The `--sca-autofix-max-major-bump` scan flag also accepts a negative number, meaning no limit. The schema has `minimum: 0`, so a document cannot express "no limit"; leave the field out to keep the flag in charge.',
     },
@@ -384,7 +384,7 @@ The expressions are CEL over the \`finding\` context, so a policy can use any fi
 - A singleton, named \`default\`. The engine stores only what differs from the default policy, so a document that spells a default reads back without it.
 - Plan compiles every expression against the \`finding\` context and refuses unknown values. A stored policy that no longer compiles is not applied: the tenant decides with the default and the routes report a \`warning\`.
 - Delete deletes the row, which returns the tenant to the default policy.
-- It needs saas migration \`20261228010000_ssvc_policy\`. Until it runs, a tenant decides with the default policy, and a write or an apply is refused naming the migration.
+- It needs the platform update \`20261228010000_ssvc_policy\`. Until it runs, a tenant decides with the default policy, and a write or an apply is refused naming the update.
 - Decisions are made when they are read, from the same facts as the risk ranking, with the repository's asset record. Nothing is stored per finding, so a policy change shows at once. The routes are \`GET\`, \`PUT\` and \`DELETE /v1/ssvc/policy\`, \`POST /v1/ssvc/decide\` and \`GET /v1/ssvc/summary\`.
 
 ## In the CLI scan and the remediation plan
@@ -430,7 +430,7 @@ Every write goes through the AWS drawer's own steps inside the apply transaction
 - Only the sources in the schema are written, and only rows whose state changes.
 - \`deploy: true\` queues the stacks of the accounts the document covers (\`"*"\`: every enabled account without an override).
 - Deleting an override sends the account back to \`"*"\`. Deleting \`"*"\` turns every source off.
-- A per-account document needs saas migration \`20261226020000_cloud_native_source_per_account\`. Until it runs, plan blocks the document with the migration's name, and \`"*"\` works as before.`,
+- A per-account document needs the platform update \`20261226020000_cloud_native_source_per_account\`. Until it runs, plan blocks the document with the update's name, and \`"*"\` works as before.`,
   },
 
   SavedSearch: {
@@ -490,7 +490,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
 - The spec is replaced whole. Entries are a set keyed by rule table, rule type and rule, each checked to exist and to fit the format, as the console's add does.
 - \`publish: true\` publishes on every apply that changes the feed. \`publish: false\` revokes a published feed. Publishing writes S3 from inside the apply transaction, after the feed's rows: a later failure in the same apply rolls the rows back but not the files, and the next publish or revoke of that feed replaces them.
 - The plan gate and the per-type feed cap are the console's.
-- \`selector.when\` is stored in \`DetectionRuleFeed.selector\` and evaluated at every publish; see [where each \`when\` runs](/platform-iac/reference/cel/#where-each-expression-is-evaluated). It needs saas migration \`20261226010000_detection_rule_feed_selector\`. Until it runs, plan refuses a document with a selector and names the migration.
+- \`selector.when\` is stored in \`DetectionRuleFeed.selector\` and evaluated at every publish; see [where each \`when\` runs](/platform-iac/reference/cel/#where-each-expression-is-evaluated). It needs the platform update \`20261226010000_detection_rule_feed_selector\`. Until it runs, plan refuses a document with a selector and names the update.
 - A \`SNORT_YARA\` feed takes entries only: the third-party catalogue has no CVE data, so plan refuses a selector on one.`,
   },
 
@@ -586,7 +586,7 @@ The console's create and update writers, now transaction scoped. A bot token or 
 - A new or changed credential, URL or username is checked with the registry first, and a login the registry refuses is stored by neither the console nor the engine. The check is made with a client that dials public addresses only.
 - The URL and scope read back canonical: an OCI host lower-cased, the other registries \`https\` with a lower-case host and a trailing slash, the scope sorted without repeats.
 - Each vault write registers its undo: a created entry is revoked, a rotated one is put back, a deleted one is restored. Deleting the document revokes the credential.
-- It needs the registry credentials plan feature and saas migration \`20261228020000_scan_registry_connection\`. Until it runs, plan refuses a document, naming the migration.
+- It needs the registry credentials plan feature and the platform update \`20261228020000_scan_registry_connection\`. Until it runs, plan refuses a document, naming the update.
 
 ## How a scan uses it
 
@@ -601,7 +601,7 @@ The connection chosen for a host and a package or repository is an enabled one w
 - \`slsa\`, \`ssdf\` and \`crypto-policy\` make no report: each run stores an evaluation with its checks, and the history is kept.
 - The spec reads back with \`cadence\` and \`enabled\` written and the blocks of other frameworks absent, the repositories lower-cased and sorted.
 - A new target is due at once. Each run schedules the next one cadence later, a failed run is tried again in an hour, and a changed cadence moves the next run. Delete removes the target and its runs and keeps the reports it created.
-- It needs the compliance reports plan feature and saas migration \`20261228040000_compliance_target\`. Until it runs, plan refuses a document, naming the migration, and nothing runs.
+- It needs the compliance reports plan feature and the platform update \`20261228040000_compliance_target\`. Until it runs, plan refuses a document, naming the update, and nothing runs.
 
 ## The evaluations
 
@@ -696,7 +696,7 @@ A singleton over the factory settings keys \`security.scanners\`, \`security.sca
 
 - At most 50 labels. A key is lower case letters, digits and \`. _ / -\`, at most 63 characters, starting and ending with a letter or digit. A value is at most 256 characters.
 - An owner has a kind (\`team\`, \`user\`, \`email\`) and a name of at most 320 characters. An email owner must be a bare address and is stored lower case.
-- They need saas migration \`20261228000000_repository_asset\`. Until it is applied they read as empty, and plan refuses a document that sets one and names the migration.`,
+- They need the platform update \`20261228000000_repository_asset\`. Until it is applied they read as empty, and plan refuses a document that sets one and names the update.`,
   },
 
   FactoryWorkflow: {

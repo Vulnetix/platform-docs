@@ -60,8 +60,8 @@ A collection is the versioned list of artifacts for one release. Its UUID is the
 
 `PUT /productRelease/{uuid}/collection` (or the component form) creates the collection at version 1, and each later call publishes the next version with the reason you give. Adding an artifact does not advance the version by itself: publish a new collection version (`ARTIFACT_ADDED`, `VEX_UPDATED` and so on) when the set changes. An artifact records the collection version it joined at, so membership of a past version can be reconstructed.
 
-> [!CAREFUL] Schema ahead of the handlers
-> `tea-publisher.prisma` defines a per-version log (`TeaCollectionVersion`) and automatic version advances on artifact changes. The vdb-site handlers on `main` do not write that log yet; the version moves only on `PUT .../collection`.
+> [!CAREFUL] The version moves only when you publish one
+> Adding or changing an artifact does not advance the collection version, and the server keeps no per-version history yet. The version moves only on `PUT .../collection`.
 
 ## Artifacts
 

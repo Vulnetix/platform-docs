@@ -45,7 +45,7 @@ The order these are checked in, and what an allow entry waives, is on [Evaluatio
 
 ### Per-ecosystem mode
 
-An ecosystem can override the org mode, for example `npm` in `allowlist_only` while `go` stays in `warn`. Set it in the console. The console calls `PUT package-firewall/ecosystem-policy` on the vdb-site API with `{"ecosystem": "npm", "enforcementMode": "allowlist_only"}`; `"enforcementMode": null` clears the override and the ecosystem inherits the org mode.
+An ecosystem can override the org mode, for example `npm` in `allowlist_only` while `go` stays in `warn`. Set it in the console. The console calls `PUT package-firewall/ecosystem-policy` on the Vulnetix API with `{"ecosystem": "npm", "enforcementMode": "allowlist_only"}`; `"enforcementMode": null` clears the override and the ecosystem inherits the org mode.
 
 ## Cooldown
 
