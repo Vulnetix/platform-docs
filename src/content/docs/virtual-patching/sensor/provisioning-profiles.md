@@ -3,9 +3,9 @@ title: Provisioning profiles
 description: For org admins, how a profile decides which devices it covers, which credential they get and what configuration they run, and how to revoke, uninstall and watch them.
 order: 2
 nav: Provisioning profiles
-sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go]
-checked: [cli@4c8c3b7, vdb-site@1a06d67]
-updated: 03 Nov 2026
+sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go, cli/cmd/vulnetix-sensor/selfupdate.go, cli/cmd/vulnetix-sensor/selfupdate_safety.go]
+checked: [cli@d84127e34, vdb-site@07561f7]
+updated: 05 Nov 2026
 ---
 
 A profile replaces the hand-written `/etc/vulnetix-sensor.env` and the per-host flags. It is kept on the site; every device enrolled under it pulls its configuration from there.
@@ -88,12 +88,16 @@ An edit reaches a connected sensor within seconds, and every sensor within about
 
 An enrolled sensor keeps itself on the latest CLI release with nobody at the host. The guard that runs every minute as root checks `github.com/Vulnetix/cli/releases/latest` at most every 6 hours. When there is a newer tag it:
 
-1. downloads that release's `vulnetix-sensor` binary for the host's architecture and checks its SHA-256 against the release's `checksums.txt` (a mismatch stops the update),
-2. runs the new binary with `--version` before swapping it in,
+1. downloads that release's `vulnetix-sensor` binary for the host's architecture and checks its SHA-256 against the release's `checksums.txt` (a mismatch stops the update); when the build pins a release signing key, `checksums.txt` must also carry a valid signature (`checksums.txt.sig`), or the update is refused,
+2. runs the new binary with `--version`, then with `selfcheck` (it must accept the installed credential and profile), before swapping it in,
 3. replaces the installed binary atomically, keeping the old one beside it as `.prev`,
 4. sends a goodbye with the reason `upgrade` and signals the running sensor, which the service restarts onto the new binary.
 
-The swap is not the end of the update. It stays pending until the new sensor reaches the server: the sensor writes a health stamp once its first report is accepted. If that has not happened five minutes after the swap, or the sensor unit has failed a minute after it, the guard puts `.prev` back, restarts the sensor on it, and never takes that release on this host again; the next release is taken. A host that cannot reach the server at all waits up to an hour before the verdict, so an outage does not condemn a good release. The guard unit also runs the previous binary's `guard-rescue` before the new binary's `guard-check`, so a release that cannot start (and so cannot run its own guard) is still rolled back. An update is not made at all when the previous binary cannot be kept.
+The swap is not the end of the update. It stays pending until the new sensor reaches the server: the sensor writes a health stamp once its first report is accepted. If that has not happened five minutes after the swap, or the sensor unit has failed a minute after it, the guard puts `.prev` back, restarts the sensor on it, and never takes that release on this host again; the next release is taken. A host that cannot reach the server at all waits up to an hour before the verdict, so an outage does not condemn a good release. The guard unit also runs the previous binary with `--guard-rescue` before the new binary's `guard-check`, so a release that cannot start (and so cannot run its own guard) is still rolled back. An update is not made at all when the previous binary cannot be kept.
+
+A failed check (GitHub unreachable, a download cut short) is retried after 10 minutes, then 30, then 2 hours, then the usual 6. The guard reads the sensor's environment file, so a proxy set there (`HTTPS_PROXY`) reaches the download. It replaces only the binary its unit runs, and only when that file can be written: a sensor started by hand from another path, or installed read-only, is left alone and says why once. The outcome of the last update (pending, done, rolled back with the reason, or failed) is reported to the site and shown on the sensor list.
+
+**A mirror for hosts that cannot reach GitHub.** Set `"updateBaseUrl"` in the profile's `config` to an https copy of the release layout: `<base>/latest` redirecting to `<base>/tag/<tag>`, and `<base>/download/<tag>/` holding `checksums.txt` (and `checksums.txt.sig` once releases are signed) and the `vulnetix-sensor-linux-amd64` and `-arm64` binaries. The URL may not carry a user name or password. The checksum and signature checks apply to a mirror exactly as to GitHub. The console's profile editor has the field "Update mirror"; in Platform IaC it is `spec.updateBaseUrl` (`update_base_url` in Terraform, provider v1.4.0).
 
 A release with a higher major version (v3 to v4) is held, and the sensor says which release is waiting, until the profile sets `"allowMajorUpdate": true`. A major release can change the profile format, the units and the protocol. Like `autoUpdate` it is absent from the configuration until you turn it on, and the console's profile editor has the switch "Allow a new major version"; in Platform IaC it is `spec.allowMajorUpdate` of [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) (`allow_major_update` in Terraform).
 
