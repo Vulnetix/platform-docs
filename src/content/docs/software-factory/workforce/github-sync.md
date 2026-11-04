@@ -1,7 +1,7 @@
 ---
 title: Issue and label sync with your forge
 nav: Issue sync
-description: How a board card and an issue on GitHub, GHES, Gitea, Forgejo or GitLab stay one record. Sign-in, how changes arrive, the merge that settles both sides, which cards get an issue, labels, and what happens on failure.
+description: How a board card and an issue on GitHub, GHES, Gitea, Forgejo or GitLab stay one record, covering sign-in, change delivery, merging, labels and failures.
 order: 11
 sources: [vdb-site/docs/belai-github-sync.md, website/.repo/belai-github-sync.md, vdb-site/api/internal/handler/belai_github.go, vdb-site/api/internal/handler/belai_github_engine.go]
 checked: [vdb-site@597344c, website@58b9ffa]

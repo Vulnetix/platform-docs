@@ -32,6 +32,7 @@
 // No dependencies beyond Node 20.
 
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync, statSync } from 'node:fs';
+import { metaDescription } from './description.mjs';
 import { join, resolve, dirname, basename } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
@@ -300,7 +301,7 @@ pageRules.forEach((r, i) => {
   const prosePath = [r.slug, basename(r.file, '.rego')].map((n) => join(proseDir, `${n}.md`)).find((p) => existsSync(p));
   const prose = prosePath ? convertProse(readFileSync(prosePath, 'utf8')) : null;
   if (prose) withProse++;
-  const description = noDash(prose?.description || firstSentence(r.description || r.name));
+  const description = metaDescription(noDash(prose?.description || firstSentence(r.description || r.name)));
   const sources = [`cli/internal/sast/rules/${r.file}`];
   if (prose) sources.push(`cli/internal/sast/docs/${basename(prosePath)}`);
   const body = prose?.body || ['## Overview', '', esc(noDash(r.description || r.name))].join('\n');

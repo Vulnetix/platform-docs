@@ -1,7 +1,7 @@
 ---
 title: Policy limitations
 nav: Limitations
-description: What content guardrails and capability rules do not inspect, cannot prevent, or report imperfectly, stated so nobody relies on a control for something it does not do.
+description: What content guardrails and capability rules do not inspect, cannot prevent, or report imperfectly, so nobody relies on a control for something it does not do.
 order: 18
 sources:
   - ai-firewall/internal/policy/engine.go

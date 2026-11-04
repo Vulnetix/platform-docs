@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-003: SQL injection via string concatenation"
 nav: "VNX-JAVA-003"
-description: "Reports JDBC, JdbcTemplate, Hibernate native and Android SQLite queries whose SQL text is concatenated or formatted from run-time values instead of bound through ? placeholders."
+description: "Reports JDBC, JdbcTemplate, Hibernate native and Android SQLite queries whose SQL text is concatenated."
 order: 751
 sources: ["cli/internal/sast/rules/vnx-java-003.rego", "cli/internal/sast/docs/vnx-java-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

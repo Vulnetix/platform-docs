@@ -1,6 +1,6 @@
 ---
 title: Discovery coverage
-description: The CI/CD files, shell scripts, recipe files and binary formats vulnetix cdx reads for packages, and how binaries in a container are attributed to the package that installed them.
+description: The CI/CD files, shell scripts, recipe files and binary formats vulnetix cdx reads for packages, and how container binaries are attributed to their package.
 order: 2
 nav: Discovery coverage
 sources: [cli/cmd/cdx.go, cli/internal/scan/detector.go, cli/internal/binpkg/binpkg.go, cli/internal/binpkg/jar.go, vdb-sca-match/parse/local_extra.go]

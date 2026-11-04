@@ -1,7 +1,7 @@
 ---
 title: SARIF reference
 nav: SARIF
-description: What the SARIF files the Vulnetix CLI writes carry for GitHub code scanning, the category per scanner, security-severity, CWE tags, the line hash fingerprint, and the always-written sca.sarif and license.sarif.
+description: What the CLI's SARIF files carry for GitHub code scanning, the category per scanner, security-severity, CWE tags, fingerprints, and sca.sarif and license.sarif.
 order: 5
 sources: [cli/internal/sast/github.go, cli/internal/sast/linehash.go, cli/internal/github/codescanning.go, cli/docs/github-publishing.md]
 checked: [cli@3e6fd831d]

@@ -1,10 +1,10 @@
 ---
 title: "VNX-KOTLIN-001: Kotlin block cipher in ECB mode"
 nav: "VNX-KOTLIN-001"
-description: "Detects Kotlin Cipher.getInstance() calls that select ECB mode for any block cipher (AES, DES, DESede, Blowfish and others): an X/ECB transformation, a bare block-cipher name whose provider default is ECB, a template or concatenation with ECB in the mode position, or a constant holding one of those. RSA/ECB is not reported."
+description: "Detects Kotlin Cipher.getInstance() calls that select ECB mode for any block cipher (AES, DES, DESede, Blowfish and others)."
 order: 785
 sources: ["cli/internal/sast/rules/vnx-kotlin-001.rego", "cli/internal/sast/docs/vnx-kotlin-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

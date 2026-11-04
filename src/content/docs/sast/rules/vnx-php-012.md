@@ -1,10 +1,10 @@
 ---
 title: "VNX-PHP-012: PHP reflected XSS via echo/print of user input"
 nav: "VNX-PHP-012"
-description: "Detects request input written into the response without HTML encoding: echo, print, <?= ?>, printf() and die()/exit() of a superglobal or a variable read from one, an HTML fragment built with such a value (the $html .= pattern), and an echoed heredoc that interpolates one. Values passed through htmlspecialchars(), htmlentities(), (int) or json_encode() are not reported."
+description: "Detects request input written into the response without HTML encoding."
 order: 840
 sources: ["cli/internal/sast/rules/vnx-php-012.rego", "cli/internal/sast/docs/vnx-php-012.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

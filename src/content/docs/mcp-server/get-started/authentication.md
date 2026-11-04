@@ -1,6 +1,6 @@
 ---
 title: Authentication
-description: The Authorization header formats the server accepts, the in-agent device sign-in with vulnetix_auth_start and vulnetix_auth_poll, where to store the key, and rotation.
+description: The Authorization header formats the server accepts, in-agent device sign-in with vulnetix_auth_start and vulnetix_auth_poll, key storage and rotation.
 order: 3
 sources:
   - mcp-server/src/auth/credential.ts

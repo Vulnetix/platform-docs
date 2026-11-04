@@ -1,7 +1,7 @@
 ---
 title: Create and complete a report
 nav: Create a report
-description: Create a compliance report for a framework, set its period and repository scope, attach evidence and notes, record assessor findings, and archive it, in the Resolve Platform or through the API.
+description: Create a compliance report for a framework, set its period and repository scope, attach evidence, record assessor findings and archive it.
 order: 2
 sources: [vdb-site/api/internal/handler/compliance_reports.go, vdb-site/api/internal/handler/compliance_evidence.go, vdb-site/api/internal/handler/compliance_assessments.go, vdb-site/api/internal/handler/compliance_evidence_map.go, vdb-site/api/internal/handler/compliance_dsomm.go, website/src/components/compliance/ReportSetup.vue, website/src/components/compliance/ReportCommandBar.vue, website/src/components/compliance/ComplianceReportFrame.vue, website/src/worker.ts]
 checked: [vdb-site@1a06d67, website@ad775f37]

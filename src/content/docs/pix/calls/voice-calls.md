@@ -1,6 +1,6 @@
 ---
 title: Voice calls
-description: How a Pix call connects, its time limits and settings, one call per person across devices, what is kept and who can read it, Pix's notes between calls, feedback, and the call API.
+description: How a Pix voice call connects, its time limits and settings, what is kept and who can read it, Pix's notes between calls, feedback, and the call API.
 order: 1
 sources: [website/src/worker/call/routes.ts, website/src/worker/call/ticket.ts, website/src/worker/call/call-agent.ts, website/src/worker/call/history.ts, website/src/worker/call/prompt.ts, website/src/shared/call/protocol.ts, vdb-site/api/internal/handler/pix_call_history.go, vdb-site/api/internal/handler/pix_call_memory.go, vdb-site/api/internal/handler/pix_call_review.go, vdb-site/api/main.go]
 checked: [website@ad775f3, vdb-site@1a06d67]

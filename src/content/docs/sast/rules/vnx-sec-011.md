@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-011: Hardcoded JWT token"
 nav: "VNX-SEC-011"
-description: "Detects a signed JSON Web Token that decodes (JSON header and payload, alg other than none, not expired) in any file outside tests and prose; the jwt.io sample token, Supabase anon keys and the Supabase local demo keys are not reported."
+description: "Detects a signed JSON Web Token that decodes (JSON header and payload, alg other than none, not expired) in any file outside tests and prose."
 order: 905
 sources: ["cli/internal/sast/rules/vnx-sec-011.rego", "cli/internal/sast/docs/vnx-sec-011.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

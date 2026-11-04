@@ -1,6 +1,6 @@
 ---
 title: Notifications
-description: How you hear about factory work. Browser and phone push, notification preferences and quiet hours, buttons that act from a notification, a workflow's notify step, and Belai's desktop notifications.
+description: How you hear about factory work through browser and phone push, preferences and quiet hours, actionable notifications, the notify step and Belai desktop alerts.
 order: 25
 sources: [vdb-site/docs/factory.md, belai/docs/notifications.md, vdb-site/api/internal/handler/notify_core.go, vdb-site/api/internal/handler/notify_prefs.go, vdb-site/api/internal/handler/notify_actions.go, vdb-site/api/internal/handler/factory_notify.go]
 checked: [vdb-site@284f1d6, belai@35506b9]

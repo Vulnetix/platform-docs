@@ -1,7 +1,7 @@
 ---
 title: VDB API quickstart
 nav: Quickstart
-description: Get an organisation id and API key, store them for the CLI, check they authenticate, and run your first vulnerability, package and exploit lookups with the CLI and with curl.
+description: Get an organisation id and API key, store them for the CLI, check they authenticate, and run first vulnerability, package and exploit lookups with CLI and curl.
 order: 2
 sources: [cli/pkg/auth/credentials.go, cli/pkg/auth/auth.go, cli/cmd/vdb.go, vdb-site/api/internal/handler/account.go, vdb-site/api/internal/handler/tierconfig.go, website/src/pages/resolve/account.vue]
 checked: [cli@4c8c3b71c, vdb-site@1a06d67, website@ad775f37, vdb-api@4145f0a]

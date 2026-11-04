@@ -1,7 +1,7 @@
 ---
 title: Publisher object model
 nav: Object model
-description: The products, components, releases, collections, artifacts and distributions a Vulnetix TEA publisher stores, their fields, identity rules, versioning and withdrawal.
+description: The products, components, releases, collections, artifacts and distributions a Vulnetix TEA publisher stores, with fields, identity, versioning and withdrawal.
 order: 1
 sources: [saas/prisma/models/tea-publisher.prisma, vdb-site/api/internal/handler/tea_publisher_handlers.go, vdb-site/api/internal/handler/tea_publisher_update.go, vdb-site/api/internal/handler/tea_ids.go, tea-spec/spec/publisher/README.md]
 checked: [saas@50cedf37, vdb-site@1a06d67, tea-spec@6c93819]

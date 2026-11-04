@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUST-004: Rust command injection via a shell or a request-controlled program in process::Command"
 nav: "VNX-RUST-004"
-description: "Reports std/tokio process::Command that runs a shell (sh, bash, cmd, powershell) with -c//C/-Command and a non-literal command string, or whose program comes from a request extractor; constant shell commands and user input passed as a separate .arg() are not reported."
+description: "Reports std/tokio process::Command that runs a shell (sh, bash, cmd, powershell) with -c//C/-Command and a non-literal command string."
 order: 890
 sources: ["cli/internal/sast/rules/vnx-rust-004.rego", "cli/internal/sast/docs/vnx-rust-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

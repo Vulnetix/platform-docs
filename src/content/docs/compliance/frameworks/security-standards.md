@@ -1,6 +1,6 @@
 ---
 title: Security standards
-description: What the OWASP Top 10, PCI DSS, ISO/IEC 27001, OWASP DSOMM and EU Cyber Resilience Act reports map, which of them take assessor findings, and what each export says it does not cover.
+description: What the OWASP Top 10, PCI DSS, ISO/IEC 27001, OWASP DSOMM and EU Cyber Resilience Act reports map, which take assessor findings, and what each omits.
 order: 2
 sources: [vdb-site/api/internal/owasp/categories.go, vdb-site/api/internal/owasp/owasp.go, vdb-site/api/internal/pcidss/catalog.json, vdb-site/api/internal/pcidss/pcidss.go, vdb-site/api/internal/iso27001/catalog.go, vdb-site/api/internal/iso27001/iso27001.go, vdb-site/api/internal/dsomm/catalog.json, vdb-site/api/internal/dsomm/dsomm.go, vdb-site/api/internal/cra/cra.go, vdb-site/api/internal/handler/compliance_export.go, vdb-site/api/internal/handler/compliance_assessments.go, vdb-site/api/internal/handler/compliance_dsomm.go]
 checked: [vdb-site@1a06d67]

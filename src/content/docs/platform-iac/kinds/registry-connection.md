@@ -1,6 +1,6 @@
 ---
 title: "RegistryConnection"
-description: "A private package or container registry that Vulnetix scans may read, and how to authenticate to it: an npm registry, a PyPI index. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A private package or container registry that Vulnetix scans may read, and how to authenticate to it."
 order: 21
 group: "Integrations"
 generated: true

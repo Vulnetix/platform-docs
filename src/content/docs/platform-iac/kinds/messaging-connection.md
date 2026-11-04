@@ -1,6 +1,6 @@
 ---
 title: "MessagingConnection"
-description: "One destination the messaging centre can send to: a Slack channel, a Microsoft Teams workflow, a Discord or Google Chat incoming webhook, a Jira site. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "One destination the messaging centre can send to: a Slack channel, a Microsoft Teams workflow, a Discord or Google Chat incoming webhook, a Jira site."
 order: 17
 group: "Integrations"
 generated: true

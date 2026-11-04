@@ -1,7 +1,7 @@
 ---
 title: Errors and plan-gated answers
 nav: Errors
-description: The error body shapes and HTTP status codes the VDB API returns, which ones to retry, and how answers above your plan come back as 200 with nulled fields or a planLocked marker.
+description: The VDB API's error bodies and HTTP status codes, which to retry, and how answers above your plan return 200 with nulled fields or a planLocked marker.
 order: 5
 sources: [vdb-api/internal/middleware/auth.go, vdb-api/internal/middleware/ratelimit.go, vdb-api/internal/middleware/maintenance.go, vdb-api/internal/middleware/clientabort.go, vdb-api/internal/middleware/profilter.go, vdb-api/internal/handler/entitlements.go, vdb-api/internal/handler/catchall.go, vdb-api/internal/inputs/inputs.go, cli/pkg/vdb/client.go]
 checked: [vdb-api@4145f0a, cli@4c8c3b71c]

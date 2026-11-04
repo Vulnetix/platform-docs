@@ -1,6 +1,6 @@
 ---
 title: AI analysis tools
-description: The five tools that return VDB data plus an optional model-written analysis, when the analysis runs, what each analysis contains, and how prompt injection is contained.
+description: The five tools that return VDB data plus an optional model-written analysis, when it runs, what it contains, and how prompt injection is contained.
 order: 6
 nav: AI analysis
 sources:

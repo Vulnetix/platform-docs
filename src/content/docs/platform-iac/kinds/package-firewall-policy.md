@@ -1,6 +1,6 @@
 ---
 title: "PackageFirewallPolicy"
-description: "The tenant's package firewall policy: what the registry proxy refuses to serve, the posture it enforces in, per-ecosystem posture overrides. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The tenant's package firewall policy: what the registry proxy refuses to serve, the posture it enforces in, per-ecosystem posture overrides."
 order: 36
 group: "Package firewall"
 generated: true

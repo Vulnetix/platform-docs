@@ -1,7 +1,7 @@
 ---
 title: "vulnetix config validate, kinds and schema"
 nav: Validate documents
-description: The offline config-as-code commands. Validate documents against their kind's schema, list the kinds the CLI knows, and print a kind's schema. Flags, inputs, output and exit codes.
+description: The offline config-as-code commands that validate documents against their kind's schema, list known kinds and print a kind's schema, with flags and exit codes.
 order: 1
 sources: [cli/internal/platformiac/discover.go, cli/internal/platformiac/doc.go, cli/docs/platform-iac.md, cli/cmd/config_documents.go, cli/cmd/config_documents_test.go, cli/cmd/exit_codes.go, cli/main.go, config-schemas/schemas.go]
 checked: [cli@3e6fd831d, config-schemas@45c1b24]

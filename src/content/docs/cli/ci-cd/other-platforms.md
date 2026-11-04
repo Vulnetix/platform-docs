@@ -1,6 +1,6 @@
 ---
 title: Other CI systems
-description: Working pipeline snippets for CircleCI, Buildkite, Travis CI, Drone, Woodpecker, Tekton, Argo Workflows, AWS CodeBuild, Google Cloud Build, Harness, Codefresh, TeamCity, Bamboo, Gitea, Forgejo, Spacelift, Semaphore, Buddy, Earthly, Dagger and Depot.
+description: Working pipeline snippets for the Vulnetix CLI on CircleCI, Buildkite, Tekton, Argo Workflows, AWS CodeBuild, Google Cloud Build and other CI systems.
 order: 11
 sources: [cli/install.sh, cli/cmd/scan.go, cli/internal/config/config.go]
 checked: [cli@24498404a]

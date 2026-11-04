@@ -1,6 +1,6 @@
 ---
 title: scan
-description: vulnetix scan runs every scanner in one pass over a directory, prints one verdict, writes one SBOM, and applies one set of gates. Every flag, output target and file it writes.
+description: vulnetix scan runs every scanner in one pass over a directory, prints one verdict, writes one SBOM and applies one set of gates, with every flag and output.
 order: 1
 sources: [cli/cmd/scan.go, cli/cmd/scan_report.go, cli/cmd/scan_help.go, cli/internal/scanopts/surface.go, cli/internal/scanopts/failon.go, cli/internal/scanopts/deployment.go, cli/internal/scanopts/authorship.go, cli/internal/report/options.go, cli/cmd/quality_gate_enforce.go, cli/cmd/scan_jail.go]
 checked: [cli@v4.4.0, vdb-api@6df53b3]

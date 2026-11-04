@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-029: PyPI upload token hardcoded"
 nav: "VNX-SEC-029"
-description: "Detect PyPI and TestPyPI API tokens (pypi-AgEIcHlwaS5vcmc or pypi-AgENdGVzdC5weXBpLm9yZw followed by the macaroon body) hardcoded in .pypirc, workflows, Makefiles and scripts."
+description: "Detect PyPI and TestPyPI API tokens (pypi-AgEIcHlwaS5vcmc or pypi-AgENdGVzdC5weXBpLm9yZw followed by the macaroon body) hardcoded in .pypirc, workflows."
 order: 923
 sources: ["cli/internal/sast/rules/vnx-sec-029.rego", "cli/internal/sast/docs/vnx-sec-029.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

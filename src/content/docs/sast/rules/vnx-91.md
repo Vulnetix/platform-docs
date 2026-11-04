@@ -1,10 +1,10 @@
 ---
 title: "VNX-91: XML Injection"
 nav: "VNX-91"
-description: "An XML document is assembled as text with an HTTP request value spliced into a tag literal (concatenation, interpolation, format strings), in a file that works with XML, so the value can rewrite the document's structure."
+description: "An XML document is assembled as text with an HTTP request value spliced into a tag literal (concatenation, interpolation, format strings)."
 order: 107
 sources: ["cli/internal/sast/rules/vnx-91.rego", "cli/internal/sast/docs/vnx-91.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: Rule feeds for a profile
-description: How a provisioning profile picks the feeds its sensors load, the three reference forms, which feeds can block, every built-in catalog feed, and the feeds an org adds itself.
+description: How a provisioning profile picks its sensors' feeds, the three reference forms, which feeds can block, every built-in catalogue feed, and org-added feeds.
 order: 6
 nav: Rule feeds
 sources: [vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_feed_catalog.go, vdb-site/api/internal/handler/sensor_feeds.go, vdb-site/api/internal/handler/sensor_feed_fetch.go, cli/internal/sensor/feed/indicators.go, cli/internal/sensor/engine/ioc.go, cli/deploy/sensor/README.md]

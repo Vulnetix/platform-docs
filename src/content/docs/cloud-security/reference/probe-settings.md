@@ -1,6 +1,6 @@
 ---
 title: Probe settings
-description: The environment variables the pipeline stack sets on the vulnetix-security-reporter function, with defaults and accepted ranges, and the summary lines it writes to its log group.
+description: The environment variables the pipeline stack sets on the vulnetix-security-reporter function, with defaults and ranges, and the summary lines it logs.
 order: 51
 nav: Probe settings
 sources: [cloudscan/README.md, cloudscan/settings.go, vdb-site/api/internal/handler/assets/aws-pipeline.yaml]

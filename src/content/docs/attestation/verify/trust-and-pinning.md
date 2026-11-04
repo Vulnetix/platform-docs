@@ -1,7 +1,7 @@
 ---
 title: Trust roots and signer pinning
 nav: Trust and pinning
-description: How attest verify resolves its trust root, how to trust a private Sigstore deployment, and how to pin the signer with --identity, --identity-regex, --issuer shortcuts and --strict.
+description: How attest verify resolves its trust root, trusts a private Sigstore deployment, and pins the signer with --identity, --identity-regex, --issuer and --strict.
 order: 2
 sources: [cli/cmd/attest.go, cli/internal/attest/roots.go, cli/internal/attest/verify.go]
 checked: [cli@4c8c3b71c]

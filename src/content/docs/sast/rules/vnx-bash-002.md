@@ -1,10 +1,10 @@
 ---
 title: "VNX-BASH-002: Downloaded script executed without an integrity check"
 nav: "VNX-BASH-002"
-description: "Reports a shell script that runs code it has just downloaded with curl or wget without verifying it: piped into an interpreter (directly or through filters such as base64 -d), passed to one as a command or process substitution, or saved and run with no checksum or signature check in between."
+description: "Reports a shell script that runs code it has just downloaded with curl or wget without verifying it."
 order: 663
 sources: ["cli/internal/sast/rules/vnx-bash-002.rego", "cli/internal/sast/docs/vnx-bash-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

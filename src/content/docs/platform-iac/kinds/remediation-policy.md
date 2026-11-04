@@ -1,6 +1,6 @@
 ---
 title: "RemediationPolicy"
-description: "The tenant's remediation policy (triage policy in the console): the remediation window per severity band, the triage threshold. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The tenant's remediation policy (triage policy in the console): the remediation window per severity band, the triage threshold."
 order: 31
 group: "Prioritisation"
 generated: true

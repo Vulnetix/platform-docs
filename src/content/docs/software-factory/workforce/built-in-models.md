@@ -1,7 +1,7 @@
 ---
 title: Built-in models, quota and windows
 nav: Built-in models
-description: Pix Smart and Pix Fast, the models your plan includes. How calls are routed across the models behind each, your allowance and its windows, and how hosts learn which models they can use.
+description: Pix Smart and Pix Fast, the models your plan includes, how calls are routed behind each, your allowance and its windows, and which models each host can use.
 order: 8
 sources: [vdb-site/docs/pix-builtin-models.md, website/.repo/pix-builtin-routing.md, vdb-site/docs/belai-workers-ai.md, vdb-site/api/internal/handler/pix_builtin_quota.go, vdb-site/api/internal/handler/pix_builtin_window.go]
 checked: [vdb-site@284f1d6, website@a31d470, belai@35506b9]

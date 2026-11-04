@@ -1,7 +1,7 @@
 ---
 title: Reachability analysis
 nav: Overview
-description: How vulnetix sca and vdb vuln check whether vulnerable code is present in an installed package and called from your tree, the four verdicts, and what a match does and does not prove.
+description: How vulnetix sca and vdb vuln check whether vulnerable code in an installed package is called from your tree, the four verdicts, and what a match proves.
 order: 1
 sources: [cli/cmd/cli_sca.go, cli/cmd/vdb_reachability.go, cli/cmd/vdb.go, cli/cmd/scan.go, cli/internal/reachability/scanner.go, cli/internal/reachability/symbol_match.go, cli/internal/report/build.go, vdb-api/internal/handler/v2_cli_sca_reachability.go]
 checked: [cli@4c8c3b7, vdb-api@4145f0a]

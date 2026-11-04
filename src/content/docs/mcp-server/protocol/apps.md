@@ -1,6 +1,6 @@
 ---
 title: MCP Apps
-description: The KEV deadline board, SOC triage queue and CVE risk card views served over io.modelcontextprotocol/ui, which hosts render them, and what a view is allowed to do.
+description: The KEV deadline board, SOC triage queue and CVE risk card views served over io.modelcontextprotocol/ui, which hosts render them, and what a view may do.
 order: 3
 nav: Apps
 sources:

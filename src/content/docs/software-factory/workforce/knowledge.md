@@ -1,6 +1,6 @@
 ---
 title: Knowledge
-description: How agents search reference material by meaning alongside their file tools. Profile knowledge, project knowledge from Vulnetix scans, and keeping the indexes current.
+description: How agents search reference material by meaning alongside file tools, with profile knowledge, project knowledge from Vulnetix scans, and index upkeep.
 order: 24
 sources: [belai/docs/knowledge.md, vdb-site/api/internal/handler/belai_rc_knowledge.go]
 checked: [belai@35506b9]

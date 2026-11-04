@@ -1,6 +1,6 @@
 ---
 title: Code, secrets and infrastructure
-description: "Findings from the CLI's embedded rule set: the four rule kinds, their diagnostic sources and triggers, how a finding is placed, and what the editor does not do yet."
+description: "Findings from the CLI's embedded rule set: the four rule kinds, their diagnostic sources and triggers, how findings are placed, and current editor limits."
 order: 3
 sources: [cli/internal/lsp/diagnostics.go, cli/internal/lsp/server.go, cli/internal/sast/kinds.go, cli/internal/sast/nosec.go, cli/cmd/scan.go, cli/cmd/lsp.go]
 checked: [cli@4c8c3b7]

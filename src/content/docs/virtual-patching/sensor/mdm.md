@@ -1,6 +1,6 @@
 ---
 title: MDM enrollment
-description: Enroll vulnetix-sensor on managed Linux devices with no person signing in, using an integration key your MDM puts on the device, with steps for Intune, JumpCloud, Fleet, Workspace ONE and config management tools.
+description: Enrol vulnetix-sensor on managed Linux devices with no sign-in, using an integration key from your MDM, with steps for Intune, JumpCloud, Fleet and more.
 order: 3
 nav: MDM
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/provision_cmds.go, cli/internal/sensor/provision/client.go, cli/deploy/sensor/install.sh]

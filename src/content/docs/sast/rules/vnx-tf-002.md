@@ -1,10 +1,10 @@
 ---
 title: "VNX-TF-002: Terraform AWS security group with unrestricted ingress (0.0.0.0/0)"
 nav: "VNX-TF-002"
-description: "Detect AWS security group ingress in Terraform that admits any address (0.0.0.0/0 or ::/0) through inline ingress blocks (block or attribute form), aws_security_group_rule, aws_vpc_security_group_ingress_rule or the terraform-aws-modules security-group module, except a listener on exactly port 80 or 443."
+description: "Detect AWS security group ingress in Terraform that admits any address (0.0.0.0/0 or ::/0) through inline ingress blocks (block or attribute form)."
 order: 982
 sources: ["cli/internal/sast/rules/vnx-tf-002.rego", "cli/internal/sast/docs/vnx-tf-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

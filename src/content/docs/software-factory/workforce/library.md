@@ -1,7 +1,7 @@
 ---
 title: "The library: skills, prompts, commands, processes, repos and more"
 nav: Library
-description: Everything worth keeping when a machine is wiped, kept in your account and installed on any connected host. The kinds of item, their documents, how items travel between hosts and the library, the sync switches, and the commands that read and write them.
+description: Skills, prompts, commands, processes, repos and more, kept in your account and installed on any connected host, with sync switches and the library commands.
 order: 18
 sources: [belai/docs/library-items.md, belai/docs/skills.md, vdb-site/docs/belai-library-items.md, vdb-site/docs/belai-library-settings.md, vdb-site/api/internal/handler/belai_items.go, vdb-site/api/internal/handler/belai_library.go]
 checked: [belai@35506b9, vdb-site@284f1d6]

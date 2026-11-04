@@ -1,10 +1,10 @@
 ---
 title: "VNX-15: External Control of System or Configuration Setting"
 nav: "VNX-15"
-description: "A value read from an HTTP request is written into a process-wide setting: an environment variable, the module search path, runtime configuration (viper, ini_set, System.setProperty) or a JDBC connection's catalog."
+description: "A value read from an HTTP request is written into a process-wide setting."
 order: 100
 sources: ["cli/internal/sast/rules/vnx-15.rego", "cli/internal/sast/docs/vnx-15.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

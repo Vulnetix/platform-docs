@@ -1,10 +1,10 @@
 ---
 title: "VNX-CS-004: C# insecure deserialization: type-embedding formatter or serializer setting"
 nav: "VNX-CS-004"
-description: "Detects C# deserialisation through BinaryFormatter, SoapFormatter, NetDataContractSerializer, LosFormatter and ObjectStateFormatter, Json.NET TypeNameHandling without a SerializationBinder, JavaScriptSerializer with a type resolver, MessagePack typeless deserialisation, and serializers whose root type comes from Type.GetType on data."
+description: "Detects C# deserialisation through BinaryFormatter, SoapFormatter, NetDataContractSerializer, LosFormatter and ObjectStateFormatter."
 order: 688
 sources: ["cli/internal/sast/rules/vnx-cs-004.rego", "cli/internal/sast/docs/vnx-cs-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

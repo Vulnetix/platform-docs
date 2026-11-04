@@ -1,6 +1,6 @@
 ---
 title: Sensor protection levels
-description: What the standard, hardened and locked protection levels change in the systemd unit, who can still stop the sensor at each, and how a stop shows in the Resolve Platform.
+description: How the standard, hardened and locked protection levels change the systemd unit, who can still stop the sensor, and how a stop shows in the Resolve Platform.
 order: 5
 nav: Protection
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, cli/internal/sensor/provision/units.go]

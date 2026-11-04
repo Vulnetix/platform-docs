@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-007: Slack token or webhook"
 nav: "VNX-SEC-007"
-description: "Reports a hard-coded Slack token (xoxb-, xoxp-, xoxa-, xoxo-, xoxr-, xoxs- with a numeric id) or incoming-webhook/workflow URL in any file, excluding Slack's documented example webhook, placeholders, configured base URLs, environment references and test files."
+description: "Reports a hard-coded Slack token (xoxb-, xoxp-, xoxa-, xoxo-, xoxr-, xoxs- with a numeric id) or incoming-webhook/workflow URL in any file."
 order: 901
 sources: ["cli/internal/sast/rules/vnx-sec-007.rego", "cli/internal/sast/docs/vnx-sec-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

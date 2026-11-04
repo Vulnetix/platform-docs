@@ -1,6 +1,6 @@
 ---
 title: "MessagingTemplate"
-description: "An organisation's own message template, which a MessagingRoute uses instead of the system template for the event type. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "An organisation's own message template, which a MessagingRoute uses instead of the system template for the event type."
 order: 19
 group: "Integrations"
 generated: true

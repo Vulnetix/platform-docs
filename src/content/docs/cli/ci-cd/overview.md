@@ -1,7 +1,7 @@
 ---
 title: "CI/CD"
 nav: "Overview"
-description: "What every pipeline needs, on any CI system: installing the CLI, credentials, choosing commands and outputs, gating, exit codes and publishing other tools' reports."
+description: "What every CI pipeline needs: installing the CLI, credentials, choosing commands and outputs, gating, exit codes and publishing other tools' reports."
 order: 1
 sources: [cli/install.sh, cli/action.yml, cli/cmd/scan.go, cli/cmd/upload.go, cli/cmd/gha.go, cli/internal/config/config.go, cli/internal/scanopts/failon.go, cli/cmd/exit_codes.go, cli/Dockerfile]
 checked: [cli@v4.0.0]

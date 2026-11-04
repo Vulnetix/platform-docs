@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUBY-006: Ruby mass assignment"
 nav: "VNX-RUBY-006"
-description: "Reports request parameters reaching ActiveRecord create/update/new/assign_attributes/find_or_create_by and similar calls without a strong-parameters allowlist, every params.permit! call, and permit lists (single- or multi-line) that admit admin, role or permissions attributes outside admin controllers."
+description: "Reports request parameters reaching ActiveRecord create/update/new/assign_attributes/find_or_create_by and similar calls without a strong-parameters allowlist."
 order: 882
 sources: ["cli/internal/sast/rules/vnx-ruby-006.rego", "cli/internal/sast/docs/vnx-ruby-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

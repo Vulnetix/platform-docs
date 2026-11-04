@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUBY-003: Insecure deserialization in Ruby"
 nav: "VNX-RUBY-003"
-description: "Reports Marshal.load/restore, Oj.load in object mode, Oj.object_load, JSON.load and JSON.parse with create_additions when request input, a Base64-decoded blob, an HTTP body or a socket read reaches them; local files and round trips are not reported."
+description: "Reports Marshal.load/restore, Oj.load in object mode, Oj.object_load, JSON.load and JSON.parse with create_additions when request input, a Base64-decoded blob."
 order: 879
 sources: ["cli/internal/sast/rules/vnx-ruby-003.rego", "cli/internal/sast/docs/vnx-ruby-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-PHP-020: PHP curl SSL certificate verification disabled"
 nav: "VNX-PHP-020"
-description: "Detects disabled TLS verification in PHP HTTP clients: CURLOPT_SSL_VERIFYPEER/VERIFYHOST set to false, 0 or '', Guzzle 'verify' => false or RequestOptions::VERIFY => false, Laravel Http::withoutVerifying() and stream context 'verify_peer' => false, outside tests."
+description: "Detects disabled TLS verification in PHP HTTP clients: CURLOPT_SSL_VERIFYPEER/VERIFYHOST set to false, 0 or ''."
 order: 848
 sources: ["cli/internal/sast/rules/vnx-php-020.rego", "cli/internal/sast/docs/vnx-php-020.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

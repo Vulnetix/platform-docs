@@ -1,10 +1,10 @@
 ---
 title: "VNX-CS-008: C# SSRF: request data chooses the host of an HttpClient, WebClient or WebRequest call"
 nav: "VNX-CS-008"
-description: "Detects C# HttpClient, WebClient, WebRequest.Create, HttpRequestMessage, RestClient, Flurl and BaseAddress/RequestUri URLs whose scheme and host come from HTTP request data or a controller action parameter, with no host allowlist check."
+description: "Detects C# HttpClient, WebClient, WebRequest.Create, HttpRequestMessage, RestClient."
 order: 692
 sources: ["cli/internal/sast/rules/vnx-cs-008.rego", "cli/internal/sast/docs/vnx-cs-008.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

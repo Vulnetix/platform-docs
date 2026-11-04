@@ -1,7 +1,7 @@
 ---
 title: CEL rule expressions
 nav: CEL
-description: "The CEL when and selector expressions in config documents: which kinds take them, where each is evaluated, what happens when one cannot be, every variable per context, the functions, the limits and examples."
+description: "The CEL when and selector expressions in config documents: where each is evaluated, its variables and functions, its limits, and examples."
 order: 3
 generated: true
 sources: ["config-schemas/cel/README.md", "config-schemas/cel/variables.go", "config-schemas/cel/functions.go", "config-schemas/cel/cost.go", "config-schemas/cmd/celdoc/main.go", "vdb-site/api/internal/handler/risk_cel.go", "vdb-site/api/internal/handler/factory_engine_node_gate.go", "vdb-site/api/internal/handler/detection_rule_feeds_selector.go", "vdb-api/internal/handler/jail_when.go", "vdb-api/internal/handler/jail_eval.go", "package-firewall/internal/policy/condition.go", "ai-firewall/internal/policy/expr.go"]

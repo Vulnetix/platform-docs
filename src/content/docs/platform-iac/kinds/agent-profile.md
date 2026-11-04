@@ -1,6 +1,6 @@
 ---
 title: "AgentProfile"
-description: "An agent of the organisation's Belai library: the markdown agent definition Belai writes, and the files the agent uses beside it. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "An agent of the organisation's Belai library: the markdown agent definition Belai writes, and the files the agent uses beside it."
 order: 47
 group: "AI libraries"
 generated: true

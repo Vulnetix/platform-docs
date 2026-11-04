@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-005: GCP API key"
 nav: "VNX-SEC-005"
-description: "Reports a hard-coded Google Cloud, Maps or Firebase API key (AIza plus 35 URL-safe base64 characters) in any file, excluding placeholders, longer tokens, prefix checks, environment references and test files."
+description: "Reports a hard-coded Google Cloud, Maps or Firebase API key (AIza plus 35 URL-safe base64 characters) in any file, excluding placeholders, longer tokens."
 order: 899
 sources: ["cli/internal/sast/rules/vnx-sec-005.rego", "cli/internal/sast/docs/vnx-sec-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

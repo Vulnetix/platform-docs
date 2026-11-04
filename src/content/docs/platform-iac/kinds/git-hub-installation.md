@@ -1,6 +1,6 @@
 ---
 title: "GitHubInstallation"
-description: "Adopts an installation of the Vulnetix GitHub App on github.com, so that configuration as code can name it and depend on it. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "Adopts an installation of the Vulnetix GitHub App on github.com, so that configuration as code can name it and depend on it."
 order: 15
 group: "Integrations"
 generated: true

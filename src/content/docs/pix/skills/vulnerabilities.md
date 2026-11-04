@@ -1,6 +1,6 @@
 ---
 title: Vulnerability skills
-description: repo-impact, fix, verify-fix and dashboard, the skills that answer whether an advisory reaches this repository, apply a fix, prove it landed, and show what was decided.
+description: The repo-impact, fix, verify-fix and dashboard skills, which check whether an advisory reaches a repository, apply a fix, prove it landed and show decisions.
 order: 3
 sources: [pix-ai-coding-assistant/skills/repo-impact/SKILL.md, pix-ai-coding-assistant/skills/fix/SKILL.md, pix-ai-coding-assistant/skills/fix/references/workflow.md, pix-ai-coding-assistant/skills/fix/references/memory-yaml-schema.md, pix-ai-coding-assistant/skills/verify-fix/SKILL.md, pix-ai-coding-assistant/skills/dashboard/SKILL.md, cli/cmd/scan.go]
 checked: [pix-ai-coding-assistant@7aebf02, cli@4c8c3b7]

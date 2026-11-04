@@ -1,7 +1,7 @@
 ---
 title: Model routing and the Pix allowance
 nav: Model routing
-description: Which model each kind of factory work uses, how to send a route to your own key in the Secrets Vault, what happens when the allowance runs out, and the reserve for interactive sessions.
+description: Which model each kind of factory work uses, routing to your own key in the Secrets Vault, what happens when the allowance runs out, and the interactive reserve.
 order: 2
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/tenantmodel/tenantmodel.go, website/.repo/tenant-model-labels.md, website/sandbox-worker/src/model-routing.ts]
 checked: [vdb-site@284f1d6, website@a31d470]

@@ -1,7 +1,7 @@
 ---
 title: Dispatching work to hosts
 nav: Dispatches
-description: A dispatch is a request to a host to start a session or workers. What a dispatch carries, its modes, how a host takes it, and how to start sessions on a host from the Resolve Platform.
+description: A dispatch asks a host to start a session or workers. What it carries, its modes, how a host takes it, and starting host sessions from the Resolve Platform.
 order: 17
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, belai/docs/remote-control.md]
 checked: [vdb-site@284f1d6, belai@35506b9, website@a31d470]

@@ -1,6 +1,6 @@
 ---
 title: Signed webhooks
-description: The headers and JSON body Vulnetix sends to a signed webhook connection, how to verify the Standard Webhooks signature, secret rotation, retries and deduplication, with a working receiver.
+description: The headers and JSON body of a Vulnetix signed webhook, verifying the Standard Webhooks signature, secret rotation, retries and deduplication, with a receiver.
 order: 3
 sources: [vdb-site/api/internal/handler/messaging_send.go, vdb-site/api/internal/handler/messaging_handlers.go, vdb-site/api/internal/messaging/render_webhook.go, vdb-site/docs/messaging.md]
 checked: [vdb-site@1a06d67]

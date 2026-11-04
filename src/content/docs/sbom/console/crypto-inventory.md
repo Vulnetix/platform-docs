@@ -1,6 +1,6 @@
 ---
 title: Crypto Inventory
-description: The Resolve Platform page that lists the algorithms, certificates and crypto libraries found by your CBOM scans, with post-quantum readiness and a standards lens.
+description: The Resolve Platform page listing the algorithms, certificates and crypto libraries your CBOM scans found, with post-quantum readiness and a standards lens.
 order: 3
 sources: [website/src/pages/resolve/crypto-inventory.vue, website/src/pages/resolve/crypto-inventory-detail.vue, website/src/shared/crypto-standards.ts, website/src/shared/plan-features.ts, website/src/shared/plan-pages.ts, website/src/shared/console-nav.ts, vdb-site/api/main.go]
 checked: [website@7f3b734cd, vdb-site@d2ea72f23]

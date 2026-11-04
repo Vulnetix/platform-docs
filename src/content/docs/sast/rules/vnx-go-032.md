@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-032: JWT missing expiration validation"
 nav: "VNX-GO-032"
-description: "Detects JWT expiry that is never enforced in Go: claims validation turned off (WithoutClaimsValidation, SkipClaimsValidation, jwx WithValidate(false)), go-jose Claims with no Validate call, and tokens issued from a claims literal or a jwx builder with no exp/ExpiresAt/Expiry."
+description: "Detects JWT expiry that is never enforced in Go: claims validation turned off (WithoutClaimsValidation, SkipClaimsValidation, jwx WithValidate(false))."
 order: 734
 sources: ["cli/internal/sast/rules/vnx-go-032.rego", "cli/internal/sast/docs/vnx-go-032.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: Permissions
-description: "Every IAM permission the AWS integration grants, by role: VulnetixSecurityAuditor, vulnetix-reporter-execution and its per-source inline policies, and the deploy policy for the access key connector and VulnetixCloudscanDeploy."
+description: "Every IAM permission the AWS integration grants, by role, including VulnetixSecurityAuditor, vulnetix-reporter-execution and VulnetixCloudscanDeploy."
 order: 13
 sources: [vdb-site/api/internal/handler/assets/aws-bootstrap.yaml, vdb-site/api/internal/handler/assets/aws-pipeline.yaml, vdb-site/api/internal/handler/integrations_aws_iamuser.go, vdb-site/api/internal/handler/cloud_native.go]
 checked: [vdb-site@1a06d67]

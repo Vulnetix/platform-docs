@@ -1,10 +1,10 @@
 ---
 title: "VNX-CRYPTO-007: Weak password hashing (insufficient iterations or missing KDF)"
 nav: "VNX-CRYPTO-007"
-description: "Reports a password-named value hashed with a fast general-purpose hash (MD5, SHA-1, SHA-2, SHA-3, BLAKE2) in Python, Node.js, Java, PHP, Ruby and Go, including through a helper named for the hash (Md5Sum(password)), and password KDFs with too low a work factor: PBKDF2 under 10,000 iterations and bcrypt cost under 10. Non-password hashing, the Have I Been Pwned SHA-1 range lookup, helpers defined elsewhere and test files are not reported."
+description: "Reports a password-named value hashed with a fast general-purpose hash (MD5, SHA-1, SHA-2, SHA-3, BLAKE2) in Python, Node.js, Java, PHP, Ruby and Go."
 order: 681
 sources: ["cli/internal/sast/rules/vnx-crypto-007.rego", "cli/internal/sast/docs/vnx-crypto-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

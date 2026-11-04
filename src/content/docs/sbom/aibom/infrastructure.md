@@ -1,6 +1,6 @@
 ---
 title: AI infrastructure in IaC
-description: AI serving runtimes, agent platforms, vector databases, training frameworks and managed AI services detected from Kubernetes, compose, Dockerfile and Terraform files.
+description: AI serving runtimes, agent platforms, vector databases and managed AI services detected from Kubernetes, compose, Dockerfile and Terraform files.
 order: 4
 nav: AI infrastructure
 sources: [cli/internal/aibom/catalog/infrastructure.json, cli/internal/aibom/aibomgen]

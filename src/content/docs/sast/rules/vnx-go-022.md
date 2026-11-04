@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-022: Use of eval() or dynamic code execution"
 nav: "VNX-GO-022"
-description: "Detects request data, the request body or a caller-supplied parameter passed as code to an embedded interpreter or expression engine (goja, otto, yaegi, gopher-lua, govaluate, expr, gval, cel-go, tengo, starlark) or parsed as an html/template or text/template. Constant, embedded and configured scripts are not reported."
+description: "Detects request data, the request body or a caller-supplied parameter passed as code to an embedded interpreter or expression engine (goja, otto, yaegi."
 order: 724
 sources: ["cli/internal/sast/rules/vnx-go-022.rego", "cli/internal/sast/docs/vnx-go-022.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

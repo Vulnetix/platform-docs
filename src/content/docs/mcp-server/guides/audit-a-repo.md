@@ -1,6 +1,6 @@
 ---
 title: Audit an inherited repository
-description: First contact with an unknown codebase, checking in order what is actively exploited, unsupported, hostile, and leaked before the broad sweep, then recording and baselining.
+description: Audit an unknown codebase, checking what is actively exploited, unsupported, hostile and leaked before the broad sweep, then recording and baselining.
 order: 7
 nav: Audit a repository
 sources:

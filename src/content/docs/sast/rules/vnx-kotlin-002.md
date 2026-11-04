@@ -1,10 +1,10 @@
 ---
 title: "VNX-KOTLIN-002: Kotlin RSA, DSA or DH key smaller than 2048 bits"
 nav: "VNX-KOTLIN-002"
-description: "Detects RSA, DSA and Diffie-Hellman key pairs and DSA/DH domain parameters generated with fewer than 2048 bits in Kotlin: KeyPairGenerator.initialize(), AlgorithmParameterGenerator.init(), RSAKeyGenParameterSpec, Android keystore setKeySize() and Bouncy Castle RSAKeyGenerationParameters."
+description: "Detects RSA, DSA and Diffie-Hellman key pairs and DSA/DH domain parameters generated with fewer than 2048 bits in Kotlin."
 order: 786
 sources: ["cli/internal/sast/rules/vnx-kotlin-002.rego", "cli/internal/sast/docs/vnx-kotlin-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

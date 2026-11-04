@@ -1,7 +1,7 @@
 ---
 title: GitHub misconfigurations
 nav: GitHub misconfigurations
-description: How the factory finds misconfigured GitHub workflows, actions and settings as webhooks arrive, rates each one against the repository's own settings, files it as a finding, and opens a draft pull request that fixes it.
+description: How the factory spots misconfigured GitHub workflows, actions and settings from webhooks, files each as a rated finding, and opens a draft fix pull request.
 order: 13
 sources: [vdb-site/docs/github-posture-rules.md, vdb-site/api/internal/handler/github_posture.go, vdb-sca-match/ghaudit, vdb-sca-match/docs/ghaudit-rules.md]
 checked: [vdb-site@df5eba5, website@00c3dfa]

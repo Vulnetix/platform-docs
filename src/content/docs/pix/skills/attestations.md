@@ -1,6 +1,6 @@
 ---
 title: SBOM and VEX skills
-description: sbom-generate writes CycloneDX and SPDX SBOMs, optionally signed with cosign; vex-publish turns the decisions in memory.yaml into OpenVEX or CycloneDX VEX and can upload them or comment on a pull request.
+description: The sbom-generate skill writes CycloneDX and SPDX SBOMs, optionally cosign-signed, and vex-publish turns memory.yaml decisions into OpenVEX or CycloneDX VEX.
 order: 6
 sources: [pix-ai-coding-assistant/skills/sbom-generate/SKILL.md, pix-ai-coding-assistant/skills/vex-publish/SKILL.md]
 checked: [pix-ai-coding-assistant@7aebf02]

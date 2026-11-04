@@ -1,6 +1,6 @@
 ---
 title: GitHub Actions
-description: The Vulnetix GitHub Actions, the root action's inputs and outputs, credentials, permissions, and complete workflows for scanning with gates, code scanning, the dependency graph, artifacts and attestations.
+description: The Vulnetix GitHub Actions, the root action's inputs, outputs, credentials and permissions, and complete workflows for scanning, gating and publishing.
 order: 2
 sources: [cli/action.yml, cli/action-lib/run.sh, cli/action-lib/install.sh, cli/action-lib/finish.sh, cli/action-lib/config.sh, cli/action-lib/publish.sh, cli/tools/actiongen/spec.go, cli/docs/github-actions.md, cli/cmd/gha.go, cli/cmd/upload.go, cli/cmd/gha_submit.go, cli/install.sh]
 checked: [cli@v4.4.0]

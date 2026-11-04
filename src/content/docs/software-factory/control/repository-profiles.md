@@ -1,6 +1,6 @@
 ---
 title: Repository profiles
-description: What the factory knows a repository is built with (package managers, test runners, CI, artifact types and languages), and how a template picks its variant from that profile.
+description: What the factory knows a repository is built with, such as package managers, test runners, CI and languages, and how a template picks its variant from it.
 order: 2
 sources: [vdb-site/api/internal/handler/factory_repo_profile.go, vdb-site/docs/factory.md]
 checked: [vdb-site@284f1d6]

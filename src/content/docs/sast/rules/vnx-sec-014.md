@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-014: Hardcoded password in variable"
 nav: "VNX-SEC-014"
-description: "Detects a literal password assigned to a variable, field, key or keyword argument named password, passwd, passphrase, secret_key or *_pwd, passed to a password setter, PHP define() or an XML property, or written as a bare value in a config file or docker-compose environment list, outside tests, templates and placeholders."
+description: "Detects a literal password assigned to a variable, field, key or keyword argument named password, passwd, passphrase, secret_key or *_pwd."
 order: 908
 sources: ["cli/internal/sast/rules/vnx-sec-014.rego", "cli/internal/sast/docs/vnx-sec-014.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

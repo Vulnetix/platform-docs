@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-description: Symptom-first fixes for CLI sign-in failures, 401 and 403 responses, traffic that never reaches the gateway, rules that do or do not fire, policy file errors and 5xx responses.
+description: Symptom-first fixes for CLI sign-in failures, 401 and 403 responses, traffic that never reaches the gateway, misfiring rules, policy file errors and 5xx errors.
 order: 7
 sources:
   - cli/cmd/package_firewall.go

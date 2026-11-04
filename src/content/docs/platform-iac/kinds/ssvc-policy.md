@@ -1,6 +1,6 @@
 ---
 title: "SsvcPolicy"
-description: "How the tenant makes its CISA SSVC decision (https://www.cisa.gov/stakeholder-specific-vulnerability-categorization-ssvc) for a finding: Track, Track*. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "How the tenant makes its CISA SSVC decision (https://www.cisa.gov/stakeholder-specific-vulnerability-categorization-ssvc) for a finding."
 order: 32
 group: "Prioritisation"
 generated: true

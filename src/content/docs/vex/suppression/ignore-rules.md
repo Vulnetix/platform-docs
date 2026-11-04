@@ -1,6 +1,6 @@
 ---
 title: Ignore rules
-description: Record a triage decision as an anchored, typed, expiring ignore rule with vulnetix ignore, stored in .vulnetix/memory.yaml and shared with your organisation when authenticated.
+description: Record a triage decision as an anchored, typed, expiring ignore rule with vulnetix ignore, stored in .vulnetix/memory.yaml and shared with your organisation.
 order: 1
 sources: [cli/cmd/suppress.go, cli/cmd/suppress_filter.go, cli/internal/suppress/suppress.go, cli/internal/memory/memory.go]
 checked: [cli@v4.4.0]

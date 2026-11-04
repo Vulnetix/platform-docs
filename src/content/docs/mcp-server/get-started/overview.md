@@ -1,6 +1,6 @@
 ---
 title: Vulnetix MCP server
-description: A hosted Model Context Protocol server that gives any MCP client 31 tools over the Vulnetix vulnerability database, 18 local-workflow prompts, 4 record templates and 3 interactive views.
+description: A hosted Model Context Protocol server giving any MCP client 31 tools over the Vulnetix VDB, plus local-workflow prompts, templates and views.
 order: 1
 nav: Overview
 sources:

@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-076: Telegram bot API token"
 nav: "VNX-SEC-076"
-description: "Reports a whole Telegram Bot API token (bot id, a colon and a 35-character AA... secret) in any file, excluding placeholders, low-entropy bodies, environment references and test files."
+description: "Reports a whole Telegram Bot API token (bot id, a colon and a 35-character AA... secret) in any file, excluding placeholders, low-entropy bodies."
 order: 970
 sources: ["cli/internal/sast/rules/vnx-sec-076.rego", "cli/internal/sast/docs/vnx-sec-076.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-PHP-006: PHP object injection via unserialize"
 nav: "VNX-PHP-006"
-description: "Detect unserialize() and maybe_unserialize() on a request value (superglobals, php://input, request accessors, also wrapped in base64_decode() and similar) without an allowed_classes restriction."
+description: "Detect unserialize() and maybe_unserialize() on a request value (superglobals, php://input, request accessors."
 order: 834
 sources: ["cli/internal/sast/rules/vnx-php-006.rego", "cli/internal/sast/docs/vnx-php-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

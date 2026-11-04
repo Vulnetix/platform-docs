@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-006: Insecure TLS trust manager"
 nav: "VNX-JAVA-006"
-description: "Reports Java code that disables TLS server authentication: empty checkServerTrusted(), always-true HostnameVerifier/TrustStrategy implementations and lambdas, and trust-all constants such as NoopHostnameVerifier and TrustAllStrategy."
+description: "Reports Java code that disables TLS server authentication: empty checkServerTrusted(), always-true HostnameVerifier/TrustStrategy implementations and lambdas."
 order: 754
 sources: ["cli/internal/sast/rules/vnx-java-006.rego", "cli/internal/sast/docs/vnx-java-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

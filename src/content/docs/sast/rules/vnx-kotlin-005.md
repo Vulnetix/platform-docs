@@ -1,10 +1,10 @@
 ---
 title: "VNX-KOTLIN-005: Kotlin MD5 or SHA-1 used as cryptographic hash"
 nav: "VNX-KOTLIN-005"
-description: "Detects MD5, SHA-1, MD2 and MD4 hashing in Kotlin through MessageDigest, Signature, Apache Commons DigestUtils, Guava Hashing, Spring Security MD4/MD5/SHA-1 password encoders and (for credentials) Okio, excluding HMAC, SHA1PRNG, the WebSocket handshake digest and Content-MD5 transfer checksums."
+description: "Detects MD5, SHA-1, MD2 and MD4 hashing in Kotlin through MessageDigest, Signature, Apache Commons DigestUtils, Guava Hashing."
 order: 789
 sources: ["cli/internal/sast/rules/vnx-kotlin-005.rego", "cli/internal/sast/docs/vnx-kotlin-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: "vulnetix config export"
 nav: Export
-description: Write the organization's live configuration, or a draft of local documents, as YAML documents, Terraform HCL or a bash script. Flags, filters, formats and secrets.
+description: Write the organisation's live configuration, or a draft of local documents, as YAML, Terraform HCL or a bash script, with flags, filters, formats and secrets.
 order: 4
 sources: [cli/cmd/config_engine.go, cli/cmd/config_engine_client.go, cli/cmd/config_engine_test.go, vdb-site/api/internal/handler/config_engine.go, vdb-site/api/internal/config/render.go]
 checked: [cli@d01f1dbe3, vdb-site@b424ae4]

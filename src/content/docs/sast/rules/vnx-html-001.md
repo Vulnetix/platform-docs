@@ -1,10 +1,10 @@
 ---
 title: "VNX-HTML-001: Use of Jinja2 |safe filter"
 nav: "VNX-HTML-001"
-description: "Reports Jinja2, Django and Nunjucks templates that mark an output expression |safe or |safeseq, or switch autoescape off, unless the value is a literal, already escaped/JSON-encoded, or a CSRF token or form field."
+description: "Reports Jinja2, Django and Nunjucks templates that mark an output expression |safe or |safeseq, or switch autoescape off, unless the value is a literal."
 order: 748
 sources: ["cli/internal/sast/rules/vnx-html-001.rego", "cli/internal/sast/docs/vnx-html-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

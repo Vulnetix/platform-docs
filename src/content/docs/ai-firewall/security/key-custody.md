@@ -1,6 +1,6 @@
 ---
 title: Key custody
-description: How provider keys are encrypted, which services can encrypt and decrypt them, how long a decrypted key lives, and how to rotate or revoke both the provider key and the Vulnetix key.
+description: How provider keys are encrypted, which services can decrypt them, how long a decrypted key lives, and how to rotate or revoke provider and Vulnetix keys.
 order: 2
 sources:
   - ai-firewall/terraform/kms.tf

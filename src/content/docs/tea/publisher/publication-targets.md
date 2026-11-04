@@ -1,6 +1,6 @@
 ---
 title: Publication targets
-description: Publication targets are remote TEA servers a publisher mirrors objects to. The schema and overlay define them; the Vulnetix server does not mirror today and answers MIRRORING_UNSUPPORTED.
+description: Publication targets are remote TEA servers a publisher mirrors to, defined by the schema and overlay; the Vulnetix server answers MIRRORING_UNSUPPORTED today.
 order: 3
 sources: [saas/prisma/models/tea-publisher.prisma, tea-spec/spec/publisher/overlay.yaml, vdb-site/api/internal/handler/tea_publisher_access.go, vdb-site/api/internal/handler/tea_publisher_spec_test.go, vdb-site/api/internal/handler/tea_routes.go]
 checked: [saas@50cedf37, tea-spec@6c93819, vdb-site@1a06d67]

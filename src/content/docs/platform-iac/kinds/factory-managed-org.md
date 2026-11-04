@@ -1,6 +1,6 @@
 ---
 title: "FactoryManagedOrg"
-description: "An organisation or user account the Software Factory manages: the switch on the Factory organisations page. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "An organisation or user account the Software Factory manages: the switch on the Factory organisations page."
 order: 22
 group: "Repo scope"
 generated: true

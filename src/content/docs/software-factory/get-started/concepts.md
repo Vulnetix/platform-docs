@@ -1,6 +1,6 @@
 ---
 title: Concepts
-description: The model behind Software Factory in one page. It covers scope and autonomy, workflows and runs, the four kinds of step, hosts and crews, and how people stay in the loop.
+description: The model behind Software Factory, covering scope and autonomy, workflows and runs, the four kinds of step, hosts and crews, and how people stay in the loop.
 order: 2
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_core_common.go]
 checked: [vdb-site@284f1d6]

@@ -1,6 +1,6 @@
 ---
 title: Delivery
-description: What the factory delivered in a period, the agent time and spend behind it, the decisions it scored, the people it needed, and what the same work would take a team by hand. Every figure is marked measured, derived or assumed.
+description: What the factory delivered in a period, the agent time and spend behind it, and the manual equivalent, with every figure marked measured, derived or assumed.
 order: 8
 sources: [vdb-site/docs/factory-delivery-api.md, vdb-site/docs/factory-delivery-capture.md, website/.repo/factory-delivery.md, vdb-site/api/internal/handler/factory_delivery_settings.go, vdb-site/api/internal/handler/factory_delivery_estimate.go]
 checked: [vdb-site@284f1d6, website@a31d470]

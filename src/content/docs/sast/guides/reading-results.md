@@ -1,6 +1,6 @@
 ---
 title: Reading the results
-description: How the SAST terminal report groups findings by rule, what each group means, how --explain shows the evidence for one rule or file, and how test code and vendored code are recognised.
+description: How the SAST terminal report groups findings by rule, how --explain shows the evidence for a rule or file, and how test and vendored code are recognised.
 order: 1
 sources: [cli/internal/report/code.go, cli/internal/report/testdata/code_rules_110.golden, cli/cmd/scan_explain.go, cli/internal/testsuite/attribute.go, cli/internal/testsuite/detect.go, cli/internal/scanopts/surface.go]
 checked: [cli@4c8c3b7]

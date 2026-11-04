@@ -1,6 +1,6 @@
 ---
 title: Pix
-description: Pix is Vulnetix for coding agents. Three hooks and eighteen skills in your own agent, five subagents, hosted Pix Sandboxes that run Belai for you, and voice calls with Pix.
+description: Pix is Vulnetix for coding agents, with hooks and skills in your own agent, five subagents, hosted Pix Sandboxes that run Belai, and voice calls with Pix.
 order: 1
 sources: [pix-ai-coding-assistant/README.md, pix-ai-coding-assistant/.claude-plugin/marketplace.json, pix-ai-coding-assistant/vulnetix/hooks/hooks.json, cli/cmd/agent.go, cli/cmd/skills.go, vdb-site/api/internal/handler/belai_items_validate_launch.go, website/sandbox-worker/src/egress.ts, website/src/worker/call/routes.ts]
 checked: [pix-ai-coding-assistant@7aebf02, cli@4c8c3b7, vdb-site@1a06d67, website@ad775f3]

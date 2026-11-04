@@ -1,6 +1,6 @@
 ---
 title: "SandboxEgressPolicy"
-description: "The outbound network policy of one Pix sandbox: its egress mode and the hostnames allowed or denied, the same two things the console's egress page sets. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The outbound network policy of one Pix sandbox: its egress mode and the hostnames allowed or denied, the same two things the console's egress page sets."
 order: 51
 group: "Pix"
 generated: true

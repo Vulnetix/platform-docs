@@ -1,7 +1,7 @@
 ---
 title: Writing custom rules
 nav: Custom rules
-description: Write SAST rules in Rego, publish them in a Git repository, and load them with --rule alongside or instead of the built-in rules. Covers the module contract, metadata fields, input document, scoping and the published rule packs.
+description: Write SAST rules in Rego, publish them in a Git repository and load them with --rule, covering the module contract, metadata fields, input document and packs.
 order: 3
 sources: [cli/internal/sast/loader.go, cli/internal/sast/registry.go, cli/internal/sast/engine.go, cli/internal/sast/rule.go, cli/internal/sast/kinds.go, cli/internal/sast/input.go, cli/internal/sast/rego_input.go, cli/internal/sast/file_scope.go, cli/internal/sast/language_filter.go, cli/cmd/scan.go]
 checked: [cli@4c8c3b7]

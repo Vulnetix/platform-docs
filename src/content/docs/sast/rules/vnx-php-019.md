@@ -1,10 +1,10 @@
 ---
 title: "VNX-PHP-019: PHP insecure cipher mode (AES-CBC)"
 nav: "VNX-PHP-019"
-description: "Detects openssl_encrypt()/openssl_decrypt() with an AES/ARIA/Camellia CBC method (literal, variable, class constant or define()) and mcrypt CBC calls in files that compute no MAC (hash_hmac(), HASH_HMAC, sodium_crypto_auth()), leaving ciphertext open to bit flipping and padding oracles."
+description: "Detects openssl_encrypt()/openssl_decrypt() with an AES/ARIA/Camellia CBC method (literal, variable."
 order: 847
 sources: ["cli/internal/sast/rules/vnx-php-019.rego", "cli/internal/sast/docs/vnx-php-019.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

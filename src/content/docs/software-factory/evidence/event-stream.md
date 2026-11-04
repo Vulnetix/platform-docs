@@ -1,6 +1,6 @@
 ---
 title: The event stream
-description: The live feed of everything the factory does. The event kinds and their types, the filters, how to read the stream from your own code, unanswered deliveries, and what an event never contains.
+description: The live feed of everything the factory does, its event kinds and types, filters, reading the stream from your own code, and unanswered deliveries.
 order: 5
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-events.md, vdb-site/api/internal/handler/factory_events.go, vdb-site/api/internal/handler/factory_events_store.go, vdb-site/api/internal/handler/factory_events_unanswered.go, vdb-site/api/internal/handler/factory_sources_siem.go]
 checked: [vdb-site@fe1ff17]

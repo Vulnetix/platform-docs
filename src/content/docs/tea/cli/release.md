@@ -1,6 +1,6 @@
 ---
 title: tea release
-description: Publish a whole release to TEA from a pipeline in one idempotent command, with the product, component, collection, every artifact, every download link and its visibility.
+description: Publish a whole release to TEA from a pipeline in one idempotent command, with the product, component, collection, artifacts, download links and visibility.
 order: 2
 sources: [cli/cmd/tea_release.go, cli/pkg/tea/objects.go]
 checked: [cli@4c8c3b71c]

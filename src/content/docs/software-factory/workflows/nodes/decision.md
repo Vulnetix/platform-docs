@@ -1,6 +1,6 @@
 ---
 title: Decision node
-description: A step where a System One model picks one of the outcomes you listed. Covers every config key, what happens under the threshold or with no answer, and the special edges that let a graph route those cases itself.
+description: A step where a System One model picks one of your listed outcomes, with every config key and the special edges that route low-confidence or empty answers.
 order: 12
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/docs/factory-systemone.md, vdb-site/api/internal/handler/factory_engine_node_decision.go, vdb-site/api/internal/systemone/decide.go]
 checked: [vdb-site@284f1d6]

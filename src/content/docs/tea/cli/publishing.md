@@ -1,7 +1,7 @@
 ---
 title: Publishing with the CLI
 nav: Publishing
-description: Create TEA products, releases, collections and artifacts one at a time with vulnetix tea publish, declare download links with tea distribution, and set who may read them with tea share.
+description: Create TEA products, releases, collections and artifacts with vulnetix tea publish, declare download links with tea distribution, and set access with tea share.
 order: 3
 sources: [cli/cmd/tea_publish.go, cli/cmd/tea_distribution.go, cli/pkg/tea/objects.go, vdb-site/api/internal/handler/tea_publisher_handlers.go]
 checked: [cli@4c8c3b71c, vdb-site@1a06d67]

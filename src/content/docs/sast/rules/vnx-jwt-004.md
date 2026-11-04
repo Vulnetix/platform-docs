@@ -1,10 +1,10 @@
 ---
 title: "VNX-JWT-004: JWT algorithm explicitly set to 'none'"
 nav: "VNX-JWT-004"
-description: "A JWT is signed with, or a verifier accepts, the 'none' algorithm: an algorithm/algorithms option naming 'none' or PyJWT algorithm=None (Python, JS/TS, Ruby), jose UnsecuredJWT, Auth0 Algorithm.none(), jjwt Jwts.parser().unsecured(), and golang-jwt SigningMethodNone or UnsafeAllowNoneSignatureType."
+description: "A JWT is signed with, or a verifier accepts, the 'none' algorithm."
 order: 782
 sources: ["cli/internal/sast/rules/vnx-jwt-004.rego", "cli/internal/sast/docs/vnx-jwt-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

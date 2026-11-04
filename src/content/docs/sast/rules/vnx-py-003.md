@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-003: Insecure deserialization with pickle"
 nav: "VNX-PY-003"
-description: "Detect pickle-format deserialization (pickle, cPickle, _pickle, dill, cloudpickle load/loads/Unpickler, including aliases and imported names, and unsafe jsonpickle.decode), which executes code embedded in the data."
+description: "Detect pickle-format deserialization (pickle, cPickle, _pickle, dill, cloudpickle load/loads/Unpickler, including aliases and imported names."
 order: 857
 sources: ["cli/internal/sast/rules/vnx-py-003.rego", "cli/internal/sast/docs/vnx-py-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

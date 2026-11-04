@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-025: Java hardcoded password or credential in source code"
 nav: "VNX-JAVA-025"
-description: "Detects passwords written into Java production source as string literals: password-named fields and variables, DriverManager.getConnection, setPassword, Properties keys, credential constructors, KeyStore passwords and backdoor equals() checks. Placeholders, property keys, labels and test code are not reported."
+description: "Detects passwords written into Java production source as string literals."
 order: 773
 sources: ["cli/internal/sast/rules/vnx-java-025.rego", "cli/internal/sast/docs/vnx-java-025.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

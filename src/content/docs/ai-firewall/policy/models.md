@@ -1,7 +1,7 @@
 ---
 title: Model allow and deny
 nav: Models
-description: Allow or deny individual models per provider or across every provider, how the first allow entry switches a provider into allowlist mode, and how model names are matched.
+description: Allow or deny models per provider or across every provider, how the first allow entry switches a provider into allowlist mode, and how model names match.
 order: 3
 sources:
   - ai-firewall/internal/api/handlers.go

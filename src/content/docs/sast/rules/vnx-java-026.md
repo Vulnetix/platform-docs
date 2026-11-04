@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-026: Java Spring/servlet file serving without access control"
 nav: "VNX-JAVA-026"
-description: "Detects Spring and servlet handlers that serve a file (FileSystemResource, UrlResource, PathResource, InputStreamResource, copyToByteArray, Files.readAllBytes/copy) whose path comes from a request value, when the handler makes no authorisation decision (no @PreAuthorize/@Secured, Principal, Authentication or owner check)."
+description: "Detects Spring and servlet handlers that serve a file (FileSystemResource, UrlResource, PathResource, InputStreamResource, copyToByteArray."
 order: 774
 sources: ["cli/internal/sast/rules/vnx-java-026.rego", "cli/internal/sast/docs/vnx-java-026.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

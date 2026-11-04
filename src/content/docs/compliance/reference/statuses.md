@@ -1,6 +1,6 @@
 ---
 title: Status vocabulary
-description: The five control statuses every compliance report uses, the label each framework shows for them, and the assessor finding values for PCI DSS, ISO/IEC 27001 and OWASP DSOMM.
+description: The five control statuses every compliance report uses, each framework's label for them, and assessor finding values for PCI DSS, ISO/IEC 27001 and OWASP DSOMM.
 order: 2
 sources: [vdb-cyclonedx/euaiact/euaiact.go, vdb-site/api/internal/handler/compliance_export.go, vdb-site/api/internal/handler/compliance_assessments.go, vdb-site/api/internal/pcidss/pcidss.go, vdb-site/api/internal/iso27001/iso27001.go, vdb-site/api/internal/dsomm/dsomm.go, vdb-site/api/internal/handler/compliance_oscal.go]
 checked: [vdb-cyclonedx@eaf787c, vdb-site@1a06d67]

@@ -1,6 +1,6 @@
 ---
 title: "MessagingRoute"
-description: "A messaging workflow: which events go to which messaging connections, filtered how, rendered with which template, and how often. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A messaging workflow: which events go to which messaging connections, filtered how, rendered with which template, and how often."
 order: 18
 group: "Integrations"
 generated: true

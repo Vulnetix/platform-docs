@@ -1,6 +1,6 @@
 ---
 title: Facts
-description: An index of what every session and run touched (vulnerabilities, repositories, files, domains, tools, models) so you can find every run that worked on a CVE or every session that reached a domain.
+description: An index of what every factory session and run touched, such as CVEs, repositories, files, domains and models, to find every run that worked on a given item.
 order: 6
 sources: [vdb-site/docs/factory.md, vdb-site/docs/belai-session-facts.md, vdb-site/api/internal/facts/kinds.go, vdb-site/api/internal/handler/factory_facts.go]
 checked: [vdb-site@284f1d6]

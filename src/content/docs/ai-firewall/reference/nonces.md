@@ -1,7 +1,7 @@
 ---
 title: Nonces and sealed blocks
 nav: Nonces
-description: How a client seals harness blocks with gateway-issued nonces, how the gateway classifies them, and what observe, enforce and canonical mode do to the forwarded request.
+description: How a client seals harness blocks with gateway-issued nonces, how the gateway classifies them, and what observe, enforce and canonical mode do to the request.
 order: 5
 sources:
   - ai-firewall/internal/api/nonces.go

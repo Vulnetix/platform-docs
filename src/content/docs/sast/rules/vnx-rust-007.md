@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUST-007: Rust integer arithmetic overflow without checked arithmetic"
 nav: "VNX-RUST-007"
-description: "Reports +, -, * and << on an integer just parsed or decoded from runtime data (parse::<T>(), from_str_radix, from_be_bytes, read_u32); checked/saturating/wrapping calls, values bounded by a comparison or min/clamp, and values that were not decoded are not reported."
+description: "Reports +, -, * and << on an integer just parsed or decoded from runtime data (parse::<T>(), from_str_radix, from_be_bytes, read_u32)."
 order: 893
 sources: ["cli/internal/sast/rules/vnx-rust-007.rego", "cli/internal/sast/docs/vnx-rust-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

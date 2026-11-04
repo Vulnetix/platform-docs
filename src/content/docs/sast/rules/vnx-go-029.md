@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-029: Hardcoded weak or default password"
 nav: "VNX-GO-029"
-description: "Detects a well-known weak or default password (admin, password, 123456, changeme, postgres...) written into Go source as a credential: a password variable or field, a setter or SetBasicAuth, connection-string userinfo, or an env/flag/viper default."
+description: "Detects a well-known weak or default password (admin, password, 123456, changeme, postgres...) written into Go source as a credential."
 order: 731
 sources: ["cli/internal/sast/rules/vnx-go-029.rego", "cli/internal/sast/docs/vnx-go-029.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

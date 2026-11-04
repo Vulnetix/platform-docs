@@ -1,7 +1,7 @@
 ---
 title: Providers, keys and secrets
 nav: Providers and keys
-description: The model providers Belai can use, custom providers and decision backends, how keys reach a host without being written to settings, vault environment variables for commands, and MCP secrets.
+description: The model providers Belai can use, custom providers and decision backends, how keys reach a host unwritten, vault environment variables and MCP secrets.
 order: 15
 sources: [belai/docs/settings.md, belai/docs/vault-env.md, belai/docs/kiro.md, vdb-site/api/internal/handler/belai_provider_keys.go, vdb-site/api/internal/handler/belai_mcp_secrets.go, vdb-site/api/internal/handler/belai_items_validate_provider.go]
 checked: [belai@35506b9, vdb-site@284f1d6]

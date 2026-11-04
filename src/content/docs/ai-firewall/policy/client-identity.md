@@ -1,6 +1,6 @@
 ---
 title: Client identity
-description: How the gateway names the calling client from request headers, the canonical client names client_allow and client_deny match, and why identity is attribution and not authentication.
+description: How the gateway names the calling client from request headers, the canonical names client_allow and client_deny match, and why identity is not authentication.
 order: 16
 sources:
   - ai-firewall/internal/client/client.go

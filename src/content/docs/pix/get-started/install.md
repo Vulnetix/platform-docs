@@ -1,7 +1,7 @@
 ---
 title: Install, update and verify
 nav: Install
-description: Wire the hooks with vulnetix agent install, install the skills with vulnetix skills install or the Claude Code marketplace, keep them current, and check each surface is live.
+description: Wire the Pix hooks with vulnetix agent install, install the skills with vulnetix skills install or the Claude Code marketplace, and check each surface is live.
 order: 2
 sources: [cli/cmd/agent.go, cli/internal/agent/hosts.go, cli/internal/agent/install.go, cli/cmd/skills.go, cli/cmd/skills_prune.go, pix-ai-coding-assistant/.claude-plugin/marketplace.json, pix-ai-coding-assistant/vulnetix/hooks/hooks.json, pix-ai-coding-assistant/skills/_lib/contract.md]
 checked: [cli@4c8c3b7, pix-ai-coding-assistant@7aebf02]

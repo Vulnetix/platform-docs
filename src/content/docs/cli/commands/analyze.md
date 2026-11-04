@@ -1,6 +1,6 @@
 ---
 title: analyze
-description: vulnetix analyze builds a graph of the repository's tech stack with cross-repo join keys, and reports evidence-backed activity, security, quality, maintainability, trust and business metrics.
+description: vulnetix analyze graphs the repository's tech stack with cross-repo join keys and reports evidence-backed activity, security, quality and trust metrics.
 order: 3
 sources: [cli/cmd/analyze.go, cli/cmd/insights_upload.go, cli/internal/analyze/run.go, cli/internal/analyze/forge/auth.go, cli/internal/analyze/collect_contracts.go, cli/internal/analyze/collect_coupling.go, cli/internal/analyze/collect_egress.go, cli/schemas/vulnetix-analyze-report.schema.json]
 checked: [cli@24498404a]

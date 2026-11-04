@@ -1,10 +1,10 @@
 ---
 title: "VNX-TF-007: Terraform AWS EKS cluster public API endpoint enabled"
 nav: "VNX-TF-007"
-description: "Detect EKS clusters in Terraform whose Kubernetes API endpoint is public to the whole internet: endpoint_public_access = true or left at its public default without a restricting public_access_cidrs, or an EKS module with public access turned on."
+description: "Detect EKS clusters in Terraform whose Kubernetes API endpoint is public to the whole internet."
 order: 987
 sources: ["cli/internal/sast/rules/vnx-tf-007.rego", "cli/internal/sast/docs/vnx-tf-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

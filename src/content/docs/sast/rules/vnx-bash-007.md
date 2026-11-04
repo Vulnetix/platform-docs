@@ -1,10 +1,10 @@
 ---
 title: "VNX-BASH-007: Unquoted command substitution in shell script"
 nav: "VNX-BASH-007"
-description: "Reports an unquoted $(...) or backtick substitution used as a command argument, or a for loop over a file or text listing, where word splitting and globbing break its output into extra arguments. Quoted, assigned, arithmetic, command-position and single-token outputs are not reported."
+description: "Reports an unquoted $(...) or backtick substitution used as a command argument, or a for loop over a file or text listing."
 order: 668
 sources: ["cli/internal/sast/rules/vnx-bash-007.rego", "cli/internal/sast/docs/vnx-bash-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

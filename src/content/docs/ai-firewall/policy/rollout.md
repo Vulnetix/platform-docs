@@ -1,6 +1,6 @@
 ---
 title: Rollout and tuning
-description: Move content and capability rules from flag to redact, strip or block without breaking developers, see what a flagged rule matches, and narrow a rule that fires on legitimate work.
+description: Move content and capability rules from flag to redact, strip or block without breaking developers, and narrow a rule that fires on legitimate work.
 order: 17
 sources:
   - ai-firewall/internal/policy/engine.go

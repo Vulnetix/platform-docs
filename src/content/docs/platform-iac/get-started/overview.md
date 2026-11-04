@@ -1,6 +1,6 @@
 ---
 title: Platform IaC
-description: What Platform IaC is, which Vulnetix configuration you can keep as code, how documents are applied from the CLI, Terraform and a repository, and where each piece is documented.
+description: What Platform IaC is, which Vulnetix configuration you can keep as code, and how documents are applied from the CLI, Terraform and a repository.
 order: 1
 sources: [config-schemas/README.md, config-schemas/schemas.go, cli/cmd/config_documents.go, cli/cmd/config.go, vdb-site/docs/platform-iac-engine.md, terraform-provider-resolve/README.md]
 checked: [config-schemas@v1.8.0, cli@v3.166.0, vdb-site@3c0433c]

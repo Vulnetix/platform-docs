@@ -1,10 +1,10 @@
 ---
 title: "VNX-98: PHP Remote File Inclusion"
 nav: "VNX-98"
-description: "PHP include/require statements whose path carries request data (superglobals, php://input, filter_input, $request->input), inline or through a variable, with no basename(), cast or allowlist check."
+description: "PHP include/require statements whose path carries request data (superglobals, php://input, filter_input, $request->input), inline or through a variable."
 order: 111
 sources: ["cli/internal/sast/rules/vnx-98.rego", "cli/internal/sast/docs/vnx-98.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

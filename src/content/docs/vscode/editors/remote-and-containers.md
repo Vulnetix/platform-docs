@@ -1,7 +1,7 @@
 ---
 title: Remote workspaces and containers
 nav: Remote and containers
-description: Remote-SSH, WSL, Dev Containers, Codespaces, code-server, OpenVSCode Server, Gitpod, Coder and Firebase Studio, with snippets that pre-install the extension and the CLI.
+description: Pre-install the Vulnetix extension and CLI in Remote-SSH, WSL, Dev Containers, Codespaces, code-server, OpenVSCode Server, Gitpod, Coder and Firebase Studio.
 order: 2
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/cli/resolve.ts, vulnetix-vscode/src/shared/launch.ts, cli/install.sh, cli/pkg/cache/cache.go, cli/pkg/auth/credentials.go]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]

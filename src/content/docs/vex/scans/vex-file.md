@@ -1,7 +1,7 @@
 ---
 title: VEX in a scan
 nav: --vex and --vex-file
-description: Apply third-party VEX documents to a scan with --vex-file, --vex (a file, a directory or an https URL), the VexSource documents declared in .vulnetix/config and, when authenticated, the statements the Resolve Platform holds, so every quality gate honours them, and read the summary line that says how many findings VEX hid.
+description: Apply third-party VEX to a scan with --vex-file, --vex, VexSource documents and Resolve Platform statements so quality gates honour them, and read the summary.
 order: 1
 sources: [cli/cmd/scan.go, cli/cmd/vex.go, cli/cmd/vex_sources.go, cli/cmd/suppress.go, cli/internal/vex/console.go, cli/internal/scanopts/fromcobra.go, cli/internal/vex/read.go, cli/docs/vex-sources.md]
 checked: [cli@v4.4.0]

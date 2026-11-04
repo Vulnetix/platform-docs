@@ -1,7 +1,7 @@
 ---
 title: Attestation
 nav: Overview
-description: Sign the SBOMs the Vulnetix CLI writes with your CI runner's own OIDC identity, and verify signatures and in-toto provenance on any artefact with vulnetix attest verify.
+description: Sign the SBOMs the Vulnetix CLI writes with your CI runner's OIDC identity, and verify signatures and in-toto provenance with vulnetix attest verify.
 order: 1
 sources: [cli/cmd/attest.go, cli/internal/attest/verify.go, cli/internal/attest/roots.go, cli/internal/cdxsign/sign.go, vdb-cyclonedx/fulcio.go]
 checked: [cli@4c8c3b71c, vdb-cyclonedx@eaf787c]

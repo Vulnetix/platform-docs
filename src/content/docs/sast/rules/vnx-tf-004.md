@@ -1,10 +1,10 @@
 ---
 title: "VNX-TF-004: Terraform IAM policy with wildcard Action (*)"
 nav: "VNX-TF-004"
-description: "Detect IAM policy statements in Terraform that allow every action (Action \"*\" in jsonencode, heredoc or one-line escaped JSON policies, actions = [\"*\"] in aws_iam_policy_document or an Azure custom role), skipping statements whose own Effect is Deny."
+description: "Detect IAM policy statements in Terraform that allow every action (Action \"*\" in jsonencode, heredoc or one-line escaped JSON policies."
 order: 984
 sources: ["cli/internal/sast/rules/vnx-tf-004.rego", "cli/internal/sast/docs/vnx-tf-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-CRYPTO-010: Hardcoded IV, nonce, or salt in cryptographic operation"
 nav: "VNX-CRYPTO-010"
-description: "Detects a constant IV, nonce or salt (a string or byte literal, a literal byte array, or a zero-filled buffer) passed to a cipher, AEAD or password KDF call in Python, JavaScript/TypeScript, Go, Java/Kotlin, C/C++/Objective-C, Rust, C#, PHP and Ruby, directly or through a variable assigned that constant. Random, ciphertext-derived and in-place-filled IVs are not reported."
+description: "Detects a constant IV, nonce or salt (a string or byte literal, a literal byte array, or a zero-filled buffer) passed to a cipher."
 order: 684
 sources: ["cli/internal/sast/rules/vnx-crypto-010.rego", "cli/internal/sast/docs/vnx-crypto-010.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

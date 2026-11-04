@@ -1,6 +1,6 @@
 ---
 title: Alert rules
-description: Where Guardian alert rules come from, how often they run and over which window, their settings and limits, tuning with thresholds and suppressions, statuses, and testing and backfill.
+description: Where Guardian alert rules come from, their schedule and window, settings and limits, tuning with thresholds and suppressions, statuses, testing and backfill.
 order: 1
 sources: [siem/worker/src/api/rules.ts, siem/worker/src/rules/run.ts, siem/worker/src/rules/model.ts, siem/worker/src/rules/compile.ts, siem/worker/src/rules/alerts.ts, siem/worker/src/sigma/tune.ts, siem/worker/src/sigmahq.ts, siem/worker/migrations/0001_init.sql, siem/docs/rules.md]
 checked: [siem@e0f71fa]

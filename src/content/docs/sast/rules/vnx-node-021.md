@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-021: XXE via libxmljs with noent:true"
 nav: "VNX-NODE-021"
-description: "Reports noent: true (inline, across lines or in an options object) in files using libxmljs/libxmljs2, and libxml2-wasm's XML_PARSE_NOENT flag. Not reported: noent false or omitted, a noent key in files without libxml, a bare import, comments and strings."
+description: "Reports noent: true (inline, across lines or in an options object) in files using libxmljs/libxmljs2, and libxml2-wasm's XML_PARSE_NOENT flag. Not reported."
 order: 817
 sources: ["cli/internal/sast/rules/vnx-node-021.rego", "cli/internal/sast/docs/vnx-node-021.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

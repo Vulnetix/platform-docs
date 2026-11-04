@@ -1,6 +1,6 @@
 ---
 title: Forge requests
-description: How a worker that cannot push its own work hands the job to a coordinator, which pushes the branch and opens the draft pull request with the GitHub App, and what each outcome means.
+description: How a worker that cannot push hands the job to a coordinator, which pushes the branch and opens a draft pull request with the GitHub App, and each outcome.
 order: 14
 sources: [vdb-site/docs/belai-forge-requests.md, FORGE-COORDINATOR-CONTRACT.md, vdb-site/api/internal/handler/belai_forge.go]
 checked: [vdb-site@284f1d6]

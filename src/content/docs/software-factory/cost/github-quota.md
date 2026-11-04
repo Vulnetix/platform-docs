@@ -1,7 +1,7 @@
 ---
 title: Forge quota and the data plane
 nav: Forge quota
-description: How the factory shares each forge's rate limit with your own tools. Where it reads a forge from, the factory's share and the reserve, the local budget on forges that report none, what each priced action costs, what happens when the share runs out, and the forge settings.
+description: How the factory shares each forge's rate limit with your own tools, its share and reserve, what each action costs, what happens when the share runs out.
 order: 4
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_quota.go, vdb-site/api/internal/handler/factory_engine_quota.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@597344c, website@58b9ffa]

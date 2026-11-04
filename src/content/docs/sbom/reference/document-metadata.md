@@ -1,7 +1,7 @@
 ---
 title: Document identity and deployment labels
 nav: Identity and labels
-description: How the CLI fills metadata.manufacturer, metadata.tools and metadata.lifecycles in the documents it writes, and the deployment label flags and environment variables stamped into metadata.properties.
+description: How the CLI fills metadata.manufacturer, metadata.tools and metadata.lifecycles, and the deployment label flags and variables stamped into metadata.properties.
 order: 1
 sources: [cli/internal/scanopts/authorship.go, cli/internal/scanopts/deployment.go, cli/internal/cdx/authorship.go, cli/cmd/cdx.go, cli/cmd/scan.go, cli/cmd/image.go, cli/internal/triage/vex.go]
 checked: [cli@v4.17.1]

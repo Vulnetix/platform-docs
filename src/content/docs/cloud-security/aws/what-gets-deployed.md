@@ -1,6 +1,6 @@
 ---
 title: What Vulnetix deploys
-description: Every resource in the vulnetix-security-bootstrap and vulnetix-security-pipeline CloudFormation stacks, the external ID, the probe function's settings, and what each costs you.
+description: Every resource in the vulnetix-security-bootstrap and vulnetix-security-pipeline CloudFormation stacks, the external ID, probe settings and what each costs.
 order: 12
 nav: What gets deployed
 sources: [vdb-site/api/internal/handler/assets/aws-bootstrap.yaml, vdb-site/api/internal/handler/assets/aws-pipeline.yaml, vdb-site/api/internal/handler/integrations_aws_stack.go, vdb-site/api/internal/handler/integrations_aws.go, vdb-site/api/internal/handler/cloud_scheduler.go]

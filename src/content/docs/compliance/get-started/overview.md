@@ -1,7 +1,7 @@
 ---
 title: Compliance reports overview
 nav: Overview
-description: Compliance reports map your organisation's scans, findings, inventories and triage records onto the controls of ten frameworks for a reporting period, and export the result as PDF, OSCAL assessment results and an evidence bundle.
+description: Compliance reports map your organisation's scans, findings and triage records onto ten frameworks' controls, exported as PDF, OSCAL and an evidence bundle.
 order: 1
 sources: [vdb-site/api/internal/handler/compliance_reports.go, vdb-site/api/internal/handler/compliance_export.go, vdb-site/api/internal/handler/compliance_oscal.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/api/main.go, website/src/shared/routes.ts, website/src/components/compliance/ComplianceReportFrame.vue]
 checked: [vdb-site@1a06d67, website@ad775f37, vdb-cyclonedx@eaf787c]

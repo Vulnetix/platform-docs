@@ -1,6 +1,6 @@
 ---
 title: "VaultEntry"
-description: "One secret in the tenant's vault: an AI provider key, an environment variable for Pix sandboxes and Belai hosts, or a provider management key. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "One secret in the tenant's vault: an AI provider key, an environment variable for Pix sandboxes and Belai hosts, or a provider management key."
 order: 14
 group: "Vault"
 generated: true

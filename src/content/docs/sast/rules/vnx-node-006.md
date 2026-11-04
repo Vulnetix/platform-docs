@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-006: Prototype pollution via merge"
 nav: "VNX-NODE-006"
-description: "Reports lodash deep merge/set, deepmerge-style modules, $.extend(true, ...) and objectPath/dotProp.set called with request data (directly or via a nearby variable), which can write Object.prototype."
+description: "Reports lodash deep merge/set, deepmerge-style modules, $.extend(true."
 order: 802
 sources: ["cli/internal/sast/rules/vnx-node-006.rego", "cli/internal/sast/docs/vnx-node-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

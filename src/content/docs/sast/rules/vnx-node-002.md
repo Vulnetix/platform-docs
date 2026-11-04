@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-002: eval() or new Function() in JavaScript"
 nav: "VNX-NODE-002"
-description: "Reports eval(), new Function()/Function(), vm.runIn*Context/compileFunction/new vm.Script with a non-constant argument, and setTimeout/setInterval given a code string built from variables."
+description: "Reports eval(), new Function()/Function(), vm.runIn*Context/compileFunction/new vm.Script with a non-constant argument."
 order: 798
 sources: ["cli/internal/sast/rules/vnx-node-002.rego", "cli/internal/sast/docs/vnx-node-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

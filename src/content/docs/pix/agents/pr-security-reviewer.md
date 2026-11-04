@@ -1,6 +1,6 @@
 ---
 title: pr-security-reviewer
-description: Reviews a pull request or the current branch before merge, runs only the scanners whose files changed, checks each new direct dependency, and writes one APPROVE or REQUEST_CHANGES review it can post with gh.
+description: Reviews a pull request before merge, runs only the scanners for changed files, checks new direct dependencies, and writes an APPROVE or REQUEST_CHANGES review.
 order: 2
 sources: [pix-ai-coding-assistant/vulnetix/agents/pr-security-reviewer.md, pix-ai-coding-assistant/website/guides/agents/pr-security-reviewer.md, cli/cmd/scan.go]
 checked: [pix-ai-coding-assistant@7aebf02, cli@4c8c3b7]

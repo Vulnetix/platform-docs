@@ -1,6 +1,6 @@
 ---
 title: Hosts and placement
-description: The machines factory work runs on, how the factory chooses one for each step, the tenant's placement settings, eligibility, worker states, and how a host asks a person for something.
+description: The machines factory work runs on, how the factory picks one for each step, tenant placement settings, eligibility, worker states, and host requests to people.
 order: 6
 sources: [vdb-site/docs/factory.md, vdb-site/docs/belai-host-attention.md, belai/docs/fleet.md, vdb-site/api/internal/handler/factory_host_select.go, vdb-site/api/internal/handler/factory_hosts_eligibility.go]
 checked: [vdb-site@284f1d6, belai@35506b9, website@a31d470]

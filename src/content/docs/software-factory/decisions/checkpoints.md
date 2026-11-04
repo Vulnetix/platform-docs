@@ -1,7 +1,7 @@
 ---
 title: Checkpoints and Needs you
 nav: Checkpoints
-description: One queue of everything that waits on a person. The eleven kinds of checkpoint, how rows are merged and ordered, what you can do from the page, and the cockpit's Needs you panel.
+description: One queue of everything that waits on a person, the eleven checkpoint kinds, how rows are merged and ordered, page actions, and the cockpit's Needs you panel.
 order: 4
 sources: [vdb-site/docs/factory.md, website/.repo/factory-checkpoints.md, website/src/shared/factory-checkpoint-kinds.ts, vdb-site/api/internal/handler/factory_checkpoints.go]
 checked: [vdb-site@284f1d6, website@a31d470]

@@ -1,6 +1,6 @@
 ---
 title: Run it behind a Cloudflare Portal
-description: Put the server behind a Cloudflare MCP Server Portal and require it with Gateway policy, with the server properties that make this simpler and the open questions.
+description: Put the server behind a Cloudflare MCP Server Portal and require it with Gateway policy, with the server properties that help and the open questions.
 order: 8
 nav: Cloudflare Portal
 sources:

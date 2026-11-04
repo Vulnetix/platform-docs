@@ -1,6 +1,6 @@
 ---
 title: Recipes
-description: Runnable examples for common VDB API jobs, with the CLI and with curl, including a CI gate on a package version, KEV checks for a list of CVEs, rule-pack exports and jq filters.
+description: Runnable CLI and curl examples for common VDB API jobs, including a CI gate on a package version, KEV checks for CVE lists, rule-pack exports and jq filters.
 order: 3
 sources: [cli/cmd/vdb.go, cli/cmd/vdb_kev.go, cli/cmd/vdb_snort_rules.go, vdb-api/internal/handler/inputs_resolve.go, vdb-api/internal/handler/package_versions.go]
 checked: [cli@4c8c3b71c, vdb-api@4145f0a]

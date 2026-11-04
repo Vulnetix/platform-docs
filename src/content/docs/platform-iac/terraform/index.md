@@ -1,7 +1,7 @@
 ---
 title: Terraform and OpenTofu
 nav: Overview
-description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a service account's ApiKey or an Authentik token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Published on the Terraform and OpenTofu registries as vulnetix/resolve.
+description: The vulnetix/resolve provider for Terraform and OpenTofu, covering install, authentication, one resource per kind, import by name, write-only secrets and state.
 order: 1
 sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/orgroles/orgroles.go"]
 checked: ["terraform-provider-resolve@v1.4.1", "vdb-site@fcbbdd3"]

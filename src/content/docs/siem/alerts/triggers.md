@@ -1,6 +1,6 @@
 ---
 title: Triggers
-description: Run a saved search or alert rule on a schedule and, when its rows pass the levers, start a Software Factory workflow, post to a messaging connection or send an email; levers, destinations, dry runs and the built-in Guardian workflows.
+description: Run a saved search or alert rule on a schedule and, when rows pass the levers, start a Software Factory workflow, post to a messaging connection or email.
 order: 2
 sources: [siem/worker/src/triggers/model.ts, siem/worker/src/triggers/run.ts, siem/worker/src/api/triggers.ts, siem/worker/src/schedule.ts, siem/docs/triggers.md, vdb-site/api/internal/handler/factory_templates_guardian.go]
 checked: [siem@e0f71fa, vdb-site@1a06d67]

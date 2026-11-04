@@ -1,7 +1,7 @@
 ---
 title: The settings document
 nav: Settings document
-description: How factory settings are stored, saved and exported. One revisioned document per tenant, sections on the Settings page, keys that take effect later, locked keys, and per-host project overrides.
+description: How factory settings are stored as one revisioned document per tenant, saved and exported, with delayed keys, locked keys and per-host project overrides.
 order: 7
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_settings_store.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@597344c, website@58b9ffa, belai@8aa7760]

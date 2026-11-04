@@ -1,7 +1,7 @@
 ---
 title: Query a set of SBOMs
 nav: Corpus queries
-description: Find which documents contain a package, which packages appear at several versions, and search packages, vulnerabilities and licences across a directory of SBOMs with vulnetix bom ls, where, skew and search.
+description: Search packages, vulnerabilities and licences across a directory of SBOMs, and find version skew, with vulnetix bom ls, where, skew and search.
 order: 3
 sources: [cli/cmd/bom_corpus.go, cli/internal/bom/index.go, cli/internal/bom/collect.go]
 checked: [cli@4c8c3b71c]

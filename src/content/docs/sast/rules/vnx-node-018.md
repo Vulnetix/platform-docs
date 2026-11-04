@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-018: JWT decoded without signature verification"
 nav: "VNX-NODE-018"
-description: "Reports jsonwebtoken decode() in a file that never calls verify(), and a jsonwebtoken algorithms list containing 'none'. Not reported: decode-then-verify, a token the server issued itself, the browser jwt-decode package, jwt-simple, tests and comments."
+description: "Reports jsonwebtoken decode() in a file that never calls verify(), and a jsonwebtoken algorithms list containing 'none'. Not reported."
 order: 814
 sources: ["cli/internal/sast/rules/vnx-node-018.rego", "cli/internal/sast/docs/vnx-node-018.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

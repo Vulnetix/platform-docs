@@ -1,6 +1,6 @@
 ---
 title: Response shaping
-description: How a 2.6 MB vdb-api record becomes about 10 KB without dropping a decision field, which tools reduce what, and how the TypeScript port is held to the Pix jq filters.
+description: How a 2.6 MB vdb-api record shrinks to about 10 KB without dropping a decision field, which tools reduce what, and how the port matches the Pix jq filters.
 order: 2
 sources:
   - mcp-server/src/shaping/filters/

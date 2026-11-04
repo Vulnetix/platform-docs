@@ -1,6 +1,6 @@
 ---
 title: Budgets
-description: How factory budgets nest from the Pix allowance down to a single step, what happens at a limit, alerts, the per-card limits every agent inherits, and the Budgets page.
+description: How factory budgets nest from the Pix allowance down to a single step, what happens at a limit, alerts, per-card agent limits, and the Budgets page.
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_budgets.go, vdb-site/api/internal/handler/factory_engine_budget.go, vdb-site/api/internal/handler/factory_agent_budget.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@284f1d6, website@a31d470]

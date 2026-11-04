@@ -1,7 +1,7 @@
 ---
 title: Supported languages
 nav: Languages
-description: The language keys SAST rules declare, the file extensions and file names that mark a language present, and how the language pre-filter decides which rules compile.
+description: The language keys SAST rules declare, the file extensions and names that mark a language present, and how the language pre-filter decides which rules compile.
 order: 2
 sources: [cli/internal/sast/language_filter.go, cli/internal/sast/input.go, cli/internal/sast/engine.go]
 checked: [cli@4c8c3b7]

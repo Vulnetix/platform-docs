@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-062: MySQL connection string with credentials"
 nav: "VNX-SEC-062"
-description: "Reports a MySQL or MariaDB connection URL (mysql://, mariadb://, mysql+driver://, jdbc:mysql) that embeds a literal password, but not interpolated or default passwords, localhost servers, documentation or example files."
+description: "Reports a MySQL or MariaDB connection URL (mysql://, mariadb://, mysql+driver://, jdbc:mysql) that embeds a literal password."
 order: 956
 sources: ["cli/internal/sast/rules/vnx-sec-062.rego", "cli/internal/sast/docs/vnx-sec-062.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

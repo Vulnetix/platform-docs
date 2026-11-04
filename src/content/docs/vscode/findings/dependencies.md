@@ -1,6 +1,6 @@
 ---
 title: Dependencies
-description: "Dependency findings in manifests and lockfiles: the diagnostic, the hover card, inline hints, quick fixes, the four Safe Harbour strategies and what the community tier withholds."
+description: "Dependency findings in manifests and lockfiles: diagnostics, hover cards, inline hints, quick fixes, the four Safe Harbour strategies and community tier limits."
 order: 2
 sources: [cli/internal/lsp/sca.go, cli/internal/lsp/sca_diagnostics.go, cli/internal/lsp/sca_document.go, cli/internal/lsp/codeaction.go, cli/internal/lsp/inlayhint.go, cli/internal/lsp/hover.go, cli/internal/scaview/scaview.go, cli/internal/lsp/settings.go, vulnetix-vscode/package.json]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]

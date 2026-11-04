@@ -1,6 +1,6 @@
 ---
 title: Rate limits
-description: How the VDB API counts requests against a daily quota per API key, the default quota for each plan, the RateLimit headers on every response, and what happens at the limit.
+description: How the VDB API counts requests against a daily quota per API key, each plan's default quota, the RateLimit response headers, and what happens at the limit.
 order: 2
 sources: [vdb-api/internal/middleware/ratelimit.go, vdb-api/internal/handler/deps.go, vdb-api/internal/handler/appconfig.go, vdb-site/api/internal/handler/tierconfig.go, cli/pkg/vdb/client.go, cli/cmd/vdb.go]
 checked: [vdb-api@4145f0a, vdb-site@1a06d67, cli@4c8c3b71c]

@@ -1,7 +1,7 @@
 ---
 title: Agent and repository memory
 nav: Memory
-description: Notes agents keep about a repository and lessons each worker keeps, shared across every host of your organisation, and the Memory page where people read and edit them.
+description: Notes agents keep about a repository and lessons each worker keeps, shared across your organisation's hosts, and the Memory page for reading and editing them.
 order: 12
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/belai_memory.go, belai/internal/repomemory]
 checked: [vdb-site@284f1d6, belai@35506b9, website@a31d470]

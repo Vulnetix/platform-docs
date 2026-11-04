@@ -1,7 +1,7 @@
 ---
 title: VEX documents as suppression rules
 nav: VEX sources
-description: How a VexSource reads OpenVEX and CycloneDX VEX documents from TEA, S3, git, a path or URLs, how each statement becomes a suppression, remediation, triage context or annotation, how often it is fetched, and what plan refuses.
+description: How a VexSource reads OpenVEX and CycloneDX VEX from TEA, S3, git, a path or URLs, and how each statement becomes a suppression, remediation or annotation.
 order: 1
 sources: ["config-schemas/schemas/VexSource.schema.json", "vdb-site/api/internal/config/vexsource.go", "vdb-site/api/internal/vexsource/spec.go", "vdb-site/api/internal/vexsource/mapping.go", "vdb-site/api/internal/vexsource/reconcile.go", "vdb-site/api/internal/vexsource/refresh.go", "vdb-site/api/internal/vexsource/fetch.go", "vdb-site/api/internal/vexsource/fetch_urls.go", "vdb-site/api/internal/vexsource/fetch_s3.go", "vdb-site/api/internal/vexsource/fetch_git.go", "vdb-site/api/internal/vexsource/fetch_tea.go"]
 checked: ["config-schemas@v1.7.0", "vdb-site@b09e595", "cli@v4.4.0"]

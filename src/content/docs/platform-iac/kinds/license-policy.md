@@ -1,6 +1,6 @@
 ---
 title: "LicensePolicy"
-description: "A licence policy: which licence categories produce findings and at what severity, how unresolved licences and dependency scopes are treated. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A licence policy: which licence categories produce findings and at what severity, how unresolved licences and dependency scopes are treated."
 order: 27
 group: "Scanners and gates"
 generated: true

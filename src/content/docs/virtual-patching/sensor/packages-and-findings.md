@@ -1,6 +1,6 @@
 ---
 title: Host packages, SBOM and findings
-description: What a sensor reports about the packages on its host, how to list them and download the host's SBOM, how they are checked for vulnerabilities, and what happens to the findings when a package is upgraded or a host is gone.
+description: What a sensor reports about its host's packages, listing them and downloading the host SBOM, vulnerability checks, and findings after upgrades or host removal.
 order: 9
 nav: Packages and findings
 sources: [vdb-site/docs/runtime-sensor-api.md, vdb-site/api/internal/handler/runtime.go, vdb-site/api/internal/handler/runtime_sbom.go, vdb-site/api/internal/handler/runtime_sbom_ingest.go, vdb-site/api/internal/handler/runtime_analysis_state.go, vdb-site/api/internal/handler/runtime_lifecycle.go, cli/internal/sensor/agent/metrics.go, cli/internal/sensor/inventory, cli/internal/sysinv, vdb-sca-match/distro.go, vdb-api-cyclonedx-uploads/internal/processor/pipeline.go, vdb-api-cyclonedx-uploads/internal/processor/retire.go, vdb-api-cyclonedx-uploads/internal/processor/confidence.go, vdb-manager/scripts/go-processors/internal/archtracker]

@@ -1,7 +1,7 @@
 ---
 title: "vulnetix config apply"
 nav: Apply
-description: Plan config documents, confirm, and apply exactly that plan in one transaction. Flags, confirmation rules, the plan hash, the 409 when state moved, and exit codes.
+description: Plan config documents, confirm and apply exactly that plan in one transaction with vulnetix config apply, covering flags, the plan hash, the 409 and exit codes.
 order: 3
 sources: [cli/cmd/config_engine.go, cli/cmd/config_engine_client.go, cli/cmd/config_engine_test.go, vdb-site/api/internal/handler/config_engine.go, vdb-site/api/internal/config/engine.go]
 checked: [cli@d01f1dbe3, vdb-site@b424ae4]

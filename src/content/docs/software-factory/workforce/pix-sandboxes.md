@@ -1,6 +1,6 @@
 ---
 title: Pix Sandboxes
-description: The machines Vulnetix runs for your factory. Sizes, repositories, egress, package versions and Safe Harbour, extensions, launch configurations, maintenance windows, wakes, telemetry and usage.
+description: The machines Vulnetix runs for your factory, covering sizes, repositories, egress, Safe Harbour, extensions, launch configurations, maintenance and usage.
 order: 7
 sources: [belai/docs/pix-sandbox.md, website/sandbox-worker/docs/pricing.md, website/sandbox-worker/docs/factory-wake.md, vdb-site/docs/pix-sandbox-safe-harbour.md, vdb-site/api/internal/handler/pix_sandbox_store.go, vdb-site/api/internal/handler/pix_sandbox_provisioning.go]
 checked: [belai@35506b9, website@a31d470, vdb-site@284f1d6]

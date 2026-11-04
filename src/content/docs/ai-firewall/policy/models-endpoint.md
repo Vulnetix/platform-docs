@@ -1,6 +1,6 @@
 ---
 title: The models endpoint
-description: GET /v1/models returns the catalog models the organisation's policy permits, in the OpenAI or Anthropic shape, without calling the provider or needing a stored key.
+description: GET /v1/models returns the catalogue models your organisation's policy permits, in OpenAI or Anthropic shape, without calling the provider or a stored key.
 order: 4
 sources:
   - ai-firewall/internal/api/handlers.go

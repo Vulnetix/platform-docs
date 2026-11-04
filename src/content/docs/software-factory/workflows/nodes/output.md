@@ -1,6 +1,6 @@
 ---
 title: Output node
-description: The step that writes a run's result back. Draft pull requests, comments, reviews, approval when ready, merge conflict cards, TEA releases, VEX and notifications, with every key and the rules each one follows.
+description: The step that writes a run's result back as draft pull requests, comments, reviews, merge conflict cards, TEA releases, VEX and notifications, with every key.
 order: 16
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_engine_node_output.go, vdb-site/api/internal/handler/factory_engine_review.go, vdb-site/api/internal/handler/factory_engine_approve.go, vdb-site/api/internal/handler/factory_engine_conflicts.go]
 checked: [vdb-site@597344c]

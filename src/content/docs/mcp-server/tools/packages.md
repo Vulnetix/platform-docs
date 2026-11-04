@@ -1,6 +1,6 @@
 ---
 title: Package risk tools
-description: Score a package before you install it, list the advisories and versions the VDB knows for it, and resolve an exact purl to its risk and Safe Harbour recommendation.
+description: Score a package before installing it, list its advisories and versions in the VDB, and resolve an exact purl to its risk and Safe Harbour recommendation.
 order: 4
 nav: Package risk
 sources:

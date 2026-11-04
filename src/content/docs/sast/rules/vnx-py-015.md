@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-015: Python ReDoS via user-controlled regular expression"
 nav: "VNX-PY-015"
-description: "Detect request data (Flask, Django, DRF or a Flask/FastAPI route parameter) used as the pattern of re or regex compile, match, search, findall, sub or split without re.escape(), which lets an attacker submit a catastrophically backtracking pattern (ReDoS)."
+description: "Detect request data (Flask, Django, DRF or a Flask/FastAPI route parameter) used as the pattern of re or regex compile, match, search, findall."
 order: 869
 sources: ["cli/internal/sast/rules/vnx-py-015.rego", "cli/internal/sast/docs/vnx-py-015.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: "The messaging centre: connections, routes and templates"
 nav: Messaging centre
-description: How factory events reach Slack, Teams, Discord, Google Chat, Jira, GitHub Issues and signed webhooks. Connections, routes, tiers and digests, templates, delivery outcomes, and the factory's notification settings.
+description: How factory events reach Slack, Teams, Discord, Google Chat, Jira, GitHub Issues and signed webhooks through connections, routes, tiers, digests and templates.
 order: 26
 sources: [vdb-site/docs/messaging.md, vdb-site/api/internal/handler/messaging_handlers.go, vdb-site/api/internal/handler/messaging_dispatcher.go, vdb-site/api/internal/handler/messaging_slack_thread.go]
 checked: [vdb-site@284f1d6]

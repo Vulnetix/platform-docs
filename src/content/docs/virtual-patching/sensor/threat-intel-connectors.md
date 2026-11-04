@@ -1,6 +1,6 @@
 ---
 title: Threat intel connectors
-description: Connect a threat intelligence provider once, then load its streams or collections as org feeds that sensors use. What each provider needs, and what Vulnetix fetches from it.
+description: Connect a threat intelligence provider once and load its streams or collections as org feeds for sensors, with what each provider needs and what is fetched.
 order: 7
 nav: Threat intel connectors
 sources: [vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_feed_connectors.go, vdb-site/api/internal/handler/sensor_feeds.go]

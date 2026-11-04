@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-028: npm access token hardcoded"
 nav: "VNX-SEC-028"
-description: "Detect npm access tokens (npm_ followed by exactly 36 letters or digits) in any file, and legacy UUID auth tokens written literally in .npmrc, .yarnrc or .yarnrc.yml (or echoed into one as //registry/:_authToken=), ignoring ${NPM_TOKEN} references, npm_config_* names and placeholders."
+description: "Detect npm access tokens (npm_ followed by exactly 36 letters or digits) in any file."
 order: 922
 sources: ["cli/internal/sast/rules/vnx-sec-028.rego", "cli/internal/sast/docs/vnx-sec-028.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

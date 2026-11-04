@@ -1,6 +1,6 @@
 ---
 title: Members and roles
-description: How people join an organisation, the owner, developer and member roles, access requests, what an owner can do to another member's account, and the API behind the Members page.
+description: How people join an organisation, the owner, developer and member roles, access requests, what an owner can do to a member's account, and the Members API.
 order: 1
 sources: [vdb-site/api/internal/handler/org_roles.go, vdb-site/api/internal/handler/members.go, vdb-site/api/internal/handler/org_members_admin.go, vdb-site/api/internal/handler/provision.go, vdb-site/.repo/org-provisioning.md, website/.repo/org-members-and-roles.md, vdb-site/api/main.go]
 checked: [vdb-site@1a06d67, website@ad775f3]

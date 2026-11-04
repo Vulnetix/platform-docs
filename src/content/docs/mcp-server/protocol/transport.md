@@ -1,6 +1,6 @@
 ---
 title: Transport and protocol
-description: The wire contract for writing or debugging a client, covering supported protocol revisions, required headers, the per-request _meta envelope, capabilities and cache hints.
+description: "The wire contract for writing or debugging a client: protocol revisions, required headers, the per-request _meta envelope, capabilities and cache hints."
 order: 1
 nav: Transport
 sources:

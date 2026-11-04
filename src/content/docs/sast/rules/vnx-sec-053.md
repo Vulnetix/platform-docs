@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-053: SonarQube / SonarCloud token"
 nav: "VNX-SEC-053"
-description: "Reports a SonarQube or SonarCloud token (squ_, sqp_ or sqa_ + exactly 40 hex characters) in any file; identifiers that only share the prefix, placeholders and CI secret references are not reported."
+description: "Reports a SonarQube or SonarCloud token (squ_, sqp_ or sqa_ + exactly 40 hex characters) in any file."
 order: 947
 sources: ["cli/internal/sast/rules/vnx-sec-053.rego", "cli/internal/sast/docs/vnx-sec-053.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-SWIFT-005: Swift WKWebView JavaScript auto-open-windows enabled, or deprecated UIWebView in use"
 nav: "VNX-SWIFT-005"
-description: "Detects WKPreferences.javaScriptCanOpenWindowsAutomatically assigned true, and the first use per file of the deprecated UIWebView type, both of which widen what page JavaScript can do in an iOS app."
+description: "Detects WKPreferences.javaScriptCanOpenWindowsAutomatically assigned true."
 order: 979
 sources: ["cli/internal/sast/rules/vnx-swift-005.rego", "cli/internal/sast/docs/vnx-swift-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

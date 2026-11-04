@@ -1,7 +1,7 @@
 ---
 title: Upstream mirrors
 nav: Mirrors
-description: How the Package Firewall chooses an upstream mirror, the defaults per ecosystem, the checks the Resolve Platform runs on a new mirror, and the CLI to manage them.
+description: How the Package Firewall chooses an upstream mirror, the defaults per ecosystem, the checks run on a new mirror, and the CLI commands to manage mirrors.
 order: 1
 sources: [package-firewall/internal/upstream/mirror.go, package-firewall/internal/handler/deps.go, package-firewall/internal/ecosystem/ecosystem.go, vdb-site/api/internal/handler/package_firewall_mirrors.go, vdb-site/api/internal/handler/package_firewall_probe.go, cli/cmd/config.go]
 checked: [package-firewall@333285f, vdb-site@1a06d67, cli@4c8c3b7]

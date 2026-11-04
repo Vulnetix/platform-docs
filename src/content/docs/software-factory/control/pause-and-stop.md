@@ -1,7 +1,7 @@
 ---
 title: Pause, stop and resume
 nav: Pause and stop
-description: The factory's kill switch. Pause holds new work, stop also cancels running work and revokes tokens, and resume releases held work. Also covers pausing or cancelling a single run.
+description: The factory's kill switch, where pause holds new work, stop cancels running work and revokes tokens, and resume releases it, plus pausing or cancelling one run.
 order: 5
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-operations.md, vdb-site/api/internal/handler/factory_state.go, vdb-site/api/internal/handler/factory_runs_actions.go]
 checked: [vdb-site@284f1d6, website@a31d470]

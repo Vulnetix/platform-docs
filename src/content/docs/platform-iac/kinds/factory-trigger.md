@@ -1,6 +1,6 @@
 ---
 title: "FactoryTrigger"
-description: "Something that starts a Software Factory workflow: a GitHub webhook event, a finding, an issue label, a kanban card move, a firewall sighting. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "Something that starts a Software Factory workflow: a GitHub webhook event, a finding, an issue label, a kanban card move, a firewall sighting."
 order: 44
 group: "Factory"
 generated: true

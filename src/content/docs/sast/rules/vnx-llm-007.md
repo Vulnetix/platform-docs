@@ -1,10 +1,10 @@
 ---
 title: "VNX-LLM-007: torch.load() without weights_only=True (ML model deserialization)"
 nav: "VNX-LLM-007"
-description: "Reports torch.load() calls, including multi-line calls and aliases, that do not pass weights_only=True or pass weights_only=False, since torch.load unpickles the file and can execute code from an untrusted checkpoint."
+description: "Reports torch.load() calls, including multi-line calls and aliases, that do not pass weights_only=True or pass weights_only=False."
 order: 796
 sources: ["cli/internal/sast/rules/vnx-llm-007.rego", "cli/internal/sast/docs/vnx-llm-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-PHP-023: PHP anonymous LDAP bind without password"
 nav: "VNX-PHP-023"
-description: "Detects anonymous or unauthenticated ldap_bind()/ldap_bind_ext() calls (no password, null DN, null or empty password) and logins that pass a request password to ldap_bind() without first rejecting an empty value."
+description: "Detects anonymous or unauthenticated ldap_bind()/ldap_bind_ext() calls (no password, null DN."
 order: 851
 sources: ["cli/internal/sast/rules/vnx-php-023.rego", "cli/internal/sast/docs/vnx-php-023.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

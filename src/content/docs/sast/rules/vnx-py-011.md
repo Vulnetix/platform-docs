@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-011: Python SQL injection"
 nav: "VNX-PY-011"
-description: "Detect SQL text built with an f-string, % formatting, .format() or + from a variable and passed to execute(), asyncpg fetch(), pandas read_sql(), Django raw()/extra()/RawSQL or SQLAlchemy text(), directly or through a variable assigned a few lines above."
+description: "Detect SQL text built with an f-string, % formatting, .format() or + from a variable and passed to execute(), asyncpg fetch(), pandas read_sql()."
 order: 865
 sources: ["cli/internal/sast/rules/vnx-py-011.rego", "cli/internal/sast/docs/vnx-py-011.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

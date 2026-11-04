@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-018: Java RSA cipher without OAEP padding"
 nav: "VNX-JAVA-018"
-description: "Detects javax.crypto.Cipher instances created for RSA with PKCS#1 v1.5 padding or no padding (including the bare \"RSA\" transformation, which defaults to PKCS1Padding), inline or through a constant, which are vulnerable to Bleichenbacher-style padding oracle attacks. Use RSA/ECB/OAEPWithSHA-256AndMGF1Padding instead."
+description: "Detects javax.crypto.Cipher instances created for RSA with PKCS#1 v1.5 padding or no padding (including the bare \"RSA\" transformation."
 order: 766
 sources: ["cli/internal/sast/rules/vnx-java-018.rego", "cli/internal/sast/docs/vnx-java-018.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

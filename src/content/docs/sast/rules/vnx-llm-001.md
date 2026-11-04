@@ -1,10 +1,10 @@
 ---
 title: "VNX-LLM-001: LLM prompt injection via user-controlled input"
 nav: "VNX-LLM-001"
-description: "Reports user input read from an HTTP request, or a variable named as user input, spliced into the instruction text of an LLM prompt (f-string, template literal, concatenation, format), letting the user override the instructions."
+description: "Reports user input read from an HTTP request, or a variable named as user input, spliced into the instruction text of an LLM prompt (f-string, template literal."
 order: 790
 sources: ["cli/internal/sast/rules/vnx-llm-001.rego", "cli/internal/sast/docs/vnx-llm-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

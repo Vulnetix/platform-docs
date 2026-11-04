@@ -1,10 +1,10 @@
 ---
 title: "VNX-TF-006: Terraform AWS EC2 instance metadata service v1 (IMDSv1) enabled"
 nav: "VNX-TF-006"
-description: "Detect EC2 instances and launch templates in Terraform that leave the token-less IMDSv1 enabled (http_tokens = \"optional\" in resources or the ec2-instance/autoscaling modules, metadata_options without http_tokens, or no metadata_options), which lets SSRF steal IAM credentials from the metadata endpoint."
+description: "Detect EC2 instances and launch templates in Terraform that leave the token-less IMDSv1 enabled (http_tokens = \"optional\" in resources."
 order: 986
 sources: ["cli/internal/sast/rules/vnx-tf-006.rego", "cli/internal/sast/docs/vnx-tf-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

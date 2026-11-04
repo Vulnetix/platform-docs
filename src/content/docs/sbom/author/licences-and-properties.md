@@ -1,7 +1,7 @@
 ---
 title: Document licences and properties
 nav: Licences and properties
-description: Set metadata.licenses, the licence of the SBOM itself, and add your own name-value properties to metadata.properties without colliding with the CLI's vulnetix namespace.
+description: Set metadata.licenses, the licence of the SBOM itself, and add your own properties to metadata.properties without colliding with the vulnetix namespace.
 order: 4
 sources: [cli/internal/scanopts/authorship.go, cli/internal/cdx/authorship.go, cli/internal/license/spdx.go, vdb-cyclonedx/properties.go]
 checked: [cli@v4.17.1, vdb-cyclonedx@v0.17.0]

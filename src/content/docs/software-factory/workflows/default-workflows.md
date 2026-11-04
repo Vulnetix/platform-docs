@@ -1,6 +1,6 @@
 ---
 title: Default workflows
-description: The seven workflows every managed organisation gets. What each starts on and does, the autonomy each needs, how to switch them off for the tenant or one repository, and what happens when you edit one.
+description: The seven workflows every managed organisation gets, what each does and the autonomy it needs, how to switch them off, and what happens when you edit one.
 order: 25
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_defaults.go, vdb-site/api/internal/handler/factory_defaults_gate.go, vdb-site/api/internal/handler/factory_defaults_seed.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@597344c, website@58b9ffa, saas@aa6c2b4]

@@ -1,6 +1,6 @@
 ---
 title: Integrations
-description: What the Integrations page connects, the GitHub App and how an installation is bound to your organisation, its capabilities, forge connections, chat providers, and which integrations need which plan.
+description: What the Integrations page connects, how a GitHub App installation binds to your organisation, forge connections, chat providers, and the plan each needs.
 order: 1
 sources: [vdb-site/api/internal/handler/integrations.go, vdb-site/api/internal/handler/integrations_github.go, vdb-site/api/internal/handler/github_installations.go, vdb-site/api/internal/handler/integrations_rules.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/docs/github-app-installations.md, vdb-site/docs/github-capabilities.md, vdb-site/api/main.go]
 checked: [vdb-site@1a06d67]

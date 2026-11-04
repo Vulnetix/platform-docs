@@ -1,7 +1,7 @@
 ---
 title: Inference logs
 nav: Logs
-description: "The opt-in, metadata-only inference log: how to turn it on, every field a row holds, what is never recorded, and how to read it in the Resolve Platform and the API."
+description: "The opt-in, metadata-only inference log, how to turn it on, the fields each row holds, what is never recorded, and how to read it."
 order: 2
 sources:
   - ai-firewall/internal/inference/inference.go

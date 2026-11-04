@@ -1,7 +1,7 @@
 ---
 title: Compliance targets
 nav: Targets
-description: Run a compliance report on a cadence, or measure a SLSA level, NIST SSDF practices or a cryptography policy written in CEL over your CBOM, and declare the targets as code.
+description: Run a compliance report on a cadence, or measure a SLSA level, NIST SSDF practices or a CEL cryptography policy over your CBOM, and declare targets as code.
 order: 3
 sources: [vdb-site/api/internal/compliancetarget/compliancetarget.go, vdb-site/api/internal/handler/compliance_targets.go, vdb-site/api/internal/handler/compliance_report_create.go, vdb-site/api/internal/config/compliancetarget.go, vdb-site/docs/compliance-targets.md, saas/prisma/models/compliance-target.prisma, saas/prisma/migrations/20261228040000_compliance_target/migration.sql, config-schemas/cel/variables.go, website/src/pages/resolve/compliance-targets.vue]
 checked: [vdb-site@7b71e88, saas@0b6936a9, config-schemas@v1.11.1]

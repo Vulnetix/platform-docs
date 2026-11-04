@@ -1,7 +1,7 @@
 ---
 title: "sf: labels and /sf commands"
 nav: Labels and commands
-description: Start factory work from GitHub with a label or a comment. The 22 sf labels, who may use them, how to stop runs, how one delivery fans out to several workflows, and how to create the labels in your repositories.
+description: Start factory work from GitHub with the 22 sf labels or an /sf comment, who may use them, how to stop runs, and how to create the labels in your repositories.
 order: 22
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_labels.go, vdb-site/api/internal/handler/factory_label_dispatch.go]
 checked: [vdb-site@284f1d6, website@a31d470]

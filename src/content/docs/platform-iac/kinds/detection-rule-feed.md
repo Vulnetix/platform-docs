@@ -1,6 +1,6 @@
 ---
 title: "DetectionRuleFeed"
-description: "A curated feed of virtual patches, countermeasures and catalogue rules, published to a public URL for IDS, IPS, WAF. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A curated feed of virtual patches, countermeasures and catalogue rules, published to a public URL for IDS, IPS, WAF."
 order: 66
 group: "Virtual patching"
 generated: true

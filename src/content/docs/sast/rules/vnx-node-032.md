@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-032: Angular DomSanitizer bypass with a non-constant value"
 nav: "VNX-NODE-032"
-description: "Reports bypassSecurityTrustHtml, Style, Script, Url and ResourceUrl calls whose argument is not a constant, since Angular stops sanitising the value and user data becomes cross-site scripting."
+description: "Reports bypassSecurityTrustHtml, Style, Script, Url and ResourceUrl calls whose argument is not a constant."
 order: 828
 sources: ["cli/internal/sast/rules/vnx-node-032.rego", "cli/internal/sast/docs/vnx-node-032.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: "FactorySchedule"
-description: "A cron schedule that starts a Software Factory workflow: a cron trigger node in the workflow's graph whose id is metadata.name (at most 40 characters). Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A cron schedule that starts a Software Factory workflow: a cron trigger node in the workflow's graph whose id is metadata.name (at most 40 characters)."
 order: 45
 group: "Factory"
 generated: true

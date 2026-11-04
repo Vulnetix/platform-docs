@@ -1,7 +1,7 @@
 ---
 title: "vulnetix gha publish"
 nav: gha publish
-description: Publish scan results into GitHub in GitHub's own formats, code scanning, the dependency graph, release assets, repository security advisories and security campaigns. Flags, tokens, permissions, markers and limits.
+description: Publish scan results into GitHub code scanning, the dependency graph, release assets, security advisories and campaigns, with flags, tokens and permissions.
 order: 6
 sources: [cli/cmd/gha_publish.go, cli/cmd/gha_publish_advisories.go, cli/cmd/gha_publish_campaigns.go, cli/cmd/scan.go, cli/internal/github, cli/internal/sast/github.go, cli/docs/github-publishing.md]
 checked: [cli@3e6fd831d]

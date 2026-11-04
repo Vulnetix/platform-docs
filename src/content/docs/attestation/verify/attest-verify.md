@@ -1,6 +1,6 @@
 ---
 title: vulnetix attest verify
-description: Verify an artefact's DSSE envelope or cosign signature pair against Sigstore, report who signed it and what its in-toto provenance claims, and fail CI when a required check did not pass.
+description: Verify an artefact's DSSE envelope or cosign signature against Sigstore, report its signer and in-toto provenance, and fail CI when a required check fails.
 order: 1
 sources: [cli/cmd/attest.go, cli/internal/attest/verify.go, cli/internal/attest/roots.go]
 checked: [cli@4c8c3b71c]

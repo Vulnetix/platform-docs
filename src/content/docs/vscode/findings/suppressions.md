@@ -1,6 +1,6 @@
 ---
 title: Suppressions
-description: Hide findings in the editor with the repository's `.vulnetix/memory.yaml` or with editor-only `vulnetix.suppressions` rules, how rules match, and how to see what is hidden.
+description: Hide findings in the editor with the repository's `.vulnetix/memory.yaml` or editor-only `vulnetix.suppressions` rules, how they match, and what is hidden.
 order: 4
 sources: [cli/internal/lsp/suppression.go, cli/internal/suppress/suppress.go, cli/internal/memory/memory.go, cli/internal/lsp/settings.go, cli/internal/scaview/scaview.go, vulnetix-vscode/package.json]
 checked: [cli@4c8c3b7, vulnetix-vscode@9ad08fa]

@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-008: Database connection string with credentials"
 nav: "VNX-SEC-008"
-description: "Reports a database connection URL that embeds a literal password (PostgreSQL, MySQL, MongoDB, Redis, SQL Server, CockroachDB, JDBC password= parameters and Go MySQL DSNs), excluding interpolated and placeholder passwords, localhost databases, prose and example files, and test code."
+description: "Reports a database connection URL that embeds a literal password (PostgreSQL, MySQL, MongoDB, Redis, SQL Server, CockroachDB."
 order: 902
 sources: ["cli/internal/sast/rules/vnx-sec-008.rego", "cli/internal/sast/docs/vnx-sec-008.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

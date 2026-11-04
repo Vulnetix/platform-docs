@@ -1,6 +1,6 @@
 ---
 title: "RiskStrategy"
-description: "A risk prioritisation strategy: an ordered list of rules that puts every open finding in a priority tier. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A risk prioritisation strategy: an ordered list of rules that puts every open finding in a priority tier."
 order: 30
 group: "Prioritisation"
 generated: true

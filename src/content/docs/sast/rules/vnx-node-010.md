@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-010: Node.js path traversal"
 nav: "VNX-NODE-010"
-description: "Reports an fs/fs.promises/fs-extra call or res.sendFile/res.download whose path argument comes from req.query/params/body/url, Koa ctx or a handler that destructures its request ({ params }), directly or through a variable assigned from one (path.join included). Paths reduced with path.basename, checked with startsWith or an anchored regex, and sendFile with a root option are not reported."
+description: "Reports an fs/fs.promises/fs-extra call or res.sendFile/res.download whose path argument comes from req.query/params/body/url."
 order: 806
 sources: ["cli/internal/sast/rules/vnx-node-010.rego", "cli/internal/sast/docs/vnx-node-010.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: Guardrails, classifier, sandbox and trust
 nav: Guardrails
-description: How Belai keeps a model from acting on text it should not trust. Sealed delimiters, sanitisation, the security classifier, permission rules, the OS sandbox, trusted directories, and the switches that loosen each on purpose.
+description: How Belai keeps a model from acting on untrusted text, with sealed delimiters, sanitisation, the security classifier, permission rules and the OS sandbox.
 order: 9
 sources: [belai/README.md, belai/docs/role-manager.md, belai/docs/sanitization.md, belai/docs/sandbox.md, belai/docs/nonce-endpoint-spec.md, belai/docs/jev-jobs.md, belai/cmd/belai/help.go]
 checked: [belai@35506b9]

@@ -1,6 +1,6 @@
 ---
 title: Continue
-description: "`install continue` adds one model entry to `~/.continue/config.yaml` and writes the key to `~/.continue/.env`, because an IDE extension cannot read your shell environment."
+description: "`install continue` adds a model entry to `~/.continue/config.yaml` and writes the key to `~/.continue/.env`, since IDE extensions cannot read your shell."
 order: 5
 sources: [cli/pkg/aifirewall/config.go, cli/pkg/aifirewall/clients.go, cli/cmd/ai_firewall.go, ai-firewall/website/content/docs/coding-agents/continue.md]
 checked: [ai-firewall@339de55, cli@4c8c3b7]

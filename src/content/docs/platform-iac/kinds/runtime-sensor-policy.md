@@ -1,6 +1,6 @@
 ---
 title: "RuntimeSensorPolicy"
-description: "The configuration runtime sensors enroll with and keep pulling: mode, hold, rule feeds, forwarding and tamper protection. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The configuration runtime sensors enroll with and keep pulling: mode, hold, rule feeds, forwarding and tamper protection."
 order: 67
 group: "Virtual patching"
 generated: true

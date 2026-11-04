@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUBY-004: Ruby SQL injection"
 nav: "VNX-RUBY-004"
-description: "Reports ActiveRecord query methods (where, order, select, group, pluck, find_by_sql, execute, select_all, ...) given SQL that interpolates, concatenates or formats request input, a variable assigned from it, or a parameter of the enclosing method or scope lambda, also on the line after the parenthesis, in an array or in Arel.sql; placeholders, hash conditions, to_i/quote values and allowlist-checked input are not reported."
+description: "Reports ActiveRecord query methods (where, order, select, group, pluck, find_by_sql, execute, select_all, ...) given SQL that interpolates."
 order: 880
 sources: ["cli/internal/sast/rules/vnx-ruby-004.rego", "cli/internal/sast/docs/vnx-ruby-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

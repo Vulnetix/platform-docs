@@ -1,10 +1,10 @@
 ---
 title: "VNX-BASH-003: Failure ignored in a script without set -e / set -u"
 nav: "VNX-BASH-003"
-description: "In a shell script that does not enable errexit, reports an unchecked cd followed by a relative-path delete, an integrity check whose result nothing reads, and (without nounset) rm -r of a path built from a variable that can be empty."
+description: "In a shell script that does not enable errexit, reports an unchecked cd followed by a relative-path delete, an integrity check whose result nothing reads."
 order: 664
 sources: ["cli/internal/sast/rules/vnx-bash-003.rego", "cli/internal/sast/docs/vnx-bash-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

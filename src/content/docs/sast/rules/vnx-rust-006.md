@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUST-006: Integer truncation or sign-change cast after parsing"
 nav: "VNX-RUST-006"
-description: "Reports a lossy `as` cast (narrowing, signed to unsigned, or unsigned to signed of the same width) of an integer just parsed or decoded from runtime data (parse::<T>(), from_str_radix, from_be_bytes, read_u32); widening casts, casts of values that were not decoded, and range-checked values are not reported."
+description: "Reports a lossy `as` cast (narrowing, signed to unsigned, or unsigned to signed of the same width) of an integer just parsed."
 order: 892
 sources: ["cli/internal/sast/rules/vnx-rust-006.rego", "cli/internal/sast/docs/vnx-rust-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

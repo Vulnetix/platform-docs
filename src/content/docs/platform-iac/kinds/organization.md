@@ -1,6 +1,6 @@
 ---
 title: "Organization"
-description: "The organisation's own settings: its display name, its company email domains and whether Drift protection is on. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The organisation's own settings: its display name, its company email domains and whether Drift protection is on."
 order: 10
 group: "Org"
 generated: true

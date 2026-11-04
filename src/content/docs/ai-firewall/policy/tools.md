@@ -1,7 +1,7 @@
 ---
 title: Tool rules
 nav: Tools
-description: Flag, strip or block the tools an agent offers the model with tool_allow and tool_deny, how allowlist mode works for capability families, and when a strip becomes a block.
+description: Flag, strip or block the tools an agent offers the model with tool_allow and tool_deny, how allowlist mode works, and when a strip becomes a block.
 order: 13
 sources:
   - ai-firewall/internal/policy/capability.go

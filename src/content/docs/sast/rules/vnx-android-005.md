@@ -1,10 +1,10 @@
 ---
 title: "VNX-ANDROID-005: Android app permits cleartext HTTP traffic"
 nav: "VNX-ANDROID-005"
-description: "Detects cleartextTrafficPermitted=\"true\" on the base-config, or on a domain-config naming a non-loopback host, of an Android network security configuration, and android:usesCleartextTraffic=\"true\" on an application with no networkSecurityConfig, outside debug and test source sets."
+description: "Detects cleartextTrafficPermitted=\"true\" on the base-config, or on a domain-config naming a non-loopback host, of an Android network security configuration."
 order: 659
 sources: ["cli/internal/sast/rules/vnx-android-005.rego", "cli/internal/sast/docs/vnx-android-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

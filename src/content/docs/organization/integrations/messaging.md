@@ -1,6 +1,6 @@
 ---
 title: Messaging
-description: Send scan findings, uploads, Pix Sandbox and agent activity, factory and Belai events, Guardian alerts and sensitive account activity to Slack, Microsoft Teams, Discord, Google Chat, Jira, GitHub Issues or a signed webhook. Connections, events, routes, digests, templates and delivery.
+description: Send scan findings, Guardian alerts, factory events and account activity to Slack, Microsoft Teams, Discord, Google Chat, Jira, GitHub Issues or a webhook.
 order: 2
 sources: [vdb-site/docs/messaging.md, vdb-site/api/internal/handler/messaging_handlers.go, vdb-site/api/internal/handler/messaging_dispatcher.go, vdb-site/api/internal/handler/messaging_send.go, vdb-site/api/internal/handler/messaging_store.go, vdb-site/api/internal/messaging/catalogue.go, vdb-site/api/internal/messaging/match.go, cli/website/content/docs/enterprise/messaging.md]
 checked: [vdb-site@1a06d67, cli@4c8c3b7]

@@ -1,7 +1,7 @@
 ---
 title: Autonomy levels
 nav: Autonomy
-description: The four levels of how far the factory may go on a repository, how the tenant maximum, the default and per-repository values combine, and the limits on concurrency, retries and waiting.
+description: The four factory autonomy levels for a repository, how tenant maximum, default and per-repository values combine, and limits on concurrency and retries.
 order: 4
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_settings_store.go, vdb-site/api/internal/handler/factory_defaults_gate.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@284f1d6, website@a31d470]

@@ -1,7 +1,7 @@
 ---
 title: Holds, maintenance windows and blackouts
 nav: Holds and blackouts
-description: The recurring windows that hold factory work without anyone pressing a switch, what a held run looks like, and what happens to work that arrived while it was held.
+description: Maintenance windows and schedule blackouts that hold factory work on a recurring basis, what a held run looks like, and what happens to work held meanwhile.
 order: 6
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_engine_state.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@284f1d6, website@a31d470]

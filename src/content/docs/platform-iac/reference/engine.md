@@ -1,7 +1,7 @@
 ---
 title: The config engine
 nav: Engine
-description: How the server-side engine plans and applies config documents for every kind, how it records who manages an object, what status an object reports, which kinds are written outside the database transaction, and how Guardian kinds are authorized.
+description: How the server-side engine plans and applies config documents for every kind, records who manages an object, reports status, and authorises Guardian kinds.
 order: 2
 sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/config/engine.go", "vdb-site/api/internal/config/kind.go", "vdb-site/api/internal/config/sideeffects.go", "vdb-site/api/internal/config/external.go", "vdb-site/api/internal/config/guardian.go", "vdb-site/api/internal/handler/config_engine_kinds.go", "vdb-site/api/internal/orgroles/orgroles.go", "vdb-site/api/internal/config/guardian_assertion.go", "vdb-site/api/internal/handler/factory_engine_node_config_apply.go"]
 checked: ["vdb-site@3c8c323"]

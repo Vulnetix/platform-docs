@@ -1,6 +1,6 @@
 ---
 title: Gate node
-description: A deterministic check with no model. It reads the crew's check runs and applies the quality gate and release jail, then passes, sends the work back, ends the run or asks a person.
+description: A deterministic step with no model that reads the crew's check runs, applies the quality gate and release jail, and decides whether the work passes.
 order: 14
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_engine_node_gate.go]
 checked: [vdb-site@597344c]

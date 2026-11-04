@@ -1,6 +1,6 @@
 ---
 title: "Suppression"
-description: "A suppression rule: findings that match its scope are suppressed, now and in every later scan, until it expires. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A suppression rule: findings that match its scope are suppressed, now and in every later scan, until it expires."
 order: 33
 group: "Suppression"
 generated: true

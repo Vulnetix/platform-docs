@@ -41,6 +41,7 @@
 // hand-written and is never overwritten.
 
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
+import { metaDescription, MAX_DESCRIPTION } from './description.mjs';
 
 // Generated text comes partly from other repositories, written for their
 // developers. Readers of these pages are customers, who know the platform as
@@ -789,7 +790,9 @@ for (const kind of kinds) {
     ...(notes.sources ?? []),
   ];
   const checked = [`config-schemas@${schemasVersion}`, ...(providerSha ? [`terraform-provider-resolve@${providerSha}`] : []), ...(cliLatest ? [`cli@${cliLatest}`] : [])];
-  const desc = `${clip(firstSentence(schema.description), 160)} Fields, YAML, HCL and CLI samples, and how apply treats it.`;
+  const what = firstSentence(schema.description);
+  const withSuffix = `${what} Fields, YAML, HCL and CLI samples, and how apply treats it.`;
+  const desc = withSuffix.length <= MAX_DESCRIPTION ? withSuffix : metaDescription(what);
   const front = [
     '---',
     `title: ${JSON.stringify(kind)}`,
@@ -1064,7 +1067,7 @@ when: "'filesystem' in mcpServers && tools.exists(t, t.startsWith('mcp__filesyst
     '---',
     'title: CEL rule expressions',
     'nav: CEL',
-    `description: ${JSON.stringify('The CEL when and selector expressions in config documents: which kinds take them, where each is evaluated, what happens when one cannot be, every variable per context, the functions, the limits and examples.')}`,
+    `description: ${JSON.stringify('The CEL when and selector expressions in config documents: where each is evaluated, its variables and functions, its limits, and examples.')}`,
     'order: 3',
     'generated: true',
     `sources: ["config-schemas/cel/README.md", "config-schemas/cel/variables.go", "config-schemas/cel/functions.go", "config-schemas/cel/cost.go", "config-schemas/cmd/celdoc/main.go", "vdb-site/api/internal/handler/risk_cel.go", "vdb-site/api/internal/handler/factory_engine_node_gate.go", "vdb-site/api/internal/handler/detection_rule_feeds_selector.go", "vdb-api/internal/handler/jail_when.go", "vdb-api/internal/handler/jail_eval.go", "package-firewall/internal/policy/condition.go", "ai-firewall/internal/policy/expr.go"]`,

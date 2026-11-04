@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-008: Flask debug mode enabled"
 nav: "VNX-PY-008"
-description: "Detect the Werkzeug interactive debugger switched on in Flask code (app.run(debug=True), app.debug = True, config DEBUG = True, run_simple(use_debugger=True), DebuggedApplication(evalex=True)), which allows remote code execution through the debugger console."
+description: "Detect the Werkzeug interactive debugger switched on in Flask code (app.run(debug=True), app.debug = True, config DEBUG = True, run_simple(use_debugger=True)."
 order: 862
 sources: ["cli/internal/sast/rules/vnx-py-008.rego", "cli/internal/sast/docs/vnx-py-008.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

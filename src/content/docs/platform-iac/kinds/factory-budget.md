@@ -1,6 +1,6 @@
 ---
 title: "FactoryBudget"
-description: "A Software Factory budget: a limit on the tokens or calls the factory spends, for the whole factory, one GitHub organisation, one repository. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A Software Factory budget: a limit on the tokens or calls the factory spends, for the whole factory, one GitHub organisation, one repository."
 order: 46
 group: "Factory"
 generated: true

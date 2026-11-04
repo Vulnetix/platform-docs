@@ -1,6 +1,6 @@
 ---
 title: Choose a sensor path
-description: Which way to install vulnetix-sensor, and which credential it ends up with, for a laptop, an org-provisioned device, a cloud fleet or a host that must not be stopped.
+description: Which way to install vulnetix-sensor, and which credential it gets, for a laptop, an org-provisioned device, a cloud fleet or a host that must not be stopped.
 order: 2
 nav: Choose a path
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/deploy/sensor/README.md, cli/cmd/vulnetix-sensor/main.go, vdb-site/docs/sensor-feeds-api.md]

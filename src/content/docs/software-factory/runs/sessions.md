@@ -1,6 +1,6 @@
 ---
 title: Sessions
-description: A session is one Belai conversation on a host. How sessions are listed and classified, what started each one, their end states, the session page, and what you can do to a live session from the Resolve Platform.
+description: A session is one Belai conversation on a host, how sessions are listed and classified, their end states, the session page, and acting on a live session.
 order: 5
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_sessions_aggregate.go, vdb-site/api/internal/handler/belai_trigger.go, website/.repo/session-trigger.md]
 checked: [vdb-site@284f1d6, website@a31d470]

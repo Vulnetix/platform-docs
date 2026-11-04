@@ -1,6 +1,6 @@
 ---
 title: Crews
-description: Named sets of agents started together. The built-in crews, crew runs over a scope of directories, the supervisor that shares workers between them, the provider pool, live controls, the crew log, and the Role Manager every worker runs under.
+description: Named sets of agents started together, covering built-in crews, crew runs over directories, the supervisor, provider pool, live controls and the Role Manager.
 order: 5
 sources: [belai/docs/fleet.md, belai/docs/role-manager.md, belai/cmd/belai/crewcmd.go, vdb-site/api/internal/handler/belai_crews.go]
 checked: [belai@35506b9, vdb-site@284f1d6]

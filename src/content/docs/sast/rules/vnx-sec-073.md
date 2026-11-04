@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-073: URL with embedded credentials"
 nav: "VNX-SEC-073"
-description: "Reports an http(s), ws(s), ftp(s) or sftp URL that embeds a literal user:password pair, excluding interpolated and placeholder passwords, loopback and example hosts, database schemes, docs and test files."
+description: "Reports an http(s), ws(s), ftp(s) or sftp URL that embeds a literal user:password pair, excluding interpolated and placeholder passwords."
 order: 967
 sources: ["cli/internal/sast/rules/vnx-sec-073.rego", "cli/internal/sast/docs/vnx-sec-073.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

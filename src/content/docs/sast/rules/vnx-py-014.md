@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-014: Python XML external entity injection"
 nav: "VNX-PY-014"
-description: "Detect Python XML parsers configured to resolve external entities (SAX external-entity features on, lxml resolve_entities=True or no_network=False, xmltodict disable_entities=False) or lxml parsing request data with the default parser, which can expose local files and internal network resources (XXE)."
+description: "Detect Python XML parsers configured to resolve external entities (SAX external-entity features on, lxml resolve_entities=True or no_network=False."
 order: 868
 sources: ["cli/internal/sast/rules/vnx-py-014.rego", "cli/internal/sast/docs/vnx-py-014.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

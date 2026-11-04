@@ -1,7 +1,7 @@
 ---
 title: System One decisions
 nav: System One
-description: The fast classifier models that decision steps call. Which models there are and when each is available, the tenant defaults every decision inherits, the daily cap, the decision ledger, overrides and retention.
+description: The fast classifier models that decision steps call, when each is available, tenant defaults, the daily cap, the decision ledger, overrides and retention.
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-systemone.md, vdb-site/api/internal/systemone/decide.go, vdb-site/api/internal/systemone/guard.go, vdb-site/api/internal/handler/factory_systemone.go, website/src/shared/factory-settings.ts]
 checked: [vdb-site@284f1d6, website@a31d470]

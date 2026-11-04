@@ -1,6 +1,6 @@
 ---
 title: Architecture
-description: "The three parts behind the extension: the extension itself, the `vulnetix lsp` language server from the CLI, and the Vulnetix vulnerability database, and how each fails."
+description: "The three parts behind the extension: the extension, the CLI's `vulnetix lsp` language server and the Vulnetix vulnerability database, and how each fails."
 order: 5
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/lsp/client.ts, cli/cmd/lsp.go, cli/internal/lsp/server.go, cli/internal/lsp/sca.go]
 checked: [vulnetix-vscode@c32c4a1, cli@0b41bb394]

@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-020: GitLab access token"
 nav: "VNX-SEC-020"
-description: "Reports hardcoded GitLab tokens (glpat-, gldt-, glrt-, glrtr-, glcbt-, gloas-, glptt-, glagent-, glft-, glimt-, glffct-, glsoat-) with real-token entropy. CI variable references, prefix and regex validation code, placeholders and test paths are not reported."
+description: "Reports hardcoded GitLab tokens (glpat-, gldt-, glrt-, glrtr-, glcbt-, gloas-, glptt-, glagent-, glft-, glimt-, glffct-."
 order: 914
 sources: ["cli/internal/sast/rules/vnx-sec-020.rego", "cli/internal/sast/docs/vnx-sec-020.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

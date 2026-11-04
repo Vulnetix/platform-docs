@@ -1,6 +1,6 @@
 ---
 title: "SandboxLaunchProfile"
-description: "The launch configuration of one Pix sandbox: what the next launch or relaunch of the sandbox installs and how Belai runs on it. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The launch configuration of one Pix sandbox: what the next launch or relaunch of the sandbox installs and how Belai runs on it."
 order: 50
 group: "Pix"
 generated: true

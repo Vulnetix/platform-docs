@@ -1,6 +1,6 @@
 ---
 title: "FactoryWorkflow"
-description: "A Software Factory workflow: the graph of steps a run walks, from a trigger through scans, decisions, crews, gates and people to its outputs. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A Software Factory workflow: the graph of steps a run walks, from a trigger through scans, decisions, crews, gates and people to its outputs."
 order: 43
 group: "Factory"
 generated: true

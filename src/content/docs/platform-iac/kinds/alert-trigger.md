@@ -1,6 +1,6 @@
 ---
 title: "AlertTrigger"
-description: "A Guardian trigger: run a SavedSearch or a DetectionRule on a schedule and, when its rows pass the levers, start a Software Factory workflow. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A Guardian trigger: run a SavedSearch or a DetectionRule on a schedule and, when its rows pass the levers, start a Software Factory workflow."
 order: 59
 group: "SIEM"
 generated: true

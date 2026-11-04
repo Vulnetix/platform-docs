@@ -1,7 +1,7 @@
 ---
 title: VDB API overview
 nav: Overview
-description: The Vulnetix Vulnerability Database API serves vulnerability, exploit, fix, KEV, detection-rule and package intelligence over HTTPS at api.vdb.vulnetix.com, and the vulnetix vdb CLI commands wrap it.
+description: The Vulnetix Vulnerability Database API serves vulnerability, exploit, fix, KEV, detection-rule and package intelligence, and vulnetix vdb CLI commands wrap it.
 order: 1
 sources: [vdb-api/main.go, vdb-api/internal/handler/openapi-v2.json, vdb-api/internal/middleware/auth.go, vdb-api/internal/middleware/ratelimit.go, cli/cmd/vdb.go]
 checked: [vdb-api@4145f0a, cli@4c8c3b71c]

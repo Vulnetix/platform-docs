@@ -1,10 +1,10 @@
 ---
 title: "VNX-CS-007: C# path traversal: request data reaches Path.Combine, MapPath or a file-system API"
 nav: "VNX-CS-007"
-description: "Detects C# Path.Combine/Path.Join, MapPath and file-system APIs (File, Directory, FileStream, StreamReader, PhysicalFile, TransmitFile, SaveAs) whose path argument contains HTTP request data, an uploaded file name, an archive entry name (zip slip) or a controller action parameter, without Path.GetFileName or a GetFullPath/StartsWith containment check."
+description: "Detects C# Path.Combine/Path.Join, MapPath and file-system APIs (File, Directory, FileStream, StreamReader, PhysicalFile, TransmitFile."
 order: 691
 sources: ["cli/internal/sast/rules/vnx-cs-007.rego", "cli/internal/sast/docs/vnx-cs-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

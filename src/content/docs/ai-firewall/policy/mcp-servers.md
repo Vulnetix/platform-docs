@@ -1,6 +1,6 @@
 ---
 title: MCP servers
-description: Remote MCP servers are declared on the wire and governed with mcp_allow and mcp_deny; local MCP servers are flattened into tools and governed with tool rules on their name prefix.
+description: Remote MCP servers are governed with mcp_allow and mcp_deny; local MCP servers are flattened into tools and governed with tool rules on their name prefix.
 order: 14
 sources:
   - ai-firewall/internal/anthropic/capabilities.go

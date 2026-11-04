@@ -1,7 +1,7 @@
 ---
 title: Reviewing held capabilities
 nav: Held requests
-description: What the hold for review does to a request, where held tools, MCP servers, skills and clients are listed, how an approval or a denial is recorded, and what the timeout does.
+description: How the hold for review treats a request, where held tools, MCP servers, skills and clients are listed, how approvals and denials are recorded, and timeouts.
 order: 3
 sources:
   - ai-firewall/internal/policy/hold.go

@@ -1,6 +1,6 @@
 ---
 title: Pagination
-description: The two pagination styles the VDB API uses (limit and offset on most routes, page and perPage on the package catalogue), their defaults and caps, and how to walk every page.
+description: The VDB API's two pagination styles, limit and offset or page and perPage on the package catalogue, with their defaults, caps and how to walk every page.
 order: 4
 sources: [vdb-api/internal/handler/product.go, vdb-api/internal/handler/identifiers.go, vdb-api/internal/handler/exploits.go, vdb-api/internal/handler/v2_packages.go, vdb-api/internal/handler/openapi-v2.json, vdb-api/internal/handler/inputs_routes.go]
 checked: [vdb-api@4145f0a]

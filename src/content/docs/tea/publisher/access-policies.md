@@ -1,6 +1,6 @@
 ---
 title: Access policies
-description: How visibility (private, shared, public) is declared on TEA objects, inherited from product to artifact, narrowed but never widened, shared with named organisations with expiry, and read back with declared and effective values.
+description: How private, shared and public visibility is declared on TEA objects, inherited and narrowed from product to artifact, and shared with named organisations.
 order: 2
 sources: [saas/prisma/models/tea-publisher.prisma, vdb-site/api/internal/handler/tea_publisher_access.go, vdb-site/api/internal/handler/tea_publisher_handlers.go, vdb-site/api/internal/handler/tea_repo_visibility.go, cli/pkg/tea/objects.go]
 checked: [saas@50cedf37, vdb-site@1a06d67, cli@4c8c3b71c]

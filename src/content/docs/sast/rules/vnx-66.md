@@ -1,10 +1,10 @@
 ---
 title: "VNX-66: Improper Handling of File Names that Identify Virtual Resources"
 nav: "VNX-66"
-description: "An uploaded file is stored under the name the client sent, so a name such as CON, NUL, AUX, COM1 or LPT1 opens a Windows device instead of a file. Stripping directories with basename or GetFileName does not prevent it."
+description: "An uploaded file is stored under the name the client sent, so a name such as CON, NUL, AUX."
 order: 104
 sources: ["cli/internal/sast/rules/vnx-66.rego", "cli/internal/sast/docs/vnx-66.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

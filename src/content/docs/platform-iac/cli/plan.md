@@ -1,7 +1,7 @@
 ---
 title: "vulnetix config plan"
 nav: Plan
-description: Show what applying config documents would change, per object, without changing anything. Flags, the manager default, credentials, secrets, text and JSON output, blocking conditions and exit codes.
+description: Show what applying config documents would change, per object, without changing anything, with flags, the manager default, credentials, output and exit codes.
 order: 2
 sources: [cli/cmd/config_engine.go, cli/cmd/config_engine_client.go, cli/cmd/config_engine_test.go, cli/cmd/exit_codes.go, vdb-site/api/internal/handler/config_engine.go, vdb-site/api/internal/config/engine.go]
 checked: [cli@d01f1dbe3, vdb-site@b424ae4]

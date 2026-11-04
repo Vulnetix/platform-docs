@@ -1,10 +1,10 @@
 ---
 title: "VNX-CRYPTO-009: Use of cryptographically weak PRNG (rand/srand/random in C/C++)"
 nav: "VNX-CRYPTO-009"
-description: "Detects a value from rand(), random(), the drand48 family, std::rand() or a <random> engine such as std::mt19937 becoming a token, nonce, salt, IV, key, password, session id, CSRF token or OTP in C, C++ and Objective-C code. Ordinary rand() use for sampling, shuffling and jitter is not reported."
+description: "Detects a value from rand(), random(), the drand48 family, std::rand() or a <random> engine such as std::mt19937 becoming a token, nonce, salt, IV, key."
 order: 683
 sources: ["cli/internal/sast/rules/vnx-crypto-009.rego", "cli/internal/sast/docs/vnx-crypto-009.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: File permissions and isolation
 nav: File permissions
-description: The modes the CLI sets on credential files, what it checks on read, and how to keep credentials out of repositories, images, logs and shell history on Linux, macOS, Windows and containers.
+description: The modes the CLI sets on credential files, what it checks on read, and how to keep credentials out of repositories, images, logs and shell history.
 order: 7
 sources: [cli/pkg/auth/credentials.go, cli/pkg/auth/netrc.go, cli/pkg/auth/keyring.go]
 checked: [cli@24498404a]

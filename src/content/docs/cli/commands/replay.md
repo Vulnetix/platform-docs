@@ -1,6 +1,6 @@
 ---
 title: report
-description: vulnetix report renders the stored results of the last scan from .vulnetix/sbom.cdx.json, offline by default, with optional refreshes of exploit, advisory and version data.
+description: vulnetix report renders the last scan's results from .vulnetix/sbom.cdx.json, offline by default, with optional exploit, advisory and version refreshes.
 order: 2
 sources: [cli/cmd/report.go, cli/internal/scanopts/surface.go, cli/cmd/from_memory.go]
 checked: [cli@24498404a]

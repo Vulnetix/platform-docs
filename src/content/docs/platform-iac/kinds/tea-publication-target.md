@@ -1,6 +1,6 @@
 ---
 title: "TeaPublicationTarget"
-description: "A remote TEA server the tenant is willing to mirror published objects to, registered once so it can be reviewed, rather than named by URL in each access policy. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A remote TEA server the tenant is willing to mirror published objects to, registered once so it can be reviewed, rather than named by URL in each access policy."
 order: 56
 group: "TEA"
 generated: true

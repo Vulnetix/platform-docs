@@ -1,10 +1,10 @@
 ---
 title: "VNX-C-001: Unbounded copy into a buffer (strcpy, strcat, gets, sprintf %s, scanf %s)"
 nav: "VNX-C-001"
-description: "Reports C and C++ copies of unknown length into a buffer without a size: gets() and _getws() always; strcpy, stpcpy, strcat and their wide, multibyte, TCHAR and lstrcpy/lstrcat forms when the source is not a literal or macro; sprintf/wsprintf with an unbounded %s and vsprintf; scanf-family %s or %[ without a field width. Bounded APIs, measured or size-checked copies, literal sources (including const arrays initialised from a literal), declarations and comments are not reported."
+description: "Reports C and C++ copies of unknown length into a buffer without a size: gets() and _getws() always."
 order: 669
 sources: ["cli/internal/sast/rules/vnx-c-001.rego", "cli/internal/sast/docs/vnx-c-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

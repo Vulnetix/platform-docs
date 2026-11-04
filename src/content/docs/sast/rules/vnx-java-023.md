@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-023: Java unrestricted file upload, no content-type or extension validation"
 nav: "VNX-JAVA-023"
-description: "Detects Java upload handlers that write a MultipartFile, Servlet Part or commons FileItem to disk under the client-supplied filename with no extension or content-type check, enabling remote code execution via malicious file upload."
+description: "Detects Java upload handlers that write a MultipartFile, Servlet Part or commons FileItem to disk under the client-supplied filename with no extension."
 order: 771
 sources: ["cli/internal/sast/rules/vnx-java-023.rego", "cli/internal/sast/docs/vnx-java-023.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-010: Spring CSRF protection disabled"
 nav: "VNX-JAVA-010"
-description: "Reports Spring Security configurations that switch CSRF protection off for browser-facing applications: csrf().disable(), csrf(c -> c.disable()), csrf(AbstractHttpConfigurer::disable), WebFlux CsrfSpec::disable, CSRF ignored for every path, and csrf disabled=true in XML configuration. Stateless bearer-token APIs and test configurations are not reported."
+description: "Reports Spring Security configurations that switch CSRF protection off for browser-facing applications."
 order: 758
 sources: ["cli/internal/sast/rules/vnx-java-010.rego", "cli/internal/sast/docs/vnx-java-010.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

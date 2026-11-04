@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-019: Hardcoded JWT or session secret"
 nav: "VNX-NODE-019"
-description: "Reports a string literal used as the key of jwt.sign/verify, session/JWT middleware, cookieParser, Koa/cookie-session keys or createHmac, directly or through a constant, and literal jwtSecret/sessionSecret-style config values. Not reported: env or config lookups, env fallbacks, tests, examples/ and comments."
+description: "Reports a string literal used as the key of jwt.sign/verify, session/JWT middleware, cookieParser, Koa/cookie-session keys or createHmac."
 order: 815
 sources: ["cli/internal/sast/rules/vnx-node-019.rego", "cli/internal/sast/docs/vnx-node-019.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

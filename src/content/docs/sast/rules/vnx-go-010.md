@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-010: Go weak cipher usage"
 nav: "VNX-GO-010"
-description: "Detect Go code that constructs DES, Triple DES, RC4, Blowfish, CAST5, TEA or XTEA ciphers, or enables RC4/3DES TLS cipher suites or 3DES/arcfour SSH ciphers, which are broken or deprecated for protecting data."
+description: "Detect Go code that constructs DES, Triple DES, RC4, Blowfish, CAST5, TEA or XTEA ciphers, or enables RC4/3DES TLS cipher suites or 3DES/arcfour SSH ciphers."
 order: 712
 sources: ["cli/internal/sast/rules/vnx-go-010.rego", "cli/internal/sast/docs/vnx-go-010.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

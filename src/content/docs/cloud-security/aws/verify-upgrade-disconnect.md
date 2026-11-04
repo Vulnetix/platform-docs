@@ -1,6 +1,6 @@
 ---
 title: Verify, upgrade and disconnect
-description: Checking that Vulnetix can read a connected account, upgrading the probe when a new release is out, the private reporting opt-in, and removing everything Vulnetix deployed.
+description: Check that Vulnetix can read a connected account, upgrade the probe to a new release, opt in to private reporting, and remove everything Vulnetix deployed.
 order: 14
 nav: Verify, upgrade, disconnect
 sources: [vdb-site/api/internal/handler/integrations_aws_verify.go, vdb-site/api/internal/handler/integrations_aws_probe.go, vdb-site/api/internal/handler/integrations_aws_stack.go, vdb-site/api/internal/handler/integrations_aws_iamuser.go, vdb-site/api/main.go]

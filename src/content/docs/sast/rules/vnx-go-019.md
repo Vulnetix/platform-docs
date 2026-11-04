@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-019: Go debug endpoints (pprof, expvar) served on all interfaces"
 nav: "VNX-GO-019"
-description: "Detects pprof and expvar debug handlers served on a listener bound to every interface: the default mux when net/http/pprof or expvar is imported, a mux or router carrying the debug handlers (including chi middleware.Profiler), or a gin engine with gin-contrib pprof. An all-interfaces address held in a constant of the same file counts as the literal. Loopback and flag- or config-supplied addresses, and public listeners without debug handlers, are not reported."
+description: "Detects pprof and expvar debug handlers served on a listener bound to every interface."
 order: 721
 sources: ["cli/internal/sast/rules/vnx-go-019.rego", "cli/internal/sast/docs/vnx-go-019.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: Egress policy
-description: How a Pix Sandbox decides each outbound request by hostname. The two modes, allow and deny decisions with *. wildcards, the order rules are applied in, the hosts you cannot deny, and when a change reaches a running sandbox.
+description: How a Pix Sandbox decides each outbound request by hostname, the two modes, allow and deny rules with *. wildcards, rule order, and the hosts you cannot deny.
 order: 3
 sources: [website/sandbox-worker/src/egress.ts, website/sandbox-worker/src/gateways.ts, website/sandbox-worker/src/sandbox.ts, website/sandbox-worker/src/launch.ts, website/sandbox-worker/src/nix-extension.ts, website/sandbox-worker/src/db.ts, website/src/components/belai/BelaiSandboxEgress.vue, vdb-site/api/internal/handler/pix_sandbox_store.go, vdb-site/api/internal/handler/pix_sandbox_prefs.go, vdb-site/api/internal/handler/factory_sightings.go, vdb-site/api/internal/handler/factory_settings_store.go, saas/prisma/models/pix-sandbox.prisma, saas/prisma/migrations/20261007000001_add_pix_sandboxes/migration.sql]
 checked: [website@ad775f3, vdb-site@1a06d67, saas@50cedf3]

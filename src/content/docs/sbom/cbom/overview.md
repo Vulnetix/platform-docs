@@ -1,6 +1,6 @@
 ---
 title: vulnetix cbom
-description: Discover cryptographic algorithms, certificates and crypto libraries in a project and write a CycloneDX cryptography BOM with post-quantum posture and a CI gate.
+description: Find cryptographic algorithms, certificates and crypto libraries in a project and write a CycloneDX cryptography BOM with post-quantum posture and a CI gate.
 order: 1
 sources: [cli/cmd/cbom.go, cli/internal/cbom/catalog/algorithms.json, cli/internal/cbom/catalog/libraries.json, cli/cmd/scan.go, cli/cmd/suppress.go]
 checked: [cli@4c8c3b71c]

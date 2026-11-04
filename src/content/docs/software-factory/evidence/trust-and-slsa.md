@@ -1,6 +1,6 @@
 ---
 title: Trust and SLSA
-description: What you can prove about factory work. SLSA levels per repository and why, the scanner matrix, the firewall and gate settings in force, the security settings, and the attestation bundle export.
+description: What you can prove about factory work, with SLSA levels per repository, the scanner matrix, firewall, gate and security settings, and the attestation export.
 order: 2
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_trust.go, vdb-site/api/internal/handler/factory_trust_store.go]
 checked: [vdb-site@284f1d6, website@a31d470]

@@ -1,7 +1,7 @@
 ---
 title: Suppressing findings
 nav: Suppressing findings
-description: Silence a SAST finding with a nosec comment, an ignore rule in .vulnetix/memory.yaml or the organisation, or --suppress-test-code, and know what each one actually matches.
+description: Silence a SAST finding with a nosec comment, an ignore rule in .vulnetix/memory.yaml or the organisation, or --suppress-test-code, and what each one matches.
 order: 2
 sources: [cli/internal/sast/nosec.go, cli/cmd/scan.go, cli/cmd/suppress.go, cli/cmd/suppress_filter.go, cli/cmd/suppress_sync.go, cli/cmd/suppress_report.go, cli/cmd/testsuite_scan.go, cli/internal/suppress/suppress.go]
 checked: [cli@4c8c3b7]

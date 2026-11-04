@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-005: innerHTML or dangerouslySetInnerHTML usage"
 nav: "VNX-NODE-005"
-description: "Reports HTML written into the DOM of a JavaScript or TypeScript file from a non-constant value (insertAdjacentHTML, document.write, React dangerouslySetInnerHTML) that is not sanitized. innerHTML/outerHTML assignments are reported by VNX-NODE-027."
+description: "Reports HTML written into the DOM of a JavaScript or TypeScript file from a non-constant value (insertAdjacentHTML, document.write."
 order: 801
 sources: ["cli/internal/sast/rules/vnx-node-005.rego", "cli/internal/sast/docs/vnx-node-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

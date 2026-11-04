@@ -1,7 +1,7 @@
 ---
 title: Import and validate SBOMs
 nav: Import and validate
-description: Read CycloneDX, SPDX and in-toto wrapped SBOMs from any tool with vulnetix bom import, convert them to CycloneDX, and score their field completeness with vulnetix bom validate.
+description: Read CycloneDX, SPDX and in-toto wrapped SBOMs with vulnetix bom import, convert them to CycloneDX, and score field completeness with vulnetix bom validate.
 order: 1
 sources: [cli/cmd/bom.go, cli/internal/bom/read.go, cli/internal/bom/spdx_read.go, cli/internal/bom/quality.go]
 checked: [cli@4c8c3b71c]

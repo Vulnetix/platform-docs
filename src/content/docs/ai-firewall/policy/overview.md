@@ -1,7 +1,7 @@
 ---
 title: How policy is evaluated
 nav: Overview
-description: The order in which the gateway checks a request against provider, model, capability and content policy, which plan enables each check, and where each one is configured.
+description: The order in which the gateway checks a request against provider, model, capability and content policy, which plan enables each check, and where to set it.
 order: 1
 sources:
   - ai-firewall/internal/api/handlers.go

@@ -1,6 +1,6 @@
 ---
 title: Connect with an access key
-description: The legacy connector for AWS accounts without IAM Identity Center. The IAM policy to attach, what Vulnetix stores, and how it differs from the Identity Center connector.
+description: The legacy connector for AWS accounts without IAM Identity Center, the IAM policy to attach, what Vulnetix stores, and how it differs from Identity Center.
 order: 11
 nav: Access key (legacy)
 sources: [vdb-site/api/internal/handler/integrations_aws_iamuser.go, vdb-site/api/main.go, website/src/components/integrations/console/IntegrationAwsDrawer.vue]

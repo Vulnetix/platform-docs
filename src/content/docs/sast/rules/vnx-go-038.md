@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-038: Potential mass assignment via struct binding"
 nav: "VNX-GO-038"
-description: "Detects Go handlers that bind a request body into a value and then save that same value whole (GORM Create/Save/Updates, Mongo InsertOne, repository Insert/Update), allowing mass assignment."
+description: "Detects Go handlers that bind a request body into a value and then save that same value whole (GORM Create/Save/Updates, Mongo InsertOne."
 order: 740
 sources: ["cli/internal/sast/rules/vnx-go-038.rego", "cli/internal/sast/docs/vnx-go-038.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

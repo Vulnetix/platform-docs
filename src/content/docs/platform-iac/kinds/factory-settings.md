@@ -1,6 +1,6 @@
 ---
 title: "FactorySettings"
-description: "The Software Factory settings document: the tenant-wide factory settings the console's Settings page edits. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The Software Factory settings document: the tenant-wide factory settings the console's Settings page edits."
 order: 42
 group: "Factory"
 generated: true

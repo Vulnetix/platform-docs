@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-016: TLS verification disabled in shell command"
 nav: "VNX-SEC-016"
-description: "Detects commands and tool settings that disable TLS certificate verification: curl -k/--insecure, wget --no-check-certificate, git sslVerify false, GIT_SSL_NO_VERIFY, NODE_TLS_REJECT_UNAUTHORIZED=0, npm strict-ssl false, pip --trusted-host, kubectl --insecure-skip-tls-verify (and kubeconfig insecure-skip-tls-verify: true), Ansible validate_certs: no and PowerShell -SkipCertificateCheck."
+description: "Detects commands and tool settings that disable TLS certificate verification."
 order: 910
 sources: ["cli/internal/sast/rules/vnx-sec-016.rego", "cli/internal/sast/docs/vnx-sec-016.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,7 +1,7 @@
 ---
 title: AI Firewall overview
 nav: Overview
-description: The AI Firewall is a multi-provider LLM gateway at guardrails.vulnetix.com that applies your organisation's provider, model, guardrail and agent-capability policy to every request before forwarding it with your own provider key.
+description: The AI Firewall is a multi-provider LLM gateway that applies your organisation's provider, model, guardrail and agent-capability policy to every request.
 order: 1
 sources:
   - ai-firewall/README.md

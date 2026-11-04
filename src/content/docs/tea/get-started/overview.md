@@ -1,7 +1,7 @@
 ---
 title: Transparency Exchange (TEA)
 nav: Overview
-description: Vulnetix runs a conformant OWASP Transparency Exchange API server that publishes SBOMs, VEX, attestations and download links for releases, and the vulnetix tea command reads any TEA server and publishes to yours.
+description: Vulnetix runs an OWASP Transparency Exchange API server for SBOMs, VEX, attestations and download links, and vulnetix tea reads and publishes to TEA servers.
 order: 1
 sources: [vdb-site/api/internal/handler/tea_routes.go, vdb-site/api/internal/handler/tea_v1_routes.go, vdb-site/api/main.go, saas/prisma/models/tea-publisher.prisma, cli/cmd/tea.go, cli/pkg/tea/client.go, tea-spec/README.md]
 checked: [vdb-site@1a06d67, saas@50cedf37, cli@4c8c3b71c, tea-spec@6c93819]

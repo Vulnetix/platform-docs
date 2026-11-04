@@ -1,7 +1,7 @@
 ---
 title: Private registries for scans
 nav: Private registries
-description: Connect your own npm registry, PyPI index, Maven repository or OCI registry so scans can read private packages, keep the credential in the secrets vault, and declare the connection as code.
+description: Connect a private npm registry, PyPI index, Maven repository or OCI registry so scans can read private packages, with the credential in the secrets vault.
 order: 5
 sources: [vdb-site/docs/manifest-curator.md, vdb-lock-runner/README.md, cli/cmd/image_registry.go, cli/internal/imagesrc/tenantauth.go, vdb-site/api/internal/scanregistry/scanregistry.go, vdb-site/api/internal/handler/scan_registries.go, vdb-site/api/internal/handler/config_scanregistry_store.go, vdb-site/api/internal/config/registryconnection.go, vdb-site/docs/scan-registries.md, saas/prisma/models/scan-registry.prisma, saas/prisma/migrations/20261228020000_scan_registry_connection/migration.sql, website/src/pages/resolve/registries.vue]
 checked: [vdb-site@9cf42d7, vdb-lock-runner@3a1e09e, saas@29dc0ead, config-schemas@213af1c, cli@v4.6.0]

@@ -1,6 +1,6 @@
 ---
 title: "LibraryItem"
-description: "One item of the organisation's Belai library that is not an agent or a crew: a skill (an Agent Skills SKILL.md), prompt, command, process, MCP server, repo. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "One item of the organisation's Belai library that is not an agent or a crew."
 order: 49
 group: "AI libraries"
 generated: true

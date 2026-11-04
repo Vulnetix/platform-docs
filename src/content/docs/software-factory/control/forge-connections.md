@@ -1,6 +1,6 @@
 ---
 title: Forge connections
-description: Connect GitHub Enterprise Server, Gitea, Forgejo or GitLab to the factory. The bot account and token each needs, the webhooks, what the connection stores, and how forge repositories are named.
+description: Connect GitHub Enterprise Server, Gitea, Forgejo or GitLab to the factory, with the bot account, token and webhooks each needs and how repositories are named.
 order: 1.5
 sources: [vdb-site/docs/forge-connections.md, vdb-site/api/internal/handler/forge_connections.go, vdb-site/api/internal/handler/forge_webhooks.go, vdb-site/api/internal/forge/probe.go, website/.repo/forge-connections.md, website/src/components/integrations/console/ForgeConnectDialog.vue]
 checked: [vdb-site@72a0135, website@255a6c8]

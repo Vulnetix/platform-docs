@@ -1,6 +1,6 @@
 ---
 title: "ScannerProfile"
-description: "Which scanners the Software Factory runs, the SLSA level its builds must reach, and the evidence it keeps. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "Which scanners the Software Factory runs, the SLSA level its builds must reach, and the evidence it keeps."
 order: 29
 group: "Scanners and gates"
 generated: true

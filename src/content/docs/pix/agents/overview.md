@@ -1,7 +1,7 @@
 ---
 title: Subagents
 nav: Overview
-description: The five Claude Code subagents in the Pix plugin, bulk-triage, dep-upgrade-orchestrator, pr-security-reviewer, compliance-bundler and incident-responder, with their inputs, stages, outputs and limits.
+description: The five Claude Code subagents in the Pix plugin, from bulk-triage to incident-responder, with their inputs, stages, outputs and limits.
 order: 1
 sources: [pix-ai-coding-assistant/vulnetix/agents/bulk-triage.md, pix-ai-coding-assistant/vulnetix/agents/dep-upgrade-orchestrator.md, pix-ai-coding-assistant/vulnetix/agents/pr-security-reviewer.md, pix-ai-coding-assistant/vulnetix/agents/compliance-bundler.md, pix-ai-coding-assistant/vulnetix/agents/incident-responder.md]
 checked: [pix-ai-coding-assistant@7aebf02]

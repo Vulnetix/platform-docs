@@ -1,6 +1,6 @@
 ---
 title: "AiGovernanceList"
-description: "An allow or deny list of AI tools, MCP servers, skills or clients, stored as AI Firewall guardrails: one guardrail row per pattern. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "An allow or deny list of AI tools, MCP servers, skills or clients, stored as AI Firewall guardrails."
 order: 40
 group: "AI firewall"
 generated: true

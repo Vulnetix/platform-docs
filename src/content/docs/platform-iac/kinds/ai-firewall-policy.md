@@ -1,6 +1,6 @@
 ---
 title: "AiFirewallPolicy"
-description: "The tenant's AI Firewall policy: which providers and models its agents may use, the guardrails the gateway applies to every request. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The tenant's AI Firewall policy: which providers and models its agents may use, the guardrails the gateway applies to every request."
 order: 38
 group: "AI firewall"
 generated: true

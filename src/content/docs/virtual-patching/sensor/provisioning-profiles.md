@@ -1,6 +1,6 @@
 ---
 title: Provisioning profiles
-description: For org admins, how a profile decides which devices it covers, which credential they get and what configuration they run, and how to revoke, uninstall and watch them.
+description: For org admins, how a profile chooses the devices it covers, their credential and configuration, and how to revoke, uninstall and watch them.
 order: 2
 nav: Provisioning profiles
 sources: [vdb-site/docs/addons.md, vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go, cli/cmd/vulnetix-sensor/selfupdate.go, cli/cmd/vulnetix-sensor/selfupdate_safety.go]

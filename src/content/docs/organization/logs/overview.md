@@ -1,7 +1,7 @@
 ---
 title: Logs
 nav: Logs overview
-description: The Logs page in the Resolve Platform, one stream per product (API usage, Pix Sandbox, Pix calls, AI Firewall, Package Firewall and reviews), the shared time range, plan limits and the API behind each stream.
+description: The Resolve Platform Logs page, with one stream per product such as API usage, Pix Sandbox and the firewalls, the shared time range, plan limits and the API.
 order: 1
 sources: [website/src/pages/resolve/logs.vue, website/src/components/account-logs/logs-streams.ts, website/src/components/account-logs/ApiUsageStream.vue, website/src/components/account-logs/PackageFirewallStream.vue, website/src/components/account-logs/SandboxStream.vue, website/src/components/review/review-actions.ts, website/src/shared/plan-features.ts, vdb-site/docs/account-logs-and-billing.md]
 checked: [website@d56e8be1, vdb-site@8209415]

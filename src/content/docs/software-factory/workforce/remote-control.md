@@ -1,7 +1,7 @@
 ---
 title: Remote control and connected hosts
 nav: Remote control
-description: Connect your own machine with belai rc so the Resolve Platform and the factory can start sessions and workers on it. What it needs, every flag, cloning for the factory, session controls and slash commands from the web, project settings from the web, and the per-session flags the daemon sets.
+description: Connect your own machine with belai rc so the Resolve Platform and the factory can start sessions and workers on it, with every flag and web session controls.
 order: 19
 sources: [belai/docs/remote-control.md, belai/docs/session-controls.md, belai/cmd/belai/rccmd.go, vdb-site/api/internal/handler/belai_rc.go, vdb-site/api/internal/handler/belai_commands.go]
 checked: [belai@8aa7760, vdb-site@597344c, website@58b9ffa]

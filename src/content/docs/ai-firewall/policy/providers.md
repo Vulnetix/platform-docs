@@ -1,7 +1,7 @@
 ---
 title: Provider allow and deny
 nav: Providers
-description: Allow, deny or clear an upstream provider for the whole organisation, what each state does at request time, and how to add an organisation-owned compatible provider.
+description: Allow, deny or clear an upstream provider for the organisation, what each state does at request time, and how to add an organisation-owned compatible provider.
 order: 2
 sources:
   - ai-firewall/internal/api/handlers.go

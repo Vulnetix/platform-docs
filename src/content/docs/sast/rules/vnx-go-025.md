@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-025: Potential open redirect via HTTP redirect"
 nav: "VNX-GO-025"
-description: "Detects a redirect (http.Redirect, gin/echo/fiber Redirect, a Location header) whose target is a query, form or route parameter, directly or through one variable built from it, with no allowlist or host check first."
+description: "Detects a redirect (http.Redirect, gin/echo/fiber Redirect, a Location header) whose target is a query, form or route parameter."
 order: 727
 sources: ["cli/internal/sast/rules/vnx-go-025.rego", "cli/internal/sast/docs/vnx-go-025.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

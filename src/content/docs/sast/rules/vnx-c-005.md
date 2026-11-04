@@ -1,10 +1,10 @@
 ---
 title: "VNX-C-005: Integer overflow in malloc/calloc size arithmetic"
 nav: "VNX-C-005"
-description: "Reports a C or C++ allocation (malloc, realloc, calloc, aligned_alloc and common wrappers) whose size multiplies or adds a count parsed or received in the 30 lines above (atoi/strtol family, ntohl, getenv, scanf/fread/read/recv out-arguments) with no overflow check. Checked or clamped counts, 8- and 16-bit counts, plain calloc(n, size), and sizes from constants or internal lengths are not reported."
+description: "Reports a C or C++ allocation (malloc, realloc, calloc, aligned_alloc and common wrappers) whose size multiplies or adds a count parsed."
 order: 673
 sources: ["cli/internal/sast/rules/vnx-c-005.rego", "cli/internal/sast/docs/vnx-c-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

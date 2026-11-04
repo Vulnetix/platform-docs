@@ -1,6 +1,6 @@
 ---
 title: Crew node
-description: A step that hands work to agents on a host. How the card is written, how the host is chosen, replicas, retries, the author's brief, and what the step does when no machine can take it.
+description: A workflow step handing work to agents on a host, covering the card, host choice, replicas, retries, the author's brief and what happens when no host is free.
 order: 13
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_engine_node_crew.go, vdb-site/api/internal/handler/factory_host_select.go]
 checked: [vdb-site@284f1d6]

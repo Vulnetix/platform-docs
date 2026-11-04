@@ -1,6 +1,6 @@
 ---
 title: Notifications
-description: Push notifications to your browser and phone, your own preferences and quiet hours, the organisation's defaults, and action buttons. How they relate to messaging routes.
+description: Browser and phone push notifications, your preferences and quiet hours, organisation defaults, action buttons, and how they relate to messaging routes.
 order: 4
 sources: [vdb-site/api/internal/handler/notify_prefs.go, vdb-site/api/internal/handler/notify_actions.go, vdb-site/api/internal/handler/notify_core.go, vdb-site/api/internal/notify/prefs.go, vdb-site/api/main.go]
 checked: [vdb-site@1a06d67]

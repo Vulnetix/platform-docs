@@ -1,6 +1,6 @@
 ---
 title: Security model
-description: How credentials are relayed rather than interpreted, why the device-login handle is encrypted, prompt-injection controls on AI output, the vdb_request allowlist and transport hardening.
+description: How credentials are relayed, not interpreted, the encrypted device-login handle, prompt-injection controls, the vdb_request allowlist and transport hardening.
 order: 3
 sources:
   - mcp-server/src/auth/credential.ts

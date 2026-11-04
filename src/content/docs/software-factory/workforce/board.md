@@ -1,6 +1,6 @@
 ---
 title: The board
-description: The kanban board agents and people share. Its five lists, what a card records, claims and routing, human checkpoints, assigning cards, factory cards and why they wait, and the board in the Resolve Platform, the TUI and the command line.
+description: The kanban board agents and people share, with its five lists, cards, claims, routing and human checkpoints, in the Resolve Platform, the TUI and the CLI.
 order: 9
 sources: [belai/docs/kanban.md, belai/docs/fleet.md, belai/cmd/belai/kanbancmd.go, vdb-site/docs/factory.md, vdb-site/docs/belai-assignment-mail.md]
 checked: [belai@35506b9, vdb-site@284f1d6, website@a31d470]

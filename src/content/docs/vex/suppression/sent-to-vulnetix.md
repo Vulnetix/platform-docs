@@ -1,6 +1,6 @@
 ---
 title: VEX sent to Vulnetix
-description: Which commands send VEX documents to /v2/cli.vex-ingest, how the server turns false-positive and won't-fix statements into suppression rules, and the limits, response fields and identity that go with each request.
+description: Which commands send VEX to /v2/cli.vex-ingest, how false-positive and won't-fix statements become suppression rules, and the limits and fields of each request.
 order: 3
 sources: [cli/cmd/vex_ingest.go, cli/pkg/vdb/api_cli_vex_ingest.go, cli/cmd/suppress_report.go, cli/pkg/vdb/identity_header.go, cli/internal/ghactx/oidc.go, vdb-api/internal/handler/v2_cli_vex_ingest.go, vdb-sca-match/suppression/ingest.go, vdb-cyclonedx/vexrules/classify.go]
 checked: [cli@v4.2.0, vdb-api@4145f0a, vdb-sca-match@ec6757e, vdb-cyclonedx@eaf787c]

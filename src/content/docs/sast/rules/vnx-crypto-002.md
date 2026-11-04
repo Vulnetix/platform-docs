@@ -1,10 +1,10 @@
 ---
 title: "VNX-CRYPTO-002: SHA-1 usage detected"
 nav: "VNX-CRYPTO-002"
-description: "Reports SHA-1 computed through a hash or signature API in Python, Node.js, Go, Java, Ruby and PHP (hashlib.sha1, createHash('sha1'), sha1.Sum, x509.SHA1WithRSA, MessageDigest.getInstance(\"SHA-1\"), Digest::SHA1, sha1()), with imports and aliases resolved. HMAC-SHA1, PBKDF2-HMAC-SHA1, the WebSocket accept key, usedforsecurity=False, names merely containing sha1, comments, strings and test files are not reported."
+description: "Reports SHA-1 computed through a hash or signature API in Python, Node.js, Go, Java, Ruby and PHP (hashlib.sha1, createHash('sha1'), sha1.Sum, x509.SHA1WithRSA."
 order: 676
 sources: ["cli/internal/sast/rules/vnx-crypto-002.rego", "cli/internal/sast/docs/vnx-crypto-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

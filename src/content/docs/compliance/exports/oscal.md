@@ -1,6 +1,6 @@
 ---
 title: OSCAL export
-description: How a compliance report is written as an OSCAL 1.1.2 assessment-results document, how statuses, evidence, control ids and UUIDs are mapped, and what a GRC tool should read from it.
+description: How a compliance report is written as an OSCAL 1.1.2 assessment-results document, how statuses, evidence, control ids and UUIDs map, and what GRC tools read.
 order: 2
 sources: [vdb-site/api/internal/handler/compliance_oscal.go, vdb-site/api/internal/handler/compliance_oscal_test.go, vdb-site/api/internal/handler/threat_model_oscal.go, vdb-site/api/internal/handler/testdata/oscal-complete-1.1.2.schema.json, vdb-site/api/main.go]
 checked: [vdb-site@1a06d67]

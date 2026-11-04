@@ -1,6 +1,6 @@
 ---
 title: vulnetix image
-description: Inventory one container image layer by layer, from a registry, a local engine or a saved archive, and record it so Safe Harbour can compare its base image with equivalents.
+description: Inventory a container image layer by layer from a registry, local engine or saved archive, and record it so Safe Harbour can compare its base image.
 order: 2
 sources: [cli/cmd/image.go, cli/cmd/image_registry.go, cli/internal/imagesrc/tenantauth.go, vdb-site/docs/scan-registries.md, cli/internal/imagesrc/imagesrc.go, cli/internal/imagesrc/flatten.go]
 checked: [cli@v4.6.0, vdb-site@9cf42d7, website@ad775f3]

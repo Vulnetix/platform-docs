@@ -1,7 +1,7 @@
 ---
 title: IaC scanning
 nav: Overview
-description: What vulnetix iac checks in Terraform and other infrastructure code, what the built-in rules cover, and how external rule packs add Kubernetes, CloudFormation, ARM, Ansible and Dockerfile checks.
+description: What vulnetix iac checks in Terraform and other IaC, and how external rule packs add Kubernetes, CloudFormation, ARM, Ansible and Dockerfile checks.
 order: 1
 sources: [cli/cmd/specialized_scans.go, cli/cmd/scan.go, cli/internal/sast/kinds.go, cli/internal/sast/language_filter.go, cli/internal/sast/input.go, cli/internal/scan/detector.go, cli/cmd/config_documents.go]
 checked: [cli@2449840]

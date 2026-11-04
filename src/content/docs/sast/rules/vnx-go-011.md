@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-011: Go gob deserialization of an HTTP request body or accepted connection"
 nav: "VNX-GO-011"
-description: "Detect Go code that decodes gob data from an HTTP request body (net/http, gin, echo, fiber, fasthttp) or an accepted network connection, directly or through a variable, which lets a client exhaust memory and stack."
+description: "Detect Go code that decodes gob data from an HTTP request body (net/http, gin, echo, fiber, fasthttp) or an accepted network connection."
 order: 713
 sources: ["cli/internal/sast/rules/vnx-go-011.rego", "cli/internal/sast/docs/vnx-go-011.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

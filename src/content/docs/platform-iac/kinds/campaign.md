@@ -1,6 +1,6 @@
 ---
 title: "Campaign"
-description: "A remediation campaign: a named, time-boxed push to drive a chosen set of vulnerabilities, dependencies or repositories to a defined done state. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A remediation campaign: a named, time-boxed push to drive a chosen set of vulnerabilities, dependencies or repositories to a defined done state."
 order: 35
 group: "Campaigns"
 generated: true

@@ -1,7 +1,7 @@
 ---
 title: Coverage and Exposure reports
 nav: Coverage and Exposure
-description: The two Vulnetix operational reports, Scan Coverage (which scanners and controls ran across which repositories) and Exposure & Remediation Performance (how the vulnerability program performed), and how each row is graded.
+description: The Scan Coverage and Exposure & Remediation Performance reports, which show where scanners and controls ran and how the vulnerability programme performed.
 order: 3
 sources: [vdb-site/api/internal/coverage/coverage.go, vdb-site/api/internal/coverage/classify.go, vdb-site/api/internal/exposure/exposure.go, vdb-site/api/internal/handler/compliance_coverage.go, vdb-site/api/internal/handler/compliance_exposure.go, vdb-site/api/internal/handler/compliance_export.go]
 checked: [vdb-site@1a06d67]

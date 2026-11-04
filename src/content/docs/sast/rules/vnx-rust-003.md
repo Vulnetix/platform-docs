@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUST-003: Rust unsafe code without a safety justification"
 nav: "VNX-RUST-003"
-description: "Reports unsafe blocks and expressions, unsafe fn declarations and unsafe impls that carry no safety justification (a // SAFETY: comment or a # Safety doc section); documented unsafe and the word unsafe in strings, comments and lint attributes are not reported."
+description: "Reports unsafe blocks and expressions, unsafe fn declarations and unsafe impls that carry no safety justification (a // SAFETY."
 order: 889
 sources: ["cli/internal/sast/rules/vnx-rust-003.rego", "cli/internal/sast/docs/vnx-rust-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

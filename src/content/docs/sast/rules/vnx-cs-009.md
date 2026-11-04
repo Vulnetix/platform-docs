@@ -1,10 +1,10 @@
 ---
 title: "VNX-CS-009: C# use of weak cryptographic algorithm (MD5, SHA-1, DES, 3DES, RC2, RC4)"
 nav: "VNX-CS-009"
-description: "Reports C# code that creates or invokes MD5, SHA-1, DES, 3DES, RC2, RC4, MD4/MD2 or PBKDF1 through the .NET or BouncyCastle crypto APIs, including SHA-1/MD5 signatures and algorithms requested by name. HMAC, RSA-OAEP, PBKDF2, protocol-fixed hashes (WebSocket, Gravatar, ETag, Content-MD5), analyzer-suppressed code, comments, strings and test projects are not reported."
+description: "Reports C# code that creates or invokes MD5, SHA-1, DES, 3DES, RC2, RC4, MD4/MD2 or PBKDF1 through the .NET or BouncyCastle crypto APIs."
 order: 693
 sources: ["cli/internal/sast/rules/vnx-cs-009.rego", "cli/internal/sast/docs/vnx-cs-009.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: Software Factory
-description: Software Factory runs workflows of agents against the GitHub repositories you mark as managed, and writes the results back to GitHub as draft pull requests, reviews, comments, issues and VEX.
+description: Software Factory runs agent workflows on the GitHub repositories you mark as managed, writing results back as draft pull requests, reviews, comments and VEX.
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-access.md, vdb-site/api/internal/handler/factory_access.go, website/.repo/software-factory.md]
 checked: [vdb-site@fe1ff17, website@a31d470]

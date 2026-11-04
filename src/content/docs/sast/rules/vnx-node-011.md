@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-011: Node.js server-side template injection"
 nav: "VNX-NODE-011"
-description: "Reports a template engine (ejs, pug/jade, Handlebars, nunjucks, lodash _.template, doT, Mustache, Eta, Squirrelly, swig) compiling or rendering a template source taken from req.query/body/params or Koa ctx, directly or through a variable or a concatenation built from one. User data passed as the render context is not reported."
+description: "Reports a template engine (ejs, pug/jade, Handlebars, nunjucks, lodash _.template, doT, Mustache, Eta, Squirrelly."
 order: 807
 sources: ["cli/internal/sast/rules/vnx-node-011.rego", "cli/internal/sast/docs/vnx-node-011.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

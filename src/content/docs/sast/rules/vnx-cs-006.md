@@ -1,10 +1,10 @@
 ---
 title: "VNX-CS-006: C# System.Random output used for a token, password, key, salt, nonce or session value"
 nav: "VNX-CS-006"
-description: "Detects C# calls to System.Random (Next, NextInt64, NextDouble, NextBytes, GetItems) whose result becomes a password, token, key, salt, nonce, IV, session or CSRF value, an OTP or a reset code."
+description: "Detects C# calls to System.Random (Next, NextInt64, NextDouble, NextBytes, GetItems) whose result becomes a password, token, key, salt, nonce, IV."
 order: 690
 sources: ["cli/internal/sast/rules/vnx-cs-006.rego", "cli/internal/sast/docs/vnx-cs-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

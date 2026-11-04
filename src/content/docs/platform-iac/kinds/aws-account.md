@@ -1,6 +1,6 @@
 ---
 title: "AwsAccount"
-description: "One AWS account the AwsConnection reaches, keyed on its account id within the tenant (two tenants may connect the same account). Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "One AWS account the AwsConnection reaches, keyed on its account id within the tenant (two tenants may connect the same account)."
 order: 63
 group: "Cloud"
 generated: true

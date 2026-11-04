@@ -1,7 +1,7 @@
 ---
 title: VS Code extension
 nav: Overview
-description: The Vulnetix extension for VS Code and its forks runs the `vulnetix lsp` language server from the Vulnetix CLI and shows dependency, code, secret, infrastructure and container findings in the editor.
+description: The Vulnetix extension for VS Code and its forks runs the `vulnetix lsp` server to show dependency, code, secret, IaC and container findings in the editor.
 order: 1
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/src/extension.ts, vulnetix-vscode/src/lsp/client.ts, vulnetix-vscode/CHANGELOG.md, cli/cmd/lsp.go, cli/internal/lsp/server.go, belai/internal/profiles/builtin/vulnetix-review.json, pix-ai-coding-assistant/vulnetix/agents/pr-security-reviewer.md]
 checked: [vulnetix-vscode@9ad08fa, cli@4c8c3b7]

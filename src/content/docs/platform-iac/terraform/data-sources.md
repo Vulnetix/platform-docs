@@ -1,7 +1,7 @@
 ---
 title: Terraform data sources
 nav: Data sources
-description: The six data sources of the vulnetix/resolve provider, what each reads, what it needs, and an example. They read what the engine and the platform hold, so a resource can refer to it.
+description: The six data sources of the vulnetix/resolve Terraform provider, what each reads and needs, with an example of each.
 order: 3
 sources: ["terraform-provider-resolve/docs/data-sources/kinds.md", "terraform-provider-resolve/docs/data-sources/ai_models.md", "terraform-provider-resolve/docs/data-sources/vex_statements.md", "terraform-provider-resolve/docs/data-sources/github_installation_repos.md", "terraform-provider-resolve/docs/data-sources/detection_rule_feed.md", "terraform-provider-resolve/docs/data-sources/virtual_patches.md", "vdb-site/docs/platform-iac-engine.md"]
 checked: ["terraform-provider-resolve@d7f7612", "vdb-site@b09e595"]

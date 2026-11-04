@@ -1,10 +1,10 @@
 ---
 title: "VNX-C-003: OS command injection: a shell command built from or read from untrusted data"
 nav: "VNX-C-003"
-description: "Reports C and C++ calls that hand a non-constant string to a shell (system, popen, _popen, _wsystem, p2open, std::system, execl of sh -c) when the command comes from argv, getenv or input, or was composed nearby with sprintf/snprintf/asprintf %s, strcat/strcpy or C++ string concatenation, and wordexp() without WRDE_NOCMD. Literal commands, exec without a shell, validated or quoted input, wrapper parameters and comments are not reported."
+description: "Reports C and C++ calls that hand a non-constant string to a shell (system, popen, _popen, _wsystem, p2open, std::system."
 order: 671
 sources: ["cli/internal/sast/rules/vnx-c-003.rego", "cli/internal/sast/docs/vnx-c-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

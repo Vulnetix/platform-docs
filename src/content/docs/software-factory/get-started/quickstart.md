@@ -1,7 +1,7 @@
 ---
 title: "Quickstart: manage an org and run a workflow"
 nav: Quickstart
-description: From an empty tenant to a first run. Install the GitHub App, make an organisation managed, give the factory a machine to work on, watch a default workflow run, then publish a workflow of your own.
+description: From an empty tenant to a first Software Factory run, installing the GitHub App, making an organisation managed, adding a host and publishing your own workflow.
 order: 3
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_defaults.go, vdb-site/api/internal/handler/factory_orgs.go]
 checked: [vdb-site@597344c, website@58b9ffa, belai@8aa7760]

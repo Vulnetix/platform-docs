@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-006: Django DEBUG=True"
 nav: "VNX-PY-006"
-description: "Detect Django deployment settings modules that set DEBUG = True or default DEBUG to on when the environment variable is unset, exposing tracebacks, settings and SQL to any visitor."
+description: "Detect Django deployment settings modules that set DEBUG = True or default DEBUG to on when the environment variable is unset, exposing tracebacks."
 order: 860
 sources: ["cli/internal/sast/rules/vnx-py-006.rego", "cli/internal/sast/docs/vnx-py-006.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

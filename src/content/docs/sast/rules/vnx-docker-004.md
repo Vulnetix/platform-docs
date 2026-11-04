@@ -1,10 +1,10 @@
 ---
 title: "VNX-DOCKER-004: Dockerfile ADD downloads a remote source without a checksum"
 nav: "VNX-DOCKER-004"
-description: "Reports a Dockerfile ADD that downloads an http(s) URL or a git repository with no --checksum, in every ADD form; git sources pinned to a full commit are not reported."
+description: "Reports a Dockerfile ADD that downloads an http(s) URL or a git repository with no --checksum, in every ADD form."
 order: 698
 sources: ["cli/internal/sast/rules/vnx-docker-004.rego", "cli/internal/sast/docs/vnx-docker-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

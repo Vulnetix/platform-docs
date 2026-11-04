@@ -1,10 +1,10 @@
 ---
 title: "VNX-GQL-002: GraphQL query batching enabled without a limit (DoS)"
 nav: "VNX-GQL-002"
-description: "Reports unbounded GraphQL operation batching switched on with a literal true: Apollo allowBatchedHttpRequests, graphql-yoga batching, Mercurius allowBatchedQueries, or batch=True on a Python GraphQLView."
+description: "Reports unbounded GraphQL operation batching switched on with a literal true."
 order: 745
 sources: ["cli/internal/sast/rules/vnx-gql-002.rego", "cli/internal/sast/docs/vnx-gql-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

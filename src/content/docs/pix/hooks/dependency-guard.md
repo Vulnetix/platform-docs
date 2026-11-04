@@ -1,6 +1,6 @@
 ---
 title: Dependency guard
-description: Checks every package an agent is about to install or write into a manifest against the repository's Safe Harbour policy, says nothing when it passes, and blocks only malware and exploited critical advisories by default.
+description: Checks each package an agent installs or adds to a manifest against Safe Harbour policy, and by default blocks only malware and exploited critical advisories.
 order: 2
 sources: [cli/internal/agent/run.go, cli/internal/agent/depguard.go, cli/internal/agent/installcmd.go, cli/internal/agent/lookup.go, cli/internal/agent/policy.go, cli/internal/fix/plan.go]
 checked: [cli@4c8c3b7]

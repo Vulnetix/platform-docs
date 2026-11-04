@@ -1,7 +1,7 @@
 ---
 title: Reading with the CLI
 nav: Reading
-description: The vulnetix tea read commands (discover, products, components, product, collection, resolve, distribution list) with their flags, paging, search limits and server selection.
+description: The vulnetix tea read commands (discover, products, components, product, collection, resolve, distribution list) with flags, paging and server selection.
 order: 1
 sources: [cli/cmd/tea.go, cli/cmd/tea_search.go, cli/cmd/tea_distribution.go, cli/pkg/tea/client.go, cli/pkg/tea/objects.go, cli/pkg/tea/tei.go]
 checked: [cli@4c8c3b71c]

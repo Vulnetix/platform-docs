@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-001: Missing go.sum"
 nav: "VNX-GO-001"
-description: "Reports a go.mod that requires a remote module but has no go.sum beside it, or whose go.sum is excluded by a .gitignore, once per go.mod on its first require directive. Standard-library-only modules, all-local replacements and testdata/fixture modules are not reported."
+description: "Reports a go.mod that requires a remote module but has no go.sum beside it, or whose go.sum is excluded by a .gitignore."
 order: 703
 sources: ["cli/internal/sast/rules/vnx-go-001.rego", "cli/internal/sast/docs/vnx-go-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

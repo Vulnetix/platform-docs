@@ -1,10 +1,10 @@
 ---
 title: "VNX-PHP-013: PHP XXE via LIBXML_NOENT or LIBXML_DTDLOAD flag"
 nav: "VNX-PHP-013"
-description: "Detects XML parsing configured for entity expansion: simplexml_load_*(), new SimpleXMLElement(), DOMDocument load/loadXML and XMLReader open/xml with LIBXML_NOENT or LIBXML_DTDLOAD (inline, across lines or via a flags variable), substituteEntities/resolveExternals set to true, XMLReader SUBST_ENTITIES/LOADDTD enabled, and libxml_disable_entity_loader(false)."
+description: "Detects XML parsing configured for entity expansion: simplexml_load_*(), new SimpleXMLElement()."
 order: 841
 sources: ["cli/internal/sast/rules/vnx-php-013.rego", "cli/internal/sast/docs/vnx-php-013.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

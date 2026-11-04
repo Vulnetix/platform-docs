@@ -1,7 +1,7 @@
 ---
 title: Detection and exploit-test skills
 nav: Detection and exploit tests
-description: detection-rules writes Snort, Suricata, YARA and Nuclei content for a CVE you cannot patch yet; exploit-test builds a command to prove a fix against a target you authorise. Neither runs anything.
+description: detection-rules writes Snort, Suricata, YARA and Nuclei content for an unpatched CVE, and exploit-test builds a command to prove a fix, but neither runs it.
 order: 5
 sources: [pix-ai-coding-assistant/skills/detection-rules/SKILL.md, pix-ai-coding-assistant/skills/exploit-test/SKILL.md, cli/internal/agent/capabilities.go]
 checked: [pix-ai-coding-assistant@7aebf02, cli@4c8c3b7]

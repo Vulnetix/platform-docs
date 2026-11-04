@@ -1,6 +1,6 @@
 ---
 title: Merge conflicts
-description: How the factory resolves a pull request's merge conflicts on its own, in up to five checked attempts, and how a person resolves them in the browser with the conflict editor.
+description: How the factory resolves a pull request's merge conflicts itself in up to five checked attempts, and how a person resolves them in the browser conflict editor.
 order: 5
 sources: [belai/docs/merge-conflicts.md, website/.repo/conflict-editor.md, vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_checkpoints_conflicts.go, vdb-site/api/internal/handler/pulls_conflicts.go]
 checked: [vdb-site@597344c, belai@8aa7760, website@58b9ffa]

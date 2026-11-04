@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-018: Insecure temporary file creation via tempfile.mktemp()"
 nav: "VNX-PY-018"
-description: "Detect Python code that generates a temporary file name without creating the file: tempfile.mktemp() (module aliases and from-imports included) and Python 2 os.tempnam()/os.tmpnam(). mkstemp, NamedTemporaryFile, mkdtemp and pytest's tmp_path_factory.mktemp() are not reported."
+description: "Detect Python code that generates a temporary file name without creating the file."
 order: 872
 sources: ["cli/internal/sast/rules/vnx-py-018.rego", "cli/internal/sast/docs/vnx-py-018.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

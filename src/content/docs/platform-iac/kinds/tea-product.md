@@ -1,6 +1,6 @@
 ---
 title: "TeaProduct"
-description: "A product the tenant publishes through the Transparency Exchange API (TEA): the top of the product, release. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A product the tenant publishes through the Transparency Exchange API (TEA)."
 order: 52
 group: "TEA"
 generated: true

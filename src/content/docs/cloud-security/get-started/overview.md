@@ -1,6 +1,6 @@
 ---
 title: Cloud security
-description: What Vulnetix reads from a connected AWS account, what it deploys there, how Wiz findings are checked against the account, and where each result appears in the Resolve Platform.
+description: What Vulnetix reads from and deploys into a connected AWS account, how Wiz findings are checked against it, and where results appear in the Resolve Platform.
 order: 1
 nav: Overview
 sources: [vdb-site/api/main.go, vdb-site/api/internal/handler/integrations_aws.go, vdb-site/api/internal/handler/integrations_aws_stack.go, vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/api/internal/handler/cloud_scheduler.go, cloudscan/README.md]

@@ -1,6 +1,6 @@
 ---
 title: AWS WAF posture
-description: What the AWS WAF source reads (web ACLs, rules, managed rule group versions, IP and regex sets, logging, attachments), what it deliberately does not read, and the Resolve Platform and API that show the result.
+description: What the AWS WAF source reads, including web ACLs, rules, managed rule groups, IP and regex sets and logging, what it skips, and where the result appears.
 order: 22
 nav: AWS WAF posture
 sources: [cloudscan/waf.go, cloudscan/README.md, vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/cloud_waf_read.go, vdb-site/api/main.go, vdb-site/api/internal/handler/assets/aws-pipeline.yaml]

@@ -1,10 +1,10 @@
 ---
 title: "VNX-93: CRLF Injection into mail or protocol headers"
 nav: "VNX-93"
-description: "HTTP request data placed into a CRLF-delimited mail header or protocol line (SMTP commands, raw headers, PHP mail() headers, email.mime headers) without removing CR/LF."
+description: "HTTP request data placed into a CRLF-delimited mail header or protocol line (SMTP commands, raw headers, PHP mail() headers."
 order: 108
 sources: ["cli/internal/sast/rules/vnx-93.rego", "cli/internal/sast/docs/vnx-93.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

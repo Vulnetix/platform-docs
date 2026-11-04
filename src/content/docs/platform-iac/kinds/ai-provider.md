@@ -1,6 +1,6 @@
 ---
 title: "AiProvider"
-description: "A custom AI Firewall provider owned by the tenant: a model server the gateway forwards to, beside the built-in catalogue. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A custom AI Firewall provider owned by the tenant: a model server the gateway forwards to, beside the built-in catalogue."
 order: 39
 group: "AI firewall"
 generated: true

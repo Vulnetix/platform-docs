@@ -1,6 +1,6 @@
 ---
 title: Jurisdictional control
-description: "How to hold a vendor or data-residency boundary with provider and model policy, the policy file that writes it down, and the limits: no region pinning and no default-deny."
+description: "Hold a vendor or data-residency boundary with provider and model policy, record it in the policy file, and the limits of no region pinning and no default-deny."
 order: 3
 sources:
   - ai-firewall/internal/api/handlers.go

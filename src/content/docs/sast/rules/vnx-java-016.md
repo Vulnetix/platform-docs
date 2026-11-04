@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-016: Java weak PRNG (java.util.Random) used for security-sensitive value"
 nav: "VNX-JAVA-016"
-description: "Reports values drawn from java.util.Random, ThreadLocalRandom, Math.random or RandomStringUtils that are used as tokens, session IDs, nonces, passwords, salts, OTPs or keys. SecureRandom and non-secret uses such as jitter, shuffling and sampling are not reported."
+description: "Reports values drawn from java.util.Random, ThreadLocalRandom, Math.random or RandomStringUtils that are used as tokens, session IDs, nonces, passwords, salts."
 order: 764
 sources: ["cli/internal/sast/rules/vnx-java-016.rego", "cli/internal/sast/docs/vnx-java-016.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

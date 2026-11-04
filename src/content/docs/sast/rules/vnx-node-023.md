@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-023: Unsafe YAML.load() with untrusted input"
 nav: "VNX-NODE-023"
-description: "Reports js-yaml 3 load()/loadAll() of request data or an uploaded file without a safe schema, and load() with DEFAULT_FULL_SCHEMA. Not reported: safeLoad, safe schemas, the program's own files, projects on js-yaml 4+, the yaml package, comments and strings."
+description: "Reports js-yaml 3 load()/loadAll() of request data or an uploaded file without a safe schema, and load() with DEFAULT_FULL_SCHEMA. Not reported."
 order: 819
 sources: ["cli/internal/sast/rules/vnx-node-023.rego", "cli/internal/sast/docs/vnx-node-023.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

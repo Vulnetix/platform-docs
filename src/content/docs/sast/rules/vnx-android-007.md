@@ -1,10 +1,10 @@
 ---
 title: "VNX-ANDROID-007: AES cipher in ECB mode (Java/Kotlin)"
 nav: "VNX-ANDROID-007"
-description: "Detects Java and Kotlin Cipher.getInstance() calls that select AES in ECB mode: an AES/ECB transformation, bare \"AES\" or KeyProperties.KEY_ALGORITHM_AES (the provider default is ECB), a KeyProperties concatenation or template with BLOCK_MODE_ECB, or a constant holding one of those."
+description: "Detects Java and Kotlin Cipher.getInstance() calls that select AES in ECB mode."
 order: 661
 sources: ["cli/internal/sast/rules/vnx-android-007.rego", "cli/internal/sast/docs/vnx-android-007.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

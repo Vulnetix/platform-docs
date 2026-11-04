@@ -1,7 +1,7 @@
 ---
 title: Overlay files
 nav: Overlay files
-description: Merge a CycloneDX fragment of your own into the document the CLI writes, to add suppliers, services, compositions, annotations and vulnerability analysis, and exactly how each member merges.
+description: Merge your own CycloneDX fragment into the document the CLI writes, to add suppliers, services, annotations and vulnerability analysis, and how members merge.
 order: 5
 sources: [cli/internal/cdx/overlay.go, cli/internal/cdx/authorship.go, cli/internal/cdx/merge.go, cli/cmd/cdx.go, cli/cmd/scan.go, cli/tools/actiongen/spec.go, vdb-cyclonedx/rawpassthrough.go]
 checked: [cli@v4.17.1, vdb-cyclonedx@v0.17.0]

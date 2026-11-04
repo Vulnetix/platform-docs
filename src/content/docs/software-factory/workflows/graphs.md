@@ -1,7 +1,7 @@
 ---
 title: Workflow graphs, versions and publishing
 nav: Workflow graphs
-description: What a workflow is made of (nodes, edges, scope and limits), how drafts, versions and publishing work, what a dry run tells you, and the limits every graph must fit.
+description: What a workflow graph is made of (nodes, edges, scope), how drafts, versions and publishing work, what a dry run tells you, and the limits every graph must fit.
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_workflow_graph.go, vdb-site/api/internal/handler/factory_workflows.go]
 checked: [vdb-site@284f1d6, website@a31d470]

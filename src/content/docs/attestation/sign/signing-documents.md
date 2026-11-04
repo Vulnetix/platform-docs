@@ -1,6 +1,6 @@
 ---
 title: Signing documents
-description: How cdx --sign and bom enrich --sign sign a CycloneDX document with the runner's own OIDC identity through Fulcio and Rekor, the sidecar files they write, and what happens where there is no identity.
+description: How cdx --sign and bom enrich --sign sign a CycloneDX document with the runner's OIDC identity through Fulcio and Rekor, and the sidecar files they write.
 order: 1
 sources: [cli/internal/cdxsign/sign.go, cli/cmd/cdx.go, cli/cmd/bom_enrich.go, vdb-cyclonedx/fulcio.go]
 checked: [cli@4c8c3b71c, vdb-cyclonedx@eaf787c]

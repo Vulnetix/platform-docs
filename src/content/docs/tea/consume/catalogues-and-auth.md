@@ -1,7 +1,7 @@
 ---
 title: Catalogues and authentication
 nav: Catalogues and auth
-description: The first-party and open source TEA catalogues Vulnetix serves, what an anonymous caller sees, the accepted credential schemes, and why private objects answer 404.
+description: The first-party and open source TEA catalogues Vulnetix serves, what anonymous callers see, accepted credential schemes, and why private objects answer 404.
 order: 3
 sources: [vdb-site/api/internal/handler/tea_routes.go, vdb-site/api/internal/handler/tea_v1_routes.go, vdb-site/api/internal/handler/tea_published_index.go, vdb-site/api/internal/handler/tea_repo_visibility.go, vdb-site/docs/tea/repo-visibility.md, cli/cmd/tea.go, cli/pkg/tea/client.go]
 checked: [vdb-site@1a06d67, cli@4c8c3b71c]

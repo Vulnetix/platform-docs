@@ -1,7 +1,7 @@
 ---
 title: Planned frameworks and targets
 nav: Planned
-description: Compliance work that is planned but not in the product today, full SLSA, NIST SSDF and crypto or post-quantum readiness reports with controls and OSCAL, and per-system EU AI Act classification, and what you can use meanwhile.
+description: Compliance work planned but not yet shipped, such as full SLSA, NIST SSDF, post-quantum readiness and EU AI Act classification, and what to use meanwhile.
 order: 4
 sources: [vdb-site/api/internal/handler/compliance_reports.go, vdb-site/api/internal/handler/compliance_posture.go, vdb-site/api/internal/coverage/coverage.go]
 checked: [vdb-site@1a06d67]

@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-025: Insecure express-session or cookie-session configuration"
 nav: "VNX-NODE-025"
-description: "Reports express-session or cookie-session options that set secure: false or httpOnly: false, and express-session configurations that never set cookie.secure, so the session id travels over plain HTTP or is readable by page scripts."
+description: "Reports express-session or cookie-session options that set secure: false or httpOnly: false."
 order: 821
 sources: ["cli/internal/sast/rules/vnx-node-025.rego", "cli/internal/sast/docs/vnx-node-025.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: The cockpit
-description: The Software Factory home page. The headline figures, Needs you, the live lanes of runs, recent decisions, the control plane, and the Fleet, Health and Delivery views.
+description: The Software Factory home page, with headline figures, Needs you, live run lanes, recent decisions, the control plane, and the Fleet, Health and Delivery views.
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_summary.go, website/.repo/software-factory.md]
 checked: [vdb-site@284f1d6, website@a31d470]

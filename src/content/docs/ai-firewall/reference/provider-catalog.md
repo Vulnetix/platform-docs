@@ -1,6 +1,6 @@
 ---
 title: Provider catalog
-description: Every built-in provider slug with its upstream, request surfaces and credential header, how custom providers are added, and which CLI commands know each provider.
+description: Every built-in provider slug with its upstream, request surfaces and credential header, how to add custom providers, and which CLI commands know each one.
 order: 6
 sources:
   - saas/prisma/migrations/20260713000001_ai_firewall/migration.sql

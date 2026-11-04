@@ -1,6 +1,6 @@
 ---
 title: Skills over MCP
-description: The 18 Pix skills served verbatim through the io.modelcontextprotocol/skills extension, with skills/list, skills/get, the skill:// file template and digest verification.
+description: The 18 Pix skills served verbatim through the io.modelcontextprotocol/skills extension, with skills/list, skills/get, the skill:// template and digest checks.
 order: 2
 nav: Skills
 sources:

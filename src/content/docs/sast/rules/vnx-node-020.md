@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-020: Deprecated crypto.createCipher/createDecipher without IV"
 nav: "VNX-NODE-020"
-description: "Reports Node crypto.createCipher()/createDecipher() through crypto or any name bound to the crypto module, inline require('crypto') or a named import. Not reported: createCipheriv/createDecipheriv, node-forge's createCipher, same-named methods, comments and strings."
+description: "Reports Node crypto.createCipher()/createDecipher() through crypto or any name bound to the crypto module."
 order: 816
 sources: ["cli/internal/sast/rules/vnx-node-020.rego", "cli/internal/sast/docs/vnx-node-020.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

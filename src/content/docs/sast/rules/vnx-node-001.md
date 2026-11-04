@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-001: Missing npm lock file"
 nav: "VNX-NODE-001"
-description: "A package.json that declares dependencies has no committed lock file (package-lock.json, npm-shrinkwrap.json, yarn.lock, pnpm-lock.yaml, bun.lock, deno.lock) in its directory or a workspace root, so installs re-resolve floating ranges."
+description: "A package.json that declares dependencies has no committed lock file (package-lock.json, npm-shrinkwrap.json, yarn.lock, pnpm-lock.yaml, bun.lock."
 order: 797
 sources: ["cli/internal/sast/rules/vnx-node-001.rego", "cli/internal/sast/docs/vnx-node-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

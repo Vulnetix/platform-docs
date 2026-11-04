@@ -1,6 +1,6 @@
 ---
 title: PDF and evidence bundle
-description: What the PDF export of a compliance report contains, and the folder layout of the evidence bundle zip, including the machine-generated SBOM, VEX, CBOM, AI-BOM and per-framework JSON it adds to your uploads.
+description: What a compliance report's PDF export contains, and the evidence bundle zip layout with the generated SBOM, VEX, CBOM, AI-BOM and per-framework JSON.
 order: 1
 sources: [vdb-site/api/internal/handler/compliance_export.go, vdb-site/api/internal/handler/compliance_machine_evidence.go, vdb-site/api/internal/handler/malware_stix.go, website/src/components/compliance/ReportCommandBar.vue, website/src/components/compliance/ComplianceReportFrame.vue]
 checked: [vdb-site@1a06d67, website@ad775f37]

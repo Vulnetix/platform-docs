@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-013: Insecure cookie configuration"
 nav: "VNX-SEC-013"
-description: "Detects cookies whose HttpOnly or Secure protection is switched off, and session or authentication cookies issued without HttpOnly, across Node, Python, Go, Java, .NET, PHP and Ruby."
+description: "Detects cookies whose HttpOnly or Secure protection is switched off."
 order: 907
 sources: ["cli/internal/sast/rules/vnx-sec-013.rego", "cli/internal/sast/docs/vnx-sec-013.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

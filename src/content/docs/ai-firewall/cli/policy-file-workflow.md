@@ -1,7 +1,7 @@
 ---
 title: Policy as code with apply and export
 nav: Policy as code
-description: Keep the organisation's AI Firewall policy in .vulnetix/ai-firewall.yaml, review changes as pull requests, and apply them from CI with vulnetix ai-firewall apply.
+description: Keep the AI Firewall policy in .vulnetix/ai-firewall.yaml, review changes as pull requests, and apply them from CI with vulnetix ai-firewall apply.
 order: 5
 sources:
   - cli/cmd/ai_firewall_apply.go

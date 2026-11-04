@@ -1,6 +1,6 @@
 ---
 title: Launch configurations
-description: The launch library item, also called a launch profile. Every field, the limits and validation messages, how one is saved and versioned, and what applying it does to a Pix Sandbox and to your own host.
+description: The launch configuration, or launch profile, library item for a Pix Sandbox, its fields, limits and validation, versioning, and what applying it does.
 order: 2
 sources: [vdb-site/api/internal/handler/belai_items_validate_launch.go, vdb-site/api/internal/handler/belai_items_kinds.go, vdb-site/api/internal/handler/belai_items.go, vdb-site/api/internal/handler/belai_items_validate.go, vdb-site/api/internal/handler/belai_library_settings.go, vdb-site/api/internal/handler/belai_provider_keys.go, vdb-site/api/internal/handler/marketplace_plan.go, vdb-site/api/internal/handler/pix_sandbox_store.go, vdb-site/api/internal/handler/pix_sandbox_extensions.go, vdb-site/api/internal/handler/pix_sandbox_version_policy.go, website/src/components/belai/belai-launch.ts, website/src/components/belai/belai-launch-provisioning.ts, website/src/components/belai/BelaiLaunchApply.vue, website/src/components/belai/BelaiSandboxLaunch.vue, website/src/components/belai/BelaiLaunchConfigs.vue]
 checked: [vdb-site@1a06d67, website@ad775f3]

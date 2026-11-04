@@ -1,6 +1,6 @@
 ---
 title: "NotificationDefaults"
-description: "The organisation's default browser push notifications: which events are pushed to a person who has not chosen for themselves. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The organisation's default browser push notifications: which events are pushed to a person who has not chosen for themselves."
 order: 13
 group: "Org"
 generated: true

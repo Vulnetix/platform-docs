@@ -1,10 +1,10 @@
 ---
 title: "VNX-TF-003: Terraform AWS RDS instance publicly accessible"
 nav: "VNX-TF-003"
-description: "Detect AWS database instances in Terraform (aws_db_instance, aws_rds_cluster_instance, aws_redshift_cluster, aws_redshiftserverless_workgroup, aws_dms_replication_instance or an RDS module) configured with publicly_accessible = true."
+description: "Detect AWS database instances in Terraform (aws_db_instance, aws_rds_cluster_instance, aws_redshift_cluster, aws_redshiftserverless_workgroup."
 order: 983
 sources: ["cli/internal/sast/rules/vnx-tf-003.rego", "cli/internal/sast/docs/vnx-tf-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

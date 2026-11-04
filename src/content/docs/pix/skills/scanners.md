@@ -1,6 +1,6 @@
 ---
 title: Scanner skills
-description: sast-scan, secret-scan, iac-scan and container-scan run one Vulnetix scanner each and compose with Semgrep, Trivy, Grype and Syft when installed; secure-code-write coaches before the code is written.
+description: The sast-scan, secret-scan, iac-scan and container-scan skills, how they compose with Semgrep, Trivy, Grype and Syft, and the secure-code-write coaching skill.
 order: 4
 sources: [pix-ai-coding-assistant/skills/sast-scan/SKILL.md, pix-ai-coding-assistant/skills/secret-scan/SKILL.md, pix-ai-coding-assistant/skills/iac-scan/SKILL.md, pix-ai-coding-assistant/skills/container-scan/SKILL.md, pix-ai-coding-assistant/skills/secure-code-write/SKILL.md, cli/cmd/scan.go, cli/cmd/specialized_scans.go]
 checked: [pix-ai-coding-assistant@7aebf02, cli@4c8c3b7]

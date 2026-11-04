@@ -1,7 +1,7 @@
 ---
 title: The audit ledger
 nav: Audit ledger
-description: The permanent, hash-chained record of what the factory, its workers and its people did. What goes in it, how to filter it, how to verify the chain, and how to export a signed copy.
+description: The permanent, hash-chained record of what the factory, its workers and its people did, how to filter it, verify the chain and export a signed copy.
 order: 4
 sources: [vdb-site/docs/factory.md, belai/docs/audit.md, vdb-site/api/internal/handler/factory_audit.go, vdb-site/api/internal/handler/factory_audit_store.go, vdb-site/api/internal/handler/belai_audit.go]
 checked: [vdb-site@284f1d6, belai@35506b9, website@a31d470]

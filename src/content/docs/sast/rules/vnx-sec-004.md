@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-004: GitHub or GitLab token"
 nav: "VNX-SEC-004"
-description: "Reports a hard-coded GitHub token (ghp_, gho_, ghu_, ghs_, ghr_, github_pat_) or GitLab access token (glpat-) in any file, excluding placeholders, truncated tokens, prefix checks, environment and CI-secret references and test files."
+description: "Reports a hard-coded GitHub token (ghp_, gho_, ghu_, ghs_, ghr_, github_pat_) or GitLab access token (glpat-) in any file, excluding placeholders."
 order: 898
 sources: ["cli/internal/sast/rules/vnx-sec-004.rego", "cli/internal/sast/docs/vnx-sec-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

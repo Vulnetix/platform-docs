@@ -1,7 +1,7 @@
 ---
 title: Drift protection
 nav: Drift protection
-description: The organisation setting that makes the Resolve Platform and the legacy APIs refuse changes to settings managed by Platform IaC, what counts as managed, what is refused with HTTP 409 and what always passes, how an owner or admin switches it, and what it does not cover.
+description: The organisation setting that refuses changes to settings managed by Platform IaC, what counts as managed, what is refused with HTTP 409, and what passes.
 order: 2
 sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/handler/drift_guard.go", "vdb-site/api/internal/handler/drift_guard_routes.go", "vdb-site/api/internal/handler/drift_guard_exempt.go", "vdb-site/api/internal/handler/drift_protection.go", "config-schemas/schemas/Organization.schema.json", "website/.repo/platform-iac-indicator.md", "website/src/shared/platform-iac-pages.ts", "website/src/components/platform-iac/PlatformIacIndicator.vue", "website/src/components/platform-iac/DriftProtectionSwitch.vue", "website/src/stores/platform-iac.ts"]
 checked: ["config-schemas@v1.15.0", "vdb-site@cca0d31", "website@b548e4c"]

@@ -1,6 +1,6 @@
 ---
 title: Tool reference
-description: All 31 tools the server registers, with every input parameter, its type, limits and default, the vdb-api route each tool calls, and the top-level fields it returns.
+description: All 31 tools the server registers, with every input parameter's type, limits and default, the vdb-api route each calls, and the top-level fields returned.
 order: 1
 nav: Tools
 sources:

@@ -1,7 +1,7 @@
 ---
 title: API reference
 nav: API
-description: The gateway's routes, authentication, request limits, streaming, the models, count_tokens and evaluate endpoints, and the Resolve Platform and CLI APIs that manage policy.
+description: The gateway's routes, authentication, request limits, streaming, the models, count_tokens and evaluate endpoints, and the APIs that manage policy.
 order: 2
 sources:
   - ai-firewall/internal/api/server.go

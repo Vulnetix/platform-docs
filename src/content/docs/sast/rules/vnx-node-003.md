@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-003: Command injection via child_process"
 nav: "VNX-NODE-003"
-description: "Reports child_process exec()/execSync() called with a command built by template-literal interpolation or concatenation, or a variable assigned such a string or a request value nearby."
+description: "Reports child_process exec()/execSync() called with a command built by template-literal interpolation or concatenation."
 order: 799
 sources: ["cli/internal/sast/rules/vnx-node-003.rego", "cli/internal/sast/docs/vnx-node-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

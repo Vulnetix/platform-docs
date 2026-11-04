@@ -24,3 +24,4 @@ Pages are Markdown in `src/content/docs/<segment>/`. Pushing to `main` deploys t
 - `test/mcp-counts.test.mjs` compares the tool and prompt counts quoted on the mcp-server pages with the registrations in `../mcp-server/src`.
 - `test/migration.test.mjs` checks the retired hosts' redirect maps: every target is a page (and heading), no old path is listed twice, and every host and alias has a Worker route.
 - `test/status.test.mjs` requires a `status` on every vscode page.
+- `test/descriptions.test.mjs` requires every page `description` to be 160 characters or fewer, the length search results show. Generators fit theirs with `metaDescription` in `migration/generators/description.mjs`, which ends a long one at its strongest clause.

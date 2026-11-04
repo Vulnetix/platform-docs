@@ -1,7 +1,7 @@
 ---
 title: A2A messaging and the blackout
 nav: A2A messaging
-description: How agents on different hosts tell each other what they are working on and ask each other questions, what a message may carry, and the blackout that stops the relay.
+description: How agents on different hosts share what they are working on and ask each other questions, what a message may carry, and the blackout that stops the relay.
 order: 13
 sources: [vdb-site/docs/factory.md, belai/docs/a2a.md, website/.repo/a2a-messaging.md, vdb-site/api/internal/handler/belai_a2a.go]
 checked: [vdb-site@284f1d6, belai@35506b9, website@a31d470]

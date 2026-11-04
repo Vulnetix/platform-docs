@@ -1,7 +1,7 @@
 ---
 title: Artifact manifest
 nav: Artifact manifest
-description: The JSON Lines file that lists every file a Vulnetix command wrote, set with --artifact-manifest or VULNETIX_ARTIFACT_MANIFEST, and how the GitHub Actions use it to upload, attest and attach exactly those files.
+description: The JSON Lines file listing every file a Vulnetix command wrote, set with --artifact-manifest, and how the GitHub Actions upload, attest and attach those files.
 order: 6
 sources: [cli/internal/artifacts/manifest.go, cli/cmd/root.go, cli/action-lib/run.sh, cli/action-lib/release-assets.sh, cli/docs/github-publishing.md]
 checked: [cli@3e6fd831d]

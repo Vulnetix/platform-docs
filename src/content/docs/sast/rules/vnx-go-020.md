@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-020: Use of template.HTML with potential user input"
 nav: "VNX-GO-020"
-description: "Detects template.HTML, HTMLAttr, JS, CSS, URL and Srcset conversions applied to request data, markup built with Sprintf or concatenation, a function parameter, or a variable assigned from one of those. Constant markup, sanitised or escaped values and executed template output are not reported."
+description: "Detects template.HTML, HTMLAttr, JS, CSS, URL and Srcset conversions applied to request data, markup built with Sprintf or concatenation, a function parameter."
 order: 722
 sources: ["cli/internal/sast/rules/vnx-go-020.rego", "cli/internal/sast/docs/vnx-go-020.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

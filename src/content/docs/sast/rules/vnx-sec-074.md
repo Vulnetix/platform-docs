@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-074: Kubernetes Secret manifest with credential data"
 nav: "VNX-SEC-074"
-description: "Reports each credential entry with a literal value in the data: or stringData: block of a committed Kubernetes Secret manifest, excluding templated, referenced, SOPS-encrypted, empty and placeholder values and other kinds such as SealedSecret."
+description: "Reports each credential entry with a literal value in the data: or stringData."
 order: 968
 sources: ["cli/internal/sast/rules/vnx-sec-074.rego", "cli/internal/sast/docs/vnx-sec-074.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-016: Integer downcast or sign-change after strconv.Atoi/ParseInt/ParseUint"
 nav: "VNX-GO-016"
-description: "Detects values parsed with strconv.Atoi, ParseInt or ParseUint that are later converted, in the same function and without a range check, to a type that cannot hold the parsed range: truncation, sign flip or unsigned-to-signed overflow."
+description: "Detects values parsed with strconv.Atoi, ParseInt or ParseUint that are later converted, in the same function and without a range check."
 order: 718
 sources: ["cli/internal/sast/rules/vnx-go-016.rego", "cli/internal/sast/docs/vnx-go-016.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

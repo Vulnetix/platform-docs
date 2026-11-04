@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-001: Missing Python lock file"
 nav: "VNX-PY-001"
-description: "Detect a Pipfile without Pipfile.lock, and a pyproject.toml managed by Poetry, PDM or uv that declares dependencies but has no lock file, leaving every install to re-resolve version ranges."
+description: "Detect a Pipfile without Pipfile.lock, and a pyproject.toml managed by Poetry, PDM or uv that declares dependencies but has no lock file."
 order: 855
 sources: ["cli/internal/sast/rules/vnx-py-001.rego", "cli/internal/sast/docs/vnx-py-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

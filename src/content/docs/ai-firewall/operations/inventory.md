@@ -1,7 +1,7 @@
 ---
 title: Capability inventory
 nav: Inventory
-description: The tools, MCP servers and skills the gateway has seen your organisation's agents carry, how each row is learnt, and how to read and clear it from the Resolve Platform, the CLI and the API.
+description: The tools, MCP servers and skills the gateway has seen your organisation's agents carry, how each row is learnt, and how to read and clear it.
 order: 1
 sources:
   - ai-firewall/internal/inventory/inventory.go

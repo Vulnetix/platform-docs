@@ -1,6 +1,6 @@
 ---
 title: "ForgeConnection"
-description: "How the Software Factory reaches a git forge other than github.com: a bot account's access token on Gitea, Forgejo or GitLab (or GitHub Enterprise Server). Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "How the Software Factory reaches a git forge other than github.com."
 order: 16
 group: "Integrations"
 generated: true

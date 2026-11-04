@@ -1,6 +1,6 @@
 ---
 title: Sigma
-description: How Guardian runs Sigma rules, which logsources map to which tables, the field names it understands, the modifiers and correlations it compiles, and what it refuses.
+description: How Guardian runs Sigma rules, logsource to table mapping, the field names it understands, the modifiers and correlations it compiles, and what it refuses.
 order: 2
 sources: [siem/worker/src/pipeline.ts, siem/worker/src/sigma/parse.ts, siem/worker/src/sigma/compile.ts, siem/worker/src/sigma/condition.ts, siem/worker/src/sigma/tune.ts, siem/docs/sigma.md]
 checked: [siem@e0f71fa]

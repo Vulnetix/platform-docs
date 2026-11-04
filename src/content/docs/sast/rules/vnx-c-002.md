@@ -1,10 +1,10 @@
 ---
 title: "VNX-C-002: Format string injection via non-literal format argument"
 nav: "VNX-C-002"
-description: "Reports C and C++ printf-family calls whose format argument is not a string literal: a string printed as the format with nothing after it (printf(buf), fprintf(fp, msg), syslog(LOG_ERR, msg), snprintf(buf, n, s), BSD warn/err), and a format taken from argv, getenv or input read in the 25 lines above. Literal, macro and gettext formats, variadic wrappers and comments are not reported."
+description: "Reports C and C++ printf-family calls whose format argument is not a string literal."
 order: 670
 sources: ["cli/internal/sast/rules/vnx-c-002.rego", "cli/internal/sast/docs/vnx-c-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

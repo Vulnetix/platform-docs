@@ -1,6 +1,6 @@
 ---
 title: Scan node
-description: A step that gathers findings from Vulnetix scanners and GitHub's alerts, and can stop the run when it finds malware, a known exploited vulnerability or a secret.
+description: A step that gathers findings from Vulnetix scanners and GitHub alerts, and can stop the run on malware, a known exploited vulnerability or a secret.
 order: 11
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_engine_node_scan.go]
 checked: [vdb-site@597344c]

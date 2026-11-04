@@ -1,6 +1,6 @@
 ---
 title: Calling Pix
-description: Run the factory by voice. How to place a call, what you can ask, how starting and stopping work is confirmed, how Pix follows the sessions it starts, and what it remembers.
+description: Run the factory by voice with Pix, covering placing a call, what you can ask, how starting and stopping work is confirmed, and what Pix follows and remembers.
 order: 1
 sources: [website/.repo/pix-call.md, website/src/worker/call/tools.ts, website/src/shared/software-factory.ts, website/src/shared/pix-pocket.ts]
 checked: [website@a31d470]

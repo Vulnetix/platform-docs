@@ -1,6 +1,6 @@
 ---
 title: Events API
-description: Post your own rows to Guardian over HTTPS with an events token, the request and response format, the tables you may write, and the Vulnetix products that send to Guardian.
+description: Post your own rows to Guardian over HTTPS with an events token, the request and response format, writable tables, and the Vulnetix products that send rows.
 order: 3
 sources: [siem/worker/src/ingest/routes.ts, siem/worker/src/normalise/events.ts, siem/worker/src/normalise/finish.ts, siem/worker/src/pipeline.ts, cli/internal/sensor/siem/siem.go, cli/cmd/vulnetix-sensor/main.go]
 checked: [siem@e0f71fa, cli@4c8c3b71c]

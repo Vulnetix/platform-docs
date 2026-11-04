@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-024: Request parameter reaches a dangerous sink without validation"
 nav: "VNX-GO-024"
-description: "Detects an HTTP request parameter reaching a command, SQL query text, file path, outbound request, redirect or raw response in the same function, inline or through one or two assignments, with no conversion, escaping, allowlist or validation on the way. Bind arguments and values only logged or compared are not reported."
+description: "Detects an HTTP request parameter reaching a command, SQL query text, file path, outbound request, redirect or raw response in the same function."
 order: 726
 sources: ["cli/internal/sast/rules/vnx-go-024.rego", "cli/internal/sast/docs/vnx-go-024.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

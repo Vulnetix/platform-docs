@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUBY-001: Missing Gemfile.lock"
 nav: "VNX-RUBY-001"
-description: "Reports an application Gemfile with no Gemfile.lock beside it (or a gems.rb with no gems.locked), so every bundle install resolves floating ranges afresh; gem libraries (gemspec), test fixtures and vendored gems are not reported."
+description: "Reports an application Gemfile with no Gemfile.lock beside it (or a gems.rb with no gems.locked), so every bundle install resolves floating ranges afresh."
 order: 877
 sources: ["cli/internal/sast/rules/vnx-ruby-001.rego", "cli/internal/sast/docs/vnx-ruby-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

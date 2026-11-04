@@ -1,7 +1,7 @@
 ---
 title: The vulnetix lsp server
 nav: vulnetix lsp
-description: Flags, the version handshake, the LSP methods and capabilities the server implements, settings it accepts, exit codes, and how to run it from Neovim or another LSP client.
+description: Flags, version handshake, LSP methods and capabilities, accepted settings and exit codes of vulnetix lsp, and how to run it from Neovim or another LSP client.
 order: 3
 sources: [cli/cmd/lsp.go, cli/cmd/root.go, cli/internal/lsp/server.go, cli/internal/lsp/settings.go, cli/internal/lsp/protocol/types.go, cli/internal/lsp/protocol/version.go, cli/internal/lsp/protocol/vulnetix.go]
 checked: [cli@4c8c3b7]

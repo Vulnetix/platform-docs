@@ -1,6 +1,6 @@
 ---
 title: "RepositorySettings"
-description: "The Software Factory's controls for one repository: the settings panel of the Factory repositories page. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The Software Factory's controls for one repository: the settings panel of the Factory repositories page."
 order: 23
 group: "Repo scope"
 generated: true

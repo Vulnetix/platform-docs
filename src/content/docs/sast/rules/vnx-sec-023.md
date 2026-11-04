@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-023: GitHub Actions expression injection via event data"
 nav: "VNX-SEC-023"
-description: "Reports attacker-controlled github.event data (PR title/body/head ref, issue and comment bodies, commit messages and authors, toJSON of the event) expanded with ${{ }} inside a run: or script: block of a workflow or composite action. env: indirection, with: inputs, if: conditions and safe contexts are not reported."
+description: "Reports attacker-controlled github.event data (PR title/body/head ref, issue and comment bodies, commit messages and authors."
 order: 917
 sources: ["cli/internal/sast/rules/vnx-sec-023.rego", "cli/internal/sast/docs/vnx-sec-023.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

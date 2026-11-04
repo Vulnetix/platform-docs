@@ -1,6 +1,6 @@
 ---
 title: AWS
-description: Ship VPC flow logs, Route 53 Resolver query logs and CloudTrail events to Guardian with the vulnetix-siem CloudFormation stack, and grant investigations a read-only role.
+description: Ship VPC flow logs, Route 53 Resolver query logs and CloudTrail events to Guardian with the vulnetix-siem CloudFormation stack, and grant a read-only role.
 order: 1
 sources: [siem/aws/vulnetix-siem.yaml, siem/aws/vulnetix-guardian-readonly.yaml, siem/worker/src/api/sources.ts, siem/worker/src/ingest/routes.ts, siem/worker/src/ingest/decode.ts, siem/worker/src/normalise/aws.ts]
 checked: [siem@e0f71fa]

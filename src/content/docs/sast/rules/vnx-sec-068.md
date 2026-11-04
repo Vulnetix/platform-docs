@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-068: Ethereum private key"
 nav: "VNX-SEC-068"
-description: "Detects 64-hex Ethereum private keys assigned to a private-key name, passed to a wallet, signer or transaction-signing call, or listed in a Hardhat accounts array."
+description: "Detects 64-hex Ethereum private keys assigned to a private-key name, passed to a wallet, signer or transaction-signing call."
 order: 962
 sources: ["cli/internal/sast/rules/vnx-sec-068.rego", "cli/internal/sast/docs/vnx-sec-068.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

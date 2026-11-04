@@ -1,6 +1,6 @@
 ---
 title: Schedules
-description: Cron triggers for workflows and agent schedules on hosts, in one list. Cron syntax, timezones, where each schedule runs, what happens when runs overlap, and what a missed or held fire does.
+description: Cron triggers for workflows and agent schedules on hosts, with cron syntax, timezones, where each runs, overlapping runs, and what a missed or held fire does.
 order: 23
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_schedules.go, vdb-site/api/internal/handler/factory_cron.go, vdb-site/api/internal/handler/factory_internal.go]
 checked: [vdb-site@284f1d6, website@a31d470]

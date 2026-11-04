@@ -1,6 +1,6 @@
 ---
 title: Connect with IAM Identity Center
-description: The device authorization flow, the account and permission set picker, the VulnetixCloudscanDeploy role for accounts whose permission sets cannot deploy, and connecting many accounts at once.
+description: Connect AWS accounts through IAM Identity Center with the device authorization flow, the permission set picker and the VulnetixCloudscanDeploy role.
 order: 10
 nav: IAM Identity Center
 sources: [vdb-site/api/internal/handler/integrations_aws_sso.go, vdb-site/api/internal/handler/integrations_aws_deployrole.go, vdb-site/api/internal/handler/integrations_aws_accounts.go, vdb-site/api/internal/handler/integrations_aws_accounts_provision.go, vdb-site/api/main.go, saas/prisma/models/vdb-api.prisma]

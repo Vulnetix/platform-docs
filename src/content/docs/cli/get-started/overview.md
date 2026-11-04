@@ -1,7 +1,7 @@
 ---
 title: Vulnetix CLI
 nav: Overview
-description: The vulnetix binary runs every Vulnetix scanner, signs in to your organisation, publishes results from CI, and is the entry point for most other Vulnetix products.
+description: The vulnetix binary runs every Vulnetix scanner, signs in to your organisation, publishes results from CI, and is the entry point for most Vulnetix products.
 order: 1
 sources: [cli/cmd/root.go, cli/cmd/exit_codes.go, cli/pkg/auth/credentials.go, cli/cmd/config_documents.go]
 checked: [cli@24498404a]

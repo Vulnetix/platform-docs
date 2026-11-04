@@ -1,6 +1,6 @@
 ---
 title: "LicenseExceptions"
-description: "Recorded, attributed exceptions to the licence policy: a licence exempted everywhere (blanket) or one package exempted, each with who approved it, why. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "Recorded, attributed exceptions to the licence policy: a licence exempted everywhere (blanket) or one package exempted, each with who approved it, why."
 order: 28
 group: "Scanners and gates"
 generated: true

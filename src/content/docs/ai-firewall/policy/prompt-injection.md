@@ -1,6 +1,6 @@
 ---
 title: Prompt injection
-description: The two injection controls the gateway has (regex rules over request text, including tool results, and delimiter_integrity over sealed harness blocks), what each catches, and what neither can.
+description: The gateway's two injection controls, regex rules over request text including tool results and delimiter_integrity over sealed harness blocks, and their limits.
 order: 9
 sources:
   - ai-firewall/internal/policy/engine.go

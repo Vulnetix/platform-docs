@@ -1,7 +1,7 @@
 ---
 title: Browser extension
 nav: Overview
-description: The Vulnetix browser extension finds vulnerability identifiers in the text of any web page and shows VDB intelligence for them in a hover card and a browser sidebar.
+description: The Vulnetix browser extension finds vulnerability identifiers on any web page and shows VDB intelligence for them in a hover card and a browser sidebar.
 order: 1
 sources: [browser-extension/README.md, browser-extension/wxt.config.ts, browser-extension/src/entrypoints/content.ts, browser-extension/src/shared/identifiers.ts, browser-extension/src/lib/api.ts, browser-extension/package.json]
 checked: [browser-extension@d25ce74]

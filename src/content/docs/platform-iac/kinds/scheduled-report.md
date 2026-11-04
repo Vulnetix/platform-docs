@@ -1,6 +1,6 @@
 ---
 title: "ScheduledReport"
-description: "A Guardian scheduled send: run a SavedSearch on a calendar and send its rows to messaging connections or email. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A Guardian scheduled send: run a SavedSearch on a calendar and send its rows to messaging connections or email."
 order: 60
 group: "SIEM"
 generated: true

@@ -1,10 +1,10 @@
 ---
 title: "VNX-ANDROID-001: Android app shipped debuggable or with unrestricted backup"
 nav: "VNX-ANDROID-001"
-description: "Detects a production Android build made debuggable (android:debuggable=\"true\" in AndroidManifest.xml, or debuggable / isDebuggable in the release build type) and android:allowBackup=\"true\" on an application with no backup or data-extraction rules."
+description: "Detects a production Android build made debuggable (android:debuggable=\"true\" in AndroidManifest.xml."
 order: 655
 sources: ["cli/internal/sast/rules/vnx-android-001.rego", "cli/internal/sast/docs/vnx-android-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

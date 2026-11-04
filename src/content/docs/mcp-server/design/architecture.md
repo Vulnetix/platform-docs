@@ -1,6 +1,6 @@
 ---
 title: Architecture
-description: A stateless Cloudflare Worker with one write-only metrics binding, the path a request takes through it, how the edge cache is keyed, and how composing tools fail partially.
+description: A stateless Cloudflare Worker with one write-only metrics binding, a request's path through it, how the edge cache is keyed, and how composing tools fail.
 order: 1
 sources:
   - mcp-server/src/index.ts

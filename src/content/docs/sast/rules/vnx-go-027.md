@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-027: Potential path traversal via file path construction"
 nav: "VNX-GO-027"
-description: "Detects a file opened, written, removed or served (os, ioutil, http.ServeFile, gin/echo/fiber file helpers) with a path built from a request value that was not reduced with filepath.Base, IsLocal, Rel or a prefix check first."
+description: "Detects a file opened, written, removed or served (os, ioutil, http.ServeFile."
 order: 729
 sources: ["cli/internal/sast/rules/vnx-go-027.rego", "cli/internal/sast/docs/vnx-go-027.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

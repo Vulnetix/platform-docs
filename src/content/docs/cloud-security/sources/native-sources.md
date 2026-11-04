@@ -1,6 +1,6 @@
 ---
 title: Cloud-native sources
-description: The opt-in sources the probe can read in a connected AWS account (Inspector, Security Hub, GuardDuty, Config, Macie, IAM Access Analyzer, WAF, compute and its extensions), how turning one on works, and what each reads.
+description: The opt-in AWS sources the probe can read, including Inspector, Security Hub, GuardDuty, Config, Macie, IAM Access Analyzer and WAF, and how to turn one on.
 order: 20
 nav: Cloud-native sources
 sources: [vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/integrations_aws_native.go, vdb-site/api/internal/handler/assets/aws-pipeline.yaml, saas/prisma/models/cloud.prisma, cloudscan/README.md, website/src/components/integrations/console/AwsNativeSourceDrawer.vue]

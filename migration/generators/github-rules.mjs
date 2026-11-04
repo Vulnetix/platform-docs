@@ -37,6 +37,7 @@
 // No dependencies beyond Node 20.
 
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, rmSync } from 'node:fs';
+import { metaDescription } from './description.mjs';
 import { join, resolve, dirname } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
@@ -188,7 +189,7 @@ for (const r of rules) {
     frontmatter({
       title: `${r.id}: ${dashes(r.name)}`,
       nav: r.id,
-      description: dashes(r.description),
+      description: metaDescription(dashes(r.description)),
       order: Number(r.id.replace(/\D/g, '')),
       sources: [`vdb-sca-match/ghaudit/${TASKS[r.task].file}`, 'cli/internal/ghtasks/docs.go'],
     }),
@@ -220,7 +221,7 @@ const idx = [
   frontmatter({
     title: 'GitHub posture rules',
     nav: 'All rules',
-    description: 'The VNX-GH rules that vulnetix gha workflows, actions, settings, org and audit evaluate: workflow injection and privilege flaws, the action supply chain, and repository and organisation settings.',
+    description: 'The VNX-GH rules vulnetix gha evaluates: workflow injection and privilege flaws, the action supply chain, and repository and organisation settings.',
     order: 0,
     sources: Object.values(TASKS).map((t) => `vdb-sca-match/ghaudit/${t.file}`).concat(['cli/internal/ghtasks/docs.go']),
   }),

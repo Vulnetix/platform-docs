@@ -1,10 +1,10 @@
 ---
 title: "VNX-PY-004: yaml.load() without SafeLoader"
 nav: "VNX-PY-004"
-description: "Detect yaml.unsafe_load() and yaml.load() calls with no Loader or with Loader/UnsafeLoader/CLoader, which let a YAML document construct arbitrary Python objects."
+description: "Detect yaml.unsafe_load() and yaml.load() calls with no Loader or with Loader/UnsafeLoader/CLoader."
 order: 858
 sources: ["cli/internal/sast/rules/vnx-py-004.rego", "cli/internal/sast/docs/vnx-py-004.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

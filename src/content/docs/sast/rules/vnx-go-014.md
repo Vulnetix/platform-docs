@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-014: sync.Mutex or sync.RWMutex held across an exit without Unlock"
 nav: "VNX-GO-014"
-description: "Detects sync.Mutex.Lock() or sync.RWMutex.RLock() calls that can leave the mutex held: the function returns, panics or continues its loop on a path that never reaches an Unlock, or never unlocks and no other function releases it, and no deferred Unlock covers it."
+description: "Detects sync.Mutex.Lock() or sync.RWMutex.RLock() calls that can leave the mutex held."
 order: 716
 sources: ["cli/internal/sast/rules/vnx-go-014.rego", "cli/internal/sast/docs/vnx-go-014.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

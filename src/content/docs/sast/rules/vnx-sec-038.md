@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-038: HashiCorp Terraform Cloud token"
 nav: "VNX-SEC-038"
-description: "Reports a Terraform Cloud / Terraform Enterprise API token: a standalone token of 14 letters and digits, .atlasv1., and 60 or more base64url characters, in any file including .tfvars and .terraformrc. Placeholders and test or fixture paths are not reported."
+description: "Reports a Terraform Cloud / Terraform Enterprise API token: a standalone token of 14 letters and digits, .atlasv1."
 order: 932
 sources: ["cli/internal/sast/rules/vnx-sec-038.rego", "cli/internal/sast/docs/vnx-sec-038.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

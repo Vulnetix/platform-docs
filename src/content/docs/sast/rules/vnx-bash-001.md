@@ -1,10 +1,10 @@
 ---
 title: "VNX-BASH-001: eval or sh -c of a dynamically built string"
 nav: "VNX-BASH-001"
-description: "Reports a shell eval, or a bash/sh/zsh/ksh/dash -c or su/runuser -c command string (or a find -exec/xargs sh -c script that pastes {} into its code), whose text contains a variable, positional parameter, dynamic command substitution or the output of a download or decoder, so the shell re-parses data as code."
+description: "Reports a shell eval, or a bash/sh/zsh/ksh/dash -c or su/runuser -c command string (or a find -exec/xargs sh -c script that pastes {} into its code)."
 order: 662
 sources: ["cli/internal/sast/rules/vnx-bash-001.rego", "cli/internal/sast/docs/vnx-bash-001.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

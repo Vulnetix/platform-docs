@@ -1,10 +1,10 @@
 ---
 title: "VNX-JAVA-011: Java expression language injection"
 nav: "VNX-JAVA-011"
-description: "Reports SpEL, OGNL, Jakarta EL, ScriptEngine, MVEL, JEXL and Bean Validation message-template calls whose expression argument carries HTTP request data or the validated value, directly or through up to five local assignments. Constant expressions and request data bound as variables are not reported."
+description: "Reports SpEL, OGNL, Jakarta EL, ScriptEngine, MVEL, JEXL and Bean Validation message-template calls whose expression argument carries HTTP request data."
 order: 759
 sources: ["cli/internal/sast/rules/vnx-java-011.rego", "cli/internal/sast/docs/vnx-java-011.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

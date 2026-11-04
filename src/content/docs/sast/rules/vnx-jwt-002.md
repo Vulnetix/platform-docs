@@ -1,10 +1,10 @@
 ---
 title: "VNX-JWT-002: JWT token signed without expiration"
 nav: "VNX-JWT-002"
-description: "A JWT is issued with no expiry: jwt.sign / new SignJWT (JS/TS), jwt.encode (Python), Jwts.builder() / JWT.create() (Java), jwt.NewWithClaims (Go), JWT.encode (Ruby) and JWT::encode (PHP) where neither the call nor a payload, claims or options variable defined just above sets exp, expiresIn, setExpiration, withExpiresAt or ExpiresAt."
+description: "A JWT is issued with no expiry: jwt.sign / new SignJWT (JS/TS), jwt.encode (Python), Jwts.builder() / JWT.create() (Java), jwt.NewWithClaims (Go)."
 order: 780
 sources: ["cli/internal/sast/rules/vnx-jwt-002.rego", "cli/internal/sast/docs/vnx-jwt-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

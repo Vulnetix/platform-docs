@@ -1,6 +1,6 @@
 ---
 title: Identifiers and inputs
-description: The advisory id formats the VDB API accepts, and the other input kinds (package, purl, CPE, SWID, TEI, CEL) that resolve to advisory ids on the vulnerability routes and the collection searches.
+description: The advisory id formats the VDB API accepts, and the package, purl, CPE, SWID, TEI and CEL inputs that resolve to advisory ids on vulnerability routes.
 order: 3
 sources: [vdb-api/internal/handler/inputs_routes.go, vdb-api/internal/handler/inputs_resolve.go, vdb-api/internal/inputs/inputs.go, vdb-api/internal/handler/openapi-v2.json, cli/cmd/vdb_zz_inputs.go]
 checked: [vdb-api@4145f0a, cli@4c8c3b71c]

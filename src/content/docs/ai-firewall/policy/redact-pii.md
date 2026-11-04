@@ -1,6 +1,6 @@
 ---
 title: Redact PII
-description: Rewrite personal data out of a prompt with a pii_redact rule, what the four built-in detectors match, and how redaction interacts with other rules and prompt caching.
+description: Rewrite personal data out of a prompt with a pii_redact rule, what the four built-in detectors match, and how redaction interacts with other rules and caching.
 order: 7
 sources:
   - ai-firewall/internal/policy/engine.go

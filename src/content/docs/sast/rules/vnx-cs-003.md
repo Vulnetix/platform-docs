@@ -1,10 +1,10 @@
 ---
 title: "VNX-CS-003: C# XXE: XML parser resolves external entities"
 nav: "VNX-CS-003"
-description: "Detects C# XML parsers given an XmlUrlResolver, DTD processing enabled without XmlResolver = null on frameworks where the default resolver fetches entities, and XmlDocument/XmlTextReader parses that are unsafe by default on .NET Framework 4.5.1 and older."
+description: "Detects C# XML parsers given an XmlUrlResolver, DTD processing enabled without XmlResolver = null on frameworks where the default resolver fetches entities."
 order: 687
 sources: ["cli/internal/sast/rules/vnx-cs-003.rego", "cli/internal/sast/docs/vnx-cs-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

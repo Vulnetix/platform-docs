@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-028: Missing Content-Security-Policy header"
 nav: "VNX-NODE-028"
-description: "Reports the express() app or HTML-serving http.createServer handler of a Node.js project that sends HTML but sets no Content-Security-Policy anywhere (no helmet(), CSP middleware, header or meta tag), and helmet configured with contentSecurityPolicy: false."
+description: "Reports the express() app or HTML-serving http.createServer handler of a Node.js project that sends HTML but sets no Content-Security-Policy anywhere (no…"
 order: 824
 sources: ["cli/internal/sast/rules/vnx-node-028.rego", "cli/internal/sast/docs/vnx-node-028.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

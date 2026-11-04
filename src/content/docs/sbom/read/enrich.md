@@ -1,6 +1,6 @@
 ---
 title: Enrich an SBOM
-description: Resolve missing licences, attach VDB vulnerabilities and apply VEX to an SBOM another tool produced with vulnetix bom enrich, keeping its original authorship and digest.
+description: Resolve missing licences, attach VDB vulnerabilities and apply VEX to another tool's SBOM with vulnetix bom enrich, keeping its original authorship and digest.
 order: 4
 sources: [cli/cmd/bom_enrich.go, cli/cmd/bom_enrich_vdb.go, cli/cmd/vex_ingest.go, vdb-cyclonedx/properties.go]
 checked: [cli@4c8c3b71c, vdb-cyclonedx@eaf787c]

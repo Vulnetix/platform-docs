@@ -1,7 +1,7 @@
 ---
 title: Terraform modules
 nav: Modules
-description: The two Terraform modules for AWS, aws-onboarding, which connects an AWS account to Vulnetix, and aws-siem-shipping, which ships an account's logs to Guardian. Released and listed on the Terraform registry. Inputs, outputs, requirements, limits and removal.
+description: The aws-onboarding and aws-siem-shipping Terraform modules, which connect an AWS account to Vulnetix and ship its logs to Guardian, with inputs and outputs.
 order: 4
 sources: ["terraform-vulnetix-aws-onboarding/README.md", "terraform-vulnetix-aws-onboarding/variables.tf", "terraform-vulnetix-aws-onboarding/outputs.tf", "terraform-vulnetix-aws-siem-shipping/README.md", "terraform-vulnetix-aws-siem-shipping/variables.tf", "terraform-vulnetix-aws-siem-shipping/outputs.tf"]
 checked: ["terraform-vulnetix-aws-onboarding@v1.0.1", "terraform-vulnetix-aws-siem-shipping@v1.0.0"]

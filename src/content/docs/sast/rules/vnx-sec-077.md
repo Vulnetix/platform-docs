@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-077: Mapbox access token"
 nav: "VNX-SEC-077"
-description: "Reports a whole Mapbox public access token (pk.eyJ... with its signature) in any file, excluding secret sk. tokens, placeholders, environment references, minified and test files."
+description: "Reports a whole Mapbox public access token (pk.eyJ... with its signature) in any file, excluding secret sk. tokens, placeholders, environment references."
 order: 971
 sources: ["cli/internal/sast/rules/vnx-sec-077.rego", "cli/internal/sast/docs/vnx-sec-077.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

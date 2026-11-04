@@ -1,6 +1,6 @@
 ---
 title: Compute runtime
-description: What the compute source reads (SSM inventory, EMR, EKS, ECS, CIS AWS Foundations controls, CloudFormation templates), its three extensions (artifacts, network logs, EKS workloads), the EKS access entry, the caps and the named gaps.
+description: What the compute source reads from SSM inventory, EMR, EKS, ECS, CIS AWS Foundations controls and CloudFormation, its extensions, caps and named gaps.
 order: 21
 sources: [cloudscan/README.md, cloudscan/compute.go, cloudscan/compute_cis.go, cloudscan/compute_iac.go, cloudscan/compute_network.go, cloudscan/eks_pods.go, vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/assets/aws-pipeline.yaml]
 checked: [cloudscan@67eeabb, vdb-site@1a06d67]

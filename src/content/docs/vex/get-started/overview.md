@@ -1,7 +1,7 @@
 ---
 title: VEX and suppression
 nav: Overview
-description: The VEX formats the Vulnetix CLI reads and writes, where VEX statements change scan results, and how ignore rules, nosec comments and VEX suppress findings today.
+description: The VEX formats the Vulnetix CLI reads and writes, where VEX changes scan results, and how ignore rules, nosec comments and VEX suppress findings.
 order: 1
 sources: [cli/cmd/vex.go, cli/cmd/vex_ingest.go, cli/cmd/suppress.go, cli/cmd/suppress_report.go, cli/internal/vex/read.go, cli/internal/vex/merge.go, cli/internal/triage/vex.go, cli/internal/suppress/suppress.go, vdb-api/internal/handler/v2_cli_vex_ingest.go]
 checked: [cli@v4.4.0, vdb-api@4145f0a]

@@ -1,7 +1,7 @@
 ---
 title: GitHub posture commands
 nav: gha posture
-description: vulnetix gha workflows, actions, settings, org and audit check GitHub Actions workflows, the actions they run, and repository and organisation settings against the VNX-GH rules.
+description: vulnetix gha workflows, actions, settings, org and audit check GitHub Actions workflows, actions and repository and organisation settings against VNX-GH rules.
 order: 5
 sources: [cli/cmd/gha_analysis.go, cli/cmd/gha.go, cli/internal/ghtasks/docs.go, cli/internal/analyze/forge/auth.go, vdb-sca-match/ghaudit/rule.go]
 checked: [cli@24498404a, vdb-sca-match@v0.8.14]

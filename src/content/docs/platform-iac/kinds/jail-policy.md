@@ -1,6 +1,6 @@
 ---
 title: "JailPolicy"
-description: "A jail policy: the ordered rules vulnetix jail evaluates for a repository over everything ever reported for it (vulnerabilities past their SLA. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A jail policy: the ordered rules vulnetix jail evaluates for a repository over everything ever reported for it (vulnerabilities past their SLA."
 order: 25
 group: "Scanners and gates"
 generated: true

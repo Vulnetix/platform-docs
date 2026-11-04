@@ -1,7 +1,7 @@
 ---
 title: nosec comments and test code
 nav: nosec and test code
-description: Suppress a finding next to the line it is on with a gosec-compatible nosec comment, how scans fold nosec into org rules and follow them as code moves, and the test-code suppression.
+description: Suppress a finding on its line with a gosec-compatible nosec comment, how scans fold nosec into org rules and track moved code, and the test-code suppression.
 order: 2
 sources: [cli/internal/sast/nosec.go, cli/cmd/suppress_sync.go, cli/cmd/suppress_report.go, cli/cmd/testsuite_scan.go]
 checked: [cli@4c8c3b71c]

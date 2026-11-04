@@ -1,6 +1,6 @@
 ---
 title: Permissions and privacy
-description: Every manifest permission and why it is requested, what is sent to which host, what is stored in the browser profile, and the Firefox data-collection declaration.
+description: Every manifest permission and why it is requested, what is sent to which host, what the browser profile stores, and the Firefox data-collection declaration.
 order: 3
 sources: [browser-extension/wxt.config.ts, browser-extension/src/entrypoints/content.ts, browser-extension/src/lib/api.ts, browser-extension/src/lib/cache.ts, browser-extension/PRIVACY.md, browser-extension/README.md, browser-extension/scripts/check-manifest.mjs]
 checked: [browser-extension@d25ce74]

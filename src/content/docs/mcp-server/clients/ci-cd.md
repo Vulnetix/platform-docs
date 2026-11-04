@@ -1,6 +1,6 @@
 ---
 title: Agents in CI
-description: Run an MCP-equipped agent in GitHub Actions or GitLab CI with the key from the secret store, ask it for a machine-readable verdict, and keep the hard gate in the CLI.
+description: Run an MCP-equipped agent in GitHub Actions or GitLab CI with a stored secret key, ask it for a machine-readable verdict, and keep the hard gate in the CLI.
 order: 14
 sources:
   - mcp-server/src/tools/packages.ts

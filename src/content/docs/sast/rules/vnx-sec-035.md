@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-035: DigitalOcean personal access token"
 nav: "VNX-SEC-035"
-description: "Reports a DigitalOcean API token: a standalone dop_v1_ personal access token, doo_v1_ OAuth access token or dor_v1_ OAuth refresh token followed by exactly 64 hex characters. Placeholder values and test or fixture paths are not reported."
+description: "Reports a DigitalOcean API token: a standalone dop_v1_ personal access token."
 order: 929
 sources: ["cli/internal/sast/rules/vnx-sec-035.rego", "cli/internal/sast/docs/vnx-sec-035.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

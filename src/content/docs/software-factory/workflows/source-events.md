@@ -1,7 +1,7 @@
 ---
 title: Source events and firewall triggers
 nav: Source events
-description: Triggers that fire when the Package Firewall, the AI Firewall or a sandbox's egress sees something new, or a Guardian trigger fires. What each source reports, the research gathered before the run, and how the rule you write closes the review ticket.
+description: Triggers that fire on new Package Firewall, AI Firewall, sandbox egress or Guardian events, what each reports, and how your rule closes the review ticket.
 order: 21
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_sources.go, vdb-site/api/internal/handler/factory_sources_siem.go, vdb-site/api/internal/handler/factory_templates_guardian.go, vdb-site/api/internal/handler/factory_sources_fire.go, vdb-site/api/internal/handler/factory_sighting_facts.go]
 checked: [vdb-site@fe1ff17]

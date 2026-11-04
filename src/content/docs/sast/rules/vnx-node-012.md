@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-012: Client-side XSS via innerHTML or v-html"
 nav: "VNX-NODE-012"
-description: "Reports raw HTML written into the DOM by jQuery .html(), Vue v-html and Svelte {@html}, and by insertAdjacentHTML, document.write and dangerouslySetInnerHTML in HTML pages and components, from a DOM source, from markup spliced together with a non-literal, or from response data. innerHTML assignments are VNX-NODE-027's; the other sinks in JavaScript files are VNX-NODE-005's."
+description: "Reports raw HTML written into the DOM by jQuery .html(), Vue v-html and Svelte {@html}."
 order: 808
 sources: ["cli/internal/sast/rules/vnx-node-012.rego", "cli/internal/sast/docs/vnx-node-012.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

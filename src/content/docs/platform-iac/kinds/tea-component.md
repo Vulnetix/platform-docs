@@ -1,6 +1,6 @@
 ---
 title: "TeaComponent"
-description: "A component the tenant publishes through the Transparency Exchange API (TEA): a part a product is assembled from, such as a service, a library or an installer. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "A component the tenant publishes through the Transparency Exchange API (TEA): a part a product is assembled from, such as a service, a library or an installer."
 order: 53
 group: "TEA"
 generated: true

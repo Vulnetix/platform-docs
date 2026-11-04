@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-015: JWT algorithm none attack"
 nav: "VNX-SEC-015"
-description: "Detects JWTs issued unsigned or accepted as unsigned: the none algorithm among the allowed or signing algorithms, an alg none header, and unsigned-token APIs (jjwt unsecured() and parseClaimsJwt, PlainJWT, UnsecuredJWT, SigningMethodNone). Signature verification switched off for a signed token is reported by VNX-JWT-001."
+description: "Detects JWTs issued unsigned or accepted as unsigned: the none algorithm among the allowed or signing algorithms, an alg none header."
 order: 909
 sources: ["cli/internal/sast/rules/vnx-sec-015.rego", "cli/internal/sast/docs/vnx-sec-015.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

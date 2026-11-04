@@ -1,6 +1,6 @@
 ---
 title: Skills
-description: How the gateway reads skill names from a dispatching Skill tool, what skill_allow and skill_deny can and cannot do, and the deterministic alternative of governing the Skill tool itself.
+description: How the gateway reads skill names from a dispatching Skill tool, what skill_allow and skill_deny can and cannot do, and governing the Skill tool itself.
 order: 15
 sources:
   - ai-firewall/internal/anthropic/capabilities.go

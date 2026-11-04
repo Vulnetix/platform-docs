@@ -1,6 +1,6 @@
 ---
 title: Walk the object graph
-description: List products, follow a product release to its component releases, and fetch the distributions, collection and artifact bytes, with real requests against the Vulnetix TEA 1.0.0 root.
+description: List products, follow a product release to its component releases, and fetch distributions, collections and artifact bytes against the Vulnetix TEA 1.0.0 root.
 order: 2
 sources: [vdb-site/api/internal/handler/tea_v1_routes.go, vdb-site/api/internal/handler/tea_v1_catalogue.go, tea-spec/spec/openapi.yaml]
 checked: [vdb-site@1a06d67, tea-spec@6c93819]

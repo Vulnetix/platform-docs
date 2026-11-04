@@ -1,10 +1,10 @@
 ---
 title: "VNX-NODE-029: Missing HttpOnly flag on cookie"
 nav: "VNX-NODE-029"
-description: "Reports session and credential cookies set from Node.js without HttpOnly: res.cookie()/cookie.serialize() calls lacking httpOnly: true, Set-Cookie header literals without the attribute, and any cookie options with httpOnly: false."
+description: "Reports session and credential cookies set from Node.js without HttpOnly: res.cookie()/cookie.serialize() calls lacking httpOnly."
 order: 825
 sources: ["cli/internal/sast/rules/vnx-node-029.rego", "cli/internal/sast/docs/vnx-node-029.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

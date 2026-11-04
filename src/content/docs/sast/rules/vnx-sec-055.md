@@ -1,10 +1,10 @@
 ---
 title: "VNX-SEC-055: New Relic API key"
 nav: "VNX-SEC-055"
-description: "Reports New Relic user (NRAK-), insert (NRII-), ingest license (…NRAL) and browser (NRJS-) keys as whole tokens; the browser key inside the public NREUM loader snippet and placeholders are not reported."
+description: "Reports New Relic user (NRAK-), insert (NRII-), ingest license (…NRAL) and browser (NRJS-) keys as whole tokens."
 order: 949
 sources: ["cli/internal/sast/rules/vnx-sec-055.rego", "cli/internal/sast/docs/vnx-sec-055.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

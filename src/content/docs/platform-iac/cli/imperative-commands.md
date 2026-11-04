@@ -1,7 +1,7 @@
 ---
 title: Imperative config commands
 nav: Imperative commands
-description: vulnetix config set and get for the quality gate, the EOL policy and the package firewall. Every flag, the null value that unsets a field, the API each command calls and its errors.
+description: vulnetix config set and get for the quality gate, EOL policy and package firewall, with every flag, the null value that unsets a field, the API and errors.
 order: 5
 sources: [cli/cmd/config.go, cli/cmd/config_engine_alias.go, cli/cmd/config_engine_alias_aifw.go, cli/cmd/config_engine_alias_pfw.go, cli/cmd/config_ai_firewall.go, cli/cmd/config_jail.go, cli/pkg/vdb/api_cli.go, cli/pkg/vdb/client.go, cli/cmd/quality_gate_enforce.go, vdb-api/internal/handler/v2_cli_quality_gate.go, vdb-api/internal/handler/v2_cli_package_firewall.go, saas/prisma/models/quality-gate.prisma]
 checked: [cli@v4.0.0, vdb-api@4145f0a]

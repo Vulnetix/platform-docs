@@ -1,10 +1,10 @@
 ---
 title: "VNX-RUBY-005: Ruby XSS via html_safe or raw"
 nav: "VNX-RUBY-005"
-description: "Reports .html_safe, raw(), <%== %>, Haml != and Slim == applied to a model attribute, variable, method result or an interpolated string with a dynamic part, in Ruby, ERB, Haml and Slim; fixed literals, escaped values, translations and Rails helpers are not reported."
+description: "Reports .html_safe, raw(), <%== %>, Haml != and Slim == applied to a model attribute, variable, method result or an interpolated string with a dynamic part."
 order: 881
 sources: ["cli/internal/sast/rules/vnx-ruby-005.rego", "cli/internal/sast/docs/vnx-ruby-005.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

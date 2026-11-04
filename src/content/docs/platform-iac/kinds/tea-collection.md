@@ -1,6 +1,6 @@
 ---
 title: "TeaCollection"
-description: "The collection of one published release: the versioned set of artifacts (SBOMs, VEX documents, attestations) TEA serves for it. Fields, YAML, HCL and CLI samples, and how apply treats it."
+description: "The collection of one published release: the versioned set of artifacts (SBOMs, VEX documents, attestations) TEA serves for it."
 order: 54
 group: "TEA"
 generated: true

@@ -1,10 +1,10 @@
 ---
 title: "VNX-GQL-003: GraphQL query string injection via string concatenation"
 nav: "VNX-GQL-003"
-description: "Reports GraphQL operation documents (JavaScript/TypeScript and Python) built by interpolating or concatenating request data, directly or through a variable assigned from the request, instead of passing it in the variables map."
+description: "Reports GraphQL operation documents (JavaScript/TypeScript and Python) built by interpolating or concatenating request data."
 order: 746
 sources: ["cli/internal/sast/rules/vnx-gql-003.rego", "cli/internal/sast/docs/vnx-gql-003.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---

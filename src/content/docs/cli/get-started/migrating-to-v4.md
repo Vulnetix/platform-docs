@@ -1,7 +1,7 @@
 ---
 title: Migrating from v3 to v4
 nav: Migrating to v4
-description: What changed when the Vulnetix CLI moved from v3 to v4.0.0, the Go module path, the config set and ai-firewall commands that became aliases of the config engine, plan and apply reading the well-known files, and the action version channel.
+description: What changed from Vulnetix CLI v3 to v4.0.0, including the Go module path, config set and ai-firewall aliases, plan and apply, and the action version channel.
 order: 4
 sources: [cli/docs/platform-iac.md, cli/docs/PUBLISHING.md, cli/cmd/config_engine.go, cli/cmd/config_engine_alias.go, cli/cmd/config_engine_alias_aifw.go, cli/cmd/config_engine_alias_pfw.go, cli/action.yml, cli/install.sh]
 checked: [cli@v4.4.0]

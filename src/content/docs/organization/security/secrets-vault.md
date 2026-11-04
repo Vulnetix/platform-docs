@@ -1,6 +1,6 @@
 ---
 title: Secrets vault
-description: The organisation's encrypted store for AI provider keys, sandbox environment variables and integration credentials. Entry kinds, the surfaces an entry can be granted to, overlaps, expiry, rotation, verification and the API.
+description: The organisation's encrypted store for AI provider keys, sandbox environment variables and integration credentials, with grants, expiry, rotation and the API.
 order: 1
 sources: [vdb-site/docs/secrets-vault.md, vdb-site/api/internal/handler/vault_model.go, vdb-site/api/internal/handler/vault_handlers.go, vdb-site/api/internal/handler/vault_service.go, vdb-site/api/internal/handler/vault_connectors.go, vdb-site/api/internal/messaging/catalogue.go]
 checked: [vdb-site@1a06d67]

@@ -1,10 +1,10 @@
 ---
 title: "VNX-GO-002: Command injection via exec.Command"
 nav: "VNX-GO-002"
-description: "Reports exec.Command/CommandContext running a shell with -c (or /C, -Command) and a script built with fmt.Sprintf or concatenation, or read from the HTTP request, and a program name that is itself formatted or request-supplied. Constant scripts, positional parameters, shell-quoted values and formatted arguments to a fixed program are not reported."
+description: "Reports exec.Command/CommandContext running a shell with -c (or /C, -Command) and a script built with fmt.Sprintf or concatenation."
 order: 704
 sources: ["cli/internal/sast/rules/vnx-go-002.rego", "cli/internal/sast/docs/vnx-go-002.md"]
-checked: ["cli@1700795"]
+checked: ["cli@308165d"]
 updated: "05 Nov 2026"
 generated: true
 ---
