@@ -3,8 +3,8 @@ title: vulnetix attest verify
 description: Verify an artefact's DSSE envelope or cosign signature against Sigstore, report its signer and in-toto provenance, and fail CI when a required check fails.
 order: 1
 sources: [cli/cmd/attest.go, cli/internal/attest/verify.go, cli/internal/attest/roots.go]
-checked: [cli@4c8c3b71c]
-updated: 02 Nov 2026
+checked: [cli@v4.22.2]
+updated: 05 Nov 2026
 ---
 
 ```bash
@@ -49,12 +49,16 @@ These are the suffixes `cdx --sign` writes and cosign expects.
 | Check | Runs by default | Notes |
 |---|---|---|
 | `signature` | always | Over the DSSE pre-authentication encoding, not the bare payload |
+| `subject` | with a DSSE envelope | The file must be the envelope's payload, as `cdx --sign` writes it, or have its sha256 named among an in-toto statement's subjects. From CLI v4.22.2. |
 | `certificate-chain` | yes | Against the [resolved trust root](/attestation/verify/trust-and-pinning/) |
 | `certificate-validity` | always | An expired keyless certificate passes, with a caveat. See below. |
 | `identity` | when `--identity` or `--identity-regex` is set | The identity is always read and reported |
 | `issuer` | when `--issuer` is set | |
 | `strict` | when `--strict` is set | Fails if the signer is not pinned |
 | transparency log | never | Not checked. See below. |
+
+> [!CAREFUL] Before CLI v4.22.2 an envelope only verified itself
+> A DSSE signature covers the envelope's payload, not the file beside it. Earlier versions checked only the signature, so a file edited after it was signed still passed as long as its `.intoto.jsonl` was intact. Upgrade, or verify with a detached `.sig`, which is checked over the file itself.
 
 A passing run shows only the verdict. `-v` (the global `--verbose`), or any failure, prints the full check table.
 

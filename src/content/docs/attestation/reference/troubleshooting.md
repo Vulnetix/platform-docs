@@ -33,6 +33,8 @@ Each line under `Why it failed` starts with the check name.
 | Message | Cause | Fix |
 |---|---|---|
 | `signature: signature does not verify against the certificate's public key` | The signature does not match. For a detached `.sig`, the artefact's bytes changed after signing. | Use the artefact exactly as published. Re-sign after any change. |
+| `subject: the envelope's payload is not this file: the file changed after signing, or the envelope is for another file` | The file differs from what was signed | If you edited the file, sign it again. Otherwise the envelope belongs to another file, or the file was altered. |
+| `subject: the statement names N subject(s) and none has this file's sha256 <digest>` | The in-toto statement is about other files | Pass the file the statement names, or the envelope for this file. |
 | `certificate-chain: does not chain to Sigstore public-good (...). If this was signed by a private Sigstore instance, pass --trusted-root with its root certificate.` | The certificate came from a CA other than the resolved root | Pass `--trusted-root`, set `SIGSTORE_ROOT_FILE`, or commit `.vulnetix/trusted-root.pem`. See [Trust root resolution](/attestation/verify/trust-and-pinning/#trust-root-resolution). |
 | `identity: signed by "<subject>", not "<expected>"` | `--identity` is an exact match and the signer differs | Paste the subject the command printed under `Signed by`. For a pattern use `--identity-regex`. |
 | `identity: signed by "<subject>", which does not match "<pattern>"` | The signer does not match `--identity-regex` | Check the pattern is a Go RE2 expression and escape each `.` |
