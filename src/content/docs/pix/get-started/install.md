@@ -28,7 +28,7 @@ brew install Vulnetix/tap/vulnetix
 curl -fsSL https://cli.vulnetix.com/install.sh | sh
 ```
 
-Scoop and Nix also work (`scoop install vulnetix`, `nix profile install github:Vulnetix/cli`). See [Install the CLI](/cli/get-started/install/) for Windows and CI.
+Scoop and Nix also work (`scoop bucket add vulnetix https://github.com/Vulnetix/scoop-bucket; scoop install vulnetix/vulnetix`, `nix profile install github:Vulnetix/cli`). See [Install the CLI](/cli/get-started/install/) for Windows and CI.
 
 ## 2. Wire the hooks
 
