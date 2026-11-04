@@ -5,7 +5,7 @@ description: Install the vulnetix binary with the install script, Homebrew, Scoo
 order: 2
 sources: [cli/install.sh, cli/internal/update/updater.go, cli/internal/update/checker.go, cli/internal/update/state.go, cli/cmd/root.go, cli/flake.nix, cli/go.mod, cli/.github/workflows/release.yml, homebrew-tap/Formula/vulnetix.rb, homebrew-tap/Formula/crit-validate.rb, ietf-crit-spec/README.rst, scoop-bucket/bucket/vulnetix.json]
 checked: [cli@24498404a]
-updated: 02 Nov 2026
+updated: 05 Nov 2026
 ---
 
 Every release publishes prebuilt binaries to [GitHub Releases](https://github.com/Vulnetix/cli/releases). The install script, Homebrew and Scoop all install those same binaries.
@@ -38,24 +38,30 @@ curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --version v4.0.0
 
 # Stay on v3 (frozen at v3.169.2)
 curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --version v3
+
+# Refuse to install unless cosign verifies the release's signed provenance
+curl -fsSL https://cli.vulnetix.com/install.sh | sh -s -- --require-provenance
 ```
 
 | Option | Environment | Default | Meaning |
 |---|---|---|---|
 | `--install-dir <dir>` | `INSTALL_DIR` | `/usr/local/bin` | Where `vulnetix` is written. If the directory cannot be created or written, the script falls back to `$HOME/.local/bin` and says so. |
 | `--version <tag>` | `VERSION` | `latest` | A release tag such as `v4.0.0`, a major channel such as `v4` (the newest v4 release), or `latest`. `v3` still resolves, to the last v3 release. Each is resolved to a concrete tag before downloading. See [Versions and release channels](/cli/ci-cd/versions-and-channels/). |
-| `--help` | | | Print usage. |
+| `--require-provenance` | `VULNETIX_REQUIRE_PROVENANCE=1` | off | Fail unless `cosign` is on `PATH` and the release's `provenance.sigstore.json` verifies for the downloaded binary. |
+| `--insecure-skip-verify` | `VULNETIX_INSECURE_SKIP_VERIFY=1` | off | Install without checking the checksum or the provenance, with a warning. Not recommended. Cannot be combined with `--require-provenance`. |
+| `--help` | | | Print usage, the verification rules and the analytics opt-outs. |
 
 What the script does, in order:
 
 1. Detects the OS (`linux`, `darwin`, `windows` for MINGW, MSYS and Cygwin) and architecture (`amd64`, `arm64`, `arm` for armv6 and armv7, `386`). Anything else exits with `unsupported OS` or `unsupported architecture`.
 2. Downloads `vulnetix-<os>-<arch>` (`.exe` on Windows) with curl or wget, retrying truncated transfers.
-3. Checks the file size against the server's, then checks its SHA-256 against the release's `checksums.txt`. A mismatch stops the install with `error: checksum mismatch`. If no SHA-256 tool is found (`sha256sum`, `shasum`, `sha256`, `openssl`, `python3`, `python`, `rhash`), or `checksums.txt` cannot be fetched, it warns and installs without the check.
-4. Moves the binary into place as `vulnetix`, runs `vulnetix version`, and warns if the directory is not on `PATH`.
+3. Checks the file size against the server's, then checks its SHA-256 against the release's `checksums.txt`. A mismatch stops the install with `error: checksum mismatch`. The install also stops when no SHA-256 tool is found (`sha256sum`, `shasum`, `sha256`, `openssl`, `python3`, `python`, `rhash`, `certutil`), when `checksums.txt` cannot be fetched, or when it has no entry for the binary. `--insecure-skip-verify` is the only way past these.
+4. When `cosign` is on `PATH`, fetches the release's `provenance.sigstore.json` and runs `cosign verify-blob-attestation` on the downloaded binary (see [Verify a download](#verify-a-download)). A bundle that does not verify stops the install. A release with no bundle installs on the checksum alone, unless `--require-provenance` is set. With `--require-provenance`, a release resolved from `latest` or a channel that was published in the last few minutes is given up to five minutes for its bundle, which is signed shortly after the release.
+5. Moves the binary into place as `vulnetix`, runs `vulnetix version`, warns if the directory is not on `PATH`, and prints the next steps: `vulnetix auth login`, then `vulnetix scan`.
 
 On Windows the file is saved as `vulnetix` with no `.exe`. Git Bash, MSYS2 and Cygwin run it; PowerShell and cmd do not. For those, use Scoop or the `.exe` from the release.
 
-The script sends one anonymous install event (OS, architecture and version). `VULNETIX_NO_ANALYTICS=1` or `DO_NOT_TRACK=1` turns it off.
+After a successful install the script sends one anonymous install event to Google Analytics: OS, architecture, version and a random id made for that install and never stored. It prints a line when it does. `VULNETIX_NO_ANALYTICS=1` or `DO_NOT_TRACK=1` turns it off.
 
 On Alpine and other minimal images, install `curl` (or `wget`) and `ca-certificates` first: `apk add --no-cache curl ca-certificates`.
 
@@ -113,6 +119,24 @@ Invoke-WebRequest -Uri https://github.com/Vulnetix/cli/releases/latest/download/
 ```
 
 Open a new terminal for the `Path` change to apply.
+
+## Verify a download
+
+The checksum shows the file is the one the release lists. The provenance shows the release workflow built it: `provenance.sigstore.json` is an SLSA v1 statement whose subjects are every line of `checksums.txt`, signed keyless through Sigstore with a public Rekor entry. The signing certificate names the reusable workflow `.github/workflows/slsa-provenance.yml` in `Vulnetix/cli`, not `release.yml`.
+
+```sh
+V=v4.17.1   # the release you downloaded
+curl -fsSLO "https://github.com/Vulnetix/cli/releases/download/$V/provenance.sigstore.json"
+cosign verify-blob-attestation \
+  --bundle provenance.sigstore.json --new-bundle-format \
+  --type slsaprovenance1 \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  --certificate-identity-regexp '^https://github\.com/Vulnetix/cli/\.github/workflows/slsa-provenance\.yml@refs/(heads/main|tags/v[0-9]+\.[0-9]+\.[0-9]+.*)$' \
+  --certificate-github-workflow-repository Vulnetix/cli \
+  vulnetix
+```
+
+`Verified OK` means the binary's digest is a subject of a statement that workflow signed. Every v4 release has a bundle; some v3 releases do not. The GitHub Action runs the same check by default (`verify-provenance: true`); see [GitHub Actions](/cli/ci-cd/github-actions/).
 
 ## How a release reaches each channel
 

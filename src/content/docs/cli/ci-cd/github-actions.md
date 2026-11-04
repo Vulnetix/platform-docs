@@ -301,7 +301,7 @@ To publish a release to the Transparency Exchange API instead, use the [`tea-rel
           github-code-scanning: true
 ```
 
-The action installs the CLI with the install script, verifies authentication when `api-key` or `api-token` is set, and runs the task. `@v4` is a moving major tag, and `@v3` still works: it keeps a v3 binary. Pin an exact release tag or a commit SHA for a reproducible workflow. The `version` input chooses the CLI release separately from the action ref.
+The action installs the CLI with the install script (checking its checksum and, by default, its signed provenance), verifies authentication when `api-key` or `api-token` is set, and runs the task. `@v4` is a moving major tag, and `@v3` still works: it keeps a v3 binary. Pin an exact release tag or a commit SHA for a reproducible workflow. The `version` input chooses the CLI release separately from the action ref.
 
 ### Inputs
 
@@ -312,6 +312,7 @@ The action installs the CLI with the install script, verifies authentication whe
 | `api-token` | No | | API token. The server resolves the organisation. Passed as `VULNETIX_API_TOKEN`. |
 | `version` | No | `v4` | CLI release to install: an exact tag (`v4.0.0`), a major channel (`v4`, the newest v4 release) or `latest`. A `v` is added if missing. |
 | `binary-path` | No | | Use this already-built binary instead of downloading a release, for example one built earlier in the job. |
+| `verify-provenance` | No | `true` | Install cosign and require the release's signed SLSA provenance to verify for the downloaded binary (`install.sh --require-provenance`; see [Verify a download](/cli/get-started/install/#verify-a-download)). Every v4 release is signed. Set `false` for a v3 release without `provenance.sigstore.json`. Skipped with `binary-path`. The SHA-256 checksum is checked either way. Every subdirectory action takes the same input. |
 | `task` | No | `info` | What to run. See [Tasks](#tasks). |
 | `path` | No | `.` | Directory to scan, for the scanning tasks |
 | `args` | No | | Extra arguments for the command, separated by spaces or newlines. No shell quoting is applied. |
