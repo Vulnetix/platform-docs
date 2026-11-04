@@ -72,7 +72,7 @@ A package is matched against its own distribution's advisories first. A distribu
 
 Rocky, AlmaLinux, Fedora, SUSE and Wolfi hosts take the same path; how much they find depends on the advisories the vulnerability database holds for them.
 
-- **Not checked: distribution.** A package from a distribution the vulnerability database holds no advisories for (Kali, Photon, Azure Linux, and a derivative whose base release cannot be told) is not checked. It is never matched by name against upstream releases, because that reads as clean. The tab labels it, and it is not the same as clean.
+- **Not checked: distribution.** A package from a distribution the vulnerability database holds no advisories for (Kali, Photon, Azure Linux, Oracle Linux, and a derivative whose base release cannot be told) is not checked. It is never matched by name against upstream releases, because that reads as clean. The tab labels it, and it is not the same as clean.
 - **Not checked: sensor too old.** A package is checked only if the sensor sent its distribution-qualified package URL. A sensor older than v3.165 sends none; it updates itself once it is on a recent release ([Self-update](/virtual-patching/sensor/provisioning-profiles/#self-update)).
 - **AUR and other foreign packages.** The Arch tracker covers the official repositories only. An AUR package is matched on its upstream name alone.
 - **Unfixed Arch issues.** The tracker's unfixed groups are matched through the upstream advisory, so an unfixed flaw with no upstream advisory is not reported.
