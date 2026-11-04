@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import { satteri } from '@astrojs/markdown-satteri';
 import { callouts, pendingLinks } from './src/plugins/docs-markdown.mjs';
+import { homeRedirects } from './src/lib/home-redirects.mjs';
 
 export default defineConfig({
   // Keep in sync with public/CNAME and terraform/dns.tf.
@@ -22,5 +23,7 @@ export default defineConfig({
     '/platform-iac/planned/terraform': '/platform-iac/terraform/',
     '/platform-iac/planned/vex-sources': '/platform-iac/guides/vex-sources/',
     '/vex/suppression/vex-sources-planned': '/platform-iac/guides/vex-sources/',
+    // Each segment home's own path, to the segment root that serves it.
+    ...homeRedirects(),
   },
 });
