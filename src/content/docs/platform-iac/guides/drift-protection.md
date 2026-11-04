@@ -32,7 +32,7 @@ With the switch on, a `POST`, `PUT`, `PATCH` or `DELETE` to a route that writes 
   "error": "managed_by_platform_iac",
   "kind": "QualityGate",
   "manager": "terraform",
-  "message": "These settings are managed by Platform IaC (terraform). Change them there, or ask an admin to turn off Drift protection."
+  "message": "These settings are managed by Platform IaC (terraform). Change them there, or ask an owner to turn off Drift protection."
 }
 ```
 
