@@ -14,7 +14,7 @@ Every route with `{identifier}` in its path takes an advisory id from any family
 | Family | Example | Family | Example |
 |---|---|---|---|
 | CVE | `CVE-2021-44228` | RHSA | `RHSA-2025:1730` |
-| GHSA | `GHSA-jfh8-3a1q-hjz9` | DSA, DLA | `DSA-4741-1` |
+| GHSA | `GHSA-jfh8-c2jp-5v3q` | DSA, DLA | `DSA-4741-1` |
 | PYSEC | `PYSEC-2024-123` | USN | `USN-7040-1` |
 | GO | `GO-2024-1234` | ALSA, RLSA | `ALSA-2019:2722` |
 | RUSTSEC | `RUSTSEC-2024-1234` | MGASA | `MGASA-2024-0327` |

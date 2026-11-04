@@ -70,7 +70,7 @@ Look up a vulnerability by any advisory id. CVE, GHSA, PYSEC, RUSTSEC, GO, RHSA,
 
 ```bash
 vulnetix vdb vuln CVE-2021-44228
-vulnetix vdb vuln GHSA-jfh8-3a1q-hjz9
+vulnetix vdb vuln GHSA-jfh8-c2jp-5v3q
 vulnetix vdb vuln RHSA-2025:1730
 ```
 
