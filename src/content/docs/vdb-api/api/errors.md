@@ -92,7 +92,7 @@ The VDB API does not answer `402` or `403` for a feature above your plan. It ans
 
 That is what a Community key gets from `GET /v2/exploits/{identifier}`: the counts and summary, with the exploit records themselves nulled. `full-enrichment` is the feature name for any rule that does not name its own.
 
-`_pro_data` lists only the paths that need Pro; `_entitlements.gated` lists every gated feature, including those that need Teams or Enterprise. Both are absent when nothing was withheld.
+`_pro_data` lists only the paths that need Pro; `_entitlements.gated` lists every gated feature, including those that need Business or Enterprise. Both are absent when nothing was withheld.
 
 **Whole answer withheld.** Routes that are a paid feature end to end (Safe Harbour safety matrix and refresh, exploit and raw advisory archive downloads, some defence and YARA content) return a marker body instead:
 

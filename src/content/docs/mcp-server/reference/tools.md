@@ -106,7 +106,7 @@ The ecosystem is always sent as a query parameter, never in the path. `vulnetix_
 
 ## AI analysis tools
 
-These five return the deterministic VDB data first, then add an `analysis` object written by a model on Pro, Teams and Enterprise plans. Each takes `ai` (boolean, optional): `false` skips the analysis. See [AI analysis](/mcp-server/tools/ai-analysis/) for when analysis runs.
+These five return the deterministic VDB data first, then add an `analysis` object written by a model on Pro, Business and Enterprise plans. Each takes `ai` (boolean, optional): `false` skips the analysis. See [AI analysis](/mcp-server/tools/ai-analysis/) for when analysis runs.
 
 | Tool | Parameters | Route | Cache |
 |---|---|---|---|

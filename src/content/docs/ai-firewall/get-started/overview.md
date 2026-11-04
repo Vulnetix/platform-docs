@@ -62,7 +62,7 @@ The gateway and the key vault are on every plan. Policy is what paid plans add. 
 | Gateway, provider keys (BYOK), inventory | Community |
 | Provider allow/deny, model allow/deny | Pro |
 | Inference logging (metadata only) | Pro |
-| Guardrails: content rules and capability rules | Teams |
+| Guardrails: content rules and capability rules | Business |
 
 ## In the console
 

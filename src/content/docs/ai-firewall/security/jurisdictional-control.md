@@ -69,7 +69,7 @@ vulnetix ai-firewall apply --dry-run
 vulnetix ai-firewall apply
 ```
 
-`baseline.enabled: false` keeps this file to the provider list. Without it, `apply` composes in the [recommended baseline](/ai-firewall/policy/recommended-baseline/), and because guardrails are applied first and need the Teams plan, a Pro organisation's `apply` would stop at the first baseline rule before reaching the providers.
+`baseline.enabled: false` keeps this file to the provider list. Without it, `apply` composes in the [recommended baseline](/ai-firewall/policy/recommended-baseline/), and because guardrails are applied first and need the Business plan, a Pro organisation's `apply` would stop at the first baseline rule before reaching the providers.
 
 A request to a denied provider is refused before its body is read:
 

@@ -49,7 +49,7 @@ A flag records **that** a rule matched and which rule. It never records **what**
 |---|---|---|
 | Inference logs and the Guardrails tab's activity chart | [Inference logging](/ai-firewall/operations/logs/) on (Pro) | Each request's decision, `blockedBy` and the `violations` list |
 | Response headers | nothing | `X-Vulnetix-Firewall-Decision: flag` and `X-Vulnetix-Firewall-Rules` on that response |
-| The evaluate endpoint | nothing beyond Teams | The decision and violations for a sample request you send |
+| The evaluate endpoint | nothing beyond Business | The decision and violations for a sample request you send |
 
 Test a rule against a sample without calling a provider:
 

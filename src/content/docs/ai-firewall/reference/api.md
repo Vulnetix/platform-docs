@@ -59,7 +59,7 @@ Authorization: Bearer <vulnetix api key>
 x-api-key: <vulnetix api key>
 ```
 
-`Authorization` is used when it starts with `Bearer `; otherwise `x-api-key` is read. The key is `hex(HMAC-SHA256(key = principal's secret, message = principal UUID))`, compared case-insensitively. It is verified against the UUID in the URL, so the URL must carry the UUID the key was derived from: for a Teams member or service account that is its own principal UUID, not the team's. The policy that applies is the tenant's (the organisation the principal belongs to).
+`Authorization` is used when it starts with `Bearer `; otherwise `x-api-key` is read. The key is `hex(HMAC-SHA256(key = principal's secret, message = principal UUID))`, compared case-insensitively. It is verified against the UUID in the URL, so the URL must carry the UUID the key was derived from: for a Business member or service account that is its own principal UUID, not the team's. The policy that applies is the tenant's (the organisation the principal belongs to).
 
 Authentication never fails open. A transient failure to resolve the secret is `503 authentication backend unavailable`, whatever `FAIL_OPEN` says. Resolved secrets are cached for `ORG_SECRET_CACHE_TTL` (60 s), which is how long a regenerated key can take to stop working.
 
@@ -75,7 +75,7 @@ For an inference request, in order:
 4. Provider policy: `deny` (Pro and above) is `403 provider_denied`; no stored key is `403 provider_key_missing`.
 5. Body read (8 MiB limit) and parsed; `model` required.
 6. Model policy (Pro and above): `403 model_denied` or `model_not_allowed`.
-7. Guardrails and capability rules loaded (Teams and above), cached per tenant for `POLICY_CACHE_TTL` (30 s). A load failure is `503` unless `FAIL_OPEN=true`.
+7. Guardrails and capability rules loaded (Business and above), cached per tenant for `POLICY_CACHE_TTL` (30 s). A load failure is `503` unless `FAIL_OPEN=true`.
 8. Capabilities recorded in the [inventory](/ai-firewall/operations/inventory/), before the decision, so blocked requests are recorded too.
 9. Sealed blocks checked; the engine evaluates; holds recorded.
 10. Block: `403` with the rule's code. Otherwise the decision headers are set and the possibly rewritten body is forwarded with the decrypted provider key.
@@ -149,7 +149,7 @@ These are the hosted gateway's settings, listed so their effect is predictable. 
 | Provider `deny` | Pro | Not applied |
 | Model allow/deny | Pro | Not applied; `/v1/models` unfiltered |
 | Inference logging | Pro | No rows written, even with the flag on |
-| Content guardrails, capability rules, hold for review | Teams | Rules not loaded |
+| Content guardrails, capability rules, hold for review | Business | Rules not loaded |
 
 An organisation that downgrades keeps its rules; the gateway stops applying them.
 

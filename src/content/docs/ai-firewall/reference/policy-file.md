@@ -97,7 +97,7 @@ The file is parsed with `gopkg.in/yaml.v3` into fixed structs. Unknown keys are 
 | `metadata.org` | string (UUID) | none | The org UUID the file belongs to. `apply` refuses when it differs from the org UUID of the credential you are signed in with, unless you pass `--force`. Omit it and no check is made. `export` always writes it. |
 
 > [!CAREFUL] The guard compares your credential's org, not the tenant
-> `metadata.org` is compared with the org UUID in your Vulnetix credential (`VULNETIX_ORG_ID`, or the org stored by `vulnetix auth login`). The policy itself is stored on the tenant: a Teams member and the team owner sign in as different principals and edit the same policy. A file exported by one member therefore carries that member's UUID, and `apply` run by another member refuses it. Drop `metadata.org`, or have CI apply with one fixed credential.
+> `metadata.org` is compared with the org UUID in your Vulnetix credential (`VULNETIX_ORG_ID`, or the org stored by `vulnetix auth login`). The policy itself is stored on the tenant: a Business member and the team owner sign in as different principals and edit the same policy. A file exported by one member therefore carries that member's UUID, and `apply` run by another member refuses it. Drop `metadata.org`, or have CI apply with one fixed credential.
 
 ## spec
 
@@ -264,7 +264,7 @@ Providers are never pruned. Removing a provider's row removes a `deny`, which op
 | Part of the file | Minimum plan | Enforced by |
 |---|---|---|
 | `providers[].action: allow` or `deny`, `models[]` | Pro | API at write time, gateway at request time |
-| `guardrails[]`, baseline | Teams | API at write time, gateway at request time |
+| `guardrails[]`, baseline | Business | API at write time, gateway at request time |
 | `settings.logsEnabled: true` | paid plan | API at write time |
 | `providers[].key`, `action: default`, deletes | community | |
 

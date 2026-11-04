@@ -38,7 +38,7 @@ It shows the providers with their policy and key state, the guardrails, every AI
 
 | Message | Fix |
 |---|---|
-| `invalid Vulnetix API key` | The client is sending a provider key (`sk-…`, `sk-ant-…`). Point its key variable at `$VULNETIX_API_KEY`. Or the key belongs to a different principal than the UUID in the URL: a Teams member must use its own principal UUID. |
+| `invalid Vulnetix API key` | The client is sending a provider key (`sk-…`, `sk-ant-…`). Point its key variable at `$VULNETIX_API_KEY`. Or the key belongs to a different principal than the UUID in the URL: a Business member must use its own principal UUID. |
 | `missing Vulnetix API key` | The variable is not exported in the process the client runs in. For Anthropic SDKs, `ANTHROPIC_API_KEY` sends `x-api-key` and `ANTHROPIC_AUTH_TOKEN` sends `Authorization: Bearer`; both work, but only if set. |
 | `unknown organisation` | The org segment is wrong or not a UUID |
 | `missing organisation` | The base URL has no org segment |
@@ -75,7 +75,7 @@ Prove the path end to end with a canary rule: [Verify](/ai-firewall/get-started/
 
 - **The pattern does not compile.** The gateway skips it while it shows as enabled. `status` warns with `guardrail_pattern_invalid`; `apply` refuses the file. RE2 has no lookahead or lookbehind: `orgUuid=\S+` blocks the same requests as `(?<=orgUuid=)\S+`.
 - **The rule is disabled**, or several baseline rules ship disabled.
-- **The plan.** Guardrails need Teams, provider and model policy need Pro. Below them the rules are stored and not applied.
+- **The plan.** Guardrails need Business, provider and model policy need Pro. Below them the rules are stored and not applied.
 - **The cache.** A new or changed rule reaches the gateway within 30 seconds.
 - **The client was never wired.** See above.
 
@@ -87,10 +87,10 @@ Switch it to `flag`, turn on [inference logging](/ai-firewall/operations/logs/) 
 
 | Message | Fix |
 |---|---|
-| `declares metadata.org X, but you are authenticated as Y` | You are about to apply one organisation's policy to another, or a Teams member's export to another member. Check, then remove `metadata.org` or pass `--force`. |
+| `declares metadata.org X, but you are authenticated as Y` | You are about to apply one organisation's policy to another, or a Business member's export to another member. Check, then remove `metadata.org` or pass `--force`. |
 | `duplicate name` | Guardrails are matched by name; rename one |
 | `applied N of M change(s), then failed: …` | The first failing change stopped the run. Changes before it are live. Fix the cause and run `apply` again. |
-| Plan-locked error on the first guardrail | The baseline is composed in by default and guardrails need Teams. On Pro, set `spec.baseline.enabled: false`. |
+| Plan-locked error on the first guardrail | The baseline is composed in by default and guardrails need Business. On Pro, set `spec.baseline.enabled: false`. |
 | `apply` deleted nothing | Unmentioned guardrails and models are drift until you pass `--prune` |
 | `--prune` left a provider | Providers are never pruned. Write `action: default`, or run `policy provider <slug> --clear`. |
 | `unknown provider` from `key set` | The CLI's provider list has nine slugs. For `alibaba`, `moonshot`, `minimax` and custom providers use the console or `providers[].key` in the file. |

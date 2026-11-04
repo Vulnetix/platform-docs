@@ -30,7 +30,7 @@ The AI Firewall is a security gateway: it decides what may leave for a model pro
 | Response inspection | No | Through plugins | Yes | Yes | No |
 | Caching | No | Yes | Yes | No | Yes |
 | Self-hosted | No | Yes | Yes | No | No |
-| Price | Gateway on every plan; policy on Pro and Teams | Free (open source) | Paid | Markup on tokens | Paid |
+| Price | Gateway on every plan; policy on Pro and Business | Free (open source) | Paid | Markup on tokens | Paid |
 | Markup on tokens | No | No | No | Yes | No |
 
 "Not documented" means the product's published documentation, checked in August 2026, describes no tool-level policy, no agent capability inventory and no client identification. It does not mean the feature cannot exist or cannot be built from a plugin hook. Check before relying on it.

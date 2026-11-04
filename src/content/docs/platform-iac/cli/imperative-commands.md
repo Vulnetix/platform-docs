@@ -10,7 +10,7 @@ updated: 03 Nov 2026
 
 These commands change your organization's stored settings one call at a time. Declare settings as documents and use [`vulnetix config apply`](/platform-iac/cli/apply/) instead. Since CLI v4.0.0, `set quality-gate`, `set eol-policy` and the policy form of `set package-firewall` are aliases of it, and so are `ai-firewall apply` and `ai-firewall export`; see [Aliases of the config engine](#aliases-of-the-config-engine). The mirror form of `set package-firewall`, `set jail`, `set ai-firewall provider|model|guardrail` and every `get` stay imperative and are not deprecated.
 
-All of them need `vulnetix auth login`. The organization is the one you are authenticated as; a Teams member resolves to the team's organization. The shared community org cannot store settings and gets HTTP 403.
+All of them need `vulnetix auth login`. The organization is the one you are authenticated as; a Business member resolves to the team's organization. The shared community org cannot store settings and gets HTTP 403.
 
 | Command | Calls | Stores |
 |---|---|---|

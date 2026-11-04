@@ -134,8 +134,8 @@ updated: 02 Nov 2026
 | `vdb ai-malware` | `--cve`, `--since`, `--limit 50`, `-o <file>` | `/ai-generated-malware` |
 | `vdb msrc patch-tuesdays` | `-o <file>` | `/msrc/patch-tuesdays` |
 | `vdb msrc patch-tuesday <YYYY-MM>` | `-o <file>` | `/msrc/patch-tuesday/{date}` |
-| `vdb raw sources` | `-o <file>` | `/raw/sources` (Teams) |
-| `vdb raw get <CVE-ID>` | `--source` (`mitre-cve`, `ghsa`, `osv`, `euvd`, ...), `-o <file>`. **inputs** | `/raw/{source}/{cveId}` (Teams) |
+| `vdb raw sources` | `-o <file>` | `/raw/sources` (Business) |
+| `vdb raw get <CVE-ID>` | `--source` (`mitre-cve`, `ghsa`, `osv`, `euvd`, ...), `-o <file>`. **inputs** | `/raw/{source}/{cveId}` (Business) |
 | `vdb cloud-locators` | `--vendor`, `--product` | `/cloud-locators` |
 
 ## Service and local commands

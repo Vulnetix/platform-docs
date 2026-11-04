@@ -17,7 +17,7 @@ The server works on every plan. It has no plan logic of its own except the AI an
 
 ## What a plan changes
 
-| Feature | Community | Pro, Teams, Enterprise |
+| Feature | Community | Pro, Business, Enterprise |
 |---|---|---|
 | All 31 tools, 18 prompts, resources and app views | Yes | Yes |
 | Advisory record, KEV, EPSS, SSVC, remediation plan | Yes | Yes |
@@ -77,7 +77,7 @@ The published defaults per plan:
 |---|---|
 | Community | 50 |
 | Pro | 2,000 |
-| Teams | 100,000 per API key |
+| Business | 100,000 per API key |
 | Enterprise | Set per contract |
 
 The limit is set per organisation, so it can differ from the plan's published default. Read it from `limit`, not from the pricing page. How requests are counted, and which plans have an advisory (soft) limit, is on [VDB API rate limits](/vdb-api/api/rate-limits/). A tool that composes several upstream calls spends one request per call; `_meta["vulnetix/upstream"].calls` shows how many.

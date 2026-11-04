@@ -23,8 +23,8 @@ An organisation's AI Firewall policy has four layers. The gateway checks them in
 |---|---|---|---|
 | [Providers](/ai-firewall/policy/providers/) | Which upstream vendors the organisation may reach | `allow`, `deny` or no entry per provider | Pro |
 | [Models](/ai-firewall/policy/models/) | Which models at a provider | `allow` or `deny` per model | Pro |
-| Capability rules ([tools](/ai-firewall/policy/tools/), [MCP servers](/ai-firewall/policy/mcp-servers/), [skills](/ai-firewall/policy/skills/), [clients](/ai-firewall/policy/client-identity/)) and [hold for review](/ai-firewall/policy/hold-for-review/) | What the agent sending the request can do | `*_allow` and `*_deny` guardrails with glob patterns | Teams |
-| [Content guardrails](/ai-firewall/policy/guardrails/) | What the request says | `blocked_pattern`, `pii_redact`, `max_messages`, `delimiter_integrity` | Teams |
+| Capability rules ([tools](/ai-firewall/policy/tools/), [MCP servers](/ai-firewall/policy/mcp-servers/), [skills](/ai-firewall/policy/skills/), [clients](/ai-firewall/policy/client-identity/)) and [hold for review](/ai-firewall/policy/hold-for-review/) | What the agent sending the request can do | `*_allow` and `*_deny` guardrails with glob patterns | Business |
+| [Content guardrails](/ai-firewall/policy/guardrails/) | What the request says | `blocked_pattern`, `pii_redact`, `max_messages`, `delimiter_integrity` | Business |
 
 The gateway itself, the provider key vault and the [capability inventory](/ai-firewall/operations/inventory/) work on every plan, including community. A stored provider key is required at every plan: without one the request is refused with `provider_key_missing`.
 
@@ -43,7 +43,7 @@ Each step either passes the request on or answers it. Status codes and `code` va
 | 7 | The body is at most 8 MiB and parses | `413 request_too_large`, `400` |
 | 8 | A `model` is present | `400 model is required` |
 | 9 | Model policy: not denied, and on the allowlist when the provider is in allowlist mode (Pro and above) | `403 model_denied`, `403 model_not_allowed` |
-| 10 | Guardrails are loaded (Teams and above) | `503 policy backend unavailable` |
+| 10 | Guardrails are loaded (Business and above) | `503 policy backend unavailable` |
 | 11 | The request's tools, MCP servers, skills and client are recorded in the inventory | never refuses |
 | 12 | Sealed harness blocks are verified (see [Nonces](/ai-firewall/reference/nonces/)) | never refuses on its own |
 | 13 | Capability rules: explicit denies in priority order, then allowlist gaps | `403 tool_denied`, `mcp_denied`, `skill_denied`, `client_denied` |
@@ -69,13 +69,13 @@ The decision header reports the strongest outcome: `block` if anything blocked, 
 
 ## Plan enforcement
 
-The plan is resolved for the tenant, not for the member who sent the request, so every member of a Teams organisation is judged by the same policy and the same entitlements. Each layer is checked twice: the API refuses to create a rule the plan does not include, and the gateway skips rules the plan does not include at request time.
+The plan is resolved for the tenant, not for the member who sent the request, so every member of a Business organisation is judged by the same policy and the same entitlements. Each layer is checked twice: the API refuses to create a rule the plan does not include, and the gateway skips rules the plan does not include at request time.
 
 | Minimum plan | Gateway constant | What it enables |
 |---|---|---|
 | community | | The gateway, BYOK keys, the inventory, nonces |
 | Pro | `MinProviderPolicy`, `MinModelPolicy`, `MinInferenceLogging` | Provider deny, model allow and deny, inference logging, the filtered `/v1/models` list |
-| Teams | `MinContentGuardrails`, `MinCapabilityRules` | Content guardrails, capability rules, hold for review |
+| Business | `MinContentGuardrails`, `MinCapabilityRules` | Content guardrails, capability rules, hold for review |
 
 An organisation that downgrades keeps its rules. The gateway stops applying them, and deleting or clearing a rule stays available on every plan.
 

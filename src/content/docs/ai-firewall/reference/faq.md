@@ -14,7 +14,7 @@ updated: 02 Nov 2026
 
 ## What is free and what is paid?
 
-| Feature | Community | Pro | Teams and Enterprise |
+| Feature | Community | Pro | Business and Enterprise |
 |---|---|---|---|
 | Gateway on every built-in provider | yes | yes | yes |
 | Stored provider keys | yes | yes | yes |

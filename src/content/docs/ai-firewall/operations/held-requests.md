@@ -26,7 +26,7 @@ With the hold for review on, a capability that no rule names and nobody has revi
 | `skill` | The request is refused | `403` with code `held_for_review` |
 | `client` | The request is refused | `403` with code `held_for_review` |
 
-A family (tools, MCP servers, skills or clients) that has any `*_allow` rule is in allowlist mode and the hold does not apply to it; the allowlist decides. A capability matched by a `*_deny` rule is decided by that rule. The hold needs the Teams plan.
+A family (tools, MCP servers, skills or clients) that has any `*_allow` rule is in allowlist mode and the hold does not apply to it; the allowlist decides. A capability matched by a `*_deny` rule is decided by that rule. The hold needs the Business plan.
 
 ## Where held capabilities are listed
 

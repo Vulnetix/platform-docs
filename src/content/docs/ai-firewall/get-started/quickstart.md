@@ -61,7 +61,7 @@ print(resp.choices[0].message.content)
 
 ## 4. Prove a guardrail fires
 
-Guardrails need the Teams plan. Add a rule that blocks the word `hunter2`, then send it:
+Guardrails need the Business plan. Add a rule that blocks the word `hunter2`, then send it:
 
 ```bash
 vulnetix ai-firewall policy guardrail canary \
@@ -95,7 +95,7 @@ The response is `403` with an OpenAI-shaped error and `X-Vulnetix-Firewall-*` he
 }
 ```
 
-A completion here means the request did not go through the gateway, or the org is below Teams and guardrails are not loaded. Remove the rule when you are done: find its UUID with `vulnetix ai-firewall get -o json`, then run `vulnetix ai-firewall policy guardrail canary --uuid <uuid> --delete`.
+A completion here means the request did not go through the gateway, or the org is below Business and guardrails are not loaded. Remove the rule when you are done: find its UUID with `vulnetix ai-firewall get -o json`, then run `vulnetix ai-firewall policy guardrail canary --uuid <uuid> --delete`.
 
 ## 5. Wire your tools
 

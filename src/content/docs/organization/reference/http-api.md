@@ -27,7 +27,7 @@ Base URL: `https://www.vulnetix.com/api/site/v1/`. Paths below are written from 
 | POST | `/v1/org/service-accounts` | session | [Service accounts](/organization/people/service-accounts-and-api-keys/#service-accounts) |
 | POST | `/v1/org/service-accounts/{principalUuid}/rotate` | session | |
 | DELETE | `/v1/org/service-accounts/{principalUuid}` | session | |
-| GET | `/v1/org/keys/allocation` | session | [Teams key seats](/organization/people/service-accounts-and-api-keys/#teams-key-seats) |
+| GET | `/v1/org/keys/allocation` | session | [Business key seats](/organization/people/service-accounts-and-api-keys/#business-key-seats) |
 | POST | `/v1/org/keys` | session | |
 | GET, PUT | `/v1/config/drift-protection` | member session to read; owner session to change | [Drift protection](/platform-iac/guides/drift-protection/) |
 | GET, DELETE | `/v1/account/mfa`, `/v1/account/mfa/{model}/{pk}` | session | [Your own account](/organization/people/members-and-roles/#your-own-account) |

@@ -22,7 +22,7 @@ Vulnetix has two organization policies that decide whether CI goes red. They ans
 | Resolve Platform | [www.vulnetix.com/resolve/quality-gate](https://www.vulnetix.com/resolve/quality-gate) | [www.vulnetix.com/resolve/jail](https://www.vulnetix.com/resolve/jail) |
 | CLI | `vulnetix config set quality-gate`, `config set eol-policy` | `vulnetix jail`, `jail exempt` |
 
-Both belong to the organization (the tenant), so every member of a Teams organization is held to the same policy.
+Both belong to the organization (the tenant), so every member of a Business organization is held to the same policy.
 
 To set a Quality Gate, read a scan's exit code against it and then add the Jail gate, follow the [Quality gates quickstart](/quality-gates/get-started/quickstart/). Every `config set quality-gate`, `config set eol-policy` and `jail` flag is on [CLI commands](/quality-gates/reference/commands/).
 

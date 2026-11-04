@@ -16,7 +16,7 @@ checked: [ai-firewall@339de55, vdb-api@4145f0a, website@ad775f3]
 updated: 02 Nov 2026
 ---
 
-Agent APIs are stateless, so a client sends its full tool list on every turn. The gateway reads that list, records it in the [inventory](/ai-firewall/operations/inventory/), and checks it against capability rules before any content rule runs. Capability rules need the Teams plan.
+Agent APIs are stateless, so a client sends its full tool list on every turn. The gateway reads that list, records it in the [inventory](/ai-firewall/operations/inventory/), and checks it against capability rules before any content rule runs. Capability rules need the Business plan.
 
 ## The four families
 

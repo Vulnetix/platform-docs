@@ -25,7 +25,7 @@ With hold for review on, a capability that no rule decides and no person has app
 
 A skill is a value inside another tool's schema and a client is the caller itself, so neither can be removed; the request is refused instead. The refusal message reads `the <kind> <name> is held until someone in your organisation reviews it`.
 
-Hold for review needs the Teams plan. It is set on the console's Govern tab (`#govern`, or `?hold=1` to scroll to it) by an owner or admin. There is no CLI command or policy file field for it.
+Hold for review needs the Business plan. It is set on the console's Govern tab (`#govern`, or `?hold=1` to scroll to it) by an owner or admin. There is no CLI command or policy file field for it.
 
 ## What counts as undecided
 

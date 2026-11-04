@@ -1,7 +1,7 @@
 ---
 title: Service accounts and API keys
 nav: Service accounts and API keys
-description: The two kinds of principal, how an API key is formed and sent, service accounts for CI, rotating and revoking keys, and Teams key seats.
+description: The two kinds of principal, how an API key is formed and sent, service accounts for CI, rotating and revoking keys, and Business key seats.
 order: 2
 sources: [vdb-site/api/internal/handler/service_accounts.go, vdb-site/api/internal/handler/members.go, vdb-site/api/internal/handler/org_keys.go, vdb-site/api/internal/handler/org_members_admin.go, vdb-site/api/internal/handler/account.go, cli/cmd/auth.go]
 checked: [vdb-site@1a06d67, cli@4c8c3b7]
@@ -87,16 +87,16 @@ Rotate refuses a human principal: a person's secret is theirs. To reset a person
 
 Every create, rotate and delete emits `security.service_account.created`, `.rotated` or `.deleted`.
 
-## Teams key seats
+## Business key seats
 
-On the Teams plan, a key seat is an API key for a named person, provisioned from **Members**.
+On the Business plan, a key seat is an API key for a named person, provisioned from **Members**.
 
 | Method | Path | Does |
 |---|---|---|
 | GET | `/v1/org/keys/allocation` | `{included, used, canProvisionFree, perKeyConfigured}` |
 | POST | `/v1/org/keys` `{email}` | Within the bundled allowance: provisions the seat (`{status: "provisioned"}`), or invites the address if it belongs to another organisation (`{status: "invited"}`). Beyond it: starts a per-key add-on checkout (`{checkout_url}`). |
 
-Below Teams, `POST /v1/org/keys` answers 200 with `planLocked: true`. A second key for the same address is `409`.
+Below Business, `POST /v1/org/keys` answers 200 with `planLocked: true`. A second key for the same address is `409`.
 
 ## Machine credentials elsewhere
 

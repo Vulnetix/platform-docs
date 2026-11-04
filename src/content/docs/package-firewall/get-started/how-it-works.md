@@ -31,7 +31,7 @@ The deny list runs before the malware gates on purpose: the client and the decis
 
 ## Tenant, not member
 
-Policy, mirrors, curation lists, the plan and the add-on belong to the organization (the tenant). A Teams member who authenticates with their own credentials gets the organization's policy, not an empty one of their own.
+Policy, mirrors, curation lists, the plan and the add-on belong to the organization (the tenant). A Business member who authenticates with their own credentials gets the organization's policy, not an empty one of their own.
 
 ## Caching
 

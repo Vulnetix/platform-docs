@@ -205,8 +205,8 @@ The machine-readable version of most of this is `GET /v2/spec`. Routes marked �
 | GET | `/alpine/archives`, `/alpine/archive/{month}` † | Alpine secdb, Chainguard and Wolfi advisories, with container-origin attribution |
 | GET | `/alpine/registries` † | Alpine package registries |
 | GET | `/google/projects`, `/google/project-zero/recent` † | Google projects and recent Project Zero reports |
-| GET | `/raw/sources` | Sources whose raw upstream records are archived. Teams |
-| GET | `/raw/{source}/{cveId}` | The raw upstream advisory bytes. Teams |
+| GET | `/raw/sources` | Sources whose raw upstream records are archived. Business |
+| GET | `/raw/{source}/{cveId}` | The raw upstream advisory bytes. Business |
 
 For each vendor, `/archives` lists the months that have advisories, and `/archive/{month}` returns that vendor's advisories for one month, with `{month}` as `YYYY-MM`. Another format is `400` `Invalid month. Use YYYY-MM`. Neither takes query parameters.
 

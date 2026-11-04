@@ -56,7 +56,7 @@ There are no rate limits, token budgets or spend caps. `max_messages` bounds how
 | Case | How to catch it |
 |---|---|
 | A pattern the gateway cannot compile is skipped | `apply` and both APIs refuse such patterns on create, but an API update that sends a pattern without its rule type is not checked. `vulnetix ai-firewall status` reports stored ones as `guardrail_pattern_invalid`. |
-| A content rule on a plan below Teams, or a provider or model rule below Pro | The gateway skips it. `vulnetix ai-firewall get -o json` and the console show the plan. |
+| A content rule on a plan below Business, or a provider or model rule below Pro | The gateway skips it. `vulnetix ai-firewall get -o json` and the console show the plan. |
 | An allowlist built only from console Allow buttons | It flags unlisted capabilities and never blocks them. See [Tool rules](/ai-firewall/policy/tools/#allowlist-mode). |
 | A request that parses but exposes no text | With logging on, the log row shows `inspected: 0`. |
 

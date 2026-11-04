@@ -89,7 +89,7 @@ curl -s "https://guardrails.vulnetix.com/guardrails/$VULNETIX_ORG_ID/v1/evaluate
 }
 ```
 
-The endpoint always answers `200`; the decision is in the body, and `body` is omitted on a block. It needs the Teams plan to apply guardrails, and with inference logging on it writes a log row under the provider `workers-ai`. Allow up to 30 seconds after saving a rule for the gateway's policy cache to pick it up.
+The endpoint always answers `200`; the decision is in the body, and `body` is omitted on a block. It needs the Business plan to apply guardrails, and with inference logging on it writes a log row under the provider `workers-ai`. Allow up to 30 seconds after saving a rule for the gateway's policy cache to pick it up.
 
 ## Related
 

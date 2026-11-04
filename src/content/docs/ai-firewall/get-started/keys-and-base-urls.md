@@ -26,7 +26,7 @@ The gateway authenticates a request with two values: the org UUID in the URL pat
 
 - The key is `hex(HMAC-SHA256(secret, orgUuid))`, where `secret` is the HMAC secret of that org UUID. It is checked against the UUID in the URL, so the UUID and the key must belong together.
 - Send it as `Authorization: Bearer <key>` or `x-api-key: <key>`. Both are accepted on every route, so OpenAI SDKs (Bearer) and Anthropic SDKs (`x-api-key` by default) both work.
-- In a Teams organisation each member signs in as their own principal with their own UUID and key, and all of them share the organisation's policy. Use your own UUID in the URL with your own key.
+- In a Business organisation each member signs in as their own principal with their own UUID and key, and all of them share the organisation's policy. Use your own UUID in the URL with your own key.
 - A provider key in the `api_key` field is `401 invalid Vulnetix API key`. The gateway never passes a caller's credential upstream.
 
 Both values are on [Resolve > AI Firewall](https://www.vulnetix.com/resolve/ai-firewall) when you are signed in.

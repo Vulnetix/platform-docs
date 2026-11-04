@@ -15,14 +15,14 @@ The VDB API limits how many requests each API key makes in a day. There is no pe
 |---|---|---|
 | Community | `community` | 50 |
 | Pro | `pro` | 2,000 per API key; 1 API key included, more at $15 a month each |
-| Teams | `teams` | 100,000 per API key; 10 API keys included, the most a Teams organisation can create |
+| Business | `teams` | 100,000 per API key; 10 API keys included, the most a Business organisation can create |
 | Enterprise | `enterprise` | Set per contract, often unlimited |
 
 These are the defaults that `GET https://www.vulnetix.com/api/site/v1/config` publishes in `tiers[].max_requests_per_day`. Vulnetix can set a different limit for one organisation, so the number that applies to you is the one in your own `RateLimit-DayLimit` header. Prices are on [vulnetix.com/pricing](https://www.vulnetix.com/pricing).
 
 ## How requests are counted
 
-- The quota belongs to the organisation that owns the key. Members of a Teams organisation each have their own key, and each key's requests are counted on their own.
+- The quota belongs to the organisation that owns the key. Members of a Business organisation each have their own key, and each key's requests are counted on their own.
 - The window is the previous 24 hours, rolling. It is not reset at midnight.
 - A request counts once it has authenticated. Requests rejected for a missing or invalid credential are not counted, and neither is a `429`.
 - Every other answer counts: `200`, `404` for an unknown CVE, `400` for a bad parameter, and plan-locked answers.

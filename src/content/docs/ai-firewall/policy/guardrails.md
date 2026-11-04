@@ -18,7 +18,7 @@ checked: [ai-firewall@339de55, vdb-api@4145f0a, vdb-site@1a06d67, cli@4c8c3b7, w
 updated: 02 Nov 2026
 ---
 
-A content guardrail is a rule matched against the text of every request the gateway proxies, on every surface (Chat Completions, Responses, Messages, Kiro) and from every client. Guardrails need the Teams plan. Capability rules, which govern tools, MCP servers, skills and clients, live in the same table and are covered from [Tools](/ai-firewall/policy/tools/) onwards.
+A content guardrail is a rule matched against the text of every request the gateway proxies, on every surface (Chat Completions, Responses, Messages, Kiro) and from every client. Guardrails need the Business plan. Capability rules, which govern tools, MCP servers, skills and clients, live in the same table and are covered from [Tools](/ai-firewall/policy/tools/) onwards.
 
 ## Rule types
 

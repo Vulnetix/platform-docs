@@ -157,7 +157,7 @@ vulnetix ai-firewall policy guardrail <name> --rule-type <type> --action <action
 | `--uuid` | none | Update the guardrail with this UUID instead of creating one. Only changed flags are sent. |
 | `--delete` | `false` | Delete the guardrail. Requires `--uuid`. |
 
-Guardrails need the Teams plan; deleting one does not. Which actions each rule type accepts is on [Policy file reference](/ai-firewall/reference/policy-file/#rule-types-actions-and-patterns). Find a guardrail's UUID with `vulnetix ai-firewall get -o json`.
+Guardrails need the Business plan; deleting one does not. Which actions each rule type accepts is on [Policy file reference](/ai-firewall/reference/policy-file/#rule-types-actions-and-patterns). Find a guardrail's UUID with `vulnetix ai-firewall get -o json`.
 
 ```bash
 vulnetix ai-firewall policy guardrail "Block AWS keys" \

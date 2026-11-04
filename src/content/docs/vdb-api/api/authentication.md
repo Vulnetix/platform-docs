@@ -95,6 +95,6 @@ A bearer value that is not a three-part JWT is treated as an API token issued to
 
 Authenticated responses are sent with `Cache-Control: private, no-store` and `Vary: Authorization, Accept-Encoding`, so a shared cache never serves one caller's answer to another.
 
-## Members of a Teams organisation
+## Members of a Business organisation
 
-Each member of a Teams or Enterprise organisation has their own org id and API key. The API resolves a member to the organisation that owns them: the plan, and every per-organisation policy, come from the parent. Deactivating the parent organisation stops every member; deactivating one member stops only that member.
+Each member of a Business or Enterprise organisation has their own org id and API key. The API resolves a member to the organisation that owns them: the plan, and every per-organisation policy, come from the parent. Deactivating the parent organisation stops every member; deactivating one member stops only that member.

@@ -17,7 +17,7 @@ An organisation is the tenant everything else belongs to: scan data, policies, v
 | Part | Resolve Platform page | Read |
 |---|---|---|
 | Members, roles, invitations and access requests | Account › Members (`/resolve/members`) | [Members and roles](/organization/people/members-and-roles/) |
-| API keys, service accounts for CI, Teams key seats | Account › Members, Account › Profile | [Service accounts and API keys](/organization/people/service-accounts-and-api-keys/) |
+| API keys, service accounts for CI, Business key seats | Account › Members, Account › Profile | [Service accounts and API keys](/organization/people/service-accounts-and-api-keys/) |
 | Secrets vault: AI provider keys, sandbox variables, integration credentials | Configuration › Secrets Vault (`/resolve/vault`) | [Secrets vault](/organization/security/secrets-vault/) |
 | GitHub App, other forges, chat providers, cloud and registry connections | Configuration › Integrations (`/resolve/integrations`) | [Integrations](/organization/integrations/integrations/) |
 | What is sent where: connections, routes, templates, delivery | Configuration › Messaging (`/resolve/messaging`) | [Messaging](/organization/integrations/messaging/), [Signed webhooks](/organization/integrations/signed-webhooks/) |
@@ -46,7 +46,7 @@ An organisation is the tenant everything else belongs to: scan data, policies, v
 | Feature | Plan |
 |---|---|
 | Members, roles, invitations, service accounts, the vault | every plan |
-| Teams API key seats | Teams and above |
+| Business API key seats | Business and above |
 | Chat and issue delivery, messaging routes | Pro and above |
 | Cloud and SaaS integrations, registry logins | Pro and above |
 
