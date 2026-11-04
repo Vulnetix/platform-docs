@@ -3,7 +3,7 @@ title: Provisioning profiles
 description: For org admins, how a profile decides which devices it covers, which credential they get and what configuration they run, and how to revoke, uninstall and watch them.
 order: 2
 nav: Provisioning profiles
-sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go, cli/cmd/vulnetix-sensor/selfupdate.go, cli/cmd/vulnetix-sensor/selfupdate_safety.go]
+sources: [vdb-site/docs/addons.md, vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go, cli/cmd/vulnetix-sensor/selfupdate.go, cli/cmd/vulnetix-sensor/selfupdate_safety.go]
 checked: [cli@d84127e34, vdb-site@07561f7]
 updated: 05 Nov 2026
 ---
@@ -11,6 +11,10 @@ updated: 05 Nov 2026
 A profile replaces the hand-written `/etc/vulnetix-sensor.env` and the per-host flags. It is kept on the site; every device enrolled under it pulls its configuration from there.
 
 Profiles live on **Sensor Provisioning** (`/resolve/sensor-provisioning`, in the Configuration group). Every route behind it needs a signed-in person: an API key or a sensor credential gets `403`.
+
+## Plan and add-on
+
+Sensor provisioning comes with the SOC Intelligence add-on, which works on any plan, Community included. An organisation without it sees the add-on in place of the page, whatever its plan, and its sensors are refused with `402` and keep their last good configuration. Enterprise includes the add-on. An owner or admin adds it on **Billing**, under Add-ons (`/resolve/billing#addons`); the price is on [pricing](https://www.vulnetix.com/pricing).
 
 ## Roles
 
