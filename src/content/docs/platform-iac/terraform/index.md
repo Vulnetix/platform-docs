@@ -100,6 +100,8 @@ An owner creates the service account with the `developer` role (or `owner`) and 
 
 One resource per kind that the engine stores: [every resource](/platform-iac/terraform/resources/), with its kind and group. A kind's page has the resource's **Minimal** and **Advanced** HCL beside the YAML and the CLI form, and its import command. Each resource's arguments are the kind's `spec` in snake case (`blockMalware` is `block_malware`), beside `name`, `labels` and `annotations` from `metadata`.
 
+**Reference files.** [Vulnetix/platform-iac-examples](https://github.com/Vulnetix/platform-iac-examples) has one file per kind that sets every argument that has a schema default to that default, plus the required arguments, as Terraform (`terraform/<resource>.tf`) and as YAML (`yaml/<Kind>.yaml`). It is a runnable root module: on a tenant that left a setting at its default, a plan only sets values that are unset. Each kind's page links its two files under the HCL.
+
 The kinds that are validate only, [`LicensePolicy`](/platform-iac/kinds/license-policy/) and [`LicenseExceptions`](/platform-iac/kinds/license-exceptions/), have no resource: the server stores nothing for them, so there is nothing for Terraform to manage. A kind with a released schema that the engine does not serve is generated but not offered.
 
 [Data sources](/platform-iac/terraform/data-sources/) read what the engine and the platform hold: the kinds the server applies, the AI model catalogue, VEX statements, the repositories the GitHub App reaches, and detection rule feeds.

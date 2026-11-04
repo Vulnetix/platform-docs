@@ -600,10 +600,20 @@ function sampleSection(kind, which, tfPresent) {
   out += `**YAML**\n\n${fence('yaml', yaml)}\n\n`;
   const hcl = tfPresent ? providerFile(`examples/resources/${res}/${which}.tf`) : null;
   if (hcl) out += `**HCL** (resource \`${res}\`)\n\n${fence('hcl', hcl)}\n\n`;
+  if (hcl && providerFile(`examples/resources/${res}/reference.tf`)) out += referenceLink(kind);
   else out += `**HCL**\n\n${tfAbsence(kind)}\n\n`;
   const cliNote = statusOf(kind) === 'validate' ? 'validates it' : cliKnows(kind) ? 'applies it' : 'needs a CLI that embeds this kind; see [Applying this kind](#applying-this-kind)';
   out += `**CLI** (${cliNote})\n\n${fence('bash', cliBlock(kind, yaml))}\n\n`;
   return out;
+}
+
+// The reference files: every field with a schema default set to it, in the
+// public examples repository (copied from the provider's reference examples).
+const EXAMPLES_REPO = 'https://github.com/Vulnetix/platform-iac-examples';
+function referenceLink(kind) {
+  const tf = `${EXAMPLES_REPO}/blob/main/terraform/${snake(kind)}.tf`;
+  const yml = `${EXAMPLES_REPO}/blob/main/yaml/${kind}.yaml`;
+  return `Every field that has a schema default, set to that default: [\`terraform/${snake(kind)}.tf\`](${tf}) and [\`yaml/${kind}.yaml\`](${yml}) in [Vulnetix/platform-iac-examples](${EXAMPLES_REPO}).\n\n`;
 }
 
 function tfAbsence(kind) {
