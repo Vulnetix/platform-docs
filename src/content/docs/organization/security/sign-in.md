@@ -8,11 +8,11 @@ checked: [vulnetix-authentic-aws@f2ec6ee42, vdb-site@d2ea72f23, website@7f3b734c
 updated: 04 Nov 2026
 ---
 
-Every person signs in to the console through the Vulnetix sign-in page at `https://auth.vulnetix.com`. This page covers creating an account, the ways to sign in, adding a second factor, and resetting a password. Joining an existing organisation is on [Members and roles](/organization/people/members-and-roles/).
+Every person signs in to the Resolve Platform through the Vulnetix sign-in page at `https://auth.vulnetix.com`. This page covers creating an account, the ways to sign in, adding a second factor, and resetting a password. Joining an existing organisation is on [Members and roles](/organization/people/members-and-roles/).
 
 ## Ways in
 
-The console's sign-in page (`https://www.vulnetix.com/resolve/login`) offers three buttons:
+The Resolve Platform's sign-in page (`https://www.vulnetix.com/resolve/login`) offers three buttons:
 
 | Button | What happens |
 |---|---|
@@ -20,7 +20,7 @@ The console's sign-in page (`https://www.vulnetix.com/resolve/login`) offers thr
 | **Continue with Google** | Signs in, or creates an account, with your Google identity |
 | **Sign in with Vulnetix** | Opens the Vulnetix sign-in page, where you sign in with your email and password, or with a passkey |
 
-Passkeys, two-factor and password recovery are all handled on the Vulnetix sign-in page, not in the console.
+Passkeys, two-factor and password recovery are all handled on the Vulnetix sign-in page, not in the Resolve Platform.
 
 ## Create an account
 
@@ -80,7 +80,7 @@ Remove a device with its delete button. The same list and removal are available 
 2. Enter your email address. The page does not say whether an account exists for it.
 3. An email titled **Reset your Vulnetix password** arrives. The link is valid for 30 minutes.
 4. Open the link and enter a new password twice.
-5. You land on the console sign-in page, which shows "Password updated. Sign in with your new password." Sign in with it.
+5. You land on the Resolve Platform sign-in page, which shows "Password updated. Sign in with your new password." Sign in with it.
 
 A reset does not sign you in, and it does not reactivate a deactivated account. A link that is invalid or already used takes you to the sign-in page.
 
@@ -88,4 +88,4 @@ If you are already signed in, change your password from **Account › Profile** 
 
 ## Sessions
 
-**Account › Profile** lists your active sessions. **Sign out everywhere** ends all of them. Signing out from the console header ends only the session of that browser.
+**Account › Profile** lists your active sessions. **Sign out everywhere** ends all of them. Signing out from the Resolve Platform header ends only the session of that browser.

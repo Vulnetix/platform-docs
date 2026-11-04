@@ -41,7 +41,7 @@ Cloud integrations (AWS, the AWS-native sources and Wiz) need the **Pro** plan o
 - [Connect Wiz](/cloud-security/wiz/connect-wiz/) and [How Wiz claims are verified](/cloud-security/wiz/verification/): the Wiz service account and the five verdicts.
 - [Log ingest targets](/cloud-security/logs/log-ingest-targets/): where cloud logs go with each integration.
 - [Probe settings](/cloud-security/reference/probe-settings/): the probe function's environment variables and log lines.
-- [Resolve Platform API](/cloud-security/reference/api/): the routes behind the cloud security console pages.
+- [Resolve Platform API](/cloud-security/reference/api/): the routes behind the Resolve Platform's cloud security pages.
 - [Troubleshooting](/cloud-security/reference/troubleshooting/): connection, deploy, verify and sweep errors.
 
 ## Related

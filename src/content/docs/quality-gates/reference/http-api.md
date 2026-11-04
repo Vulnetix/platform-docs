@@ -7,7 +7,7 @@ checked: [vdb-site@d2ea72f23]
 updated: 04 Nov 2026
 ---
 
-The Quality Gate and the EOL severities are one record per organisation, read and written at `/v1/quality-gate`. The console's [Quality Gate page](https://www.vulnetix.com/resolve/quality-gate) uses these routes. For automation, prefer the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind with `vulnetix config apply`, which takes an API key. There is no separate EOL policy route: the EOL severities are fields of this record.
+The Quality Gate and the EOL severities are one record per organisation, read and written at `/v1/quality-gate`. The Resolve Platform's [Quality Gate page](https://www.vulnetix.com/resolve/quality-gate) uses these routes. For automation, prefer the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind with `vulnetix config apply`, which takes an API key. There is no separate EOL policy route: the EOL severities are fields of this record.
 
 Base URL: `https://www.vulnetix.com/api/site/v1/`.
 
@@ -18,7 +18,7 @@ Base URL: `https://www.vulnetix.com/api/site/v1/`.
 
 ## Authentication
 
-Both routes take the console session only: the `vdb_token` cookie, or `Authorization: Bearer <session JWT>`. An `ApiKey` header is `401` `not authenticated`.
+Both routes take the Resolve Platform session only: the `vdb_token` cookie, or `Authorization: Bearer <session JWT>`. An `ApiKey` header is `401` `not authenticated`.
 
 The record belongs to the organisation, not to the caller, so every member reads and writes the same one.
 
@@ -97,7 +97,7 @@ The two groups of fields are written differently:
 > The enforcement fields are replaced as a set. A body of `{"severity": "high"}` sets the severity and unsets every other enforcement setting the organisation had. Read the record first, change what you mean to change, and send all nine. `vulnetix config set quality-gate` does this for you.
 
 > [!WHY] Why leaving a field out unsets it
-> The console's **Not enforced** choice stores `null`, and it saves the whole form at once. Writing every enforcement field on each save is what lets that choice clear a value. The EOL fields are never `null`, so they keep merge semantics.
+> The Resolve Platform's **Not enforced** choice stores `null`, and it saves the whole form at once. Writing every enforcement field on each save is what lets that choice clear a value. The EOL fields are never `null`, so they keep merge semantics.
 
 ## Errors
 

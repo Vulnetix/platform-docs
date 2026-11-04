@@ -90,7 +90,7 @@ On Community, decision steps (the System One classifier calls a workflow makes) 
 | Send Belai traces to my own collector | [Telemetry and tracing](/software-factory/belai/telemetry/) |
 | Build Belai from source | [Developing Belai](/software-factory/belai/contributing/) |
 | Fix a publish error like `no_trigger` | [Error codes](/software-factory/reference/validation-codes/) |
-| Find the console page for a task | [Console pages](/software-factory/reference/console-routes/) |
+| Find the Resolve Platform page for a task | [Console pages](/software-factory/reference/console-routes/) |
 | Look up an API route or an allowed value | [HTTP API](/software-factory/reference/http-api/), [Enumerations](/software-factory/reference/enums/) |
 | Fix a run, host or session that is not working | [Troubleshooting](/software-factory/reference/troubleshooting/) |
 | Check on the factory from my phone | [Calling Pix](/software-factory/pix/calling-pix/) |

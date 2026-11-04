@@ -28,7 +28,7 @@ The Vulnetix CLI writes three kinds of CycloneDX bill of materials and reads SBO
 
 Every command that writes a document can be told who made it, what it describes and what else belongs in it, from flags, environment variables or an overlay file. See [Author and customise](/sbom/author/overview/).
 
-Documents that reach Vulnetix are shown in the console: [SBOM Monitoring](/sbom/console/sbom-monitoring/), the [AI Inventory](/sbom/console/ai-inventory/) and the [Crypto Inventory](/sbom/console/crypto-inventory/).
+Documents that reach Vulnetix are shown in the Resolve Platform: [SBOM Monitoring](/sbom/console/sbom-monitoring/), the [AI Inventory](/sbom/console/ai-inventory/) and the [Crypto Inventory](/sbom/console/crypto-inventory/).
 
 `vulnetix scan` runs the package, crypto and AI inventory passes as part of a full scan. The standalone commands exist for when you want the file, the terminal table, or a CI gate such as `cbom --fail-on`.
 

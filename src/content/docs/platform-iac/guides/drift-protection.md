@@ -55,7 +55,7 @@ An owner or admin can turn it on or off at any time, in either direction. Settin
 
 | How | Who |
 |---|---|
-| `driftProtection: true` on the [`Organization`](/platform-iac/kinds/organization/#spec-driftProtection) document, applied with `vulnetix config apply`, Terraform or the config API | An owner or a `developer`: a person or a service account. In the console only an owner switches it. |
+| `driftProtection: true` on the [`Organization`](/platform-iac/kinds/organization/#spec-driftProtection) document, applied with `vulnetix config apply`, Terraform or the config API | An owner or a `developer`: a person or a service account. In the Resolve Platform only an owner switches it. |
 | `PUT /v1/config/drift-protection` with `{"enabled": true}` | An owner |
 | `GET /v1/config/drift-protection` | Any member session |
 

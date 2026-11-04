@@ -1,7 +1,8 @@
 // The plan between Pro and Enterprise is called Business. Its key and the
 // X-VDB-Plan value stay `teams`, so the lowercase code form is allowed; the
 // word "Teams" in a plan sense is not. Microsoft Teams as a messaging
-// provider is allowed on lines that name it as one, and the SAST rule pages
+// provider is allowed on lines that name it as one, as is the bug bounty
+// researcher filter (**Individuals** or **Teams**), and the SAST rule pages
 // are generated from rule prose about people ("teams discover this").
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import { join, relative } from 'node:path';
 const ROOT = join(import.meta.dirname, '..');
 const DIRS = ['src/content/docs', 'src/segments', 'src/pages', 'src/layouts', 'src/lib'];
 const SKIP = [/^src\/content\/docs\/sast\/rules\//];
-const MESSAGING = /Slack|Discord|Google Chat|Microsoft|webhook|logic\.azure|office\.com|UPN|\(Teams\)/i;
+const MESSAGING = /Slack|Discord|Google Chat|Microsoft|webhook|logic\.azure|office\.com|UPN|\(Teams\)|\*\*Individuals\*\*/i;
 
 const walk = (dir) => readdirSync(dir).flatMap((n) => {
   const p = join(dir, n);

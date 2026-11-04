@@ -14,7 +14,7 @@ The API answers errors as JSON with an `error` field. The CLI prints them as `Er
 
 | Symptom or message | Cause | Fix |
 |---|---|---|
-| `401` `Invalid API key` from curl, while the CLI works | The header carries the org id twice: `ApiKey <org>:<org>:<hex>`. The console shows the key as `<orgId>:<hex>` already | Put only the hex part in `VULNETIX_API_KEY`, or paste the console value straight after `ApiKey `. See [Authentication](/vdb-api/api/authentication/#api-key) |
+| `401` `Invalid API key` from curl, while the CLI works | The header carries the org id twice: `ApiKey <org>:<org>:<hex>`. The Resolve Platform shows the key as `<orgId>:<hex>` already | Put only the hex part in `VULNETIX_API_KEY`, or paste the Resolve Platform value straight after `ApiKey `. See [Authentication](/vdb-api/api/authentication/#api-key) |
 | `401` `Invalid API key` everywhere | The secret was regenerated on the Account page, so the old HMAC no longer matches | Copy the new key from the [Account page](https://www.vulnetix.com/resolve/account) |
 | `401` `Malformed ApiKey header. Expected: Authorization: ApiKey <orgId>:<sha256-hex>` | No `:` in the value, or one half is empty | Check the variables are set: an unset `VULNETIX_ORG_ID` leaves `ApiKey :<hex>` |
 | `401` `Token has expired. Please obtain a new token from /v1/auth/token.` | A JWT older than 15 minutes | Fetch a new one from `GET /v2/auth/token`. There is no refresh token. The CLI does this itself for SigV4 |

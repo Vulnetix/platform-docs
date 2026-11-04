@@ -8,14 +8,14 @@ checked: [siem@7420fbebd]
 updated: 04 Nov 2026
 ---
 
-Guardian's console API answers errors as `{ "error": "<message>", "code": "<code>" }`; the console shows the message. Ingest answers senders with a status code that Firehose and Logpush act on, and records the reason as the token's **Last error** on **Guardian > Sources**. The codes are listed on [API](/siem/reference/api/#access).
+Guardian's console API answers errors as `{ "error": "<message>", "code": "<code>" }`; the Resolve Platform shows the message. Ingest answers senders with a status code that Firehose and Logpush act on, and records the reason as the token's **Last error** on **Guardian > Sources**. The codes are listed on [API](/siem/reference/api/#access).
 
 ## Access and plan
 
 | Symptom or message | Cause | Fix |
 |---|---|---|
 | `Guardian is an add-on to Business. Choose an ingest pack to start.` (`402`, `needs: pack`), or `Guardian needs the Business plan.` (`needs: business`) | No active ingest pack, or the plan is below Business | An owner or admin presses **Start Guardian**. See [Packs and limits](/siem/reference/packs-and-limits/#buy-change-cancel). |
-| `Sign in again.` (`401`, code `sign_in`) | The console session's access token is missing, invalid or expired | Sign in to the console again. Vulnetix API keys are not accepted on the Guardian API. |
+| `Sign in again.` (`401`, code `sign_in`) | The Resolve Platform session's access token is missing, invalid or expired | Sign in to the Resolve Platform again. Vulnetix API keys are not accepted on the Guardian API. |
 
 ## Shipping logs
 

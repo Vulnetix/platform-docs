@@ -27,7 +27,7 @@ The extension shows its errors in the sidebar, on the options page and in the ho
 | `Sign in to look up` | No credential is stored. Detection and console links still work | [Sign in](/browser-extension/get-started/sign-in/) |
 | `VDB daily quota reached`, or the sidebar note `Daily quota reached` | The key got `429`. New lookups pause until `RateLimit-Reset`, or 60 s when that header is missing | Wait for the reset, or use a key on a plan with a larger quota. Cached cards and the **Open in Resolve Platform** link still work. See [Quota and cache](/browser-extension/using/quota-and-cache/) |
 | Quota runs out quickly | **Prefetch on page load** is on, or **Batch size** is high. One advisory page can carry more than 60 identifiers | Turn prefetch off and lower the batch size in [Settings](/browser-extension/reference/settings/) |
-| `Not found in VDB` | The VDB has no record for that identifier | Check it in the [Resolve console](https://www.vulnetix.com/resolve/lookup). The result is cached for 1 hour, so a newly published CVE appears after that |
+| `Not found in VDB` | The VDB has no record for that identifier | Check it in the [Resolve Platform](https://www.vulnetix.com/resolve/lookup). The result is cached for 1 hour, so a newly published CVE appears after that |
 | `Lookup failed` or `Network error` | The background worker could not reach `api.vdb.vulnetix.com`, after one retry | Check a proxy or firewall allows `api.vdb.vulnetix.com`. Hover again: failures are not cached |
 | `Exported without exploit intelligence`, after an export | The nine enrichment requests for the CSV could not run | The file carries cached data only. Export again after the quota resets. See [Export to CSV](/browser-extension/using/sidebar/#export-to-csv) |
 
@@ -37,7 +37,7 @@ The extension shows its errors in the sidebar, on the options page and in the ho
 |---|---|---|
 | No underlines on a site, and the sidebar lists no identifiers | The site is on the block list, or **Only run on sites I allow** is on and the site is not allowed (an empty allow list runs nowhere) | Fix the list in [Settings](/browser-extension/reference/settings/#sites). Origins must be exactly `scheme://host[:port]`, and a change applies on the next page load |
 | An identifier inside an iframe, a form field or hidden text is ignored | Only visible text in the top frame is scanned | See [Detection](/browser-extension/using/hover-card/#detection) |
-| A format is not recognised, such as `MS-` or a bare `2024-3094` | Only the listed shapes are matched | Check [Identifier formats](/browser-extension/reference/identifiers/), or use the Resolve console |
+| A format is not recognised, such as `MS-` or a bare `2024-3094` | Only the listed shapes are matched | Check [Identifier formats](/browser-extension/reference/identifiers/), or use the Resolve Platform |
 | The sidebar does not open by itself on Chrome | A Chromium side panel cannot open without a click; **Open automatically** is Firefox only | Click the toolbar icon or press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>. The badge shows how many identifiers were found |
 
 ## Still stuck

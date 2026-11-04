@@ -10,7 +10,7 @@ updated: 02 Nov 2026
 
 Use this connector only for an account that does not use IAM Identity Center. The stacks, the role and the probe are identical to the [Identity Center connector](/cloud-security/aws/connect-identity-center/). The difference is the credential: an access key does not expire, so it stays stored (KMS-encrypted) until you rotate or remove it. Once the bootstrap stack exists, Vulnetix assumes `VulnetixSecurityAuditor` for its work and the key is only the fallback.
 
-To deploy the bootstrap stack with Terraform or OpenTofu instead, use the [`aws-onboarding`](/platform-iac/terraform/modules/#aws-onboarding) module. It creates the same `vulnetix-security-bootstrap` stack the console deploys. You then give the account id and the module's `auditor_role_arn` output to the AWS integration in the console, which deploys the pipeline stack.
+To deploy the bootstrap stack with Terraform or OpenTofu instead, use the [`aws-onboarding`](/platform-iac/terraform/modules/#aws-onboarding) module. It creates the same `vulnetix-security-bootstrap` stack the Resolve Platform deploys. You then give the account id and the module's `auditor_role_arn` output to the AWS integration in the Resolve Platform, which deploys the pipeline stack.
 
 ## Steps
 

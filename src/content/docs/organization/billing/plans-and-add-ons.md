@@ -7,7 +7,7 @@ checked: [vdb-site@d2ea72f23, website@7f3b734cd, cli@v4.17.1]
 updated: 04 Nov 2026
 ---
 
-An organisation is on one Resolve Platform plan, and can add the Package Firewall and SOC Intelligence add-ons on top. This page covers what each one unlocks, how a locked feature answers, and where to manage billing. Everything here is on **Billing** in the console ([www.vulnetix.com/resolve/billing](https://www.vulnetix.com/resolve/billing)).
+An organisation is on one Resolve Platform plan, and can add the Package Firewall and SOC Intelligence add-ons on top. This page covers what each one unlocks, how a locked feature answers, and where to manage billing. Everything here is on **Billing** in the Resolve Platform ([www.vulnetix.com/resolve/billing](https://www.vulnetix.com/resolve/billing)).
 
 ## Plans
 
@@ -18,7 +18,7 @@ An organisation is on one Resolve Platform plan, and can add the Package Firewal
 | Business | `teams` | $450 / month | 100,000 requests a day per key |
 | Enterprise | `enterprise` | quoted | custom |
 
-These are the console's catalogue figures. The price shown at Stripe Checkout is what you pay. Business is still called `teams` in the API, in `requiredPlan` and in Platform IaC.
+These are the Resolve Platform's catalogue figures. The price shown at Stripe Checkout is what you pay. Business is still called `teams` in the API, in `requiredPlan` and in Platform IaC.
 
 A first paid plan goes through Stripe Checkout. A change to a plan you already pay for opens the Stripe customer portal.
 
@@ -51,7 +51,7 @@ An add-on works while its subscription is `active`, or `past_due` while Stripe r
 
 ### Buying an add-on
 
-Only an owner or admin can buy one. Open the **Add-ons** tab of **Billing** and choose **Add** on the add-on. The console then shows **Confirming your purchase** until the payment arrives, which can take a few minutes. Reload before trying to buy the same add-on again: a second purchase of one you already hold is refused, and if one slips through it is cancelled and refunded in full.
+Only an owner or admin can buy one. Open the **Add-ons** tab of **Billing** and choose **Add** on the add-on. The Resolve Platform then shows **Confirming your purchase** until the payment arrives, which can take a few minutes. Reload before trying to buy the same add-on again: a second purchase of one you already hold is refused, and if one slips through it is cancelled and refunded in full.
 
 Manage or cancel an add-on with **Manage in Stripe** on its card.
 
@@ -88,7 +88,7 @@ The CLI never decides entitlement itself. On a `402` or a `planLocked` answer, t
 
 ## Reading entitlement
 
-`GET /v1/billing/addons` answers for any member, with a console session or `Authorization: ApiKey <orgId>:<key>`:
+`GET /v1/billing/addons` answers for any member, with a Resolve Platform session or `Authorization: ApiKey <orgId>:<key>`:
 
 ```json
 {
@@ -101,7 +101,7 @@ The CLI never decides entitlement itself. On a `402` or a `planLocked` answer, t
 
 | Field | Meaning |
 |---|---|
-| `enforced` | Whether add-on rules are applied to your requests. The console locks a page only when `enforced` is true and `entitled` is false. |
+| `enforced` | Whether add-on rules are applied to your requests. The Resolve Platform locks a page only when `enforced` is true and `entitled` is false. |
 | `pending` | A checkout started in the last ten minutes has not produced a subscription yet |
 | `entitled` | You hold the add-on |
 | `source` | `stripe` (bought), `grant` (granted by Vulnetix) or `enterprise` (included in the plan). Empty when not entitled. |
@@ -112,7 +112,7 @@ A `503` means the add-on state could not be read. Try again.
 
 ## Billing routes
 
-Base URL `https://www.vulnetix.com/api/site/v1/`. Except for `GET /v1/billing/addons`, these take the console session only.
+Base URL `https://www.vulnetix.com/api/site/v1/`. Except for `GET /v1/billing/addons`, these take the Resolve Platform session only.
 
 | Method | Path | Who | Does |
 |---|---|---|---|
@@ -147,7 +147,7 @@ curl -X PUT https://www.vulnetix.com/api/site/v1/billing/invoice-recipients \
   -d '{"principalUuids": ["<principal uuid>", "<principal uuid>"]}'
 ```
 
-The list replaces the old one. Up to 50 recipients, each an active member with an email address; anything else is `400` `recipients must be active members with an email address`. The console offers the switch for people only, not for service accounts.
+The list replaces the old one. Up to 50 recipients, each an active member with an email address; anything else is `400` `recipients must be active members with an email address`. The Resolve Platform offers the switch for people only, not for service accounts.
 
 ## Usage
 

@@ -1,6 +1,6 @@
 ---
 title: AI Inventory
-description: The console page that lists the AI coding agents, SDKs and models found by your AI-BOM scans, what the AI Firewall observed, and compliance evidence.
+description: The Resolve Platform page that lists the AI coding agents, SDKs and models found by your AI-BOM scans, what the AI Firewall observed, and compliance evidence.
 order: 2
 sources: [website/src/pages/resolve/ai-inventory.vue, website/src/pages/resolve/ai-inventory-detail.vue, website/src/components/ai/AiPostureHeader.vue, website/src/components/ai/ObservedCapabilities.vue, website/src/components/ai/ComplianceSnapshots.vue, website/src/shared/plan-features.ts, website/src/shared/console-nav.ts, vdb-site/api/main.go]
 checked: [website@7f3b734cd, vdb-site@d2ea72f23]

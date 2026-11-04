@@ -16,7 +16,7 @@ The AWS and Wiz drawers show the API's error message as written. This page lists
 |---|---|---|
 | `the AWS access portal URL must be a *.awsapps.com address` (also `must use https`, `that is not a valid URL`) | The URL is not an IAM Identity Center access portal | Paste the portal URL, `https://<name>.awsapps.com/start`. See [Connect with IAM Identity Center](/cloud-security/aws/connect-identity-center/#device-authorization). |
 | `the code expired; start again` (HTTP `410`) | The device code was not approved in time | Start the sign-in again and approve the new code |
-| `aws sso session expired` (HTTP `401`, code `SESSION_EXPIRED`) | The access portal sign-in lapsed. This is the AWS session, not your console session. | Press **Re-authorize** in the drawer |
+| `aws sso session expired` (HTTP `401`, code `SESSION_EXPIRED`) | The access portal sign-in lapsed. This is the AWS session, not your Resolve Platform session. | Press **Re-authorize** in the drawer |
 | `NO_PERMISSION_SET` (HTTP `409`): `You have no permission set in this account, ...` | Your sign-in has no permission set in the chosen account, and the portal token alone cannot reach IAM | Get a permission set assigned, or use the [access key connector](/cloud-security/aws/connect-access-key/) |
 | `DEPLOY_ROLE_DENIED` (HTTP `403`): `None of your permission sets are allowed to create the role. ...` | No permission set can call `iam:CreateRole`, `iam:PutRolePolicy` and `iam:TagRole` for `VulnetixCloudscanDeploy`. The message ends with what AWS said. | Grant one set those actions, or create the role yourself. See [When no permission set can deploy](/cloud-security/aws/connect-identity-center/#when-no-permission-set-can-deploy). |
 

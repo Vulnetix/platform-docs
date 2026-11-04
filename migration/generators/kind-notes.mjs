@@ -37,7 +37,7 @@ export const GROUPS = [
 export const PLANNED = [];
 
 // ── Who acts on a kind ──────────────────────────────────────────────────────
-// vdb-site api/internal/orgroles OwnerOnlyKinds: owner-only in the console. As
+// vdb-site api/internal/orgroles OwnerOnlyKinds: owner-only in the Resolve Platform. As
 // code a developer applies them too, granting up to developer and never
 // touching an owner.
 export const OWNER_ONLY_KINDS = new Set(['Organization', 'Member', 'ServiceAccount', 'VaultEntry']);

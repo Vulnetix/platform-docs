@@ -1,13 +1,13 @@
 ---
 title: TEA Explorer
-description: Browse Vulnetix's TEA server and your suppliers' in the console, register third-party TEA providers, and query a provider's Insights API with CEL.
+description: Browse Vulnetix's TEA server and your suppliers' in the Resolve Platform, register third-party TEA providers, and query a provider's Insights API with CEL.
 order: 5
 sources: [vdb-site/api/internal/handler/tea_provider.go, vdb-site/api/internal/handler/tea_provider_probe.go, vdb-site/api/internal/handler/tea_remote.go, vdb-site/api/internal/handler/tea_insights.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/api/main.go, tea-insights/cel.go, tea-insights/inventory.go, tea-insights/README.md, website/src/pages/resolve/tea.vue, website/src/components/tea/TeaProviderDialog.vue, website/src/components/tea/TeaQueryConsole.vue, website/src/components/tea/tea-cel.ts]
 checked: [vdb-site@d2ea72f23, tea-insights@981e7a819, website@7f3b734cd]
 updated: 04 Nov 2026
 ---
 
-The TEA Explorer is the console's client for the Transparency Exchange API, at [www.vulnetix.com/resolve/tea](https://www.vulnetix.com/resolve/tea). It browses Vulnetix's own TEA server and any third-party TEA server you register, so you can read a supplier's products, releases and artefacts next to your own. It also runs Insights queries: a CEL expression over a provider's inventory that answers with the components it selects.
+The TEA Explorer is the Resolve Platform's client for the Transparency Exchange API, at [www.vulnetix.com/resolve/tea](https://www.vulnetix.com/resolve/tea). It browses Vulnetix's own TEA server and any third-party TEA server you register, so you can read a supplier's products, releases and artefacts next to your own. It also runs Insights queries: a CEL expression over a provider's inventory that answers with the components it selects.
 
 ## Plans
 
@@ -134,7 +134,7 @@ The Query view has groups of examples, a field reference you can insert from, an
 
 ## API
 
-These routes take the console session or `Authorization: ApiKey <orgId>:<key>`. Base `https://www.vulnetix.com/api/site/v1/`.
+These routes take the Resolve Platform session or `Authorization: ApiKey <orgId>:<key>`. Base `https://www.vulnetix.com/api/site/v1/`.
 
 | Method | Path | Plan | Does |
 |---|---|---|---|

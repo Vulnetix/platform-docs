@@ -1,6 +1,6 @@
 ---
 title: SBOM Monitoring
-description: The console page that lists your uploaded CycloneDX SBOMs and monitored scans, their components and vulnerabilities, and the alerts set on them.
+description: The Resolve Platform page that lists your uploaded CycloneDX SBOMs and monitored scans, their components and vulnerabilities, and the alerts set on them.
 order: 1
 sources: [website/src/pages/resolve/uploads.vue, website/src/components/scanner-results/workbench/ScanHeader.vue, website/src/composables/useScannerResults.ts, website/src/shared/plan-features.ts, website/src/shared/console-nav.ts, vdb-site/api/main.go, vdb-site/api/internal/handler/uploads.go, cli/cmd/upload.go, cli/cmd/upload_publish.go]
 checked: [website@7f3b734cd, vdb-site@d2ea72f23, cli@v4.17.1]
@@ -13,7 +13,7 @@ updated: 05 Nov 2026
 
 | Way in | What appears |
 |---|---|
-| Upload in the console | Drag a CycloneDX BOM anywhere on the page. CycloneDX 1.2 to 1.7 is supported. The file is validated against the CycloneDX schema first, and a file that fails is not uploaded: the page lists up to ten failures with the path and message of each. |
+| Upload in the Resolve Platform | Drag a CycloneDX BOM anywhere on the page. CycloneDX 1.2 to 1.7 is supported. The file is validated against the CycloneDX schema first, and a file that fails is not uploaded: the page lists up to ten failures with the path and message of each. |
 | **Monitor SBOM** on a scan | On a supply-chain scan in **Scanner Results**, **Monitor SBOM** adds that scan here as a **Monitored** row. It references the original scan and is not processed again, so its counts match the scan report. The scan page then links **View in SBOM monitoring**. |
 
 Reports from other tools are published with [vulnetix upload](/cli/commands/upload/), which records them as scans in Scanner Results. Monitor one from there to bring it onto this page.

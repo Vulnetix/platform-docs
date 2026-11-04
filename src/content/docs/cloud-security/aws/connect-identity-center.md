@@ -10,7 +10,7 @@ updated: 02 Nov 2026
 
 IAM Identity Center is the recommended connector. Vulnetix never stores a long-lived AWS credential for it: it holds the short-lived access portal token from your sign-in and, after the bootstrap stack exists, assumes the `VulnetixSecurityAuditor` role for every later operation. Every call Vulnetix makes in your account appears in your CloudTrail with the role session name `vulnetix-resolve`.
 
-To deploy the bootstrap stack with Terraform or OpenTofu instead, use the [`aws-onboarding`](/platform-iac/terraform/modules/#aws-onboarding) module. It creates the same `vulnetix-security-bootstrap` stack the console deploys. You then give the account id and the module's `auditor_role_arn` output to the AWS integration in the console, which deploys the pipeline stack.
+To deploy the bootstrap stack with Terraform or OpenTofu instead, use the [`aws-onboarding`](/platform-iac/terraform/modules/#aws-onboarding) module. It creates the same `vulnetix-security-bootstrap` stack the Resolve Platform deploys. You then give the account id and the module's `auditor_role_arn` output to the AWS integration in the Resolve Platform, which deploys the pipeline stack.
 
 ## Device authorization
 
