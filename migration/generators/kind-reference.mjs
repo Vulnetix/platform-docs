@@ -47,6 +47,11 @@ import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 
 // the Vulnetix API, not by the name of the repository behind it. Applied to
 // page bodies only: sources: in the frontmatter keeps the real paths.
 const customerWording = (text) => text
+  .replace(/\bthe saas migration\b/gi, 'the platform update')
+  .replace(/\bsaas migration\b/gi, 'the platform update')
+  .replace(/the migration's name/g, "the update's name")
+  .replace(/naming the migration/g, 'naming the update')
+  .replace(/names the migration/g, 'names the update')
   .replace(/ \(vdb-site\)/g, ' (Vulnetix API)')
   .replace(/\bvdb-site\b/g, 'the Vulnetix API');
 import { join, basename } from 'node:path';
