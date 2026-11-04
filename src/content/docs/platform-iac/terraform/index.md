@@ -4,7 +4,7 @@ nav: Overview
 description: The vulnetix/resolve provider for Terraform and OpenTofu. Install, authenticate with a service account's ApiKey or an Authentik token, one resource per kind, import by name, write-only secrets, how state is read, and the registries. Published on the Terraform and OpenTofu registries as vulnetix/resolve.
 order: 1
 sources: ["terraform-provider-resolve/README.md", "terraform-provider-resolve/docs/index.md", "terraform-provider-resolve/examples/provider/provider.tf", "terraform-provider-resolve/templates/resources.md.tmpl", "terraform-provider-resolve/cmd/genresources/served.go", "vdb-site/api/internal/orgroles/orgroles.go"]
-checked: ["terraform-provider-resolve@v1.3.4", "vdb-site@fcbbdd3"]
+checked: ["terraform-provider-resolve@v1.4.1", "vdb-site@fcbbdd3"]
 updated: 04 Nov 2026
 ---
 
@@ -14,14 +14,14 @@ It is one binary for Terraform and OpenTofu, 1.11 or later: secrets use write-on
 
 ## Install
 
-The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). It is also on the [OpenTofu registry](https://search.opentofu.org/provider/vulnetix/resolve/latest). The current release is v1.3.4. A configuration needs the source and a version constraint:
+The provider is published on the [Terraform registry as `vulnetix/resolve`](https://registry.terraform.io/providers/vulnetix/resolve/latest). Its source is [`Vulnetix/terraform-provider-resolve`](https://github.com/Vulnetix/terraform-provider-resolve). It is also on the [OpenTofu registry](https://search.opentofu.org/provider/vulnetix/resolve/latest). The current release is v1.4.1. A configuration needs the source and a version constraint:
 
 ```hcl
 terraform {
   required_providers {
     vulnetix = {
       source  = "vulnetix/resolve"
-      version = "~> 1.3"
+      version = "~> 1.4"
     }
   }
 }
@@ -41,7 +41,7 @@ resource "vulnetix_quality_gate" "default" {
 }
 ```
 
-Then `terraform init && terraform apply`. `terraform init` downloads the provider from the registry and checks it against the release's signed checksums. The local name stays `vulnetix`, so resources are `vulnetix_*` even though the source address is `vulnetix/resolve`. `~> 1.3` accepts any 1.x release from 1.3 on and never a 2.0; pin `version = "1.3.4"` for an exact release. Commit `.terraform.lock.hcl` so every machine installs the same build.
+Then `terraform init && terraform apply`. `terraform init` downloads the provider from the registry and checks it against the release's signed checksums. The local name stays `vulnetix`, so resources are `vulnetix_*` even though the source address is `vulnetix/resolve`. `~> 1.4` accepts any 1.x release from 1.4 on and never a 2.0; pin `version = "1.4.1"` for an exact release. Commit `.terraform.lock.hcl` so every machine installs the same build.
 
 To authenticate, see [Authentication](#authentication). The provider needs Terraform or OpenTofu 1.11 or later.
 
@@ -218,6 +218,8 @@ A release is a `vX.Y.Z` tag on the repository. Its workflow publishes a GitHub r
 
 | Release | Change |
 |---|---|
+| v1.4.1 | `vulnetix_member` and `vulnetix_service_account` say a `developer` applies them as code, granting up to `developer` (config-schemas v1.19.1). |
+| v1.4.0 | config-schemas v1.19.0: `vulnetix_runtime_sensor_policy` takes `update_base_url`. |
 | v1.3.4 | An import reads a value equal to its schema default as unset, so a configuration that leaves defaults out plans clean after it. Objects that hold a required secret, or fewer list items than the schema minimum, import. |
 | v1.3.2 | `vulnetix_library_item` `body` and `files[].body` are sensitive. |
 | v1.3.1 | An object whose console name breaks the name pattern (capitals or spaces) imports and plans, and a set whose server copy repeats an element reads as one element. |
