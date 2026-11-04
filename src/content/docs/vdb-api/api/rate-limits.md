@@ -3,8 +3,8 @@ title: Rate limits
 description: How the VDB API counts requests against a daily quota per API key, each plan's default quota, the RateLimit response headers, and what happens at the limit.
 order: 2
 sources: [vdb-api/internal/middleware/ratelimit.go, vdb-api/internal/handler/deps.go, vdb-api/internal/handler/appconfig.go, vdb-site/api/internal/handler/tierconfig.go, cli/pkg/vdb/client.go, cli/cmd/vdb.go]
-checked: [vdb-api@4145f0a, vdb-site@1a06d67, cli@4c8c3b71c]
-updated: 03 Nov 2026
+checked: [vdb-api@df992c8, vdb-site@1a06d67, cli@4c8c3b71c]
+updated: 05 Nov 2026
 ---
 
 The VDB API limits how many requests each API key makes in a day. There is no per-second or per-minute limit.
@@ -30,7 +30,7 @@ These are the defaults that `GET https://www.vulnetix.com/api/site/v1/config` pu
 
 ## Headers
 
-Every authenticated response carries these:
+Every authenticated response carries these. The OpenAPI document (`GET /v2/spec`) declares them on its responses, so a generated client can read them:
 
 | Header | Value |
 |---|---|

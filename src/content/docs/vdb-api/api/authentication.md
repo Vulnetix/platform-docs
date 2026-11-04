@@ -3,8 +3,8 @@ title: Authentication
 description: The three Authorization header forms the VDB API accepts, deriving an API key or JWT from a SigV4-signed request, and the status code each failure returns.
 order: 1
 sources: [vdb-api/internal/middleware/auth.go, vdb-api/internal/handler/auth.go, vdb-api/internal/sigv4/sigv4.go, vdb-api/main.go, cli/pkg/auth/auth.go, cli/pkg/vdb/client.go, vdb-site/api/internal/handler/account.go]
-checked: [vdb-api@4145f0a, cli@4c8c3b71c, vdb-site@1a06d67]
-updated: 02 Nov 2026
+checked: [vdb-api@df992c8, cli@4c8c3b71c, vdb-site@1a06d67]
+updated: 05 Nov 2026
 ---
 
 Every route under `/v1` and `/v2` needs an `Authorization` header, except the handful listed in the [overview](/vdb-api/#routes-without-a-credential). The API reads the header's scheme and accepts three forms.
@@ -41,7 +41,7 @@ An API key stops working when the secret is regenerated on the Account page, bec
 
 ## SigV4 exchange
 
-If you hold the secret rather than the key, sign a request with AWS Signature Version 4 and exchange it at one of two routes. Both are `GET` only; `POST /v2/auth/token` returns `400`.
+If you hold the secret rather than the key, sign a request with AWS Signature Version 4 and exchange it at one of two routes. Both are `GET` only; `POST /v2/auth/token` returns `405` with `Allow: GET`.
 
 | Route | Returns |
 |---|---|

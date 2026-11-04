@@ -3,9 +3,9 @@ title: VDB API overview
 nav: Overview
 description: The Vulnetix Vulnerability Database API serves vulnerability, exploit, fix, KEV, detection-rule and package intelligence, and vulnetix vdb CLI commands wrap it.
 order: 1
-sources: [vdb-api/main.go, vdb-api/internal/handler/openapi-v2.json, vdb-api/internal/middleware/auth.go, vdb-api/internal/middleware/ratelimit.go, cli/cmd/vdb.go]
-checked: [vdb-api@4145f0a, cli@4c8c3b71c]
-updated: 04 Nov 2026
+sources: [vdb-api/main.go, vdb-api/internal/handler/openapi-v2.json, vdb-api/internal/handler/openapi-cli.json, vdb-api/internal/handler/openapi.json, vdb-api/internal/middleware/auth.go, vdb-api/internal/middleware/ratelimit.go, cli/cmd/vdb.go]
+checked: [vdb-api@df992c8, cli@4c8c3b71c]
+updated: 05 Nov 2026
 ---
 
 The VDB API is for developers who need vulnerability data inside their own tools, scripts and services: what affects a package, which version fixes it, whether it is exploited. Call the API when you are writing code against it. Use [`vulnetix vdb`](/vdb-api/cli/commands/) for the same routes from a terminal or a shell script without writing HTTP calls, and the [MCP server](/mcp-server/) when an AI agent is the one asking.
@@ -15,8 +15,9 @@ The VDB API is a read API over the Vulnetix Vulnerability Database. You send an 
 | | |
 |---|---|
 | Base URL | `https://api.vdb.vulnetix.com/v2` |
-| Legacy base URL | `https://api.vdb.vulnetix.com/v1` (deprecated) |
-| OpenAPI document | `GET /v2/spec` (JSON), `GET /v2/spec/ui` (Swagger UI) |
+| Legacy base URL | `https://api.vdb.vulnetix.com/v1` (deprecated; every v1 operation is marked deprecated in `GET /v1/spec`) |
+| OpenAPI document | `GET /v2/spec` (OpenAPI 3.1 JSON), `GET /v2/spec/ui` (interactive reference, Scalar). The CLI's own operations: `GET /v2/spec/cli`, `GET /v2/spec/cli/ui` |
+| Request validation | Requests are checked against the document; one that does not fit answers `400` with the `field` at fault. See [Errors](/vdb-api/api/errors/#request-validation) |
 | Health | `GET /health` returns `{"status":"healthy"}`, no credential |
 | Authentication | `Authorization: ApiKey <orgId>:<hex>`, or a Bearer token. See [Authentication](/vdb-api/api/authentication/) |
 | Limits | A daily request quota per API key. See [Rate limits](/vdb-api/api/rate-limits/) |
@@ -25,7 +26,7 @@ The VDB API is a read API over the Vulnetix Vulnerability Database. You send an 
 
 ## v1 and v2
 
-v2 is the current API and the CLI's default. v1 is kept for backwards compatibility and will be removed. v2 has every v1 route except four: `GET /v1/openapi`, `GET /v1/vuln/{identifier}/fixes` (split on v2 into `fixes/registry`, `fixes/distributions` and `fixes/source`), `GET /v1/vuln/{identifier}/tree-sitter` and `POST /v1/packages/safe-harbour-batch`. v2 adds timelines, scorecards, the unified KEV catalogue, the detection-rule searches, [input kinds](/vdb-api/api/inputs/) and remediation plans.
+v2 is the current API and the CLI's default. v1 is kept for backwards compatibility and will be removed: every operation in its document (`GET /v1/spec`, reference page `GET /v1/spec/ui`) is marked deprecated. v2 has every v1 route except four: `GET /v1/openapi`, `GET /v1/vuln/{identifier}/fixes` (split on v2 into `fixes/registry`, `fixes/distributions` and `fixes/source`), `GET /v1/vuln/{identifier}/tree-sitter` and `POST /v1/packages/safe-harbour-batch`. v2 adds timelines, scorecards, the unified KEV catalogue, the detection-rule searches, [input kinds](/vdb-api/api/inputs/) and remediation plans.
 
 ## What a call looks like
 
@@ -49,7 +50,8 @@ Everything under `/v2` needs a credential except these:
 
 | Route | Returns |
 |---|---|
-| `GET /v2/spec`, `GET /v2/spec/ui` | The OpenAPI 3 document and its Swagger UI |
+| `GET /v2/spec`, `GET /v2/spec/ui` | The OpenAPI 3.1 document and its interactive reference (Scalar) |
+| `GET /v2/spec/cli`, `GET /v2/spec/cli/ui` | The document for the CLI's operations (`/v2/cli.*`, `/v2/cloud.inventory`) and its reference |
 | `GET /v2/auth/token` | A 15-minute JWT, in exchange for a SigV4-signed request |
 | `GET /v2/auth/api-key` | Your static API key, in exchange for a SigV4-signed request |
 | `GET /v2/packages/free-demo` | The packages whose Safe Harbour data is free on every plan |
@@ -58,7 +60,7 @@ Everything under `/v2` needs a credential except these:
 
 ## Plans
 
-Every authenticated response carries `X-VDB-Plan`: `community`, `pro`, `teams` or `enterprise`. The plan sets the daily quota and decides which fields you see. Fields above your plan come back as `null`, and the response lists them, so a Community key never gets an error for asking. See [Errors and plan-gated answers](/vdb-api/api/errors/#plan-gated-answers).
+Every authenticated response carries `X-VDB-Plan`: `community`, `pro`, `teams` or `enterprise`. The plan sets the daily quota and decides which fields you see. Fields above your plan come back as `null`, and the response lists them; a route that is a paid feature end to end answers HTTP 200 with a `planLocked` body. A Community key never gets a `402` or `403` for asking. Each operation's gate is in its `x-vulnetix-plan` in the OpenAPI document and marked in the [endpoint reference](/vdb-api/reference/endpoints/). See [Errors and plan-gated answers](/vdb-api/api/errors/#plan-gated-answers).
 
 ## Data sources and licensing
 

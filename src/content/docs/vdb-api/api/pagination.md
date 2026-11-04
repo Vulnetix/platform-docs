@@ -3,8 +3,8 @@ title: Pagination
 description: The VDB API's two pagination styles, limit and offset or page and perPage on the package catalogue, with their defaults, caps and how to walk every page.
 order: 4
 sources: [vdb-api/internal/handler/product.go, vdb-api/internal/handler/identifiers.go, vdb-api/internal/handler/exploits.go, vdb-api/internal/handler/v2_packages.go, vdb-api/internal/handler/openapi-v2.json, vdb-api/internal/handler/inputs_routes.go]
-checked: [vdb-api@4145f0a]
-updated: 02 Nov 2026
+checked: [vdb-api@df992c8]
+updated: 05 Nov 2026
 ---
 
 ## limit and offset
@@ -23,11 +23,11 @@ Most list routes take `limit` and `offset` in the query string and echo them bac
 
 `hasMore` is `offset + limit < total`. To walk every page, add `limit` to `offset` until `hasMore` is `false`.
 
-On the product, package and identifier routes, a `limit` above the cap is lowered to the cap, and a `limit` that is zero, negative or not a number falls back to the default. Treat the caps below as the most a page can hold on every route.
+Each route's default and cap are in the OpenAPI document (`GET /v2/spec`) and the [endpoint reference](/vdb-api/reference/endpoints/). Requests are checked against the document, so a `limit` above the cap, below 1 or not a number, or an `offset` above 100,000, answers `400` with `"field": "limit"` (or `offset`) rather than being adjusted; see [Request validation](/vdb-api/api/errors/#request-validation). Leave `limit` out to get the default.
 
 | Routes | Default `limit` | Cap |
 |---|---|---|
-| Product and package routes (`/product/*`, `/{package}/versions`, `/{package}/vulns`, `/{ecosystem}/*`), `/identifiers`, `/gcve`, `/eol/products`, `/eol/identifiers`, `/vuln/{id}/fixes/*`, `/vuln/{id}/affected`, `/vuln/{id}/snort-rules`, `/vuln/{id}/yara-rules`, `/iocs` | 100 | 500 |
+| Product and package routes (`/product/*`, `/{package}/versions`, `/{package}/vulns`, `/{ecosystem}/*`), `/identifiers`, `/gcve`, `/eol/products`, `/eol/identifiers`, `/vuln/{id}/fixes/*`, `/vuln/{id}/affected`, `/vuln/{id}/snort-rules`, `/vuln/{id}/yara-rules`, `/iocs` | 100 | 500 (100 on `/{package}/versions` with `withVulnIntel=1`) |
 | `/snort-rules`, `/yara-rules`, `/attack-techniques`, `/kev`, `/vex`, `/triage`, `/virtual-patches`, `/countermeasures`, `/vuln/{id}/virtual-patches`, `/vuln/{id}/countermeasures` | 100 | 200 |
 | `/exploits` (search), `/packages/search` | 100 | 100 |
 | `/exploits/{identifier}` | 100 | 1,000 |
@@ -44,11 +44,11 @@ The CLI's list commands use lower defaults of their own (often `--limit 50`); se
 
 The package catalogue routes page by number instead:
 
-| Route | `page` default | `perPage` default | `perPage` cap |
-|---|---|---|---|
-| `/packages` | 1 | 50 | 50 |
-| `/packages/org` | 1 | 50 | 50 |
-| `/packages/enrichment` | 1 | 25 | 100 |
+| Route | `page` default | `page` cap | `perPage` default | `perPage` cap |
+|---|---|---|---|---|
+| `/packages` | 1 | 2,000 | 50 | 50 |
+| `/packages/org` | 1 | 2,000 | 50 | 50 |
+| `/packages/enrichment` | 1 | 500 | 25 | 100 |
 
 The answer carries a `pagination` object:
 
