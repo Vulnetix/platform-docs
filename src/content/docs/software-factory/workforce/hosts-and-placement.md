@@ -4,7 +4,7 @@ description: The machines factory work runs on, how the factory chooses one for 
 order: 6
 sources: [vdb-site/docs/factory.md, vdb-site/docs/belai-host-attention.md, belai/docs/fleet.md, vdb-site/api/internal/handler/factory_host_select.go, vdb-site/api/internal/handler/factory_hosts_eligibility.go]
 checked: [vdb-site@284f1d6, belai@35506b9, website@a31d470]
-updated: 28 Oct 2026
+updated: 05 Nov 2026
 ---
 
 A **host** is a machine running Belai in remote control mode (`belai rc`). It keeps a connection open to Vulnetix, advertises the repositories and directories it has and the agents and crews it offers, and takes dispatches. There are two kinds:
@@ -13,6 +13,8 @@ A **host** is a machine running Belai in remote control mode (`belai rc`). It ke
 |---|---|
 | Pix Sandbox | A container Vulnetix runs for you. See [Pix Sandboxes](/software-factory/workforce/pix-sandboxes/). |
 | Self-hosted | Your own machine running `belai rc`. See [Remote control](/software-factory/workforce/remote-control/). |
+
+How many self-hosted hosts you can run depends on the plan. Community includes one, free; a second one is refused with `"code": "host_limit"` while the first is active (seen in the last 45 seconds). Pro, Business and Enterprise enrol any number. Pix Sandboxes never count against the limit. See [Who can use it](/software-factory/#who-can-use-it).
 
 The Pix Sandboxes page (`/resolve/belai-hosts`) lists both, with each host's status, workers, sessions and version.
 

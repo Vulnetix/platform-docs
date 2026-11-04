@@ -4,7 +4,7 @@ description: Software Factory runs workflows of agents against the GitHub reposi
 order: 1
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-access.md, vdb-site/api/internal/handler/factory_access.go, website/.repo/software-factory.md]
 checked: [vdb-site@fe1ff17, website@a31d470]
-updated: 04 Nov 2026
+updated: 05 Nov 2026
 ---
 
 Software Factory is for engineering and security teams that want routine work on their GitHub repositories, such as fixing a vulnerable package or answering a failed check, done by agents without anyone starting each job by hand. The factory starts work from repository events and keeps a person in the loop wherever a workflow asks for one. Use it for work that should happen on its own. Use [Pix](/pix/) when you are working with a coding agent yourself and want Vulnetix inside that session.
@@ -49,14 +49,24 @@ Crews run on **hosts**: machines running the [Belai](/software-factory/belai/ins
 
 ## Who can use it
 
-The Software Factory (`/v1/factory/*`) and the Belai console (`/v1/belai/*`) are open to:
+The Software Factory (`/v1/factory/*`) and the Belai console (`/v1/belai/*`) are open on every plan:
 
-- an organisation on Pro, Business or Enterprise, on any host, self-hosted or a Pix Sandbox;
-- a Community organisation with at least one Pix Sandbox whose subscription is active or past due. A sandbox is billed on its own subscription, not by plan.
+| Plan | Self-hosted hosts | Pix Sandboxes |
+|---|---|---|
+| Community | One, free | Any number, each billed on its own subscription, from $85 a month |
+| Pro, Business, Enterprise | Any number | Any number, each billed on its own subscription |
 
-Anyone else gets `403` with `"code": "plan_locked"` and `"requiredPlan": "pro"`. Buying, configuring and launching a sandbox stays open, so a Community organisation can buy the sandbox that opens the rest. On Community only the organisation's own sandboxes can enrol as hosts; a self-hosted host needs Pro.
+On Community the factory runs on one machine of your own with `belai rc` at no cost. A second self-hosted host is refused while the first is active, with `403`, `"code": "host_limit"` and `"requiredPlan": "pro"`, and Belai prints "Community includes one self-hosted host; add more with Pro or a Pix Sandbox". A host counts as active while it has been seen in the last 45 seconds, so when the first machine stops, another can take its place. Your own Pix Sandboxes never count against the limit. A sandbox counts while its subscription is active or past due.
 
-`GET /v1/factory/access` returns the answer the console uses, for example `{ "access": "sandbox", "plan": "community", "activeSandboxes": 1 }`. `access` is `pro`, `sandbox` or `none`. The sandbox count is cached for 60 seconds per organisation.
+On Community, decision steps (the System One classifier calls a workflow makes) have a smaller daily allowance than on a paid plan or a Pix Sandbox. Crew steps on your own machine run on your own models and keys.
+
+`GET /v1/factory/access` returns the answer the console uses:
+
+```json
+{ "access": "community", "plan": "community", "activeSandboxes": 0, "selfHostedLimit": 1, "selfHostedUsed": 1 }
+```
+
+`access` is `pro`, `sandbox` (below Pro with a live sandbox), `community` (below Pro with no sandbox) or `none`. `selfHostedLimit` is `null` on Pro and above. The cockpit's Fleet rail shows the same count as "1 of 1 free self-hosted host". The sandbox count is cached for 60 seconds per organisation. A caller with no plan gets `403` with `"code": "plan_locked"`.
 
 ## Find the page for your task
 

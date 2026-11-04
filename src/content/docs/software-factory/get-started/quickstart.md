@@ -5,10 +5,13 @@ description: From an empty tenant to a first run. Install the GitHub App, make a
 order: 3
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_defaults.go, vdb-site/api/internal/handler/factory_orgs.go]
 checked: [vdb-site@597344c, website@58b9ffa, belai@8aa7760]
-updated: 28 Oct 2026
+updated: 05 Nov 2026
 ---
 
-You need a Vulnetix account with the owner or admin role in its organisation. Members can use the factory once it is set up, but only owners and admins can manage orgs, publish workflows and change settings.
+You need:
+
+- A Vulnetix account with the owner or admin role in its organisation. Members can use the factory once it is set up, but only owners and admins can manage orgs, publish workflows and change settings. Any plan works, Community included.
+- A machine for the agents to work on (step 4). On Community that is one machine of your own running `belai rc`, at no cost, or a Pix Sandbox bought per size from $85 a month. More than one self-hosted machine needs Pro.
 
 ## 1. Install the GitHub App
 
@@ -60,8 +63,8 @@ To let one repository go further or less far, open it on the Repos page and set 
 
 Crew steps run on a host with the repository checked out. Choose one:
 
-- **A Pix Sandbox.** On the Repos page, select repositories and choose **Add to Pix Sandbox**. Vulnetix runs the container and clones the repositories into it. See [Pix Sandboxes](/software-factory/workforce/pix-sandboxes/).
-- **Your own machine.** Install [Belai](/software-factory/belai/install-and-sign-in/), sign in, and run `belai rc` in a directory that holds the repository. Add `--detach` to keep it running in the background. See [Remote control](/software-factory/workforce/remote-control/).
+- **Your own machine, free.** Install [Belai](/software-factory/belai/install-and-sign-in/), sign in, and run `belai rc` in a directory that holds the repository. Add `--detach` to keep it running in the background. Community includes one self-hosted host; more need Pro. See [Remote control](/software-factory/workforce/remote-control/).
+- **A Pix Sandbox, from $85 a month.** Buy one under **Pix Sandboxes** (`/resolve/belai-hosts`), choosing a size: Small, Medium or Large, each billed monthly per sandbox. Then on the Repos page, select repositories and choose **Add to Pix Sandbox**. Vulnetix runs the container and clones the repositories into it. See [Pix Sandboxes](/software-factory/workforce/pix-sandboxes/).
 
 With no machine, a crew step waits up to `autonomy.no_host_ttl_hours` (6 hours by default), then the run ends with `no_host_timeout`. The card shows why it is waiting.
 

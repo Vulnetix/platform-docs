@@ -5,7 +5,7 @@ description: Connect your own machine with belai rc so the console and the facto
 order: 19
 sources: [belai/docs/remote-control.md, belai/docs/session-controls.md, belai/cmd/belai/rccmd.go, vdb-site/api/internal/handler/belai_rc.go, vdb-site/api/internal/handler/belai_commands.go]
 checked: [belai@8aa7760, vdb-site@597344c, website@58b9ffa]
-updated: 28 Oct 2026
+updated: 05 Nov 2026
 ---
 
 `belai rc` connects a machine to Vulnetix. It then appears on the Pix Sandboxes page as a self-managed host, and the console can start Belai sessions on it, follow them live and prompt them. The factory can dispatch crews to it. Sessions run only in projects already trusted on the machine and in the directories you offer.
@@ -18,6 +18,10 @@ belai rc --stop
 
 `/rc` in the TUI is the same thing as a setup screen. It walks the checks below and offers a step for each gap.
 
+Start with [Install and sign in](/software-factory/belai/install-and-sign-in/) if Belai is not on the machine yet.
+
+**One free host on Community.** Community includes one self-hosted host. While it is running, `belai rc` on a second machine stops at the website check with "Community includes one self-hosted host; add more with Pro or a Pix Sandbox". Stop `belai rc` and Belai on the first machine and the second one can enrol after about 45 seconds. Pro, Business and Enterprise enrol any number of machines.
+
 ## What it needs
 
 | Check | Needs |
@@ -27,7 +31,7 @@ belai rc --stop
 | Session sync | `sync.enabled` on (the default) |
 | Guardrails | On. Remote control never runs a session nobody is watching without them. |
 | Directories | At least one directory to offer |
-| The website | Accepts the credential |
+| The website | Accepts the credential and the host. On Community, no other self-hosted host of the organisation is active. |
 
 Run it signed in as the member whose workflows should use this machine. The factory uses only the hosts of a run's principal. See [Hosts and placement](/software-factory/workforce/hosts-and-placement/).
 
