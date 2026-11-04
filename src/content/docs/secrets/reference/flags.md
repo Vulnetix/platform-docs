@@ -78,7 +78,7 @@ When you are authenticated and your organisation's quality gate sets a severity,
 
 ## Deployment labels
 
-Recorded with the upload, so the console can group scans. They do not change what is scanned.
+Recorded with the upload, so the Resolve Platform can group scans. They do not change what is scanned.
 
 | Flag | Type | Effect |
 |---|---|---|

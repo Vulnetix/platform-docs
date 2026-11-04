@@ -1,7 +1,7 @@
 ---
 title: API reference
 nav: API
-description: The gateway's routes, authentication, request limits, streaming, the models, count_tokens and evaluate endpoints, and the console and CLI APIs that manage policy.
+description: The gateway's routes, authentication, request limits, streaming, the models, count_tokens and evaluate endpoints, and the Resolve Platform and CLI APIs that manage policy.
 order: 2
 sources:
   - ai-firewall/internal/api/server.go
@@ -155,7 +155,7 @@ An organisation that downgrades keeps its rules; the gateway stops applying them
 
 ## Resolve Platform API
 
-The console calls `https://www.vulnetix.com/api/site/v1` with the signed-in session cookie. It is not a public API and has no token authentication. The AI Firewall routes:
+The Resolve Platform calls `https://www.vulnetix.com/api/site/v1` with the signed-in session cookie. It is not a public API and has no token authentication. The AI Firewall routes:
 
 | Method and path | Purpose |
 |---|---|

@@ -39,7 +39,7 @@ The SARIF `ruleId` is the rule id as declared (`VNX-TF-002`, `FUGUE-ARM-AS-05`).
 
 ## What is uploaded
 
-Without credentials nothing is uploaded. When you are authenticated the CLI sends the findings to `POST /v2/cli.iac` and prints `Snapshot: <url>`. A clean run still submits, so the console records the repository as assessed. A failed upload is a warning and does not change the exit code.
+Without credentials nothing is uploaded. When you are authenticated the CLI sends the findings to `POST /v2/cli.iac` and prints `Snapshot: <url>`. A clean run still submits, so the Resolve Platform records the repository as assessed. A failed upload is a warning and does not change the exit code.
 
 Each finding carries the rule id, name, description, severity, file, line, CWE, CWSS vector, tags, fingerprint and a code snippet read from the file: the finding's lines plus 3 non-blank lines either side by default, set with `--snippet-context` (`0` sends the rule's own one-line snippet instead).
 

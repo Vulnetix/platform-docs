@@ -43,7 +43,7 @@ Pass exactly one of `--allow`, `--deny`, `--remove`, and exactly one of `--provi
 | at least one `allow` | `allow` | passes |
 | at least one `allow` | no entry | `403 model_not_allowed` |
 
-The console's Govern tab shows each model's state with the same rules: Open, Allowed, Denied, "Refused: not on allowlist" and "Refused: provider denied".
+The Resolve Platform's Govern tab shows each model's state with the same rules: Open, Allowed, Denied, "Refused: not on allowlist" and "Refused: provider denied".
 
 Deleted catalog rows still count: a `deny` stays in force for a model the provider has delisted, and an allowlist made only of delisted models still puts the provider in allowlist mode.
 
@@ -85,7 +85,7 @@ An entry for `gpt-4o-mini` at `openrouter` matches nothing, because OpenRouter c
 
 ## Entries need a catalog row
 
-An entry points at a row in the model catalog, which vdb-manager syncs from each provider hourly. Adding an entry for a model the catalog does not list fails with `404 no matching model in the catalog; catalogs sync hourly`, in the CLI and the console alike.
+An entry points at a row in the model catalog, which vdb-manager syncs from each provider hourly. Adding an entry for a model the catalog does not list fails with `404 no matching model in the catalog; catalogs sync hourly`, in the CLI and the Resolve Platform alike.
 
 At request time a model missing from the catalog passes, unless the provider is in allowlist mode. A model released this morning therefore works before the next sync, and a deny list cannot block a model that does not exist in the catalog yet. Only allowlist mode does.
 

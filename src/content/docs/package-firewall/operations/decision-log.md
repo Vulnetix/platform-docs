@@ -1,6 +1,6 @@
 ---
 title: Decision log
-description: What the Package Firewall records for each request, the PASS, BLOCK, WARN and ERROR actions, how to filter the log, and the console views built on it.
+description: What the Package Firewall records for each request, the PASS, BLOCK, WARN and ERROR actions, how to filter the log, and the Resolve Platform views built on it.
 order: 2
 sources: [saas/prisma/models/package-firewall.prisma, package-firewall/internal/db/logger.go, package-firewall/internal/handler/ecosystem_handler.go, vdb-site/api/internal/handler/package_firewall_logs.go, vdb-site/api/internal/handler/package_firewall_log_stats.go, vdb-site/api/internal/handler/package_firewall_insights.go, package-firewall/.repo/maintenance_mode.md]
 checked: [package-firewall@333285f, vdb-site@1a06d67, saas@50cedf37]
@@ -36,7 +36,7 @@ Rows are written asynchronously in batches. During a maintenance window no rows 
 
 ## Filtering
 
-The console filters by **ecosystem**, **action**, **package** and **version**, 50 rows per page by default and up to 100. To review what `warn` mode would have blocked, filter on `WARN` and look for reasons ending `(warn mode: reported, not blocked)`.
+The Resolve Platform filters by **ecosystem**, **action**, **package** and **version**, 50 rows per page by default and up to 100. To review what `warn` mode would have blocked, filter on `WARN` and look for reasons ending `(warn mode: reported, not blocked)`.
 
 ## Resolve Platform views built on the log
 
@@ -47,6 +47,6 @@ The Package Firewall page reads the same log in aggregate:
 - the packages blocked most often, with per-package traffic sparklines;
 - wildcard malware advisories (`WARN`) waiting for an allow or deny decision.
 
-## Seeing a decision without the console
+## Seeing a decision without the Resolve Platform
 
 Every block and advisory carries `X-Vulnetix-Firewall-*` response headers with the same reason. See [Block responses](/package-firewall/reference/responses/#response-headers).

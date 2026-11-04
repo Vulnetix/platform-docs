@@ -23,15 +23,15 @@ Your tenant datacenter is the segment in your Wiz API host: `us17` in `api.us17.
 
 ## 3. Connect
 
-In the Vulnetix console open **Integrations > Wiz** and enter the client id, client secret and datacenter.
+In the Resolve Platform open **Integrations > Wiz** and enter the client id, client secret and datacenter.
 
 Vulnetix mints a token from Wiz's global auth endpoint and then runs a one-row issues query against `https://api.<datacenter>.wiz.io/graphql`. A token alone proves only authentication; a service account without `admin:audit` mints one too. The query proves the account can read.
 
 | Field | Stored |
 |---|---|
-| `clientId` | In the clear; shown in the console |
-| `tenantDatacenter` | In the clear; shown in the console |
-| `clientSecret` | In the Vulnetix secrets vault. Never returned to the console and never sent to the probe. |
+| `clientId` | In the clear; shown in the Resolve Platform |
+| `tenantDatacenter` | In the clear; shown in the Resolve Platform |
+| `clientSecret` | In the Vulnetix secrets vault. Never returned to the Resolve Platform and never sent to the probe. |
 
 Connecting sets the pipeline stack's `WizVerification` parameter to `true` on the next deploy, which attaches `vulnetix-reporter-wiz` (ECR image metadata and SSM inventory reads) to the probe's role. Disconnecting Wiz removes it again on the next deploy.
 

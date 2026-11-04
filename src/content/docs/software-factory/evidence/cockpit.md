@@ -7,7 +7,7 @@ checked: [vdb-site@284f1d6, website@a31d470]
 updated: 28 Oct 2026
 ---
 
-The cockpit (`/resolve/factory`) is the first page of Software Factory in the console. One request paints it, and the event stream keeps it live.
+The cockpit (`/resolve/factory`) is the first page of Software Factory in the Resolve Platform. One request paints it, and the event stream keeps it live.
 
 You choose the **scope**: your managed orgs (the default), every installation, or one org. And the **range**: the last 24 hours (the default), 7 days or 30 days. "Today" starts at midnight in your own timezone.
 

@@ -302,10 +302,10 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 
 ## How apply treats it
 
-- Apply runs the console's own checks: the provider validator, the reserved built-in slugs, the public-host check on `baseUrl` and the cap of ten custom providers per tenant.
-- The console has no update. Apply rewrites the same columns in place and keeps the provider's uuid, which the stored key's encryption context is bound to.
+- Apply runs the Resolve Platform's own checks: the provider validator, the reserved built-in slugs, the public-host check on `baseUrl` and the cap of ten custom providers per tenant.
+- The Resolve Platform has no update. Apply rewrites the same columns in place and keeps the provider's uuid, which the stored key's encryption context is bound to.
 - `apiKey` is a secret. The client resolves it (`env` or `file`) on its own machine and sends it once. It is encrypted with the BYOK KMS key, never read back into a spec, exported or hashed. An export writes an `apiKey.env` placeholder, and a plan shows the key as changed only when the value you supply differs from the stored one.
-- Deleting the object revokes the vault entries filed against the slug first, as deleting the provider in the console does.
+- Deleting the object revokes the vault entries filed against the slug first, as deleting the provider in the Resolve Platform does.
 - An [`AiFirewallPolicy`](/platform-iac/kinds/ai-firewall-policy/) that names the provider is applied after it.
 
 ## Terraform and OpenTofu

@@ -29,7 +29,7 @@ Belai reads the repository's remotes, branch and recent state and tells the mode
 
 ## Project preferences
 
-Each directory has its own preferences: mode, guardrails, ask, the display switches, tests after a turn, language servers and Jev. They live under your global Belai directory, keyed by the project directory (`~/.vulnetix/belai/projectprefs/`), so a repository can never supply them, and a remote control host can let the console edit them. See [Remote control](/software-factory/workforce/remote-control/).
+Each directory has its own preferences: mode, guardrails, ask, the display switches, tests after a turn, language servers and Jev. They live under your global Belai directory, keyed by the project directory (`~/.vulnetix/belai/projectprefs/`), so a repository can never supply them, and a remote control host can let the Resolve Platform edit them. See [Remote control](/software-factory/workforce/remote-control/).
 
 ## Auto-commit
 

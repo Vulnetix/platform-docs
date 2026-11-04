@@ -1135,7 +1135,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 - A singleton. Every writable key of the factory settings table is a nested field (`autonomy.max` is `spec.autonomy.max`), except the keys other kinds own and the read-only keys (`forge.polling.forbidden`, `firewall_enabled`, `systemone.min_confidence.adapter`).
 - Replace semantics: a field left out is the default. Read returns only the settings that differ from the default, so exports are compact.
-- Validation is the console's key table. Plan runs the read-only cross-key rules, including the `forge.check_runs` permission.
+- Validation is the Resolve Platform's key table. Plan runs the read-only cross-key rules, including the `forge.check_runs` permission.
 - Apply writes through the same function as the settings page: a revision bump, the write-through hooks such as the tenant Factory budget, and one setting event and audit entry per changed key. The status reports `revision`.
 - Delete resets its keys to the defaults. The document stays.
 
@@ -1143,8 +1143,8 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 [`ScannerProfile`](/platform-iac/kinds/scanner-profile/) owns the four `security.*` scanner keys, [`FactoryManagedOrg`](/platform-iac/kinds/factory-managed-org/) owns `scope.orgs`, [`NotificationDefaults`](/platform-iac/kinds/notification-defaults/) owns `notify.push.defaults`, and `FactorySettings` owns the rest. A `FactorySettings` apply never writes a key it does not own, so the kinds cannot undo each other.
 
-> [!CAREFUL] Not everything the console does after a save happens
-> The post-commit nudges the console save sends (seeding the default workflows when `defaults.enabled` changes, engine state and budget nudges, and the work after managing an organization) are not sent after an engine apply. The scheduler and the next event pick the changes up.
+> [!CAREFUL] Not everything the Resolve Platform does after a save happens
+> The post-commit nudges the Resolve Platform save sends (seeding the default workflows when `defaults.enabled` changes, engine state and budget nudges, and the work after managing an organization) are not sent after an engine apply. The scheduler and the next event pick the changes up.
 
 ### Export and import of the settings page
 

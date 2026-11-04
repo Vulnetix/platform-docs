@@ -21,7 +21,7 @@ updated: 02 Nov 2026
 | `vulnetix-sensor status` | Show whether the host is enrolled, its profile, protection level, mode, `configEtag` and service state. Exits `3` when the service is not active. |
 | `vulnetix-sensor config` | Print the profile configuration the sensor runs, as JSON |
 | `vulnetix-sensor uninstall [--code <code>]` | Record the uninstall, remove the units, polkit rule, credential and config, and stop the sensor. Leaves the binary and the sensor key. A `locked` device needs `--code`. Root only. |
-| `vulnetix-sensor goodbye [--reason stop] [--detail <text>]` | Tell the console the sensor is stopping. `--reason` is `signal`, `stop`, `uninstall` or `upgrade`. |
+| `vulnetix-sensor goodbye [--reason stop] [--detail <text>]` | Tell the Resolve Platform the sensor is stopping. `--reason` is `signal`, `stop`, `uninstall` or `upgrade`. |
 | `vulnetix-sensor guard-check` | What the guard timer runs each minute; see [Protection](/virtual-patching/sensor/protection/#the-guard-timer) |
 
 ## Flags (`vulnetix-sensor` and `run`)
@@ -109,7 +109,7 @@ Downloads `vulnetix-sensor-linux-<arch>` for the script's release, checks it aga
 |---|---|
 | Config pull | Every 5 minutes, `If-None-Match` with the held `configEtag` |
 | Revoked credential | `401` on the next request; the sensor stops reporting and logs why |
-| `SIGTERM`, `SIGINT` | A goodbye with reason `signal`, sent within 2 seconds, so the console shows `stopped`, not `silent` |
+| `SIGTERM`, `SIGINT` | A goodbye with reason `signal`, sent within 2 seconds, so the Resolve Platform shows `stopped`, not `silent` |
 | `SIGHUP` | Exit so systemd starts the sensor on the new configuration or unit; enroll and the guard send it |
 | Signed enrollment clock window | 5 minutes either side of the site's clock; each nonce is used once |
 

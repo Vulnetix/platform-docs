@@ -71,4 +71,4 @@ If AWS rotates the refresh token, each gateway replica keeps the new one in memo
 
 ## Gaps
 
-The console's setup guide also lists the Kiro IDE and kiro-cli. Nothing in the CLI or the gateway configures them, and no base-URL setting for them is documented here. Belai is the supported Kiro client.
+The Resolve Platform's setup guide also lists the Kiro IDE and kiro-cli. Nothing in the CLI or the gateway configures them, and no base-URL setting for them is documented here. Belai is the supported Kiro client.

@@ -1,7 +1,7 @@
 ---
 title: Agents and agent profiles
 nav: Agents
-description: What an agent profile is, the five modes, worker profiles and the fields that govern how they claim and finish work, the built-in agents and which of them a workflow can dispatch, and managing agents from the console and the command line.
+description: What an agent profile is, the five modes, worker profiles and the fields that govern how they claim and finish work, the built-in agents and which of them a workflow can dispatch, and managing agents from the Resolve Platform and the command line.
 order: 1
 sources: [belai/docs/agent-profiles.md, belai/docs/guardian.md, vdb-site/api/internal/handler/factory_templates_guardian.go, belai/docs/fleet.md, belai/cmd/belai/agentcmd.go, vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_workforce.go]
 checked: [belai@ea3372a, vdb-site@fe1ff17, website@a31d470]

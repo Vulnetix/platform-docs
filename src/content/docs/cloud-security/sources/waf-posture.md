@@ -1,6 +1,6 @@
 ---
 title: AWS WAF posture
-description: What the AWS WAF source reads (web ACLs, rules, managed rule group versions, IP and regex sets, logging, attachments), what it deliberately does not read, and the console and API that show the result.
+description: What the AWS WAF source reads (web ACLs, rules, managed rule group versions, IP and regex sets, logging, attachments), what it deliberately does not read, and the Resolve Platform and API that show the result.
 order: 22
 nav: AWS WAF posture
 sources: [cloudscan/waf.go, cloudscan/README.md, vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/cloud_waf_read.go, vdb-site/api/main.go, vdb-site/api/internal/handler/assets/aws-pipeline.yaml]
@@ -16,7 +16,7 @@ A cloud finding can say a load balancer is internet-facing and affected. It cann
 - Each ACL's rules and their actions, managed rule groups and their versions against the vendor's current default, custom rule groups, IP sets and regex pattern sets.
 - The logging configuration of each ACL.
 - What each ACL is attached to, and CloudFront distributions.
-- WAF Classic (`waf`, `waf-regional`). A Classic record has no managed rule groups, labels or capacity, and the console marks it as a weaker record.
+- WAF Classic (`waf`, `waf-regional`). A Classic record has no managed rule groups, labels or capacity, and the Resolve Platform marks it as a weaker record.
 
 What it does **not** read: CloudWatch metrics and `GetSampledRequests`. Those are the only signals that prove a rule fired. Everything reported describes what a rule is configured to do, never what it has done. Calls the account refused are recorded, so an empty answer is never mistaken for an account with no WAF.
 

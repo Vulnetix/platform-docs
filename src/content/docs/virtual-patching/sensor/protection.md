@@ -1,6 +1,6 @@
 ---
 title: Sensor protection levels
-description: What the standard, hardened and locked protection levels change in the systemd unit, who can still stop the sensor at each, and how a stop shows in the console.
+description: What the standard, hardened and locked protection levels change in the systemd unit, who can still stop the sensor at each, and how a stop shows in the Resolve Platform.
 order: 5
 nav: Protection
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, cli/internal/sensor/provision/units.go]
@@ -11,7 +11,7 @@ updated: 02 Nov 2026
 The profile's `protection` field sets how hard the sensor is to stop on an enrolled Linux host. `vulnetix-sensor enroll` writes the systemd unit to match, and rewrites it when the profile's level changes.
 
 > [!CAREFUL] Root can always stop it
-> A process running as root can stop or remove any other local process, including this one: it can edit or delete the unit, disable the guard timer, kill the sensor, block its network, or boot another kernel. No protection level prevents that. The aim is that every stop is visible in the console, so a stop you did not expect is something you hear about.
+> A process running as root can stop or remove any other local process, including this one: it can edit or delete the unit, disable the guard timer, kill the sensor, block its network, or boot another kernel. No protection level prevents that. The aim is that every stop is visible in the Resolve Platform, so a stop you did not expect is something you hear about.
 
 ## The three levels
 
@@ -19,14 +19,14 @@ The profile's `protection` field sets how hard the sensor is to stop on an enrol
 |---|---|---|---|
 | Starts at boot (`WantedBy=multi-user.target`, enabled) | Yes | Yes | Yes |
 | Restarts after a crash or kill (`Restart=always`) | Yes | Yes | Yes |
-| Goodbye on `SIGTERM`, so the console shows `stopped` | Yes | Yes | Yes |
+| Goodbye on `SIGTERM`, so the Resolve Platform shows `stopped` | Yes | Yes | Yes |
 | `RefuseManualStop=yes`: `systemctl stop` and `restart` are refused | No | Yes, unless `allowUserStop` | Yes, unless `allowUserStop` |
 | `WatchdogSec=30`: systemd restarts a sensor that stops sending `sd_notify` keepalives | No | Yes | Yes |
 | `StartLimitIntervalSec=0`: systemd never gives up restarting it | No | Yes | Yes |
 | polkit rule denying non-root `manage-units` on the sensor units | No | Yes | Yes |
 | `vulnetix-sensor-guard.timer`, every minute, as root: keep the units in step with the profile | Yes | Yes | Yes |
 | The guard also unmasks and enables the unit, starts it if it is not running (unless `allowUserStop`), and reports what it found | No | Yes | Yes |
-| Uninstall needs a one-time code from the console | No | No | Yes |
+| Uninstall needs a one-time code from the Resolve Platform | No | No | Yes |
 | Runs as a systemd dynamic user with `CAP_NET_BIND_SERVICE`, `CAP_SYS_PTRACE` and `CAP_DAC_READ_SEARCH` only, `NoNewPrivileges=yes`, `ProtectSystem=strict`, `MemoryMax=256M` | Yes | Yes | Yes |
 
 `CAP_NET_BIND_SERVICE` lets a listener bind a port below 1024, such as the DNS guard on `:53`. `CAP_SYS_PTRACE` and `CAP_DAC_READ_SEARCH` let the package inventory read `/proc/<pid>/maps` and the `exe` links of other users' processes, so it can tell which packages they have loaded. They are used read-only: the sensor attaches to no process. See [Performance and metrics](/virtual-patching/sensor/performance/#capabilities).
@@ -42,7 +42,7 @@ That covers a desktop user whose distribution would otherwise let an admin-group
 
 ### The guard timer
 
-`vulnetix-sensor-guard.timer` runs `vulnetix-sensor guard-check` one minute after boot and every minute after that. Every level gets it, so raising a profile from `standard` to `hardened` takes effect without a reinstall: the guard rewrites the units. From `hardened` up, a masked unit is unmasked and enabled, a disabled one is enabled, and a sensor that is not running is started, unless the profile sets `allowUserStop`. Each time it restores something the guard sends a goodbye with reason `stop` and a detail such as `restored by guard: was masked, was not running`, so the console shows that the unit was tampered with and not only that it came back. The guard is a separate unit, so stopping the sensor does not stop the guard, and at `hardened` and `locked` the timer refuses a manual stop too.
+`vulnetix-sensor-guard.timer` runs `vulnetix-sensor guard-check` one minute after boot and every minute after that. Every level gets it, so raising a profile from `standard` to `hardened` takes effect without a reinstall: the guard rewrites the units. From `hardened` up, a masked unit is unmasked and enabled, a disabled one is enabled, and a sensor that is not running is started, unless the profile sets `allowUserStop`. Each time it restores something the guard sends a goodbye with reason `stop` and a detail such as `restored by guard: was masked, was not running`, so the Resolve Platform shows that the unit was tampered with and not only that it came back. The guard is a separate unit, so stopping the sensor does not stop the guard, and at `hardened` and `locked` the timer refuses a manual stop too.
 
 ### Watchdog
 
@@ -62,7 +62,7 @@ At `hardened` and `locked` the unit is `Type=notify` and the sensor sends a keep
 | Attacker with a user shell | Cannot stop it | Cannot stop it | Cannot stop it |
 | Attacker with root | Can stop it. A `SIGTERM` stop shows `stopped`; `SIGKILL` with the unit removed shows `silent` after `heartbeatAlertMinutes`. | Has to defeat the unit, the watchdog and the guard timer; each step that is noticed is reported, and anything else ends as `silent` | As `hardened`. Without a code, uninstall through the sensor is refused, so removal has to be by force, which ends as `silent`. |
 
-## In the console
+## In the Resolve Platform
 
 The device's tamper state on Sensor Provisioning, and the sensor's on Sensors, read `ok`, `stopped`, `silent` or `revoked` ([what each means](/virtual-patching/sensor/provisioning-profiles/#tamper-states)). Set `heartbeatAlertMinutes` on the profile to how long a device may be quiet before it counts as `silent`: lower for servers that never sleep, higher for laptops that do.
 

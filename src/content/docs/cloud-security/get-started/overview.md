@@ -1,6 +1,6 @@
 ---
 title: Cloud security
-description: What Vulnetix reads from a connected AWS account, what it deploys there, how Wiz findings are checked against the account, and where each result appears in the console.
+description: What Vulnetix reads from a connected AWS account, what it deploys there, how Wiz findings are checked against the account, and where each result appears in the Resolve Platform.
 order: 1
 nav: Overview
 sources: [vdb-site/api/main.go, vdb-site/api/internal/handler/integrations_aws.go, vdb-site/api/internal/handler/integrations_aws_stack.go, vdb-site/api/internal/handler/cloud_native.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/api/internal/handler/cloud_scheduler.go, cloudscan/README.md]
@@ -26,14 +26,14 @@ Every cloud finding is an ordinary finding (category `cloud`), so triage, suppre
 
 ## How it fits together
 
-1. You connect an account from **Integrations > AWS** in the console, with IAM Identity Center or, for accounts without it, an IAM user access key. See [Connect with IAM Identity Center](/cloud-security/aws/connect-identity-center/).
+1. You connect an account from **Integrations > AWS** in the Resolve Platform, with IAM Identity Center or, for accounts without it, an IAM user access key. See [Connect with IAM Identity Center](/cloud-security/aws/connect-identity-center/).
 2. Vulnetix deploys two CloudFormation stacks into the account: `vulnetix-security-bootstrap` (a CloudTrail bucket and the cross-account role) and `vulnetix-security-pipeline` (a multi-region trail, an EventBridge rule, an SQS queue, a secret and the probe). See [What Vulnetix deploys](/cloud-security/aws/what-gets-deployed/).
 3. Vulnetix invokes the probe on a schedule: daily, staggered across a 4-hour window. The probe reads the account, looks up CRIT criteria from the VDB API and posts its findings back.
 4. Each extra source you turn on attaches one named, read-only inline policy to the probe's role on the next stack deploy. See [Cloud-native sources](/cloud-security/sources/native-sources/).
 
 ## Plan
 
-Cloud integrations (AWS, the AWS-native sources and Wiz) need the **Pro** plan or above. On a lower plan the console shows the drawer locked with an upgrade link.
+Cloud integrations (AWS, the AWS-native sources and Wiz) need the **Pro** plan or above. On a lower plan the Resolve Platform shows the drawer locked with an upgrade link.
 
 ## In this section
 
@@ -54,4 +54,4 @@ Cloud integrations (AWS, the AWS-native sources and Wiz) need the **Pro** plan o
 
 The AWS connection, its accounts, which native sources are read, and the Wiz connection are kinds: [`AwsConnection`](/platform-iac/kinds/aws-connection/), [`AwsAccount`](/platform-iac/kinds/aws-account/), [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) and [`WizConnection`](/platform-iac/kinds/wiz-connection/). The config engine applies them, and the Terraform resources and the AWS modules are on [Terraform and OpenTofu](/platform-iac/terraform/). An IAM Identity Center connection reports `AwaitingAuthorization` until someone approves the sign-in; see [status phases](/platform-iac/reference/engine/#status-phases).
 
-When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to an AWS connection, AWS account or cloud sensors that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the Resolve Platform or through a legacy API to an AWS connection, AWS account or cloud sensors that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.

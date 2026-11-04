@@ -12,7 +12,7 @@ updated: 28 Oct 2026
 
 **Approval.** A human decision a run waits for. Its kind is `plan`, `merge`, `escalation`, `suppression` or `budget`. See [Human approval](/software-factory/decisions/human-approval/).
 
-**Approve when ready.** How the console shows the autonomy level `auto_merge_low_risk`. The factory approves a ready pull request, and a person merges it.
+**Approve when ready.** How the Resolve Platform shows the autonomy level `auto_merge_low_risk`. The factory approves a ready pull request, and a person merges it.
 
 **Atom.** In these docs' own tooling, one thing a user can touch, such as a route, a setting or a flag. It is not a factory concept.
 
@@ -30,7 +30,7 @@ updated: 28 Oct 2026
 
 **Checkpoint.** Anything waiting on a person. See [Checkpoints](/software-factory/decisions/checkpoints/).
 
-**Cockpit.** The Software Factory home page in the console. See [The cockpit](/software-factory/evidence/cockpit/).
+**Cockpit.** The Software Factory home page in the Resolve Platform. See [The cockpit](/software-factory/evidence/cockpit/).
 
 **Crew.** Agents dispatched together to one host for one step. See [Crews](/software-factory/workforce/crews/).
 

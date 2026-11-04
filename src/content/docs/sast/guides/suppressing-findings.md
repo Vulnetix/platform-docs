@@ -41,7 +41,7 @@ h := md5.New() // nosec VNX-CRYPTO-001
 
 The token is recognised after `#`, `//`, `--` or `;`, anywhere on the line, so it works in every language the engine reads, including SQL, Lua and INI files. The syntax is compatible with gosec's.
 
-Each `nosec` hit is recorded in `.vulnetix/memory.yaml` as a suppression with `type: nosec`, the file, the line and the snippet, and, signed in, sent to the organisation so the console shows it as suppressed rather than fixed.
+Each `nosec` hit is recorded in `.vulnetix/memory.yaml` as a suppression with `type: nosec`, the file, the line and the snippet, and, signed in, sent to the organisation so the Resolve Platform shows it as suppressed rather than fixed.
 
 > [!CAREFUL] A line-level nosec becomes file-wide on the next run
 > The suppression recorded for a `nosec` hit keeps its line number, but the SAST pass matches ignore rules by rule ID and file only. From the second run on, the same rule is silenced everywhere in that file, including lines with no comment. Measured at `cli@4c8c3b7`: a file with `subprocess.call(..., shell=True)` on line 8 and the same call with `# nosec` on line 11 reports line 8 on the first run and nothing on the second. Until this is fixed, prefer naming the rule (`nosec vnx-py-007`) and check `.vulnetix/memory.yaml` for `origin: nosec` entries you did not intend.

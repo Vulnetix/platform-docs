@@ -17,7 +17,7 @@ These two modules are for AWS, and are separate from the [provider](/platform-ia
 
 ## aws-onboarding
 
-[`Vulnetix/terraform-vulnetix-aws-onboarding`](https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding) connects an AWS account to Vulnetix. It deploys the same `vulnetix-security-bootstrap` CloudFormation stack the Vulnetix console deploys, which holds two things:
+[`Vulnetix/terraform-vulnetix-aws-onboarding`](https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding) connects an AWS account to Vulnetix. It deploys the same `vulnetix-security-bootstrap` CloudFormation stack the Resolve Platform deploys, which holds two things:
 
 - `vulnetix-cloudtrail-<account id>`: the CloudTrail log bucket, private and encrypted, writable only by this account's Vulnetix trail.
 - `VulnetixSecurityAuditor`: the role Vulnetix assumes. It trusts only the Vulnetix AWS account, and only with your tenant uuid as the external ID.
@@ -39,9 +39,9 @@ output "auditor_role_arn" {
 }
 ```
 
-Apply it with credentials that can create IAM roles, such as an IAM Identity Center administrator. Then give the account id and `auditor_role_arn` to the AWS integration in the Vulnetix console, which deploys the pipeline stack and verifies log delivery. One account has one bootstrap stack, named `vulnetix-security-bootstrap`. Deploy it in the region the trail should log from. The stack name is fixed, because the console and the role's policy both refer to it, so the module cannot create a second one in the same account and region. Pin `ref=v1.0.1` or later; do not use v1.0.0.
+Apply it with credentials that can create IAM roles, such as an IAM Identity Center administrator. Then give the account id and `auditor_role_arn` to the AWS integration in the Resolve Platform, which deploys the pipeline stack and verifies log delivery. One account has one bootstrap stack, named `vulnetix-security-bootstrap`. Deploy it in the region the trail should log from. The stack name is fixed, because the Resolve Platform and the role's policy both refer to it, so the module cannot create a second one in the same account and region. Pin `ref=v1.0.1` or later; do not use v1.0.0.
 
-**Adopting a stack the console already deployed.** If the console created `vulnetix-security-bootstrap`, import it instead of creating it, and use v1.0.1. v1.0.0 plans to replace an imported stack, which would delete the `VulnetixSecurityAuditor` role and the CloudTrail log bucket; v1.0.1 ignores the create-only `on_failure` argument that caused it, so an import adopts the stack in place. Import the stack by its name, `terraform import module.vulnetix_onboarding.aws_cloudformation_stack.bootstrap vulnetix-security-bootstrap`, and read the plan before you apply. The module's [README](https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding/blob/v1.0.1/README.md) does not walk through an import yet, so treat that plan as the check.
+**Adopting a stack the Resolve Platform already deployed.** If the Resolve Platform created `vulnetix-security-bootstrap`, import it instead of creating it, and use v1.0.1. v1.0.0 plans to replace an imported stack, which would delete the `VulnetixSecurityAuditor` role and the CloudTrail log bucket; v1.0.1 ignores the create-only `on_failure` argument that caused it, so an import adopts the stack in place. Import the stack by its name, `terraform import module.vulnetix_onboarding.aws_cloudformation_stack.bootstrap vulnetix-security-bootstrap`, and read the plan before you apply. The module's [README](https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding/blob/v1.0.1/README.md) does not walk through an import yet, so treat that plan as the check.
 
 | Input | Default | Meaning |
 |---|---|---|
@@ -52,14 +52,14 @@ Apply it with credentials that can create IAM roles, such as an IAM Identity Cen
 
 | Output | Meaning |
 |---|---|
-| `auditor_role_arn` | The `VulnetixSecurityAuditor` role. Give it to the Vulnetix console. |
+| `auditor_role_arn` | The `VulnetixSecurityAuditor` role. Give it to the Resolve Platform. |
 | `log_bucket_name` | The bucket CloudTrail delivers into and the probe bundle is staged in. |
 | `external_id` | The external ID the role requires: your tenant uuid. |
 | `stack_id` | The bootstrap stack's id. |
 
-It needs `hashicorp/aws` 5.0 or later. The template is a copy of the one the console deploys, so a stack made here and one made from the console are the same stack.
+It needs `hashicorp/aws` 5.0 or later. The template is a copy of the one the Resolve Platform deploys, so a stack made here and one made from the Resolve Platform are the same stack.
 
-**Removing it.** `terraform destroy` deletes the stack. Remove the pipeline stack first, from the Vulnetix console or with `aws cloudformation delete-stack --stack-name vulnetix-security-pipeline`, since it is deployed with the role this stack holds. CloudFormation cannot delete the log bucket while it holds objects; empty it first.
+**Removing it.** `terraform destroy` deletes the stack. Remove the pipeline stack first, from the Resolve Platform or with `aws cloudformation delete-stack --stack-name vulnetix-security-pipeline`, since it is deployed with the role this stack holds. CloudFormation cannot delete the log bucket while it holds objects; empty it first.
 
 ## aws-siem-shipping
 

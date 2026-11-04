@@ -17,7 +17,7 @@ Pix is the name for the Vulnetix pieces that work alongside a coding agent. Some
 | Skills | Your coding agent's skills directory | 18 procedures that need your working tree: pick a dependency, trace a CVE into this repository, apply and verify a fix, scan, publish VEX | [Skills](/pix/skills/overview/) |
 | Subagents | Claude Code, from the plugin | 5 multi-step workflows with their own context: bulk triage, upgrades, PR review, compliance bundles, incident response | [Subagents](/pix/agents/overview/) |
 | Pix Sandboxes | A container Vulnetix runs per purchase | A Belai host that is always online, with your repositories cloned, a hostname egress policy and a launch configuration | [Pix Sandboxes](/pix/sandboxes/overview/) |
-| Pix calls | The console's `/call` page | Talk to Pix, the factory's coordinator: ask how work is going, start or stop sessions, with a read-back before anything starts | [Voice calls](/pix/calls/voice-calls/) |
+| Pix calls | The Resolve Platform's `/call` page | Talk to Pix, the factory's coordinator: ask how work is going, start or stop sessions, with a read-back before anything starts | [Voice calls](/pix/calls/voice-calls/) |
 
 Looking a vulnerability up is not a Pix skill. That is the [MCP server](/mcp-server/) (`https://mcp.vulnetix.com/mcp`) and the CLI's own `vulnetix vdb` subcommands. Every Pix skill exists because it needs the repository, needs you, or needs a sequence of steps.
 
@@ -58,4 +58,4 @@ No credential is needed. The CLI falls back to the shared Community tier: reads 
 
 ## Platform IaC
 
-Sandbox launch settings and egress are kinds: [`SandboxLaunchProfile`](/platform-iac/kinds/sandbox-launch-profile/) and [`SandboxEgressPolicy`](/platform-iac/kinds/sandbox-egress-policy/). The sandbox itself is bought in the console. `.vulnetix/agent.yaml`, the repository's hook policy read by `vulnetix agent hook` on every call ([Policy file](/pix/hooks/policy-file/)), is not an `apiVersion: vulnetix.com/v1` document, so `vulnetix config validate` does not check it. Launch configurations are versioned JSON documents in your library, saved through the API.
+Sandbox launch settings and egress are kinds: [`SandboxLaunchProfile`](/platform-iac/kinds/sandbox-launch-profile/) and [`SandboxEgressPolicy`](/platform-iac/kinds/sandbox-egress-policy/). The sandbox itself is bought in the Resolve Platform. `.vulnetix/agent.yaml`, the repository's hook policy read by `vulnetix agent hook` on every call ([Policy file](/pix/hooks/policy-file/)), is not an `apiVersion: vulnetix.com/v1` document, so `vulnetix config validate` does not check it. Launch configurations are versioned JSON documents in your library, saved through the API.

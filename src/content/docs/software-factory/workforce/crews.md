@@ -44,7 +44,7 @@ belai agent start -crew belai:delivery -dir ~/src/api:3 -dir ~/src/web -dir ~/sr
 
 A running worker reads a control file before every claim and round: its model, its effort, and whether to drain. `belai agent control`, the supervisor, the pool and the TUI's control room write it. Changes apply at the next round, never with a restart. A model a person picked is pinned until `-auto` hands it back.
 
-The crew controls the factory and the console can send are: `replicas`, `max_workers`, `pool`, `switch_after`, `final_retry`, `scope_add`, `scope_remove`, `scope_pause`, `scope_weight`, `worker_target`, `worker_effort`, `worker_drain`, `worker_stop`, `worker_auto` and `stop`.
+The crew controls the factory and the Resolve Platform can send are: `replicas`, `max_workers`, `pool`, `switch_after`, `final_retry`, `scope_add`, `scope_remove`, `scope_pause`, `scope_weight`, `worker_target`, `worker_effort`, `worker_drain`, `worker_stop`, `worker_auto` and `stop`.
 
 ## Crew run states
 

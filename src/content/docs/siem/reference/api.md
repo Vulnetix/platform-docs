@@ -11,7 +11,7 @@ Guardian has two hosts:
 
 | Host | Serves |
 |---|---|
-| `https://guardian.vulnetix.com` | The console API under `/v1/guardian/...`, the AWS templates under `/v1/templates/...`, `/v1/health` |
+| `https://guardian.vulnetix.com` | The Resolve Platform API under `/v1/guardian/...`, the AWS templates under `/v1/templates/...`, `/v1/health` |
 | `https://ingest.vulnetix.com` | Log ingest under `/v1/ingest/...`, authenticated by [ingest token](/siem/sources/ingest-tokens/) |
 
 ## Authentication

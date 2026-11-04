@@ -39,9 +39,9 @@ The VDB derives tree-sitter S-expression queries from each advisory's affected s
 
 A `reachable` signal moves a package into the `action` group. See [Result groups](/sca/scanning/output/#result-groups).
 
-## What the console does with it
+## What the Resolve Platform does with it
 
-The scan posts verdicts to `/v2/cli.sca-reachability` after it has answered (the write does not hold the exit). In the console:
+The scan posts verdicts to `/v2/cli.sca-reachability` after it has answered (the write does not hold the exit). In the Resolve Platform:
 
 | Verdict | Triage state set |
 |---|---|

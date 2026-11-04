@@ -32,7 +32,7 @@ updated: 02 Nov 2026
 | Gap | Detail |
 |---|---|
 | The gateway sees plaintext in memory | It has to, to screen it. You trust the operator to run the published code. |
-| The gateway can decrypt provider keys | It has to, to use them. The console API can also decrypt, for vault verification. |
+| The gateway can decrypt provider keys | It has to, to use them. The Resolve Platform API can also decrypt, for vault verification. |
 | The provider | Retention, training and region are set by your provider contract |
 | Responses are not inspected | Guardrails read the request only. What the model sends back is relayed unscreened. |
 | Tool calls already run | A coding agent runs a tool on the developer's machine before its result reaches the gateway. A tool rule can remove the tool from the next request or refuse it; it cannot undo a run. |

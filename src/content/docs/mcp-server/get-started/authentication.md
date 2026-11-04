@@ -73,7 +73,7 @@ Treat it as a password: anyone holding it acts as your organisation.
 
 ## Rotating
 
-Rotate from the console, or run `vulnetix auth login` again, then update each client config. There is no session, so the new value applies from the next request. Rotate after a key appears in a commit, a shared transcript, a screenshot or an exported conversation. A key obtained with `vulnetix_auth_poll` passed through the transcript; rotate it if that transcript was shared.
+Rotate from the Resolve Platform, or run `vulnetix auth login` again, then update each client config. There is no session, so the new value applies from the next request. Rotate after a key appears in a commit, a shared transcript, a screenshot or an exported conversation. A key obtained with `vulnetix_auth_poll` passed through the transcript; rotate it if that transcript was shared.
 
 > [!WHY] Why there is no anonymous mode
 > vdb-api meters quota per organisation. A shared server that fell back to one built-in credential would put every caller without a key into one bucket, the same one every Vulnetix CLI community user draws from, and a single runaway agent loop would exhaust it for everyone. You bring a credential and are metered as yourself.

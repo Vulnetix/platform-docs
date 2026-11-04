@@ -1,7 +1,7 @@
 ---
 title: Compliance HTTP API
 nav: HTTP API
-description: Every compliance report route, with request bodies, query parameters, responses and error codes. The console uses the same routes.
+description: Every compliance report route, with request bodies, query parameters, responses and error codes. The Resolve Platform uses the same routes.
 order: 1
 sources: [vdb-site/api/main.go, vdb-site/api/internal/handler/compliance_reports.go, vdb-site/api/internal/handler/compliance_evidence.go, vdb-site/api/internal/handler/compliance_evidence_map.go, vdb-site/api/internal/handler/compliance_assessments.go, vdb-site/api/internal/handler/compliance_export.go, vdb-site/api/internal/handler/compliance_oscal.go, vdb-site/api/internal/handler/compliance_dsomm.go, vdb-site/api/internal/handler/auth_middleware.go, website/src/worker.ts]
 checked: [vdb-site@1a06d67, website@ad775f37]
@@ -14,7 +14,7 @@ updated: 02 Nov 2026
 https://www.vulnetix.com/api/site/v1/compliance
 ```
 
-The console's proxy forwards `/api/site/v1/*` to the Vulnetix account API. Send either the console session cookie or an API key header:
+The Resolve Platform's proxy forwards `/api/site/v1/*` to the Vulnetix account API. Send either the Resolve Platform session cookie or an API key header:
 
 ```
 Authorization: ApiKey <orgId>:<hex>

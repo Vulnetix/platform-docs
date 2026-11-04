@@ -50,7 +50,7 @@ Deployed as `VulnetixSecurityAuditor`.
 | Lambda function | `vulnetix-security-reporter` | `provided.al2023`, arm64, 300 s timeout. 512 MB memory and 512 MB ephemeral storage, or 1024 MB and 2048 MB with **Images and Lambda code** on. |
 | Event source mapping | | The queue to the function: batch 100, 10 s batching window, at most 10 concurrent invocations, partial batch failures reported. |
 
-Parameters that change what the probe reads, all set by Vulnetix from your choices in the console:
+Parameters that change what the probe reads, all set by Vulnetix from your choices in the Resolve Platform:
 
 | Parameter | Default | Set from |
 |---|---|---|

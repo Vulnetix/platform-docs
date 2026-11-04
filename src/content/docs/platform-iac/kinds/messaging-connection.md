@@ -323,7 +323,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 
 ## How apply treats it
 
-- Created, updated and deleted through the messaging centre's writers, now transaction scoped. The URL and the Jira token are `valueFrom` secrets kept in the vault as the console keeps them. Each vault write registers its undo.
+- Created, updated and deleted through the messaging centre's writers, now transaction scoped. The URL and the Jira token are `valueFrom` secrets kept in the vault as the Resolve Platform keeps them. Each vault write registers its undo.
 - A Slack connection is created paused with no credential and reports `AwaitingAuthorization` with the install URL until someone authorizes it in a browser.
 - A webhook's signing secret is shown once, in the apply that creates it.
 - The type cannot change. Names live in `ConfigManagedObject`.

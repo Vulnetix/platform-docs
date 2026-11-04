@@ -39,7 +39,7 @@ A scheduled send runs a [saved search](/siem/search/saved-searches/) on a schedu
 | `layout` | `table_chart`, `table`, `summary` | `table_chart` |
 | `rows` | Rows in the message, 1 to 100 | 20 |
 | `csv` | Attach a CSV of up to 1,000 rows (email only) | `true` |
-| `link` | Link to the search in the console | `true` |
+| `link` | Link to the search in the Resolve Platform | `true` |
 | `query` | Include the query text | `false` |
 
 ## Destinations

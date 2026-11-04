@@ -298,7 +298,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-- Scalars merge: a field the document leaves out keeps its value, as the console's save does.
+- Scalars merge: a field the document leaves out keeps its value, as the Resolve Platform's save does.
 - `ecosystems` and `mirrors`, when present, are the whole set. An ecosystem the document does not name inherits `mode` again, and a mirror it does not name is removed.
 - Mirrors are matched by ecosystem and URL, so a priority change updates that mirror and keeps its crawl position.
 - The allow and deny lists are [`PackageList`](/platform-iac/kinds/package-list/) objects, applied after this one.

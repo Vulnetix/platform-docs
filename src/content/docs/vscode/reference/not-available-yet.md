@@ -23,7 +23,7 @@ The earlier site at docs.code.vulnetix.com documented the planned design alongsi
 | Suppress and Triage commands, VEX statements from triage | `.vulnetix/memory.yaml` or `vulnetix.suppressions` ([Suppressions](/vscode/findings/suppressions/)) |
 | `nosec` comments honoured in the editor | Honoured by `vulnetix scan` only |
 | Organisation quality gate, package firewall and AI firewall in the editor | [Quality gates](/quality-gates/), [Package firewall](/package-firewall/), [AI firewall](/ai-firewall/) |
-| Threat intelligence browser, look up selection | The Resolve console, or the [browser extension](/browser-extension/) for identifiers on web pages |
+| Threat intelligence browser, look up selection | The Resolve Platform, or the [browser extension](/browser-extension/) for identifiers on web pages |
 | Reachability analysis | `vulnetix scan` signed in |
 | Lockfile-regeneration task after a fix, package-manager overrides | Run your package manager yourself ([Fix a vulnerable dependency](/vscode/guides/fix-a-dependency/)) |
 | Custom rule packs | `vulnetix sast` with rule packs ([SAST](/sast/)) |

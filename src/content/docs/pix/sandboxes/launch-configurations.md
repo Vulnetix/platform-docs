@@ -75,7 +75,7 @@ Each `source`, `kind` and `id` combination appears once. Ids are not looked up w
 | `egress_mode` | `inherit`, `allow_all_logged` or `deny_except_allow` | `inherit`: keep the sandbox's own mode |
 | `egress_allow` | Up to 64 hosts, each a DNS name or `*.` wildcard of at most 253 characters (the [egress host pattern](/pix/sandboxes/egress/#host-patterns)), each once | No hosts are allowed |
 
-When saved from the console, empty optional parts are left out so two equal configurations hash alike: no empty `description`, `keys` or `extensions`, no `egress_mode: inherit`, and version pins sorted.
+When saved from the Resolve Platform, empty optional parts are left out so two equal configurations hash alike: no empty `description`, `keys` or `extensions`, no `egress_mode: inherit`, and version pins sorted.
 
 ## Validation messages
 
@@ -159,7 +159,7 @@ Provider keys are sent only when you tick **Also send the keys for ...**.
 | DELETE | `/v1/belai/library/items/launches/{id}` | | Deletes the configuration |
 | GET | `/v1/belai/library/item-names/check?kind=launch&name=<n>` | | Whether a name is free |
 
-`{kind}` takes `launches` or `launch`. `body` is the JSON object itself, not a string. The console calls these at `https://www.vulnetix.com/api/site` with its session token as a bearer token:
+`{kind}` takes `launches` or `launch`. `body` is the JSON object itself, not a string. The Resolve Platform calls these at `https://www.vulnetix.com/api/site` with its session token as a bearer token:
 
 ```bash
 curl -X POST "https://www.vulnetix.com/api/site/v1/belai/library/items/launches" \

@@ -8,7 +8,7 @@ checked: ["terraform-provider-resolve@v1.4.1", "vdb-site@fcbbdd3"]
 updated: 04 Nov 2026
 ---
 
-The `vulnetix/resolve` provider manages Vulnetix configuration as code. Each resource is one `vulnetix.com/v1` config document of one [kind](/platform-iac/kinds/catalogue/), applied through the same [server-side engine](/platform-iac/reference/engine/) as `vulnetix config apply` and the console's Download as code. Resources, their examples and their docs are generated from the kind schemas in [`config-schemas`](https://github.com/Vulnetix/config-schemas), so a resource has the fields its kind has.
+The `vulnetix/resolve` provider manages Vulnetix configuration as code. Each resource is one `vulnetix.com/v1` config document of one [kind](/platform-iac/kinds/catalogue/), applied through the same [server-side engine](/platform-iac/reference/engine/) as `vulnetix config apply` and the Resolve Platform's Download as code. Resources, their examples and their docs are generated from the kind schemas in [`config-schemas`](https://github.com/Vulnetix/config-schemas), so a resource has the fields its kind has.
 
 It is one binary for Terraform and OpenTofu, 1.11 or later: secrets use write-only arguments, which arrived in 1.11.
 
@@ -91,7 +91,7 @@ The provider uses the credentials Vulnetix already issues. Set exactly one of th
 |---|---|---|---|
 | `api_key` with `org_id` | `VULNETIX_API_KEY` with `VULNETIX_ORG_ID` | `Authorization: ApiKey <org_id>:<api_key>` | The ApiKey of a service account. Sensitive. Keep it out of the configuration. |
 | `token` | `VULNETIX_API_TOKEN` | `Authorization: Bearer <token>` | An Authentik access token or a session token. It names its own organisation, so there is no `org_id`. Sensitive. |
-| `endpoint` | `VULNETIX_ENDPOINT` | | Default `https://www.vulnetix.com/api/site/v1`. The console API; the engine's routes are under `/config/...`. Set it to point at another deployment. |
+| `endpoint` | `VULNETIX_ENDPOINT` | | Default `https://www.vulnetix.com/api/site/v1`. The Resolve Platform API; the engine's routes are under `/config/...`. Set it to point at another deployment. |
 | `manager` | none | | Default `terraform`. Recorded as the owner of every object this provider applies. |
 
 An owner creates the service account with the `developer` role (or `owner`) and gives its ApiKey to the automation. A `developer` can apply every kind, [`Organization`](/platform-iac/kinds/organization/), [`Member`](/platform-iac/kinds/member/), [`ServiceAccount`](/platform-iac/kinds/service-account/) and [`VaultEntry`](/platform-iac/kinds/vault-entry/) included; on people and service accounts it grants up to `developer`, and only an **owner** credential can grant `owner` or change an owner. The five SIEM kinds are written in Guardian with the same credential. A `member` service account is refused with HTTP 403 on apply. A person's ApiKey works too, if that person is an owner. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
@@ -166,7 +166,7 @@ A kind with one object per tenant (a singleton, named `default`) always has some
 | [`ScannerProfile`](/platform-iac/kinds/scanner-profile/) | Resets its four keys (`scanners`, `custom`, `slsaMin`, `evidence`). |
 | [`PackageFirewallPolicy`](/platform-iac/kinds/package-firewall-policy/) | Restores the column defaults and clears the ecosystem overrides, which is the open posture of a tenant with no policy. Mirrors are left alone. |
 | [`AiFirewallPolicy`](/platform-iac/kinds/ai-firewall-policy/) | Removes only the rows of `spec.capabilities`. Guardrails, model and provider entries stay. |
-| [`AwsConnection`](/platform-iac/kinds/aws-connection/) | Removes the connection as the console's forced disconnect does. The CloudFormation stacks stay in each account. |
+| [`AwsConnection`](/platform-iac/kinds/aws-connection/) | Removes the connection as the Resolve Platform's forced disconnect does. The CloudFormation stacks stay in each account. |
 | [`Organization`](/platform-iac/kinds/organization/) | Lets go. The tenant is never deleted. |
 
 Destroying a resource that another manager owns fails. See the next section.

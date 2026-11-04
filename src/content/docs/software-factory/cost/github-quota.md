@@ -8,7 +8,7 @@ checked: [vdb-site@597344c, website@58b9ffa]
 updated: 28 Oct 2026
 ---
 
-Each GitHub App installation has one rate limit, 5,000 calls an hour, shared by Vulnetix's enrichment, the factory and the people using the console. A [forge connection](/software-factory/control/forge-connections/) has one too. It is the scarcest thing the factory uses, so the factory is built to spend as little of it as possible.
+Each GitHub App installation has one rate limit, 5,000 calls an hour, shared by Vulnetix's enrichment, the factory and the people using the Resolve Platform. A [forge connection](/software-factory/control/forge-connections/) has one too. It is the scarcest thing the factory uses, so the factory is built to spend as little of it as possible.
 
 > [!CAREFUL] Gitea and Forgejo report no budget
 > GHES and GitLab send their rate limit with every answer, and the factory reads it as it does GitHub's. Gitea and Forgejo send none, so the factory counts its own calls on each connection in the clock hour against `forge.calls_per_hour` (default 5,000, from 100 to 100,000) and applies the share and reserve to that. The Quota panel marks such a connection as counted locally. Set it to what your instance allows.

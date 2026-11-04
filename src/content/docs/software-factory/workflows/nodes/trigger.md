@@ -19,7 +19,7 @@ Every workflow needs at least one trigger node. When a run starts, the engine be
 | `finding` | A scanner reports a finding of the listed severities | `severity` list: `critical`, `high`, `medium`, `low` |
 | `kanban` | A card moves from one board list to another | `fromList`, `toList` |
 | `firewall` | The Package Firewall, AI Firewall or sandbox egress sees something new | `source`, `events`, `newTo`, filters, `ticketRepo` |
-| `manual` | A person starts the run, in the console or on a Pix call | none |
+| `manual` | A person starts the run, in the Resolve Platform or on a Pix call | none |
 
 `finding` and `kanban` triggers validate and publish, but the engine has no code path that fires them yet: GitHub deliveries match only `webhook` and `label` triggers.
 

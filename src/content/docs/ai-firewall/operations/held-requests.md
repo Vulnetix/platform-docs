@@ -33,7 +33,7 @@ A family (tools, MCP servers, skills or clients) that has any `*_allow` rule is 
 | Where | What |
 |---|---|
 | Resolve Platform | Govern tab of the [AI Firewall page](https://www.vulnetix.com/resolve/ai-firewall#govern), **Held now** list. Each entry shows the identity, its kind, the client it came from, the time left before the timeout, and a **Review** link. |
-| Software Factory | Each new hold publishes a `capability.held` source event; a workflow can turn it into a review card. The console links to workflow templates matching "ai capability" and to [Checkpoints](/software-factory/decisions/checkpoints/). |
+| Software Factory | Each new hold publishes a `capability.held` source event; a workflow can turn it into a review card. The Resolve Platform links to workflow templates matching "ai capability" and to [Checkpoints](/software-factory/decisions/checkpoints/). |
 | Guardian | Each hold is forwarded to the SIEM as a product event |
 | API | `GET /ai-firewall/holds?state=held` |
 
@@ -82,7 +82,7 @@ curl -s -X POST https://www.vulnetix.com/api/site/v1/ai-firewall/capabilities/re
   -d '{"kind":"mcp_server","identity":"github","client":"claude-code","decision":"approve"}'
 ```
 
-`$VULNETIX_SESSION_COOKIE` is the signed-in browser session; the console API has no token authentication.
+`$VULNETIX_SESSION_COOKIE` is the signed-in browser session; the Resolve Platform API has no token authentication.
 
 ## Related
 

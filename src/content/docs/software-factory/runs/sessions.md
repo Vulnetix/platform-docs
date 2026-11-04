@@ -1,6 +1,6 @@
 ---
 title: Sessions
-description: A session is one Belai conversation on a host. How sessions are listed and classified, what started each one, their end states, the session page, and what you can do to a live session from the console.
+description: A session is one Belai conversation on a host. How sessions are listed and classified, what started each one, their end states, the session page, and what you can do to a live session from the Resolve Platform.
 order: 5
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/factory_sessions_aggregate.go, vdb-site/api/internal/handler/belai_trigger.go, website/.repo/session-trigger.md]
 checked: [vdb-site@284f1d6, website@a31d470]
@@ -25,7 +25,7 @@ Each session also records **what started it**, its trigger:
 |---|---|
 | `workflow` | A factory run's crew step. Also names the run, the workflow, how it was triggered (`cron`, `webhook` and so on) and the GitHub event and delivery. |
 | `pix_call` | Pix started it on a call |
-| `console` | Someone started it from the console |
+| `console` | Someone started it from the Resolve Platform |
 | `finding` | Started from a finding |
 | `pull_request` | Started from a pull request |
 | `fleet` | Started from the fleet view |

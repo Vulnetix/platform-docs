@@ -17,7 +17,7 @@ All on port 443.
 | Host | Used by |
 |---|---|
 | `api.vdb.vulnetix.com` | `scan`, `vdb`, `upload`, `gha`, `auth verify`, and every other call to the vulnerability database |
-| `www.vulnetix.com` | `auth login` (the browser device flow) and the console |
+| `www.vulnetix.com` | `auth login` (the browser device flow) and the Resolve Platform |
 | `packages.vulnetix.com` | The [package firewall](/package-firewall/) registry proxy |
 | `guardrails.vulnetix.com` | The [AI firewall](/ai-firewall/) gateway |
 | `ingest.vulnetix.com` | The runtime sensor's event upload |

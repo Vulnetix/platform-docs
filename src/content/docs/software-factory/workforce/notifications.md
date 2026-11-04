@@ -17,7 +17,7 @@ Each notice names what happened in one line and links to the page it is about. S
 
 ## Push
 
-Turn on push in the console (Settings › Notifications, or when the console asks). Each browser or installed app you turn it on in gets pushes. **Send test** checks it.
+Turn on push in the Resolve Platform (Settings › Notifications, or when the Resolve Platform asks). Each browser or installed app you turn it on in gets pushes. **Send test** checks it.
 
 ### Preferences
 

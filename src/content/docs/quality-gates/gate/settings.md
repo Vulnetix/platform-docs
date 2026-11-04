@@ -54,7 +54,7 @@ vulnetix config get quality-gate
 - `null` unsets the setting for the organization. Unset is not the same as `false` or `0`: `--block-unpinned false` actively turns the gate off for every member, while `null` lets each pipeline decide.
 - `config get quality-gate` shows unset settings as **not set**.
 
-In the console every enforcement field has a **Not enforced** choice, which stores `null`. The console saves all nine fields at once, so saving the form writes every field as shown.
+In the Resolve Platform every enforcement field has a **Not enforced** choice, which stores `null`. The Resolve Platform saves all nine fields at once, so saving the form writes every field as shown.
 
 ## API validation
 

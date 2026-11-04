@@ -72,7 +72,7 @@ function customerWording(text) {
 // ── Settings ────────────────────────────────────────────────────────────────
 {
   const sections = groupBy(by('setting'), (a) => (a.value.includes('.') ? a.value.split('.')[0] : 'other'));
-  let body = 'Factory settings are one revisioned document per tenant. Change them on the console\'s Factory settings page or with `PUT /v1/factory/settings`. Keys stored on **sandbox** belong to the Pix Sandbox and are edited here for convenience. A key marked **locked** cannot be changed.\n\n';
+  let body = 'Factory settings are one revisioned document per tenant. Change them on the Resolve Platform\'s Factory settings page or with `PUT /v1/factory/settings`. Keys stored on **sandbox** belong to the Pix Sandbox and are edited here for convenience. A key marked **locked** cannot be changed.\n\n';
   body += 'Sections: ' + Object.keys(sections).map((s) => `[${s}](#${s})`).join(' · ') + '\n';
   for (const [sec, rows] of Object.entries(sections)) {
     body += `\n## ${sec}\n\n| Key | Type and values | Default | Stored | Explained in |\n|---|---|---|---|---|\n`;
@@ -91,7 +91,7 @@ function customerWording(text) {
 
 // ── Validation and API error codes ─────────────────────────────────────────
 {
-  let body = 'Codes the API returns in `issues[].code` when it refuses a request, and the codes a workflow gets when it is validated for publish or a dry run. The message is the one the console shows; `{node}` is replaced with the step\'s name.\n\n| Code | Message | Explained in |\n|---|---|---|\n';
+  let body = 'Codes the API returns in `issues[].code` when it refuses a request, and the codes a workflow gets when it is validated for publish or a dry run. The message is the one the Resolve Platform shows; `{node}` is replaced with the step\'s name.\n\n| Code | Message | Explained in |\n|---|---|---|\n';
   for (const a of by('code')) body += `| <span id="${a.value}"></span>${code(a.value)} | ${cell(a.detail?.message)} | ${link(guideFor(a))} |\n`;
   write('reference/validation-codes', { title: 'Validation and error codes', nav: 'Error codes', description: `All ${by('code').length} codes the factory API and the workflow validator return, with the message each one carries.`, order: 2, checked: short('vdb-site') }, body);
 }
@@ -121,9 +121,9 @@ function customerWording(text) {
 
 // ── Console routes ─────────────────────────────────────────────────────────
 {
-  let body = 'Pages in the Vulnetix console that belong to Software Factory. All are under `https://www.vulnetix.com` and need you to be signed in.\n\n| Path | Explained in |\n|---|---|\n';
+  let body = 'Pages in the Resolve Platform that belong to Software Factory. All are under `https://www.vulnetix.com` and need you to be signed in.\n\n| Path | Explained in |\n|---|---|\n';
   for (const a of by('console')) body += `| [${code(a.value)}](https://www.vulnetix.com${a.value}) | ${link(guideFor(a))} |\n`;
-  write('reference/console-routes', { title: 'Console pages', description: 'Every Software Factory page in the Vulnetix console and the guide that explains it.', order: 5, checked: short('website') }, body);
+  write('reference/console-routes', { title: 'Resolve Platform pages', description: 'Every Software Factory page in the Resolve Platform and the guide that explains it.', order: 5, checked: short('website') }, body);
 }
 
 // ── Templates ──────────────────────────────────────────────────────────────
@@ -195,7 +195,7 @@ function customerWording(text) {
     const label = Object.fromEntries(doc.kinds.map((k) => [k.id, k.label]));
     const word = { native: 'Yes', emulated: 'Emulated', unavailable: 'Not available' };
     const at = (s) => (s ? `${word[s.level] ?? s.level}${s.note ? `: ${s.note}` : ''}` : '');
-    let body = 'What each forge supports, emulates or lacks, from the factory\'s capability table. The console, the connect dialog and the engine\'s refusals read the same table: a step that needs something a forge lacks fails with `forge_capability_unavailable` and the reason below. Connecting each forge is in ' + pageLink('control/forge-connections', 'Forge connections') + '.\n\n';
+    let body = 'What each forge supports, emulates or lacks, from the factory\'s capability table. The Resolve Platform, the connect dialog and the engine\'s refusals read the same table: a step that needs something a forge lacks fails with `forge_capability_unavailable` and the reason below. Connecting each forge is in ' + pageLink('control/forge-connections', 'Forge connections') + '.\n\n';
     body += '| Forge | API dialect | A pull request is called |\n|---|---|---|\n';
     for (const k of doc.kinds) body += `| ${cell(k.label)} | ${code(k.dialect)} | ${cell(k.prNoun)} |\n`;
     body += '\n## Capabilities\n';

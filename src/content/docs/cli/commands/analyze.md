@@ -13,7 +13,7 @@ vulnetix analyze [path] [flags]
 
 `analyze` does two things over one repository:
 
-- **Builds a graph** of its files, symbols, dependencies, images, workflows, infrastructure and contributors, plus **cross-repo join keys**: what this repository provides and what it consumes. It never reads a second repository. The server joins one repository's provides to another's consumes, so running `analyze` in every repository's CI gives the organisation graph in the console (`/resolve/graph`) without any repository needing access to another.
+- **Builds a graph** of its files, symbols, dependencies, images, workflows, infrastructure and contributors, plus **cross-repo join keys**: what this repository provides and what it consumes. It never reads a second repository. The server joins one repository's provides to another's consumes, so running `analyze` in every repository's CI gives the organisation graph in the Resolve Platform (`/resolve/graph`) without any repository needing access to another.
 - **Reports metrics, each with the evidence that produced it.** A count of 23 has 23 evidence records; a capped metric says how many items it dropped and why; a metric that could not be measured is `null`, never `0`. Every metric is on [analyze metrics](/cli/commands/analyze-metrics/).
 
 ## Before you run it
@@ -58,7 +58,7 @@ Global flags apply; `--silent` also suppresses the `Wrote analysis report to ...
 
 - `.vulnetix/analyze.report.json`, validated against [the report schema](https://www.vulnetix.com/schemas/vulnetix-analyze-report.schema.json) before it is written.
 - A terminal summary grouped by metric family.
-- When signed in, an upload to `/v2/cli.insights`, which feeds the console graph. The upload is best effort: a failure is reported and the command still succeeds, unless `--fail-on-upload-error` is set.
+- When signed in, an upload to `/v2/cli.insights`, which feeds the Resolve Platform graph. The upload is best effort: a failure is reported and the command still succeeds, unless `--fail-on-upload-error` is set.
 
 ## In GitHub Actions
 

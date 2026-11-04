@@ -12,9 +12,9 @@ You need:
 - a Vulnetix organisation on the Pro plan or above;
 - an AWS access portal URL (`https://<your-portal>.awsapps.com/start`) and a permission set in the target account that can create IAM roles, an S3 bucket, a trail, a queue, a secret and a Lambda function. An administrator set works; [Deploy role](/cloud-security/aws/connect-identity-center/#when-no-permission-set-can-deploy) covers the case where none can.
 
-## 1. Sign in to AWS from the console
+## 1. Sign in to AWS from the Resolve Platform
 
-1. Open **Integrations** in the console and pick the **AWS** card (category **Cloud**).
+1. Open **Integrations** in the Resolve Platform and pick the **AWS** card (category **Cloud**).
 2. Enter the access portal URL and the IAM Identity Center region. The URL may be pasted with or without `https://` and `/start`; it must be a `*.awsapps.com` address.
 3. The drawer shows a user code and a verification link. Open the link, check the code matches, and approve. The drawer polls until AWS answers.
 4. Pick the account and the permission set to deploy with, then review and start.

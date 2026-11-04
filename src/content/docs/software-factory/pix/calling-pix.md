@@ -13,7 +13,7 @@ Pix is the factory's coordinator, and you can call it. Ask how runs and sessions
 
 ## Placing a call
 
-The phone icon in the console header opens `/call`. It shows once you have somewhere to run sessions: a Pix Sandbox, or a host that has run `belai rc`. On a phone, or from the installed app's **Call Pix** shortcut, the call connects as the page opens where the browser lets audio play unasked (the installed app always does); elsewhere it waits for the green button. Tap the green button and talk.
+The phone icon in the Resolve Platform header opens `/call`. It shows once you have somewhere to run sessions: a Pix Sandbox, or a host that has run `belai rc`. On a phone, or from the installed app's **Call Pix** shortcut, the call connects as the page opens where the browser lets audio play unasked (the installed app always does); elsewhere it waits for the green button. Tap the green button and talk.
 
 `/call` is its own page. Moving into or out of it is always a full page load.
 
@@ -89,5 +89,5 @@ A call is handled by a Cloudflare Durable Object. Your speech is transcribed, **
 ## Related
 
 - [Stopping work](/software-factory/pix/stopping-work/)
-- [Pix buttons in the console](/software-factory/pix/pix-buttons/)
+- [Pix buttons in the Resolve Platform](/software-factory/pix/pix-buttons/)
 - [Pix, your personal assistant](https://www.vulnetix.com/articles/pix-personal-assistant)

@@ -44,7 +44,7 @@ By default the probe reports to Vulnetix over the public HTTPS endpoint, which n
 
 ## Disconnect
 
-`DELETE /v1/integrations/aws`, the **Disconnect** button. It removes everything Vulnetix put in the account, one resumable step per call, and answers `{ "done": false, "step": "..." }` until it is finished. The console calls it until `done` is `true`. The order is fixed:
+`DELETE /v1/integrations/aws`, the **Disconnect** button. It removes everything Vulnetix put in the account, one resumable step per call, and answers `{ "done": false, "step": "..." }` until it is finished. The Resolve Platform calls it until `done` is `true`. The order is fixed:
 
 1. Delete the pipeline stack (CloudTrail stops writing to the bucket).
 2. Empty the log bucket, in batches. The step reports how many objects it removed.

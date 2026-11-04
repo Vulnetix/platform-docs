@@ -83,8 +83,8 @@ With these two rules, a request offering any tool other than `Read` or `Grep` is
 - Explicit deny rules are evaluated before allowlist gaps, so a capability matched by both is reported against the deny rule.
 - An allowlist in one family does not affect another. A `tool_allow` rule says nothing about MCP servers, skills or clients.
 
-> [!CAREFUL] Allow rules made in the console only flag
-> The console's Allow button stores an allow rule with action `flag`, because its purpose is to switch the family into allowlist mode. An allowlist built only from console rules therefore flags unlisted capabilities and never blocks or strips them. To enforce, add one allow rule in the family with `--action block` or `--action strip` from the CLI or a policy file.
+> [!CAREFUL] Allow rules made in the Resolve Platform only flag
+> The Resolve Platform's Allow button stores an allow rule with action `flag`, because its purpose is to switch the family into allowlist mode. An allowlist built only from console rules therefore flags unlisted capabilities and never blocks or strips them. To enforce, add one allow rule in the family with `--action block` or `--action strip` from the CLI or a policy file.
 
 Agent tool lists change between point releases. Run any allowlist at `flag` long enough to see every tool your agents carry before switching it to `block`.
 
@@ -99,7 +99,7 @@ vulnetix ai-firewall policy guardrail no-jira \
 
 Verbs are a useful middle ground: `mcp__*__delete_*` matches every MCP tool whose name starts with `delete_` on any server. It does not match `remove_issue` or `purge_cache`, which is why the baseline's `agent-destructive-mcp-tool` rule flags rather than blocks.
 
-## In the console
+## In the Resolve Platform
 
 The Tool calls tab (`#tools`) lists the tools in the inventory with Deny and Allow buttons, and a form for a pattern. A rule written there is named `Deny <pattern>` or `Allow <pattern>`, at priority 100, enabled. Deny rules can flag, strip or block.
 

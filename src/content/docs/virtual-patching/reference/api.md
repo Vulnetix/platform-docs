@@ -1,6 +1,6 @@
 ---
 title: API reference
-description: The console API routes for detection rule feeds, the defence catalogue and the runtime sensor, with bodies, limits and status codes.
+description: The Resolve Platform API routes for detection rule feeds, the defence catalogue and the runtime sensor, with bodies, limits and status codes.
 order: 2
 nav: API
 sources: [vdb-site/api/main.go, vdb-site/api/internal/handler/detection_rule_feeds.go, vdb-site/api/internal/handler/detection_rule_feeds_publish.go, vdb-site/api/internal/handler/defences.go, vdb-site/api/internal/handler/entitlements.go, vdb-site/docs/runtime-sensor-api.md]

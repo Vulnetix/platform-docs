@@ -20,7 +20,7 @@ A repository is jailed when it breaches a rule in the organization's Jail policy
 | `defaultStalenessDays` | `0` to `365` | `7` | Staleness window for rules that do not set their own |
 | `onStale` | `fail`, `warn`, `pass` | `fail` | What to do when a rule's evidence is stale or missing |
 
-Rules are authored in the console at [www.vulnetix.com/resolve/jail](https://www.vulnetix.com/resolve/jail). See [Rules](/quality-gates/jail/rules/). An organization with no policy reports `no policy` and exits `0`.
+Rules are authored in the Resolve Platform at [www.vulnetix.com/resolve/jail](https://www.vulnetix.com/resolve/jail). See [Rules](/quality-gates/jail/rules/). An organization with no policy reports `no policy` and exits `0`.
 
 ## Latest state only
 

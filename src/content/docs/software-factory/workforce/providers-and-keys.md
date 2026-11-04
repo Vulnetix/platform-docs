@@ -56,7 +56,7 @@ A Pix Sandbox can have environment variables from your Secrets Vault, for the co
 
 ## MCP secrets
 
-An MCP server in your library can need secrets, such as an API token. They come from the vault the same way: the console asks the host to install them, the host fetches them into its credentials store, and the server's definition holds only their names.
+An MCP server in your library can need secrets, such as an API token. They come from the vault the same way: the Resolve Platform asks the host to install them, the host fetches them into its credentials store, and the server's definition holds only their names.
 
 ## API
 

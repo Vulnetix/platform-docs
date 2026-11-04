@@ -16,7 +16,7 @@ Your sign-in decides which [provisioning profile](/virtual-patching/sensor/provi
 |---|---|
 | OS | Linux on `amd64` or `arm64`, with systemd. macOS and Windows are planned. |
 | Root | You can run `sudo`. The installer writes to `/usr/local/bin`, `/etc/vulnetix-sensor` and `/etc/systemd/system`. |
-| A profile | An org admin has an enabled profile whose match includes your email address, your email domain, or `*`. Ask them: the console can show which profile an email address would get. |
+| A profile | An org admin has an enabled profile whose match includes your email address, your email domain, or `*`. Ask them: the Resolve Platform can show which profile an email address would get. |
 | The CLI | `vulnetix` installed: [CLI install](/cli/get-started/install/). |
 
 ## 2. Sign in with the home store
@@ -57,7 +57,7 @@ It shows whether the host is enrolled, the profile, the protection level, the mo
 
 Enroll itself ends by printing the device id, profile, credential scheme, mode, protection level, feed count and service state.
 
-## What the console shows
+## What the Resolve Platform shows
 
 On **Sensor Provisioning** your laptop appears under the profile's devices with your email as **Enrolled by**, its hostname, OS, architecture, version and a tamper state. On **Sensors** (`/resolve/sensor`) it appears as a sensor like any other, with the profile name next to it.
 
@@ -76,7 +76,7 @@ That depends on the profile's protection level. See [Protection](/virtual-patchi
 
 | Level | `sudo systemctl stop vulnetix-sensor` | Survives reboot | Uninstall |
 |---|---|---|---|
-| `standard` | Works. The console shows `stopped`. | Yes | `sudo vulnetix-sensor uninstall` |
+| `standard` | Works. The Resolve Platform shows `stopped`. | Yes | `sudo vulnetix-sensor uninstall` |
 | `hardened` | Refused, unless the profile sets `allowUserStop`. Without `allowUserStop`, a guard timer starts it again within a minute if it is stopped another way. | Yes | `sudo vulnetix-sensor uninstall` |
 | `locked` | As `hardened` | Yes | `sudo vulnetix-sensor uninstall --code <code>`, with a one-time code from your admin |
 

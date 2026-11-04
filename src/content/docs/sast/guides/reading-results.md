@@ -82,7 +82,7 @@ Each finding's path is checked against the test naming conventions of every supp
 | `confirmed` | A high or medium path match, corroborated by a config file or a declared dependency. |
 | `high`, `medium`, `low` | The path match alone. |
 
-Test-code findings are tagged in SARIF (`vulnetix/test-suite` and the other `vulnetix/test-*` properties, see [Output formats](/sast/reference/output-formats/#runs0results)), shown under IN TESTS, and marked as test code in the console. The config files found are uploaded with the snapshot by path, framework, size and SHA-256, without their contents.
+Test-code findings are tagged in SARIF (`vulnetix/test-suite` and the other `vulnetix/test-*` properties, see [Output formats](/sast/reference/output-formats/#runs0results)), shown under IN TESTS, and marked as test code in the Resolve Platform. The config files found are uploaded with the snapshot by path, framework, size and SHA-256, without their contents.
 
 > [!CAREFUL] `--suppress-test-code` drops every test-path match
 > It removes every finding whose path matched a test convention, at any confidence, not only `confirmed` ones. A production file named like a test (`contest.py` is safe, `src/test_utils.py` is not) loses its findings. Check the `vulnetix/test-matched-pattern` of a few findings before turning it on.

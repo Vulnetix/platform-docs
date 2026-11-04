@@ -18,7 +18,7 @@ The flow is the OAuth device authorization grant (RFC 8628). Your browser never 
 
 1. Vulnetix registers an OIDC client named `vulnetix-resolve` against your access portal and starts device authorization.
 2. You approve the user code on AWS's own page.
-3. The console polls. Each poll answers `pending`, `slow_down` or `authorized`; an expired code answers `410` and you start again.
+3. The Resolve Platform polls. Each poll answers `pending`, `slow_down` or `authorized`; an expired code answers `410` and you start again.
 
 Inputs:
 

@@ -18,7 +18,7 @@ Everything the factory does is recorded. Every step lands in the [event stream](
 
 ## Core objects
 
-Most pages in these docs describe one of these. The console column is the page you see it on, under `https://www.vulnetix.com/resolve/`.
+Most pages in these docs describe one of these. The Resolve Platform column is the page you see it on, under `https://www.vulnetix.com/resolve/`.
 
 | Object | What it is | Resolve Platform |
 |---|---|---|
@@ -60,7 +60,7 @@ On Community the factory runs on one machine of your own with `belai rc`, with n
 
 On Community, decision steps (the System One classifier calls a workflow makes) have a smaller daily allowance than on a paid plan or a Pix Sandbox. Crew steps on your own machine run on your own models and keys.
 
-`GET /v1/factory/access` returns the answer the console uses:
+`GET /v1/factory/access` returns the answer the Resolve Platform uses:
 
 ```json
 { "access": "community", "plan": "community", "activeSandboxes": 0, "selfHostedLimit": 1, "selfHostedUsed": 1 }
@@ -106,4 +106,4 @@ On Community, decision steps (the System One classifier calls a workflow makes) 
 
 The Factory's settings and workflow definitions are kinds: [`FactorySettings`](/platform-iac/kinds/factory-settings/), [`ScannerProfile`](/platform-iac/kinds/scanner-profile/), [`FactoryManagedOrg`](/platform-iac/kinds/factory-managed-org/) and [`RepositorySettings`](/platform-iac/kinds/repository-settings/) for settings and scope; [`FactoryWorkflow`](/platform-iac/kinds/factory-workflow/), [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/), [`FactorySchedule`](/platform-iac/kinds/factory-schedule/) and [`FactoryBudget`](/platform-iac/kinds/factory-budget/) for workflows, triggers, schedules and budgets; [`AgentProfile`](/platform-iac/kinds/agent-profile/), [`Crew`](/platform-iac/kinds/crew/) and [`LibraryItem`](/platform-iac/kinds/library-item/) for the Belai library. **Export as YAML** on the Settings page, or `GET /v1/factory/settings?format=yaml`, now writes these documents (see [The settings document](/software-factory/control/settings-document/)), and `PUT` of the same YAML applies them. A workflow node, `config-apply`, plans and applies a config repository on a push to its default branch; see [GitOps from a repository](/platform-iac/kinds/factory-workflow/#gitops-from-a-repository).
 
-When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to Software Factory workflows, triggers, schedules, budgets or settings that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the Resolve Platform or through a legacy API to Software Factory workflows, triggers, schedules, budgets or settings that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.

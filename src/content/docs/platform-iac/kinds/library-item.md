@@ -241,7 +241,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 
 ## How apply treats it
 
-- Every type is checked by the one library validator that the console, the Belai handlers and the engine share.
+- Every type is checked by the one library validator that the Resolve Platform, the Belai handlers and the engine share.
 - The item's type and name, read from its body, cannot change under a `metadata.name`.
 - Only a hook carries files.
 - Apply saves a new version. A version object written by an apply that does not commit is removed.

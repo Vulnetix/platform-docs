@@ -35,7 +35,7 @@ The menu paths are Claude Desktop's and can change between releases.
 - The start screen offers **Continue with Gateway**. If it does not, the setting was not applied.
 - The model picker lists only what the gateway returns from `GET /anthropic/<uuid>/v1/models`, which is filtered by your model policy. A picker that shows your allowed models and not Anthropic's full list is confirmation.
 - Send a message that one of your guardrails blocks. The gateway answers `403` in the Anthropic error envelope with `code: request_blocked`, and the app shows the message.
-- In the console's [capability inventory](/ai-firewall/operations/inventory/), requests appear under the client `claude-desktop` (from a `claude-desktop/` user agent).
+- In the Resolve Platform's [capability inventory](/ai-firewall/operations/inventory/), requests appear under the client `claude-desktop` (from a `claude-desktop/` user agent).
 
 ## Errors
 

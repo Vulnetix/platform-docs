@@ -45,7 +45,7 @@ How a caller proves who it is is on [credentials for automation](#credentials-fo
 
 ## Drift protection
 
-`GET` and `PUT /config/drift-protection` read and change the organisation's [Drift protection](/platform-iac/guides/drift-protection/) setting. It is also `spec.driftProtection` of the `Organization` kind. With it on, the console and the legacy APIs answer `409 managed_by_platform_iac` to a write to a kind that has a `terraform` or `gitops` object; every `/config/*` route still passes. The setting is never refused by itself.
+`GET` and `PUT /config/drift-protection` read and change the organisation's [Drift protection](/platform-iac/guides/drift-protection/) setting. It is also `spec.driftProtection` of the `Organization` kind. With it on, the Resolve Platform and the legacy APIs answer `409 managed_by_platform_iac` to a write to a kind that has a `terraform` or `gitops` object; every `/config/*` route still passes. The setting is never refused by itself.
 
 ## Sending documents
 

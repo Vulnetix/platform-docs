@@ -8,7 +8,7 @@ checked: [cloudscan@67eeabb, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-The pipeline stack sets these on `vulnetix-security-reporter`. Vulnetix fills them from your choices in the console; editing them on the function by hand is overwritten by the next stack deploy. A numeric value outside its range, or not a number, is ignored and the default used.
+The pipeline stack sets these on `vulnetix-security-reporter`. Vulnetix fills them from your choices in the Resolve Platform; editing them on the function by hand is overwritten by the next stack deploy. A numeric value outside its range, or not a number, is ignored and the default used.
 
 | Variable | Default | Range | Meaning |
 |---|---|---|---|

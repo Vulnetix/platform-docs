@@ -231,7 +231,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 
 ## How it is stored
 
-Each pattern becomes one AI Firewall guardrail row of rule type `<family>_<list>` (`tool_deny`, `mcp_allow` and so on), owned by the list (`configOwner = "AiGovernanceList/<name>"`). Removing a pattern removes its row, and rows written in the console are never touched. [`AiFirewallPolicy`](/platform-iac/kinds/ai-firewall-policy/) `spec.capabilities` writes the same kind of rows, owned by the policy.
+Each pattern becomes one AI Firewall guardrail row of rule type `<family>_<list>` (`tool_deny`, `mcp_allow` and so on), owned by the list (`configOwner = "AiGovernanceList/<name>"`). Removing a pattern removes its row, and rows written in the Resolve Platform are never touched. [`AiFirewallPolicy`](/platform-iac/kinds/ai-firewall-policy/) `spec.capabilities` writes the same kind of rows, owned by the policy.
 
 ## Terraform and OpenTofu
 

@@ -82,7 +82,7 @@ Since CLI v4.1.0, `vulnetix config apply` uploads that snapshot itself, after th
 - It is uploaded when the plan has nothing to apply too, because the files can change when the document does not.
 - Each upload prints `VexSource/<name>: uploaded a snapshot of <n> document(s) from <path>`. A failed one prints why and makes `apply` exit non-zero, after the other sources have been tried.
 
-The snapshot replaces the last one, so a statement that left the files leaves the console on the next apply.
+The snapshot replaces the last one, so a statement that left the files leaves the Resolve Platform on the next apply.
 
 ## What a scan reads
 

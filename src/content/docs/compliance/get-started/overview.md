@@ -33,7 +33,7 @@ Details of each are in [AI governance frameworks](/compliance/frameworks/ai-gove
 
 ## Plan
 
-Compliance reports need the **Pro** plan or higher (`compliance-reports` feature). On Community, the console shows an upgrade panel and the API answers `200` with `"planLocked": true, "requiredPlan": "pro"` and an empty `reports` list. No partial data is returned.
+Compliance reports need the **Pro** plan or higher (`compliance-reports` feature). On Community, the Resolve Platform shows an upgrade panel and the API answers `200` with `"planLocked": true, "requiredPlan": "pro"` and an empty `reports` list. No partial data is returned.
 
 ## Exports
 
@@ -47,10 +47,10 @@ See [Exports](/compliance/exports/pdf-and-evidence-bundle/) and [OSCAL export](/
 
 ## Scheduling
 
-A report you create by hand covers the fixed period you give it, and its evidence is recomputed every time it is opened or exported. When a period has ended, the console offers **Extend to today**. To have a report made for you every week, month, quarter or year, create a [compliance target](/compliance/get-started/targets/): each run creates an ordinary report for the period before it. To produce exports on a timetable, call the [export routes](/compliance/reference/api/) from your own scheduler with an API key.
+A report you create by hand covers the fixed period you give it, and its evidence is recomputed every time it is opened or exported. When a period has ended, the Resolve Platform offers **Extend to today**. To have a report made for you every week, month, quarter or year, create a [compliance target](/compliance/get-started/targets/): each run creates an ordinary report for the period before it. To produce exports on a timetable, call the [export routes](/compliance/reference/api/) from your own scheduler with an API key.
 
 ## Platform IaC
 
-Compliance reports themselves have no config-as-code: reports, scope and assessor findings are created in the console or through the [HTTP API](/compliance/reference/api/). What is measured, and how often, is: a [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) document declares a report framework, a SLSA level, NIST SSDF practices or a cryptography policy on a cadence, and [Terraform and OpenTofu](/platform-iac/terraform/) manages it. See [Compliance targets](/compliance/get-started/targets/).
+Compliance reports themselves have no config-as-code: reports, scope and assessor findings are created in the Resolve Platform or through the [HTTP API](/compliance/reference/api/). What is measured, and how often, is: a [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) document declares a report framework, a SLSA level, NIST SSDF practices or a cryptography policy on a cadence, and [Terraform and OpenTofu](/platform-iac/terraform/) manages it. See [Compliance targets](/compliance/get-started/targets/).
 
-When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to a compliance target that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the Resolve Platform or through a legacy API to a compliance target that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.

@@ -1,13 +1,13 @@
 ---
 title: The board
-description: The kanban board agents and people share. Its five lists, what a card records, claims and routing, human checkpoints, assigning cards, factory cards and why they wait, and the board in the console, the TUI and the command line.
+description: The kanban board agents and people share. Its five lists, what a card records, claims and routing, human checkpoints, assigning cards, factory cards and why they wait, and the board in the Resolve Platform, the TUI and the command line.
 order: 9
 sources: [belai/docs/kanban.md, belai/docs/fleet.md, belai/cmd/belai/kanbancmd.go, vdb-site/docs/factory.md, vdb-site/docs/belai-assignment-mail.md]
 checked: [belai@35506b9, vdb-site@284f1d6, website@a31d470]
 updated: 28 Oct 2026
 ---
 
-The board is where work waits, is claimed and moves on. Every Belai session on a machine shares it, it is mirrored to the console while you are signed in, and workers claim cards from it. The Board page (`/resolve/factory-board`) shows it with tabs for the board, review, backlog, done, triage and conflicts, and a drawer for each card.
+The board is where work waits, is claimed and moves on. Every Belai session on a machine shares it, it is mirrored to the Resolve Platform while you are signed in, and workers claim cards from it. The Board page (`/resolve/factory-board`) shows it with tabs for the board, review, backlog, done, triage and conflicts, and a drawer for each card.
 
 ![The Board page with its lists and an open card drawer](/img/sf-board-dark.webp)
 

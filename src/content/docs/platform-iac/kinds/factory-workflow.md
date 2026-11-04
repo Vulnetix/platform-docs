@@ -514,8 +514,8 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-- The graph is checked by the console's graph validator.
-- A change saves the next version. With `publish: true` it also publishes that version through the console's publish, which reconciles the trigger rows and their schedules in the apply transaction. A published version is never edited.
+- The graph is checked by the Resolve Platform's graph validator.
+- A change saves the next version. With `publish: true` it also publishes that version through the Resolve Platform's publish, which reconciles the trigger rows and their schedules in the apply transaction. A published version is never edited.
 - The trigger nodes that [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) and [`FactorySchedule`](/platform-iac/kinds/factory-schedule/) own are left out of the workflow's document, and kept by its graph changes.
 
 ### GitOps from a repository

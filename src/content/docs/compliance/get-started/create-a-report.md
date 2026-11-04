@@ -1,7 +1,7 @@
 ---
 title: Create and complete a report
 nav: Create a report
-description: Create a compliance report for a framework, set its period and repository scope, attach evidence and notes, record assessor findings, and archive it, in the console or through the API.
+description: Create a compliance report for a framework, set its period and repository scope, attach evidence and notes, record assessor findings, and archive it, in the Resolve Platform or through the API.
 order: 2
 sources: [vdb-site/api/internal/handler/compliance_reports.go, vdb-site/api/internal/handler/compliance_evidence.go, vdb-site/api/internal/handler/compliance_assessments.go, vdb-site/api/internal/handler/compliance_evidence_map.go, vdb-site/api/internal/handler/compliance_dsomm.go, website/src/components/compliance/ReportSetup.vue, website/src/components/compliance/ReportCommandBar.vue, website/src/components/compliance/ComplianceReportFrame.vue, website/src/worker.ts]
 checked: [vdb-site@1a06d67, website@ad775f37]
@@ -19,11 +19,11 @@ A report can only map evidence that exists. Each framework draws on different so
 | AI inventory (AI-BOM) | `vulnetix aibom` |
 | Crypto inventory (CBOM) | `vulnetix cbom` |
 | Quality gate, package firewall, EOL policy | [Quality gates](/quality-gates/), [Package firewall](/package-firewall/) |
-| Threat models | The console's threat-model page |
+| Threat models | The Resolve Platform's threat-model page |
 
 Reports run on the **Pro** plan or higher.
 
-## In the console
+## In the Resolve Platform
 
 1. Open the framework's page, for example **Reports > OWASP Top 10** at [/resolve/owasp-top-10](https://www.vulnetix.com/resolve/owasp-top-10). The full list is in the [overview](/compliance/#frameworks).
 2. **Name the report.** The name is used for export file names.
@@ -51,11 +51,11 @@ For PCI DSS, ISO/IEC 27001 and DSOMM, Vulnetix pre-fills the assessor's reportin
 
 ## Archiving
 
-Deleting a report, a note or an evidence file archives it rather than removing it. Archived items are hidden in the console and left out of exports unless you tick **Include archived** (the `includeArchived=true` query parameter).
+Deleting a report, a note or an evidence file archives it rather than removing it. Archived items are hidden in the Resolve Platform and left out of exports unless you tick **Include archived** (the `includeArchived=true` query parameter).
 
 ## Through the API
 
-The same routes the console uses are served at `https://www.vulnetix.com/api/site/v1/compliance/...` and accept an [API key](/vdb-api/api/authentication/#api-key) header. All times are Unix epoch milliseconds.
+The same routes the Resolve Platform uses are served at `https://www.vulnetix.com/api/site/v1/compliance/...` and accept an [API key](/vdb-api/api/authentication/#api-key) header. All times are Unix epoch milliseconds.
 
 ```bash
 BASE=https://www.vulnetix.com/api/site/v1/compliance

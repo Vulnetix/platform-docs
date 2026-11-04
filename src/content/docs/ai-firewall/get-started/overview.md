@@ -64,9 +64,9 @@ The gateway and the key vault are on every plan. Policy is what paid plans add. 
 | Inference logging (metadata only) | Pro |
 | Guardrails: content rules and capability rules | Business |
 
-## In the console
+## In the Resolve Platform
 
-The console page is [Resolve > AI Firewall](https://www.vulnetix.com/resolve/ai-firewall). Its tabs, with their URL hashes:
+The Resolve Platform page is [Resolve > AI Firewall](https://www.vulnetix.com/resolve/ai-firewall). Its tabs, with their URL hashes:
 
 | Group | Tab | Hash | Covers |
 |---|---|---|---|
@@ -105,4 +105,4 @@ The AI Firewall's config-as-code document is `.vulnetix/ai-firewall.yaml` with `
 
 The kinds are [`AiFirewallPolicy`](/platform-iac/kinds/ai-firewall-policy/), [`AiProvider`](/platform-iac/kinds/ai-provider/) and [`AiGovernanceList`](/platform-iac/kinds/ai-governance-list/): the policy, the tenant's custom providers, and its tool, MCP server, skill and client allow and deny lists. The config engine applies all three, and each has a Terraform resource ([Terraform and OpenTofu](/platform-iac/terraform/)). A guardrail can take a `when`, a CEL expression over the request's provider, model, client, tools, MCP servers and skills; see [CEL rule expressions](/platform-iac/reference/cel/).
 
-When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to the policy, providers or governance lists that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the Resolve Platform or through a legacy API to the policy, providers or governance lists that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.

@@ -7,7 +7,7 @@ checked: [vdb-site@fe1ff17]
 updated: 03 Nov 2026
 ---
 
-Every change in the factory writes an event in the same transaction. The console reads one stream per tab, and every live panel updates from it. No console page polls the factory on a timer. The Events page (`/resolve/factory-events`) shows the stream with filters, a chart and an inspector.
+Every change in the factory writes an event in the same transaction. The Resolve Platform reads one stream per tab, and every live panel updates from it. No console page polls the factory on a timer. The Events page (`/resolve/factory-events`) shows the stream with filters, a chart and an inspector.
 
 ![The Events page with the live list, filters and an open event](/img/sf-events-dark.webp)
 

@@ -1,14 +1,14 @@
 ---
 title: Session sync and object storage
 nav: Session sync
-description: How every Belai session is mirrored to the console, why the host stays the source of truth, prompting a running session from the web, and the settings that switch each part off.
+description: How every Belai session is mirrored to the Resolve Platform, why the host stays the source of truth, prompting a running session from the web, and the settings that switch each part off.
 order: 23
 sources: [belai/docs/session-sync.md, vdb-site/api/internal/handler/belai_sync.go, vdb-site/api/internal/handler/belai_objectstore.go]
 checked: [belai@35506b9, vdb-site@284f1d6]
 updated: 28 Oct 2026
 ---
 
-While Belai is signed in with the Vulnetix CLI, each session is mirrored to the console:
+While Belai is signed in with the Vulnetix CLI, each session is mirrored to the Resolve Platform:
 
 - **Sessions running now** can be followed live, prompted, and answered, exactly as if you were at the host.
 - **History** lists every synced session no longer attached to a running host, and the hosts' and agents' [audit logs](/software-factory/evidence/audit-ledger/).

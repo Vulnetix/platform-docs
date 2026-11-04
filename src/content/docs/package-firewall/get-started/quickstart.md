@@ -58,7 +58,7 @@ AUTH=$(printf '%s:%s' "$VULNETIX_ORG_ID" "$VULNETIX_API_KEY" | base64 -w0)
 curl -s -o /dev/null -D - -H "Authorization: Basic $AUTH" https://packages.vulnetix.com/npm/lodash | grep -i '^x-vulnetix'
 ```
 
-An allowed request prints nothing here, or only `X-Vulnetix-Firewall-Mode` when the org is not in `enforce` mode. A blocked request carries `X-Vulnetix-Firewall: blocked` and a reason; see [Block responses](/package-firewall/reference/responses/). Every decision is listed in the console at [www.vulnetix.com/resolve/logs#package](https://www.vulnetix.com/resolve/logs#package).
+An allowed request prints nothing here, or only `X-Vulnetix-Firewall-Mode` when the org is not in `enforce` mode. A blocked request carries `X-Vulnetix-Firewall: blocked` and a reason; see [Block responses](/package-firewall/reference/responses/). Every decision is listed in the Resolve Platform at [www.vulnetix.com/resolve/logs#package](https://www.vulnetix.com/resolve/logs#package).
 
 ## Next
 

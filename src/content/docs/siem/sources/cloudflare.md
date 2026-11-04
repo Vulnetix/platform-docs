@@ -9,7 +9,7 @@ updated: 02 Nov 2026
 
 Guardian takes Cloudflare logs through Logpush jobs with an HTTP destination: `https://ingest.vulnetix.com/v1/ingest/cloudflare/<dataset>`. Guardian creates the jobs for you with an API token you paste once and it does not keep, or you create them yourself.
 
-## Connect from the console
+## Connect from the Resolve Platform
 
 1. Open **Integrations** and the **Cloudflare** card.
 2. Use the pre-filled token link to create an account-owned API token in the Cloudflare dashboard, or paste one you have.

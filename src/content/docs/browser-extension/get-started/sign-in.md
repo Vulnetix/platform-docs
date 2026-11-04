@@ -7,7 +7,7 @@ checked: [browser-extension@d25ce74]
 updated: 02 Nov 2026
 ---
 
-Lookups need a VDB credential. Without one, identifiers are still detected and underlined, and the Resolve console links still work.
+Lookups need a VDB credential. Without one, identifiers are still detected and underlined, and the Resolve Platform links still work.
 
 Open the sidebar and choose **Sign in**, or open the extension's options page. There are two methods.
 

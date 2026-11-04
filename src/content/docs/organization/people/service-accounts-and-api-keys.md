@@ -26,7 +26,7 @@ An API key is derived from the principal's uuid and its secret. Send it as:
 Authorization: ApiKey <principalUuid>:<apiKey>
 ```
 
-The `<principalUuid>` is the principal's own uuid, called the **org id** in the CLI and the console. A wrong key is `401`; a deactivated principal is `403`.
+The `<principalUuid>` is the principal's own uuid, called the **org id** in the CLI and the Resolve Platform. A wrong key is `401`; a deactivated principal is `403`.
 
 With the CLI:
 
@@ -42,7 +42,7 @@ Your own key is on **Account › Profile**. `POST /v1/account/regenerate` issues
 
 ## Service accounts
 
-Owners create them on the Members page. The routes below take the console session only (the `vdb_token` cookie or `Authorization: Bearer <session JWT>`); an API key is `401 not authenticated`, so one credential cannot mint another.
+Owners create them on the Members page. The routes below take the Resolve Platform session only (the `vdb_token` cookie or `Authorization: Bearer <session JWT>`); an API key is `401 not authenticated`, so one credential cannot mint another.
 
 | Rule | Value |
 |---|---|

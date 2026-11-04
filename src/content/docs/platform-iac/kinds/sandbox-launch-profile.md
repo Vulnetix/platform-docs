@@ -211,7 +211,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-- One per sandbox. The sandbox itself is bought in the console.
+- One per sandbox. The sandbox itself is bought in the Resolve Platform.
 - The draft is checked by the launch page's own preparation and validation, and saving it marks the sandbox for relaunch. The egress mode, providers, provisioning and models are left as stored.
 - Owner or admin only. Delete resets the managed fields to inherit.
 

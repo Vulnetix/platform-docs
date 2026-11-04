@@ -11,7 +11,7 @@ This takes about 15 minutes. You need an owner or admin role in a Vulnetix organ
 
 ## 1. Start a pack
 
-Open **Guardian** in the console. If Guardian is not active, the page shows **Start Guardian**. Pick a pack and finish the Stripe checkout. The page reloads with Guardian active.
+Open **Guardian** in the Resolve Platform. If Guardian is not active, the page shows **Start Guardian**. Pick a pack and finish the Stripe checkout. The page reloads with Guardian active.
 
 ## 2. Create an AWS ingest token
 

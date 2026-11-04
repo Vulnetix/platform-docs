@@ -45,7 +45,7 @@ Sensor provisioning comes with the SOC Intelligence add-on, which works on any p
 
 Profiles are tried by `priority`, highest first. The first **enabled** profile that matches wins; a disabled profile is skipped. A person may ask for a profile by uuid (`--profile`), and it must still match them. An MDM enroll without `--profile` gets the highest-priority profile that lists its integration.
 
-The console can show which profile a given email would get (`GET /v1/runtime/provisioning/resolve?email=`), which is the quickest check when a person reports a `404`.
+The Resolve Platform can show which profile a given email would get (`GET /v1/runtime/provisioning/resolve?email=`), which is the quickest check when a person reports a `404`.
 
 ## Credential modes
 
@@ -103,11 +103,11 @@ A failed check (GitHub unreachable, a download cut short) is retried after 10 mi
 
 **A mirror for hosts that cannot reach GitHub.** Set `"updateBaseUrl"` in the profile's `config` to an https copy of the release layout: `<base>/latest` redirecting to `<base>/tag/<tag>`, and `<base>/download/<tag>/` holding `checksums.txt` (and `checksums.txt.sig` once releases are signed) and the `vulnetix-sensor-linux-amd64` and `-arm64` binaries. The URL may not carry a user name or password. The checksum and signature checks apply to a mirror exactly as to GitHub. The console's profile editor has the field "Update mirror"; in Platform IaC it is `spec.updateBaseUrl` (`update_base_url` in Terraform, provider v1.4.0).
 
-A release with a higher major version (v3 to v4) is held, and the sensor says which release is waiting, until the profile sets `"allowMajorUpdate": true`. A major release can change the profile format, the units and the protocol. Like `autoUpdate` it is absent from the configuration until you turn it on, and the console's profile editor has the switch "Allow a new major version"; in Platform IaC it is `spec.allowMajorUpdate` of [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) (`allow_major_update` in Terraform).
+A release with a higher major version (v3 to v4) is held, and the sensor says which release is waiting, until the profile sets `"allowMajorUpdate": true`. A major release can change the profile format, the units and the protocol. Like `autoUpdate` it is absent from the configuration until you turn it on, and the Resolve Platform's profile editor has the switch "Allow a new major version"; in Platform IaC it is `spec.allowMajorUpdate` of [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) (`allow_major_update` in Terraform).
 
 The update changes the binary only. Mode, feeds and the rest of the configuration still come from the profile, and an edit still reaches the device the way [How edits reach devices](#how-edits-reach-devices) describes.
 
-Set `"autoUpdate": false` in the profile's `config` to stop it, for hosts that take releases on a change window. The console's profile editor has the same switch, "Keep sensors up to date automatically". It is on when the field is absent, and absent from the configuration (and the `configEtag`) until you turn it off, so existing profiles do not change.
+Set `"autoUpdate": false` in the profile's `config` to stop it, for hosts that take releases on a change window. The Resolve Platform's profile editor has the same switch, "Keep sensors up to date automatically". It is on when the field is absent, and absent from the configuration (and the `configEtag`) until you turn it off, so existing profiles do not change.
 
 > [!CAREFUL] One manual upgrade for older sensors
 > A sensor older than v3.165 has no self-update, so it cannot install one. Upgrade it once with `install.sh` (see [Sensor on hosts](/virtual-patching/runtime/sensor-hosts/)); every later release then installs itself. A development build (`dev`) never updates itself. In Platform IaC it is `spec.autoUpdate` of [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) (`auto_update` in Terraform); only `false` is stored.
@@ -143,4 +143,4 @@ A profile with enrolled devices cannot be deleted (`409`) unless you choose to r
 
 ## Config as code
 
-A profile is the [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) kind of [Platform IaC](/platform-iac/), in the virtual patching group of the [kind catalogue](/platform-iac/kinds/catalogue/#virtual-patching). The config engine applies it, with the console's own checks, and the profile's feeds can refer to a [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/) by name. Profiles are also managed in the console and through the `/v1/runtime/provisioning/*` routes.
+A profile is the [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/) kind of [Platform IaC](/platform-iac/), in the virtual patching group of the [kind catalogue](/platform-iac/kinds/catalogue/#virtual-patching). The config engine applies it, with the Resolve Platform's own checks, and the profile's feeds can refer to a [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/) by name. Profiles are also managed in the Resolve Platform and through the `/v1/runtime/provisioning/*` routes.

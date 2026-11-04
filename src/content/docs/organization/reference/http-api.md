@@ -7,7 +7,7 @@ checked: [vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-Base URL: `https://www.vulnetix.com/api/site/v1/`. Paths below are written from `/v1`. **Session** means the console session only (`vdb_token` cookie or `Authorization: Bearer <JWT>`); an API key is `401`. **Any** means a session or `Authorization: ApiKey <principalUuid>:<apiKey>`. When an owner or admin has turned on [Drift protection](/platform-iac/guides/drift-protection/), a write to a setting that is managed as code answers `409 managed_by_platform_iac` on the routes that write it, whichever of these credentials is used.
+Base URL: `https://www.vulnetix.com/api/site/v1/`. Paths below are written from `/v1`. **Session** means the Resolve Platform session only (`vdb_token` cookie or `Authorization: Bearer <JWT>`); an API key is `401`. **Any** means a session or `Authorization: ApiKey <principalUuid>:<apiKey>`. When an owner or admin has turned on [Drift protection](/platform-iac/guides/drift-protection/), a write to a setting that is managed as code answers `409 managed_by_platform_iac` on the routes that write it, whichever of these credentials is used.
 
 ## Members and keys
 

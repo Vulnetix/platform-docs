@@ -88,7 +88,7 @@ This puts the MCP family into allowlist mode: every remote server except `jira` 
 > [!CAREFUL] A tool allowlist covers the agent's own tools too
 > Local servers are allowlisted with `tool_allow` on their prefix, which puts the whole tool family into allowlist mode, including `Read`, `Edit` and `Bash`. A single `tool_allow` for `mcp__jira__*` refuses or strips every other tool. Allowlist the agent's own tools in the same change, or use deny rules.
 
-## In the console
+## In the Resolve Platform
 
 The MCP tab (`#mcp`) lists remote servers from the inventory with Deny and Allow buttons. Tool calls (`#tools`) lists every tool, local MCP tools included.
 

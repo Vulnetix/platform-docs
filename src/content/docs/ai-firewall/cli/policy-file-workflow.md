@@ -27,7 +27,7 @@ vulnetix ai-firewall apply --dry-run
 `export` writes `.vulnetix/ai-firewall.yaml` with `metadata.org` set to your org and `spec.baseline.enabled: false`, and refuses to overwrite an existing file without `--force`. Applying an export straight back is a no-op, with two exceptions:
 
 - A live guardrail whose regex does not compile is exported as it is, and `apply` then refuses the file with `pattern does not compile`. That rule was never enforced: the gateway skips patterns it cannot compile. Fix or delete it.
-- Two live guardrails with the same name export as one entry, because guardrails are reconciled by name. The other shows as drift. Rename one in the console first.
+- Two live guardrails with the same name export as one entry, because guardrails are reconciled by name. The other shows as drift. Rename one in the Resolve Platform first.
 
 To take the recommended rules as well, set `spec.baseline.enabled: true` and dry-run again. The baseline rules appear as `create` lines.
 
@@ -73,7 +73,7 @@ The changes before it have been made. Fix the cause and run `apply` again; finis
 
 ## Drift and prune
 
-Guardrails and model entries someone added in the console are reported as drift and left alone. Pass `--prune`, or set `spec.prune: true`, when the file is meant to be the whole policy. Without prune, deleting a line from `spec.models` does nothing: the entry stays on the server.
+Guardrails and model entries someone added in the Resolve Platform are reported as drift and left alone. Pass `--prune`, or set `spec.prune: true`, when the file is meant to be the whole policy. Without prune, deleting a line from `spec.models` does nothing: the entry stays on the server.
 
 Providers are never pruned, with or without `--prune`. A provider with an action that the file does not mention is reported as drift with the command that clears it. Removing a `deny` opens a provider, so reopening one is always written down as `action: default` or run as `vulnetix ai-firewall policy provider <slug> --clear`.
 

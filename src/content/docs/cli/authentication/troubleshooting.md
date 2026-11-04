@@ -15,7 +15,7 @@ Errors print as `Error: <message>` on stderr, and the command exits `1`.
 | Message | Cause | Fix |
 |---|---|---|
 | `choose only one of --api-key, --secret, or --token` | More than one credential flag | Keep the one that matches what you hold. `--secret` is a SigV4 secret, not an ApiKey. |
-| `--org-id must be a valid UUID, got: ...` | Not a UUID: an org name, or the `<org>:<key>` value | Copy the organisation UUID from the console |
+| `--org-id must be a valid UUID, got: ...` | Not a UUID: an org name, or the `<org>:<key>` value | Copy the organisation UUID from the Resolve Platform |
 | `--org-id is required with --api-key` (or `--secret`) | No terminal to prompt on | Pass `--org-id` or set `VULNETIX_ORG_ID` |
 | `--method is deprecated; use --api-key + --org-id (ApiKey), ...` | `--method` with no credential flag | Drop `--method`; see [Methods](/cli/authentication/methods/#deprecated-method) |
 | `--noninteractive uses ApiKey credentials only; use --api-key with --org-id` | `--noninteractive` with `--secret` or `--token` | Use an ApiKey, or drop `--noninteractive` |

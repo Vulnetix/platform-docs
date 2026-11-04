@@ -556,7 +556,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 
 ## How apply treats it
 
-- The console's create, update and archive writers and its scope and done validator. The plan's campaign cap applies.
+- The Resolve Platform's create, update and archive writers and its scope and done validator. The plan's campaign cap applies.
 - Contributors are diffed per item.
 - Delete archives the campaign. An archived campaign is not listed.
 - Only an active campaign can be re-scoped.

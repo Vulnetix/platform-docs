@@ -50,7 +50,7 @@ The CLI defines this file (`cli/internal/memory`). Top-level keys:
 | `history` | list | Earlier scan records, newest first, at most 20 |
 | `findings` | map, keyed by vulnerability id | Triage state per vulnerability |
 | `sast_findings` | map, keyed by fingerprint | SAST finding state: `rule_id`, `severity`, `first_seen`, `last_seen`, `status` (`open`, `resolved`, `suppressed`) |
-| `suppressions` | list | Ignore rules written by `vulnetix ignore` and synced with the console |
+| `suppressions` | list | Ignore rules written by `vulnetix ignore` and synced with the Resolve Platform |
 | `environment` | object | Git and platform context of the last query |
 | `vdb_queries` | list | The last 50 VDB queries: `timestamp`, `command`, `args` |
 

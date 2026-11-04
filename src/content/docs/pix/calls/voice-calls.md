@@ -7,7 +7,7 @@ checked: [website@ad775f3, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-A Pix call is a voice conversation with **PixCommander**, the Software Factory's coordinator, from the console's `/call` page. You ask how runs and sessions are going, start or stop sessions on a Pix Sandbox or your own `belai rc` host, answer an agent's question, or check spend.
+A Pix call is a voice conversation with **PixCommander**, the Software Factory's coordinator, from the Resolve Platform's `/call` page. You ask how runs and sessions are going, start or stop sessions on a Pix Sandbox or your own `belai rc` host, answer an agent's question, or check spend.
 
 What to say and what Pix does with it is documented with the factory:
 
@@ -23,7 +23,7 @@ This page is the product reference: limits, settings, storage, access and API.
 
 ## Before you call
 
-- Sign in to the console. The phone icon in the header opens `/call` once you have somewhere to run sessions: a Pix Sandbox, or a host that has run `belai rc`.
+- Sign in to the Resolve Platform. The phone icon in the header opens `/call` once you have somewhere to run sessions: a Pix Sandbox, or a host that has run `belai rc`.
 - Allow the microphone. Audio plays where the browser allows it unasked, and always in the installed app (its **Call Pix** shortcut).
 - `/call` is its own page; moving into or out of it is a full page load.
 
@@ -107,7 +107,7 @@ Each Pix reply has a thumbs up and down. One rating per person per reply; pressi
 
 ## API
 
-The call history routes are on the console API (`https://www.vulnetix.com/api/site`), with your session token.
+The call history routes are on the Resolve Platform API (`https://www.vulnetix.com/api/site`), with your session token.
 
 | Method | Path | Parameters or body | Answer |
 |---|---|---|---|

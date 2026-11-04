@@ -40,7 +40,7 @@ Some features need optional permissions. The Organisations panel shows which are
 
 ## 2. Make the organisation managed
 
-Open **Software Factory › Repos** in the console (`/resolve/factory-repos`). Every installation is listed under Organisations, and all of them are read-only until you switch **Managed** on for one.
+Open **Software Factory › Repos** in the Resolve Platform (`/resolve/factory-repos`). Every installation is listed under Organisations, and all of them are read-only until you switch **Managed** on for one.
 
 Managing an organisation does two things:
 
@@ -93,7 +93,7 @@ If publishing fails, the builder lists each problem with its code, for example `
 Open **Budgets** (`/resolve/factory-budgets`). The tenant has a monthly factory budget of 30,000,000 tokens by default (`budget.month`). Add a run or workflow budget to cap a single workflow. See [Budgets](/software-factory/cost/budgets/).
 
 > [!PIX] Check on it from your phone
-> Call Pix from the console header or the app and ask "how is the factory doing?". Pix reads the same figures as the cockpit with `factory_stats` and lists anything waiting on you with `needs_attention`.
+> Call Pix from the Resolve Platform header or the app and ask "how is the factory doing?". Pix reads the same figures as the cockpit with `factory_stats` and lists anything waiting on you with `needs_attention`.
 
 ## Next
 

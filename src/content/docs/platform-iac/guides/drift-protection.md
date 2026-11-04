@@ -1,25 +1,25 @@
 ---
 title: Drift protection
 nav: Drift protection
-description: The organisation setting that makes the console and the legacy APIs refuse changes to settings managed by Platform IaC, what counts as managed, what is refused with HTTP 409 and what always passes, how an owner or admin switches it, and what it does not cover.
+description: The organisation setting that makes the Resolve Platform and the legacy APIs refuse changes to settings managed by Platform IaC, what counts as managed, what is refused with HTTP 409 and what always passes, how an owner or admin switches it, and what it does not cover.
 order: 2
 sources: ["vdb-site/docs/platform-iac-engine.md", "vdb-site/api/internal/handler/drift_guard.go", "vdb-site/api/internal/handler/drift_guard_routes.go", "vdb-site/api/internal/handler/drift_guard_exempt.go", "vdb-site/api/internal/handler/drift_protection.go", "config-schemas/schemas/Organization.schema.json", "website/.repo/platform-iac-indicator.md", "website/src/shared/platform-iac-pages.ts", "website/src/components/platform-iac/PlatformIacIndicator.vue", "website/src/components/platform-iac/DriftProtectionSwitch.vue", "website/src/stores/platform-iac.ts"]
 checked: ["config-schemas@v1.15.0", "vdb-site@cca0d31", "website@b548e4c"]
 updated: 03 Nov 2026
 ---
 
-Drift protection is an organisation setting that decides whether settings managed by Platform IaC can still be changed from the console and the legacy APIs. It is a single boolean, `driftProtection`, and it is `false` by default.
+Drift protection is an organisation setting that decides whether settings managed by Platform IaC can still be changed from the Resolve Platform and the legacy APIs. It is a single boolean, `driftProtection`, and it is `false` by default.
 
 | Setting | Behaviour |
 |---|---|
-| Off (the default) | Advisory only. Nothing is refused. The console shows which settings are managed as code, and [`vulnetix config plan`](/platform-iac/cli/plan/) reports an outside edit as drift. |
+| Off (the default) | Advisory only. Nothing is refused. The Resolve Platform shows which settings are managed as code, and [`vulnetix config plan`](/platform-iac/cli/plan/) reports an outside edit as drift. |
 | On | Enforced. A write that does not come from Platform IaC, to a kind that is managed, is refused with HTTP 409. |
 
 It needs `config-schemas` v1.15.0 for the `Organization` field, and a database migration on the server (see [Before the migration](#before-the-migration)).
 
 ## What managed means
 
-An object is **managed by Platform IaC** when it has an ownership record whose manager is `terraform` or `gitops:<repo>`. An object whose manager is `console`, which is what the imperative CLI commands and the console use, is not managed. See [who manages an object](/platform-iac/reference/engine/#who-manages-an-object).
+An object is **managed by Platform IaC** when it has an ownership record whose manager is `terraform` or `gitops:<repo>`. An object whose manager is `console`, which is what the imperative CLI commands and the Resolve Platform use, is not managed. See [who manages an object](/platform-iac/reference/engine/#who-manages-an-object).
 
 A **kind is managed** when any object of it is. One Terraform-managed `QualityGate` makes `QualityGate` managed for the organisation. A kind with no managed object is never affected, whatever the switch says, so turning Drift protection on in an organisation that manages nothing as code changes nothing.
 
@@ -36,7 +36,7 @@ With the switch on, a `POST`, `PUT`, `PATCH` or `DELETE` to a route that writes 
 }
 ```
 
-`kind` is the first kind of that endpoint that has a managed object, and `manager` is who manages it. The guard covers the routes the console and the legacy APIs use to write each kind: the [route to kind table](#route-to-kind-table) lists them. This applies whoever calls: a person in the console, an API key or a legacy endpoint.
+`kind` is the first kind of that endpoint that has a managed object, and `manager` is who manages it. The guard covers the routes the Resolve Platform and the legacy APIs use to write each kind: the [route to kind table](#route-to-kind-table) lists them. This applies whoever calls: a person in the Resolve Platform, an API key or a legacy endpoint.
 
 If the guard cannot read the setting or the ownership records, it refuses the write with `503` rather than letting it through.
 
@@ -74,7 +74,7 @@ An owner or admin can turn it on or off at any time, in either direction. Settin
 
 `managed` lists, per kind and manager, the objects that are not `console`-managed, which is what the guard would protect. The `PUT` body takes `enabled` and nothing else. Every change is recorded in the config audit log (kind `Organization`, name `default`, field `spec.driftProtection`) with who made it and which token.
 
-The console switch is described under [In the console](#in-the-console). A signed-in session also learns the setting from `GET /v1/account`, which carries `driftProtection`. If that read fails, the setting reads as off.
+The Resolve Platform switch is described under [In the Resolve Platform](#in-the-resolve-platform). A signed-in session also learns the setting from `GET /v1/account`, which carries `driftProtection`. If that read fails, the setting reads as off.
 
 ```yaml
 apiVersion: vulnetix.com/v1
@@ -97,13 +97,13 @@ The setting is stored on the tenant row by a database migration, `20261229050000
 
 with HTTP 409. An `Organization` document with `driftProtection: false` is in step, and one with `true` fails the apply naming the migration.
 
-## In the console
+## In the Resolve Platform
 
-Since the console release of 3 November 2026, the console shows which pages are managed as code and, with Drift protection on, makes them read only. The server stays the authority: it refuses a write to a managed kind with 409 whatever the page shows.
+Since the Resolve Platform release of 3 November 2026, the Resolve Platform shows which pages are managed as code and, with Drift protection on, makes them read only. The server stays the authority: it refuses a write to a managed kind with 409 whatever the page shows.
 
 ### The indicator
 
-A console page that edits a kind Platform IaC can manage shows a small branch icon in the top-right of its header, beside the **?** help icon (on its own where the page has no **?**). A page that edits no such kind shows nothing. The page-to-kinds map is fixed in the console: for example Quality gate is `QualityGate`, Jail is `JailPolicy` and `JailExemption`, Integrations is the GitHub, forge, Wiz and AWS kinds, and Members is `Member` and `ServiceAccount`.
+A console page that edits a kind Platform IaC can manage shows a small branch icon in the top-right of its header, beside the **?** help icon (on its own where the page has no **?**). A page that edits no such kind shows nothing. The page-to-kinds map is fixed in the Resolve Platform: for example Quality gate is `QualityGate`, Jail is `JailPolicy` and `JailExemption`, Integrations is the GitHub, forge, Wiz and AWS kinds, and Members is `Member` and `ServiceAccount`.
 
 | State | When | Hover text |
 |---|---|---|
@@ -119,37 +119,37 @@ Clicking the icon opens a menu with the same sentence, then the page's managed k
 ### Where to switch it
 
 - In the indicator's menu, on any page that has one.
-- On **Account** › **Profile** (`/resolve/account`), in the card **Platform IaC drift protection**. It explains the setting and shows the same switch, with the line `On. Settings that Platform IaC manages are read only here, and the server refuses a change made in the console. Change them in code.` or `Off. Settings that Platform IaC manages can still be edited here, and the next apply may overwrite the change.`
+- On **Account** › **Profile** (`/resolve/account`), in the card **Platform IaC drift protection**. It explains the setting and shows the same switch, with the line `On. Settings that Platform IaC manages are read only here, and the server refuses a change made in the Resolve Platform. Change them in code.` or `Off. Settings that Platform IaC manages can still be edited here, and the next apply may overwrite the change.`
 
 An organisation owner or admin can switch it at any time. Anyone else sees the state, the switch is disabled, and it says `Only an organisation owner or admin can switch Drift protection.` The switch takes effect at once and is written to the config audit log like an API change.
 
 ### What locked means
 
-On a page whose indicator is **enforced**, the console is read only for the kinds that are managed:
+On a page whose indicator is **enforced**, the Resolve Platform is read only for the kinds that are managed:
 
 - Fields are read only, and save, delete, add, edit, pause and rotate actions are disabled.
 - Tabs, filters, search, pagination, expanding and collapsing, **Download as code**, copy buttons and links keep working.
-- If a write still reaches the server, for example from a page that had not yet loaded the state, the server's 409 message is shown as a toast and the console reads the state again, so the page turns read only.
+- If a write still reaches the server, for example from a page that had not yet loaded the state, the server's 409 message is shown as a toast and the Resolve Platform reads the state again, so the page turns read only.
 
 The lock is per kind on a page that edits several: the Messaging page locks the connections, routes or templates that are managed and leaves the others editable.
 
-### Limits of the console
+### Limits of the Resolve Platform
 
-The console behaves as follows, and has not been exercised against the live backend by the team that built it, so check it on your own organisation before relying on it.
+The Resolve Platform behaves as follows, and has not been exercised against the live backend by the team that built it, so check it on your own organisation before relying on it.
 
 - **Managed is per kind, not per object.** If any repository's settings are managed as code, the repository settings page lights up and locks, including repositories that are not managed. The server guards the same way.
 - **Some pages are only partly read only.** The write actions are disabled but some fields can still be edited, though nothing saves: the Software Factory workflow canvas, the new-campaign wizard, the Belai host launch fields, and AWS onboarding on the Integrations page.
 - **Cloudflare connect and device enrollment are not Platform IaC kinds,** so they are not locked.
-- **SIEM pages.** The console map includes the Guardian pages (saved searches, detection rules, alert triggers, scheduled reports, log sources), but the server does not guard those kinds, so a lock there is only the console's.
-- **A failed read means nothing is managed.** If the console cannot read `GET /v1/config/drift-protection`, every indicator stays unlit and no page is locked, rather than showing a lock the server would not enforce. The state is read once per session, and again after a switch change or a refused write.
+- **SIEM pages.** The Resolve Platform map includes the Guardian pages (saved searches, detection rules, alert triggers, scheduled reports, log sources), but the server does not guard those kinds, so a lock there is only the Resolve Platform's.
+- **A failed read means nothing is managed.** If the Resolve Platform cannot read `GET /v1/config/drift-protection`, every indicator stays unlit and no page is locked, rather than showing a lock the server would not enforce. The state is read once per session, and again after a switch change or a refused write.
 
 ## What it does not cover
 
-Drift protection stops the console and the legacy APIs from changing a managed kind. It is not an access control, and it has these edges:
+Drift protection stops the Resolve Platform and the legacy APIs from changing a managed kind. It is not an access control, and it has these edges:
 
 - **Only `/v1/config/*` bypasses it.** A credential that can apply is the key to every managed setting, but it passes only on the config routes. The same ApiKey sent to a console route is refused like anyone else. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
 - **The factory kill switch is exempt.** `POST /factory/stop`, `/factory/resume` and `/factory/a2a/blackout` are emergency controls and must work when everything else is blocked.
-- **Credential rotations are guarded.** Rotating a `ServiceAccount` key or a `VaultEntry` secret from the console is refused while that kind is managed.
+- **Credential rotations are guarded.** Rotating a `ServiceAccount` key or a `VaultEntry` secret from the Resolve Platform is refused while that kind is managed.
 - **Finding triage is not guarded.** Marking a finding a false positive can leave a console `Suppression` rule as a side effect, and that is not blocked. Only `POST /findings/bulk/suppress`, which exists to write rules, is guarded.
 - **The SIEM kinds are not covered yet.** `SavedSearch`, `DetectionRule`, `AlertTrigger`, `ScheduledReport` and `LogSource` are written in Guardian, not in the site API, so the guard never sees their writes.
 - **A person's own state is not guarded:** their password, MFA, API key, identity links and notification preferences.
@@ -218,4 +218,4 @@ The TEA publisher API (`/tea/v1`, `/tea/v0.4.0`) is guarded too: `POST`, `PATCH`
 
 ## When you get the 409
 
-`managed_by_platform_iac` means the setting is managed as code. Change it where it is declared: edit the document or the Terraform resource and apply it. To make an urgent change in the console, ask an owner or admin to turn Drift protection off first, and expect the next apply from `kind`'s `manager` to put the declared value back and report the console edit as drift. To find what is managed, read `managed` from `GET /v1/config/drift-protection` or `GET /v1/config/ownership`. See [GitOps from a repository](/platform-iac/reference/engine/#gitops-from-a-repository) and the [Config API](/platform-iac/reference/config-api/#drift-protection).
+`managed_by_platform_iac` means the setting is managed as code. Change it where it is declared: edit the document or the Terraform resource and apply it. To make an urgent change in the Resolve Platform, ask an owner or admin to turn Drift protection off first, and expect the next apply from `kind`'s `manager` to put the declared value back and report the Resolve Platform edit as drift. To find what is managed, read `managed` from `GET /v1/config/drift-protection` or `GET /v1/config/ownership`. See [GitOps from a repository](/platform-iac/reference/engine/#gitops-from-a-repository) and the [Config API](/platform-iac/reference/config-api/#drift-protection).

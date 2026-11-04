@@ -13,7 +13,7 @@ Two firewalls stand in front of factory work:
 - The **Package Firewall** decides which packages an agent may install. Every install in a Pix Sandbox goes through it. It can block malware, known exploited vulnerabilities, weaponised packages and packages younger than a cooldown, and warn or block on end of life. Its blocks show on the cockpit and on [Trust](/software-factory/evidence/trust-and-slsa/).
 - The **AI Firewall** is a gateway between Belai and the model provider. It inspects each request and can refuse it, redact what it matched, or flag it. For factory sessions it cannot be switched off: `firewall_enabled` is locked on.
 
-Both are configured on their own pages in the console. The factory reads them, and both can [trigger workflows](/software-factory/workflows/source-events/) when they see something new.
+Both are configured on their own pages in the Resolve Platform. The factory reads them, and both can [trigger workflows](/software-factory/workflows/source-events/) when they see something new.
 
 ## How Belai routes through an AI Firewall
 

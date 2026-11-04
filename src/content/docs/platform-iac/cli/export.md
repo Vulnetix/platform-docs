@@ -47,7 +47,7 @@ vulnetix config export -f .vulnetix/config --format hcl -o vulnetix.tf
 | `hcl` | `vulnetix_*` Terraform resources with `import {}` blocks for objects that exist, so adopting them shows no changes in the first `terraform plan`. |
 | `sh` | A bash script that runs `vulnetix config apply -f -` with the YAML inline in a heredoc. |
 
-All three are rendered by the engine, the same endpoint the console's Download as code uses, so the CLI and the console never differ.
+All three are rendered by the engine, the same endpoint the Resolve Platform's Download as code uses, so the CLI and the Resolve Platform never differ.
 
 ## Secrets
 

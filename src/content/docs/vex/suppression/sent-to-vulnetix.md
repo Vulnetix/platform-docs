@@ -58,7 +58,7 @@ Also:
 
 - A statement that carries one of your organisation's own rule markers links to that rule instead of creating another.
 - A newer statement replaces an older VEX-created rule for the same vulnerability, product and repository.
-- VEX never changes a rule a person made in the console or with `vulnetix ignore`.
+- VEX never changes a rule a person made in the Resolve Platform or with `vulnetix ignore`.
 - The community tier stores nothing: each document comes back with the error `VEX is not stored for the community tier`.
 
 ## Response

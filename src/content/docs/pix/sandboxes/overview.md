@@ -15,7 +15,7 @@ A Pix Sandbox is a Cloudflare container Vulnetix runs for you, one per purchase,
 | [Launch configurations](/pix/sandboxes/launch-configurations/) | The `launch` library item: a versioned, reusable set of items and machine settings to put on a sandbox or a host |
 | [Egress policy](/pix/sandboxes/egress/) | The egress mode, the per-host allow and deny list with `*.` wildcards, and how each request is decided |
 
-In the console: **Hosts** (`/resolve/belai-hosts`), tab **Pix Sandboxes** (the default) for a sandbox's Launch, Repositories and Egress tabs, and tab **Launch configs** (`?tab=launch`) for launch configurations.
+In the Resolve Platform: **Hosts** (`/resolve/belai-hosts`), tab **Pix Sandboxes** (the default) for a sandbox's Launch, Repositories and Egress tabs, and tab **Launch configs** (`?tab=launch`) for launch configurations.
 
 ## The launch draft
 
@@ -87,4 +87,4 @@ All under `/v1/belai/sandboxes`, with a signed-in console session. Reads need a 
 | PATCH | `/{id}/egress/{host}` | `{"decision": "allow"\|"deny"\|"unset"}` |
 | PUT | `/{id}/providers` | Provider keys and provider sets every launch installs |
 
-A request body is at most 64 KiB. Relaunching is a sandbox Worker route the console calls, not one of these.
+A request body is at most 64 KiB. Relaunching is a sandbox Worker route the Resolve Platform calls, not one of these.

@@ -7,11 +7,11 @@ checked: [vdb-site@1a06d67, saas@50cedf37]
 updated: 02 Nov 2026
 ---
 
-Curation decisions age. The console asks you to look at an entry again when it is old or unused, and records every change.
+Curation decisions age. The Resolve Platform asks you to look at an entry again when it is old or unused, and records every change.
 
 ## Review settings
 
-Set on the **Policies** tab; read by the console only, never by the proxy.
+Set on the **Policies** tab; read by the Resolve Platform only, never by the proxy.
 
 | Setting | API field | Default | Flags an entry when |
 |---|---|---|---|

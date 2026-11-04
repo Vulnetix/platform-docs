@@ -15,7 +15,7 @@ checked: [vdb-site@1a06d67, website@ad775f3, ai-firewall@339de55]
 updated: 02 Nov 2026
 ---
 
-Every usage figure the console shows is computed from [inference log](/ai-firewall/operations/logs/) rows. With logging off there are no rows and the charts are empty; turning logging on does not backfill. The [capability inventory](/ai-firewall/operations/inventory/) is the one view that fills without logging.
+Every usage figure the Resolve Platform shows is computed from [inference log](/ai-firewall/operations/logs/) rows. With logging off there are no rows and the charts are empty; turning logging on does not backfill. The [capability inventory](/ai-firewall/operations/inventory/) is the one view that fills without logging.
 
 The gateway does not meter, bill or cap usage. Token counts are the provider's own usage report read off the response; your provider bills you directly on your own key.
 

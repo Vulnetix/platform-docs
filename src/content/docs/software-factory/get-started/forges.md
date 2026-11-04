@@ -42,7 +42,7 @@ github.com connects as described in the [Quickstart](/software-factory/get-start
 
 ## What is not available
 
-Some GitHub features have no equivalent. A step that needs one fails with `forge_capability_unavailable` and says why, and the console marks it "not available on" that forge.
+Some GitHub features have no equivalent. A step that needs one fails with `forge_capability_unavailable` and says why, and the Resolve Platform marks it "not available on" that forge.
 
 - **Security alerts** (Dependabot, code scanning, secret scanning) are GitHub's. On other forges Vulnetix's own scanners report the same findings.
 - **Merge queues** are GitHub's.

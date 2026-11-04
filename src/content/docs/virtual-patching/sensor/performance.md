@@ -1,6 +1,6 @@
 ---
 title: Sensor performance and metrics
-description: What vulnetix-sensor costs a host in CPU and memory, measured, the metrics it reports on each heartbeat, where the console shows them, and the installed-package inventory a host SBOM is built from.
+description: What vulnetix-sensor costs a host in CPU and memory, measured, the metrics it reports on each heartbeat, where the Resolve Platform shows them, and the installed-package inventory a host SBOM is built from.
 order: 8
 nav: Performance and metrics
 sources: [vdb-site/docs/runtime-sensor-api.md, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go, cli/internal/sensor/agent/metrics.go, cli/cmd/vulnetix-sensor/main.go, cli/internal/sensor/provision/units.go, cli/deploy/sensor/install.sh, website/src/shared/sensor-metrics.ts]

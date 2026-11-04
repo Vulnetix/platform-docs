@@ -59,7 +59,7 @@ Internal URLs:
 
 ## Validation
 
-`apply`, the CLI API behind `policy guardrail`, and the console API all compile the pattern when the rule is created and refuse one that fails. Pass `--rule-type` again when you change a pattern with `--uuid`, or the update is not checked. A lookbehind such as `(?<=EMP-)[0-9]{6}` fails with `error parsing regexp: invalid named capture`; a lookahead fails with `invalid or unsupported Perl syntax: (?=`. When `apply` refuses a pattern containing `(?=`, `(?!` or `(?<`, it adds a line saying RE2 has no lookarounds.
+`apply`, the CLI API behind `policy guardrail`, and the Resolve Platform API all compile the pattern when the rule is created and refuse one that fails. Pass `--rule-type` again when you change a pattern with `--uuid`, or the update is not checked. A lookbehind such as `(?<=EMP-)[0-9]{6}` fails with `error parsing regexp: invalid named capture`; a lookahead fails with `invalid or unsupported Perl syntax: (?=`. When `apply` refuses a pattern containing `(?=`, `(?!` or `(?<`, it adds a line saying RE2 has no lookarounds.
 
 ## Testing a pattern before it touches traffic
 

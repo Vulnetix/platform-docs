@@ -1,7 +1,7 @@
 ---
 title: The agent builder and drafts
 nav: Agent builder
-description: Build an agent in the console. Draft every field from a sentence, edit its handoffs, check it against your library and workflows, and give it an avatar.
+description: Build an agent in the Resolve Platform. Draft every field from a sentence, edit its handoffs, check it against your library and workflows, and give it an avatar.
 order: 2
 sources: [vdb-site/docs/factory.md, vdb-site/api/internal/handler/belai_ai.go, vdb-site/api/internal/handler/belai_ai_draft.go, vdb-site/api/internal/handler/belai_drafts.go, belai/internal/agentdraft]
 checked: [vdb-site@284f1d6, belai@35506b9]

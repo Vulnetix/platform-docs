@@ -8,7 +8,7 @@ checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-`vulnetix-sensor` is a separate binary from the `vulnetix` CLI. It runs inside or beside your workload, loads rules from one or more [detection rule feeds](/virtual-patching/feeds/detection-rule-feeds/) and indicator lists the site serves ([Rule feeds](/virtual-patching/sensor/feeds/)), and reports every match to the console's **Sensors** page (`/resolve/sensor`), where a person decides what it held.
+`vulnetix-sensor` is a separate binary from the `vulnetix` CLI. It runs inside or beside your workload, loads rules from one or more [detection rule feeds](/virtual-patching/feeds/detection-rule-feeds/) and indicator lists the site serves ([Rule feeds](/virtual-patching/sensor/feeds/)), and reports every match to the Resolve Platform's **Sensors** page (`/resolve/sensor`), where a person decides what it held.
 
 Every release of the CLI attaches `vulnetix-sensor-linux-amd64`, `vulnetix-sensor-linux-arm64` (listed in `checksums.txt`) and the Lambda layers `vulnetix-sensor-lambda-layer-amd64.zip` and `vulnetix-sensor-lambda-layer-arm64.zip`. No container image is published: build one from `deploy/sensor/Dockerfile` in the CLI repository.
 
@@ -59,7 +59,7 @@ A decision can be revoked; sensors drop it on their next poll. Only a signed-in 
 
 A Sigma rule for another logsource, or with an unsupported field, modifier or aggregation, is rejected with the reason. YARA supports text strings (`nocase`, `wide`, `ascii`, `fullword`), hex strings with wildcards, jumps and alternation, regexes, and conditions with `and`, `or`, `not`, `N of`, `filesize` and `uintN(offset)`. Modules, `for` loops, counts, offsets, `at`/`in`, `xor` and `base64` are rejected with the reason.
 
-Every rule's load result (compiled, rejected, blocking) is reported, so the console calls a rule *protecting* only where at least one sensor compiled it and runs it in block mode.
+Every rule's load result (compiled, rejected, blocking) is reported, so the Resolve Platform calls a rule *protecting* only where at least one sensor compiled it and runs it in block mode.
 
 ## Interception points
 

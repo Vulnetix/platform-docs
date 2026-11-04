@@ -31,7 +31,7 @@ Retention is 31 days on every pack. A search covers at most 30 days.
 
 ## Resolve Platform pages
 
-Guardian is one menu item in the Vulnetix console.
+Guardian is one menu item in the Resolve Platform.
 
 | Page | Path | Use it for |
 |---|---|---|
@@ -46,7 +46,7 @@ Cloudflare is connected from the Integrations page (the Cloudflare card). See [C
 
 ## Who can use it
 
-Guardian is an add-on. Your organisation needs the Business or Enterprise plan **and** an active ingest pack. Without both, the console API answers `402` with `needs: business` or `needs: pack`, ingest answers `402`, and rules pause.
+Guardian is an add-on. Your organisation needs the Business or Enterprise plan **and** an active ingest pack. Without both, the Resolve Platform API answers `402` with `needs: business` or `needs: pack`, ingest answers `402`, and rules pause.
 
 | Pack | Ingest per day | Query budget per day | Enabled rules, triggers, sends |
 |---|---|---|---|
@@ -68,6 +68,6 @@ Owners and admins buy the pack (**Start Guardian**), create ingest tokens and co
 
 ## Platform IaC
 
-Guardian's searches, rules, triggers, reports and log sources are kinds: [`SavedSearch`](/platform-iac/kinds/saved-search/), [`DetectionRule`](/platform-iac/kinds/detection-rule/), [`AlertTrigger`](/platform-iac/kinds/alert-trigger/), [`ScheduledReport`](/platform-iac/kinds/scheduled-report/) and [`LogSource`](/platform-iac/kinds/log-source/). They are written in Guardian, which the Vulnetix API vouches to for the caller, in a second phase after the rest of an apply; see [SIEM kinds](/platform-iac/reference/engine/#siem-kinds-written-in-guardian). The log shipping side can be the CloudFormation stack you deploy yourself ([AWS](/siem/sources/aws/)) or the `aws-siem-shipping` Terraform module (see [Terraform modules](/platform-iac/terraform/modules/)). Searches, rules and triggers are also managed in the console and through the [Guardian API](/siem/reference/api/).
+Guardian's searches, rules, triggers, reports and log sources are kinds: [`SavedSearch`](/platform-iac/kinds/saved-search/), [`DetectionRule`](/platform-iac/kinds/detection-rule/), [`AlertTrigger`](/platform-iac/kinds/alert-trigger/), [`ScheduledReport`](/platform-iac/kinds/scheduled-report/) and [`LogSource`](/platform-iac/kinds/log-source/). They are written in Guardian, which the Vulnetix API vouches to for the caller, in a second phase after the rest of an apply; see [SIEM kinds](/platform-iac/reference/engine/#siem-kinds-written-in-guardian). The log shipping side can be the CloudFormation stack you deploy yourself ([AWS](/siem/sources/aws/)) or the `aws-siem-shipping` Terraform module (see [Terraform modules](/platform-iac/terraform/modules/)). Searches, rules and triggers are also managed in the Resolve Platform and through the [Guardian API](/siem/reference/api/).
 
-[Drift protection](/platform-iac/guides/drift-protection/) does not cover the SIEM kinds yet. They are written in Guardian, not in the site API, so the console can still change a saved search, detection rule, alert trigger, scheduled report or log source that is managed as code.
+[Drift protection](/platform-iac/guides/drift-protection/) does not cover the SIEM kinds yet. They are written in Guardian, not in the site API, so the Resolve Platform can still change a saved search, detection rule, alert trigger, scheduled report or log source that is managed as code.

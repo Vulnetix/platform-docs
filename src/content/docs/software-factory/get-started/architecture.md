@@ -8,7 +8,7 @@ checked: [vdb-site@597344c, belai@8aa7760, website@58b9ffa]
 updated: 28 Oct 2026
 ---
 
-Software Factory has five parts. You use two of them directly: the console in your browser and, if you connect machines of your own, the Belai CLI.
+Software Factory has five parts. You use two of them directly: the Resolve Platform in your browser and, if you connect machines of your own, the Belai CLI.
 
 | Part | Where it runs | What it does |
 |---|---|---|
@@ -18,7 +18,7 @@ Software Factory has five parts. You use two of them directly: the console in yo
 | Hosts | A Pix Sandbox, or your own machine running `belai rc` | Run agent sessions with the repository checked out |
 | Pix call worker | Cloudflare | Voice calls with Pix |
 
-## The console and the API
+## The Resolve Platform and the API
 
 Every console page reads the API under `/v1/factory` and `/v1/belai`, proxied as `/api/site/v1/...`. Every route needs a signed-in console session and acts on your tenant. A record that belongs to another tenant reads as not found, never as forbidden.
 
@@ -39,7 +39,7 @@ The engine has no timer that scans for work. A run moves only when something tel
 - **Scanner results** uploaded by the Vulnetix CLI wake scan steps.
 - **Labels and comments** (`sf:<name>`, `/sf <name>`) on issues and pull requests start a run of the named workflow.
 - **The board**: a card moving list can start a run.
-- **People** start runs by hand in the console or on a Pix call.
+- **People** start runs by hand in the Resolve Platform or on a Pix call.
 
 ## Hosts
 
@@ -56,7 +56,7 @@ Agents call models through the provider routes on the [Budgets](/software-factor
 
 ## Pix calls
 
-A call is handled by a Durable Object on Cloudflare. Your speech is transcribed, the Pix coordinator chooses tools, and the answer is spoken back. The tools read the same API the console does. Starting or stopping work needs a read-back and your yes. Call history keeps the words and the cards shown on screen, with no audio. See [Calling Pix](/software-factory/pix/calling-pix/).
+A call is handled by a Durable Object on Cloudflare. Your speech is transcribed, the Pix coordinator chooses tools, and the answer is spoken back. The tools read the same API the Resolve Platform does. Starting or stopping work needs a read-back and your yes. Call history keeps the words and the cards shown on screen, with no audio. See [Calling Pix](/software-factory/pix/calling-pix/).
 
 ## Belai
 

@@ -310,7 +310,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-A tenant declares many sources, each named. A source is small and wholly declared, so apply overwrites the whole row from the document: a field the document leaves out goes back to its default. Rows made this way are marked as managed by config, and the console shows them read only.
+A tenant declares many sources, each named. A source is small and wholly declared, so apply overwrites the whole row from the document: a field the document leaves out goes back to its default. Rows made this way are marked as managed by config, and the Resolve Platform shows them read only.
 
 ## Terraform and OpenTofu
 

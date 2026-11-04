@@ -14,7 +14,7 @@ The VDB has no tree-sitter query for this CVE yet. Recent CVEs and distribution-
 
 ## Queries ran, nothing matched
 
-`queries_run` is above zero and both lists are empty. In a scan the verdict is `unreachable`, which the console triages as `not_affected` (`code_not_reachable`). Check for reflection or dynamic dispatch before relying on it.
+`queries_run` is above zero and both lists are empty. In a scan the verdict is `unreachable`, which the Resolve Platform triages as `not_affected` (`code_not_reachable`). Check for reflection or dynamic dispatch before relying on it.
 
 ## `direct skipped: install directory for <eco>/<pkg> not found`
 
@@ -38,7 +38,7 @@ A query that does not compile against the bundled grammar, or whose `#match?` re
 
 ## False positives
 
-A transitive match on a same-named method is the common one. Read `captures`: `callee: _.template` is the library, `callee: myUtil.template` is not. Record the decision in `memory.yaml` (`decision.choice: not_affected` with a reason) or triage it in the console. There is no per-match suppression.
+A transitive match on a same-named method is the common one. Read `captures`: `callee: _.template` is the library, `callee: myUtil.template` is not. Record the decision in `memory.yaml` (`decision.choice: not_affected` with a reason) or triage it in the Resolve Platform. There is no per-match suppression.
 
 ## Slow sweeps
 

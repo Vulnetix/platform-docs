@@ -111,7 +111,7 @@ Sensitive events show only the action, who it was about and when.
 
 ## API
 
-All vault routes take the console session only, not an API key. Responses are `Cache-Control: no-store` and never include a value.
+All vault routes take the Resolve Platform session only, not an API key. Responses are `Cache-Control: no-store` and never include a value.
 
 | Method | Path | Who | Body or notes |
 |---|---|---|---|

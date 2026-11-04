@@ -92,7 +92,7 @@ These are written in the plain error envelope with `type: "policy_violation"` or
 | `vault_kiro_relogin` | `permission_error` | AWS no longer accepts the stored Kiro sign-in | Run `vulnetix ai-firewall kiro login` again. |
 
 > [!CAREFUL] The provider_key_missing message names an old console path
-> The message points at `https://www.vulnetix.com/vdb-ai-firewall#byok`. The console page is now [/resolve/ai-firewall](https://www.vulnetix.com/resolve/ai-firewall), and keys are stored on its Connect tab.
+> The message points at `https://www.vulnetix.com/vdb-ai-firewall#byok`. The Resolve Platform page is now [/resolve/ai-firewall](https://www.vulnetix.com/resolve/ai-firewall), and keys are stored on its Connect tab.
 
 ## Authentication (401)
 

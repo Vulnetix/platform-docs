@@ -57,7 +57,7 @@ Two settings in Settings › Providers and secrets:
 
 ## Model labels
 
-Wherever the console shows a model, it uses one label per model across pages. Spend is grouped by those labels, so "Pix Smart" in Usage is the same thing as "Pix Smart" in routing. A Pix model is never shown as a bare "Pix".
+Wherever the Resolve Platform shows a model, it uses one label per model across pages. Spend is grouped by those labels, so "Pix Smart" in Usage is the same thing as "Pix Smart" in routing. A Pix model is never shown as a bare "Pix".
 
 ## API
 

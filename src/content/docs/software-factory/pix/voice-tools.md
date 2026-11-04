@@ -7,7 +7,7 @@ checked: [website@bdba7fa]
 updated: 03 Nov 2026
 ---
 
-Pix answers and acts through tools. Each one calls the console's own API as you, so it can see and do only what you can. Reads run freely. Tools that start or stop work need your yes to a read-back first. See [Calling Pix](/software-factory/pix/calling-pix/).
+Pix answers and acts through tools. Each one calls the Resolve Platform's own API as you, so it can see and do only what you can. Reads run freely. Tools that start or stop work need your yes to a read-back first. See [Calling Pix](/software-factory/pix/calling-pix/).
 
 ## Factory figures
 

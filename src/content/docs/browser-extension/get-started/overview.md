@@ -12,7 +12,7 @@ The browser extension is for anyone who reads advisories, issues and other pages
 
 The extension scans the text of the page you are reading for identifiers such as `CVE-2024-3094`, `GHSA-...` or `RUSTSEC-...`, and gives you two ways to read them:
 
-- **Hover card.** Each identifier gets a dotted underline. Hover it to see severity and score, title, affected package, age, KEV and ransomware status, exploit maturity and PoC count, with a link to the Resolve console.
+- **Hover card.** Each identifier gets a dotted underline. Hover it to see severity and score, title, affected package, age, KEV and ransomware status, exploit maturity and PoC count, with a link to the Resolve Platform.
 - **Sidebar.** A real browser sidebar (side panel on Chromium, sidebar on Firefox) listing every identifier on the page, with sorting, filters, a detail view and CSV export.
 
 Detection runs locally and costs nothing. Looking an identifier up spends a VDB request against your daily quota, so lookups only happen when you hover, open the sidebar, or turn on prefetch.

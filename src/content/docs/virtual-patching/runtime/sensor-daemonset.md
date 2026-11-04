@@ -10,7 +10,7 @@ updated: 02 Nov 2026
 
 One sensor per node reads [Tetragon](https://tetragon.io)'s event log. For each process start it hashes the new executable from the host filesystem and checks it against the feeds' `STIX` and `OPENIOC` hashes, the `SIGMA` `process_creation` rules and the `YARA` rules.
 
-This path **detects and reports**. It does not stop the process: the sensor reports `ebpf` on and `bpfLsm` off, so the console says it cannot block there. To refuse execs in the kernel, see [Tetragon and BPF LSM](/virtual-patching/runtime/tetragon/).
+This path **detects and reports**. It does not stop the process: the sensor reports `ebpf` on and `bpfLsm` off, so the Resolve Platform says it cannot block there. To refuse execs in the kernel, see [Tetragon and BPF LSM](/virtual-patching/runtime/tetragon/).
 
 ## 1. Install Tetragon
 

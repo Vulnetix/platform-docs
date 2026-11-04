@@ -39,7 +39,7 @@ vulnetix scan --evaluate-sca --no-licenses --no-sast --no-containers --no-secret
 | Reachability: running the tree-sitter queries the VDB returns | Your machine |
 | Licence detection | Your machine first, then the API, package registries, deps.dev and GitHub for anything still unknown |
 | Gate evaluation and the exit code | Your machine, after the org quality gate is applied |
-| Recording the scan as a snapshot in the console | VDB API, only when you are signed in to an organisation |
+| Recording the scan as a snapshot in the Resolve Platform | VDB API, only when you are signed in to an organisation |
 
 Credentials are optional. With none configured the CLI uses the shared community credentials: lookups work, but nothing is persisted and no org quality gate applies. Sign in with `vulnetix auth login` (see [Authentication](/cli/authentication/overview/)) to record scans and apply your organisation's policy.
 
@@ -71,4 +71,4 @@ Run it in a workflow with the [sca](/sca/github-actions/sca/), [containers](/sca
 
 SCA has no config kind of its own. Its thresholds come from the organisation's quality gate, the [`QualityGate`](/platform-iac/kinds/quality-gate/) kind. The licence files that `vulnetix license` reads are the [`LicensePolicy`](/platform-iac/kinds/license-policy/) and [`LicenseExceptions`](/platform-iac/kinds/license-exceptions/) kinds; the server stores neither, so they stay in the repository. Findings you have decided do not matter are [`Suppression`](/platform-iac/kinds/suppression/) documents or a [`VexSource`](/platform-iac/kinds/vex-source/). See the [kind catalogue](/platform-iac/kinds/catalogue/).
 
-When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to the quality gate is refused with HTTP 409 `managed_by_platform_iac` if the quality gate is managed as code (by Terraform or a repository). Change it where it is declared, or ask an owner to turn Drift protection off.
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the Resolve Platform or through a legacy API to the quality gate is refused with HTTP 409 `managed_by_platform_iac` if the quality gate is managed as code (by Terraform or a repository). Change it where it is declared, or ask an owner to turn Drift protection off.

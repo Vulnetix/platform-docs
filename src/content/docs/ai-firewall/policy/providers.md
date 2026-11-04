@@ -73,7 +73,7 @@ This check runs at every plan. Store a key with `vulnetix ai-firewall key set <p
 
 ## Custom compatible providers
 
-An organisation on Pro can add up to 10 of its own upstreams (vLLM, LiteLLM, Ollama, llama.cpp, or a hosted OpenAI-compatible service) in the console's Connect tab. A custom provider gets the same provider and model policy, guardrails and logging as a built-in, and is reached at `https://guardrails.vulnetix.com/<slug>/<orgUuid>/v1`.
+An organisation on Pro can add up to 10 of its own upstreams (vLLM, LiteLLM, Ollama, llama.cpp, or a hosted OpenAI-compatible service) in the Resolve Platform's Connect tab. A custom provider gets the same provider and model policy, guardrails and logging as a built-in, and is reached at `https://guardrails.vulnetix.com/<slug>/<orgUuid>/v1`.
 
 | Field | Accepted values |
 |---|---|

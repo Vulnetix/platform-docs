@@ -22,7 +22,7 @@ Both templates are served without sign-in:
 | Delivery | `https://guardian.vulnetix.com/v1/templates/vulnetix-siem.yaml` |
 | Investigation role | `https://guardian.vulnetix.com/v1/templates/vulnetix-guardian-readonly.yaml` |
 
-**Guardian > Sources** also shows a CloudFormation quick-create link for each. The delivery link names the stack only, so the token never sits in a URL or your browser history: you paste it into the form. The role link fills in `ExternalId` with your organisation id. The console opens in the region you last used.
+**Guardian > Sources** also shows a CloudFormation quick-create link for each. The delivery link names the stack only, so the token never sits in a URL or your browser history: you paste it into the form. The role link fills in `ExternalId` with your organisation id. The Resolve Platform opens in the region you last used.
 
 ## The delivery stack
 

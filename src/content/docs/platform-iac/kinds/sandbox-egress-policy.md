@@ -164,7 +164,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 ## How apply treats it
 
 - The mode plus hostname allow and deny lists. A host is a DNS name or a `*.` wildcard, never an address.
-- A host decided in the console and left out of the document goes back to undecided. A system host cannot be declared.
+- A host decided in the Resolve Platform and left out of the document goes back to undecided. A system host cannot be declared.
 - Owner or admin only. Delete resets the mode and every decision.
 
 ## Terraform and OpenTofu

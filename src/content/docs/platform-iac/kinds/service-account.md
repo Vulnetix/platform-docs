@@ -186,7 +186,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 - Apply returns `status.principal`, `status.apiKey` and `status.secret` once. Plan, export and later applies never show them. Store them as the apply returns them.
 - A name that belonged to a deleted account is refused, active or not.
 - A create that rolls back deletes the Authentik user it made. A deactivation that rolls back reactivates it.
-- Delete deactivates. Secret rotation is not declarable yet: the console's rotate endpoint stays the way to rotate.
+- Delete deactivates. Secret rotation is not declarable yet: the Resolve Platform's rotate endpoint stays the way to rotate.
 - Owner only. A service account with the developer role cannot apply this kind.
 
 ## Terraform and OpenTofu

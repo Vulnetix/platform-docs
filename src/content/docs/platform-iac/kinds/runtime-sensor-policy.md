@@ -295,7 +295,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 ## How apply treats it
 
 - This is a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code. `metadata.name` is the profile name.
-- The console's normalisation and feed reference checks run on every document, so a document is refused where the provisioning form is.
+- The Resolve Platform's normalisation and feed reference checks run on every document, so a document is refused where the provisioning form is.
 - `feeds` items are one of: `feedRef` (a [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/), stored as its `https://vulnetix.com/feeds/<org>/<feed>` URL, which must be published when the policy is applied; a feed in the same apply is published first), `sensorFeed` (an indicator feed, stored as `org:<uuid>`), or an https URL (a published Vulnetix rule feed or a catalogue feed, stored as `catalog:<id>`). Read renders each stored reference back in that order. Left out, `feeds` are the catalogue defaults, as for a console-created profile.
 - A profile with enrolled, unrevoked devices cannot be deleted or pruned. Plan blocks it and names the count.
 

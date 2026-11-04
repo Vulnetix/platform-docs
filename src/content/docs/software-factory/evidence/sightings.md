@@ -28,7 +28,7 @@ Before its first run starts, a sighting gets research from public sources, kept 
 
 ## The review card
 
-A workflow that answers a sighting files a review card. The card shows the sighting, its facts and its research, and ends with **Decide in the console**: Allow, Deny and Manage links.
+A workflow that answers a sighting files a review card. The card shows the sighting, its facts and its research, and ends with **Decide in the Resolve Platform**: Allow, Deny and Manage links.
 
 | Source | The link opens |
 |---|---|

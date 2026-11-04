@@ -21,7 +21,7 @@ The scanner matches these shapes, case-insensitively, with a word boundary on ea
 | `ICSA` | `ICSA-YY-NNN-NN` | `ICSA-24-030-01` |
 | `BIG-SLEEP` | `BIG-SLEEP-YYYY-N+` | `BIG-SLEEP-2025-1` |
 
-Bare numbers such as `2024-3094`, and loose prefixes such as `MS-` or `ADV-`, are not matched: they appear in ordinary prose everywhere. To look one up, use the [Resolve console](https://www.vulnetix.com/resolve/lookup).
+Bare numbers such as `2024-3094`, and loose prefixes such as `MS-` or `ADV-`, are not matched: they appear in ordinary prose everywhere. To look one up, use the [Resolve Platform](https://www.vulnetix.com/resolve/lookup).
 
 ## Normalisation
 

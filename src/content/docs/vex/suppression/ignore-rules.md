@@ -144,6 +144,6 @@ vulnetix ignore list
 vulnetix ignore remove --finding CVE-2024-0001 --reason "fixed upstream"
 ```
 
-## In the console
+## In the Resolve Platform
 
 The Suppression Policies page lists every rule by repository and category, with extend, deactivate and delete actions. The "Ignore this finding" action on a finding creates a rule. Rules created from VEX documents appear there too; see [VEX sent to Vulnetix](/vex/suppression/sent-to-vulnetix/).

@@ -49,7 +49,7 @@ A content guardrail is a rule matched against the text of every request the gate
 - A `redact` rewrites the request in place. Later rules see `[REDACTED]`, not the original text, so a redaction at a lower priority number can defuse a block that would otherwise have matched the same text.
 - A rule whose pattern does not compile is skipped. `apply` and both APIs refuse such a pattern when the rule is created; an update that sends a pattern without its rule type is not checked. See [Regex reference](/ai-firewall/reference/regex-reference/#validation).
 
-Priority defaults to `100` when a rule is created in the console or with `vulnetix ai-firewall policy guardrail` without `--priority`. A rule in a policy file without `priority` is stored at `0`. Priority must be 0 or more.
+Priority defaults to `100` when a rule is created in the Resolve Platform or with `vulnetix ai-firewall policy guardrail` without `--priority`. A rule in a policy file without `priority` is stored at `0`. Priority must be 0 or more.
 
 ## What is inspected
 
@@ -127,7 +127,7 @@ vulnetix ai-firewall policy guardrail no-connection-strings \
 
 An update sends only the flags you pass, plus the name. Every flag is listed on [Commands](/ai-firewall/cli/commands/). In a policy file, rules are matched by name instead; see [Policy file reference](/ai-firewall/reference/policy-file/#specguardrails).
 
-The console's Guardrails tab (`#guardrails`) creates and edits the four content rule types, and its Blueprints panel adds rules from the [recommended baseline](/ai-firewall/policy/recommended-baseline/) one at a time or all at once.
+The Resolve Platform's Guardrails tab (`#guardrails`) creates and edits the four content rule types, and its Blueprints panel adds rules from the [recommended baseline](/ai-firewall/policy/recommended-baseline/) one at a time or all at once.
 
 ## Pages in this section
 

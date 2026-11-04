@@ -7,7 +7,7 @@ checked: [vdb-site@284f1d6, belai@35506b9]
 updated: 28 Oct 2026
 ---
 
-Analytics shows token use across your Belai sessions: on the console's token use panels, per host and per agent. It reads the sessions and transcript entries your hosts already sync, and needs nothing set up.
+Analytics shows token use across your Belai sessions: on the Resolve Platform's token use panels, per host and per agent. It reads the sessions and transcript entries your hosts already sync, and needs nothing set up.
 
 ## What is counted
 
@@ -36,7 +36,7 @@ Every query is scoped to your own sessions.
 
 ## Git directories
 
-Belai also works out the git directories around a session, read-only: the repository and its top-level layout (file counts per directory), the checkouts next to it, and the directories a `belai rc` daemon offers to the console for starting work.
+Belai also works out the git directories around a session, read-only: the repository and its top-level layout (file counts per directory), the checkouts next to it, and the directories a `belai rc` daemon offers to the Resolve Platform for starting work.
 
 ## Related
 

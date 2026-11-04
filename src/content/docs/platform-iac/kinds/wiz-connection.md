@@ -173,7 +173,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-One per tenant. The console only creates and deletes a Wiz connection, so a change replaces it through those writers. The client secret is a `valueFrom` secret.
+One per tenant. The Resolve Platform only creates and deletes a Wiz connection, so a change replaces it through those writers. The client secret is a `valueFrom` secret.
 
 ## Terraform and OpenTofu
 

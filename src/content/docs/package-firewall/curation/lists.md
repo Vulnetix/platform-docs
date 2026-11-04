@@ -7,7 +7,7 @@ checked: [package-firewall@77cd1a5, vdb-site@1a06d67, saas@50cedf37]
 updated: 04 Nov 2026
 ---
 
-Each organization has one allow list and one deny list, curated on the console's **Curation** tab at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall#curation). They can also be written as a [`PackageList`](/platform-iac/kinds/package-list/) document and applied with `vulnetix config apply`.
+Each organization has one allow list and one deny list, curated on the Resolve Platform's **Curation** tab at [www.vulnetix.com/resolve/package-firewall](https://www.vulnetix.com/resolve/package-firewall#curation). They can also be written as a [`PackageList`](/platform-iac/kinds/package-list/) document and applied with `vulnetix config apply`.
 
 ## Entry fields
 
@@ -110,4 +110,4 @@ Every firewall decision is also sent to [Guardian](/siem/), the Vulnetix SIEM, f
 
 ## Usage tracking
 
-The proxy stamps `lastUsedAt` on an entry when live traffic matches it, at most once every 5 minutes per entry, and not during maintenance windows. Matched requests also carry `X-Vulnetix-Firewall-List-Entry` (the entry ID) and `X-Vulnetix-Firewall-List-Version` (the version the entry matched). The console uses `lastUsedAt` for the **Flag an entry unused after** review.
+The proxy stamps `lastUsedAt` on an entry when live traffic matches it, at most once every 5 minutes per entry, and not during maintenance windows. Matched requests also carry `X-Vulnetix-Firewall-List-Entry` (the entry ID) and `X-Vulnetix-Firewall-List-Version` (the version the entry matched). The Resolve Platform uses `lastUsedAt` for the **Flag an entry unused after** review.

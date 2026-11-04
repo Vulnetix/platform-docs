@@ -28,7 +28,7 @@ For a credential, `block` is the right action. `redact` forwards the request wit
 
 ## The baseline already covers the common secrets
 
-The [recommended baseline](/ai-firewall/policy/recommended-baseline/) ships eleven secret rules at priorities 10 to 20, all `block` and enabled. `vulnetix ai-firewall apply` composes them in by default; the console adds them from the Blueprints panel.
+The [recommended baseline](/ai-firewall/policy/recommended-baseline/) ships eleven secret rules at priorities 10 to 20, all `block` and enabled. `vulnetix ai-firewall apply` composes them in by default; the Resolve Platform adds them from the Blueprints panel.
 
 | Baseline id | Matches |
 |---|---|

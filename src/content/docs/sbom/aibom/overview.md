@@ -95,7 +95,7 @@ Detected components are tracked in `.vulnetix/memory.yaml`. A component missing 
 vulnetix ignore add --category ai --value claude-sonnet-4 --type false_positive --reason "test fixture string"
 ```
 
-`--value` is the model id or purl. An ignored AI component is also hidden in the Vulnetix console. See [Ignore rules](/vex/suppression/ignore-rules/).
+`--value` is the model id or purl. An ignored AI component is also hidden in the Resolve Platform. See [Ignore rules](/vex/suppression/ignore-rules/).
 
 ## Inside a scan
 

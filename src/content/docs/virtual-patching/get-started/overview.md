@@ -56,9 +56,9 @@ To take a finding with no fix to a rule running in log-only mode at your edge, f
 | Rule bodies, downloads, `defend --for` | Pro |
 | Detection rule feeds | Pro: 1 feed of each type. Business: 50 of each type. Enterprise: no cap |
 
-Below the plan, the API answers `200` with `planLocked: true` and an empty list rather than an error, so the console can show what exists.
+Below the plan, the API answers `200` with `planLocked: true` and an empty list rather than an error, so the Resolve Platform can show what exists.
 
-## In the console
+## In the Resolve Platform
 
 | Page | Path |
 |---|---|
@@ -69,6 +69,6 @@ Below the plan, the API answers `200` with `planLocked: true` and an empty list 
 
 ## Platform IaC
 
-Feeds, their entries and the runtime sensor's configuration are kinds: [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/) (which can select rules with a CEL `selector.when` evaluated at every publish) and [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/), the [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code. Feeds are also managed in the console and through the [feeds API](/virtual-patching/reference/api/), and a recorded control lives in `.vulnetix/controls.json` in your repository. The Terraform data sources `vulnetix_detection_rule_feed` and `vulnetix_virtual_patches` read a feed; see [data sources](/platform-iac/terraform/data-sources/).
+Feeds, their entries and the runtime sensor's configuration are kinds: [`DetectionRuleFeed`](/platform-iac/kinds/detection-rule-feed/) (which can select rules with a CEL `selector.when` evaluated at every publish) and [`RuntimeSensorPolicy`](/platform-iac/kinds/runtime-sensor-policy/), the [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code. Feeds are also managed in the Resolve Platform and through the [feeds API](/virtual-patching/reference/api/), and a recorded control lives in `.vulnetix/controls.json` in your repository. The Terraform data sources `vulnetix_detection_rule_feed` and `vulnetix_virtual_patches` read a feed; see [data sources](/platform-iac/terraform/data-sources/).
 
-When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the console or through a legacy API to a sensor provisioning profile or a detection rule feed that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.
+When [Drift protection](/platform-iac/guides/drift-protection/) is on, a change made in the Resolve Platform or through a legacy API to a sensor provisioning profile or a detection rule feed that is managed as code (by Terraform or a repository) is refused with HTTP 409 `managed_by_platform_iac`. Change it where it is declared, or ask an owner to turn Drift protection off.

@@ -11,7 +11,7 @@ updated: 02 Nov 2026
 A connector holds one provider's key on the site. From it you load streams or collections, and each one becomes an [org feed](/virtual-patching/sensor/feeds/#org-feeds) with reference `org:<uuid>` that any profile in the org can pick. Sensors fetch the parsed list from the site with their own credential.
 
 > [!WHY] Keys stay on the site
-> The provider key is sealed with KMS when you save it and is never returned by any route, shown in the console, or sent to a device. A sensor only ever receives the indicator list. The key is sent only to the connector's own host, pagination links included.
+> The provider key is sealed with KMS when you save it and is never returned by any route, shown in the Resolve Platform, or sent to a device. A sensor only ever receives the indicator list. The key is sent only to the connector's own host, pagination links included.
 
 Indicators from a connector report and never block, like every other `org:` feed ([why](/virtual-patching/sensor/feeds/#signed-feeds-block-indicator-lists-report)).
 

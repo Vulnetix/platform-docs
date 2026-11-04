@@ -65,7 +65,7 @@ Every triage or score change writes a VEX record scoped to that finding. `vulnet
 
 ## API
 
-The console calls the Vulnetix API with your session.
+The Resolve Platform calls the Vulnetix API with your session.
 
 | Method | Path | Purpose |
 |---|---|---|

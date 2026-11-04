@@ -1,5 +1,5 @@
 ---
-title: Pix buttons in the console
+title: Pix buttons in the Resolve Platform
 nav: Pix buttons
 description: Buttons beside a run, finding or pull request that open a session on its repository with the request already written. Nothing starts until you press Start.
 order: 4
@@ -23,7 +23,7 @@ Some console pages have a button beside an object, such as a failed run, a block
 
 A button only appears when the object names a repository a session could work on.
 
-The session records that it was started from the console, so it shows as such on the Sessions list. See [Sessions](/software-factory/runs/sessions/).
+The session records that it was started from the Resolve Platform, so it shows as such on the Sessions list. See [Sessions](/software-factory/runs/sessions/).
 
 ## Related
 

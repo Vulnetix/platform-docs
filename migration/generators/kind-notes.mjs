@@ -191,7 +191,7 @@ vulnetix config set eol-policy --next-quarter-severity skip --this-quarter-sever
 |---|---|---|
 | Reads | \`.vulnetix/ai-firewall.yaml\`, or \`-f <file>\` | Documents sent to [\`POST /config/plan\` and \`/config/apply\`](${ENGINE_PAGE}) |
 | \`metadata.org\` | Compared with the authenticated principal | Compared with the tenant, as for every kind |
-| A guardrail with no \`priority\` | Sent as \`0\` | Written at \`100\`, the column default the console uses |
+| A guardrail with no \`priority\` | Sent as \`0\` | Written at \`100\`, the column default the Resolve Platform uses |
 | \`baselineId\` | Not stored | Stored on the guardrail row and exported, so a composed baseline rule round-trips |
 | \`providers[].key\` | Read on the machine running the CLI and stored as the provider key | Not stored; the plan warns. Use [\`AiProvider\`](/platform-iac/kinds/ai-provider/) \`apiKey\` for a custom provider's key |
 | An \`allow\` rule whose action is \`flag\` | Applied | Applied, with a plan warning: it refuses nothing |
@@ -214,17 +214,17 @@ Both leave guardrails and model entries the document does not mention alone unle
     sources: ['vdb-site/api/internal/config/aigovernance.go'],
     after: `## How it is stored
 
-Each pattern becomes one AI Firewall guardrail row of rule type \`<family>_<list>\` (\`tool_deny\`, \`mcp_allow\` and so on), owned by the list (\`configOwner = "AiGovernanceList/<name>"\`). Removing a pattern removes its row, and rows written in the console are never touched. [\`AiFirewallPolicy\`](/platform-iac/kinds/ai-firewall-policy/) \`spec.capabilities\` writes the same kind of rows, owned by the policy.`,
+Each pattern becomes one AI Firewall guardrail row of rule type \`<family>_<list>\` (\`tool_deny\`, \`mcp_allow\` and so on), owned by the list (\`configOwner = "AiGovernanceList/<name>"\`). Removing a pattern removes its row, and rows written in the Resolve Platform are never touched. [\`AiFirewallPolicy\`](/platform-iac/kinds/ai-firewall-policy/) \`spec.capabilities\` writes the same kind of rows, owned by the policy.`,
   },
 
   AiProvider: {
     sources: ['vdb-site/api/internal/config/aiprovider.go', 'vdb-site/api/internal/handler/config_engine_kinds.go'],
     after: `## How apply treats it
 
-- Apply runs the console's own checks: the provider validator, the reserved built-in slugs, the public-host check on \`baseUrl\` and the cap of ten custom providers per tenant.
-- The console has no update. Apply rewrites the same columns in place and keeps the provider's uuid, which the stored key's encryption context is bound to.
+- Apply runs the Resolve Platform's own checks: the provider validator, the reserved built-in slugs, the public-host check on \`baseUrl\` and the cap of ten custom providers per tenant.
+- The Resolve Platform has no update. Apply rewrites the same columns in place and keeps the provider's uuid, which the stored key's encryption context is bound to.
 - \`apiKey\` is a secret. The client resolves it (\`env\` or \`file\`) on its own machine and sends it once. It is encrypted with the BYOK KMS key, never read back into a spec, exported or hashed. An export writes an \`apiKey.env\` placeholder, and a plan shows the key as changed only when the value you supply differs from the stored one.
-- Deleting the object revokes the vault entries filed against the slug first, as deleting the provider in the console does.
+- Deleting the object revokes the vault entries filed against the slug first, as deleting the provider in the Resolve Platform does.
 - An [\`AiFirewallPolicy\`](/platform-iac/kinds/ai-firewall-policy/) that names the provider is applied after it.`,
   },
 
@@ -235,7 +235,7 @@ Each pattern becomes one AI Firewall guardrail row of rule type \`<family>_<list
 - A policy is addressed by \`metadata.name\`. The header fields merge: a field the document leaves out keeps its value.
 - \`spec.repository\` is the scope, so leaving it out means the tenant default.
 - \`spec.rules\`, when present, is the whole ordered list. Rules are matched to stored rules by \`label\` and updated in place, which keeps each rule's id (exemptions and the assessment history cite it). A label the document drops is deleted, and renaming a label is a delete and a create. Labels must be unique within a policy.
-- Plan runs the console's policy and rule validators, so a policy the console refuses cannot be applied as code. A \`when\` that does not compile is reported with its rule and position.`,
+- Plan runs the Resolve Platform's policy and rule validators, so a policy the Resolve Platform refuses cannot be applied as code. A \`when\` that does not compile is reported with its rule and position.`,
     cel: `Jail evaluates \`when\` over the facts it already holds, and those do not carry every \`finding\` variable. A rule whose \`when\` names a variable its kind does not fill in is skipped with a warning when the jail gate runs, rather than counting against a zero value:
 
 ${jailTable()}
@@ -249,7 +249,7 @@ ${jailTable()}
     after: `## How apply treats it
 
 - An exemption is a record of a decision, so apply never edits one. A changed document retires the old exemption and creates a new one; removing the document retires it. The retired row keeps what was waived, by whom and why. \`approvedBy\` is the principal applying.
-- The objects of this kind are the tenant's active exemptions. The table has no name column, so \`metadata.name\` is kept on the ownership record. An exemption made in the console gets a name derived from its fields, so export can address it and applying that document adopts it.
+- The objects of this kind are the tenant's active exemptions. The table has no name column, so \`metadata.name\` is kept on the ownership record. An exemption made in the Resolve Platform gets a name derived from its fields, so export can address it and applying that document adopts it.
 - Applied after the [\`JailPolicy\`](/platform-iac/kinds/jail-policy/) it waives.`,
   },
 
@@ -266,16 +266,16 @@ The server does not store this kind. \`vulnetix license\` and \`vulnetix scan --
 
 - Only indicators the tenant manages are read or written. Scanner-found indicators, feed indicators and the global curation verdicts are never touched.
 - Every apply writes the malware curation audit, as a console edit does.
-- A tenant has one managed indicator per type and value. A document for a pair the console already created adopts that row.
+- A tenant has one managed indicator per type and value. A document for a pair the Resolve Platform already created adopts that row.
 - The spec is replaced whole: leaving \`ecosystem\` out clears it.
-- The table has no name column, so \`metadata.name\` is kept on the ownership record, and an indicator made in the console exports under a name derived from its fields.`,
+- The table has no name column, so \`metadata.name\` is kept on the ownership record, and an indicator made in the Resolve Platform exports under a name derived from its fields.`,
   },
 
   PackageFirewallPolicy: {
     sources: ['vdb-site/api/internal/config/pkgfirewall.go'],
     after: `## How apply treats it
 
-- Scalars merge: a field the document leaves out keeps its value, as the console's save does.
+- Scalars merge: a field the document leaves out keeps its value, as the Resolve Platform's save does.
 - \`ecosystems\` and \`mirrors\`, when present, are the whole set. An ecosystem the document does not name inherits \`mode\` again, and a mirror it does not name is removed.
 - Mirrors are matched by ecosystem and URL, so a priority change updates that mirror and keeps its crawl position.
 - The allow and deny lists are [\`PackageList\`](/platform-iac/kinds/package-list/) objects, applied after this one.`,
@@ -285,9 +285,9 @@ The server does not store this kind. \`vulnetix license\` and \`vulnetix scan --
     sources: ['vdb-site/api/internal/config/packagelist.go', 'vdb-site/api/internal/config/purl.go'],
     after: `## How apply treats it
 
-- A \`PackageList\` owns only the entries it declares. Entries made in the console, and entries another \`PackageList\` declares, are never changed or pruned by it.
+- A \`PackageList\` owns only the entries it declares. Entries made in the Resolve Platform, and entries another \`PackageList\` declares, are never changed or pruned by it.
 - Entries are compared one by one, keyed by ecosystem, package name and version as the purl maps to them.
-- Every write appends a package firewall list audit row in the same transaction, with the same actions the console records (create, update, move, activate, delete). The actor is the applying principal and the manager.
+- Every write appends a package firewall list audit row in the same transaction, with the same actions the Resolve Platform records (create, update, move, activate, delete). The actor is the applying principal and the manager.
 - Applied after the [\`PackageFirewallPolicy\`](/platform-iac/kinds/package-firewall-policy/).`,
   },
 
@@ -397,7 +397,7 @@ The VDB API decides with this policy in two more places: the CLI's SCA response 
     sources: ['vdb-site/api/internal/config/apispecsource.go'],
     after: `## How apply treats it
 
-A tenant declares many sources, each named. A source is small and wholly declared, so apply overwrites the whole row from the document: a field the document leaves out goes back to its default. Rows made this way are marked as managed by config, and the console shows them read only.`,
+A tenant declares many sources, each named. A source is small and wholly declared, so apply overwrites the whole row from the document: a field the document leaves out goes back to its default. Rows made this way are marked as managed by config, and the Resolve Platform shows them read only.`,
   },
 
   AwsConnection: {
@@ -488,9 +488,9 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
     after: `## How apply treats it
 
 - The feed's own \`name\` is its display name and is not unique, so \`metadata.name\` lives in \`ConfigManagedObject\`. A feed nobody declared exports under a name derived from its own.
-- The spec is replaced whole. Entries are a set keyed by rule table, rule type and rule, each checked to exist and to fit the format, as the console's add does.
+- The spec is replaced whole. Entries are a set keyed by rule table, rule type and rule, each checked to exist and to fit the format, as the Resolve Platform's add does.
 - \`publish: true\` publishes on every apply that changes the feed. \`publish: false\` revokes a published feed. Publishing writes S3 from inside the apply transaction, after the feed's rows: a later failure in the same apply rolls the rows back but not the files, and the next publish or revoke of that feed replaces them.
-- The plan gate and the per-type feed cap are the console's.
+- The plan gate and the per-type feed cap are the Resolve Platform's.
 - \`selector.when\` is stored in \`DetectionRuleFeed.selector\` and evaluated at every publish; see [where each \`when\` runs](/platform-iac/reference/cel/#where-each-expression-is-evaluated). It needs the platform update \`20261226010000_detection_rule_feed_selector\`. Until it runs, plan refuses a document with a selector and names the update.
 - A \`SNORT_YARA\` feed takes entries only: the third-party catalogue has no CVE data, so plan refuses a selector on one.`,
   },
@@ -500,7 +500,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
     after: `## How apply treats it
 
 - This is a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/) as code. \`metadata.name\` is the profile name.
-- The console's normalisation and feed reference checks run on every document, so a document is refused where the provisioning form is.
+- The Resolve Platform's normalisation and feed reference checks run on every document, so a document is refused where the provisioning form is.
 - \`feeds\` items are one of: \`feedRef\` (a [\`DetectionRuleFeed\`](/platform-iac/kinds/detection-rule-feed/), stored as its \`https://vulnetix.com/feeds/<org>/<feed>\` URL, which must be published when the policy is applied; a feed in the same apply is published first), \`sensorFeed\` (an indicator feed, stored as \`org:<uuid>\`), or an https URL (a published Vulnetix rule feed or a catalogue feed, stored as \`catalog:<id>\`). Read renders each stored reference back in that order. Left out, \`feeds\` are the catalogue defaults, as for a console-created profile.
 - A profile with enrolled, unrevoked devices cannot be deleted or pruned. Plan blocks it and names the count.`,
   },
@@ -509,7 +509,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
     sources: ['vdb-site/api/internal/config/organization.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-- \`driftProtection\` is the [Drift protection](/platform-iac/guides/drift-protection/) switch. It always reads back (\`false\` before the server's migration), \`true\` is refused until that migration is applied, and the setting is never refused by Drift protection itself, so an owner or admin can always turn it off. Turning it on makes the console and the legacy APIs answer \`409 managed_by_platform_iac\` to a write to a managed kind.
+- \`driftProtection\` is the [Drift protection](/platform-iac/guides/drift-protection/) switch. It always reads back (\`false\` before the server's migration), \`true\` is refused until that migration is applied, and the setting is never refused by Drift protection itself, so an owner or admin can always turn it off. Turning it on makes the Resolve Platform and the legacy APIs answer \`409 managed_by_platform_iac\` to a write to a managed kind.
 - A singleton that merges: a field left out is left as it is.
 - Domains are written with the account page's writer on the tenant row. Before the column's migration they read as absent and a write is refused.
 - The display name is patched on the Authentik group \`org-<slug>\` (attribute \`display_name\`). That write registers an undo that puts the old name back when the apply does not commit.
@@ -538,7 +538,7 @@ Written in Guardian, in the second phase; see [SIEM kinds](${ENGINE_PAGE}#siem-k
 - Apply returns \`status.principal\`, \`status.apiKey\` and \`status.secret\` once. Plan, export and later applies never show them. Store them as the apply returns them.
 - A name that belonged to a deleted account is refused, active or not.
 - A create that rolls back deletes the Authentik user it made. A deactivation that rolls back reactivates it.
-- Delete deactivates. Secret rotation is not declarable yet: the console's rotate endpoint stays the way to rotate.
+- Delete deactivates. Secret rotation is not declarable yet: the Resolve Platform's rotate endpoint stays the way to rotate.
 - Owner only. A service account with the developer role cannot apply this kind.`,
   },
 
@@ -575,7 +575,7 @@ Adopt only, by \`spec.installationId\`. The Vulnetix GitHub App is installed on 
     sources: ['vdb-site/api/internal/config/forgeconnection.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-The console's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a \`valueFrom\` secret, kept as the console keeps it. GitHub.com is refused: use [\`GitHubInstallation\`](/platform-iac/kinds/git-hub-installation/).`,
+The Resolve Platform's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a \`valueFrom\` secret, kept as the Resolve Platform keeps it. GitHub.com is refused: use [\`GitHubInstallation\`](/platform-iac/kinds/git-hub-installation/).`,
   },
 
   RegistryConnection: {
@@ -584,7 +584,7 @@ The console's create and update writers, now transaction scoped. A bot token or 
 
 - A connection is a \`ScanRegistryConnection\` row, unique by \`metadata.name\`. It is not the Integrations page's paid container registry login, which the crawler uses.
 - The credential is \`spec.secret\`, a \`valueFrom\` the client reads and sends once. It is stored in the secrets vault as a connector entry and referenced from the row, never kept in the table, exported or shown in a plan. Left out on a later apply, the stored credential is kept.
-- A new or changed credential, URL or username is checked with the registry first, and a login the registry refuses is stored by neither the console nor the engine. The check is made with a client that dials public addresses only.
+- A new or changed credential, URL or username is checked with the registry first, and a login the registry refuses is stored by neither the Resolve Platform nor the engine. The check is made with a client that dials public addresses only.
 - The URL and scope read back canonical: an OCI host lower-cased, the other registries \`https\` with a lower-case host and a trailing slash, the scope sorted without repeats.
 - Each vault write registers its undo: a created entry is revoked, a rotated one is put back, a deleted one is restored. Deleting the document revokes the credential.
 - It needs the registry credentials plan feature and the platform update \`20261228020000_scan_registry_connection\`. Until it runs, plan refuses a document, naming the update.
@@ -615,14 +615,14 @@ The connection chosen for a host and a package or repository is an enabled one w
     sources: ['vdb-site/api/internal/config/wizconnection.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-One per tenant. The console only creates and deletes a Wiz connection, so a change replaces it through those writers. The client secret is a \`valueFrom\` secret.`,
+One per tenant. The Resolve Platform only creates and deletes a Wiz connection, so a change replaces it through those writers. The client secret is a \`valueFrom\` secret.`,
   },
 
   MessagingConnection: {
     sources: ['vdb-site/api/internal/config/messagingconnection.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-- Created, updated and deleted through the messaging centre's writers, now transaction scoped. The URL and the Jira token are \`valueFrom\` secrets kept in the vault as the console keeps them. Each vault write registers its undo.
+- Created, updated and deleted through the messaging centre's writers, now transaction scoped. The URL and the Jira token are \`valueFrom\` secrets kept in the vault as the Resolve Platform keeps them. Each vault write registers its undo.
 - A Slack connection is created paused with no credential and reports \`AwaitingAuthorization\` with the install URL until someone authorizes it in a browser.
 - A webhook's signing secret is shown once, in the apply that creates it.
 - The type cannot change. Names live in \`ConfigManagedObject\`.`,
@@ -648,7 +648,7 @@ The template is compiled at plan with the messaging centre's template compiler, 
 
 - A singleton. Every writable key of the factory settings table is a nested field (\`autonomy.max\` is \`spec.autonomy.max\`), except the keys other kinds own and the read-only keys (\`forge.polling.forbidden\`, \`firewall_enabled\`, \`systemone.min_confidence.adapter\`).
 - Replace semantics: a field left out is the default. Read returns only the settings that differ from the default, so exports are compact.
-- Validation is the console's key table. Plan runs the read-only cross-key rules, including the \`forge.check_runs\` permission.
+- Validation is the Resolve Platform's key table. Plan runs the read-only cross-key rules, including the \`forge.check_runs\` permission.
 - Apply writes through the same function as the settings page: a revision bump, the write-through hooks such as the tenant Factory budget, and one setting event and audit entry per changed key. The status reports \`revision\`.
 - Delete resets its keys to the defaults. The document stays.
 
@@ -656,8 +656,8 @@ The template is compiled at plan with the messaging centre's template compiler, 
 
 [\`ScannerProfile\`](/platform-iac/kinds/scanner-profile/) owns the four \`security.*\` scanner keys, [\`FactoryManagedOrg\`](/platform-iac/kinds/factory-managed-org/) owns \`scope.orgs\`, [\`NotificationDefaults\`](/platform-iac/kinds/notification-defaults/) owns \`notify.push.defaults\`, and \`FactorySettings\` owns the rest. A \`FactorySettings\` apply never writes a key it does not own, so the kinds cannot undo each other.
 
-> [!CAREFUL] Not everything the console does after a save happens
-> The post-commit nudges the console save sends (seeding the default workflows when \`defaults.enabled\` changes, engine state and budget nudges, and the work after managing an organization) are not sent after an engine apply. The scheduler and the next event pick the changes up.
+> [!CAREFUL] Not everything the Resolve Platform does after a save happens
+> The post-commit nudges the Resolve Platform save sends (seeding the default workflows when \`defaults.enabled\` changes, engine state and budget nudges, and the work after managing an organization) are not sent after an engine apply. The scheduler and the next event pick the changes up.
 
 ### Export and import of the settings page
 
@@ -704,8 +704,8 @@ A singleton over the factory settings keys \`security.scanners\`, \`security.sca
     sources: ['vdb-site/api/internal/config/factoryworkflow.go', 'vdb-site/api/internal/handler/factory_workflow_graph.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-- The graph is checked by the console's graph validator.
-- A change saves the next version. With \`publish: true\` it also publishes that version through the console's publish, which reconciles the trigger rows and their schedules in the apply transaction. A published version is never edited.
+- The graph is checked by the Resolve Platform's graph validator.
+- A change saves the next version. With \`publish: true\` it also publishes that version through the Resolve Platform's publish, which reconciles the trigger rows and their schedules in the apply transaction. A published version is never edited.
 - The trigger nodes that [\`FactoryTrigger\`](/platform-iac/kinds/factory-trigger/) and [\`FactorySchedule\`](/platform-iac/kinds/factory-schedule/) own are left out of the workflow's document, and kept by its graph changes.
 
 ### GitOps from a repository
@@ -764,7 +764,7 @@ The canonical crew JSON is saved as a new version. Display names are unique in t
     sources: ['vdb-site/api/internal/config/libraryitem.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-- Every type is checked by the one library validator that the console, the Belai handlers and the engine share.
+- Every type is checked by the one library validator that the Resolve Platform, the Belai handlers and the engine share.
 - The item's type and name, read from its body, cannot change under a \`metadata.name\`.
 - Only a hook carries files.
 - Apply saves a new version. A version object written by an apply that does not commit is removed.
@@ -775,7 +775,7 @@ The canonical crew JSON is saved as a new version. Display names are unique in t
     sources: ['vdb-site/api/internal/config/sandboxlaunchprofile.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-- One per sandbox. The sandbox itself is bought in the console.
+- One per sandbox. The sandbox itself is bought in the Resolve Platform.
 - The draft is checked by the launch page's own preparation and validation, and saving it marks the sandbox for relaunch. The egress mode, providers, provisioning and models are left as stored.
 - Owner or admin only. Delete resets the managed fields to inherit.`,
   },
@@ -785,7 +785,7 @@ The canonical crew JSON is saved as a new version. Display names are unique in t
     after: `## How apply treats it
 
 - The mode plus hostname allow and deny lists. A host is a DNS name or a \`*.\` wildcard, never an address.
-- A host decided in the console and left out of the document goes back to undecided. A system host cannot be declared.
+- A host decided in the Resolve Platform and left out of the document goes back to undecided. A system host cannot be declared.
 - Owner or admin only. Delete resets the mode and every decision.`,
   },
 
@@ -828,7 +828,7 @@ The bearer credential is a \`valueFrom\` secret, encrypted under a key bound to 
     sources: ['vdb-site/api/internal/config/campaign.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-- The console's create, update and archive writers and its scope and done validator. The plan's campaign cap applies.
+- The Resolve Platform's create, update and archive writers and its scope and done validator. The plan's campaign cap applies.
 - Contributors are diffed per item.
 - Delete archives the campaign. An archived campaign is not listed.
 - Only an active campaign can be re-scoped.

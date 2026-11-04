@@ -52,7 +52,7 @@ A recorded violation is `policy_uuid`, `policy_name`, `rule_type`, `action` and 
 |---|---|
 | Request content | None; never written |
 | `AiFirewallLog` | No automatic deletion. Turning logging off stops new rows; existing rows remain until the organisation is deleted. |
-| `AiFirewallInventory` | Until cleared with **Clear** on the console or `vulnetix ai-firewall inventory --clear` |
+| `AiFirewallInventory` | Until cleared with **Clear** on the Resolve Platform or `vulnetix ai-firewall inventory --clear` |
 | Guardian copy | Governed by the SIEM's own retention; see [SIEM](/siem/) |
 
 > [!CAREFUL] The provider still has your request

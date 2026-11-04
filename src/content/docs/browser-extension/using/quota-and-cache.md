@@ -36,7 +36,7 @@ Every VDB response carries rate-limit headers, which the extension keeps in sess
 | Condition | Behaviour |
 |---|---|
 | Fewer than 50 requests remaining | The queue drops to one request at a time |
-| `429` received | New lookups pause until `RateLimit-Reset` (60 s if absent). The card says how long until the reset; the Resolve console links keep working. An export carries cached data only. |
+| `429` received | New lookups pause until `RateLimit-Reset` (60 s if absent). The card says how long until the reset; the Resolve Platform links keep working. An export carries cached data only. |
 | A network error or `5xx` | Retried once after 500 to 1000 ms. A second failure is shown but not cached, so a flaky minute does not stick for 24 hours. |
 
 The queue keeps two lanes, so identifiers on the tab you are looking at are fetched before a background tab's backlog.

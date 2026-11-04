@@ -39,7 +39,7 @@ Each control becomes a finding:
 | `description` | The control statement, the rationale, and for assessor-driven frameworks each testing procedure with its reporting details |
 | `target.type` | `objective-id` |
 | `target.target-id` | The control id as an OSCAL token (below) |
-| `target.title` | The status label shown in the console and PDF |
+| `target.title` | The status label shown in the Resolve Platform and PDF |
 | `target.status` | `state` and `reason`, mapped from the Vulnetix status (below) |
 | `props` | `assessment-status`: the Vulnetix status token; `control-label`: the original control label. Both in namespace `https://vulnetix.com/ns/oscal` |
 | `remarks` | Each gap, as `Gap: ...`, and each note with its author |

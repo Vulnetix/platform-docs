@@ -13,7 +13,7 @@ updated: 28 Oct 2026
 With `belai rc --web-shell` (on by default on a Pix Sandbox), the session page can run one shell line at a time on the host:
 
 - **From the composer**, `!cmd` runs the line and attaches its output to the model's next turn, but only once the classifier has found it safe.
-- **From the console drawer**, the output is for you only and never goes to the model.
+- **From the Resolve Platform drawer**, the output is for you only and never goes to the model.
 
 A line runs under the same permission rules and OS sandbox as the TUI's `!cmd`, and lands in the session's transcript. Without `--web-shell`, shell lines are refused.
 

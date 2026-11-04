@@ -10,7 +10,7 @@ updated: 02 Nov 2026
 
 A fleet of hosts enrolls the same way an [MDM](/virtual-patching/sensor/mdm/) does: each host holds the private key of an MDM integration, signs its own enrollment, and gets a device credential from the profile that lists that integration. No person signs in, and nothing long-lived is baked into the image: the key is fetched at boot.
 
-Create the integration first: in the console, **Integrations → Device management**, add an integration for the tool that will run the enrollment, and copy the private key and `kid` it shows once. Then add the integration to a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/#matching) with credential mode `device-key` or `org-key`. `user-key` is refused for keyed enrollment.
+Create the integration first: in the Resolve Platform, **Integrations → Device management**, add an integration for the tool that will run the enrollment, and copy the private key and `kid` it shows once. Then add the integration to a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/#matching) with credential mode `device-key` or `org-key`. `user-key` is refused for keyed enrollment.
 
 ## Where each compute type is covered
 
@@ -24,7 +24,7 @@ Create the integration first: in the console, **Integrations → Device manageme
 
 ## Store the key
 
-Put the integration's private key (the base64 string the console showed) in Secrets Manager:
+Put the integration's private key (the base64 string the Resolve Platform showed) in Secrets Manager:
 
 ```bash
 aws secretsmanager create-secret --name vulnetix/sensor-mdm-key \
@@ -78,7 +78,7 @@ runcmd:
 
 Signed enrollment has a 5 minute clock window, so the instance clock must be right. On EC2 it is synced by the Amazon Time Sync Service from boot. The cloud-init output, including any enroll error, is in `/var/log/cloud-init-output.log`.
 
-Instances replaced by an Auto Scaling group enroll as new devices. Their shutdown shows as `stopped` in the console; revoke old devices from the devices list when you want them gone.
+Instances replaced by an Auto Scaling group enroll as new devices. Their shutdown shows as `stopped` in the Resolve Platform; revoke old devices from the devices list when you want them gone.
 
 ## Terraform
 

@@ -1,7 +1,7 @@
 ---
 title: Inference logs
 nav: Logs
-description: "The opt-in, metadata-only inference log: how to turn it on, every field a row holds, what is never recorded, and how to read it in the console and the API."
+description: "The opt-in, metadata-only inference log: how to turn it on, every field a row holds, what is never recorded, and how to read it in the Resolve Platform and the API."
 order: 2
 sources:
   - ai-firewall/internal/inference/inference.go
@@ -33,7 +33,7 @@ With inference logging on, the gateway writes one `AiFirewallLog` row per infere
 | Policy file | `spec.settings.logsEnabled: true` in [`.vulnetix/ai-firewall.yaml`](/ai-firewall/reference/policy-file/#specsettings) |
 | Check | `vulnetix ai-firewall status` prints `Inference logging  on` or `off` |
 
-Turning it on needs a paid plan. The CLI API answers `403 inference logging requires a paid plan`; the console answers with a plan-locked marker and the setting stays off. Turning it off is never gated. The gateway checks the plan again on every request, so an organisation that downgrades with the flag still on stops writing rows.
+Turning it on needs a paid plan. The CLI API answers `403 inference logging requires a paid plan`; the Resolve Platform answers with a plan-locked marker and the setting stays off. Turning it off is never gated. The gateway checks the plan again on every request, so an organisation that downgrades with the flag still on stops writing rows.
 
 ## What a row holds
 
@@ -74,7 +74,7 @@ While logging is on, each row is also forwarded, best effort, to Guardian, the V
 
 ## Reading logs
 
-The console's [Logs page](https://www.vulnetix.com/resolve/logs#aifw) has an AI Firewall stream with decision charts, the top blocking rules, providers and clients, and a paged table. The range is `24h`, `7d`, `30d` (default) or `90d`.
+The Resolve Platform's [Logs page](https://www.vulnetix.com/resolve/logs#aifw) has an AI Firewall stream with decision charts, the top blocking rules, providers and clients, and a paged table. The range is `24h`, `7d`, `30d` (default) or `90d`.
 
 Resolve Platform API, session-authenticated, under `https://www.vulnetix.com/api/site/v1`:
 
@@ -87,7 +87,7 @@ Rows exist only for the time logging was on.
 
 ## Retention
 
-No job in the gateway, the console API or the schema deletes `AiFirewallLog` rows. Rows are deleted with the organisation (`ON DELETE CASCADE`). There is no per-organisation retention setting.
+No job in the gateway, the Resolve Platform API or the schema deletes `AiFirewallLog` rows. Rows are deleted with the organisation (`ON DELETE CASCADE`). There is no per-organisation retention setting.
 
 ## Related
 

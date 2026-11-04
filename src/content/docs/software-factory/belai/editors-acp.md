@@ -26,7 +26,7 @@ updated: 28 Oct 2026
 | Emacs | An ACP client package, pointed at `belai acp` |
 | VS Code | An ACP extension, pointed at `belai acp` |
 
-Editor sessions are named after the editor and, when session sync is on, are mirrored to the console's Sessions list. The website cannot send prompts or answers to them: the editor owns the conversation.
+Editor sessions are named after the editor and, when session sync is on, are mirrored to the Resolve Platform's Sessions list. The website cannot send prompts or answers to them: the editor owns the conversation.
 
 ## Related
 

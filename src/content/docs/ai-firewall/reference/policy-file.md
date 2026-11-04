@@ -144,7 +144,7 @@ One entry per provider slug. A provider the file does not mention keeps its curr
 
 | Field | Type | Required | Value |
 |---|---|---|---|
-| `slug` | string | yes | Provider slug as it appears in the gateway URL: `openai`, `anthropic`, `groq`, `mistral`, `deepseek`, `xai`, `openrouter`, `together`, `fireworks`, or the slug of a custom provider added in the console. The full list is on [Provider catalog](/ai-firewall/reference/provider-catalog/). |
+| `slug` | string | yes | Provider slug as it appears in the gateway URL: `openai`, `anthropic`, `groq`, `mistral`, `deepseek`, `xai`, `openrouter`, `together`, `fireworks`, or the slug of a custom provider added in the Resolve Platform. The full list is on [Provider catalog](/ai-firewall/reference/provider-catalog/). |
 | `action` | enum | yes | `allow`, `deny` or `default`. `default` removes the org's association, which means allowed. Anything else fails with `action must be allow, deny, or default`. |
 | `key` | object | no | Where `apply` reads the provider's API key from. The key itself is never in the file. |
 | `key.fromEnv` | string | one of the two | Name of an environment variable holding the key. `apply` fails with `$NAME is not set` if it is empty. |
@@ -184,7 +184,7 @@ Guardrails are reconciled **by name**. The server keys them by UUID, so `apply` 
 | `baselineId` | string | no | | Accepted and ignored. It is never sent to the server and `export` never writes it. |
 
 > [!CAREFUL] An omitted priority is 0 in a file, 100 elsewhere
-> `apply` always sends the priority, so a guardrail without one is stored at `0` and runs before every baseline rule. A guardrail created in the console, or with `vulnetix ai-firewall policy guardrail` without `--priority`, gets the server default of `100`. Give every rule in the file an explicit priority.
+> `apply` always sends the priority, so a guardrail without one is stored at `0` and runs before every baseline rule. A guardrail created in the Resolve Platform, or with `vulnetix ai-firewall policy guardrail` without `--priority`, gets the server default of `100`. Give every rule in the file an explicit priority.
 
 #### Rule types, actions and patterns
 

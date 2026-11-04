@@ -25,14 +25,14 @@ Rotate at once when a credential appears in a commit, log, screenshot, ticket or
 
 Issue the new credential before revoking the old one.
 
-1. Issue a new key in the console.
+1. Issue a new key in the Resolve Platform.
 2. Prove it works without touching the stored one:
    ```sh
    VULNETIX_API_KEY="$NEW_KEY" VULNETIX_ORG_ID="$ORG" vulnetix auth verify
    ```
 3. Put it in place (below, per store).
 4. Wait one full pipeline cycle so running jobs finish with the old value.
-5. Revoke the old key in the console.
+5. Revoke the old key in the Resolve Platform.
 6. Prove the old one is dead:
    ```sh
    VULNETIX_API_KEY="$OLD_KEY" VULNETIX_ORG_ID="$ORG" vulnetix auth verify   # must exit 1
@@ -73,7 +73,7 @@ grep -rlE 'VULNETIX_(API_KEY|API_TOKEN)|VVD_SECRET' \
 
 Revoke first; investigate after.
 
-1. **Revoke** it in the console.
+1. **Revoke** it in the Resolve Platform.
 2. **Rotate** everything that shared the exposure. A leaked CI key means every secret that pipeline could read is suspect.
 3. **Check the machines** that held it. Someone with file access may have added a project file, a netrc entry or an environment variable, any of which outranks your home credential:
    ```sh

@@ -1,6 +1,6 @@
 ---
 title: Resolve Platform API
-description: Every route behind the cloud security pages of the Vulnetix console, with the method, path and purpose. These routes take a signed-in console session.
+description: Every route behind the cloud security pages of the Resolve Platform, with the method, path and purpose. These routes take a signed-in console session.
 order: 50
 nav: API routes
 sources: [vdb-site/api/main.go]
@@ -8,7 +8,7 @@ checked: [vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-The console calls these on the Vulnetix site API, under `https://www.vulnetix.com/api/site`. They authenticate with the signed-in console session, not an API key, and every one needs the Pro plan or above. Routes marked *probe* are called by the probe in your account with the API key pair from `vulnetix/vdb-credentials`; you do not call them.
+The Resolve Platform calls these on the Vulnetix site API, under `https://www.vulnetix.com/api/site`. They authenticate with the signed-in console session, not an API key, and every one needs the Pro plan or above. Routes marked *probe* are called by the probe in your account with the API key pair from `vulnetix/vdb-credentials`; you do not call them.
 
 ## AWS
 
@@ -62,4 +62,4 @@ The console calls these on the Vulnetix site API, under `https://www.vulnetix.co
 
 ## Plan lock
 
-A request below the Pro plan answers `200` with the plan-locked body the console renders as an upgrade prompt, not `403`.
+A request below the Pro plan answers `200` with the plan-locked body the Resolve Platform renders as an upgrade prompt, not `403`.

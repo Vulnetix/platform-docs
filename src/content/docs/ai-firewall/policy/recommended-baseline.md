@@ -1,7 +1,7 @@
 ---
 title: Recommended baseline
 nav: Baseline
-description: The 31 guardrails in the server-maintained baseline (version 2026.10.1), which ship disabled, and how apply, the console Blueprints panel and --catalog use them.
+description: The 31 guardrails in the server-maintained baseline (version 2026.10.1), which ship disabled, and how apply, the Resolve Platform Blueprints panel and --catalog use them.
 order: 12
 sources:
   - vdb-api/internal/handler/v2_cli_ai_firewall_baseline.go

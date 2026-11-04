@@ -1,14 +1,14 @@
 ---
 title: Remote control and connected hosts
 nav: Remote control
-description: Connect your own machine with belai rc so the console and the factory can start sessions and workers on it. What it needs, every flag, cloning for the factory, session controls and slash commands from the web, project settings from the web, and the per-session flags the daemon sets.
+description: Connect your own machine with belai rc so the Resolve Platform and the factory can start sessions and workers on it. What it needs, every flag, cloning for the factory, session controls and slash commands from the web, project settings from the web, and the per-session flags the daemon sets.
 order: 19
 sources: [belai/docs/remote-control.md, belai/docs/session-controls.md, belai/cmd/belai/rccmd.go, vdb-site/api/internal/handler/belai_rc.go, vdb-site/api/internal/handler/belai_commands.go]
 checked: [belai@8aa7760, vdb-site@597344c, website@58b9ffa]
 updated: 05 Nov 2026
 ---
 
-`belai rc` connects a machine to Vulnetix. It then appears on the Pix Sandboxes page as a self-managed host, and the console can start Belai sessions on it, follow them live and prompt them. The factory can dispatch crews to it. Sessions run only in projects already trusted on the machine and in the directories you offer.
+`belai rc` connects a machine to Vulnetix. It then appears on the Pix Sandboxes page as a self-managed host, and the Resolve Platform can start Belai sessions on it, follow them live and prompt them. The factory can dispatch crews to it. Sessions run only in projects already trusted on the machine and in the directories you offer.
 
 ```sh
 belai rc --dir ~/src/api --dir ~/src/web --detach

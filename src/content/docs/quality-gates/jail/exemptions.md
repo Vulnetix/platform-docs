@@ -52,4 +52,4 @@ Exemptions expire by design. A permanent waiver is a policy change and belongs i
 
 ## Listing
 
-The console's Jail page lists active exemptions per repository with their reason, approver and expiry.
+The Resolve Platform's Jail page lists active exemptions per repository with their reason, approver and expiry.

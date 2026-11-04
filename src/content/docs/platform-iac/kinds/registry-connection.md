@@ -229,7 +229,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 
 - A connection is a `ScanRegistryConnection` row, unique by `metadata.name`. It is not the Integrations page's paid container registry login, which the crawler uses.
 - The credential is `spec.secret`, a `valueFrom` the client reads and sends once. It is stored in the secrets vault as a connector entry and referenced from the row, never kept in the table, exported or shown in a plan. Left out on a later apply, the stored credential is kept.
-- A new or changed credential, URL or username is checked with the registry first, and a login the registry refuses is stored by neither the console nor the engine. The check is made with a client that dials public addresses only.
+- A new or changed credential, URL or username is checked with the registry first, and a login the registry refuses is stored by neither the Resolve Platform nor the engine. The check is made with a client that dials public addresses only.
 - The URL and scope read back canonical: an OCI host lower-cased, the other registries `https` with a lower-case host and a trailing slash, the scope sorted without repeats.
 - Each vault write registers its undo: a created entry is revoked, a rotated one is put back, a deleted one is restored. Deleting the document revokes the credential.
 - It needs the registry credentials plan feature and the platform update `20261228020000_scan_registry_connection`. Until it runs, plan refuses a document, naming the update.

@@ -41,7 +41,7 @@ Policy, mirrors, curation lists, the plan and the add-on belong to the organizat
 | Organization config when the deny list is not empty | 15 seconds |
 | Credential validation | cached per org and key |
 
-A policy change in the console or CLI takes effect within a minute, or within 15 seconds once you curate a deny list.
+A policy change in the Resolve Platform or CLI takes effect within a minute, or within 15 seconds once you curate a deny list.
 
 > [!WHY] Why a deny list shortens the cache
 > Adding a deny entry during an incident is the one change where a stale cache lets a bad package through. Orgs that curate a deny list get the tighter bound; everyone else avoids the extra config reads.

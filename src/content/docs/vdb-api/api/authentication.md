@@ -35,7 +35,7 @@ curl -s -H "Authorization: ApiKey ${ORG}:${HEX}" https://api.vdb.vulnetix.com/v2
 The API splits the value at the first `:`. Everything before it is the org id; everything after it must equal the HMAC exactly. It does not strip whitespace or a repeated org id.
 
 > [!CAREFUL] `ApiKey <org>:<org>:<hex>` is a 401
-> The console's Account page shows the API key as `<orgId>:<hex>`, ready to paste after `ApiKey `. Prefixing it with the org id again sends `ApiKey <org>:<org>:<hex>`, and the comparison fails with `401 {"error":"Invalid API key"}`. The CLI (v3.56.2 and later) removes a leading `<orgId>:` from `VULNETIX_API_KEY`, `--api-key`, the credentials file and netrc before it builds the header, so the CLI accepts either form. curl and your own clients do not.
+> The Resolve Platform's Account page shows the API key as `<orgId>:<hex>`, ready to paste after `ApiKey `. Prefixing it with the org id again sends `ApiKey <org>:<org>:<hex>`, and the comparison fails with `401 {"error":"Invalid API key"}`. The CLI (v3.56.2 and later) removes a leading `<orgId>:` from `VULNETIX_API_KEY`, `--api-key`, the credentials file and netrc before it builds the header, so the CLI accepts either form. curl and your own clients do not.
 
 An API key stops working when the secret is regenerated on the Account page, because the HMAC changes with it.
 

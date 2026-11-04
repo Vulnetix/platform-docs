@@ -39,7 +39,7 @@ Host chains record, among others: `worker.started`, `worker.stopped`, `worker.st
 
 ## Who acted
 
-Each entry names an actor and what kind it is: `user` or `person` (a person in the console), `agent`, `host`, `harness` (Belai itself), `engine` or `system` (the factory), `rule` or `budget_rule` (a policy), `webhook` (GitHub), or `web`. Host chains use `human`, `agent`, `harness` and `web`. The API folds these into `user`, `agent`, `host`, `system` and `rule`.
+Each entry names an actor and what kind it is: `user` or `person` (a person in the Resolve Platform), `agent`, `host`, `harness` (Belai itself), `engine` or `system` (the factory), `rule` or `budget_rule` (a policy), `webhook` (GitHub), or `web`. Host chains use `human`, `agent`, `harness` and `web`. The API folds these into `user`, `agent`, `host`, `system` and `rule`.
 
 ## Filtering
 

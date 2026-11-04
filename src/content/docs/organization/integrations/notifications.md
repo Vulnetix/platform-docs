@@ -12,13 +12,13 @@ Vulnetix tells people about events in two ways:
 | Channel | Who decides | Set up in |
 |---|---|---|
 | **Messaging** (Slack, Teams, Discord, Google Chat, Jira, GitHub Issues, webhooks) | Owners, per route | [Messaging](/organization/integrations/messaging/) |
-| **Push** to a browser or installed app | Each person, over the organisation's defaults | Settings › Notifications in the console |
+| **Push** to a browser or installed app | Each person, over the organisation's defaults | Settings › Notifications in the Resolve Platform |
 
 A notice that can be pushed goes to the browsers of the people it is about, if their preferences let it through, and to any messaging route that takes it.
 
 ## Turning on push
 
-Allow notifications when the console asks, or turn them on in Settings › Notifications. Each browser or installed app you turn on gets pushes. **Send test** checks it.
+Allow notifications when the Resolve Platform asks, or turn them on in Settings › Notifications. Each browser or installed app you turn on gets pushes. **Send test** checks it.
 
 | Method | Path |
 |---|---|
@@ -50,7 +50,7 @@ Your preferences override the organisation's defaults. `GET /v1/notifications/ca
 | 400 | `too many event types`, `an event type is not a type or family (a.b.c, a.b.*, or *)`, `minSeverity is info, notice, warning or critical`, `quiet hours are HH:MM to HH:MM in an IANA time zone` |
 | 403 | `only an owner or an admin can do this` (tenant defaults) |
 
-The notification routes take the console session only and are rate-limited to 60 requests a minute.
+The notification routes take the Resolve Platform session only and are rate-limited to 60 requests a minute.
 
 ## Action buttons
 

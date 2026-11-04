@@ -79,4 +79,4 @@ Resolve Platform: [/resolve/exposure](https://www.vulnetix.com/resolve/exposure)
 
 A section reads **On track**, **Attention**, **Off track** or **Reported, not graded**. Remediation speed is measured against the windows in your triage policy, so set one before you rely on `mttr-sla`. The export carries a metrics table with every number the sections are graded on, and `machine-evidence/exposure-metrics.json` in the evidence bundle.
 
-Findings closed by a triage disposition are excluded from the open risk surface; the console shows how many in a strip above the report.
+Findings closed by a triage disposition are excluded from the open risk surface; the Resolve Platform shows how many in a strip above the report.

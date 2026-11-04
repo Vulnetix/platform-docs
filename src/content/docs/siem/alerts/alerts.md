@@ -51,7 +51,7 @@ The payload carries:
 | `count`, `firstSeen`, `lastSeen` | Matches and event-time span |
 | `host` | From the row, when present |
 | `subject` | The row or group, reduced: no `raw`, at most 16 keys, values cut at 200 characters |
-| `link` | The alert in the console |
+| `link` | The alert in the Resolve Platform |
 
 The event's dedupe key is the alert's key, so a repeat delivery is dropped.
 

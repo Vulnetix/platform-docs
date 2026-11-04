@@ -8,7 +8,7 @@ checked: ["vdb-site@3c8c323"]
 updated: 04 Nov 2026
 ---
 
-One server-side engine owns every kind. The CLI, the Terraform provider and the console's Download as code all call it, so they accept the same documents and give the same results. The routes are on [Config engine API](/platform-iac/reference/config-api/); the kinds are on the [catalogue](/platform-iac/kinds/catalogue/); the schemas the engine validates against come from `config-schemas` and each carries an `x-vulnetix` annotation (singleton, validate only, `dependsOn`, `secrets`, `celFields`) that the engine, the CLI, the provider and these docs all read.
+One server-side engine owns every kind. The CLI, the Terraform provider and the Resolve Platform's Download as code all call it, so they accept the same documents and give the same results. The routes are on [Config engine API](/platform-iac/reference/config-api/); the kinds are on the [catalogue](/platform-iac/kinds/catalogue/); the schemas the engine validates against come from `config-schemas` and each carries an `x-vulnetix` annotation (singleton, validate only, `dependsOn`, `secrets`, `celFields`) that the engine, the CLI, the provider and these docs all read.
 
 ## Plan and apply
 
@@ -16,15 +16,15 @@ One server-side engine owns every kind. The CLI, the Terraform provider and the 
 - **Apply** takes the same documents and the `planHash`. It re-plans inside the transaction, under a per-tenant lock, and writes only if the hash still matches; otherwise it answers 409 and writes nothing.
 - **Order.** Kinds are applied in dependency order, from each kind's `dependsOn`, and deleted in the reverse order. A reference between objects is by `metadata.name`, so both can be in one apply.
 - **Transaction.** Every Postgres-backed kind applies in one transaction: all of it or none of it. Some kinds also write somewhere a transaction cannot cover; see [Outside the transaction](#outside-the-transaction).
-- **Validation** is the console's own. A document is refused for the same reasons the console form refuses it, because the engine calls the console's validators rather than copying them.
+- **Validation** is the Resolve Platform's own. A document is refused for the same reasons the Resolve Platform form refuses it, because the engine calls the Resolve Platform's validators rather than copying them.
 
 ## Who manages an object
 
-Each object records its manager: `terraform`, `console` or `gitops:<repo>`, and the commit it came from. A manager can delete only objects it manages, and only when asked (`--prune`). A plan shows a change made outside the manager, such as an edit in the console, as drift. Kinds whose objects have no name column of their own (the Guardian kinds, `MalwareIoc`, `VexSource`, `Campaign` and others) keep `metadata.name` on the ownership record. An object nobody declared is exported under a name derived from its fields, so applying that document adopts it.
+Each object records its manager: `terraform`, `console` or `gitops:<repo>`, and the commit it came from. A manager can delete only objects it manages, and only when asked (`--prune`). A plan shows a change made outside the manager, such as an edit in the Resolve Platform, as drift. Kinds whose objects have no name column of their own (the Guardian kinds, `MalwareIoc`, `VexSource`, `Campaign` and others) keep `metadata.name` on the ownership record. An object nobody declared is exported under a name derived from its fields, so applying that document adopts it.
 
 ## Drift protection
 
-An organisation can make the console and the legacy APIs refuse changes to a kind that has a `terraform` or `gitops:<repo>` object, with the `driftProtection` setting of the [`Organization`](/platform-iac/kinds/organization/) kind. Platform IaC writes (everything under `/v1/config/*`) always pass, and so do reads and exports. A guarded write answers `409 managed_by_platform_iac`, and the guard answers `503` if it cannot read the setting. It is middleware in front of the console routes, not a check in the writers the engine shares, so the engine's own apply is never blocked. See [Drift protection](/platform-iac/guides/drift-protection/).
+An organisation can make the Resolve Platform and the legacy APIs refuse changes to a kind that has a `terraform` or `gitops:<repo>` object, with the `driftProtection` setting of the [`Organization`](/platform-iac/kinds/organization/) kind. Platform IaC writes (everything under `/v1/config/*`) always pass, and so do reads and exports. A guarded write answers `409 managed_by_platform_iac`, and the guard answers `503` if it cannot read the setting. It is middleware in front of the Resolve Platform routes, not a check in the writers the engine shares, so the engine's own apply is never blocked. See [Drift protection](/platform-iac/guides/drift-protection/).
 
 ## Secrets
 
@@ -72,7 +72,7 @@ Every Org kind blocks a change by a caller who is not an owner or admin. Role ru
 
 The `developer` role is for whoever applies Platform IaC without running the organisation: a person or a service account. It can plan, apply, prune and export every kind, [`Organization`](/platform-iac/kinds/organization/), [`Member`](/platform-iac/kinds/member/), [`ServiceAccount`](/platform-iac/kinds/service-account/) and [`VaultEntry`](/platform-iac/kinds/vault-entry/) included. Those four decide who can act for the tenant, so as code a developer grants `member` or `developer` but never `owner`, and a document, prune or delete that would change or remove an owner is refused (`forbidden`). A leaked CI credential can therefore never make, demote or remove an owner. In the console only an owner manages those four: a developer cannot invite people, change roles, create service accounts, switch Drift protection or manage billing or the vault. The credentials are on [Config engine API](/platform-iac/reference/config-api/#credentials-for-automation).
 
-Guardian's search, alerts, usage and billing routes are for people signed in to the console. Its configuration routes (searches, rules, triggers, sends and sources) accept the assertion described above; a member reads only.
+Guardian's search, alerts, usage and billing routes are for people signed in to the Resolve Platform. Its configuration routes (searches, rules, triggers, sends and sources) accept the assertion described above; a member reads only.
 
 ## GitOps from a repository
 
@@ -80,4 +80,4 @@ A Software Factory workflow node, `config-apply`, lets a config repository manag
 
 ## Software Factory settings
 
-[`FactorySettings`](/platform-iac/kinds/factory-settings/), [`ScannerProfile`](/platform-iac/kinds/scanner-profile/), [`FactoryManagedOrg`](/platform-iac/kinds/factory-managed-org/) and [`NotificationDefaults`](/platform-iac/kinds/notification-defaults/) each own a disjoint set of keys in the one settings document, so applying one never writes a key another owns. The console's Export as YAML on the factory settings page renders these documents with the engine.
+[`FactorySettings`](/platform-iac/kinds/factory-settings/), [`ScannerProfile`](/platform-iac/kinds/scanner-profile/), [`FactoryManagedOrg`](/platform-iac/kinds/factory-managed-org/) and [`NotificationDefaults`](/platform-iac/kinds/notification-defaults/) each own a disjoint set of keys in the one settings document, so applying one never writes a key another owns. The Resolve Platform's Export as YAML on the factory settings page renders these documents with the engine.

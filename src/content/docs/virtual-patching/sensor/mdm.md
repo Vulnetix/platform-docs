@@ -14,13 +14,13 @@ Linux only today. The vendors without Linux management are listed at the end, wi
 
 ## How it works
 
-1. An admin creates an **MDM integration** in the console under **Integrations → Device management**. The site generates an Ed25519 key pair, keeps the public key, and shows the private key (base64, a 32-byte seed) and its key id (`kid`) **once**. It is never stored. You can instead paste a public key whose private half you generated yourself.
+1. An admin creates an **MDM integration** in the Resolve Platform under **Integrations → Device management**. The site generates an Ed25519 key pair, keeps the public key, and shows the private key (base64, a 32-byte seed) and its key id (`kid`) **once**. It is never stored. You can instead paste a public key whose private half you generated yourself.
 2. The admin adds the integration to a [provisioning profile](/virtual-patching/sensor/provisioning-profiles/#matching) with credential mode `device-key` (recommended) or `org-key`. A profile with `user-key` refuses MDM enrollment with `409`, because no person is there to attribute it to.
 3. The MDM writes the private key to `/etc/vulnetix-sensor/mdm.key`, mode `0600`, owner root, and runs `install.sh --enroll --mdm-key /etc/vulnetix-sensor/mdm.key --integration <uuid> --kid <kid>` as root.
 4. The sensor sends `POST /v1/runtime/provisioning/enroll-mdm` with no `Authorization` header. The body carries the integration, `kid`, the sensor's host key, a device id, the time and a random nonce, signed with the key.
 5. The site checks the signature against the integration's public key. It refuses (`401`) a bad signature, a timestamp more than 5 minutes from its clock, a nonce it has seen before, or a retired key or integration. On success it answers as a person enroll does, and the device appears in the devices list with an empty **Enrolled by** and the MDM device id.
 
-The device id is `--mdm-device-id` if you pass one, otherwise `/sys/class/dmi/id/product_serial`, otherwise `/etc/machine-id`. Pass the MDM's own device id when you want the console row to match the MDM's.
+The device id is `--mdm-device-id` if you pass one, otherwise `/sys/class/dmi/id/product_serial`, otherwise `/etc/machine-id`. Pass the MDM's own device id when you want the Resolve Platform row to match the MDM's.
 
 To rotate a key, add a new key to the integration (it gets a new `kid`), push it and the new `kid` to devices, then retire the old key. Enrolled devices keep working, because the key is used only to enroll. Retiring a whole integration also leaves its devices running until you revoke them.
 

@@ -16,7 +16,7 @@ To deploy the bootstrap stack with Terraform or OpenTofu instead, use the [`aws-
 
 1. Create an IAM user for Vulnetix in the account and attach the policy the drawer shows. It is generated from the stacks, so it cannot drift from what they need. Fetch it yourself with `GET /v1/integrations/aws/policy`; before a key is accepted, the account id in its ARNs is `*`.
 2. Create an access key for that user.
-3. In the console, open **Integrations > AWS**, choose **Access key**, and enter the access key id, the secret access key and the region to deploy into.
+3. In the Resolve Platform, open **Integrations > AWS**, choose **Access key**, and enter the access key id, the secret access key and the region to deploy into.
 4. Vulnetix calls `sts:GetCallerIdentity` with the key. The account id comes from that answer, never from the form, so a key can only connect the account it belongs to.
 5. Provisioning then runs the same four phases as the quickstart: `bootstrap`, `probe`, `pipeline`, `securityhub`. See [Quickstart](/cloud-security/get-started/quickstart/#2-watch-the-deploy).
 

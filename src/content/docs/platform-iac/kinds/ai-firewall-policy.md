@@ -498,7 +498,7 @@ Conditions the schema enforces beyond each field's own type. `vulnetix config va
 |---|---|---|
 | Reads | `.vulnetix/ai-firewall.yaml`, or `-f <file>` | Documents sent to [`POST /config/plan` and `/config/apply`](/platform-iac/reference/engine/) |
 | `metadata.org` | Compared with the authenticated principal | Compared with the tenant, as for every kind |
-| A guardrail with no `priority` | Sent as `0` | Written at `100`, the column default the console uses |
+| A guardrail with no `priority` | Sent as `0` | Written at `100`, the column default the Resolve Platform uses |
 | `baselineId` | Not stored | Stored on the guardrail row and exported, so a composed baseline rule round-trips |
 | `providers[].key` | Read on the machine running the CLI and stored as the provider key | Not stored; the plan warns. Use [`AiProvider`](/platform-iac/kinds/ai-provider/) `apiKey` for a custom provider's key |
 | An `allow` rule whose action is `flag` | Applied | Applied, with a plan warning: it refuses nothing |

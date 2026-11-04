@@ -26,7 +26,7 @@ Any other value fails with `cannot infer output format`. `--format` is deprecate
 > [!CAREFUL] SARIF does not carry dependency vulnerabilities
 > To feed SCA findings to a code-scanning dashboard, use the CycloneDX SBOM or the JSON report. `vulnetix sca -o results.sarif` writes no file, because no rule scanner ran.
 
-Snapshot links for the console are printed to stderr when stdout carries JSON, so piping stays clean.
+Snapshot links for the Resolve Platform are printed to stderr when stdout carries JSON, so piping stays clean.
 
 ### The JSON report
 

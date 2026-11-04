@@ -1,7 +1,7 @@
 ---
 title: Agent questions, answers and permission offers
 nav: Questions and permissions
-description: When an agent stops to ask, the four kinds of question, answering from the console, the TUI or a call, permission rules, and the AI Firewall rules Belai offers when you state a permission.
+description: When an agent stops to ask, the four kinds of question, answering from the Resolve Platform, the TUI or a call, permission rules, and the AI Firewall rules Belai offers when you state a permission.
 order: 16
 sources: [belai/docs/fleet.md, belai/docs/firewall-permissions.md, vdb-site/api/internal/handler/belai_answers.go, vdb-site/api/internal/handler/belai_open_asks.go, vdb-site/api/internal/handler/belai_permission_offers.go]
 checked: [belai@35506b9, vdb-site@284f1d6, website@a31d470]

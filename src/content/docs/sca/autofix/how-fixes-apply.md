@@ -8,7 +8,7 @@ checked: [cli@4c8c3b7, vdb-manifest@137ad07]
 updated: 02 Nov 2026
 ---
 
-Manifest edits are text edits made by the shared `vdb-manifest` module (v0.1.0), the same code the language server and the console use, so a fix produces the same bytes wherever it is made. Lockfiles are never edited by hand: the package manager regenerates them, and the confirmation scan checks the result.
+Manifest edits are text edits made by the shared `vdb-manifest` module (v0.1.0), the same code the language server and the Resolve Platform use, so a fix produces the same bytes wherever it is made. Lockfiles are never edited by hand: the package manager regenerates them, and the confirmation scan checks the result.
 
 ## Methods
 

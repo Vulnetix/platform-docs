@@ -29,17 +29,17 @@ updated: 02 Nov 2026
 | Per-team policy | One policy per organisation. Vault bundles scope keys to principals, not rules. |
 | Region pinning | See [Jurisdictional control](/ai-firewall/security/jurisdictional-control/) |
 | Log retention control | Inference log rows are not deleted automatically, and there is no retention setting |
-| Public admin API | Policy is written through the console, the CLI API (`/v2/cli.ai-firewall-*`) and the [policy file](/ai-firewall/reference/policy-file/). The gateway has no policy routes, and the console API takes session cookies only. |
+| Public admin API | Policy is written through the Resolve Platform, the CLI API (`/v2/cli.ai-firewall-*`) and the [policy file](/ai-firewall/reference/policy-file/). The gateway has no policy routes, and the Resolve Platform API takes session cookies only. |
 
 ## Known gaps
 
 - **Tool calls cannot be undone.** A coding agent runs a tool locally before its result reaches the gateway. A tool rule removes or refuses the tool on later requests.
 - **Tool call arguments the model generates are in the response**, so they are not scanned. Tool results the agent sends back are.
 - **Client identity is self-reported.** `client_*` rules read headers.
-- **A pattern that does not compile is skipped** while showing as enabled. The CLI's `status` warns and `apply` refuses it; the console and API accept partial updates without a rule type.
+- **A pattern that does not compile is skipped** while showing as enabled. The CLI's `status` warns and `apply` refuses it; the Resolve Platform and API accept partial updates without a rule type.
 - **Redaction breaks prompt caching** when it rewrites text in a cached prefix.
 - **Streamed Chat Completions without `stream_options.include_usage` log no tokens.**
-- **The CLI knows nine providers.** `key set` and `install` do not cover `alibaba`, `moonshot`, `minimax`, `kiro` or custom providers; use the console or a policy file.
+- **The CLI knows nine providers.** `key set` and `install` do not cover `alibaba`, `moonshot`, `minimax`, `kiro` or custom providers; use the Resolve Platform or a policy file.
 - **CLI token credentials.** `status`, `install`, `snippet`, `apply` and `export` reject `VULNETIX_API_TOKEN` sign-ins with `unsupported authentication method: token`.
 - **`GET /v1/models` responses carry no `X-Vulnetix-Firewall-Request-Id`.**
 - **Cursor.** Some Cursor features (tab completion, Auto mode) never use a custom key or base URL, so they never reach the gateway. See [Cursor](/ai-firewall/clients/cursor/).

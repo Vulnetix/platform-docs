@@ -23,7 +23,7 @@ updated: 02 Nov 2026
 | Gate a merge deterministically | An agent's verdict can be wrong in either direction | `vulnetix scan --evaluate-sca --severity high --exploits weaponized`, which exits 1 on its own |
 | Run Tasks | The Tasks extension needs durable state across polls | Every tool answers within one exchange |
 | Stream very large Pro exploit lists | Responses are buffered and shaped, bounded by a 3 MiB buffer guard | `vdb_request` with paging, or the CLI |
-| Notify you of a change | No webhooks, resource subscriptions or push of any kind: the server answers requests and holds nothing between them | Poll the tool, or use the Vulnetix console's notifications |
+| Notify you of a change | No webhooks, resource subscriptions or push of any kind: the server answers requests and holds nothing between them | Poll the tool, or use the Resolve Platform's notifications |
 | Ignore the daily quota | Calls count against the API key's daily request limit, and an agent in a loop can spend a day's quota in minutes | Read `_meta["vulnetix/rateLimit"].remaining` on every result. See [Plans and limits](/mcp-server/get-started/plans-and-limits/). |
 
 ## The AI sections can be wrong

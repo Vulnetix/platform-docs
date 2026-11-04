@@ -59,7 +59,7 @@ With the default block severity `critical`, only components already past end of 
 | Matched by an active ignore rule (local `.vulnetix/memory.yaml` or the org's suppression rules) | no: removed before reporting |
 | Marked not affected by a `--vex-file`, `--vex` or declared `VexSource` statement | no |
 
-Ruled-out and defended findings stay in the SBOM, the JSON report and the console. Only the gate input leaves them out. Suppressed findings are removed from every output.
+Ruled-out and defended findings stay in the SBOM, the JSON report and the Resolve Platform. Only the gate input leaves them out. Suppressed findings are removed from every output.
 
 Artefacts (`.vulnetix/sbom.cdx.json`, `memory.yaml`, `--output` files) are written before the gates run, so a failed build still leaves the full results.
 

@@ -9,7 +9,7 @@ updated: 02 Nov 2026
 
 ## Credentials
 
-Add two **Secret text** credentials, for example `vulnetix-org-id` and `vulnetix-api-key`. Bind them with `withCredentials` or `environment { ... = credentials('...') }`; Jenkins masks bound values in the console log.
+Add two **Secret text** credentials, for example `vulnetix-org-id` and `vulnetix-api-key`. Bind them with `withCredentials` or `environment { ... = credentials('...') }`; Jenkins masks bound values in the Resolve Platform log.
 
 ## Declarative pipeline
 

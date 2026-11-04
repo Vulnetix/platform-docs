@@ -98,7 +98,7 @@ The SSVC decision evaluates the policy's expressions over the finding, with the 
 
 ### DetectionRuleFeed
 
-The selector is evaluated at every publish, from the console or the engine. The candidates are the newest 5000 generated rules of the feed's format: virtual patches for a block-lane format, countermeasures for a detect-lane one. Each rule is evaluated once per CVE it was written for, and selected when the condition holds for any of them. A rule with no CVE is evaluated once with an empty id and zero scores. A pair the expression errors on does not match; when every pair fails, the publish is refused. The published file holds the explicit entries first, then each selected rule not already among them, up to 500. Selected rules are never written as entries, so the next publish picks up new rules and new KEV listings without an edit to the feed.
+The selector is evaluated at every publish, from the Resolve Platform or the engine. The candidates are the newest 5000 generated rules of the feed's format: virtual patches for a block-lane format, countermeasures for a detect-lane one. Each rule is evaluated once per CVE it was written for, and selected when the condition holds for any of them. A rule with no CVE is evaluated once with an empty id and zero scores. A pair the expression errors on does not match; when every pair fails, the publish is refused. The published file holds the explicit entries first, then each selected rule not already among them, up to 500. Selected rules are never written as entries, so the next publish picks up new rules and new KEV listings without an edit to the feed.
 
 ## How an expression is checked
 

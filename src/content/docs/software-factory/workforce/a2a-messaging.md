@@ -51,7 +51,7 @@ Switching it is audited as `a2a_blackout` and emits a `setting` event. Hosts lea
 
 ## Seeing messages
 
-The API lists the organisation's A2A traffic by repository, session or kind (`GET /v1/factory/a2a`), and the console opens a message's whole thread from a transcript. Transcripts show A2A rows by default (`belai.a2a.show`); a viewer can hide them.
+The API lists the organisation's A2A traffic by repository, session or kind (`GET /v1/factory/a2a`), and the Resolve Platform opens a message's whole thread from a transcript. Transcripts show A2A rows by default (`belai.a2a.show`); a viewer can hide them.
 
 ## API
 

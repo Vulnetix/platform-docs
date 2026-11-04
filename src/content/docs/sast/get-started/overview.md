@@ -55,7 +55,7 @@ Before compiling, the engine drops every rule whose declared languages are all a
 | `<path>/.vulnetix/memory.yaml` | Every run: counts, finding history, and suppressions recorded from `nosec` comments. |
 | `-o <file>.sarif` | SARIF at a path you choose. |
 
-Signed in, the run also uploads the findings as a SAST snapshot in the Vulnetix console and prints its URL. Without credentials the community fallback is used and nothing is stored for you. See [Output formats](/sast/reference/output-formats/).
+Signed in, the run also uploads the findings as a SAST snapshot in the Resolve Platform and prints its URL. Without credentials the community fallback is used and nothing is stored for you. See [Output formats](/sast/reference/output-formats/).
 
 ## Sections
 

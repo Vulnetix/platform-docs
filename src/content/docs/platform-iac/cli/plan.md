@@ -41,7 +41,7 @@ Every object applied as code records its manager. Only that manager can change o
 |---|---|
 | `gitops:<owner/repo>` | Documents in a repository, applied by CI or by hand. |
 | `terraform` | The Terraform provider. |
-| `console` | Imperative edits: the console, and the deprecated `vulnetix config set quality-gate` and `set eol-policy`. |
+| `console` | Imperative edits: the Resolve Platform, and the deprecated `vulnetix config set quality-gate` and `set eol-policy`. |
 
 Without `--manager`, the CLI uses `gitops:` plus the repository from `GITHUB_REPOSITORY` (set in GitHub Actions), or else from the first `github.com` remote of the git repository in the current directory. Outside such a repository `--manager` is required (exit 2).
 

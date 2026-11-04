@@ -57,7 +57,7 @@ export VULNETIX_API_KEY=6e40f1c3...
 vulnetix auth verify
 ```
 
-The console shows the key as `<orgId>:<hex>`. Paste either form: the CLI strips a leading `<orgId>:` from the key wherever it came from (flag, variable, file or netrc) before building `Authorization: ApiKey <orgId>:<hex>`.
+The Resolve Platform shows the key as `<orgId>:<hex>`. Paste either form: the CLI strips a leading `<orgId>:` from the key wherever it came from (flag, variable, file or netrc) before building `Authorization: ApiKey <orgId>:<hex>`.
 
 On an interactive terminal, `--api-key` without `--org-id` prompts for the organisation ID. Without a terminal it fails with `--org-id is required with --api-key`.
 

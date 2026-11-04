@@ -65,6 +65,6 @@ Upload the SARIF to code scanning yourself if you want it there:
 
 - An organization with no policy reports `no policy` and exits `0`, so adding `vulnetix jail` to a pipeline cannot break it.
 - `--no-fail` shows what would fail before it does.
-- Setting the policy's enforcement to **warn** in the console downgrades every rule at once, server-side, with no pipeline change.
+- Setting the policy's enforcement to **warn** in the Resolve Platform downgrades every rule at once, server-side, with no pipeline change.
 
 Every flag of `jail`, `jail explain`, `jail list` and `jail exempt` is on [CLI commands](/quality-gates/reference/commands/).

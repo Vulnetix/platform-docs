@@ -50,7 +50,7 @@ Rule ids are case-insensitive.
 aws_access_key_id: AKIAIOSFODNN7SAMPLE1   # nosec VNX-SEC-001
 ```
 
-Each suppressed finding is recorded in `.vulnetix/memory.yaml` and, when you are authenticated, sent to Vulnetix as a suppression of type `nosec`, so the console shows what was silenced and where.
+Each suppressed finding is recorded in `.vulnetix/memory.yaml` and, when you are authenticated, sent to Vulnetix as a suppression of type `nosec`, so the Resolve Platform shows what was silenced and where.
 
 > [!CAREFUL] nosec cannot reach history or binaries
 > A finding under `__git_history__/`, `__binary_strings__/`, `__exif__/` or `__k8s_secret__/` has no source line to carry a comment. Use an ignore rule with `--file`, which also matches those paths.

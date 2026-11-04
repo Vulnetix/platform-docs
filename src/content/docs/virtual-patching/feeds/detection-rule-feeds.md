@@ -10,7 +10,7 @@ updated: 05 Nov 2026
 
 A detection rule feed is a set of rules your organisation picks, published as files under one URL. Third-party tools fetch the files without authentication. The Vulnetix runtime sensor fetches the same feed and verifies its signature.
 
-Feeds are on the **Your Feeds** tab of `/resolve/virtual-patching` in the console.
+Feeds are on the **Your Feeds** tab of `/resolve/virtual-patching` in the Resolve Platform.
 
 ## One format per feed
 
@@ -31,7 +31,7 @@ A feed is homogeneous: Suricata loads a `.rules` file, a SIEM loads Sigma, a thr
 | `OPENIOC` | detect | `OPENIOC` | `openioc/<rule-uuid>.ioc` per rule, and `openioc/index.txt` |
 | `SNORT_YARA` | legacy | `SNORT` and `YARA` from the third-party catalogue | `snort.rules`, `rules.yar` |
 
-`SNORT_YARA` is the original mixed type. Existing feeds of that type keep publishing; the console no longer offers it. A `POST` without `feedType` is refused with `400 feedType is required`.
+`SNORT_YARA` is the original mixed type. Existing feeds of that type keep publishing; the Resolve Platform no longer offers it. A `POST` without `feedType` is refused with `400 feedType is required`.
 
 What each file looks like, and how a disabled rule appears in it, is on [Feed formats](/virtual-patching/feeds/formats/).
 

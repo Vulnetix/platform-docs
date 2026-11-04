@@ -83,7 +83,7 @@ Each fact is marked `ok`, `attention`, `info` or `unknown`. A lookup that fails 
 
 When someone allows or denies the thing, by adding a Package Firewall curation entry, an AI Firewall allow or deny rule, or an egress decision for a sandbox, the sighting becomes `allowed` or `denied`, and every card its run filed moves to done with a note naming the rule and who added it. A mirrored GitHub issue closes with its card.
 
-Each review card ends with **Decide in the console**: Allow, Deny and Manage links. A link opens the firewall page with the row filled in. Nothing is written until the person confirms on that page.
+Each review card ends with **Decide in the Resolve Platform**: Allow, Deny and Manage links. A link opens the firewall page with the row filled in. Nothing is written until the person confirms on that page.
 
 ## Sightings
 

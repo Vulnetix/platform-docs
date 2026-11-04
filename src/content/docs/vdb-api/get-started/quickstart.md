@@ -12,16 +12,16 @@ updated: 02 Nov 2026
 
 Register for a free Community account at [vulnetix.com/resolve/register](https://www.vulnetix.com/resolve/register). Its daily quota is 50 requests. Paid plans and higher limits are on [vulnetix.com/pricing](https://www.vulnetix.com/pricing).
 
-Your credentials are on the console's [Account page](https://www.vulnetix.com/resolve/account):
+Your credentials are on the Resolve Platform's [Account page](https://www.vulnetix.com/resolve/account):
 
 | Value | Looks like | Used for |
 |---|---|---|
 | Org ID | `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` | Every credential method |
-| API Key | `<orgId>:<64 hex characters>` | The `ApiKey` header. The console shows it with the org id already in front |
+| API Key | `<orgId>:<64 hex characters>` | The `ApiKey` header. The Resolve Platform shows it with the org id already in front |
 | Secret | A random string | SigV4 signing. The API key is HMAC-SHA256 of the org id, keyed with this secret |
 
 > [!CAREFUL] The API key already contains your org id
-> The console shows the key as `<orgId>:<hex>`, which is exactly what goes after `ApiKey ` in the header. If you build the header yourself as `ApiKey $ORG:$KEY` from that value, the org id appears twice and the API answers `401 {"error":"Invalid API key"}`. Use only the hex part in `VULNETIX_API_KEY`. The CLI strips a duplicated `<orgId>:` prefix itself; curl and your own code do not.
+> The Resolve Platform shows the key as `<orgId>:<hex>`, which is exactly what goes after `ApiKey ` in the header. If you build the header yourself as `ApiKey $ORG:$KEY` from that value, the org id appears twice and the API answers `401 {"error":"Invalid API key"}`. Use only the hex part in `VULNETIX_API_KEY`. The CLI strips a duplicated `<orgId>:` prefix itself; curl and your own code do not.
 
 ## 2. Store them for the CLI
 

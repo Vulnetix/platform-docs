@@ -27,8 +27,8 @@ This page is the honest list. The rest of the segment documents what works; this
 | Asset labels | `labels`, `owner` and `criticality` on [`RepositorySettings`](/platform-iac/kinds/repository-settings/#asset-labels-owner-and-criticality), set on the Repositories page or as code, and usable in rules as `finding` variables. They need a database migration, until which they read as empty. | [CEL rule expressions](/platform-iac/reference/cel/) |
 | Private registries | [`RegistryConnection`](/platform-iac/kinds/registry-connection/) keeps the credential a scan uses to read your own npm, PyPI, Maven or OCI registry, with the secret in the vault. The manifest curator's lock runner (opt-in) and `vulnetix image` read it; other scanners do not yet. It needs a database migration, until which plan refuses it. | [Private registries for scans](/organization/integrations/private-registries/) |
 | Compliance targets | [`ComplianceTarget`](/platform-iac/kinds/compliance-target/) runs a compliance report on a cadence, or measures a SLSA level, NIST SSDF practices or a cryptography policy over your CBOM. It needs a database migration, until which plan refuses it. | [Compliance targets](/compliance/get-started/targets/) |
-| Drift protection | An organisation setting (`Organization.spec.driftProtection`, config-schemas v1.15.0) that makes the console and the legacy APIs answer `409 managed_by_platform_iac` to a write to a kind managed by Terraform or a repository. Off by default; an owner turns it on. | [Drift protection](/platform-iac/guides/drift-protection/) |
-| Download as code | On the console's quality gate and factory settings pages, in YAML, HCL and bash, in minimal and advanced forms. | [`QualityGate`](/platform-iac/kinds/quality-gate/), [`FactorySettings`](/platform-iac/kinds/factory-settings/) |
+| Drift protection | An organisation setting (`Organization.spec.driftProtection`, config-schemas v1.15.0) that makes the Resolve Platform and the legacy APIs answer `409 managed_by_platform_iac` to a write to a kind managed by Terraform or a repository. Off by default; an owner turns it on. | [Drift protection](/platform-iac/guides/drift-protection/) |
+| Download as code | On the Resolve Platform's quality gate and factory settings pages, in YAML, HCL and bash, in minimal and advanced forms. | [`QualityGate`](/platform-iac/kinds/quality-gate/), [`FactorySettings`](/platform-iac/kinds/factory-settings/) |
 
 ## Not yet
 
@@ -41,7 +41,7 @@ This page is the honest list. The rest of the segment documents what works; this
 | CEL in the CLI | The CLI evaluates no expression: `vulnetix jail` and `vulnetix scan --jail` ask the VDB API, and a suppression's `when` is evaluated on the server. The `event` context has no field in any kind, so [`FactoryTrigger`](/platform-iac/kinds/factory-trigger/) conditions are typed. |
 | VEX | `trust.requireSignature`, `scope.products` and `s3.endpoint` are refused at plan. A scan reads the `path` and `urls` sources of a `VexSource` since CLI v4.2.0 and, authenticated, the statements the Resolve Platform holds for `tea`, `s3` and `git` sources since CLI v4.4.0; community mode applies none from the Resolve Platform. `vulnetix config apply` uploads a snapshot for a `path` source since CLI v4.1.0. |
 | Cloud | A per-account [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) document needs a database migration; until it runs, plan blocks it. |
-| Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the console's rotate endpoint stays the way. |
+| Secrets rotation | A [`ServiceAccount`](/platform-iac/kinds/service-account/) secret cannot be rotated from a document; the Resolve Platform's rotate endpoint stays the way. |
 
 ## Planned kinds
 

@@ -285,9 +285,9 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-- A `PackageList` owns only the entries it declares. Entries made in the console, and entries another `PackageList` declares, are never changed or pruned by it.
+- A `PackageList` owns only the entries it declares. Entries made in the Resolve Platform, and entries another `PackageList` declares, are never changed or pruned by it.
 - Entries are compared one by one, keyed by ecosystem, package name and version as the purl maps to them.
-- Every write appends a package firewall list audit row in the same transaction, with the same actions the console records (create, update, move, activate, delete). The actor is the applying principal and the manager.
+- Every write appends a package firewall list audit row in the same transaction, with the same actions the Resolve Platform records (create, update, move, activate, delete). The actor is the applying principal and the manager.
 - Applied after the [`PackageFirewallPolicy`](/platform-iac/kinds/package-firewall-policy/).
 
 ## Terraform and OpenTofu

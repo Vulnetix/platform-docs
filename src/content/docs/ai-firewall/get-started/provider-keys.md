@@ -21,7 +21,7 @@ Your applications send only the Vulnetix API key. The provider key, such as your
 
 | Stored with | Holds | Scope | Change it with |
 |---|---|---|---|
-| `vulnetix ai-firewall key set`, or the console key field | One key | Every API key owner in the organisation | `key set` again, or `key remove` |
+| `vulnetix ai-firewall key set`, or the Resolve Platform key field | One key | Every API key owner in the organisation | `key set` again, or `key remove` |
 | The [secrets vault](https://www.vulnetix.com/resolve/vault), including keys added from the Connect tab | One or more keys, each with an expiry and the API key owners who may use it | Per owner | The Vault page |
 
 Both are stored as one KMS-encrypted value per organisation and provider. A vault-managed key cannot be changed from the CLI or the old console field: `key set` and `key remove` answer `409 the <slug> key is managed in the secrets vault; change it at https://www.vulnetix.com/resolve/vault`, so a CLI write cannot replace a multi-owner bundle with one key and drop its expiry.

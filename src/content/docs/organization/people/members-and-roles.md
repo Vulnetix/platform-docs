@@ -24,14 +24,14 @@ Your organisation is decided by the address you first signed up with:
 | Role | Can |
 |---|---|
 | `owner` | Everything below, plus invite, approve, change roles, remove members, manage service accounts and API keys, write the vault, messaging and GitHub App settings. Only an owner can make another owner. |
-| `developer` | Everything a `member` can, plus plan, apply and export [Platform IaC](/platform-iac/) for every kind, with `vulnetix auth login` or the console. As code it manages people and service accounts up to `developer`, never granting `owner` or changing an owner. On this page it cannot invite, approve, change roles or remove people, create service accounts, switch Drift protection, or manage billing or the vault. Only an owner can grant it, to a person or to a [service account](/organization/people/service-accounts-and-api-keys/). |
-| `member` | Use the console and the API. Read the vault, messaging and members lists. Triage, suppress and edit prioritisation and campaigns (see the warning on [Vulnerability management](/vulnerability-management/)). |
+| `developer` | Everything a `member` can, plus plan, apply and export [Platform IaC](/platform-iac/) for every kind, with `vulnetix auth login` or the Resolve Platform. As code it manages people and service accounts up to `developer`, never granting `owner` or changing an owner. On this page it cannot invite, approve, change roles or remove people, create service accounts, switch Drift protection, or manage billing or the vault. Only an owner can grant it, to a person or to a [service account](/organization/people/service-accounts-and-api-keys/). |
+| `member` | Use the Resolve Platform and the API. Read the vault, messaging and members lists. Triage, suppress and edit prioritisation and campaigns (see the warning on [Vulnerability management](/vulnerability-management/)). |
 | `admin` | Retired. An organisation created before the retirement may still have admins; they keep owner-like management rights but can only hand out `member`, until an owner changes their role. Nobody can be given `admin`. |
 
 - An organisation always keeps an owner. The last owner cannot step down: `409 you are the only owner; promote someone else before stepping down`.
 - You cannot remove yourself: `400`.
-- An owner or admin can switch [Drift protection](/platform-iac/guides/drift-protection/), the setting that makes the console read only for settings managed as code. A member sees its state but cannot change it.
-- The roles a caller may hand out come back as `assignableRoles` from `GET /v1/org/members`. The console renders exactly that list.
+- An owner or admin can switch [Drift protection](/platform-iac/guides/drift-protection/), the setting that makes the Resolve Platform read only for settings managed as code. A member sees its state but cannot change it.
+- The roles a caller may hand out come back as `assignableRoles` from `GET /v1/org/members`. The Resolve Platform renders exactly that list.
 
 ## Joining an organisation
 
@@ -72,7 +72,7 @@ Each of these emits a sensitive messaging event (`security.password.reset_by_adm
 
 ## Authentication
 
-Every route on this page takes the console session only: the `vdb_token` cookie, or `Authorization: Bearer <session JWT>`. An `ApiKey` header is `401 not authenticated`. Membership cannot be changed with an API key or a service account.
+Every route on this page takes the Resolve Platform session only: the `vdb_token` cookie, or `Authorization: Bearer <session JWT>`. An `ApiKey` header is `401 not authenticated`. Membership cannot be changed with an API key or a service account.
 
 ## Errors
 

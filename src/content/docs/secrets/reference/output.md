@@ -52,7 +52,7 @@ The `ruleId` is the Vulnetix rule id (`VNX-SEC-001`). Findings from history, bin
 
 ## What is uploaded
 
-Without credentials nothing is uploaded. When you are authenticated, the CLI sends one submission to `POST /v2/cli.secrets` after the scan, then prints `Snapshot: <url>`. A clean run still submits, so the console shows the repository as assessed with zero findings. A failed upload prints a warning and does not change the exit code.
+Without credentials nothing is uploaded. When you are authenticated, the CLI sends one submission to `POST /v2/cli.secrets` after the scan, then prints `Snapshot: <url>`. A clean run still submits, so the Resolve Platform shows the repository as assessed with zero findings. A failed upload prints a warning and does not change the exit code.
 
 Each finding carries the rule id, name and description, severity, file and line, CWE, CWSS vector, tags, fingerprint, test-suite attribution and a code snippet. The snippet comes from one of two places:
 

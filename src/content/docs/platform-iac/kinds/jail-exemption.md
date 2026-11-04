@@ -168,7 +168,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 ## How apply treats it
 
 - An exemption is a record of a decision, so apply never edits one. A changed document retires the old exemption and creates a new one; removing the document retires it. The retired row keeps what was waived, by whom and why. `approvedBy` is the principal applying.
-- The objects of this kind are the tenant's active exemptions. The table has no name column, so `metadata.name` is kept on the ownership record. An exemption made in the console gets a name derived from its fields, so export can address it and applying that document adopts it.
+- The objects of this kind are the tenant's active exemptions. The table has no name column, so `metadata.name` is kept on the ownership record. An exemption made in the Resolve Platform gets a name derived from its fields, so export can address it and applying that document adopts it.
 - Applied after the [`JailPolicy`](/platform-iac/kinds/jail-policy/) it waives.
 
 ## Terraform and OpenTofu

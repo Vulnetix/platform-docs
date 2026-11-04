@@ -8,7 +8,7 @@ checked: [belai@35506b9]
 updated: 28 Oct 2026
 ---
 
-Every conversation with Belai is a session, kept on disk as a transcript and, while you are signed in, mirrored to the console. See [Session sync](/software-factory/workforce/session-sync/).
+Every conversation with Belai is a session, kept on disk as a transcript and, while you are signed in, mirrored to the Resolve Platform. See [Session sync](/software-factory/workforce/session-sync/).
 
 ## Commands
 

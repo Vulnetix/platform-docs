@@ -59,7 +59,7 @@ Every provider needs a stored key before it proxies anything (`403 provider_key_
 
 `ANTHROPIC_AUTH_TOKEN` is used rather than `ANTHROPIC_API_KEY` because it makes the SDK send `Authorization: Bearer`. Both header forms are accepted by the gateway.
 
-`vulnetix ai-firewall key set <slug>` refuses a slug outside the nine with `unknown provider`, and refuses `kiro` with a pointer to `kiro login`. Store keys for `alibaba`, `moonshot`, `minimax` and custom providers on the console's Connect tab, or with `providers[].key` in a [policy file](/ai-firewall/reference/policy-file/), which goes straight to the API. `policy provider <slug>` and `policy model` accept any slug.
+`vulnetix ai-firewall key set <slug>` refuses a slug outside the nine with `unknown provider`, and refuses `kiro` with a pointer to `kiro login`. Store keys for `alibaba`, `moonshot`, `minimax` and custom providers on the Resolve Platform's Connect tab, or with `providers[].key` in a [policy file](/ai-firewall/reference/policy-file/), which goes straight to the API. `policy provider <slug>` and `policy model` accept any slug.
 
 ## Kiro
 

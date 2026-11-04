@@ -1,7 +1,7 @@
 ---
 title: Capability inventory
 nav: Inventory
-description: The tools, MCP servers and skills the gateway has seen your organisation's agents carry, how each row is learnt, and how to read and clear it from the console, the CLI and the API.
+description: The tools, MCP servers and skills the gateway has seen your organisation's agents carry, how each row is learnt, and how to read and clear it from the Resolve Platform, the CLI and the API.
 order: 1
 sources:
   - ai-firewall/internal/inventory/inventory.go
@@ -84,7 +84,7 @@ A bad `kind`, `source`, `seen_since`, `sort` or `dir` is `400` with the allowed 
 
 Clearing deletes every row for the organisation. Nothing else changes: rules are untouched, and the gateway rebuilds the list from live traffic. Because of the one-hour write window, a configuration that was already written in the current window is not written again until the window passes, so a cleared inventory can take up to an hour to fill back in.
 
-Any signed-in member can clear it; the console route does not check for owner or admin.
+Any signed-in member can clear it; the Resolve Platform route does not check for owner or admin.
 
 ## Related
 

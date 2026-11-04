@@ -13,7 +13,7 @@ Only owners and admins connect, refresh or remove a connection. Members see them
 
 ## Connecting
 
-Open **Integrations** in the console and choose the card for your forge: **GitHub Enterprise Server**, **Gitea**, **Forgejo** or **GitLab for the Software Factory**. (The other GitLab card is the CI/CD quickstart, which needs no connection.) Choose **Connect**, enter the host and choose **Check**: the factory asks the host what it is and shows the version. Then fill in the rest for your forge.
+Open **Integrations** in the Resolve Platform and choose the card for your forge: **GitHub Enterprise Server**, **Gitea**, **Forgejo** or **GitLab for the Software Factory**. (The other GitLab card is the CI/CD quickstart, which needs no connection.) Choose **Connect**, enter the host and choose **Check**: the factory asks the host what it is and shows the version. Then fill in the rest for your forge.
 
 The host must be reachable from the public internet. A host that resolves to a private or link-local address is refused.
 

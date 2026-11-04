@@ -1,14 +1,14 @@
 ---
 title: "vulnetix api"
 nav: api
-description: Find the OpenAPI and Swagger descriptions in a repository and upload them, so the console can inventory your API surface and match its routes to findings.
+description: Find the OpenAPI and Swagger descriptions in a repository and upload them, so the Resolve Platform can inventory your API surface and match its routes to findings.
 order: 11
 sources: [cli/cmd/api.go, cli/internal/apispecs]
 checked: [cli@v4.13.1]
 updated: 04 Nov 2026
 ---
 
-`vulnetix api` finds the OpenAPI and Swagger descriptions in a working tree and uploads them to your organisation. The uploaded specs appear in the console under API specs, and their routes are matched to findings, so a finding on a handler names the route that reaches it.
+`vulnetix api` finds the OpenAPI and Swagger descriptions in a working tree and uploads them to your organisation. The uploaded specs appear in the Resolve Platform under API specs, and their routes are matched to findings, so a finding on a handler names the route that reaches it.
 
 Finding specs reads files only. The command sends nothing to the hosts a spec describes.
 

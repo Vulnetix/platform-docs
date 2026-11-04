@@ -1,6 +1,6 @@
 ---
 title: Human approval
-description: What an approval is, the kinds and states it moves through, who can decide one, how deadlines work, and how to decide from the console, a notification or a Pix call.
+description: What an approval is, the kinds and states it moves through, who can decide one, how deadlines work, and how to decide from the Resolve Platform, a notification or a Pix call.
 order: 3
 sources: [vdb-site/docs/factory.md, vdb-site/docs/factory-engine.md, vdb-site/api/internal/handler/factory_approvals.go, vdb-site/api/internal/handler/factory_engine_approval.go]
 checked: [vdb-site@284f1d6, website@a31d470]

@@ -355,7 +355,7 @@ Jail evaluates `when` over the facts it already holds, and those do not carry ev
 - A policy is addressed by `metadata.name`. The header fields merge: a field the document leaves out keeps its value.
 - `spec.repository` is the scope, so leaving it out means the tenant default.
 - `spec.rules`, when present, is the whole ordered list. Rules are matched to stored rules by `label` and updated in place, which keeps each rule's id (exemptions and the assessment history cite it). A label the document drops is deleted, and renaming a label is a delete and a create. Labels must be unique within a policy.
-- Plan runs the console's policy and rule validators, so a policy the console refuses cannot be applied as code. A `when` that does not compile is reported with its rule and position.
+- Plan runs the Resolve Platform's policy and rule validators, so a policy the Resolve Platform refuses cannot be applied as code. A `when` that does not compile is reported with its rule and position.
 
 ## Terraform and OpenTofu
 

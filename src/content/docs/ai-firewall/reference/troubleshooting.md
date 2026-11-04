@@ -93,7 +93,7 @@ Switch it to `flag`, turn on [inference logging](/ai-firewall/operations/logs/) 
 | Plan-locked error on the first guardrail | The baseline is composed in by default and guardrails need Business. On Pro, set `spec.baseline.enabled: false`. |
 | `apply` deleted nothing | Unmentioned guardrails and models are drift until you pass `--prune` |
 | `--prune` left a provider | Providers are never pruned. Write `action: default`, or run `policy provider <slug> --clear`. |
-| `unknown provider` from `key set` | The CLI's provider list has nine slugs. For `alibaba`, `moonshot`, `minimax` and custom providers use the console or `providers[].key` in the file. |
+| `unknown provider` from `key set` | The CLI's provider list has nine slugs. For `alibaba`, `moonshot`, `minimax` and custom providers use the Resolve Platform or `providers[].key` in the file. |
 
 Every field and message is on the [policy file reference](/ai-firewall/reference/policy-file/).
 

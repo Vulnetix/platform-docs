@@ -163,7 +163,7 @@ The **People** tab (`/v1/messaging/identities`) records who each member is on ea
 | POST | `/v1/messaging/identities/auto-link` |
 | PUT, DELETE | `/v1/messaging/identities/{principalUuid}/{provider}` |
 
-These routes take the console session only, not an API key. Request bodies are at most 256 KiB.
+These routes take the Resolve Platform session only, not an API key. Request bodies are at most 256 KiB.
 
 | Limit per organisation | Value |
 |---|---|

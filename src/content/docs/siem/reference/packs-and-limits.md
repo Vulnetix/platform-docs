@@ -18,7 +18,7 @@ Guardian is an add-on to the Business or Enterprise plan, sold as a flat monthly
 | `guardian_100` | 100 GB | $8,900 | 1 TiB | 500 | 250 | 250 |
 | `enterprise` | 500 GB, or as quoted | quoted | 5 TiB | 2000 | 1000 | 1000 |
 
-Prices are the console's fallback; the Stripe price shown at checkout is what you pay. Ingest is measured in decimal GB of normalised rows; the query budget in binary GiB scanned.
+Prices are the Resolve Platform's fallback; the Stripe price shown at checkout is what you pay. Ingest is measured in decimal GB of normalised rows; the query budget in binary GiB scanned.
 
 ## Buy, change, cancel
 

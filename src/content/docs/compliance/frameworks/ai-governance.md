@@ -43,7 +43,7 @@ Resolve Platform: [/resolve/eu-ai-act](https://www.vulnetix.com/resolve/eu-ai-ac
 
 Article 11 / Annex IV is partly evidenced by the inventory and SBOMs (Annex IV section 2: components, compute and data). The intended purpose, the monitoring and control description and the validation results are sections the provider writes; attach them to the control.
 
-The console page draws the Act's risk pyramid from the classifications on record.
+The Resolve Platform page draws the Act's risk pyramid from the classifications on record.
 
 ## NIST AI Risk Management Framework (`nist_ai_rmf`)
 

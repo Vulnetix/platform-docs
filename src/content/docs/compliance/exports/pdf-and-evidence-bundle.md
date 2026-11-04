@@ -7,7 +7,7 @@ checked: [vdb-site@1a06d67, website@ad775f37]
 updated: 02 Nov 2026
 ---
 
-Every report exports three ways, from **Export** on the report's command bar or from the API. All three build the report fresh from the evidence, the same way the console page does, so an export always matches the page at the time you made it.
+Every report exports three ways, from **Export** on the report's command bar or from the API. All three build the report fresh from the evidence, the same way the Resolve Platform page does, so an export always matches the page at the time you made it.
 
 | Export | Route | Content type | File name |
 |---|---|---|---|
@@ -15,7 +15,7 @@ Every report exports three ways, from **Export** on the report's command bar or 
 | OSCAL | `GET /v1/compliance/reports/{uuid}/export.oscal.json` | `application/json` | `<report name>-oscal.json`. See [OSCAL export](/compliance/exports/oscal/) |
 | Evidence bundle | `GET /v1/compliance/reports/{uuid}/evidence.zip` | `application/zip` | `evidence.zip` |
 
-Add `?includeArchived=true` to include archived notes and evidence files. The console's **Include archived** box sets it.
+Add `?includeArchived=true` to include archived notes and evidence files. The Resolve Platform's **Include archived** box sets it.
 
 ## PDF
 
