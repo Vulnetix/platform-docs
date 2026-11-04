@@ -27,7 +27,7 @@ spec:
 | Config engine | The server side that plans, applies and exports every kind, records who manages each object, and reports status. All kinds are served except `LicensePolicy` and `LicenseExceptions`, which are validate only. | [Engine](/platform-iac/reference/engine/), [Config API](/platform-iac/reference/config-api/) |
 | CLI | `vulnetix config validate`, `kinds` and `schema` work offline; `plan`, `apply` and `export` use the engine. | [Validate](/platform-iac/cli/validate/), [Plan](/platform-iac/cli/plan/), [Apply](/platform-iac/cli/apply/), [Export](/platform-iac/cli/export/) |
 | CEL | A `when` or `selector` expression on jail rules, risk rules, suppressions, package list entries, AI guardrails and detection rule feeds. | [CEL rule expressions](/platform-iac/reference/cel/) |
-| Terraform and OpenTofu | The `vulnetix/resolve` provider, one resource per kind, published on the Terraform registry (OpenTofu registry listing is pending), and two AWS modules, released and installed by Git source. | [Terraform and OpenTofu](/platform-iac/terraform/) |
+| Terraform and OpenTofu | The `vulnetix/resolve` provider, one resource per kind, published on the Terraform and OpenTofu registries, and two AWS modules on the Terraform registry. | [Terraform and OpenTofu](/platform-iac/terraform/) |
 | GitHub Actions | Plan on pull requests, apply on the default branch. | [config-plan](/platform-iac/github-actions/config-plan/), [config-apply](/platform-iac/github-actions/config-apply/) |
 | Schemas | Signed JSON Schemas, with pinned and `latest` URLs. | [Schema releases](/platform-iac/schemas/releases/) |
 

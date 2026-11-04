@@ -1,16 +1,16 @@
 ---
 title: Terraform modules
 nav: Modules
-description: The two Terraform modules for AWS, aws-onboarding, which connects an AWS account to Vulnetix, and aws-siem-shipping, which ships an account's logs to Guardian. Released, installed from Git until the Terraform registry lists them. Inputs, outputs, requirements, limits and removal.
+description: The two Terraform modules for AWS, aws-onboarding, which connects an AWS account to Vulnetix, and aws-siem-shipping, which ships an account's logs to Guardian. Released and listed on the Terraform registry. Inputs, outputs, requirements, limits and removal.
 order: 4
 sources: ["terraform-vulnetix-aws-onboarding/README.md", "terraform-vulnetix-aws-onboarding/variables.tf", "terraform-vulnetix-aws-onboarding/outputs.tf", "terraform-vulnetix-aws-siem-shipping/README.md", "terraform-vulnetix-aws-siem-shipping/variables.tf", "terraform-vulnetix-aws-siem-shipping/outputs.tf"]
 checked: ["terraform-vulnetix-aws-onboarding@v1.0.1", "terraform-vulnetix-aws-siem-shipping@v1.0.0"]
-updated: 03 Nov 2026
+updated: 04 Nov 2026
 ---
 
-> [!CAREFUL] Released, but not on the Terraform registry yet
-> `aws-onboarding` v1.0.1 and `aws-siem-shipping` v1.0.0 are released on GitHub. They are not listed on the Terraform registry, so install them by Git source, as below. The registry addresses the READMEs name, `Vulnetix/aws-onboarding/vulnetix` and `Vulnetix/aws-siem-shipping/vulnetix`, do not resolve yet.
->
+`aws-onboarding` v1.0.1 and `aws-siem-shipping` v1.0.0 are on the Terraform registry as [`Vulnetix/aws-onboarding/vulnetix`](https://registry.terraform.io/modules/Vulnetix/aws-onboarding/vulnetix/latest) and [`Vulnetix/aws-siem-shipping/vulnetix`](https://registry.terraform.io/modules/Vulnetix/aws-siem-shipping/vulnetix/latest). The OpenTofu registry does not list them yet, so with OpenTofu use the Git source in each section's comment.
+
+> [!CAREFUL] Not yet exercised against a real AWS account
 > The Vulnetix build team has not exercised either module against a real AWS account beyond `terraform validate`, `tflint` and read-only plans. Plan in a non-production account first and read what it will create.
 
 These two modules are for AWS, and are separate from the [provider](/platform-iac/terraform/). They work with Terraform and OpenTofu 1.5 or later. The provider manages Vulnetix's own settings; the modules create the AWS resources that connect an account to Vulnetix. The Vulnetix side of both is the [`AwsConnection`](/platform-iac/kinds/aws-connection/), [`AwsAccount`](/platform-iac/kinds/aws-account/), [`CloudSensors`](/platform-iac/kinds/cloud-sensors/) and [`LogSource`](/platform-iac/kinds/log-source/) kinds.
@@ -26,7 +26,10 @@ Vulnetix then uses the role to deploy the `vulnetix-security-pipeline` stack: th
 
 ```hcl
 module "vulnetix_onboarding" {
-  source = "git::https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding.git?ref=v1.0.1"
+  source  = "Vulnetix/aws-onboarding/vulnetix"
+  version = "1.0.1"
+  # OpenTofu, until its registry lists the module:
+  # source = "git::https://github.com/Vulnetix/terraform-vulnetix-aws-onboarding.git?ref=v1.0.1"
 
   external_id = "<your Vulnetix tenant uuid>"
 }
@@ -73,7 +76,10 @@ Batches Guardian refuses after five minutes of retries land in `vulnetix-siem-er
 
 ```hcl
 module "vulnetix_siem" {
-  source = "git::https://github.com/Vulnetix/terraform-vulnetix-aws-siem-shipping.git?ref=v1.0.0"
+  source  = "Vulnetix/aws-siem-shipping/vulnetix"
+  version = "1.0.0"
+  # OpenTofu, until its registry lists the module:
+  # source = "git::https://github.com/Vulnetix/terraform-vulnetix-aws-siem-shipping.git?ref=v1.0.0"
 
   ingest_token = var.guardian_ingest_token # gdn_..., from the Guardian Sources page
   vpc_ids      = ["vpc-0abc1234def567890"]
