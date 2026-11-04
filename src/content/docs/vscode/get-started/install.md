@@ -4,7 +4,7 @@ description: Install `vulnetix.vulnetix` from Open VSX or a downloaded VSIX, cho
 order: 2
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/.github/workflows/release.yml, vulnetix-vscode/CHANGELOG.md]
 checked: [vulnetix-vscode@9ad08fa]
-updated: 02 Nov 2026
+updated: 05 Nov 2026
 status: available
 ---
 
@@ -15,12 +15,12 @@ The extension identifier is `vulnetix.vulnetix`. It is published to [Open VSX](h
 
 ## VS Code
 
-Download the VSIX from Open VSX and install it:
+Download the stable VSIX from Open VSX and install it:
 
 ```sh
-curl -fL -o vulnetix.vsix \
-  https://open-vsx.org/api/vulnetix/vulnetix/latest/file/vulnetix.vulnetix-latest.vsix
-code --install-extension vulnetix.vsix
+curl -fL -o vulnetix-0.2.0.vsix \
+  https://open-vsx.org/api/vulnetix/vulnetix/0.2.0/file/vulnetix.vulnetix-0.2.0.vsix
+code --install-extension vulnetix-0.2.0.vsix
 ```
 
 Or, in the editor, open the Command Palette and run **Extensions: Install from VSIX**, then pick the file.
@@ -47,13 +47,19 @@ The version's minor number picks the channel, because the Visual Studio Marketpl
 | Even (`0.2.x`) | Stable | `0.2.0` |
 | Odd (`0.3.x`) | Pre-release | `0.3.0` |
 
-Open VSX's `latest` alias currently resolves to `0.3.0`, the pre-release, because it is the newest upload. To install a specific version:
+`0.2.x` downloads CLI `v3.90.1`, whose language server has the code, secret, infrastructure and container rules but no dependency analysis. Dependency findings, with the hover card and the version-bump quick fix, arrive with `0.3.x`.
+
+### Pre-release
+
+Open VSX's `latest` alias resolves to the newest upload, which is `0.3.0`, the pre-release. In a fork, add `--pre-release` to the install command. In VS Code, download it:
 
 ```sh
-curl -fL -o vulnetix-0.2.0.vsix \
-  https://open-vsx.org/api/vulnetix/vulnetix/0.2.0/file/vulnetix.vulnetix-0.2.0.vsix
-code --install-extension vulnetix-0.2.0.vsix
+curl -fL -o vulnetix-latest.vsix \
+  https://open-vsx.org/api/vulnetix/vulnetix/latest/file/vulnetix.vulnetix-latest.vsix
+code --install-extension vulnetix-latest.vsix
 ```
+
+To install any other version, put it in place of `0.2.0` in the stable command above.
 
 Pinning the extension does not pin the CLI it downloads; see [The CLI binary](/vscode/configuration/cli-binary/) for that.
 
@@ -62,7 +68,7 @@ Pinning the extension does not pin the CLI it downloads; see [The CLI binary](/v
 The release workflow builds one VSIX, publishes it to Open VSX and attaches the same file, with a `.sha256` beside it, to the GitHub release `v<version>` in `Vulnetix/vulnetix-vscode`. Compare digests:
 
 ```sh
-sha256sum vulnetix.vsix
+sha256sum vulnetix-0.2.0.vsix
 ```
 
 > [!CAREFUL] The GitHub repository is private

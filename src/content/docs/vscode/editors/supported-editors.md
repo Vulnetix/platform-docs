@@ -4,7 +4,7 @@ description: Which VS Code-based editors run the extension, where each installs 
 order: 1
 sources: [vulnetix-vscode/package.json, vulnetix-vscode/website/content/docs/editors/]
 checked: [vulnetix-vscode@9ad08fa]
-updated: 02 Nov 2026
+updated: 05 Nov 2026
 status: available
 ---
 
@@ -33,7 +33,7 @@ The server-hosted editors are covered on [Remote workspaces and containers](/vsc
 
 | Editor | Command |
 |---|---|
-| VS Code | `code --install-extension vulnetix.vsix` after downloading it ([Install](/vscode/get-started/install/)) |
+| VS Code | `code --install-extension vulnetix-0.2.0.vsix` after downloading it ([Install](/vscode/get-started/install/)) |
 | Cursor | `cursor --install-extension vulnetix.vulnetix` |
 | Windsurf | `windsurf --install-extension vulnetix.vulnetix` |
 | VSCodium | `codium --install-extension vulnetix.vulnetix` |
@@ -41,12 +41,14 @@ The server-hosted editors are covered on [Remote workspaces and containers](/vsc
 | OpenVSCode Server | `/home/.openvscode-server/bin/openvscode-server --install-extension vulnetix.vulnetix` (path in the official image) |
 | Kiro, Positron, Trae | Extensions view, search **Vulnetix**, or **Extensions: Install from VSIX** |
 
-When an editor has search disabled, download the VSIX and use **Extensions: Install from VSIX**:
+When an editor has search disabled, download the stable VSIX and use **Extensions: Install from VSIX**:
 
 ```sh
 curl -fL -o vulnetix.vsix \
-  https://open-vsx.org/api/vulnetix/vulnetix/latest/file/vulnetix.vulnetix-latest.vsix
+  https://open-vsx.org/api/vulnetix/vulnetix/0.2.0/file/vulnetix.vulnetix-0.2.0.vsix
 ```
+
+`latest` in that URL in place of `0.2.0` gives the newest upload, which is the pre-release; see [Stable and pre-release](/vscode/get-started/install/#stable-and-pre-release).
 
 ## Editor notes
 
@@ -65,7 +67,7 @@ Theia loads VSIX files from a plugins directory:
 ```sh
 mkdir -p plugins
 curl -fL -o plugins/vulnetix.vsix \
-  https://open-vsx.org/api/vulnetix/vulnetix/latest/file/vulnetix.vulnetix-latest.vsix
+  https://open-vsx.org/api/vulnetix/vulnetix/0.2.0/file/vulnetix.vulnetix-0.2.0.vsix
 ```
 
 Start Theia with `--plugins=local-dir:./plugins`, or declare it in the application's `package.json`:
@@ -74,7 +76,7 @@ Start Theia with `--plugins=local-dir:./plugins`, or declare it in the applicati
 {
   "theiaPluginsDir": "plugins",
   "theiaPlugins": {
-    "vulnetix.vulnetix": "https://open-vsx.org/api/vulnetix/vulnetix/latest/file/vulnetix.vulnetix-latest.vsix"
+    "vulnetix.vulnetix": "https://open-vsx.org/api/vulnetix/vulnetix/0.2.0/file/vulnetix.vulnetix-0.2.0.vsix"
   }
 }
 ```
