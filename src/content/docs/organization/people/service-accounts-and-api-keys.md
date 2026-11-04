@@ -55,8 +55,8 @@ The Members page asks an owner which role the new account gets, and for a `devel
 | Role | The account can |
 |---|---|
 | `member` | Scan, upload and read: the CLI in CI, and the API. It cannot plan or apply Platform IaC. |
-| `developer` | Also plan, apply and export [Platform IaC](/platform-iac/) for every kind except `Organization`, `Member`, `ServiceAccount` and `VaultEntry`. It cannot manage people, billing, service accounts or the vault. |
-| `owner` | Everything an owner can, including those four kinds. Use sparingly. |
+| `developer` | Also plan, apply and export [Platform IaC](/platform-iac/) for every kind, including people and service accounts up to `developer`. It never grants `owner` or changes an owner. In the console it cannot manage people, billing, service accounts or the vault. |
+| `owner` | Everything an owner can, including granting `owner`. Use sparingly. |
 
 ### Using one for Platform IaC
 

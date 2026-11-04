@@ -37,8 +37,9 @@ export const GROUPS = [
 export const PLANNED = [];
 
 // ── Who acts on a kind ──────────────────────────────────────────────────────
-// vdb-site api/internal/orgroles OwnerOnlyKinds: only an owner may apply these;
-// a service account with the developer role is refused.
+// vdb-site api/internal/orgroles OwnerOnlyKinds: owner-only in the console. As
+// code a developer applies them too, granting up to developer and never
+// touching an owner.
 export const OWNER_ONLY_KINDS = new Set(['Organization', 'Member', 'ServiceAccount', 'VaultEntry']);
 // vdb-site api/internal/config/siem.go SiemKindNames: written in Guardian, which
 // vdb-site vouches to for the caller (a signed assertion, or the caller's own

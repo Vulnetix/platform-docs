@@ -559,7 +559,7 @@ function tokenText(kind) {
   if (statusOf(kind) === 'validate') return 'None. The server stores nothing for this kind; validating needs no credential.';
   const creds = '[Credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation)';
   if (GUARDIAN_KINDS.has(kind)) return `An owner, or a service account with the developer role, or an Authentik access token for either. The kind is written in Guardian, which the Vulnetix API vouches to for the caller; a member can read it but not change it. See ${creds}.`;
-  if (OWNER_ONLY_KINDS.has(kind)) return `An owner: a person signed in as owner, or an owner service account. A service account with the developer role cannot apply this kind. See ${creds}.`;
+  if (OWNER_ONLY_KINDS.has(kind)) return `An owner, or a person or service account with the developer role, or an Authentik access token for either. As code a developer grants up to developer and cannot change or remove an owner; in the console only an owner manages this kind. A member is refused with HTTP 403. See ${creds}.`;
   return `An owner, or a service account with the developer role (its ApiKey), or an Authentik access token for either. A member is refused with HTTP 403. See ${creds}.`;
 }
 

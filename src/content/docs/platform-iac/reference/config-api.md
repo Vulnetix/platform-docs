@@ -16,7 +16,7 @@ The config engine is served by the Vulnetix site API, not the VDB API. The CLI c
 |---|---|
 | A signed-in member | List kinds, validate documents and read ownership |
 | An owner | Everything: plan, apply, export and the object routes, because they read or change the organisation's policy |
-| A service account with the `developer` role | Plan, apply, export and the object routes for every kind except the four that only an owner may apply: `Organization`, `Member`, `ServiceAccount` and `VaultEntry` |
+| A service account with the `developer` role | Plan, apply, export and the object routes for every kind. On `Member` and `ServiceAccount` it grants up to `developer` and cannot change or remove an owner. |
 | A member, or a service account with the `member` role | Read-only routes. A plan, apply or export is refused with `403`. |
 
 How a caller proves who it is is on [credentials for automation](#credentials-for-automation). The role comes from the organisation's Authentik groups, not from the credential itself.
@@ -70,10 +70,10 @@ The environment variables are `VULNETIX_ORG_ID` and `VULNETIX_API_KEY` for the A
 
 Rules that follow:
 
-- The role decides what a credential may do. `developer` is an ordinary organisation role, for people and for service accounts, beside `owner` and `member`. A service account's role is set when it is created: `member` (the default), `developer` or `owner`. Only an owner grants `developer` or `owner`, to a person or to a service account, and nobody can grant a role above their own.
-- A person with the `developer` role signs in as themselves (`vulnetix auth login`) and can plan, apply and export like a `developer` service account. They cannot invite or remove people, change roles, create service accounts, or manage billing or the vault.
+- The role decides what a credential may do. `developer` is an ordinary organisation role, for people and for service accounts, beside `owner` and `member`. A service account's role is set when it is created: `member` (the default), `developer` or `owner`. Only an owner grants `developer` or `owner`, to a person or to a service account, and nobody can grant a role above their own. As code, a developer grants up to `developer`.
+- A person with the `developer` role signs in as themselves (`vulnetix auth login`) and can plan, apply and export like a `developer` service account. In the console they cannot invite or remove people, change roles, create service accounts, or manage billing or the vault; as code they can, up to `developer`.
 - A service account with the `member` role can read but not plan, apply or export. It is refused with `403`.
-- A `developer` service account cannot apply `Organization`, `Member`, `ServiceAccount` or `VaultEntry`, so a leaked CI credential cannot add a person, mint another service account, read a secret or turn Drift protection off.
+- A `developer` credential maintains every kind as code, `Organization`, `Member`, `ServiceAccount` and `VaultEntry` included. On people and service accounts it grants `member` or `developer`, never `owner`, and it cannot change or remove an owner (`403`), so a leaked CI credential can never make, demote or remove an owner. In the console the same developer cannot manage people, service accounts, the vault or Drift protection.
 - An Authentik token comes from the `platform-iac` application at `https://auth.vulnetix.com/application/o/platform-iac/` (client id `vulnetix-platform-iac`, `client_credentials` grant, one hour). Authentik only issues one to a service account that is stamped as a Vulnetix principal and holds the `developer` or `owner` role; a `member` is refused at the token endpoint. The server then requires the user to be active and in the organisation's group. The token's claims never name the organisation; the server looks the user up.
 - Deactivating the service account stops its ApiKey and its tokens working.
 - The five SIEM kinds (`SavedSearch`, `DetectionRule`, `AlertTrigger`, `ScheduledReport` and `LogSource`) are written in Guardian. The server vouches for the caller to Guardian with a short-lived signed assertion, so the same credentials work for them.
