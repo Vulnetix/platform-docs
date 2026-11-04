@@ -1,10 +1,10 @@
 ---
 title: Install
-description: Install from the Chrome Web Store or Firefox Add-ons, or sideload a release build and verify it against SHA256SUMS.txt.
+description: Install from the Chrome Web Store or Firefox Add-ons, or sideload a release build from vulnetix.com and verify it against SHA256SUMS.txt.
 order: 2
 sources: [browser-extension/README.md, browser-extension/wxt.config.ts, browser-extension/.github/workflows/release.yml, browser-extension/.github/workflows/publish.yml]
 checked: [browser-extension@d25ce74]
-updated: 02 Nov 2026
+updated: 05 Nov 2026
 ---
 
 ## From a store
@@ -24,35 +24,23 @@ The browser warns that the extension can "read and change all your data on all w
 
 For environments where store installs are blocked. A sideloaded copy does not update itself.
 
-Every GitHub release attaches these files, under both versioned names and the fixed names below:
+Every release is mirrored to vulnetix.com under fixed names, so these links always serve the newest release:
 
 | File | Contents |
 |---|---|
-| `vulnetix-chrome.zip` | Chromium build |
-| `vulnetix-firefox.xpi` | Firefox build signed by Mozilla, installs permanently |
-| `vulnetix-firefox.zip` | Unsigned Firefox build, temporary installs only |
-| `vulnetix-sources.zip` | Sources as submitted to Mozilla |
-| `SHA256SUMS.txt` | Checksums for all of the above |
+| [`vulnetix-chrome.zip`](https://vulnetix.com/marketing/downloads/browser-extension/latest/vulnetix-chrome.zip) | Chromium build |
+| [`vulnetix-firefox.zip`](https://vulnetix.com/marketing/downloads/browser-extension/latest/vulnetix-firefox.zip) | Unsigned Firefox build, temporary installs only |
+| [`vulnetix-sources.zip`](https://vulnetix.com/marketing/downloads/browser-extension/latest/vulnetix-sources.zip) | Sources as submitted to Mozilla |
+| [`SHA256SUMS.txt`](https://vulnetix.com/marketing/downloads/browser-extension/latest/SHA256SUMS.txt) | Checksums for all of the above |
 
-> [!CAREFUL] The repository is private
-> `Vulnetix/browser-extension` is private, so release downloads need a GitHub account with access. The `/releases/latest/download/` links work in a signed-in browser; `curl` gets `404` there even with a token, because that route ignores tokens.
+Each release also stays at `https://vulnetix.com/marketing/downloads/browser-extension/v<version>/`, with the versioned filenames beside the fixed ones, for pinning a version.
 
-Download with the GitHub CLI and verify:
+Download and verify:
 
 ```sh
-gh release download --repo Vulnetix/browser-extension \
-  --pattern 'vulnetix-chrome.zip' --pattern 'SHA256SUMS.txt'
+curl -fLO https://vulnetix.com/marketing/downloads/browser-extension/latest/vulnetix-chrome.zip
+curl -fLO https://vulnetix.com/marketing/downloads/browser-extension/latest/SHA256SUMS.txt
 sha256sum -c SHA256SUMS.txt --ignore-missing
-```
-
-Without `gh`, the REST asset endpoint accepts a token when you ask for the bytes:
-
-```sh
-url=$(curl -sSL -H "Authorization: Bearer $GITHUB_TOKEN" \
-  https://api.github.com/repos/Vulnetix/browser-extension/releases/latest \
-  | jq -r '.assets[] | select(.name == "vulnetix-chrome.zip") | .url')
-curl -sSL -H "Authorization: Bearer $GITHUB_TOKEN" \
-  -H "Accept: application/octet-stream" -o vulnetix-chrome.zip "$url"
 ```
 
 ### Chromium
@@ -66,10 +54,6 @@ A `.zip` cannot be dragged onto the extensions page the way a `.crx` can.
 
 ### Firefox
 
-1. Open `about:addons`.
-2. Click the gear icon, then **Install Add-on From File**.
-3. Select `vulnetix-firefox.xpi`.
+For a permanent install, use the [Firefox Add-ons listing](https://addons.mozilla.org/firefox/addon/vulnetix/): Firefox installs only signed add-ons permanently, and the mirror carries no signed file to sideload.
 
 `vulnetix-firefox.zip` loads only through `about:debugging#/runtime/this-firefox` > **Load Temporary Add-on** and is removed when Firefox restarts. Use it for debugging only.
-
-The signed `.xpi` has no `update_url`, so a self-hosted copy does not update itself.
