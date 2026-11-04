@@ -14,7 +14,7 @@ The VDB API limits how many requests each API key makes in a day. There is no pe
 | Plan | `X-VDB-Plan` | Requests per day |
 |---|---|---|
 | Community | `community` | 50 |
-| Pro | `pro` | 2,000 per API key; 1 API key included, more at $25 a month each |
+| Pro | `pro` | 2,000 per API key; 1 API key included, more at $15 a month each |
 | Teams | `teams` | 100,000 per API key; 10 API keys included, the most a Teams organisation can create |
 | Enterprise | `enterprise` | Set per contract, often unlimited |
 
