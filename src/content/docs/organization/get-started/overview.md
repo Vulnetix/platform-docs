@@ -22,6 +22,7 @@ An organisation is the tenant everything else belongs to: scan data, policies, v
 | GitHub App, other forges, chat providers, cloud and registry connections | Configuration › Integrations (`/resolve/integrations`) | [Integrations](/organization/integrations/integrations/) |
 | What is sent where: connections, routes, templates, delivery | Configuration › Messaging (`/resolve/messaging`) | [Messaging](/organization/integrations/messaging/), [Signed webhooks](/organization/integrations/signed-webhooks/) |
 | Browser and phone push, preferences, quiet hours | Settings › Notifications | [Notifications](/organization/integrations/notifications/) |
+| API usage, Pix Sandbox and Pix calls, AI Firewall and Package Firewall decisions, reviews | Account › Logs (`/resolve/logs`) | [Logs](/organization/logs/overview/) |
 | Proxies, TLS interception, allowlists | | [Corporate proxy](/organization/network/corporate-proxy/) |
 
 ## In this section
