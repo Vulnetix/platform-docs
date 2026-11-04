@@ -4,8 +4,8 @@ nav: "VNX-SEC-031"
 description: "Detect Mailgun private API keys (key- plus 32 characters, or the 32-8-8 hex form) hardcoded in files that name Mailgun, ignoring pubkey- validation keys and unrelated key- values."
 order: 925
 sources: ["cli/internal/sast/rules/vnx-sec-031.rego", "cli/internal/sast/docs/vnx-sec-031.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-PY-003"
 description: "Detect pickle-format deserialization (pickle, cPickle, _pickle, dill, cloudpickle load/loads/Unpickler, including aliases and imported names, and unsafe jsonpickle.decode), which executes code embedded in the data."
 order: 857
 sources: ["cli/internal/sast/rules/vnx-py-003.rego", "cli/internal/sast/docs/vnx-py-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

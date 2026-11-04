@@ -4,8 +4,8 @@ nav: "VNX-DOCKER-005"
 description: "Reports privileged containers: privileged: true on a Compose service or directly under a Kubernetes securityContext, and in Dockerfiles RUN --security=insecure, a LABEL RUN/INSTALL with --privileged, or docker/podman run --privileged."
 order: 699
 sources: ["cli/internal/sast/rules/vnx-docker-005.rego", "cli/internal/sast/docs/vnx-docker-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

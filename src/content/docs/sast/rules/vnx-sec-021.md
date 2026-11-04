@@ -4,8 +4,8 @@ nav: "VNX-SEC-021"
 description: "Detects a hardcoded Twilio auth token or API key secret: a 32-character secret assigned to a Twilio-named variable in a Twilio context, or passed beside an Account SID or API key SID to a Twilio client. A SID on its own is an identifier and is not reported."
 order: 915
 sources: ["cli/internal/sast/rules/vnx-sec-021.rego", "cli/internal/sast/docs/vnx-sec-021.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

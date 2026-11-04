@@ -4,8 +4,8 @@ nav: "VNX-BASH-006"
 description: "Reports an IFS change that escapes the code that needed it: a function that sets IFS without local IFS or a restore, a script-level IFS change never restored, export IFS, and IFS taken from a positional parameter or OPTARG."
 order: 667
 sources: ["cli/internal/sast/rules/vnx-bash-006.rego", "cli/internal/sast/docs/vnx-bash-006.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

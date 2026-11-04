@@ -4,8 +4,8 @@ nav: "VNX-NODE-016"
 description: "Reports new RegExp()/RegExp() or String.match/matchAll compiling a pattern taken from req.query/body/params/headers or Koa ctx, directly or through a variable or concatenation built from one. Escaped input, RE2 and regex literals are not reported."
 order: 812
 sources: ["cli/internal/sast/rules/vnx-node-016.rego", "cli/internal/sast/docs/vnx-node-016.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

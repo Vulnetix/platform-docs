@@ -4,8 +4,8 @@ nav: "VNX-GO-009"
 description: "Detect Go code that renders a text/template template into an HTTP response, or loads .html files with text/template, so request data reaches the page unescaped (XSS)."
 order: 711
 sources: ["cli/internal/sast/rules/vnx-go-009.rego", "cli/internal/sast/docs/vnx-go-009.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

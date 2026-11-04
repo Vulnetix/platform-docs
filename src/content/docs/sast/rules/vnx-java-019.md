@@ -4,8 +4,8 @@ nav: "VNX-JAVA-019"
 description: "Detects symmetric and signing keys written into Java source: SecretKeySpec, PBEKeySpec, JJWT signWith/setSigningKey, auth0 Algorithm.HMAC* and Keys.hmacShaKeyFor given a string, decoded or byte-array literal, or a constant holding one. Keys embedded in source can be extracted from any copy of the binary."
 order: 767
 sources: ["cli/internal/sast/rules/vnx-java-019.rego", "cli/internal/sast/docs/vnx-java-019.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

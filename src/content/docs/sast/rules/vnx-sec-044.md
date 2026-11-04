@@ -4,8 +4,8 @@ nav: "VNX-SEC-044"
 description: "Reports complete Microsoft Teams incoming webhook URLs (webhook.office.com/webhookb2 and legacy outlook.office.com/webhook) written into files."
 order: 938
 sources: ["cli/internal/sast/rules/vnx-sec-044.rego", "cli/internal/sast/docs/vnx-sec-044.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-GO-022"
 description: "Detects request data, the request body or a caller-supplied parameter passed as code to an embedded interpreter or expression engine (goja, otto, yaegi, gopher-lua, govaluate, expr, gval, cel-go, tengo, starlark) or parsed as an html/template or text/template. Constant, embedded and configured scripts are not reported."
 order: 724
 sources: ["cli/internal/sast/rules/vnx-go-022.rego", "cli/internal/sast/docs/vnx-go-022.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

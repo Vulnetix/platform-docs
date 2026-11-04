@@ -4,8 +4,8 @@ nav: "VNX-CS-010"
 description: "Reports C# source that hardcodes the password of a database or cache connection: a Password=/Pwd= value in a connection-string literal, or a literal assigned to the Password of a ConnectionStringBuilder, Redis ConfigurationOptions or RabbitMQ ConnectionFactory. Passwords from configuration, format and interpolation holes, placeholders, SQL text, comments, test projects and configuration files are not reported."
 order: 694
 sources: ["cli/internal/sast/rules/vnx-cs-010.rego", "cli/internal/sast/docs/vnx-cs-010.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

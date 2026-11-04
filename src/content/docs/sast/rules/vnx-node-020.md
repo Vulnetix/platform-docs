@@ -4,8 +4,8 @@ nav: "VNX-NODE-020"
 description: "Reports Node crypto.createCipher()/createDecipher() through crypto or any name bound to the crypto module, inline require('crypto') or a named import. Not reported: createCipheriv/createDecipheriv, node-forge's createCipher, same-named methods, comments and strings."
 order: 816
 sources: ["cli/internal/sast/rules/vnx-node-020.rego", "cli/internal/sast/docs/vnx-node-020.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

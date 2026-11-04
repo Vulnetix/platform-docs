@@ -4,8 +4,8 @@ nav: "VNX-JAVA-029"
 description: "Detects DocumentBuilderFactory, SAXParserFactory and XMLReaderFactory parsers that are never hardened (disallow-doctype-decl, external-general-entities false, secure processing or ACCESS_EXTERNAL_DTD), and external entities explicitly switched on. StAX, TransformerFactory and SchemaFactory are covered by VNX-JAVA-004."
 order: 777
 sources: ["cli/internal/sast/rules/vnx-java-029.rego", "cli/internal/sast/docs/vnx-java-029.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

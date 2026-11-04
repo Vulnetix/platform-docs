@@ -4,8 +4,8 @@ nav: "VNX-PHP-022"
 description: "Detects Laravel/CodeIgniter redirect(), redirect()->to()/away(), Redirect::to()/away(), Symfony $this->redirect() and RedirectResponse whose destination starts with a request value, inline or via a nearby variable, unless a literal prefix pins the host or path or the value is validated. Raw Location headers and wp_redirect() are reported by VNX-PHP-004."
 order: 850
 sources: ["cli/internal/sast/rules/vnx-php-022.rego", "cli/internal/sast/docs/vnx-php-022.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

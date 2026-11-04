@@ -4,8 +4,8 @@ nav: "VNX-SEC-070"
 description: "Detects 1Password service account tokens (ops_eyJ...) and account Secret Keys (A3-XXXXXX-...) in any file."
 order: 964
 sources: ["cli/internal/sast/rules/vnx-sec-070.rego", "cli/internal/sast/docs/vnx-sec-070.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

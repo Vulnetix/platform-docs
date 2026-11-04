@@ -4,8 +4,8 @@ nav: "AI / LLM Providers"
 description: "OpenAI, Anthropic, Google Gemini, Hugging Face, Cohere, Mistral and other AI provider keys."
 order: 4
 sources: ["cli/internal/sast/secretsgen/catalog.json", "cli/internal/sast/secretsgen/main.go"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

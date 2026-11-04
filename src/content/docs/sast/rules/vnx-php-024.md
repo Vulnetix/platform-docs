@@ -4,8 +4,8 @@ nav: "VNX-PHP-024"
 description: "Detects mb_ereg_replace()/mb_eregi_replace() whose options argument is a literal containing the 'e' (evaluate) modifier or comes from the request, and mb_regex_set_options() with 'e', which make PHP evaluate the replacement as code."
 order: 852
 sources: ["cli/internal/sast/rules/vnx-php-024.rego", "cli/internal/sast/docs/vnx-php-024.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

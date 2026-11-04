@@ -4,8 +4,8 @@ nav: "VNX-RUBY-006"
 description: "Reports request parameters reaching ActiveRecord create/update/new/assign_attributes/find_or_create_by and similar calls without a strong-parameters allowlist, every params.permit! call, and permit lists (single- or multi-line) that admit admin, role or permissions attributes outside admin controllers."
 order: 882
 sources: ["cli/internal/sast/rules/vnx-ruby-006.rego", "cli/internal/sast/docs/vnx-ruby-006.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

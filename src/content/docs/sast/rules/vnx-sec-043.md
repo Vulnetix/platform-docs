@@ -4,8 +4,8 @@ nav: "VNX-SEC-043"
 description: "Reports Twilio API key SIDs (SK followed by exactly 32 lowercase hex characters, standing alone) written into files."
 order: 937
 sources: ["cli/internal/sast/rules/vnx-sec-043.rego", "cli/internal/sast/docs/vnx-sec-043.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

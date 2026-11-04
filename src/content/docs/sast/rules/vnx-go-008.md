@@ -4,8 +4,8 @@ nav: "VNX-GO-008"
 description: "Reports a math/rand or math/rand/v2 call (Read, Intn, Int63, Uint64, IntN...) whose line, the line its value flows into, or the enclosing function name says the value is a token, password, secret, nonce, salt, OTP, PIN, CSRF value, session id, key or reset code. crypto/rand, jitter, backoff, sampling and shuffling outside secret-named functions, and test code are not reported."
 order: 710
 sources: ["cli/internal/sast/rules/vnx-go-008.rego", "cli/internal/sast/docs/vnx-go-008.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

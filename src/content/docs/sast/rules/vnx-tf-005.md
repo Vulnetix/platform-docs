@@ -4,8 +4,8 @@ nav: "VNX-TF-005"
 description: "Detect EBS volumes in Terraform created without encryption at rest: encrypted = false on volumes, snapshot copies, instance block devices and launch templates, or an aws_ebs_volume that sets neither encrypted nor snapshot_id, unless the account enables EBS encryption by default."
 order: 985
 sources: ["cli/internal/sast/rules/vnx-tf-005.rego", "cli/internal/sast/docs/vnx-tf-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

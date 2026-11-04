@@ -4,8 +4,8 @@ nav: "VNX-SEC-027"
 description: "Detect Hugging Face user access tokens (hf_ followed by 34 to 40 letters or digits) hardcoded in code, notebooks and config, ignoring placeholders, hf_-prefixed CamelCase identifiers and test paths."
 order: 921
 sources: ["cli/internal/sast/rules/vnx-sec-027.rego", "cli/internal/sast/docs/vnx-sec-027.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

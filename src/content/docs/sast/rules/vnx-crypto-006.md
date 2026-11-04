@@ -4,8 +4,8 @@ nav: "VNX-CRYPTO-006"
 description: "Reports RSA key generation with a modulus below 2048 bits, given literally or through a constant in the same file, in Python (cryptography, PyCryptodome, python-rsa, pyOpenSSL), Go (rsa.GenerateKey), Java (RSA KeyPairGenerator.initialize, RSAKeyGenParameterSpec) and Node.js (generateKeyPair modulusLength, WebCrypto subtle.generateKey, node-forge, node-rsa). Sizes from configuration, EC/DSA/symmetric keys and test files are not reported."
 order: 680
 sources: ["cli/internal/sast/rules/vnx-crypto-006.rego", "cli/internal/sast/docs/vnx-crypto-006.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

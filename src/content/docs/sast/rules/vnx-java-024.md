@@ -4,8 +4,8 @@ nav: "VNX-JAVA-024"
 description: "Detects DocumentBuilderFactory, SAXParserFactory, dom4j SAXReader, JDOM SAXBuilder and XMLInputFactory instances that never disable DOCTYPE declarations (or enable secure processing, or turn off SUPPORT_DTD), leaving the application open to XML entity expansion denial-of-service attacks."
 order: 772
 sources: ["cli/internal/sast/rules/vnx-java-024.rego", "cli/internal/sast/docs/vnx-java-024.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

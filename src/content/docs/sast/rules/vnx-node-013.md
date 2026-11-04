@@ -4,8 +4,8 @@ nav: "VNX-NODE-013"
 description: "Reports a shell command built from req.query/body/params/headers or Koa ctx and run through child_process exec/execSync (by module alias, destructured import or promisify wrapper), spawn/execFile with shell: true or sh -c, shelljs exec or execa's command API. Argument arrays without a shell and escaped values are not reported."
 order: 809
 sources: ["cli/internal/sast/rules/vnx-node-013.rego", "cli/internal/sast/docs/vnx-node-013.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-RUST-005"
 description: "Reports panic!(), and .unwrap()/.expect() on a fallible I/O, parse, decode, database or await result, in the body of the function that directly encloses them when it returns Result (including io::Result, anyhow::Result and crate aliases); lock().unwrap(), literal parses, other return types and test code are not reported."
 order: 891
 sources: ["cli/internal/sast/rules/vnx-rust-005.rego", "cli/internal/sast/docs/vnx-rust-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

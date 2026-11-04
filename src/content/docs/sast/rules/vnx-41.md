@@ -4,8 +4,8 @@ nav: "VNX-41"
 description: "A directory-containment check (startsWith, startswith, is_relative_to, strings.HasPrefix) is made on a path that was never canonicalised, so an equivalent spelling such as base/../etc/passwd passes it."
 order: 102
 sources: ["cli/internal/sast/rules/vnx-41.rego", "cli/internal/sast/docs/vnx-41.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

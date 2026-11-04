@@ -4,8 +4,8 @@ nav: "VNX-PHP-026"
 description: "Reports session writes whose key comes from the request: $_SESSION[$_GET[...]] = ..., a variable or foreach key read from a superglobal or $request and then used as a $_SESSION key or a Session::put/session()->put/$session->set/set_userdata key, and whole request arrays merged into $_SESSION. Fixed or prefixed keys, nested keys under a fixed outer key, reads, and allowlist-checked keys are not reported."
 order: 854
 sources: ["cli/internal/sast/rules/vnx-php-026.rego", "cli/internal/sast/docs/vnx-php-026.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

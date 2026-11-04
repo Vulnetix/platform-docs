@@ -4,8 +4,8 @@ nav: "VNX-PY-012"
 description: "Detect request data (directly, through an assignment, a route parameter or a formatted string) used as the template source of render_template_string(), from_string() or a Jinja2, Mako, Django or Tornado Template(), which lets an attacker run template code on the server."
 order: 866
 sources: ["cli/internal/sast/rules/vnx-py-012.rego", "cli/internal/sast/docs/vnx-py-012.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-GO-036"
 description: "Detects Go code that uses ECB mode: NewECBEncrypter/NewECBDecrypter, or a cipher.Block encrypting successive slices in a loop with no chaining."
 order: 738
 sources: ["cli/internal/sast/rules/vnx-go-036.rego", "cli/internal/sast/docs/vnx-go-036.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

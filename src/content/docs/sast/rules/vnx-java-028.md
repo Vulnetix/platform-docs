@@ -4,8 +4,8 @@ nav: "VNX-JAVA-028"
 description: "Detects JDBC Statement/Connection, Spring JdbcTemplate and Android SQLiteDatabase calls whose SQL is assembled in a StringBuilder or StringBuffer with an append() of a non-constant value. SQL concatenated or formatted into a String is reported by VNX-JAVA-003."
 order: 776
 sources: ["cli/internal/sast/rules/vnx-java-028.rego", "cli/internal/sast/docs/vnx-java-028.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

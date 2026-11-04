@@ -4,8 +4,8 @@ nav: "VNX-15"
 description: "A value read from an HTTP request is written into a process-wide setting: an environment variable, the module search path, runtime configuration (viper, ini_set, System.setProperty) or a JDBC connection's catalog."
 order: 100
 sources: ["cli/internal/sast/rules/vnx-15.rego", "cli/internal/sast/docs/vnx-15.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

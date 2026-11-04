@@ -4,8 +4,8 @@ nav: "VNX-NODE-024"
 description: "Reports window 'message' handlers (inline or a named function in the same file) that never read event.origin or event.source, and postMessage(data, '*') to another window. Not reported: worker, WebSocket and port listeners, posts to the page's own window, explicit target origins, comments and strings."
 order: 820
 sources: ["cli/internal/sast/rules/vnx-node-024.rego", "cli/internal/sast/docs/vnx-node-024.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

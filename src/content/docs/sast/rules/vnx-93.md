@@ -4,8 +4,8 @@ nav: "VNX-93"
 description: "HTTP request data placed into a CRLF-delimited mail header or protocol line (SMTP commands, raw headers, PHP mail() headers, email.mime headers) without removing CR/LF."
 order: 108
 sources: ["cli/internal/sast/rules/vnx-93.rego", "cli/internal/sast/docs/vnx-93.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

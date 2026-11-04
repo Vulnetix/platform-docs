@@ -4,8 +4,8 @@ nav: "VNX-JAVA-022"
 description: "Detects File.createTempFile() in the shared temp directory (created with umask permissions, often world-readable) and fixed or user-derived file names under /tmp or java.io.tmpdir, which are open to symlink and pre-creation attacks."
 order: 770
 sources: ["cli/internal/sast/rules/vnx-java-022.rego", "cli/internal/sast/docs/vnx-java-022.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

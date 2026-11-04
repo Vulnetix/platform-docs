@@ -4,8 +4,8 @@ nav: "Rules index"
 description: "Every built-in Rego rule the Vulnetix CLI ships, filterable by language, severity, kind and CWE."
 order: 1
 sources: ["cli/internal/sast/rules/", "cli/internal/sast/language_filter.go", "cli/internal/sast/kinds.go"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

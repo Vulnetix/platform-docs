@@ -4,8 +4,8 @@ nav: "VNX-PY-022"
 description: "Reports SQL assembled by joining a list of pieces, one of them built from a variable, and passed to execute(), executemany(), executescript(), Django objects.raw() or pandas read_sql(). SQL built in one expression is reported by VNX-PY-011."
 order: 876
 sources: ["cli/internal/sast/rules/vnx-py-022.rego", "cli/internal/sast/docs/vnx-py-022.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

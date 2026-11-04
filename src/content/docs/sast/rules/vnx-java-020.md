@@ -4,8 +4,8 @@ nav: "VNX-JAVA-020"
 description: "Detects fixed initialization vectors and GCM nonces in Java: IvParameterSpec and GCMParameterSpec built from a literal, a constant byte array or string, or a zero-filled buffer that is never randomised. Reusing the same IV with the same key undermines the security of CBC, CTR, and GCM modes."
 order: 768
 sources: ["cli/internal/sast/rules/vnx-java-020.rego", "cli/internal/sast/docs/vnx-java-020.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

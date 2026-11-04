@@ -4,8 +4,8 @@ nav: "VNX-ANDROID-006"
 description: "Detects a <string> resource in an Android res/values*/ file whose name marks it as a credential (api key, secret, token, password, private or signing key) and whose value is a credential-shaped literal, not UI text, a placeholder, a reference or a public Firebase/Facebook client id."
 order: 660
 sources: ["cli/internal/sast/rules/vnx-android-006.rego", "cli/internal/sast/docs/vnx-android-006.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

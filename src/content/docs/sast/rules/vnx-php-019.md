@@ -4,8 +4,8 @@ nav: "VNX-PHP-019"
 description: "Detects openssl_encrypt()/openssl_decrypt() with an AES/ARIA/Camellia CBC method (literal, variable, class constant or define()) and mcrypt CBC calls in files that compute no MAC (hash_hmac(), HASH_HMAC, sodium_crypto_auth()), leaving ciphertext open to bit flipping and padding oracles."
 order: 847
 sources: ["cli/internal/sast/rules/vnx-php-019.rego", "cli/internal/sast/docs/vnx-php-019.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

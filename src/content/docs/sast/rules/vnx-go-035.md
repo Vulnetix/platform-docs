@@ -4,8 +4,8 @@ nav: "VNX-GO-035"
 description: "Detects Go cookies sent to the browser without HttpOnly (http.Cookie, fiber.Cookie, gorilla sessions Options, gin SetCookie, default cookie stores), excluding deletion, CSRF double-submit and client-side cookies."
 order: 737
 sources: ["cli/internal/sast/rules/vnx-go-035.rego", "cli/internal/sast/docs/vnx-go-035.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

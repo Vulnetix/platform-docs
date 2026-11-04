@@ -4,8 +4,8 @@ nav: "VNX-PHP-008"
 description: "Detect calls to phpinfo() in production PHP code, which disclose the PHP build, configuration, file paths, environment variables and request headers."
 order: 836
 sources: ["cli/internal/sast/rules/vnx-php-008.rego", "cli/internal/sast/docs/vnx-php-008.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

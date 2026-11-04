@@ -4,8 +4,8 @@ nav: "VNX-PY-010"
 description: "Detect TLS certificate verification turned off in requests or httpx: verify=False on a request call or on an httpx Client, AsyncClient or HTTPTransport (multi-line calls too), and session.verify = False, outside tests, strings, docstrings and comments."
 order: 864
 sources: ["cli/internal/sast/rules/vnx-py-010.rego", "cli/internal/sast/docs/vnx-py-010.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

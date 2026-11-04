@@ -4,8 +4,8 @@ nav: "VNX-PY-002"
 description: "Detect eval() and exec() (and Pillow ImageMath.eval) called on a non-constant argument, which executes arbitrary code when any part of it is user-controlled."
 order: 856
 sources: ["cli/internal/sast/rules/vnx-py-002.rego", "cli/internal/sast/docs/vnx-py-002.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-GO-030"
 description: "Detects a cookie sent to the browser without Secure: an http.Cookie, fiber.Cookie or gorilla sessions.Options literal with Secure absent or false, gin SetCookie with secure=false, a hand-written Set-Cookie header without Secure, csrf.Secure(false), or a gorilla cookie store whose Options are never set."
 order: 732
 sources: ["cli/internal/sast/rules/vnx-go-030.rego", "cli/internal/sast/docs/vnx-go-030.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

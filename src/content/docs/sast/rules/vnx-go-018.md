@@ -4,8 +4,8 @@ nav: "VNX-GO-018"
 description: "Detects files created, written, renamed or linked (os.Create, os.WriteFile, os.OpenFile with a write flag, os.MkdirAll, os.Rename, gin SaveUploadedFile) at a path built from HTTP request data or a multipart filename, with no filepath.Base, IsLocal, prefix check on the cleaned path or os.Root confining it. Read-only opens and server-chosen names are not reported."
 order: 720
 sources: ["cli/internal/sast/rules/vnx-go-018.rego", "cli/internal/sast/docs/vnx-go-018.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

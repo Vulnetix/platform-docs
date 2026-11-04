@@ -4,8 +4,8 @@ nav: "VNX-SEC-041"
 description: "Reports Atlassian Cloud API tokens (ATATT3 prefix, and legacy 24-character tokens assigned to Jira/Confluence/Atlassian token fields) written into files."
 order: 935
 sources: ["cli/internal/sast/rules/vnx-sec-041.rego", "cli/internal/sast/docs/vnx-sec-041.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

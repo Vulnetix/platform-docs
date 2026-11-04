@@ -4,8 +4,8 @@ nav: "VNX-NODE-018"
 description: "Reports jsonwebtoken decode() in a file that never calls verify(), and a jsonwebtoken algorithms list containing 'none'. Not reported: decode-then-verify, a token the server issued itself, the browser jwt-decode package, jwt-simple, tests and comments."
 order: 814
 sources: ["cli/internal/sast/rules/vnx-node-018.rego", "cli/internal/sast/docs/vnx-node-018.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

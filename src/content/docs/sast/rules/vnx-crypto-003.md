@@ -4,8 +4,8 @@ nav: "VNX-CRYPTO-003"
 description: "Reports block ciphers set up in ECB mode in Python, Node.js, Go, Java, Ruby and PHP: MODE_ECB, modes.ECB(), '*-ecb' cipher names, Java '*/ECB/*' or bare \"AES\", \"DES\", \"DESede\" or \"Blowfish\" transformations (literal, variable or getProperty default), NewECBEncrypter and hand-written per-block Encrypt loops. Other modes, RSA/ECB/* and AES key-wrap transformations, guards against ECB, single-block operations, overridden property defaults, comments and test vectors are not reported."
 order: 677
 sources: ["cli/internal/sast/rules/vnx-crypto-003.rego", "cli/internal/sast/docs/vnx-crypto-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

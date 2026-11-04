@@ -4,8 +4,8 @@ nav: "VNX-SEC-012"
 description: "Detects a server that answers cross-origin requests from any website: Access-Control-Allow-Origin echoing the request Origin without an allowlist check, set to *, or CORS middleware configured for every origin."
 order: 906
 sources: ["cli/internal/sast/rules/vnx-sec-012.rego", "cli/internal/sast/docs/vnx-sec-012.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-PY-020"
 description: "Detect Python code that extracts a tar archive (TarFile.extractall()/extract()) with no filter= (or filter='fully_trusted'), no filtering members= and no member path check above it. filter='data', a validating members function, a global extraction_filter and zipfile extraction are not reported."
 order: 874
 sources: ["cli/internal/sast/rules/vnx-py-020.rego", "cli/internal/sast/docs/vnx-py-020.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

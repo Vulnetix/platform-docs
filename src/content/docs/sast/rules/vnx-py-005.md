@@ -4,8 +4,8 @@ nav: "VNX-PY-005"
 description: "Detect values from Python's random module assigned to, passed as or returned from security-named values (passwords, tokens, nonces, salts, OTPs, session ids), where the secrets module is required."
 order: 859
 sources: ["cli/internal/sast/rules/vnx-py-005.rego", "cli/internal/sast/docs/vnx-py-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

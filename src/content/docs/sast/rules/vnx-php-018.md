@@ -4,8 +4,8 @@ nav: "VNX-PHP-018"
 description: "Detects var_dump(), print_r(), var_export(), debug_zval_dump(), dump() or dd() writing a whole $_SESSION, $_SERVER, $_ENV, $_COOKIE, $GLOBALS or getenv() to the response, including echoed return-mode print_r()/var_export() (also through a variable echoed later); single elements, logging and tests are not reported."
 order: 846
 sources: ["cli/internal/sast/rules/vnx-php-018.rego", "cli/internal/sast/docs/vnx-php-018.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

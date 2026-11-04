@@ -4,8 +4,8 @@ nav: "VNX-RUST-008"
 description: "Reports an axum or actix-web request value (Path/Query/Json/Form extractor, web::Path, match_info) that reaches .join, Path::new, File::open, std/tokio fs calls or NamedFile::open in the same handler; canonicalize+starts_with, '..' rejection, file_name() and integer extractors are not reported."
 order: 894
 sources: ["cli/internal/sast/rules/vnx-rust-008.rego", "cli/internal/sast/docs/vnx-rust-008.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

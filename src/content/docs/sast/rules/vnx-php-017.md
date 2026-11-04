@@ -4,8 +4,8 @@ nav: "VNX-PHP-017"
 description: "Detects ldap_search(), ldap_list() or ldap_read() receiving a request value (superglobal or Laravel/Symfony request accessor, inline or through a variable assigned a few lines above) in its filter or base DN without ldap_escape() or validation."
 order: 845
 sources: ["cli/internal/sast/rules/vnx-php-017.rego", "cli/internal/sast/docs/vnx-php-017.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

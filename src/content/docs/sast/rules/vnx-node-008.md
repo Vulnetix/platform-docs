@@ -4,8 +4,8 @@ nav: "VNX-NODE-008"
 description: "Reports redirects (res.redirect, ctx.redirect, reply.redirect, NextResponse.redirect, res.location, Location headers, window.location) whose target starts with request-controlled data and is not validated."
 order: 804
 sources: ["cli/internal/sast/rules/vnx-node-008.rego", "cli/internal/sast/docs/vnx-node-008.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-GO-034"
 description: "Detects Go OAuth flows that redirect to, or configure, a redirect_uri taken from the request without comparing it against the client's registered redirect URIs."
 order: 736
 sources: ["cli/internal/sast/rules/vnx-go-034.rego", "cli/internal/sast/docs/vnx-go-034.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

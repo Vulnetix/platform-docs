@@ -4,8 +4,8 @@ nav: "VNX-GO-024"
 description: "Detects an HTTP request parameter reaching a command, SQL query text, file path, outbound request, redirect or raw response in the same function, inline or through one or two assignments, with no conversion, escaping, allowlist or validation on the way. Bind arguments and values only logged or compared are not reported."
 order: 726
 sources: ["cli/internal/sast/rules/vnx-go-024.rego", "cli/internal/sast/docs/vnx-go-024.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-SWIFT-003"
 description: "Detects a password, token, secret, API key, PIN or other credential written to UserDefaults/NSUserDefaults (set, setValue, setObject) or kept in a SwiftUI @AppStorage property, both of which store an unencrypted plist."
 order: 977
 sources: ["cli/internal/sast/rules/vnx-swift-003.rego", "cli/internal/sast/docs/vnx-swift-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

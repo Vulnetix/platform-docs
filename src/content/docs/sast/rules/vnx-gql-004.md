@@ -4,8 +4,8 @@ nav: "VNX-GQL-004"
 description: "Reports JavaScript/TypeScript GraphQL servers (Apollo Server, graphql-yoga, NestJS GraphQLModule, express-graphql, Mercurius) in a project that nowhere suppresses graphql-js 'Did you mean' field suggestions."
 order: 747
 sources: ["cli/internal/sast/rules/vnx-gql-004.rego", "cli/internal/sast/docs/vnx-gql-004.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

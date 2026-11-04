@@ -4,8 +4,8 @@ nav: "VNX-GQL-003"
 description: "Reports GraphQL operation documents (JavaScript/TypeScript and Python) built by interpolating or concatenating request data, directly or through a variable assigned from the request, instead of passing it in the variables map."
 order: 746
 sources: ["cli/internal/sast/rules/vnx-gql-003.rego", "cli/internal/sast/docs/vnx-gql-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

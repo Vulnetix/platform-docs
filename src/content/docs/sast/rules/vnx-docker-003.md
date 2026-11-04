@@ -4,8 +4,8 @@ nav: "VNX-DOCKER-003"
 description: "Reports credential-named Dockerfile ARG and ENV instructions: ENV with a literal secret, a literal fallback or one copied from a declared build arg, any credential ARG, and a password embedded in an ENV/ARG URL."
 order: 697
 sources: ["cli/internal/sast/rules/vnx-docker-003.rego", "cli/internal/sast/docs/vnx-docker-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

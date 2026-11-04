@@ -4,8 +4,8 @@ nav: "VNX-SWIFT-004"
 description: "Detects Swift code that accepts a server certificate without validating it: URLCredential(trust:) built without evaluating or pinning the trust, Alamofire DisabledTrustEvaluator/.disableEvaluation, kCFStreamSSLValidatesCertificateChain false, setAllowsAnyHTTPSCertificate, Starscream disableSSLCertValidation/allowSelfSigned, and a Network.framework verify block that always completes true."
 order: 978
 sources: ["cli/internal/sast/rules/vnx-swift-004.rego", "cli/internal/sast/docs/vnx-swift-004.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

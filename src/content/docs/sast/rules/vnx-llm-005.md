@@ -4,8 +4,8 @@ nav: "VNX-LLM-005"
 description: "Reports LangChain code and shell execution capabilities given to an agent (PythonREPLTool, PythonAstREPLTool, ShellTool, BashProcess, create_python_agent, LLMMathChain, PALChain, load_tools python_repl/terminal, allow_dangerous_code=True)."
 order: 794
 sources: ["cli/internal/sast/rules/vnx-llm-005.rego", "cli/internal/sast/docs/vnx-llm-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

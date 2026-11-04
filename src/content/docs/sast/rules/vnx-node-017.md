@@ -4,8 +4,8 @@ nav: "VNX-NODE-017"
 description: "Reports node-serialize unserialize() and serialize-to-js deserialize() called with a non-constant value; both evaluate JavaScript embedded in the payload. Not reported: serialize(), constant arguments, other libraries' deserialize(), comments and strings."
 order: 813
 sources: ["cli/internal/sast/rules/vnx-node-017.rego", "cli/internal/sast/docs/vnx-node-017.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

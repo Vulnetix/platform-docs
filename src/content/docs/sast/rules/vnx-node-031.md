@@ -4,8 +4,8 @@ nav: "VNX-NODE-031"
 description: "Reports console, logger (winston, pino, bunyan) and debug-package calls that pass a variable or property named as a password, secret, token, API key, credential, authorization header, CVV, SSN or card number; words in the message text alone are not reported."
 order: 827
 sources: ["cli/internal/sast/rules/vnx-node-031.rego", "cli/internal/sast/docs/vnx-node-031.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

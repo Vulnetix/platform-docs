@@ -4,8 +4,8 @@ nav: "VNX-SEC-049"
 description: "Reports a complete Anthropic Admin API key (sk-ant-admin01-, a 93-character body and the AA terminator) in any file; prefixes, truncated keys, placeholders and test paths are not reported."
 order: 943
 sources: ["cli/internal/sast/rules/vnx-sec-049.rego", "cli/internal/sast/docs/vnx-sec-049.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

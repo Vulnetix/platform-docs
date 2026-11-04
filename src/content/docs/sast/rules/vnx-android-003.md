@@ -4,8 +4,8 @@ nav: "VNX-ANDROID-003"
 description: "Detects an activity, activity-alias, service, receiver or provider in a production AndroidManifest.xml that is exported (android:exported=\"true\", or an intent-filter with no exported attribute) and requires no permission, excluding components that answer platform actions such as the launcher, deep links and system broadcasts."
 order: 657
 sources: ["cli/internal/sast/rules/vnx-android-003.rego", "cli/internal/sast/docs/vnx-android-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

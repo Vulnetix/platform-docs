@@ -4,8 +4,8 @@ nav: "VNX-GO-033"
 description: "Detects Go JWT verification (golang-jwt Parse/ParseWithClaims/NewParser, jwx Parse, go-jose ParseSigned) with no audience check in its arguments or its file, and go-oidc configs with SkipClientIDCheck: true."
 order: 735
 sources: ["cli/internal/sast/rules/vnx-go-033.rego", "cli/internal/sast/docs/vnx-go-033.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

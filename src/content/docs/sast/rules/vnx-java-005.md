@@ -4,8 +4,8 @@ nav: "VNX-JAVA-005"
 description: "Reports unfiltered ObjectInputStream.readObject(), XMLDecoder, XStream.fromXML() without a type allowlist, permissive Jackson default typing and SerializationUtils.deserialize(), which can run gadget chains on attacker-controlled bytes."
 order: 753
 sources: ["cli/internal/sast/rules/vnx-java-005.rego", "cli/internal/sast/docs/vnx-java-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

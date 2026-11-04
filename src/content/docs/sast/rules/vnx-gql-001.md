@@ -4,8 +4,8 @@ nav: "VNX-GQL-001"
 description: "Reports GraphQL servers that hard-code introspection, GraphiQL or Playground on (introspection: true, graphiql: true, playground: true in JavaScript/TypeScript; graphiql=True or introspection=True in Python GraphQL views), exposing the full schema."
 order: 744
 sources: ["cli/internal/sast/rules/vnx-gql-001.rego", "cli/internal/sast/docs/vnx-gql-001.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

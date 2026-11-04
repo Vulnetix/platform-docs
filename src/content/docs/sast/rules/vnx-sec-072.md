@@ -4,8 +4,8 @@ nav: "VNX-SEC-072"
 description: "Detects high-entropy literals (20+ characters, letters and digits) assigned to a name that ends in a credential word such as api_key, secret, token or password."
 order: 966
 sources: ["cli/internal/sast/rules/vnx-sec-072.rego", "cli/internal/sast/docs/vnx-sec-072.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

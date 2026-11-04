@@ -4,8 +4,8 @@ nav: "VNX-NODE-014"
 description: "Reports a MongoDB query filter (find, findOne, update*, delete*, count, aggregate...) taken from req.query/body or Koa ctx, as the whole filter or as a member value, or a $where clause built from any request value. Cast or $eq-wrapped values, sanitised input, findById and SQL ORM where: filters are not reported."
 order: 810
 sources: ["cli/internal/sast/rules/vnx-node-014.rego", "cli/internal/sast/docs/vnx-node-014.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

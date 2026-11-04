@@ -4,8 +4,8 @@ nav: "VNX-RUST-007"
 description: "Reports +, -, * and << on an integer just parsed or decoded from runtime data (parse::<T>(), from_str_radix, from_be_bytes, read_u32); checked/saturating/wrapping calls, values bounded by a comparison or min/clamp, and values that were not decoded are not reported."
 order: 893
 sources: ["cli/internal/sast/rules/vnx-rust-007.rego", "cli/internal/sast/docs/vnx-rust-007.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

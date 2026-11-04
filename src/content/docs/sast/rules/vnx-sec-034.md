@@ -4,8 +4,8 @@ nav: "VNX-SEC-034"
 description: "Reports an Alibaba Cloud RAM AccessKey ID: a standalone token of LTAI followed by 12 or 20 letters and digits (the 16- and 24-character ID formats), in either case. A token made of letters only in a single case, placeholder values and test or fixture paths are not reported; the AccessKey secret is covered by VNX-SEC-161 and STS keys by VNX-SEC-145."
 order: 928
 sources: ["cli/internal/sast/rules/vnx-sec-034.rego", "cli/internal/sast/docs/vnx-sec-034.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

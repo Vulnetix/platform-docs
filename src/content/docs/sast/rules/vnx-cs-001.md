@@ -4,8 +4,8 @@ nav: "VNX-CS-001"
 description: "Detects C# SQL statements whose text is built from non-constant values (concatenation, interpolation, string.Format, StringBuilder) and executed through ADO.NET commands and data adapters, CommandText, EF Core raw SQL, Dapper, LINQ to SQL or NHibernate."
 order: 685
 sources: ["cli/internal/sast/rules/vnx-cs-001.rego", "cli/internal/sast/docs/vnx-cs-001.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

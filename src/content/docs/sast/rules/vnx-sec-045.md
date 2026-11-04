@@ -4,8 +4,8 @@ nav: "VNX-SEC-045"
 description: "Reports Discord bot tokens whose first segment is the base64 of a numeric Discord snowflake id, written into files."
 order: 939
 sources: ["cli/internal/sast/rules/vnx-sec-045.rego", "cli/internal/sast/docs/vnx-sec-045.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

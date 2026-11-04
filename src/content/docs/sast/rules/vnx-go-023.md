@@ -4,8 +4,8 @@ nav: "VNX-GO-023"
 description: "Detects SQL text where a value is concatenated in a literal position (after a quote or a comparison) and the statement is run by a database call or is a complete statement; other positions only when the value is request data. Bind-parameter numbers, converted or quoted values and self-built fragments are not reported."
 order: 725
 sources: ["cli/internal/sast/rules/vnx-go-023.rego", "cli/internal/sast/docs/vnx-go-023.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

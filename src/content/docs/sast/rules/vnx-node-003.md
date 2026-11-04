@@ -4,8 +4,8 @@ nav: "VNX-NODE-003"
 description: "Reports child_process exec()/execSync() called with a command built by template-literal interpolation or concatenation, or a variable assigned such a string or a request value nearby."
 order: 799
 sources: ["cli/internal/sast/rules/vnx-node-003.rego", "cli/internal/sast/docs/vnx-node-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

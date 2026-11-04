@@ -4,8 +4,8 @@ nav: "VNX-SEC-051"
 description: "Reports a RubyGems.org API key (rubygems_ + exactly 48 hex characters) in any file; bare prefixes, longer identifiers, placeholders and CI secret references are not reported."
 order: 945
 sources: ["cli/internal/sast/rules/vnx-sec-051.rego", "cli/internal/sast/docs/vnx-sec-051.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

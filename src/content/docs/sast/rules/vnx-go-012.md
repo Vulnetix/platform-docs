@@ -4,8 +4,8 @@ nav: "VNX-GO-012"
 description: "Detect Go code that writes a query, form or route parameter into an HTTP response header (net/http, gin, echo, fiber, fasthttp), inline or through a variable, without neutralising or constraining it."
 order: 714
 sources: ["cli/internal/sast/rules/vnx-go-012.rego", "cli/internal/sast/docs/vnx-go-012.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

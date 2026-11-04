@@ -4,8 +4,8 @@ nav: "VNX-JAVA-009"
 description: "Reports Java file and path APIs (new File, FileInputStream/FileOutputStream, FileReader/FileWriter, Paths.get, Path.of, Path.resolve, Files.*, FileSystemResource) whose path argument carries servlet request data, an upload file name or an annotated Spring/JAX-RS handler parameter, directly or through up to five local assignments, unless the path is checked for containment or reduced to a bare file name."
 order: 757
 sources: ["cli/internal/sast/rules/vnx-java-009.rego", "cli/internal/sast/docs/vnx-java-009.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

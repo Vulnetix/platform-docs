@@ -4,8 +4,8 @@ nav: "VNX-PHP-021"
 description: "Detects a $guarded = [] property declaration and Model::unguard() without reguard() in Laravel application code; seeders, factories, migrations, pivot models, framework/vendor models and tests are not reported."
 order: 849
 sources: ["cli/internal/sast/rules/vnx-php-021.rego", "cli/internal/sast/docs/vnx-php-021.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

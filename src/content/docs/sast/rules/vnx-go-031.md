@@ -4,8 +4,8 @@ nav: "VNX-GO-031"
 description: "Detects JWT claims used without signature verification in Go: alg none accepted via UnsafeAllowNoneSignatureType, jwx WithVerify(false), ParseUnverified/ParseInsecure/UnsafeClaimsWithoutVerification/jwx jws.Parse in request handlers with no later verification, and parse errors that are discarded without a token.Valid check."
 order: 733
 sources: ["cli/internal/sast/rules/vnx-go-031.rego", "cli/internal/sast/docs/vnx-go-031.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

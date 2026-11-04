@@ -4,8 +4,8 @@ nav: "VNX-JAVA-008"
 description: "Reports Java outbound requests (URL, RestTemplate, WebClient, HttpClient, OkHttp, Jsoup, Socket) whose URL or host is a request value or a variable assigned from one, unless a fixed host prefixes it or a guard checks it."
 order: 756
 sources: ["cli/internal/sast/rules/vnx-java-008.rego", "cli/internal/sast/docs/vnx-java-008.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

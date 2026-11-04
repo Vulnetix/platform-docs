@@ -4,8 +4,8 @@ nav: "VNX-KOTLIN-002"
 description: "Detects RSA, DSA and Diffie-Hellman key pairs and DSA/DH domain parameters generated with fewer than 2048 bits in Kotlin: KeyPairGenerator.initialize(), AlgorithmParameterGenerator.init(), RSAKeyGenParameterSpec, Android keystore setKeySize() and Bouncy Castle RSAKeyGenerationParameters."
 order: 786
 sources: ["cli/internal/sast/rules/vnx-kotlin-002.rego", "cli/internal/sast/docs/vnx-kotlin-002.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 
@@ -37,7 +37,7 @@ Undersized RSA keys affect every operation that uses the key pair: TLS certifica
 
 The academic and practical threat to sub-2048-bit RSA keys is well documented. The Number Field Sieve algorithm has been continuously improved, and cloud computing has dramatically reduced the cost of the required computation. A 1024-bit RSA modulus is now estimated to require roughly the computational equivalent of a few months of a medium-sized cloud deployment to factor, well within the budget of a nation-state adversary or serious criminal organisation.
 
-From an attacker's perspective, factoring a weak key is a one-time investment that pays dividends indefinitely: all past communications encrypted with the key can be decrypted retroactively if captured, and all future signatures can be forged. Passive collection of encrypted traffic against targets with weak RSA keys, common in embedded systems, IoT devices, and legacy Android applications, is a documented intelligence-gathering technique.
+Factoring a weak key is a one-time cost for an attacker, and the result never expires: all past communications encrypted with the key can be decrypted retroactively if captured, and all future signatures can be forged. Passive collection of encrypted traffic against targets with weak RSA keys, common in embedded systems, IoT devices, and legacy Android applications, is a documented intelligence-gathering technique.
 
 Android applications and embedded Kotlin services are particularly at risk because developers sometimes choose smaller key sizes for performance on constrained hardware, not realising that modern hardware can handle 2048-bit RSA without meaningful overhead in most use cases.
 

@@ -4,8 +4,8 @@ nav: "VNX-NODE-027"
 description: "Reports innerHTML/outerHTML assignments (= or +=) in JavaScript, TypeScript and inline page scripts whose value is not a constant and is not passed through DOMPurify or an escape/sanitize helper."
 order: 823
 sources: ["cli/internal/sast/rules/vnx-node-027.rego", "cli/internal/sast/docs/vnx-node-027.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

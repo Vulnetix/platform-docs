@@ -4,8 +4,8 @@ nav: "VNX-LLM-003"
 description: "Reports Anthropic, OpenAI and Groq API keys by their prefixes, and high-entropy literals assigned to LLM-provider key variables or passed to provider clients; placeholders and environment lookups are ignored."
 order: 792
 sources: ["cli/internal/sast/rules/vnx-llm-003.rego", "cli/internal/sast/docs/vnx-llm-003.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

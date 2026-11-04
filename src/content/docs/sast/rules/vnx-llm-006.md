@@ -4,8 +4,8 @@ nav: "VNX-LLM-006"
 description: "Reports LLM response text, read directly or through up to two assignments, executed as SQL or interpolated into a query at execute(), text(), raw(), read_sql() or SQLDatabase.run()."
 order: 795
 sources: ["cli/internal/sast/rules/vnx-llm-006.rego", "cli/internal/sast/docs/vnx-llm-006.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

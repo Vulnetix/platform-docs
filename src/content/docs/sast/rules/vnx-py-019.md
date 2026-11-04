@@ -4,8 +4,8 @@ nav: "VNX-PY-019"
 description: "Detect Python code that passes paramiko AutoAddPolicy or WarningPolicy to set_missing_host_key_policy() (directly or through a variable), or defines a MissingHostKeyPolicy whose missing_host_key() accepts every key. RejectPolicy, imports and isinstance checks are not reported."
 order: 873
 sources: ["cli/internal/sast/rules/vnx-py-019.rego", "cli/internal/sast/docs/vnx-py-019.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-SEC-069"
 description: "Detects age identities (AGE-SECRET-KEY-1 or the post-quantum AGE-SECRET-KEY-PQ-1, followed by 58 Bech32 characters) in any file."
 order: 963
 sources: ["cli/internal/sast/rules/vnx-sec-069.rego", "cli/internal/sast/docs/vnx-sec-069.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

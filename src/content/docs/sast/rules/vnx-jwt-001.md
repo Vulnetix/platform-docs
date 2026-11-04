@@ -4,8 +4,8 @@ nav: "VNX-JWT-001"
 description: "A JWT is accepted without its signature being checked: verify_signature False or verify=False (Python), jsonwebtoken decode() of a request token in a file that never verifies, jwt-simple noVerify, golang-jwt ParseUnverified alone, jjwt parse() after setSigningKey, Auth0 JWT.decode() alone, ruby-jwt JWT.decode(t, k, false), and .NET RequireSignedTokens = false or a pass-through SignatureValidator."
 order: 779
 sources: ["cli/internal/sast/rules/vnx-jwt-001.rego", "cli/internal/sast/docs/vnx-jwt-001.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

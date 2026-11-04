@@ -4,8 +4,8 @@ nav: "VNX-JAVA-004"
 description: "Reports Java XML parser factories (DOM, SAX, StAX, dom4j, JDOM, and Transformer/Schema factories that load sources) created without disabling DTDs or external entities, and settings that re-enable them."
 order: 752
 sources: ["cli/internal/sast/rules/vnx-java-004.rego", "cli/internal/sast/docs/vnx-java-004.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

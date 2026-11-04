@@ -4,8 +4,8 @@ nav: "VNX-59"
 description: "A fixed file name in a shared temporary directory is written or chmod'ed without O_EXCL/O_NOFOLLOW, a path is checked with access()/lstat() and then opened by name, or os.Readlink is given a request or command-line path."
 order: 103
 sources: ["cli/internal/sast/rules/vnx-59.rego", "cli/internal/sast/docs/vnx-59.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

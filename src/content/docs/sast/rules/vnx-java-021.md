@@ -4,8 +4,8 @@ nav: "VNX-JAVA-021"
 description: "Detects SLF4J, Log4j, java.util.logging and android.util.Log calls whose arguments pass a password, token, secret, API key or credential value, or a request parameter or header read by such a name (not just the word in the message text), exposing it in log files and monitoring systems."
 order: 769
 sources: ["cli/internal/sast/rules/vnx-java-021.rego", "cli/internal/sast/docs/vnx-java-021.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

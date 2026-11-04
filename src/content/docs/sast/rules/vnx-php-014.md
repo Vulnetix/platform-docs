@@ -4,8 +4,8 @@ nav: "VNX-PHP-014"
 description: "Detects session IDs a client can choose: session_id() given a $_GET/$_POST/$_REQUEST/$_COOKIE value (directly or via a variable read from one), a Laravel/Symfony session ->setId() given request input, and ini_set() enabling session.use_trans_sid or disabling session.use_only_cookies or session.use_strict_mode. A getter call or a generated ID is not reported."
 order: 842
 sources: ["cli/internal/sast/rules/vnx-php-014.rego", "cli/internal/sast/docs/vnx-php-014.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

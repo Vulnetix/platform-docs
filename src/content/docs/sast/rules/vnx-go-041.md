@@ -4,8 +4,8 @@ nav: "VNX-GO-041"
 description: "Detect Go TLS configuration that sets MinVersion or MaxVersion (or an options field such as TLSMinVersion) to SSL 3.0, TLS 1.0 or TLS 1.1 (by constant, raw protocol number, a local variable or a package-level constant holding one, a Traefik-style string option or an Envoy TlsParameters enum), enabling negotiation of deprecated protocol versions."
 order: 743
 sources: ["cli/internal/sast/rules/vnx-go-041.rego", "cli/internal/sast/docs/vnx-go-041.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

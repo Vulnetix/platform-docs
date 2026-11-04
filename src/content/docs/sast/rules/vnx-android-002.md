@@ -4,8 +4,8 @@ nav: "VNX-ANDROID-002"
 description: "Detects a JavaScript-enabled Android WebView (Java/Kotlin) that loads a URL or HTML from an Intent, deep link, Fragment arguments, external storage or a cleartext http:// address, an evaluateJavascript call built from such a value, a JavaScript bridge added in such a file, and file:// pages given universal or file access."
 order: 656
 sources: ["cli/internal/sast/rules/vnx-android-002.rego", "cli/internal/sast/docs/vnx-android-002.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

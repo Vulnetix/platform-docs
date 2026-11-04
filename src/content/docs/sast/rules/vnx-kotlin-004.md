@@ -4,8 +4,8 @@ nav: "VNX-KOTLIN-004"
 description: "Detects Kotlin plain TCP sockets (java.net.Socket, ServerSocket, NIO channels, SocketFactory.getDefault(), Ktor raw sockets) opened to or listening on a non-loopback address in a file that never applies TLS."
 order: 788
 sources: ["cli/internal/sast/rules/vnx-kotlin-004.rego", "cli/internal/sast/docs/vnx-kotlin-004.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

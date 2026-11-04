@@ -4,8 +4,8 @@ nav: "Payment Processors"
 description: "Stripe, PayPal, Square, Braintree, Adyen and other payment-platform credentials."
 order: 5
 sources: ["cli/internal/sast/secretsgen/catalog.json", "cli/internal/sast/secretsgen/main.go"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

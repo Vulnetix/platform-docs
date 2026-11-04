@@ -4,8 +4,8 @@ nav: "VNX-LLM-002"
 description: "Reports LLM response text, read directly or through up to two assignments, passed to eval(), exec(), os.system(), subprocess, or JavaScript eval/new Function/vm/child_process exec, enabling code execution through prompt injection."
 order: 791
 sources: ["cli/internal/sast/rules/vnx-llm-002.rego", "cli/internal/sast/docs/vnx-llm-002.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

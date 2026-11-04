@@ -4,8 +4,8 @@ nav: "VNX-PHP-005"
 description: "Detect file_get_contents(), fopen(), copy(), image readers, curl_init(), CURLOPT_URL, get_headers(), fsockopen(), wp_remote_get(), Laravel Http and Guzzle client calls whose URL is decided by a request value, enabling SSRF."
 order: 833
 sources: ["cli/internal/sast/rules/vnx-php-005.rego", "cli/internal/sast/docs/vnx-php-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

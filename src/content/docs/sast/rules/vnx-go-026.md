@@ -4,8 +4,8 @@ nav: "VNX-GO-026"
 description: "Detects an uploaded multipart file saved to disk under the client's own file name (FileHeader.Filename) by a handler that never checks the file's extension or content type."
 order: 728
 sources: ["cli/internal/sast/rules/vnx-go-026.rego", "cli/internal/sast/docs/vnx-go-026.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

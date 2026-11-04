@@ -4,8 +4,8 @@ nav: "VNX-PHP-007"
 description: "Detect request data imported as local variables: extract() of superglobals or request data, parse_str()/mb_parse_str() without a result array, $$key or $GLOBALS[$key] assignment in a foreach over a superglobal, and import_request_variables()."
 order: 835
 sources: ["cli/internal/sast/rules/vnx-php-007.rego", "cli/internal/sast/docs/vnx-php-007.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

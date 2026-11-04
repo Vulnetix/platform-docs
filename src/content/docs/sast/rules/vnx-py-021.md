@@ -4,8 +4,8 @@ nav: "VNX-PY-021"
 description: "Detect Python code that selects or allows SSLv2, SSLv3, TLS 1.0 or TLS 1.1: ssl PROTOCOL_* and pyOpenSSL *_METHOD constants, minimum_version/maximum_version (or urllib3 ssl_minimum_version/ssl_maximum_version) set to an old TLSVersion, pyOpenSSL set_min_proto_version()/set_max_proto_version() given an old *_VERSION, and options &= ~OP_NO_*. PROTOCOL_SSLv23/TLS, TLSv1_2 constants, OP_NO_* disabling and comparisons are not reported."
 order: 875
 sources: ["cli/internal/sast/rules/vnx-py-021.rego", "cli/internal/sast/docs/vnx-py-021.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

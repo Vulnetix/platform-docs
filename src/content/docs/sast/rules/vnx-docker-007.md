@@ -4,8 +4,8 @@ nav: "VNX-DOCKER-007"
 description: "Reports a Dockerfile whose final stage runs a service (EXPOSE or a server CMD/ENTRYPOINT, possibly inherited from an earlier stage) but declares no HEALTHCHECK."
 order: 701
 sources: ["cli/internal/sast/rules/vnx-docker-007.rego", "cli/internal/sast/docs/vnx-docker-007.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

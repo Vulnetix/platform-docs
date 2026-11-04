@@ -4,8 +4,8 @@ nav: "VNX-CRYPTO-005"
 description: "Reports TLS clients told to accept any certificate or host name in Python (verify=False, CERT_NONE, unverified contexts), Node.js (rejectUnauthorized: false, NODE_TLS_REJECT_UNAUTHORIZED=0)and Go (InsecureSkipVerify: true); Java trust managers and host-name verifiers are reported by VNX-JAVA-006. Values from configuration, branches honouring an insecure option, custom pinning and test files are not reported."
 order: 679
 sources: ["cli/internal/sast/rules/vnx-crypto-005.rego", "cli/internal/sast/docs/vnx-crypto-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

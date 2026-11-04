@@ -4,8 +4,8 @@ nav: "VNX-CS-005"
 description: "Detects ASP.NET MVC and ASP.NET Core MVC controller actions reachable by a cross-site form ([HttpPost], [AcceptVerbs(HttpVerbs.Post)], and PUT/DELETE/PATCH where method override applies) with no anti-forgery validation on the action, the controller, a base controller or a global filter."
 order: 689
 sources: ["cli/internal/sast/rules/vnx-cs-005.rego", "cli/internal/sast/docs/vnx-cs-005.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

@@ -4,8 +4,8 @@ nav: "VNX-JAVA-015"
 description: "Reports EntityManager and Hibernate Session createQuery/createNativeQuery calls whose JPQL, HQL or SQL text carries HTTP request data, or concatenates a String method parameter into a value position, directly or through a local built a few lines above. Named and positional parameters, constants and entity names are not reported."
 order: 763
 sources: ["cli/internal/sast/rules/vnx-java-015.rego", "cli/internal/sast/docs/vnx-java-015.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

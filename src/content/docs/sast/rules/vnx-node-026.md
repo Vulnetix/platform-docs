@@ -4,8 +4,8 @@ nav: "VNX-NODE-026"
 description: "Reports spawn(), spawnSync(), execFile(), execFileSync() and execa() calls that enable a shell (shell: true or a shell path) while the command or an argument is not a constant, so shell metacharacters in that value run as commands."
 order: 822
 sources: ["cli/internal/sast/rules/vnx-node-026.rego", "cli/internal/sast/docs/vnx-node-026.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 

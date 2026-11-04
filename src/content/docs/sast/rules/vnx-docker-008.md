@@ -4,8 +4,8 @@ nav: "VNX-DOCKER-008"
 description: "Reports apt-get/apt, apk, yum/dnf/microdnf and zypper install commands in a Dockerfile RUN step that leave at least one package without a pinned version."
 order: 702
 sources: ["cli/internal/sast/rules/vnx-docker-008.rego", "cli/internal/sast/docs/vnx-docker-008.md"]
-checked: ["cli@de9b52a"]
-updated: "02 Nov 2026"
+checked: ["cli@1700795"]
+updated: "05 Nov 2026"
 generated: true
 ---
 
