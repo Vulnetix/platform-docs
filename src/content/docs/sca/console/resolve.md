@@ -1,5 +1,5 @@
 ---
-title: SCA in the console
+title: SCA in the Resolve Platform
 nav: Resolve pages
 description: How an uploaded scan becomes findings in Resolve, the Supply chain pages and their filters, triage states, and the API routes behind them.
 order: 1

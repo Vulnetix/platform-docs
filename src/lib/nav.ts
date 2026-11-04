@@ -13,7 +13,7 @@ export interface Segment {
   home: string;
   // Where the top "Reference" link goes, when the segment has reference pages.
   reference?: string;
-  // The segment's page in the Vulnetix console, when it has one.
+  // The segment's page in the Resolve Platform, when it has one.
   console?: string;
   sections: Section[];
 }

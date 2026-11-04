@@ -100,7 +100,7 @@ const isHome = id === HOME_ID || (segment && id === segment.home);
         <a href={segment ? hrefFor(segment.home) : '/'} aria-current={isRef ? 'false' : 'true'}>Guides</a>
         {segment?.reference && <a href={hrefFor(segment.reference)} aria-current={isRef ? 'true' : 'false'}>Reference</a>}
         <a href={`${REPO_URL}/commits/main`}>Changes</a>
-        <a href={segment?.console ?? CONSOLE_URL}>Console ↗</a>
+        <a href={segment?.console ?? CONSOLE_URL}>Resolve Platform ↗</a>
       </nav>
       <button type="button" class="icon-btn" data-theme-toggle aria-label="Theme: match system. Switch theme">
         <svg data-icon="light" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3" /></svg>
