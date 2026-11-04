@@ -56,7 +56,7 @@ The Software Factory (`/v1/factory/*`) and the Belai console (`/v1/belai/*`) are
 | Community | One, free | Any number, each billed on its own subscription, from $85 a month |
 | Pro, Business, Enterprise | Any number | Any number, each billed on its own subscription |
 
-On Community the factory runs on one machine of your own with `belai rc` at no cost. A second self-hosted host is refused while the first is active, with `403`, `"code": "host_limit"` and `"requiredPlan": "pro"`, and Belai prints "Community includes one self-hosted host; add more with Pro or a Pix Sandbox". A host counts as active while it has been seen in the last 45 seconds, so when the first machine stops, another can take its place. Your own Pix Sandboxes never count against the limit. A sandbox counts while its subscription is active or past due.
+On Community the factory runs on one machine of your own with `belai rc`, with no Vulnetix charge. A second self-hosted host is refused while the first is active, with `403`, `"code": "host_limit"` and `"requiredPlan": "pro"`, and Belai prints "Community includes one self-hosted host; add more with Pro or a Pix Sandbox". A host counts as active while it has been seen in the last 45 seconds, so when the first machine stops, another can take its place. Your own Pix Sandboxes never count against the limit. A sandbox counts while its subscription is active or past due.
 
 On Community, decision steps (the System One classifier calls a workflow makes) have a smaller daily allowance than on a paid plan or a Pix Sandbox. Crew steps on your own machine run on your own models and keys.
 

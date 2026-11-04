@@ -11,7 +11,7 @@ updated: 05 Nov 2026
 You need:
 
 - A Vulnetix account with the owner or admin role in its organisation. Members can use the factory once it is set up, but only owners and admins can manage orgs, publish workflows and change settings. Any plan works, Community included.
-- A machine for the agents to work on (step 4). On Community that is one machine of your own running `belai rc`, at no cost, or a Pix Sandbox bought per size from $85 a month. More than one self-hosted machine needs Pro.
+- A machine for the agents to work on (step 4). On Community that is one machine of your own running `belai rc`, with no Vulnetix charge (the crews use your own model keys), or a Pix Sandbox bought per size from $85 a month. More than one self-hosted machine needs Pro.
 
 ## 1. Install the GitHub App
 
