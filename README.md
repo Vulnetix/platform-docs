@@ -5,6 +5,7 @@ Old docs hostnames answer with a 301 to the matching path here. Those rules live
 The redirect Worker (`redirects/`) is deployed by hand: `node scripts/build-redirects.mjs --check dist`, then `npx wrangler deploy` from `redirects/`.
 
 Astro 7, Tailwind v4 and Pagefind. The site is static: search runs in the browser and there is no backend.
+A link to any page with `?search` (or `?search=<terms>`) opens the search dialog on arrival, prefilled with the terms, and drops the parameter from the address bar so a reload does not reopen it. The www.vulnetix.com footer links to `/?search`.
 
 ```sh
 corepack enable

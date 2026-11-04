@@ -59,6 +59,18 @@ const filters = ['All', ...SEGMENTS.map((s) => s.title)];
   });
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 
+  // Links from www.vulnetix.com land on /?search (or /?search=<terms>) to open
+  // search straight away. The parameter is dropped so a reload or a shared
+  // link does not reopen it.
+  const params = new URLSearchParams(location.search);
+  if (params.has('search')) {
+    input.value = params.get('search') ?? '';
+    params.delete('search');
+    const rest = params.toString();
+    history.replaceState(null, '', location.pathname + (rest ? `?${rest}` : '') + location.hash);
+    open();
+  }
+
   chips.forEach((c) => c.addEventListener('click', () => {
     filter = c.dataset.filter!;
     chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
