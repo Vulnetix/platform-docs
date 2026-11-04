@@ -71,4 +71,4 @@ vulnetix config set quality-gate --severity high --exploits active --block-malwa
 vulnetix config get quality-gate
 ```
 
-From then on, every authenticated `vulnetix scan` in the organization uses these values in place of its own `--severity`, `--exploits`, `--block-malware` and `--cooldown` flags. The [QualityGate](/platform-iac/kinds/quality-gate/#set-these-values-today) reference maps every field to its flag.
+From then on, every authenticated `vulnetix scan` in the organization uses these values in place of its own `--severity`, `--exploits`, `--block-malware` and `--cooldown` flags. The [QualityGate](/platform-iac/kinds/quality-gate/#fields) reference maps every field to its flag.

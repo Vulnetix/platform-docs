@@ -32,6 +32,8 @@ Created in the scanned directory (`--path`, or the current directory). Results a
 | `vex-risk-accepted.json` | `fix` | VEX for findings accepted as risk |
 | `vex-compensating-controls.json`, `controls.json` | `defend` | Recorded controls and their VEX |
 | `jail.sarif`, `jail.vex.json` | `jail` | The jail verdict as SARIF and VEX |
+| `vex.openvex.json` | `scan` and the scanners | OpenVEX for findings the scan resolved. See [Files the VEX commands write](/vex/reference/files-written/). |
+| `vex-aibom.openvex.json`, `vex-cbom.openvex.json`, `vex-malscan.openvex.json` | `aibom`, `cbom`, `malscan` and their passes in `scan` | OpenVEX for AI, cryptographic and malware findings that were resolved. Skipped with `--disable-memory`. |
 
 ### Inputs you may commit
 

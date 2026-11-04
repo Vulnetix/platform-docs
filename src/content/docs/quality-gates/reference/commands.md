@@ -98,5 +98,5 @@ Flags on every jail command:
 |---|---|---|---|
 | `0` | OK | clear | no gate breached |
 | `1` | Failure | a rule breached, or the command failed | a gate breached, or the command failed |
-| `2` | Usage | bad arguments or configuration | bad arguments or configuration |
+| `2` | Usage | bad arguments or configuration | not used: bad arguments exit `1` |
 | `3` | Indeterminate | evidence stale or missing | only with `--jail` |

@@ -4,6 +4,7 @@ description: Install vulnetix-sensor on a Linux laptop you use, enroll it with y
 order: 1
 nav: Your own laptop
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, cli/cmd/auth.go]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 

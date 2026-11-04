@@ -4,6 +4,7 @@ description: What vulnetix-sensor costs a host in CPU and memory, measured, the 
 order: 8
 nav: Performance and metrics
 sources: [vdb-site/docs/runtime-sensor-api.md, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go, cli/internal/sensor/agent/metrics.go, cli/cmd/vulnetix-sensor/main.go, cli/internal/sensor/provision/units.go, cli/deploy/sensor/install.sh, website/src/shared/sensor-metrics.ts]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 

@@ -3,7 +3,7 @@ title: Debian and Ubuntu (APT)
 nav: Debian and Ubuntu
 description: Point APT at the Package Firewall, which serves signed indexes unchanged and gates .deb downloads, and set the mirror path it needs.
 order: 19
-sources: [package-firewall/internal/ecosystem/debian/debian.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go, cli/cmd/config.go]
+sources: [package-firewall/internal/ecosystem/debian/debian.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go, cli/cmd/config.go, cli/pkg/packagefirewall/ecosystem.go]
 checked: [package-firewall@333285f, cli@4c8c3b7]
 updated: 03 Nov 2026
 ---
@@ -16,7 +16,7 @@ updated: 03 Nov 2026
 | Mode | gate: `dists/` is streamed unchanged; `pool/**/<name>_<version>_<arch>.deb` is checked |
 | Cooldown | no |
 | Default mirror | `https://deb.debian.org` |
-| Automatic setup | none, needs root |
+| Automatic setup | none, needs root. `vulnetix package-firewall debian` exists but exits with "automatic configuration is not implemented yet"; configure the repository below by hand. |
 
 The firewall only recognises paths that start with `dists/` or `pool/`, and appends that path to the mirror URL. The archive must therefore be the mirror itself, path included.
 

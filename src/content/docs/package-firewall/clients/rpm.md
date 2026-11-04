@@ -3,8 +3,8 @@ title: RPM (dnf and yum)
 nav: RPM
 description: Add a dnf or yum repository that points at the Package Firewall, with the base URL path the default Fedora mirror needs.
 order: 20
-sources: [package-firewall/internal/ecosystem/rpm/rpm.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go]
-checked: [package-firewall@333285f]
+sources: [package-firewall/internal/ecosystem/rpm/rpm.go, package-firewall/internal/ecosystem/ecosystem.go, package-firewall/internal/upstream/mirror.go, cli/pkg/packagefirewall/ecosystem.go]
+checked: [package-firewall@333285f, cli@v4.13.1]
 updated: 03 Nov 2026
 ---
 
@@ -16,7 +16,7 @@ updated: 03 Nov 2026
 | Mode | gate: anything under `repodata/` is streamed unchanged; `<name>-<version>-<release>.<arch>.rpm` is checked |
 | Cooldown | no |
 | Default mirror | `https://dl.fedoraproject.org` |
-| Automatic setup | none, needs root |
+| Automatic setup | none, needs root. `vulnetix package-firewall rpm` exists but exits with "automatic configuration is not implemented yet"; configure the repository below by hand. |
 
 The path after `/rpm` is appended to the mirror URL unchanged. With the default mirror, the Fedora release tree is under `/pub/fedora/linux/releases/`.
 

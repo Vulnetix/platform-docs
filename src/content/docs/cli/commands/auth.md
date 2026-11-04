@@ -1,7 +1,7 @@
 ---
 title: auth
 description: Every flag of vulnetix auth, auth login, auth status, auth verify and auth logout.
-order: 7
+order: 8
 sources: [cli/cmd/auth.go, cli/internal/upload/client.go]
 checked: [cli@24498404a]
 updated: 02 Nov 2026

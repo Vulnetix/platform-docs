@@ -1,5 +1,5 @@
 ---
-title: "Voice tools"
+title: "Voice tools reference"
 description: "The 36 tools Pix uses on a call, and what each one reads or does."
 order: 7
 generated: true

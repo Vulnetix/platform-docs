@@ -2,7 +2,7 @@
 title: version, update, env and the bare command
 nav: Utilities
 description: vulnetix with no command, vulnetix version, vulnetix update and vulnetix env.
-order: 9
+order: 10
 sources: [cli/cmd/root.go, cli/cmd/version.go, cli/cmd/update.go, cli/cmd/env.go, cli/internal/update/updater.go, cli/internal/config/config.go]
 checked: [cli@24498404a]
 updated: 02 Nov 2026
@@ -22,7 +22,7 @@ It does not look at `VULNETIX_API_TOKEN`, keychain-held secrets or `VULNETIX_CRE
 
 ```sh
 vulnetix version            # version, commit, build date, Go version and module versions
-vulnetix version --short    # the bare version, e.g. 3.154.0
+vulnetix version --short    # the bare version, e.g. 4.10.2
 vulnetix --version          # the same as --short
 ```
 
@@ -32,7 +32,7 @@ vulnetix --version          # the same as --short
 vulnetix update
 ```
 
-Checks the latest GitHub release and, if it is newer, replaces this binary: the release asset for this OS and architecture is downloaded next to the binary and renamed over it. A binary in `$GOBIN`, `$GOPATH/bin` or `~/go/bin` is updated with `go install github.com/vulnetix/cli/v3@latest` instead. A source build (version containing `-dev`, or no commit stamped) is refused. Prints `Already up to date (vX).` when there is nothing newer. The download is not checked against `checksums.txt`. Under Homebrew or Scoop, use the package manager. See [Install](/cli/get-started/install/#updating).
+Checks the latest GitHub release and, if it is newer, replaces this binary: the release asset for this OS and architecture is downloaded next to the binary and renamed over it. A binary in `$GOBIN`, `$GOPATH/bin` or `~/go/bin` is updated with `go install github.com/vulnetix/cli/v4@latest` instead. A source build (version containing `-dev`, or no commit stamped) is refused. Prints `Already up to date (vX).` when there is nothing newer. The download is not checked against `checksums.txt`. Under Homebrew or Scoop, use the package manager. See [Install](/cli/get-started/install/#updating).
 
 ## env
 

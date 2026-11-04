@@ -196,8 +196,8 @@ f('belai-docs-tooling', 'belai', 'belai/contributing', 'Developing Belai', [pkg(
 const cmd = (...tops) => `^cli-command:(${tops.join('|')})( |$)`;
 // Commands with no docs yet. They match the `cli-undocumented` feature (todo)
 // and are kept out of their group's pattern by NOT_YET.
-const UNDOCUMENTED = ['api', 'api discover', 'api upload', 'surface', 'surface liveness', 'pix install', 'triage status', 'package-firewall alpine', 'package-firewall debian', 'package-firewall rpm'];
-const NOT_YET = `(?!(${UNDOCUMENTED.join('|')})$)`;
+const UNDOCUMENTED = [];
+const NOT_YET = UNDOCUMENTED.length ? `(?!(${UNDOCUMENTED.join('|')})$)` : '';
 const cmdx = (...tops) => `^cli-command:${NOT_YET}(${tops.join('|')})( |$)`;
 const cliF = (id, page, title, match, pages = []) => f(id, 'cli', page, title, match, { status: 'drafted', foundIn: '2026-11-03', pages });
 
@@ -215,13 +215,14 @@ cliF('cli-config', '/platform-iac/cli/imperative-commands', 'vulnetix config', [
 cliF('cli-ignore', '/iac-scanning/guides/suppression', 'vulnetix ignore', [cmd('ignore')]);
 cliF('cli-jail', '/quality-gates/reference/commands', 'vulnetix jail', [cmd('jail')]);
 cliF('cli-license', '/sca/license/policy', 'vulnetix license', [cmd('license')]);
-cliF('cli-package-firewall', '/package-firewall/clients/go-dev', 'vulnetix package-firewall', [cmdx('package-firewall')], ['/cli/authentication/netrc', ...['arch', 'conan', 'maven', 'cargo', 'chef', 'composer', 'conda', 'cran', 'docker', 'helm', 'hex', 'homebrew', 'julia', 'nuget', 'pub', 'pypi', 'rubygems', 'terraform'].map((c) => `/package-firewall/clients/${c}`)]);
+cliF('cli-package-firewall', '/package-firewall/reference/commands', 'vulnetix package-firewall', [cmdx('package-firewall')], ['/cli/authentication/netrc', ...['go', 'go-dev', 'alpine', 'debian', 'rpm', 'arch', 'conan', 'maven', 'cargo', 'chef', 'composer', 'conda', 'cran', 'docker', 'helm', 'hex', 'homebrew', 'julia', 'nuget', 'pub', 'pypi', 'rubygems', 'terraform'].map((c) => `/package-firewall/clients/${c}`)]);
 cliF('cli-pix', '/cli/get-started/overview', 'vulnetix pix and skills', [cmdx('pix', 'skills')], ['/pix/get-started/install']);
 cliF('cli-tea', '/tea/cli/publishing', 'vulnetix tea', [cmd('tea')], ['/tea/cli/reading']);
-cliF('cli-triage', '/pix/skills/attestations', 'vulnetix triage', [cmdx('triage')]);
+cliF('cli-triage', '/cli/commands/triage', 'vulnetix triage', [cmdx('triage')], ['/pix/skills/attestations']);
+cliF('cli-api-surface', '/cli/commands/api', 'vulnetix api and surface', [cmd('api', 'surface')], ['/cli/commands/surface', '/cli/get-started/overview']);
 cliF('cli-vdb', '/vdb-api/cli/commands', 'vulnetix vdb', [cmd('vdb')]);
 cliF('cli-vex', '/vex/commands/ls-validate-merge', 'vulnetix vex', [cmd('vex')], ['/vex/get-started/overview']);
-f('cli-undocumented', 'cli', '/cli/get-started/overview', 'CLI commands not documented yet', [`^cli-command:(${UNDOCUMENTED.join('|')})$`], { foundIn: '2026-11-03' });
+if (UNDOCUMENTED.length) f('cli-undocumented', 'cli', '/cli/get-started/overview', 'CLI commands not documented yet', [`^cli-command:(${UNDOCUMENTED.join('|')})$`], { foundIn: '2026-11-03' });
 
 f('iac-kinds', 'platform-iac', '/platform-iac/kinds/catalogue', 'Platform IaC kinds', ['^iac-kind:'], { status: 'drafted', foundIn: '2026-11-03' });
 f('iac-config-api', 'platform-iac', '/platform-iac/reference/config-api', 'Config engine API and credentials for automation', ['^config-route:'], { status: 'drafted', foundIn: '2026-11-03' });

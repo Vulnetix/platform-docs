@@ -4,8 +4,8 @@ nav: Go
 description: Point the go command at the Package Firewall's module proxy with GOPROXY and GOAUTH, and what each @v request is checked for.
 order: 1
 sources: [cli/cmd/package_firewall.go, cli/internal/managedfile/shell.go, package-firewall/internal/handler/proxy.go, package-firewall/internal/ecosystem/ecosystem.go]
-checked: [cli@4c8c3b7, package-firewall@77cd1a5]
-updated: 03 Nov 2026
+checked: [cli@v4.10.2, package-firewall@77cd1a5]
+updated: 04 Nov 2026
 ---
 
 | | |
@@ -26,7 +26,7 @@ vulnetix package-firewall go
 | Writes | Content |
 |---|---|
 | `~/.netrc` | `machine packages.vulnetix.com` entry |
-| Shell rc, chosen from `$SHELL` | A `# Vulnetix Package Firewall` block setting `GOPROXY` and `GOAUTH` |
+| Shell rc, chosen from `$SHELL` | A `# Vulnetix Package Firewall` block setting `GOPROXY` to the firewall with a fallback, and `GOAUTH` |
 | `.env`, `.envrc`, `Makefile` at the git root | `GOPROXY` and `GOAUTH` lines, only if the file already exists |
 | Windows | The user environment variables `GOPROXY` and `GOAUTH` |
 
@@ -34,16 +34,35 @@ The shell rc is `~/.bashrc` (bash), `~/.zshrc` (zsh), `~/.config/fish/config.fis
 
 ```bash
 # Vulnetix Package Firewall
-export GOPROXY="https://packages.vulnetix.com"
+export GOPROXY="https://packages.vulnetix.com|https://proxy.golang.org|direct"
 export GOAUTH="netrc"
 # End Vulnetix Package Firewall
 ```
 
-fish gets `set -gx GOPROXY https://packages.vulnetix.com`. Open a new shell after setup.
+fish gets `set -gx GOPROXY "https://packages.vulnetix.com|https://proxy.golang.org|direct"`. Open a new shell after setup.
+
+### The fallback, and `--fail-closed`
+
+The `|` separator matters. After a comma, `go` moves to the next proxy only on HTTP 404 or 410, so a firewall that answers 402 (the Package Firewall add-on is not active on the organisation) or is unreachable would stop every build. After a pipe, `go` moves on after any error.
+
+> [!CAREFUL] The fallback also covers a policy block
+> When the firewall refuses a module by policy, `go` fetches it from `proxy.golang.org` instead, so the default setup records the decision but does not enforce it. To make a refusal stop the build, write the firewall alone:
+>
+> ```bash
+> vulnetix package-firewall go --fail-closed
+> ```
+>
+> This writes `GOPROXY="https://packages.vulnetix.com"`. Without the add-on every module fetch then fails with HTTP 402.
+
+| Flag | Type | Default | Description |
+|---|---|---|---|
+| `--fail-closed` | bool | `false` | Write `GOPROXY` as the firewall alone, with no `proxy.golang.org` or `direct` fallback |
 
 ## Manual configuration
 
 ```bash
+go env -w GOPROXY="https://packages.vulnetix.com|https://proxy.golang.org|direct" GOAUTH=netrc
+# or, to let a refusal stop the build
 go env -w GOPROXY=https://packages.vulnetix.com GOAUTH=netrc
 ```
 

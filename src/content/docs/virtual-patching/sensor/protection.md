@@ -4,6 +4,7 @@ description: What the standard, hardened and locked protection levels change in 
 order: 5
 nav: Protection
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/main.go, cli/deploy/sensor/install.sh, cli/internal/sensor/provision/units.go]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 

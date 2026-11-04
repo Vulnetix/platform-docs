@@ -68,6 +68,9 @@ export const pendingLinks = {
       const href = node.properties?.href;
       if (typeof href !== 'string' || !href.startsWith('/') || href.startsWith('//')) return;
       if (exists(href.split('#')[0])) return;
+      // Say so in the build log: a link that quietly turns into text is how a
+      // typo in a page name goes unnoticed.
+      console.warn(`pending link dropped: ${href}`);
       return el('span', { className: ['pending-link'] }, node.children ?? []);
     },
   },

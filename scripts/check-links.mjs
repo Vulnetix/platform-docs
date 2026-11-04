@@ -35,7 +35,12 @@ function anchorsOf(html) {
   return ids;
 }
 
+// Every page's ids, so a link to another page's heading can be checked too.
+const idsByPage = new Map();
+const pageOf = (file) => file.slice(dist.length).replace(/index\.html$/, '');
+
 let failures = 0;
+const crossPage = [];
 
 for (const file of htmlFiles(dist)) {
   let html = readFileSync(file, 'utf8');
@@ -69,6 +74,21 @@ for (const file of htmlFiles(dist)) {
       console.error(`${rel}: broken anchor #${m[1]}`);
       failures++;
     }
+  }
+
+  // A link to another page's heading is checked once every page's ids are known.
+  idsByPage.set(pageOf(file), ids);
+  const crossRe = /href="(\/[^"#]*)#([^"]+)"/g;
+  while ((m = crossRe.exec(html))) crossPage.push({ rel, href: m[1] + '#' + m[2], page: m[1].split('?')[0], id: m[2] });
+}
+
+for (const { rel, href, page, id } of crossPage) {
+  const key = decodeURIComponent(page).replace(/\/?$/, '/');
+  const ids = idsByPage.get(key) ?? idsByPage.get(key.replace(/\/$/, ''));
+  if (!ids) continue; // the missing page was already reported
+  if (!ids.has(id)) {
+    console.error(`${rel}: broken anchor ${href}`);
+    failures++;
   }
 }
 

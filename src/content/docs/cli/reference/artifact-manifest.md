@@ -30,8 +30,8 @@ jq -r .path "$VULNETIX_ARTIFACT_MANIFEST"
 | Field | Meaning |
 |---|---|
 | `path` | Absolute path of the file |
-| `kind` | `sarif`, `cyclonedx`, `vex`, `signature`, `certificate`, `attestation` or `report` |
-| `sha256` | SHA-256 of the file as written |
+| `kind` | `sarif`, `cyclonedx`, `spdx`, `vex`, `signature`, `certificate`, `attestation` or `report` |
+| `sha256` | SHA-256 of the file as written; absent when it was not computed |
 | `bytes` | Size in bytes |
 | `command` | The command that wrote it |
 | `written` | UTC time, RFC 3339 |

@@ -4,6 +4,7 @@ description: Which way to install vulnetix-sensor, and which credential it ends 
 order: 2
 nav: Choose a path
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/deploy/sensor/README.md, cli/cmd/vulnetix-sensor/main.go, vdb-site/docs/sensor-feeds-api.md]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 

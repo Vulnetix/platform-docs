@@ -1,8 +1,7 @@
 ---
-title: "Templates"
+title: "Template catalogue"
 description: "The 40 workflow templates in the catalogue, by category."
 order: 6
-nav: "Template catalogue"
 generated: true
 checked: ["vdb-site@857108d"]
 ---

@@ -30,6 +30,7 @@ Every top-level command in `vulnetix --help`, and the docs segment that owns it.
 | `ai-firewall` | Points AI clients at the Vulnetix AI Firewall and manages its policy | [AI Firewall](/ai-firewall/) |
 | `aibom` | Discovers AI agents, SDKs and models; writes a CycloneDX AIBOM | [SBOM](/sbom/) |
 | `analyze` | Builds the repository's tech-stack graph and evidence-backed metrics | [CLI: analyze](/cli/commands/analyze/) |
+| `api` | Finds OpenAPI and Swagger descriptions in a repository and uploads them | [CLI: api](/cli/commands/api/) |
 | `attest` | Verifies signatures and in-toto provenance on artefacts | [Attestation](/attestation/) |
 | `auth` | Signs in, shows and verifies credentials, signs out | [CLI: authentication](/cli/authentication/overview/) |
 | `bom` | Reads, validates, diffs and inspects SBOM documents | [SBOM](/sbom/) |
@@ -51,15 +52,16 @@ Every top-level command in `vulnetix --help`, and the docs segment that owns it.
 | `lsp` | Runs the Vulnetix language server over stdio | [VS Code](/vscode/) |
 | `malscan` | Scans installed dependency directories for malware | [Malware](/malware/) |
 | `package-firewall` | Configures package managers to use the Vulnetix Package Firewall | [Package Firewall](/package-firewall/) |
-| `pix` | Installs the Pix plugin's skills | [Pix](/pix/) |
+| `pix` | Installs the Pix plugin's skills (`vulnetix pix install`, with `--agent` and `--skill`) | [Pix](/pix/) |
 | `report` | Renders the stored results of the last scan without rescanning | [CLI: report](/cli/commands/replay/) |
 | `sast` | Runs only static analysis | [SAST](/sast/) |
 | `sca` | Runs only dependency (software composition) analysis | [SCA](/sca/) |
 | `scan` | Runs every scanner in one pass and applies one set of gates | [CLI: scan](/cli/commands/scan/) |
 | `secrets` | Runs only secret detection | [Secrets](/secrets/) |
 | `skills` | Installs, checks, updates and removes Vulnetix agent skills | [Pix](/pix/) |
+| `surface` | Checks from inside your network that registered routes and hosts still answer | [CLI: surface](/cli/commands/surface/) |
 | `tea` | Publishes to and reads from the Transparency Exchange API | [TEA](/tea/) |
-| `triage` | Triages GitHub alerts or Vulnetix findings against the VDB | [Vulnerability management](/vulnerability-management/) |
+| `triage` | Triages GitHub alerts or Vulnetix findings against the VDB and writes VEX | [CLI: triage](/cli/commands/triage/) |
 | `update` | Replaces the binary with the latest release | [CLI: utilities](/cli/commands/utilities/) |
 | `upload` | Publishes a third-party SARIF, CycloneDX or SPDX report | [CLI: upload](/cli/commands/upload/) |
 | `vdb` | Queries the Vulnetix Vulnerability Database API | [VDB API](/vdb-api/) |

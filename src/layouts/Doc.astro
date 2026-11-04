@@ -137,10 +137,9 @@ const isHome = id === HOME_ID || (segment && id === segment.home);
               <span class="status-note">{badge.note}</span>
             </p>
           )}
-          {(updated || checked.length > 0) && (
+          {updated && (
             <div class="meta" data-pagefind-ignore>
-              {updated && <span>Updated {updated}</span>}
-              {checked.length > 0 && <span>Checked against {checked.map((c, n) => <>{n > 0 && ', '}<code>{c}</code></>)}</span>}
+              <span>Updated {updated}</span>
             </div>
           )}
           <div class="prose">
@@ -152,7 +151,6 @@ const isHome = id === HOME_ID || (segment && id === segment.home);
           </nav>
           <div class="foot-meta" data-pagefind-ignore>
             {editPath && <a href={`${REPO_URL}/edit/main/${editPath}`}>Edit this page</a>}
-            {sources.length > 0 && <span>Sources: {sources.map((s, n) => <>{n > 0 && ', '}<code>{s}</code></>)}</span>}
           </div>
         </article>
 

@@ -62,7 +62,7 @@ A coach for code you are about to write, grounded in the SAST rules that would f
 | | |
 |---|---|
 | Arguments | `[<file-path>]` or a topic: `auth`, `crypto`, `sql`, `xss`, `deser` (also `file`, `template`) |
-| Runs | `vulnetix scan --list-default-rules -o json`, filtered by topic tag; `vulnetix vdb cwe list --keyword <topic> -V v2 -o json` |
+| Runs | `vulnetix scan --list-default-rules -o json`, filtered by topic tag; `vulnetix vdb cwe guidance <cwe-id> -o json` for the rules' CWEs |
 | Writes | Nothing |
 
 It lists the top rules to honour with their CWE, common pitfalls, and passing and failing snippets in the repository's language, then offers `sast-scan --paths <file>` once you have written the code.

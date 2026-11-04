@@ -42,7 +42,7 @@ Every applied object has a result: `Applied`, `Unchanged` or `Deleted`. A kind c
 
 Some values are shown once, in the result of the apply that creates the object, and never by plan, export or a later apply: a [`ServiceAccount`](/platform-iac/kinds/service-account/)'s `apiKey` and `secret`, a [`LogSource`](/platform-iac/kinds/log-source/)'s `ingestToken`, and a webhook [`MessagingConnection`](/platform-iac/kinds/messaging-connection/)'s signing secret. Plan never shows them, because they exist only after the write.
 
-A kind can also report read-only facts after the write, such as a [`VexSource`](/platform-iac/kinds/vex-source/)'s latest fetch, a [`GitHubInstallation`](/platform-iac/kinds/github-installation/)'s account, or a [`FactorySettings`](/platform-iac/kinds/factory-settings/) `revision`. Each kind's page says what it reports.
+A kind can also report read-only facts after the write, such as a [`VexSource`](/platform-iac/kinds/vex-source/)'s latest fetch, a [`GitHubInstallation`](/platform-iac/kinds/git-hub-installation/)'s account, or a [`FactorySettings`](/platform-iac/kinds/factory-settings/) `revision`. Each kind's page says what it reports.
 
 ## Outside the transaction
 

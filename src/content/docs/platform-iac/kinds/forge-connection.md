@@ -263,7 +263,7 @@ Paths use dots for nesting and `[]` for the items of a list. **Required** means 
 
 ## How apply treats it
 
-The console's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a `valueFrom` secret, kept as the console keeps it. GitHub.com is refused: use [`GitHubInstallation`](/platform-iac/kinds/github-installation/).
+The console's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a `valueFrom` secret, kept as the console keeps it. GitHub.com is refused: use [`GitHubInstallation`](/platform-iac/kinds/git-hub-installation/).
 
 ## Terraform and OpenTofu
 

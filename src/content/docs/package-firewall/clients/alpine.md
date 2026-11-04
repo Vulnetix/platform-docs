@@ -3,8 +3,8 @@ title: Alpine (apk)
 nav: Alpine
 description: Point apk at the Package Firewall, which serves APKINDEX unchanged and gates .apk downloads.
 order: 21
-sources: [package-firewall/internal/ecosystem/alpine/alpine.go, package-firewall/internal/ecosystem/ecosystem.go]
-checked: [package-firewall@333285f]
+sources: [package-firewall/internal/ecosystem/alpine/alpine.go, package-firewall/internal/ecosystem/ecosystem.go, cli/pkg/packagefirewall/ecosystem.go]
+checked: [package-firewall@333285f, cli@v4.13.1]
 updated: 03 Nov 2026
 ---
 
@@ -16,7 +16,7 @@ updated: 03 Nov 2026
 | Mode | gate: `APKINDEX.tar.gz` is streamed unchanged; `<name>-<version>-r<n>.apk` is checked |
 | Cooldown | no |
 | Default mirror | `https://dl-cdn.alpinelinux.org` |
-| Automatic setup | none, needs root |
+| Automatic setup | none, needs root. `vulnetix package-firewall alpine` exists but exits with "automatic configuration is not implemented yet"; configure the repository below by hand. |
 
 ## Configuration
 

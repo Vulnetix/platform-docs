@@ -128,14 +128,14 @@ function write(page, fm, body) {
     body += `\n## ${c}\n\n| Template | Id |\n|---|---|\n`;
     for (const a of rows) body += `| ${cell(a.detail?.name ?? a.value)} | <span id="${a.value}"></span>${code(a.value)} |\n`;
   }
-  write('reference/templates', { title: 'Templates', nav: 'Template catalogue', description: `The ${by('template').length} workflow templates in the catalogue, by category.`, order: 6, checked: short('vdb-site') }, body);
+  write('reference/templates', { title: 'Template catalogue', description: `The ${by('template').length} workflow templates in the catalogue, by category.`, order: 6, checked: short('vdb-site') }, body);
 }
 
 // ── Voice tools ────────────────────────────────────────────────────────────
 {
   let body = 'The tools Pix can call during a voice call. Pix speaks only figures these tools return. Tools that start or stop work need you to confirm a read-back first; see ' + pageLink('pix/calling-pix', 'Calling Pix') + '.\n\n| Tool | What it does |\n|---|---|\n';
   for (const a of by('voice-tool')) body += `| <span id="${a.value}"></span>${code(a.value)} | ${cell(a.detail?.description)} |\n`;
-  write('reference/voice-tools', { title: 'Voice tools', description: `The ${by('voice-tool').length} tools Pix uses on a call, and what each one reads or does.`, order: 7, checked: short('website') }, body);
+  write('reference/voice-tools', { title: 'Voice tools reference', description: `The ${by('voice-tool').length} tools Pix uses on a call, and what each one reads or does.`, order: 7, checked: short('website') }, body);
 }
 
 // ── Belai CLI ──────────────────────────────────────────────────────────────

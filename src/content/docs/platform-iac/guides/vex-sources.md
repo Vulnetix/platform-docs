@@ -114,4 +114,4 @@ Deleting a `VexSource` removes every rule the source made, then the source.
 
 ## Reading the statements
 
-Every VEX statement the tenant holds, in every status including `under_investigation` and `affected`, which never become suppressions, is readable with `GET /v1/vex/statements` (filters `status`, `vulnerabilityId`, `purl`, `repository`). In Terraform it is the `vulnetix_vex_statements` data source. A token needs the `VexSource` or `Suppression` kind. See [Terraform and OpenTofu](/platform-iac/terraform/#data-sources).
+Every VEX statement the tenant holds, in every status including `under_investigation` and `affected`, which never become suppressions, is readable with `GET /v1/vex/statements` (filters `status`, `vulnerabilityId`, `purl`, `repository`). In Terraform it is the `vulnetix_vex_statements` data source. A token needs the `VexSource` or `Suppression` kind. See [`vulnetix_vex_statements`](/platform-iac/terraform/data-sources/#vulnetix_vex_statements).

@@ -173,8 +173,12 @@ const canonLangs = (r) => {
 };
 const langNames = (r) => canonLangs(r).map((l) => LANG_NAME[l] ?? l).join(', ');
 
+// A rule is linked by its id, or by its file stem when the prose predates a
+// renumbering (VNX-CWE1025-AUTO is the file of VNX-1025).
+const ruleBySlug = (slug) => rules.find((x) => x.slug === slug || basename(x.file, '.rego') === slug);
 const ruleHref = (slug) => {
-  const r = rules.find((x) => x.slug === slug);
+  const r = ruleBySlug(slug);
+  if (r) slug = r.slug;
   if (r?.category) return `/sast/rules/secrets/${r.category}/#${slug}`;
   return `/sast/rules/${slug}/`;
 };
@@ -219,7 +223,7 @@ function convertProse(md) {
     if (/^\*\*Severity:\*\*/.test(t)) continue;
     let l = line
       .replace(/^(#{1,6} .*?)\s*\{#[^}]+\}\s*$/, '$1')
-      .replace(/\]\((?:\.\.\/)?(vnx-[a-z0-9-]+)\/?(#[^)]*)?\)/gi, (_, s, h) => `](${h && !rules.find((x) => x.slug === s.toLowerCase())?.category ? `/sast/rules/${s.toLowerCase()}/${h}` : ruleHref(s.toLowerCase())})`)
+      .replace(/\]\((?:\.\.\/)?(vnx-[a-z0-9-]+)\/?(#[^)]*)?\)/gi, (_, s, h) => `](${h && !ruleBySlug(s.toLowerCase())?.category ? `/sast/rules/${ruleBySlug(s.toLowerCase())?.slug ?? s.toLowerCase()}/${h}` : ruleHref(s.toLowerCase())})`)
       .replace(/\]\((?:\.\.\/)+([a-z-]+(?:\/[a-z0-9-]+)*)\/?(#[^)]*)?\)/g, (m, p, h) => (OLD_LINKS[p] ? `](${OLD_LINKS[p]}${h ?? ''})` : m))
       .replace(/\]\((custom-rules)\/?\)/g, '](/sast/guides/custom-rules/)')
       .replace(/\]\(\.\.\/\)/g, '](/sast/rules/)');

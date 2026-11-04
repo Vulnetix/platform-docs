@@ -1,7 +1,7 @@
 ---
 title: completion
 description: Generate and install tab completion for bash, zsh, fish and PowerShell, including completion of flag values such as --fail-on, --view and --store.
-order: 8
+order: 9
 sources: [cli/cmd/completion.go, cli/cmd/root.go, cli/internal/scanopts/surface.go, cli/cmd/auth.go]
 checked: [cli@24498404a]
 updated: 02 Nov 2026

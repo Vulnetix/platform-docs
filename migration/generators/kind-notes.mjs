@@ -574,7 +574,7 @@ Adopt only, by \`spec.installationId\`. The Vulnetix GitHub App is installed on 
     sources: ['vdb-site/api/internal/config/forgeconnection.go', 'vdb-site/docs/platform-iac-engine.md'],
     after: `## How apply treats it
 
-The console's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a \`valueFrom\` secret, kept as the console keeps it. GitHub.com is refused: use [\`GitHubInstallation\`](/platform-iac/kinds/github-installation/).`,
+The console's create and update writers, now transaction scoped. A bot token or a GitHub Enterprise Server App key is a \`valueFrom\` secret, kept as the console keeps it. GitHub.com is refused: use [\`GitHubInstallation\`](/platform-iac/kinds/git-hub-installation/).`,
   },
 
   RegistryConnection: {

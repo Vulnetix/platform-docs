@@ -2,7 +2,7 @@
 title: Versions and release channels
 nav: Versions and channels
 description: How install.sh and the GitHub Actions choose a CLI version, what a major channel such as v4 is, and how the release workflow moves the major tag, Latest and the package managers when a new major ships, as it did for v4.0.0.
-order: 3
+order: 12
 sources: [cli/install.sh, cli/action-lib/install.sh, cli/.github/workflows/release.yml, cli/docs/PUBLISHING.md, cli/action.yml]
 checked: [cli@v4.0.0]
 updated: 03 Nov 2026

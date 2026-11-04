@@ -17,7 +17,7 @@ Read in this order; the first complete source wins. See [Credential precedence](
 |---|---|
 | `VULNETIX_API_TOKEN` | Bearer token. Outranks every other source. |
 | `VULNETIX_API_KEY` | ApiKey. Used only together with `VULNETIX_ORG_ID`. A leading `<org>:` is stripped. |
-| `VULNETIX_ORG_ID` | Organisation UUID for the ApiKey; also the `--bom-manufacturer` fallback and the `--noninteractive` login org |
+| `VULNETIX_ORG_ID` | Organisation UUID for the ApiKey, and the `--noninteractive` login org. It never names a manufacturer: when a manufacturer name resolves, the id is written as `metadata.manufacturer.bom-ref` (`urn:uuid:<id>`). |
 | `VVD_ORG`, `VVD_SECRET` | SigV4 organisation and secret. Used only as a pair. |
 | `VULNETIX_CREDENTIALS_DIR` | Directory of the home credentials file instead of `~/.vulnetix` (read and write) |
 

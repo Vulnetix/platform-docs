@@ -4,6 +4,7 @@ description: Connect a threat intelligence provider once, then load its streams 
 order: 7
 nav: Threat intel connectors
 sources: [vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_feed_connectors.go, vdb-site/api/internal/handler/sensor_feeds.go]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 

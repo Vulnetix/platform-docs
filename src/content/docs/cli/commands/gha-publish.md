@@ -36,7 +36,7 @@ A 401, 403 or 404 is reported with the permission the token lacks. A pull reques
 
 ## Publishing from a scan
 
-`scan`, `sast`, `secrets`, `iac` and `containers` take `--github-publish` with `code-scanning`, `dependency-graph`, or both, comma-separated or repeated:
+`scan`, `sca`, `sast`, `secrets`, `iac` and `containers` take `--github-publish` with `code-scanning`, `dependency-graph`, or both, comma-separated or repeated:
 
 ```sh
 vulnetix scan --github-publish code-scanning,dependency-graph
@@ -44,8 +44,14 @@ vulnetix scan --github-publish code-scanning,dependency-graph
 
 At the end of the scan it publishes the scan's own results. It uploads an empty result set for each scanner that ran clean, so alerts that were fixed close. `code-scanning` forces `--no-cache`, because a cached run must never close an alert that is still real. A failure prints a warning only: the scan's exit code and its upload to Vulnetix are unaffected, and a community run with no Vulnetix credentials still publishes to GitHub.
 
-> [!CAREFUL] sca does not accept --github-publish yet
-> In v3.165.0 and earlier, `vulnetix sca --github-publish ...` exits with `unknown flag`, so the [sca action](/sca/github-actions/sca/) fails when `github-code-scanning` or `dependency-graph` is `true`. Run `vulnetix scan` or `vulnetix sast`, or publish `sca.sarif` and the SBOM with the [github-publish action](/cli/github-actions/github-publish/), which calls the subcommands below.
+Add `--github-publish-dry-run` to see what would be published: it writes the per-kind SARIF files under `.vulnetix/code-scanning/` and prints the dependency graph snapshot, and submits nothing to GitHub.
+
+```sh
+vulnetix scan --github-publish code-scanning,dependency-graph --github-publish-dry-run
+```
+
+> [!CAREFUL] sca before v3.166.1
+> Before v3.166.1, `vulnetix sca --github-publish ...` exits with `unknown flag`, so the [sca action](/sca/github-actions/sca/) fails when `github-code-scanning` or `dependency-graph` is `true`. Run `vulnetix scan` or `vulnetix sast`, or publish `sca.sarif` and the SBOM with the [github-publish action](/cli/github-actions/github-publish/), which calls the subcommands below.
 
 ## code-scanning
 

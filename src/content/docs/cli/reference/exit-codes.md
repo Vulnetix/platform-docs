@@ -13,8 +13,8 @@ The codes are defined in `cmd/exit_codes.go` and treated as a contract: changing
 |---|---|---|---|
 | `0` | `ExitOK` | Succeeded. Findings without a gate still exit `0`. | Every command |
 | `1` | `ExitFailure` | The command failed, or a gate breached | Every command: `--fail-on` and the superseded gate flags, `gha <posture> --fail-on`, `jail` and `scan --jail` breaches, `auth verify` failures, `upload` and `gha upload` failures, unknown flags and bad flag values |
-| `2` | `ExitUsage` | A local argument or configuration error before any work | `jail` only (bad duration, unwritable artefact path, no credentials). Usage errors in every other command exit `1`. |
-| `3` | `ExitIndeterminate` | The gate ran but could not decide: the backend state it needs is stale or missing. Not a pass and not a breach. | `jail` and `scan --jail`, when no rule breached but at least one could not be evaluated against current scan coverage |
+| `2` | `ExitUsage` | A local argument or configuration error before any work | `jail` (bad duration, unwritable artefact path, no credentials) and `config plan`, `config apply` and `config export` (bad arguments). Usage errors in every other command exit `1`. |
+| `3` | `ExitIndeterminate` | The gate ran but could not decide: the backend state it needs is stale or missing. Not a pass and not a breach. | `jail` and `scan --jail`, when no rule breached but at least one could not be evaluated against current scan coverage; `config plan` and `config apply`, when the plan is blocked by drift protection or policy (`ExitPlanBlocked`). See [config plan](/platform-iac/cli/plan/#exit-codes). |
 | `70` | | The language server panicked; a crash note was written | `vulnetix lsp` |
 
 A breach outranks an undecided rule: when one rule breaches and another cannot be evaluated, the exit is `1`, not `3`.

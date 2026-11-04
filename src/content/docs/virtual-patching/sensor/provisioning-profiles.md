@@ -4,6 +4,7 @@ description: For org admins, how a profile decides which devices it covers, whic
 order: 2
 nav: Provisioning profiles
 sources: [vdb-site/docs/sensor-provisioning-api.md, vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_provisioning.go, saas/prisma/models/runtime.prisma, cli/internal/sensor/agent/agent.go]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 03 Nov 2026
 ---
 

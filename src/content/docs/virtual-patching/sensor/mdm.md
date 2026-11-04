@@ -4,6 +4,7 @@ description: Enroll vulnetix-sensor on managed Linux devices with no person sign
 order: 3
 nav: MDM
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/cmd/vulnetix-sensor/provision_cmds.go, cli/internal/sensor/provision/client.go, cli/deploy/sensor/install.sh]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 03 Nov 2026
 ---
 

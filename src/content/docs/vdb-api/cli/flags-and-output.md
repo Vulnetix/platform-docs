@@ -30,7 +30,19 @@ Every `vulnetix vdb` command takes these.
 | `-v`, `-vv` | | `-v` adds rate-limit, cache and auth diagnostics on stderr; `-vv` adds raw evidence |
 | `--silent` | | Only the final result, no logs |
 
-`vdb` also takes the memory-context flags used by the Vulnetix coding-agent plugins (`--git-branch`, `--github-repo`, `--package-manager`, `--context` and others, and `--disable-memory` to turn them off). They do not change what the API returns.
+`vdb` also takes memory-context flags, which the Vulnetix coding-agent plugins pass so each lookup is recorded against the repository, branch and package manager it was made for. They do not change what the API returns. `--disable-memory` turns the memory record off.
+
+| Flag | Records |
+|---|---|
+| `--package-manager` | The package manager in use, such as `npm` or `cargo` |
+| `--manifest-format` | The manifest format, such as `package.json` or `requirements.txt` |
+| `--git-local-dir` | The local repository path |
+| `--git-branch` | The current branch |
+| `--remote-url`, `--remote-branch` | The git remote and its tracking branch |
+| `--github-org`, `--github-repo`, `--github-pr` | The GitHub organisation, repository and pull request number |
+| `--committer-name`, `--committer-email` | The committer, for attribution |
+| `--context` | A JSON object of any of the above, e.g. `'{"git_branch":"main"}'`. An explicit flag overrides it. |
+| `--ignore-env` | Stop gathering git and environment context automatically, while still writing memory |
 
 ## Credentials
 

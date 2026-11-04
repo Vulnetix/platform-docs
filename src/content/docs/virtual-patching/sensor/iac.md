@@ -4,6 +4,7 @@ description: Enroll vulnetix-sensor on fleets of Linux hosts from cloud-init, SS
 order: 4
 nav: At scale
 sources: [vdb-site/docs/sensor-provisioning-api.md, cli/deploy/sensor/install.sh, cli/deploy/sensor/ssm-document.yaml, cli/deploy/sensor/README.md, cli/cmd/vulnetix-sensor/main.go]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 

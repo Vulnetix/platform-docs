@@ -1,7 +1,7 @@
 ---
 title: upload
 description: vulnetix upload publishes a SARIF, CycloneDX or SPDX report written by another tool to Vulnetix, under that tool's name and in the scan category the report implies.
-order: 6
+order: 7
 sources: [cli/cmd/upload.go, cli/cmd/upload_publish.go, cli/internal/upload, cli/action.yml]
 checked: [cli@24498404a]
 updated: 02 Nov 2026

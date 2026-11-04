@@ -17,7 +17,7 @@ Errors print as `Error: <message>` on stderr, and the command exits `1`.
 | `choose only one of --api-key, --secret, or --token` | More than one credential flag | Keep the one that matches what you hold. `--secret` is a SigV4 secret, not an ApiKey. |
 | `--org-id must be a valid UUID, got: ...` | Not a UUID: an org name, or the `<org>:<key>` value | Copy the organisation UUID from the console |
 | `--org-id is required with --api-key` (or `--secret`) | No terminal to prompt on | Pass `--org-id` or set `VULNETIX_ORG_ID` |
-| `--method is deprecated; use --api-key + --org-id (ApiKey), ...` | `--method` with no credential flag | Drop `--method`; see [Methods](/cli/authentication/methods/#deprecated---method) |
+| `--method is deprecated; use --api-key + --org-id (ApiKey), ...` | `--method` with no credential flag | Drop `--method`; see [Methods](/cli/authentication/methods/#deprecated-method) |
 | `--noninteractive uses ApiKey credentials only; use --api-key with --org-id` | `--noninteractive` with `--secret` or `--token` | Use an ApiKey, or drop `--noninteractive` |
 | `missing ApiKey or org for noninteractive login. ...` | `--noninteractive` found no key or no org in flags or environment | Set both `VULNETIX_API_KEY` and `VULNETIX_ORG_ID` |
 | `authentication test failed: ...` | `auth login`: the API rejected the new credential | Wrong or revoked key, wrong org, or the wrong kind (an ApiKey as `--secret`). Nothing was written. |

@@ -153,7 +153,7 @@ Every resource has a computed `status` block:
 
 ### Destroying a resource
 
-Destroying a resource sends `DELETE /config/objects/{kind}/{name}`. It deletes the object, or lets go of it where the kind says so: deleting a [`GitHubInstallation`](/platform-iac/kinds/github-installation/) never uninstalls the App, and deleting an [`Organization`](/platform-iac/kinds/organization/) never deletes the tenant.
+Destroying a resource sends `DELETE /config/objects/{kind}/{name}`. It deletes the object, or lets go of it where the kind says so: deleting a [`GitHubInstallation`](/platform-iac/kinds/git-hub-installation/) never uninstalls the App, and deleting an [`Organization`](/platform-iac/kinds/organization/) never deletes the tenant.
 
 A kind with one object per tenant (a singleton, named `default`) always has something behind it, so destroying it puts the tenant back where it was before anyone configured it:
 

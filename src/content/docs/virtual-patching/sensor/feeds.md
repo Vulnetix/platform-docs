@@ -4,6 +4,7 @@ description: How a provisioning profile picks the feeds its sensors load, the th
 order: 6
 nav: Rule feeds
 sources: [vdb-site/docs/sensor-feeds-api.md, vdb-site/api/internal/handler/sensor_feed_catalog.go, vdb-site/api/internal/handler/sensor_feeds.go, vdb-site/api/internal/handler/sensor_feed_fetch.go, cli/internal/sensor/feed/indicators.go, cli/internal/sensor/engine/ioc.go, cli/deploy/sensor/README.md]
+checked: [cli@4c8c3b7, vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
