@@ -91,7 +91,7 @@ These are written in the plain error envelope with `type: "policy_violation"` or
 | `vault_key_expired` | `permission_error` | `the <slug> key for this API key owner has expired; …` | Extend or replace the key in the vault. |
 | `vault_kiro_relogin` | `permission_error` | AWS no longer accepts the stored Kiro sign-in | Run `vulnetix ai-firewall kiro login` again. |
 
-> [!CAREFUL] The provider_key_missing message names an old console path
+> [!CAREFUL] The provider_key_missing message names an old Resolve Platform path
 > The message points at `https://www.vulnetix.com/vdb-ai-firewall#byok`. The Resolve Platform page is now [/resolve/ai-firewall](https://www.vulnetix.com/resolve/ai-firewall), and keys are stored on its Connect tab.
 
 ## Authentication (401)

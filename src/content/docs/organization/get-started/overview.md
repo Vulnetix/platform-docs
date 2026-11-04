@@ -64,6 +64,6 @@ The organization's own settings are kinds: [`Organization`](/platform-iac/kinds/
 
 Drift protection is the organisation setting that decides what the Resolve Platform does with settings that Terraform or a GitOps repository manages. Off, the default, the Resolve Platform marks them as managed and still lets you edit them, and the next apply may overwrite your change. On, the server refuses console and legacy API changes to them with HTTP 409 `managed_by_platform_iac`, and the Resolve Platform shows the page read only. Pages with nothing managed as code are never affected.
 
-- **Where it is.** The Platform IaC indicator in the top-right of a console page, beside the **?** icon (alone where the page has no **?**), opens a menu with the switch. The same switch, with an explanation, is on **Account** › **Profile** (`/resolve/account`), in the card **Platform IaC drift protection**.
+- **Where it is.** The Platform IaC indicator in the top-right of a Resolve Platform page, beside the **?** icon (alone where the page has no **?**), opens a menu with the switch. The same switch, with an explanation, is on **Account** › **Profile** (`/resolve/account`), in the card **Platform IaC drift protection**.
 - **Who can switch it.** An organisation owner or admin, at any time. Other members see the state and the text `Only an organisation owner or admin can switch Drift protection.`
 - **Everything else** (the three states, what read only means, the limits) is on [Drift protection](/platform-iac/guides/drift-protection/#in-the-resolve-platform).

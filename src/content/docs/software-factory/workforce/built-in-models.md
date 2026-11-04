@@ -15,7 +15,7 @@ Your plan includes two model **labels**:
 | Pix Smart (`pix-smart`) | Harder work: coding, planning, review, images |
 | Pix Fast (`pix-fast`) | Quick work |
 
-You only ever see the label. Behind each, Vulnetix ranks up to five Workers AI models. Every call is routed across them by recent performance: answers, refusals and speed. If the first is struggling, the call goes to the next. Model ids never appear in your console, sessions or errors.
+You only ever see the label. Behind each, Vulnetix ranks up to five Workers AI models. Every call is routed across them by recent performance: answers, refusals and speed. If the first is struggling, the call goes to the next. Model ids never appear in the Resolve Platform, sessions or errors.
 
 ## Allowance and windows
 

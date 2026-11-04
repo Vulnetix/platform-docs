@@ -8,7 +8,7 @@ checked: [website@a31d470]
 updated: 28 Oct 2026
 ---
 
-Some console pages have a button beside an object, such as a failed run, a blocked build or a board card. It opens a Belai session on that object's repository with the request already written. The button names what it will do, for example **Find out why this run failed**.
+Some Resolve Platform pages have a button beside an object, such as a failed run, a blocked build or a board card. It opens a Belai session on that object's repository with the request already written. The button names what it will do, for example **Find out why this run failed**.
 
 **Nothing starts by itself.** The button opens the new session dialog with the prompt, mode and branch filled in. You read it, change it if you like, and press **Start**.
 

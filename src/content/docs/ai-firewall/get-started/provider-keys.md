@@ -24,7 +24,7 @@ Your applications send only the Vulnetix API key. The provider key, such as your
 | `vulnetix ai-firewall key set`, or the Resolve Platform key field | One key | Every API key owner in the organisation | `key set` again, or `key remove` |
 | The [secrets vault](https://www.vulnetix.com/resolve/vault), including keys added from the Connect tab | One or more keys, each with an expiry and the API key owners who may use it | Per owner | The Vault page |
 
-Both are stored as one KMS-encrypted value per organisation and provider. A vault-managed key cannot be changed from the CLI or the old console field: `key set` and `key remove` answer `409 the <slug> key is managed in the secrets vault; change it at https://www.vulnetix.com/resolve/vault`, so a CLI write cannot replace a multi-owner bundle with one key and drop its expiry.
+Both are stored as one KMS-encrypted value per organisation and provider. A vault-managed key cannot be changed from the CLI or the old Resolve Platform field: `key set` and `key remove` answer `409 the <slug> key is managed in the secrets vault; change it at https://www.vulnetix.com/resolve/vault`, so a CLI write cannot replace a multi-owner bundle with one key and drop its expiry.
 
 Storing keys is available on every plan.
 
@@ -66,7 +66,7 @@ The gateway reads the stored value on every request, so the next request through
 ## How a key is protected
 
 - **KMS envelope encryption.** The value is encrypted with AWS KMS under an encryption context naming the organisation and the provider. KMS enforces the context on decrypt, so a ciphertext copied into another organisation's row does not decrypt.
-- **Write-only.** No API returns a stored key. The CLI and console can tell you only whether one is stored (`hasKey`) and when it was last changed (`keyUpdatedAt`).
+- **Write-only.** No API returns a stored key. The CLI and the Resolve Platform can tell you only whether one is stored (`hasKey`) and when it was last changed (`keyUpdatedAt`).
 - **Decrypted just in time.** The gateway decrypts the key when a request needs it and keeps the plaintext in memory for up to 15 minutes (`BYOK_KEY_CACHE_TTL`). The cache is keyed by the ciphertext, so a replaced key is used on the next request.
 - **Never mixed with the caller's credential.** The caller's `Authorization` and `x-api-key` headers are removed before the request goes upstream.
 

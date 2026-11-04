@@ -136,7 +136,7 @@ vulnetix ai-firewall apply --dry-run --baseline-required -o json \
            ] | length == 0'
 ```
 
-`jq -e` exits `1` when the expression is `false`, that is when there is any create, update, delete or drift. Drop the `drift` entries from the count with `select(.op != "drift")` if console-only additions are acceptable.
+`jq -e` exits `1` when the expression is `false`, that is when there is any create, update, delete or drift. Drop the `drift` entries from the count with `select(.op != "drift")` if additions made only in the Resolve Platform are acceptable.
 
 ## JSON output
 

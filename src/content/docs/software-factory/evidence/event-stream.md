@@ -7,7 +7,7 @@ checked: [vdb-site@fe1ff17]
 updated: 03 Nov 2026
 ---
 
-Every change in the factory writes an event in the same transaction. The Resolve Platform reads one stream per tab, and every live panel updates from it. No console page polls the factory on a timer. The Events page (`/resolve/factory-events`) shows the stream with filters, a chart and an inspector.
+Every change in the factory writes an event in the same transaction. The Resolve Platform reads one stream per tab, and every live panel updates from it. No Resolve Platform page polls the factory on a timer. The Events page (`/resolve/factory-events`) shows the stream with filters, a chart and an inspector.
 
 ![The Events page with the live list, filters and an open event](/img/sf-events-dark.webp)
 
@@ -83,7 +83,7 @@ The subject keys `node`, `step`, `budget`, `model`, `setting`, `installation` an
 
 ## Reading the stream from your own code
 
-`GET /v1/factory/events` is a server-sent event stream. It needs a signed-in console session. Browsers cannot put an `Authorization` header on `EventSource`, so read it with `fetch` and a streaming reader.
+`GET /v1/factory/events` is a server-sent event stream. It needs a signed-in Resolve Platform session. Browsers cannot put an `Authorization` header on `EventSource`, so read it with `fetch` and a streaming reader.
 
 | Frame | When | Do |
 |---|---|---|

@@ -77,7 +77,7 @@ A bare string such as `"ripgrep"` still reads as `{name: "ripgrep", registry: "n
 
 ## API
 
-All under `/v1/belai/sandboxes`, with a signed-in console session. Reads need a member of the organisation; writes need an owner or admin, or answer `403 only an owner or admin can change sandboxes`.
+All under `/v1/belai/sandboxes`, with a signed-in Resolve Platform session. Reads need a member of the organisation; writes need an owner or admin, or answer `403 only an owner or admin can change sandboxes`.
 
 | Method | Path | Body or answer |
 |---|---|---|

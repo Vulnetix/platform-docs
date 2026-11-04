@@ -265,7 +265,7 @@ The server does not store this kind. \`vulnetix license\` and \`vulnetix scan --
     after: `## How apply treats it
 
 - Only indicators the tenant manages are read or written. Scanner-found indicators, feed indicators and the global curation verdicts are never touched.
-- Every apply writes the malware curation audit, as a console edit does.
+- Every apply writes the malware curation audit, as an edit in the Resolve Platform does.
 - A tenant has one managed indicator per type and value. A document for a pair the Resolve Platform already created adopts that row.
 - The spec is replaced whole: leaving \`ecosystem\` out clears it.
 - The table has no name column, so \`metadata.name\` is kept on the ownership record, and an indicator made in the Resolve Platform exports under a name derived from its fields.`,

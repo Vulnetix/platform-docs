@@ -26,7 +26,7 @@ vulnetix ai-firewall baseline -o json
 | Served by | Ref | Version |
 |---|---|---|
 | `POST /v2/cli.ai-firewall-baseline` (CLI) | `default` or `recommended`; the CLI asks for `recommended`. Any other ref is `404`. | `2026.10.1` |
-| `GET /v1/ai-firewall/baseline` (console Blueprints) | `default`, generated from the same list | `2026.10.1` |
+| `GET /v1/ai-firewall/baseline` (Blueprints in the Resolve Platform) | `default`, generated from the same list | `2026.10.1` |
 
 ## The rules
 

@@ -103,7 +103,7 @@ Since the Resolve Platform release of 3 November 2026, the Resolve Platform show
 
 ### The indicator
 
-A console page that edits a kind Platform IaC can manage shows a small branch icon in the top-right of its header, beside the **?** help icon (on its own where the page has no **?**). A page that edits no such kind shows nothing. The page-to-kinds map is fixed in the Resolve Platform: for example Quality gate is `QualityGate`, Jail is `JailPolicy` and `JailExemption`, Integrations is the GitHub, forge, Wiz and AWS kinds, and Members is `Member` and `ServiceAccount`.
+A Resolve Platform page that edits a kind Platform IaC can manage shows a small branch icon in the top-right of its header, beside the **?** help icon (on its own where the page has no **?**). A page that edits no such kind shows nothing. The page-to-kinds map is fixed in the Resolve Platform: for example Quality gate is `QualityGate`, Jail is `JailPolicy` and `JailExemption`, Integrations is the GitHub, forge, Wiz and AWS kinds, and Members is `Member` and `ServiceAccount`.
 
 | State | When | Hover text |
 |---|---|---|
@@ -147,15 +147,15 @@ The Resolve Platform behaves as follows, and has not been exercised against the 
 
 Drift protection stops the Resolve Platform and the legacy APIs from changing a managed kind. It is not an access control, and it has these edges:
 
-- **Only `/v1/config/*` bypasses it.** A credential that can apply is the key to every managed setting, but it passes only on the config routes. The same ApiKey sent to a console route is refused like anyone else. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
+- **Only `/v1/config/*` bypasses it.** A credential that can apply is the key to every managed setting, but it passes only on the config routes. The same ApiKey sent to a Resolve Platform route is refused like anyone else. See [credentials for automation](/platform-iac/reference/config-api/#credentials-for-automation).
 - **The factory kill switch is exempt.** `POST /factory/stop`, `/factory/resume` and `/factory/a2a/blackout` are emergency controls and must work when everything else is blocked.
 - **Credential rotations are guarded.** Rotating a `ServiceAccount` key or a `VaultEntry` secret from the Resolve Platform is refused while that kind is managed.
-- **Finding triage is not guarded.** Marking a finding a false positive can leave a console `Suppression` rule as a side effect, and that is not blocked. Only `POST /findings/bulk/suppress`, which exists to write rules, is guarded.
+- **Finding triage is not guarded.** Marking a finding a false positive can leave a Resolve Platform `Suppression` rule as a side effect, and that is not blocked. Only `POST /findings/bulk/suppress`, which exists to write rules, is guarded.
 - **The SIEM kinds are not covered yet.** `SavedSearch`, `DetectionRule`, `AlertTrigger`, `ScheduledReport` and `LogSource` are written in Guardian, not in the site API, so the guard never sees their writes.
 - **A person's own state is not guarded:** their password, MFA, API key, identity links and notification preferences.
 - **Tests, previews, dry runs, syncs and refreshes change nothing a kind declares,** so they pass. So do legacy tables no kind writes, and `/admin/*`, which is Vulnetix staff tooling.
 - **`PUT /v1/account` is guarded only when its body carries `companyEmailDomain`.** The rest of that route is the person's own profile.
-- **`LicensePolicy` and `LicenseExceptions` are validate only,** and `VexSource` and `TeaPublicationTarget` are written only through the engine, so there is no console write to guard.
+- **`LicensePolicy` and `LicenseExceptions` are validate only,** and `VexSource` and `TeaPublicationTarget` are written only through the engine, so there is no Resolve Platform write to guard.
 
 ## Route to kind table
 

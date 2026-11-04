@@ -30,7 +30,7 @@ How a caller proves who it is is on [credentials for automation](#credentials-fo
 | `POST /config/plan` | A per-object create, update, delete or no-op, a `planHash`, and anything that blocks the apply. See [plan](/platform-iac/cli/plan/). |
 | `POST /config/apply` | Applies a reviewed plan, named by its `planHash`, in one transaction. See [apply](/platform-iac/cli/apply/). |
 | `GET /config/export?kind=&name=&manager=&format=` | The stored state as documents. `format` is `yaml`, `hcl` or `sh`. See [export](/platform-iac/cli/export/). |
-| `POST /config/export?format=` | Renders documents you send (an unsaved console form) instead of the stored state |
+| `POST /config/export?format=` | Renders documents you send (an unsaved Resolve Platform form) instead of the stored state |
 | `GET /config/ownership?kind=&name=` | Which objects are managed as code, by which manager and from which source. Any member may read it. |
 | `GET /config/objects/{kind}/{name}` | One object and its status |
 | `PUT /config/objects/{kind}/{name}` | Plans and applies one document in one transaction (server-side apply, used by the Terraform provider). The body is `{"manager", "sourceRef", "document"}` (or `"yaml"`), or a YAML document with `manager` and `sourceRef` in the query. |

@@ -8,7 +8,7 @@ checked: [vdb-site@1a06d67]
 updated: 02 Nov 2026
 ---
 
-Base URL: `https://www.vulnetix.com/api/site/v1`. Every route here needs a signed-in console session or an organisation API key. Errors are `{"error": "<message>"}`.
+Base URL: `https://www.vulnetix.com/api/site/v1`. Every route here needs a signed-in Resolve Platform session or an organisation API key. Errors are `{"error": "<message>"}`.
 
 Below the required plan, list and read routes answer `200` with an empty result and:
 

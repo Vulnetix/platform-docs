@@ -16,7 +16,7 @@ Guardian has two hosts:
 
 ## Authentication
 
-Resolve Platform API requests carry `Authorization: Bearer <access token>`, the OIDC access token of a signed-in console session (an RS256 JWT issued by Vulnetix sign-in). Guardian verifies it, looks up the user, and resolves your organisation from the user. No route takes an organisation from the request. Vulnetix API keys are not accepted here.
+Resolve Platform API requests carry `Authorization: Bearer <access token>`, the OIDC access token of a signed-in Resolve Platform session (an RS256 JWT issued by Vulnetix sign-in). Guardian verifies it, looks up the user, and resolves your organisation from the user. No route takes an organisation from the request. Vulnetix API keys are not accepted here.
 
 The template downloads and `/v1/health` need no token.
 

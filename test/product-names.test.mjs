@@ -18,7 +18,7 @@ const ROOT = join(import.meta.dirname, '..');
 const DIRS = ['src/content/docs', 'src/segments', 'src/pages', 'src/layouts', 'src/lib'];
 const GENERATORS = ['migration/generators/kind-notes.mjs', 'migration/generators/kind-reference.mjs', 'scripts/gen-reference.mjs'];
 const SKIP = [/^src\/content\/docs\/sast\/rules\//, /^src\/content\/docs\/platform-iac\/kinds\//];
-const BANNED = /\b[Tt]he console\b(?!\.\w|\()|\b(?:Vulnetix|Resolve) [Cc]onsole\b/;
+const BANNED = /\b[Tt]he console\b(?!\.\w|\()|\b(?:Vulnetix|Resolve) [Cc]onsole\b|\bconsole (?:session|pages?|only|edit|tab)\b|\bconsole-only\b/;
 
 const walk = (dir) => readdirSync(dir).flatMap((n) => {
   const p = join(dir, n);
@@ -50,6 +50,8 @@ test('pages call the signed-in product the Resolve Platform, not the console', (
 test('the guard allows routes, code and API names, and catches prose', () => {
   assert.ok(BANNED.test('Open Integrations in the console.'));
   assert.ok(BANNED.test('Pages in the Vulnetix console'));
+  assert.ok(BANNED.test('Every route needs a signed-in console session.'));
+  assert.ok(BANNED.test('Other console pages link here.'));
   assert.ok(!BANNED.test(prose('See [Console pages](/software-factory/reference/console-routes/).')));
   assert.ok(!BANNED.test(prose('The `console` field and `/resolve/console` route.')));
   assert.ok(!BANNED.test('the console.log call'));

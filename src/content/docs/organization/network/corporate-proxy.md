@@ -34,7 +34,7 @@ If a proxy allowlist misses one of these, only the feature that uses it breaks.
 | `SSL_CERT_FILE`, `SSL_CERT_DIR` | Go's TLS stack on Linux and BSD | Trust a corporate root CA. On macOS and Windows, add the CA to the system trust store instead. |
 | `VULNETIX_ORG_ID`, `VULNETIX_API_KEY` | every command | Credentials. See [Service accounts and API keys](/organization/people/service-accounts-and-api-keys/). |
 | `VULNETIX_API_URL` | `scan`, the language server, the agent lookup | Point at a different vulnerability database API |
-| `VULNETIX_WEB_URL` | `auth login` | Point the device flow at a different console |
+| `VULNETIX_WEB_URL` | `auth login` | Point the device flow at a different Resolve Platform host |
 | `VULNETIX_SCA_TIMEOUT` | `scan` (SCA) and the language server | Per-request deadline for SCA batches, in seconds. Default 75, clamped to 10 to 300. |
 | `VULNETIX_HTTP_TRACE` | the VDB client | Any value prints one line per HTTP request to stderr: sequence, start offset, duration, status, method, host and path |
 

@@ -58,7 +58,7 @@ vulnetix config apply --plan-hash "$hash"
 
 ## When the state moved (409)
 
-If anything the plan covers changed between the plan and the apply (another apply, a console edit, edited documents), the engine answers HTTP 409 and writes nothing. The CLI prints:
+If anything the plan covers changed between the plan and the apply (another apply, an edit in the Resolve Platform, edited documents), the engine answers HTTP 409 and writes nothing. The CLI prints:
 
 ```text
 Error: the configuration changed after this plan was made (someone applied or edited it), so nothing was applied; run 'vulnetix config plan' again and review (the fresh plan: 0 to create, 2 to update, 0 to delete, 0 unchanged)

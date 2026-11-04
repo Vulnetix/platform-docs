@@ -119,7 +119,7 @@ The first read after an import fills in every field the server holds. Each kind'
 
 Most kinds **merge** a document into the stored object, and the tenant's row can hold values the configuration never set. So a refresh reads only the arguments you manage: an argument removed from the configuration stops being managed and keeps its last server value. Kinds that are wholly declared, such as `ApiSpecSource`, `MalwareIoc`, `RemediationPolicy`, `RiskStrategy`, `Suppression` and `VexSource`, are **replaced** instead: a removed argument goes back to its default. A resource's own page in the registry says which.
 
-Some kinds replace the object itself when a field changes, because the platform's own console only creates and deletes them. [`WizConnection`](/platform-iac/kinds/wiz-connection/) is replaced through those writers, and a messaging connection cannot change type. A kind written in a [second phase](/platform-iac/reference/engine/#outside-the-transaction) (the five SIEM kinds and `VaultEntry`) answers a single `PUT` with 502 `external_failed` when its store refuses the write, and records nothing.
+Some kinds replace the object itself when a field changes, because the Resolve Platform only creates and deletes them. [`WizConnection`](/platform-iac/kinds/wiz-connection/) is replaced through those writers, and a messaging connection cannot change type. A kind written in a [second phase](/platform-iac/reference/engine/#outside-the-transaction) (the five SIEM kinds and `VaultEntry`) answers a single `PUT` with 502 `external_failed` when its store refuses the write, and records nothing.
 
 ### Renamed arguments
 
@@ -222,7 +222,7 @@ A release is a `vX.Y.Z` tag on the repository. Its workflow publishes a GitHub r
 | v1.4.0 | config-schemas v1.19.0: `vulnetix_runtime_sensor_policy` takes `update_base_url`. |
 | v1.3.4 | An import reads a value equal to its schema default as unset, so a configuration that leaves defaults out plans clean after it. Objects that hold a required secret, or fewer list items than the schema minimum, import. |
 | v1.3.2 | `vulnetix_library_item` `body` and `files[].body` are sensitive. |
-| v1.3.1 | An object whose console name breaks the name pattern (capitals or spaces) imports and plans, and a set whose server copy repeats an element reads as one element. |
+| v1.3.1 | An object whose Resolve Platform name breaks the name pattern (capitals or spaces) imports and plans, and a set whose server copy repeats an element reads as one element. |
 | v1.3.0 | `vulnetix_member` takes the `developer` role. |
 | v1.2.0 | Authenticates with a service account's ApiKey (`api_key`, `org_id`) or an Authentik bearer token (`token`); `vulnetix_service_account` takes a `role`. The management token is gone. |
 | v1.1.0 | Adds `drift_protection` to `vulnetix_organization`, the [Drift protection](/platform-iac/guides/drift-protection/) switch. Needs a server-side migration to turn on. |

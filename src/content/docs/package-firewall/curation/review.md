@@ -42,4 +42,4 @@ Open an entry's history from its row on the **Curation** tab.
 ## Getting to an entry from elsewhere
 
 - The curation drawer's package search merges three sources: the ecosystem's public registry search, your organization's own firewall traffic, and your curation lists. A slow registry only adds a note to the results.
-- Software Factory cards and other console pages link to `/resolve/package-firewall?pkg=<ecosystem>:<name>&version=<v>&add=allow#curation`, which opens the drawer at that package with the add confirmation ready (`add=deny` for the deny list).
+- Software Factory cards and other Resolve Platform pages link to `/resolve/package-firewall?pkg=<ecosystem>:<name>&version=<v>&add=allow#curation`, which opens the drawer at that package with the add confirmation ready (`add=deny` for the deny list).

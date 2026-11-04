@@ -58,7 +58,7 @@ The hold policy sets `holdTimeoutMinutes` (0 to 10080, that is up to 7 days; 0 m
 
 | `holdTimeoutAction` | Hold becomes | Also |
 |---|---|---|
-| `wait` (console label "Keep waiting") | `expired` | Nothing is approved, so the gateway keeps holding the capability. The row stays `expired` and drops off the **Held now** list; find it with `state=expired`. |
+| `wait` (Resolve Platform label "Keep waiting") | `expired` | Nothing is approved, so the gateway keeps holding the capability. The row stays `expired` and drops off the **Held now** list; find it with `state=expired`. |
 | `deny` | `denied` | A guardrail named `Hold timed out: <identity>` with the matching `*_deny` rule type, action `block`, priority 100 |
 | `allow` | `allowed` | The capability passes from then on |
 

@@ -97,7 +97,7 @@ With `<ecosystem> <url>` it adds or updates a [mirror](/package-firewall/operati
 | `--priority N` | Order within the ecosystem, lower first. Omitted: `max(priority)+1`. |
 | `--enable`, `--disable` | Set `isActive` on the mirror matched by ecosystem and URL. |
 
-The enforcement mode, per-ecosystem modes, review settings and curation lists are console only.
+The enforcement mode, per-ecosystem modes, review settings and curation lists are set only in the Resolve Platform.
 
 ## vulnetix config get package-firewall
 

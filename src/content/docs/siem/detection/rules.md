@@ -99,4 +99,4 @@ curl -sS https://guardian.vulnetix.com/v1/guardian/rules \
 EOF
 ```
 
-Other sources take `{ "source": "search", "searchId": "..." }`, `{ "source": "sigmahq" | "countermeasure", "ruleRef": "..." }` or `{ "source": "ioc", "ruleRef": "ioc-dns" }`. `$GUARDIAN_ACCESS_TOKEN` is a console sign-in access token; see [API](/siem/reference/api/#authentication).
+Other sources take `{ "source": "search", "searchId": "..." }`, `{ "source": "sigmahq" | "countermeasure", "ruleRef": "..." }` or `{ "source": "ioc", "ruleRef": "ioc-dns" }`. `$GUARDIAN_ACCESS_TOKEN` is a Resolve Platform sign-in access token; see [API](/siem/reference/api/#authentication).

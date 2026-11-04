@@ -25,9 +25,9 @@ One policy per organization applies to every ecosystem your organization can use
 | Block EOL | `--block-eol` | `blockEol` | bool | `false` | the version is end of life |
 | Cooldown (days) | `--cooldown-days` | `cooldownDays` | int `>= 0` | `0` (off) | the version was published fewer than N days ago |
 | Version lag | `--version-lag` | `versionLag` | int `>= 0` | `0` (off) | the version is more than N releases behind the newest |
-| Enforcement mode | console only | `enforcementMode` | `enforce`, `warn`, `allowlist_only` | `enforce` | see below |
-| Re-review a decision after | console only | `staleDecisionDays` | int | `90` | console flags an allow or deny entry for review |
-| Flag an entry unused after | console only | `staleUsageDays` | int | `90` | console flags an entry with no matching traffic |
+| Enforcement mode | Resolve Platform only | `enforcementMode` | `enforce`, `warn`, `allowlist_only` | `enforce` | see below |
+| Re-review a decision after | Resolve Platform only | `staleDecisionDays` | int | `90` | the Resolve Platform flags an allow or deny entry for review |
+| Flag an entry unused after | Resolve Platform only | `staleUsageDays` | int | `90` | the Resolve Platform flags an entry with no matching traffic |
 
 The order these are checked in, and what an allow entry waives, is on [Evaluation order](/package-firewall/policy/evaluation-order/). The two review settings are read by the Resolve Platform only; see [Review and audit](/package-firewall/curation/review/).
 

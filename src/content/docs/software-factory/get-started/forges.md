@@ -8,7 +8,7 @@ checked: [vdb-site@72a0135, website@255a6c8, belai@aebead5]
 updated: 28 Oct 2026
 ---
 
-The factory works on five kinds of forge. Every one runs the same workflows, triggers, gates, kanban sync and console pages. Where a forge lacks something GitHub has, the factory emulates it, or says plainly that it is not available there.
+The factory works on five kinds of forge. Every one runs the same workflows, triggers, gates, kanban sync and Resolve Platform pages. Where a forge lacks something GitHub has, the factory emulates it, or says plainly that it is not available there.
 
 | Forge | Connects with | Pull requests are called |
 |---|---|---|

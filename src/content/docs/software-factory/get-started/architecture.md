@@ -1,5 +1,5 @@
 ---
-title: "How the pieces fit: console, API, hosts and Belai"
+title: "How the pieces fit: Resolve Platform, API, hosts and Belai"
 nav: How the pieces fit
 description: Where each part of Software Factory runs and how they talk to each other. Read this before you connect your own machines or debug a run that does not start.
 order: 5
@@ -20,12 +20,12 @@ Software Factory has five parts. You use two of them directly: the Resolve Platf
 
 ## The Resolve Platform and the API
 
-Every console page reads the API under `/v1/factory` and `/v1/belai`, proxied as `/api/site/v1/...`. Every route needs a signed-in console session and acts on your tenant. A record that belongs to another tenant reads as not found, never as forbidden.
+Every Resolve Platform page reads the API under `/v1/factory` and `/v1/belai`, proxied as `/api/site/v1/...`. Every route needs a signed-in Resolve Platform session and acts on your tenant. A record that belongs to another tenant reads as not found, never as forbidden.
 
 Reads never call GitHub. They come from the factory's own tables and from mirror tables that GitHub webhooks keep current. Every response carries `source` and `asOf`, so a page can show how old its data is. Only an action marked with a GitHub price, or a gate or output step, calls GitHub live.
 
 > [!WHY] Why reads never call GitHub
-> Your GitHub App installation has one rate limit, shared with your own CI and tools. If every page load spent calls, an open console tab could starve a release. Mirrors cost nothing to read, and the factory takes only its share of the limit, 10% by default.
+> Your GitHub App installation has one rate limit, shared with your own CI and tools. If every page load spent calls, an open Resolve Platform tab could starve a release. Mirrors cost nothing to read, and the factory takes only its share of the limit, 10% by default.
 
 ## The engine
 

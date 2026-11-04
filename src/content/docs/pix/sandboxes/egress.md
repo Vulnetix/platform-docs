@@ -89,7 +89,7 @@ Each host the sandbox reached is a row on the sandbox's **Egress** tab, with fir
 - Only an owner or admin of the organisation can change a decision.
 
 > [!CAREFUL] A new decision takes effect at the next launch
-> A decision is saved at once, but a running sandbox reads the decision list when it launches, and again only if its Durable Object restarts. No console or API action refreshes a running sandbox's decisions today. Relaunch the sandbox for a new allow or deny to apply. The mode, too, changes only at relaunch.
+> A decision is saved at once, but a running sandbox reads the decision list when it launches, and again only if its Durable Object restarts. No Resolve Platform or API action refreshes a running sandbox's decisions today. Relaunch the sandbox for a new allow or deny to apply. The mode, too, changes only at relaunch.
 
 ### From a launch configuration
 

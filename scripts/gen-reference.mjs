@@ -111,7 +111,7 @@ function customerWording(text) {
 {
   const routes = by('route').map((a) => ({ a, method: a.value.split(' ')[0], path: a.value.split(' ')[1] }));
   const groups = groupBy(routes, (r) => r.path.split('/').slice(0, 4).join('/').replace(/\{[^}]+\}/g, '{…}'));
-  let body = 'Every Software Factory, Belai and Pix route the API serves. Routes under `/v1/factory` and `/v1/belai` need a signed-in console session (or an API key) and act on the caller\'s tenant. Internal routes are called by schedulers and the Pix call worker with a signed header, not by people.\n';
+  let body = 'Every Software Factory, Belai and Pix route the API serves. Routes under `/v1/factory` and `/v1/belai` need a signed-in Resolve Platform session (or an API key) and act on the caller\'s tenant. Internal routes are called by schedulers and the Pix call worker with a signed header, not by people.\n';
   for (const [g, rows] of Object.entries(groups).sort(([a], [b]) => a.localeCompare(b))) {
     body += `\n## ${g}\n\n| Method | Path | Explained in |\n|---|---|---|\n`;
     for (const { a, method, path } of rows.sort((x, y) => x.path.localeCompare(y.path) || x.method.localeCompare(y.method))) body += `| ${method} | ${code(path)} | ${link(guideFor(a))} |\n`;
