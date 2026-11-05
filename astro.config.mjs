@@ -18,13 +18,14 @@ export default defineConfig({
   // A Content-Security-Policy <meta> on every page (GitHub Pages cannot send
   // headers), with the sha256 of each inline script and style. scripts/sri.mjs
   // adds the hash of the import map it writes after the build. Everything the
-  // site loads is its own: no external scripts, styles, fonts or images.
+  // site loads is its own except the Geist font, from jsDelivr at a pinned
+  // version (src/styles/docs.css; sri.mjs --check verifies its digest).
   security: {
     csp: {
       directives: [
         "default-src 'self'",
         "img-src 'self' data:",
-        "font-src 'self'",
+        "font-src 'self' https://cdn.jsdelivr.net",
         "connect-src 'self'",
         "base-uri 'self'",
         "form-action 'self'",

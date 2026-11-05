@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PAGEFIND, addSource, digest, directive, problems, processHtml, scan } from '../scripts/sri.mjs';
+import { PAGEFIND, PINNED, addSource, digest, directive, problems, processHtml, remoteProblems, remoteRefs, remoteUrls, scan } from '../scripts/sri.mjs';
 
 const FILES = { '/_astro/a.css': 'body{}', '/fonts/f.otf': 'font', '/x.js': 'js', [PAGEFIND]: 'pf' };
 const hashOf = (files) => (url) => (url in files ? digest('sha384', files[url]) : null);
@@ -59,4 +59,29 @@ test('--check catches a missing digest, a changed file, an unhashed inline scrip
   assert.deepEqual(problems(out, changed), ['/_astro/a.css: integrity does not match the file', `import map: ${PAGEFIND} does not match the file`]);
   assert.deepEqual(problems(page('<link rel="stylesheet" href="/_astro/a.css">'), hash), ['/_astro/a.css: no integrity', 'the CSP does not follow <meta charset>']);
   assert.ok(problems(out.replace('</body>', '<script>injected()</script></body>'), hash).includes('an inline script is not in the CSP'));
+});
+
+test('remote files must be pinned and match their recorded digest', async () => {
+  const url = 'https://cdn.jsdelivr.net/npm/x@1.0.0/f.woff2';
+  const pinned = { [url]: digest('sha384', 'font') };
+  const bytes = (b) => async () => Buffer.from(b);
+  assert.deepEqual(remoteUrls(`<link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preload" href="${url}">@font-face{src:url("${url}")}`), [url]);
+  assert.deepEqual(await remoteProblems([url], bytes('font'), pinned), []);
+  assert.deepEqual(await remoteProblems([url], bytes('tampered'), pinned), [`${url}: does not match its pinned digest`]);
+  assert.deepEqual(await remoteProblems(['https://cdn.jsdelivr.net/npm/y@2/g.woff2'], bytes('font'), pinned), ['https://cdn.jsdelivr.net/npm/y@2/g.woff2: not pinned in scripts/sri.mjs']);
+  const down = async () => { throw new Error('HTTP 503'); };
+  assert.deepEqual(await remoteProblems([url], down, pinned), [`${url}: could not fetch (HTTP 503)`]);
+});
+
+test('every pinned font URL is a versioned jsDelivr path', () => {
+  for (const [url, value] of Object.entries(PINNED)) {
+    assert.match(url, /^https:\/\/cdn\.jsdelivr\.net\/npm\/@fontsource-variable\/geist@\d+\.\d+\.\d+\/files\/[a-z-]+\.woff2$/);
+    assert.match(value, /^sha384-[A-Za-z0-9+/]{64}$/);
+  }
+});
+
+test('a page’s remote files are its link and script tags, not URLs quoted in its text', () => {
+  const url = 'https://cdn.jsdelivr.net/npm/x@1.0.0/f.woff2';
+  const html = `<link rel="preload" href="${url}" as="font" crossorigin><pre><code>&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"&gt;</code></pre><p>see https://cdn.jsdelivr.net/npm/z/</p>`;
+  assert.deepEqual(remoteRefs(html), [url]);
 });

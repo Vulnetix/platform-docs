@@ -42,9 +42,10 @@ Each HTML page names its twin in `<meta name="markdown">` and `<link rel="altern
 
 - Each same-origin `<link rel="stylesheet">`, `<link rel="preload">` and `<script src>` gets `integrity="sha384-…"` from the built file.
 - An import map pins `/pagefind/pagefind.js`, which search loads with a dynamic import, by its sha384. Browsers without import-map integrity ignore it.
-- Every page has a Content-Security-Policy `<meta>` (GitHub Pages cannot send headers), right after `<meta charset>`: `'self'` for everything, `'wasm-unsafe-eval'` for Pagefind, and the sha256 of every inline script and style. Astro (`security.csp` in `astro.config.mjs`) hashes the scripts it bundles; `sri.mjs` adds the `is:inline` theme script and the import map.
+- Every page has a Content-Security-Policy `<meta>` (GitHub Pages cannot send headers), right after `<meta charset>`: `'self'` for everything, `https://cdn.jsdelivr.net` for fonts, `'wasm-unsafe-eval'` for Pagefind, and the sha256 of every inline script and style. Astro (`security.csp` in `astro.config.mjs`) hashes the scripts it bundles; `sri.mjs` adds the `is:inline` theme script and the import map.
 - Not covered: Pagefind's index and fragment files, which it fetches, and inline `style="…"` attributes (Shiki's code colours), which `style-src-attr 'unsafe-inline'` allows.
-- A new external script, style, font or image would be blocked by the policy until it is added to `astro.config.mjs`.
+- The Geist font is the one file from elsewhere: Fontsource's variable woff2 on jsDelivr at a pinned version (`src/styles/docs.css`), one file per script with every weight in it, cached for a year as immutable. Latin is about 30 KB and is preloaded with a preconnect; Latin Extended (about 16 KB) is fetched only by a page that uses it, and other scripts fall back to the system font. `@font-face` cannot carry `integrity`, and a preload that did would not be reused (the font would download twice), so `sri.mjs --check` does the job instead: every jsDelivr file a page links or a stylesheet uses must be in `PINNED` in `scripts/sri.mjs`, and is fetched and compared with its recorded sha384. To move to a new release, change the version in `docs.css` and `Doc.astro` and record the new digests in `PINNED`.
+- A new external script, style, font or image would be blocked by the policy until it is added to `astro.config.mjs` (and, for jsDelivr, to `PINNED`).
 
 ## Generated pages and drift checks
 

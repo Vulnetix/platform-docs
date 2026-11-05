@@ -16,12 +16,59 @@
 //     moves that <meta> up to follow <meta charset>, so it governs the whole
 //     page.
 // Not covered: Pagefind's index and fragment files, which it fetches.
+//
+// The one thing loaded from elsewhere is the Geist font, from jsDelivr
+// (src/styles/docs.css). @font-face cannot carry integrity, so --check fails
+// when the build references a jsDelivr file not in PINNED below, and fetches
+// each pinned file to compare it with its recorded digest. To move to a new
+// font release, change the version in docs.css and Doc.astro and record the
+// new digests here (`curl -s <url> | openssl dgst -sha384 -binary | base64`).
 import { createHash } from 'node:crypto';
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 export const PAGEFIND = '/pagefind/pagefind.js';
+
+const GEIST = 'https://cdn.jsdelivr.net/npm/@fontsource-variable/geist@5.3.0/files';
+export const PINNED = {
+  [`${GEIST}/geist-latin-wght-normal.woff2`]: 'sha384-tOfKDG7slrKYWpwldbm4WtA1FznOX7wj5pBF8ay9j7fVmyOqKahOgmnsaPH/35Rh',
+  [`${GEIST}/geist-latin-ext-wght-normal.woff2`]: 'sha384-SbY0HmKyF7Y5RtP5s7Hx15oXLhMwA4T6j2458o3MNGE6PQQJOwUVJps3G7Sd/hsf',
+};
+
+// Every jsDelivr URL in a stylesheet.
+export const remoteUrls = (text) => [...new Set([...text.matchAll(/https:\/\/cdn\.jsdelivr\.net\/[^"')\s]*/g)].map((m) => m[0]))];
+
+// Every jsDelivr URL a page loads: <link href> and <script src> only, so a
+// URL quoted in the docs' prose or code samples is not mistaken for one.
+export const remoteRefs = (html) => {
+  const urls = new Set();
+  for (const m of html.matchAll(TOKENS)) {
+    const url = m[0].toLowerCase().startsWith('<script') ? attr(m[1], 'src') : m[5]?.toLowerCase() === 'link' ? attr(m[6], 'href') : undefined;
+    if (url?.startsWith('https://cdn.jsdelivr.net/')) urls.add(url);
+  }
+  return [...urls];
+};
+
+// The preconnect origin itself is not a file; every other URL must be pinned,
+// and its bytes (from `fetchBytes`) must match the recorded digest.
+export const remoteProblems = async (urls, fetchBytes, pinned = PINNED) => {
+  const errs = [];
+  for (const url of urls) {
+    if (url === 'https://cdn.jsdelivr.net' || url === 'https://cdn.jsdelivr.net/') continue;
+    if (!pinned[url]) { errs.push(`${url}: not pinned in scripts/sri.mjs`); continue; }
+    let bytes;
+    try { bytes = await fetchBytes(url); } catch (e) { errs.push(`${url}: could not fetch (${e.message ?? e})`); continue; }
+    if (digest('sha384', bytes) !== pinned[url]) errs.push(`${url}: does not match its pinned digest`);
+  }
+  return errs;
+};
+
+const fetchBytes = async (url) => {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+  return Buffer.from(await r.arrayBuffer());
+};
 const ATTR = String.raw`(?:\s+[^\s=>"'/]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>"']+))?)*`;
 // One pass over the markup: scripts and styles with their bodies, then any
 // other tag. Quoted attribute values are consumed whole, so a "<script" in an
@@ -140,6 +187,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const hash = hasher(dist);
   let failures = 0;
   let files = 0;
+  const remote = new Set();
   for (const file of pages(dist)) {
     const html = readFileSync(file, 'utf8');
     // A meta-refresh stub loads nothing.
@@ -147,11 +195,17 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     files++;
     if (check) {
       for (const e of problems(html, hash)) { console.error(`${file.slice(dist.length)}: ${e}`); failures++; }
+      remoteRefs(html).forEach((u) => remote.add(u));
     } else {
       const out = processHtml(html, hash);
       if (out !== html) writeFileSync(file, out);
     }
   }
+  if (check) {
+    const astro = join(dist, '_astro');
+    if (existsSync(astro)) for (const e of readdirSync(astro).filter((f) => f.endsWith('.css'))) remoteUrls(readFileSync(join(astro, e), 'utf8')).forEach((u) => remote.add(u));
+    for (const e of await remoteProblems([...remote], fetchBytes)) { console.error(`remote: ${e}`); failures++; }
+  }
   if (failures) { console.error(`sri: ${failures} problem(s)`); process.exit(1); }
-  console.log(`sri: ${files} pages ${check ? 'verified' : 'written'}`);
+  console.log(`sri: ${files} pages ${check ? `verified, ${remote.size} remote file(s) checked` : 'written'}`);
 }
