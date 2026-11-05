@@ -29,7 +29,11 @@ A `$/` ref resolves to the commit of the workflow itself, not to whatever an ear
 
 ## Dependabot
 
-Dependabot changes action refs in workflows but does not update `actions.lock`, so a bump fails lock verification until someone runs `gh actions-lock` on the branch. Group the bumps so there is one pull request to relock. In CI, verify with `gh actions-lock --verify-local`: the online check also reads each third-party action's repository, and an organisation with an IP allow list refuses a workflow token.
+Dependabot updates `actions.lock` in the same pull request as the action refs, so a bump passes lock verification. Group the bumps so one pull request carries them.
+
+The exception is a repository with `$/` local actions: Dependabot cannot read them, and an update under that directory fails with `can't inspect self repository action`. Relock those by hand with `gh actions-lock`.
+
+In CI, verify with `gh actions-lock --verify-local`. The online check also reads each third-party action's repository, and an organisation with an IP allow list refuses a workflow token.
 
 ## What a lock freezes
 
