@@ -25,11 +25,11 @@ jobs:
     steps:
       # Full history: the sitemap's <lastmod> falls back to each page's last
       # commit when its front matter has no `updated`.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v5.0.0
         with:
           node-version-file: .nvmrc
 
@@ -76,7 +76,7 @@ jobs:
           node scripts/build-redirects.mjs --check dist
           git diff --exit-code redirects/worker.js || { echo "redirects/worker.js is stale: run node scripts/build-redirects.mjs and commit it"; exit 1; }
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: dist
           retention-days: 1
@@ -100,11 +100,11 @@ jobs:
   generators:
     runs-on: [self-hosted, Linux, X64, vulnetix-local]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
         with:
           path: platform-docs
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v5.0.0
         with:
           node-version-file: platform-docs/.nvmrc
 
@@ -121,14 +121,14 @@ jobs:
 
       # Tags are needed: the generators read which config-schemas release each
       # cli tag embedded, and which release first had each kind.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
         with:
           repository: Vulnetix/cli
           path: cli
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
         with:
           repository: Vulnetix/config-schemas
           path: config-schemas
@@ -136,13 +136,13 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
         with:
           repository: Vulnetix/terraform-provider-resolve
           path: terraform-provider-resolve
           fetch-depth: 0
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
         with:
           repository: Vulnetix/malscan-engine
           path: malscan-engine
@@ -179,7 +179,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@v5.0.1
 
   # Tell the IndexNow engines about the pages once they are live. It reads the
   # live sitemap, so it runs after deploy. seo.yml repeats it daily.
@@ -187,9 +187,9 @@ jobs:
     needs: deploy
     runs-on: [self-hosted, Linux, X64, vulnetix-local]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5.1.0
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v5.0.0
         with:
           node-version-file: .nvmrc
 
