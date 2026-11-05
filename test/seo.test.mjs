@@ -1,7 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { isoDate } from '../src/lib/dates.mjs';
-import { lastmodFor, sitemapXml } from '../scripts/sitemap.mjs';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { gitDates, lastmodFor, sitemapXml } from '../scripts/sitemap.mjs';
 import { homeMarkdown, llmsTxt } from '../src/lib/site-index.mjs';
 
 test('isoDate reads front matter dates and refuses anything else', () => {
@@ -45,4 +48,21 @@ test('index.md lists the same products with root-relative twin links', () => {
   const md = homeMarkdown(groups);
   assert.match(md, /- \[SCA\]\(\/sca\.md\): Dependencies\./);
   assert.ok(!md.includes('https://docs.vulnetix.com'));
+});
+
+test('with no git history the fallback dates are empty, so those pages get no <lastmod>', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'no-git-'));
+  try {
+    const dates = gitDates(dir);
+    assert.equal(dates.size, 0);
+    assert.equal(lastmodFor(page(''), dates), null);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('the git fallback reads each docs file’s newest commit date', () => {
+  const dates = gitDates();
+  if (!dates.size) return; // a shallow clone: covered by the test above
+  assert.match(dates.get('src/content/docs/cli/get-started/install.md') ?? '', /^\d{4}-\d{2}-\d{2}$/);
 });

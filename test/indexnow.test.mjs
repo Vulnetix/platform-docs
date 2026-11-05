@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { HOST, KEY, KEY_FILE, MAX_URLS, payload, sitemapUrls } from '../scripts/indexnow.mjs';
+import { HOST, KEY, KEY_FILE, MAX_URLS, accepted, payload, sitemapUrls } from '../scripts/indexnow.mjs';
 
 test('the hosted key file holds exactly the key', () => {
   assert.match(KEY, /^[0-9a-f]{32}$/);
@@ -24,4 +24,11 @@ test('the payload names the host, the key and where the key is hosted, capped at
   assert.equal(body.key, KEY);
   assert.equal(body.keyLocation, `https://docs.vulnetix.com/${KEY}.txt`);
   assert.equal(body.urlList.length, MAX_URLS);
+});
+
+test('a run succeeds when any endpoint accepted it, and fails only when all refused', () => {
+  assert.equal(accepted([403, 403, 202]), true);
+  assert.equal(accepted([200, 0, 500]), true);
+  assert.equal(accepted([403, 0, 429]), false);
+  assert.equal(accepted([]), false);
 });

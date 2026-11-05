@@ -27,6 +27,10 @@ export const sitemapUrls = (xml, host = HOST) =>
 
 export const payload = (urlList) => ({ host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList: urlList.slice(0, MAX_URLS) });
 
+// 200 OK and 202 Accepted both mean received. The engines share submissions,
+// so a run succeeds when any endpoint took it (0 is a network error).
+export const accepted = (statuses) => statuses.some((s) => s === 200 || s === 202);
+
 const fail = (msg) => { console.error(`[indexnow] ERROR: ${msg}`); process.exit(1); };
 
 async function main() {
@@ -42,20 +46,18 @@ async function main() {
     body.urlList.slice(0, 10).forEach((u) => console.log(`  ${u}`));
     return;
   }
-  let ok = 0;
+  const statuses = [];
   for (const endpoint of ENDPOINTS) {
     try {
       const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json; charset=utf-8' }, body: JSON.stringify(body) });
-      // 200 OK and 202 Accepted both mean received.
-      const good = r.status === 200 || r.status === 202;
-      ok += good;
-      console.log(`[indexnow] ${good ? 'OK  ' : 'WARN'} ${r.status} ${endpoint}`);
+      statuses.push(r.status);
+      console.log(`[indexnow] ${accepted([r.status]) ? 'OK  ' : 'WARN'} ${r.status} ${endpoint}`);
     } catch (e) {
+      statuses.push(0);
       console.log(`[indexnow] FAIL ${endpoint}: ${e}`);
     }
   }
-  // They share submissions: fail only when every endpoint refused.
-  if (!ok) fail('every IndexNow endpoint failed');
+  if (!accepted(statuses)) fail('every IndexNow endpoint failed');
   console.log(`[indexnow] submitted ${body.urlList.length} URLs`);
 }
 
