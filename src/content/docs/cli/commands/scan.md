@@ -11,6 +11,8 @@ updated: 03 Nov 2026
 vulnetix scan [flags]
 ```
 
+`sast` takes `--language` and `--not-language`, and `sca` takes `--package-manager` and `--not-package-manager`, to scan one part of a repository. See [Granular actions](/cli/ci-cd/granular-actions/).
+
 `scan` walks a directory, parses manifests, lockfiles, CI files and shell install commands on your machine, asks the VDB about each package version, and runs the rule-based passes over the source. It owns none of the analyses: each pass is the same code its own command runs, so `scan --only licenses --allow MIT` and `license --allow MIT` reach the same verdict. What `scan` adds is one result, one SBOM and one gate decision across all of them.
 
 > [!CAREFUL] scan takes no positional path

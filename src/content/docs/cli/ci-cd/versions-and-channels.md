@@ -41,7 +41,7 @@ Prereleases such as `v4.1.0-rc.1` never match. When nothing resolves the script 
 | `with: { version: v4.0.0 }` | That binary, whatever the ref |
 | `with: { binary-path: ./vulnetix }` | A binary you built earlier in the job. Nothing is downloaded. |
 
-The `version` default is the major channel matching the action's ref, so a workflow on `@v3` keeps a v3 binary now that v4 has shipped. For a fully reproducible job, pin the action to a commit SHA and `version` to an exact tag.
+The `version` default is empty, which installs the release the action ref was cut from, so a lock file or SHA pin freezes the binary too (see [Lockfiles and pinning](/cli/ci-cd/actions-lockfile/)). Before this, the default was the major channel matching the action's ref, so a workflow on `@v3` kept a v3 binary now that v4 has shipped. For a fully reproducible job, pin the action to a commit SHA and `version` to an exact tag.
 
 A second Vulnetix action in the same job that asks for the same `version` skips the download. The [setup action](/cli/github-actions/setup/) does only the install.
 
@@ -50,7 +50,7 @@ A second Vulnetix action in the same job that asks for the same `version` skips 
 Every tag is published with its binaries. Only the newest stable tag across every major does the following:
 
 - becomes the GitHub Latest release,
-- moves the major tag (`v3`, `v4`) that `uses: Vulnetix/cli@v4` follows,
+- moves the major tag (`v3`, `v4`) that `uses: Vulnetix/cli@v4` follows, once a canary has installed the release through its own `setup` action,
 - updates Homebrew, Scoop and the Nix flake.
 
 A prerelease never moves a major tag. Two pushes minutes apart each start a release and the earlier can finish last; the newer tag wins, so the older one is published and left there.

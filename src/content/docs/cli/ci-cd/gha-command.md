@@ -104,6 +104,14 @@ Writes or updates `.github/workflows/vulnetix-scanners.yml`: one job per scanner
 
 Every scanner, and the exact job it adds, is on [Third-party scanners](/cli/ci-cd/third-party-scanners/).
 
+## gha init
+
+```sh
+vulnetix gha init [path] [--check] [--dry-run] [--force] [--ref <ref>] [--triggers pr|push|belai] [--runner <label>]
+```
+
+Writes a repository's managed `.github/workflows/vulnetix.yml` from what it contains and `.vulnetix/workflow.yaml`, using the [granular actions](/cli/ci-cd/granular-actions/). `--check` writes nothing and exits 1 when the workflow has drifted from the policy. `--triggers` and `--runner` apply when there is no policy file yet.
+
 ## Troubleshooting
 
 | Symptom | Fix |
