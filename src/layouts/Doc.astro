@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import { SEGMENT_GROUPS, REPO_URL, CONSOLE_URL, HOME_ID, hrefFor, segmentOf } from '../lib/nav';
 import Search from '../components/Search.astro';
 import { mdHref } from '../lib/markdown-export.mjs';
+import { isoDate } from '../lib/dates.mjs';
 
 interface Props {
   id: string;
@@ -55,6 +56,8 @@ const canonical = new URL(hrefFor(id), Astro.site).href;
 // The page's Markdown twin (src/pages/[...slug].md.ts), for agents and LLM tools.
 const md = mdHref(hrefFor(id));
 const mdAbs = new URL(md, Astro.site).href;
+// Read by scripts/sitemap.mjs for <lastmod>.
+const modified = isoDate(updated);
 const isRef = section === 'reference';
 const siteTitle = segment ? `${segment.title} · Vulnetix docs` : 'Vulnetix docs';
 const isHome = id === HOME_ID || (segment && id === segment.home);
@@ -74,6 +77,7 @@ const isHome = id === HOME_ID || (segment && id === segment.home);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content="article" />
+    {modified && <meta property="article:modified_time" content={modified} />}
     <link rel="preload" href="/fonts/Geist-Regular.otf" as="font" type="font/otf" crossorigin />
     <script is:inline>
       // Apply the saved theme before first paint so the page never flashes.

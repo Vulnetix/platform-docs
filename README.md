@@ -29,6 +29,13 @@ Every page is also served as Markdown at its path with `.md` in place of the tra
 
 Each HTML page names its twin in `<meta name="markdown">` and `<link rel="alternate" type="text/markdown">`, has a Markdown button under the description, and opens its `<body>` with a note telling agents to fetch the Markdown (clipped from view and `aria-hidden`, but left in the DOM so HTML-to-text tools read it).
 
+`/llms.txt` (llmstxt.org format, `src/pages/llms.txt.ts`) lists every product and its sections with absolute links to their Markdown twins. It and `/index.md` are built from one list in `src/lib/site-index.mjs`.
+
+## Search engines
+
+- **Sitemap.** `scripts/sitemap.mjs` writes `sitemap-index.xml` and `sitemap-0.xml` from the built pages (not redirect stubs, not the `.md` twins); `robots.txt` points at it, which is how Google finds it. Each page's `<lastmod>` is its front matter `updated` (Doc.astro writes it as `<meta property="article:modified_time">`), else the date of the last commit to its source file, else left out. The build job checks out full history for the git fallback; in a shallow clone those pages get no `<lastmod>`.
+- **IndexNow.** `scripts/indexnow.mjs` sends every sitemap URL on docs.vulnetix.com to `api.indexnow.org`, Bing and Yandex, which share it with Seznam, Naver, Mojeek and DuckDuckGo. It runs in the `indexnow` job of `pages.yml` after each deploy, and daily at 07:00 UTC through `seo.yml` (also run by hand with `gh workflow run seo.yml`). `--dry-run` prints the payload without sending. The key is public by design: `public/<key>.txt` holds it as the proof of ownership and must match `KEY` in the script. A run fails only when every endpoint refuses.
+
 ## Generated pages and drift checks
 
 - `migration/generators/*` write the generated pages from the source repositories. The `generators` job in `pages.yml` checks out `cli`, `config-schemas` (at the tag pinned in `migration/generators/releases.json`), `terraform-provider-resolve` and `malscan-engine`, reruns them and fails when a page differs in anything but its `checked:` stamp.

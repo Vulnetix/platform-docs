@@ -23,7 +23,11 @@ jobs:
   build:
     runs-on: [self-hosted, Linux, X64, vulnetix-local]
     steps:
+      # Full history: the sitemap's <lastmod> falls back to each page's last
+      # commit when its front matter has no `updated`.
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v5
         with:
@@ -171,3 +175,18 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  # Tell the IndexNow engines about the pages once they are live. It reads the
+  # live sitemap, so it runs after deploy. seo.yml repeats it daily.
+  indexnow:
+    needs: deploy
+    runs-on: [self-hosted, Linux, X64, vulnetix-local]
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+
+      - name: Submit to IndexNow
+        run: node scripts/indexnow.mjs
