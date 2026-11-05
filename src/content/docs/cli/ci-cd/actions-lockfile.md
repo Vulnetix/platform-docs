@@ -17,6 +17,20 @@ gh actions-lock --verify
 
 Refs such as `Vulnetix/cli/sast/python@v4` narrow to the exact release, and nested paths lock like any other. The third-party actions the composites use are pinned by commit SHA and locked with them.
 
+## Local actions
+
+Once a repository has a lock file, GitHub also enforces it on a local `uses: ./my-action` composite: every third-party action inside it must be locked, or the job fails with `lockfile missing pin`. Run the following to move local actions to `$/` refs, which the lock covers:
+
+```sh
+gh actions-lock --migrate-local-actions
+```
+
+A `$/` ref resolves to the commit of the workflow itself, not to whatever an earlier step checked out. A step that checks out another ref and then runs an action from it needs another approach, such as calling that ref's script directly. actionlint 1.7.12 reports `$/` as an invalid format, so lint a copy with the refs rewritten to `./`.
+
+## Dependabot
+
+Dependabot changes action refs in workflows but does not update `actions.lock`, so a bump fails lock verification until someone runs `gh actions-lock` on the branch. Group the bumps so there is one pull request to relock. In CI, verify with `gh actions-lock --verify-local`: the online check also reads each third-party action's repository, and an organisation with an IP allow list refuses a workflow token.
+
 ## What a lock freezes
 
 A lock freezes an action's commit. It does not freeze what that commit downloads, so each release tag names its own binary in `action-lib/cli-release`:
@@ -24,7 +38,7 @@ A lock freezes an action's commit. It does not freeze what that commit downloads
 | `version` input | Installs |
 |---|---|
 | empty (the default) | The release this action ref was cut from |
-| `v4.23.0` | That release |
+| `v4.23.1` | That release |
 | `v4` or `latest` | Whatever is newest when the job runs. A lock cannot freeze this |
 
 So leave `version` empty on a locked or SHA-pinned workflow. The action, its scripts and the binary then all come from one release.

@@ -4,7 +4,7 @@ nav: "ignore-sync"
 description: "The Vulnetix/cli/ignore-sync GitHub Action: inputs, outputs and a workflow."
 order: 56
 sources: [cli/ignore-sync/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

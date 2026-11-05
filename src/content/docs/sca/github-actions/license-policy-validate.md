@@ -4,7 +4,7 @@ nav: "license-policy-validate"
 description: "The Vulnetix/cli/license-policy-validate GitHub Action: inputs, outputs and a workflow."
 order: 60
 sources: [cli/license-policy-validate/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

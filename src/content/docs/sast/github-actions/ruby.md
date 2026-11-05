@@ -4,7 +4,7 @@ nav: "sast/ruby"
 description: "The Vulnetix/cli/sast/ruby GitHub Action: inputs, outputs and a workflow."
 order: 71
 sources: [cli/sast/ruby/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

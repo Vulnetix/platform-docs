@@ -4,7 +4,7 @@ nav: "gha-actions"
 description: "The Vulnetix/cli/gha-actions GitHub Action: inputs, outputs and a workflow."
 order: 49
 sources: [cli/gha-actions/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

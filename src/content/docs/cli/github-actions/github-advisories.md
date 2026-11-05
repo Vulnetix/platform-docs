@@ -4,7 +4,7 @@ nav: "github-advisories"
 description: "The Vulnetix/cli/github-advisories GitHub Action: inputs, outputs and a workflow."
 order: 55
 sources: [cli/github-advisories/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

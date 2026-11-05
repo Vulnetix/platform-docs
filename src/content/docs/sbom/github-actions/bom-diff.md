@@ -4,7 +4,7 @@ nav: "bom-diff"
 description: "The Vulnetix/cli/bom-diff GitHub Action: inputs, outputs and a workflow."
 order: 43
 sources: [cli/bom-diff/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

@@ -4,7 +4,7 @@ nav: "sast/c-cpp"
 description: "The Vulnetix/cli/sast/c-cpp GitHub Action: inputs, outputs and a workflow."
 order: 63
 sources: [cli/sast/c-cpp/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

@@ -4,7 +4,7 @@ nav: "cbom"
 description: "The Vulnetix/cli/cbom GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 2
 sources: [cli/cbom/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/cbom.md]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 04 Nov 2026
 ---
 

@@ -4,7 +4,7 @@ nav: "api-discover"
 description: "The Vulnetix/cli/api-discover GitHub Action: inputs, outputs and a workflow."
 order: 41
 sources: [cli/api-discover/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---

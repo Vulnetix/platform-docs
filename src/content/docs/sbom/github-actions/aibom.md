@@ -4,7 +4,7 @@ nav: "aibom"
 description: "The Vulnetix/cli/aibom GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 3
 sources: [cli/aibom/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/aibom.md]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 04 Nov 2026
 ---
 

@@ -4,7 +4,7 @@ nav: "fix"
 description: "The Vulnetix/cli/fix GitHub Action: inputs, outputs and a workflow."
 order: 48
 sources: [cli/fix/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.0]
+checked: [cli@v4.23.1]
 updated: 05 Nov 2026
 generated: true
 ---
