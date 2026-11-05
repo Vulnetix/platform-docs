@@ -159,7 +159,17 @@ kbd { font-size: 11px; padding: 1px 6px; border: 1px solid var(--line-strong); b
 .status-in-development .status-badge { background: var(--why-bg); border-color: var(--why-bar); color: var(--why-title); }
 .status-planned .status-badge { background: var(--careful-bg); border-color: var(--careful-bar); color: var(--careful-title); }
 .status-planned .status-note, .status-in-development .status-note { color: var(--text-2); }
-.meta { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--text-3); }
+.meta { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 13px; color: var(--text-3); }
+/* The page's Markdown twin, for agents and LLM tools. */
+.md-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+  border: 1px solid var(--line-strong); border-radius: 8px; background: var(--bg-raised);
+  color: var(--text-2); font-size: 12px; font-weight: 500;
+}
+.md-btn:hover { color: var(--text); background: var(--bg-hover); text-decoration: none; }
+/* Agent-facing note at the top of the body: clipped from view but kept in the
+   DOM (not display:none) so HTML-to-text tools still read it. */
+.agent-note { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .prose { margin-top: 8px; color: var(--text-2); }
 .prose > * + * { margin-top: 0; }
 .prose p, .prose ul, .prose ol, .prose dl, .prose pre, .prose table, .prose .table-wrap, .prose aside, .prose figure { margin: 0 0 16px; }

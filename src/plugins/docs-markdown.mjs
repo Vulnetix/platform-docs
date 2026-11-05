@@ -14,8 +14,7 @@
 // Heading ids are assigned by Astro after these plugins run, so the "#" links
 // next to headings are added by the page script in src/layouts/Doc.astro.
 
-import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { exists } from '../lib/markdown-export.mjs';
 
 const KINDS = {
   WHY: { cls: 'why', title: 'Why it works this way' },
@@ -52,13 +51,8 @@ export const callouts = {
 // pendingLinks: a link to a docs page that has not been written yet renders as
 // plain text, so the site never ships a dead link while sections land one at
 // a time. The link appears by itself on the build after its page exists.
-const DOCS = fileURLToPath(new URL('../content/docs/', import.meta.url));
-const exists = (path) => {
-  const p = path.replace(/^\/|\/$/g, '');
-  if (p === '') return true;
-  // A section's own page is <section>/index.md (platform-iac/terraform).
-  return existsSync(`${DOCS}${p}.md`) || existsSync(`${DOCS}${p}/index.md`) || !/^[a-z-]+(\/[a-z0-9-]+)+$/.test(p);
-};
+// exists() is shared with the Markdown twins (src/lib/markdown-export.mjs),
+// which drop the same links.
 
 export const pendingLinks = {
   name: 'sf-pending-links',

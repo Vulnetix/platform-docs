@@ -17,6 +17,18 @@ yarn check-links    # after a build
 
 Pages are Markdown in `src/content/docs/<segment>/`. Pushing to `main` deploys through `.github/workflows/pages.yml`. DNS and the Pages settings live in `terraform/`.
 
+## Markdown for agents
+
+Every page is also served as Markdown at its path with `.md` in place of the trailing slash: `/cli/get-started/install/` is `/cli/get-started/install.md`, a segment home `/cli/` is `/cli.md`, and the site home is `/index.md`, which lists every product. `src/pages/[...slug].md.ts` and `src/pages/index.md.ts` write them with `src/lib/markdown-export.mjs`; `test/markdown-export.test.mjs` covers the rules.
+
+- A twin is `# Title`, the description, a status line only when the page is not `available`, then the page body. No front matter, no footer.
+- HTML comments are dropped from prose and kept inside code. Runs of blank lines collapse to one.
+- A link to another page points at its `.md` twin, anchor kept; a link to a segment home's own path (`/<segment>/get-started/overview/`) points at `/<segment>.md`. Assets, `/?search`, external links and code are left alone.
+- A link to a page that does not exist yet becomes its text, the same rule `pendingLinks` applies to the HTML (both use `exists()`).
+- Redirect stubs have no twin.
+
+Each HTML page names its twin in `<meta name="markdown">` and `<link rel="alternate" type="text/markdown">`, has a Markdown button under the description, and opens its `<body>` with a note telling agents to fetch the Markdown (clipped from view and `aria-hidden`, but left in the DOM so HTML-to-text tools read it).
+
 ## Generated pages and drift checks
 
 - `migration/generators/*` write the generated pages from the source repositories. The `generators` job in `pages.yml` checks out `cli`, `config-schemas` (at the tag pinned in `migration/generators/releases.json`), `terraform-provider-resolve` and `malscan-engine`, reruns them and fails when a page differs in anything but its `checked:` stamp.
