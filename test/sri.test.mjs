@@ -1,0 +1,62 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { PAGEFIND, addSource, digest, directive, problems, processHtml, scan } from '../scripts/sri.mjs';
+
+const FILES = { '/_astro/a.css': 'body{}', '/fonts/f.otf': 'font', '/x.js': 'js', [PAGEFIND]: 'pf' };
+const hashOf = (files) => (url) => (url in files ? digest('sha384', files[url]) : null);
+const hash = hashOf(FILES);
+const CSP = `<meta http-equiv="content-security-policy" content="default-src 'self'; script-src 'self' 'sha256-bundled'; style-src 'self'; style-src-attr 'unsafe-inline';">`;
+const page = (head, body = '') => `<!DOCTYPE html><html><head><meta charset="utf-8"><title>t</title>${head}${CSP}</head><body>${body}</body></html>`;
+
+test('same-origin stylesheets, preloads and script srcs get the digest of their file', () => {
+  const out = processHtml(page('<link rel="stylesheet" href="/_astro/a.css"><link rel="preload" href="/fonts/f.otf" as="font" crossorigin><script type="module" src="/x.js"></script>'), hash);
+  assert.ok(out.includes(`<link rel="stylesheet" href="/_astro/a.css" integrity="${digest('sha384', 'body{}')}">`));
+  assert.ok(out.includes(`as="font" crossorigin integrity="${digest('sha384', 'font')}">`));
+  assert.ok(out.includes(`src="/x.js" integrity="${digest('sha384', 'js')}">`));
+  assert.deepEqual(problems(out, hash), []);
+});
+
+test('external and inline resources get no integrity attribute', () => {
+  const out = processHtml(page('<link rel="stylesheet" href="https://cdn.example.com/a.css"><link rel="icon" href="/favicon.svg"><script>var a=1</script>'), hash);
+  assert.ok(!/integrity/.test(out));
+});
+
+test('a "<script" inside an attribute value is not read as a tag', () => {
+  const s = scan('<meta name="description" content="matches <script src> and <script, a quote"><script>x()</script>');
+  assert.deepEqual(s.refs, []);
+  assert.deepEqual(s.scripts, ['x()']);
+});
+
+test('pages that load search get an import map pinning pagefind.js, hashed into the CSP', () => {
+  const out = processHtml(page('', `<script type="module">import('${PAGEFIND}')</script>`), hash);
+  const s = scan(out);
+  assert.equal(JSON.parse(s.importMap.body).integrity[PAGEFIND], digest('sha384', 'pf'));
+  const scriptSrc = directive(s.csp, 'script-src');
+  assert.ok(scriptSrc.includes(`'${digest('sha256', s.importMap.body)}'`));
+  assert.ok(scriptSrc.includes("'sha256-bundled'"), 'Astro’s own hashes are kept');
+  assert.deepEqual(problems(out, hash), []);
+  assert.equal(processHtml(out, hash), out, 'running again changes nothing');
+});
+
+test('every inline script and style is hashed into its directive, not the -attr one', () => {
+  const out = processHtml(page('<script>theme()</script><style>a{}</style>'), hash);
+  const csp = scan(out).csp;
+  assert.ok(directive(csp, 'script-src').includes(`'${digest('sha256', 'theme()')}'`));
+  assert.ok(directive(csp, 'style-src').includes(`'${digest('sha256', 'a{}')}'`));
+  assert.equal(directive(csp, 'style-src-attr').trim(), "'unsafe-inline'");
+  assert.equal(addSource("script-src 'self'", 'script-src', "'self'"), "script-src 'self'");
+});
+
+test('the policy moves up to follow <meta charset>', () => {
+  const out = processHtml(page('<script>early()</script>'), hash);
+  assert.match(out, /<meta charset="utf-8"><meta http-equiv="content-security-policy"/);
+});
+
+test('--check catches a missing digest, a changed file, an unhashed inline script and a misplaced policy', () => {
+  const out = processHtml(page('<link rel="stylesheet" href="/_astro/a.css">', `<script type="module">import('${PAGEFIND}')</script>`), hash);
+  assert.deepEqual(problems(out, hash), []);
+  const changed = hashOf({ ...FILES, '/_astro/a.css': 'body{color:red}', [PAGEFIND]: 'pf2' });
+  assert.deepEqual(problems(out, changed), ['/_astro/a.css: integrity does not match the file', `import map: ${PAGEFIND} does not match the file`]);
+  assert.deepEqual(problems(page('<link rel="stylesheet" href="/_astro/a.css">'), hash), ['/_astro/a.css: no integrity', 'the CSP does not follow <meta charset>']);
+  assert.ok(problems(out.replace('</body>', '<script>injected()</script></body>'), hash).includes('an inline script is not in the CSP'));
+});

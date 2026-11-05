@@ -64,6 +64,11 @@ jobs:
       - name: Check internal links
         run: node scripts/check-links.mjs dist
 
+      # Every same-origin stylesheet, preload and script carries the digest of
+      # the file it loads, and each page's CSP hashes match its inline code.
+      - name: Check subresource integrity
+        run: node scripts/sri.mjs --check dist
+
       # Every old docs URL must land on a page that exists, and the committed
       # Worker must be the one the maps build (it is deployed by hand).
       - name: Check retired-host redirects

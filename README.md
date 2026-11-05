@@ -36,6 +36,16 @@ Each HTML page names its twin in `<meta name="markdown">` and `<link rel="altern
 - **Sitemap.** `scripts/sitemap.mjs` writes `sitemap-index.xml` and `sitemap-0.xml` from the built pages (not redirect stubs, not the `.md` twins); `robots.txt` points at it, which is how Google finds it. Each page's `<lastmod>` is its front matter `updated` (Doc.astro writes it as `<meta property="article:modified_time">`), else the date of the last commit to its source file, else left out. The build job checks out full history for the git fallback; in a shallow clone those pages get no `<lastmod>`.
 - **IndexNow.** `scripts/indexnow.mjs` sends every sitemap URL on docs.vulnetix.com to `api.indexnow.org`, Bing and Yandex, which share it with Seznam, Naver, Mojeek and DuckDuckGo. It runs in the `indexnow` job of `pages.yml` after each deploy, and daily at 07:00 UTC through `seo.yml` (also run by hand with `gh workflow run seo.yml`). `--dry-run` prints the payload without sending. The key is public by design: `public/<key>.txt` holds it as the proof of ownership and must match `KEY` in the script. A run fails only when every endpoint refuses.
 
+## Integrity
+
+`scripts/sri.mjs` runs last in `yarn build`; `node scripts/sri.mjs --check dist` in `pages.yml` fails the deploy on any gap.
+
+- Each same-origin `<link rel="stylesheet">`, `<link rel="preload">` and `<script src>` gets `integrity="sha384-…"` from the built file.
+- An import map pins `/pagefind/pagefind.js`, which search loads with a dynamic import, by its sha384. Browsers without import-map integrity ignore it.
+- Every page has a Content-Security-Policy `<meta>` (GitHub Pages cannot send headers), right after `<meta charset>`: `'self'` for everything, `'wasm-unsafe-eval'` for Pagefind, and the sha256 of every inline script and style. Astro (`security.csp` in `astro.config.mjs`) hashes the scripts it bundles; `sri.mjs` adds the `is:inline` theme script and the import map.
+- Not covered: Pagefind's index and fragment files, which it fetches, and inline `style="…"` attributes (Shiki's code colours), which `style-src-attr 'unsafe-inline'` allows.
+- A new external script, style, font or image would be blocked by the policy until it is added to `astro.config.mjs`.
+
 ## Generated pages and drift checks
 
 - `migration/generators/*` write the generated pages from the source repositories. The `generators` job in `pages.yml` checks out `cli`, `config-schemas` (at the tag pinned in `migration/generators/releases.json`), `terraform-provider-resolve` and `malscan-engine`, reruns them and fails when a page differs in anything but its `checked:` stamp.
