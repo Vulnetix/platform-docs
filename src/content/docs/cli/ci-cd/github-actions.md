@@ -3,7 +3,7 @@ title: GitHub Actions
 description: The Vulnetix GitHub Actions, the root action's inputs, outputs, credentials and permissions, and complete workflows for scanning, gating and publishing.
 order: 2
 sources: [cli/action.yml, cli/action-lib/run.sh, cli/action-lib/install.sh, cli/action-lib/finish.sh, cli/action-lib/config.sh, cli/action-lib/publish.sh, cli/tools/actiongen/spec.go, cli/docs/github-actions.md, cli/cmd/gha.go, cli/cmd/upload.go, cli/cmd/gha_submit.go, cli/install.sh]
-checked: [cli@v4.4.0]
+checked: [cli@v4.23.0]
 updated: 03 Nov 2026
 ---
 
@@ -34,6 +34,91 @@ jobs:
 ```
 
 With the default `task: info` the root action installs the CLI and runs `vulnetix`, the authentication health check. Without `org-id` and a credential the CLI runs in community mode.
+
+## The catalogue
+
+<!-- catalogue:start -->
+| Action | What it does |
+|---|---|
+| [`ai-firewall-apply`](/cli/github-actions/ai-firewall-apply/) | Reconcile the organisation's AI Firewall policy from a file (vulnetix ai-firewall apply). |
+| [`aibom`](/sbom/github-actions/aibom/) | Write an AI bill of materials (vulnetix aibom). |
+| [`analyze`](/cli/github-actions/analyze/) | Report the repository's tech stack, ownership and risk (vulnetix analyze). |
+| [`api-discover`](/cli/github-actions/api-discover/) | Find OpenAPI and Swagger descriptions in the working tree and upload them (vulnetix api discover). |
+| [`api-upload`](/cli/github-actions/api-upload/) | Upload one OpenAPI or Swagger file (vulnetix api upload). |
+| [`attest`](/attestation/github-actions/attest/) | Verify an artefact's signature, identity and provenance (vulnetix attest verify). |
+| [`bom-diff`](/sbom/github-actions/bom-diff/) | Compare two SBOM documents and fail on the changes you name (vulnetix bom diff). |
+| [`bom-enrich`](/sbom/github-actions/bom-enrich/) | Resolve licences and attach vulnerabilities and VEX to a supplied SBOM (vulnetix bom enrich). |
+| [`bom-merge`](/sbom/github-actions/bom-merge/) | Combine SBOM documents into one, such as the fragments of scoped sca jobs (vulnetix bom merge). |
+| [`bom-validate`](/sbom/github-actions/bom-validate/) | Check an SBOM's structure and field completeness (vulnetix bom validate). |
+| [`cbom`](/sbom/github-actions/cbom/) | Write a cryptography bill of materials (vulnetix cbom). |
+| [`config-apply`](/platform-iac/github-actions/config-apply/) | Apply Platform IaC documents through the config engine (vulnetix config apply). Authenticate with org-id and the api-key of an owner, an admin or an admin service account, or with api-token. |
+| [`config-export`](/platform-iac/github-actions/config-export/) | Write the organisation's configuration as code, for a drift job or a backup (vulnetix config export). |
+| [`config-plan`](/platform-iac/github-actions/config-plan/) | Plan Platform IaC documents against the config engine and comment the plan on the pull request (vulnetix config plan). Authenticate with org-id and the api-key of an owner, an admin or an admin service account, or with api-token. |
+| [`containers`](/sca/github-actions/containers/) | Scan container files and images (vulnetix containers). |
+| [`fix`](/cli/github-actions/fix/) | Resolve vulnerable dependencies to safe versions and write the change as a patch artifact; it never commits (vulnetix fix --yes). |
+| [`gha-actions`](/cli/github-actions/gha-actions/) | Check the actions and images this repository's workflows run (vulnetix gha actions). |
+| [`gha-audit`](/cli/github-actions/gha-audit/) | Run every GitHub posture check: workflows, actions, settings and organisation (vulnetix gha audit). |
+| [`gha-org`](/cli/github-actions/gha-org/) | Check organisation settings (vulnetix gha org). Needs a token that can read them. |
+| [`gha-settings`](/cli/github-actions/gha-settings/) | Check the repository settings that protect the code and CI (vulnetix gha settings). |
+| [`gha-status`](/cli/github-actions/gha-status/) | Report what this workflow run published to Vulnetix (vulnetix gha status). |
+| [`gha-upload`](/cli/github-actions/gha-upload/) | Upload every artifact of this workflow run to Vulnetix (vulnetix gha upload). |
+| [`gha-workflows`](/cli/github-actions/gha-workflows/) | Find injection, privilege and trust flaws in this repository's GitHub Actions workflows (vulnetix gha workflows). |
+| [`github-advisories`](/cli/github-actions/github-advisories/) | Draft GitHub repository security advisories for this repository's SAST findings (vulnetix gha publish advisories). |
+| [`github-publish`](/cli/github-actions/github-publish/) | Publish existing results into GitHub: code scanning, the dependency graph, release assets and security campaigns (vulnetix gha publish). |
+| [`iac`](/iac-scanning/github-actions/iac/) | Scan infrastructure as code (vulnetix iac). |
+| [`ignore-sync`](/cli/github-actions/ignore-sync/) | Pull the organisation's suppression rules into .vulnetix/memory.yaml before a scan (vulnetix ignore sync). |
+| [`image`](/cli/github-actions/image/) | Inventory a container image for container curation (vulnetix image). |
+| [`jail-explain`](/quality-gates/github-actions/jail-explain/) | Show why the repository is or is not jailed, rule by rule (vulnetix jail explain). |
+| [`jail`](/quality-gates/github-actions/jail/) | Assess the repository against the organisation's jail policy (vulnetix jail). |
+| [`license-exceptions-check`](/sca/github-actions/license-exceptions-check/) | Report licence exceptions expiring soon (vulnetix license exceptions check). |
+| [`license-policy-validate`](/sca/github-actions/license-policy-validate/) | Check a licence policy document for problems (vulnetix license policy validate). |
+| [`license`](/sca/github-actions/license/) | Evaluate dependency licences against the licence policy (vulnetix license). |
+| [`malscan`](/malware/github-actions/malscan/) | Scan installed dependencies for malicious code (vulnetix malscan). |
+| [`package-firewall`](/cli/github-actions/package-firewall/) | Point a package manager on this runner at the Vulnetix Package Firewall, so later install steps go through it (vulnetix package-firewall <ecosystem>). |
+| [`report`](/cli/github-actions/report/) | Render the stored scan results of an earlier step without rescanning (vulnetix report). |
+| [`sast`](/sast/github-actions/sast/) | Scan source code with the SAST rules (vulnetix sast). |
+| [`sast/c-cpp`](/sast/github-actions/c-cpp/) | Scan the C and C++ files of a repository with the SAST rules (vulnetix sast --language c-cpp). |
+| [`sast/csharp`](/sast/github-actions/csharp/) | Scan the C# files of a repository with the SAST rules (vulnetix sast --language csharp). |
+| [`sast/go`](/sast/github-actions/go/) | Scan the Go files of a repository with the SAST rules (vulnetix sast --language go). |
+| [`sast/java`](/sast/github-actions/java/) | Scan the Java files of a repository with the SAST rules (vulnetix sast --language java). |
+| [`sast/javascript`](/sast/github-actions/javascript/) | Scan the JavaScript files of a repository with the SAST rules (vulnetix sast --language javascript). |
+| [`sast/kotlin`](/sast/github-actions/kotlin/) | Scan the Kotlin files of a repository with the SAST rules (vulnetix sast --language kotlin). |
+| [`sast/php`](/sast/github-actions/php/) | Scan the PHP files of a repository with the SAST rules (vulnetix sast --language php). |
+| [`sast/python`](/sast/github-actions/python/) | Scan the Python files of a repository with the SAST rules (vulnetix sast --language python). |
+| [`sast/ruby`](/sast/github-actions/ruby/) | Scan the Ruby files of a repository with the SAST rules (vulnetix sast --language ruby). |
+| [`sast/rust`](/sast/github-actions/rust/) | Scan the Rust files of a repository with the SAST rules (vulnetix sast --language rust). |
+| [`sast/shell`](/sast/github-actions/shell/) | Scan the Shell files of a repository with the SAST rules (vulnetix sast --language shell). |
+| [`sast/typescript`](/sast/github-actions/typescript/) | Scan the TypeScript files of a repository with the SAST rules (vulnetix sast --language typescript). |
+| [`sbom`](/sbom/github-actions/sbom/) | Write a CycloneDX SBOM (vulnetix cdx). |
+| [`sca`](/sca/github-actions/sca/) | Scan dependencies for known vulnerabilities (vulnetix sca). |
+| [`sca/bun`](/sca/github-actions/bun/) | Scan the Bun dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager bun). |
+| [`sca/bundler`](/sca/github-actions/bundler/) | Scan the Bundler dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager bundler). |
+| [`sca/cargo`](/sca/github-actions/cargo/) | Scan the Cargo dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager cargo). |
+| [`sca/cocoapods`](/sca/github-actions/cocoapods/) | Scan the CocoaPods dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager cocoapods). |
+| [`sca/composer`](/sca/github-actions/composer/) | Scan the Composer dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager composer). |
+| [`sca/go`](/sca/github-actions/go/) | Scan the Go modules dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager go). |
+| [`sca/gradle`](/sca/github-actions/gradle/) | Scan the Gradle dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager gradle). |
+| [`sca/hex`](/sca/github-actions/hex/) | Scan the Hex dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager hex). |
+| [`sca/maven`](/sca/github-actions/maven/) | Scan the Maven dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager maven). |
+| [`sca/npm`](/sca/github-actions/npm/) | Scan the npm dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager npm). |
+| [`sca/nuget`](/sca/github-actions/nuget/) | Scan the NuGet dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager nuget). |
+| [`sca/pip`](/sca/github-actions/pip/) | Scan the pip dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager pip). |
+| [`sca/pipenv`](/sca/github-actions/pipenv/) | Scan the Pipenv dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager pipenv). |
+| [`sca/pnpm`](/sca/github-actions/pnpm/) | Scan the pnpm dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager pnpm). |
+| [`sca/poetry`](/sca/github-actions/poetry/) | Scan the Poetry dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager poetry). |
+| [`sca/pub`](/sca/github-actions/pub/) | Scan the pub dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager pub). |
+| [`sca/swift`](/sca/github-actions/swift/) | Scan the Swift Package Manager dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager swift). |
+| [`sca/uv`](/sca/github-actions/uv/) | Scan the uv dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager uv). |
+| [`sca/yarn`](/sca/github-actions/yarn/) | Scan the Yarn dependencies of a repository for known vulnerabilities (vulnetix sca --package-manager yarn). |
+| [`scan`](/cli/github-actions/scan/) | Run every scanner in one job (vulnetix scan). For a monorepo with three or more languages; otherwise use the granular actions. |
+| [`secrets`](/secrets/github-actions/secrets/) | Scan for committed secrets (vulnetix secrets). |
+| [`setup`](/cli/github-actions/setup/) | Install the Vulnetix CLI and put it on PATH for later steps. |
+| [`surface-liveness`](/cli/github-actions/surface-liveness/) | Check that registered routes and hosts still answer, from inside your network (vulnetix surface liveness). |
+| [`tea-release`](/tea/github-actions/tea-release/) | Publish a product release and its artifacts to the Transparency Exchange API (vulnetix tea release). |
+| [`triage`](/cli/github-actions/triage/) | Triage this repository's GitHub or Vulnetix alerts into a report (vulnetix triage --format json). |
+| [`upload`](/cli/github-actions/upload/) | Upload one artifact file to Vulnetix (vulnetix upload). |
+| [`vex`](/vex/github-actions/vex/) | Work with VEX documents: validate, list, merge or apply (vulnetix vex <vex-command>). |
+<!-- catalogue:end -->
 
 ## Secrets
 

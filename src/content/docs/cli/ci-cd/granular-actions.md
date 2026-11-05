@@ -1,9 +1,9 @@
 ---
 title: Granular actions
-description: Run one job per language or package manager with sast/<language> and sca/<manager>, keep the union complete with a rest step, and choose them over the high-level actions.
+description: Run one job per language or package manager with sast/<language> and sca/<manager>, and keep coverage whole with a rest step.
 order: 3
 sources: [cli/tools/actiongen/catalog.go, cli/internal/sast/language_scope.go, cli/internal/scan/package_manager.go, cli/cmd/scan_scope.go]
-checked: [cli@TAG]
+checked: [cli@v4.23.0]
 updated: 05 Nov 2026
 ---
 

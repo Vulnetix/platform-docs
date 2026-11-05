@@ -3,7 +3,7 @@ title: Lockfiles and pinning
 description: Use the Vulnetix actions with GitHub Actions lockfiles and SHA pins, and how each action ref selects the CLI binary it installs.
 order: 3
 sources: [cli/action-lib/install.sh, cli/.github/workflows/auto-version.yml, cli/.github/workflows/release.yml]
-checked: [cli@TAG]
+checked: [cli@v4.23.0]
 updated: 05 Nov 2026
 ---
 
@@ -24,7 +24,7 @@ A lock freezes an action's commit. It does not freeze what that commit downloads
 | `version` input | Installs |
 |---|---|
 | empty (the default) | The release this action ref was cut from |
-| `v4.24.0` | That release |
+| `v4.23.0` | That release |
 | `v4` or `latest` | Whatever is newest when the job runs. A lock cannot freeze this |
 
 So leave `version` empty on a locked or SHA-pinned workflow. The action, its scripts and the binary then all come from one release.

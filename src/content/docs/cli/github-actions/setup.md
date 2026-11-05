@@ -4,7 +4,7 @@ nav: "setup"
 description: "The Vulnetix/cli/setup GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/setup/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/setup.md]
-checked: [cli@v4.0.0]
+checked: [cli@v4.23.0]
 updated: 03 Nov 2026
 ---
 
@@ -22,8 +22,9 @@ Runs no command.
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
+| `version` | Release of the Vulnetix CLI to install. Empty installs the release this action ref was cut from, which is what a lock file or a SHA pin expects. An exact tag (v4.0.0), a major channel (v4) or latest float instead | - |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
+| `verify-provenance` | Verify the downloaded CLI against the signed SLSA provenance of its release with cosign, which this action installs: true or false. Every v4 release is signed; set false to install a v3 release that has no provenance.sigstore.json. The SHA-256 checksum is checked either way | `true` |
 
 ## Outputs
 

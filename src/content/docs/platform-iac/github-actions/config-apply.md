@@ -4,7 +4,7 @@ nav: "config-apply"
 description: "The Vulnetix/cli/config-apply GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 2
 sources: [cli/config-apply/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/config-apply.md]
-checked: [cli@v4.0.0]
+checked: [cli@v4.23.0]
 updated: 03 Nov 2026
 ---
 
@@ -25,11 +25,13 @@ Runs `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--
 
 | Input | Description | Default |
 |---|---|---|
-| `version` | Release of the Vulnetix CLI to install: an exact tag (v4.0.0), a major channel (v4, the newest v4 release) or latest | `v4` |
+| `version` | Release of the Vulnetix CLI to install. Empty installs the release this action ref was cut from, which is what a lock file or a SHA pin expects. An exact tag (v4.0.0), a major channel (v4) or latest float instead | - |
 | `binary-path` | Path to an already-built vulnetix binary to use instead of downloading a release | - |
+| `verify-provenance` | Verify the downloaded CLI against the signed SLSA provenance of its release with cosign, which this action installs: true or false. Every v4 release is signed; set false to install a v3 release that has no provenance.sigstore.json. The SHA-256 checksum is checked either way | `true` |
 | `org-id` | Vulnetix organization ID (UUID), used with api-key. Optional: without credentials the CLI runs in community mode | - |
 | `api-key` | Vulnetix API key. Passed to the CLI as VULNETIX_API_KEY, never on the command line | - |
 | `api-token` | Vulnetix API token; the server resolves the organization. Passed as VULNETIX_API_TOKEN | - |
+| `extra-args` | Extra arguments, one per line, so a value may contain spaces | - |
 | `artifact-name` | Upload every file the command wrote as a workflow artifact with this name | - |
 | `fail-on-findings` | Fail the step when the command exits non-zero (findings over a gate, a breach, an error): true or false. The artifact, attestation and publish steps run either way | `true` |
 | `github-token` | Token for GitHub publishing, release assets and pull request comments | `${{ github.token }}` |
