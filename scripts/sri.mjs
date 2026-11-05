@@ -64,11 +64,20 @@ export const remoteProblems = async (urls, fetchBytes, pinned = PINNED) => {
   return errs;
 };
 
-const fetchBytes = async (url) => {
+// A dropped connection to the CDN is not a changed file: try again before
+// reporting it, so one network blip does not fail the deploy.
+export const withRetries = (fn, delaysMs = [1000, 3000], sleep = (ms) => new Promise((r) => setTimeout(r, ms))) => async (...args) => {
+  for (let attempt = 0; ; attempt++) {
+    try { return await fn(...args); }
+    catch (e) { if (attempt >= delaysMs.length) throw e; await sleep(delaysMs[attempt]); }
+  }
+};
+
+const fetchBytes = withRetries(async (url) => {
   const r = await fetch(url);
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return Buffer.from(await r.arrayBuffer());
-};
+});
 const ATTR = String.raw`(?:\s+[^\s=>"'/]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>"']+))?)*`;
 // One pass over the markup: scripts and styles with their bodies, then any
 // other tag. Quoted attribute values are consumed whole, so a "<script" in an

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PAGEFIND, PINNED, addSource, digest, directive, problems, processHtml, remoteProblems, remoteRefs, remoteUrls, scan } from '../scripts/sri.mjs';
+import { PAGEFIND, PINNED, addSource, digest, directive, problems, processHtml, remoteProblems, remoteRefs, remoteUrls, scan, withRetries } from '../scripts/sri.mjs';
 
 const FILES = { '/_astro/a.css': 'body{}', '/fonts/f.otf': 'font', '/x.js': 'js', [PAGEFIND]: 'pf' };
 const hashOf = (files) => (url) => (url in files ? digest('sha384', files[url]) : null);
@@ -84,4 +84,16 @@ test('a page’s remote files are its link and script tags, not URLs quoted in i
   const url = 'https://cdn.jsdelivr.net/npm/x@1.0.0/f.woff2';
   const html = `<link rel="preload" href="${url}" as="font" crossorigin><pre><code>&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"&gt;</code></pre><p>see https://cdn.jsdelivr.net/npm/z/</p>`;
   assert.deepEqual(remoteRefs(html), [url]);
+});
+
+test('a remote file is fetched again before it is reported unreachable', async () => {
+  const url = 'https://cdn.jsdelivr.net/npm/x@1.0.0/f.woff2';
+  const pinned = { [url]: digest('sha384', 'font') };
+  let calls = 0;
+  const flaky = async () => { calls++; if (calls < 3) throw new Error('fetch failed'); return Buffer.from('font'); };
+  const sleep = async () => {};
+  assert.deepEqual(await remoteProblems([url], withRetries(flaky, [1, 1], sleep), pinned), []);
+  assert.equal(calls, 3);
+  calls = -10;
+  assert.deepEqual(await remoteProblems([url], withRetries(flaky, [1, 1], sleep), pinned), [`${url}: could not fetch (fetch failed)`]);
 });
