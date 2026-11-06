@@ -58,6 +58,8 @@ Commands run in the manifest's own directory, batched once per directory.
 
 The npm package manager is the one that wrote the lock: `package-lock.json` and `npm-shrinkwrap.json` mean npm, `yarn.lock` yarn (Berry when the lock or `packageManager` says so), `pnpm-lock.yaml` pnpm, `bun.lock` or `bun.lockb` bun. When it is not on `PATH`, another installed resolver for the ecosystem is used. With none, the fix is marked manual and nothing runs.
 
+For Python with no lockfile, a host where `pip` is missing uses `pip3` when it is on `PATH`, then another installed resolver, and only with a command that can read the manifest: `uv pip install -r <file>` or `uv pip install .` (which need a virtual environment, unlike `uv sync`), `pipenv install -r <file>` for a requirements file, and `uv sync`, `poetry update <pkg>` or `pdm update <pkg>` for a `pyproject.toml`. A resolver that cannot read the manifest marks the fix manual: `poetry` and `pdm` cannot install a requirements file.
+
 ## Workspaces
 
 In a JavaScript monorepo the lock is at the workspace root.
