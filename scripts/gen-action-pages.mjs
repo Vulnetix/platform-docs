@@ -10,7 +10,7 @@
 // action sits between the catalogue markers in cli/ci-cd/github-actions.md.
 
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -142,6 +142,17 @@ function variations(dir, a) {
   return `## Variations\n\n${out.join('\n\n')}\n`;
 }
 
+// Read a page if there is one. Opening the file and handling ENOENT avoids a check
+// followed by a read, which can race with another writer.
+function readOrEmpty(path) {
+  try {
+    return readFileSync(path, 'utf8');
+  } catch (e) {
+    if (e.code === 'ENOENT') return '';
+    throw e;
+  }
+}
+
 const stamp = (md) => md.replace(/^checked: .*$/m, `checked: [cli@${tag}]`);
 
 const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -153,7 +164,7 @@ for (const p of paths.sort()) {
   const [seg, slug] = home(dir);
   const page = join(root, 'src/content/docs', seg, `${slug}.md`);
   rows.push(`| [\`${dir}\`](/${seg}/${slug}/) | ${a.description} |`);
-  const prior = existsSync(page) ? readFileSync(page, 'utf8') : '';
+  const prior = readOrEmpty(page);
   const keepOrder = prior.match(/^order: (\d+)$/m);
   if (prior && !/^generated: true$/m.test(prior)) {
     let md = prior;
