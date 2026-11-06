@@ -4,7 +4,7 @@ nav: "attest"
 description: "The Vulnetix/cli/attest GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 1
 sources: [cli/attest/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/attest.md]
-checked: [cli@v4.23.1]
+checked: [cli@v4.24.2]
 updated: 03 Nov 2026
 ---
 
