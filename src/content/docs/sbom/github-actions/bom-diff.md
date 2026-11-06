@@ -4,8 +4,8 @@ nav: "bom-diff"
 description: "The Vulnetix/cli/bom-diff GitHub Action: inputs, outputs and a workflow."
 order: 43
 sources: [cli/bom-diff/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.1]
-updated: 05 Nov 2026
+checked: [cli@v4.24.2]
+updated: 06 Nov 2026
 generated: true
 ---
 
@@ -25,6 +25,102 @@ jobs:
           api-key: ${{ secrets.VULNETIX_API_KEY }}
           before: <before>
           after: <after>
+```
+
+## Variations
+
+### Report without failing the job
+
+Adopt the action first and turn the gate on later. The artifact, attestation and publish steps run either way.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/bom-diff@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          fail-on-findings: false
+```
+
+### Attest the output and attach it to a release
+
+Sign the files with a GitHub artifact attestation and add them to the release the workflow is publishing.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/bom-diff@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          attest: true
+          release-tag: ${{ github.event.release.tag_name }}
+```
+
+### Narrow the scan
+
+Skip paths, add an external rule repository, or pass any other flag of the command with `extra-args`, one argument per line.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/bom-diff@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+```
+
+### Pin the CLI for a locked workflow
+
+Use an exact tag, or a full commit SHA, and leave `version` empty: the action installs the release its own ref was cut from, so an `actions.lock` entry or a SHA pin names the binary too. Setting `version` to `v4` or `latest` floats instead.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/bom-diff@v4.24.2
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+```
+
+### Pull requests from forks
+
+Secrets are not available to a fork. Leave the credentials out and the action runs in community mode, with nothing published.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/bom-diff@v4
+        with:
+          fail-on-findings: false
 ```
 
 ## Inputs

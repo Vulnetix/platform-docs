@@ -4,8 +4,8 @@ nav: "sca/pipenv"
 description: "The Vulnetix/cli/sca/pipenv GitHub Action: inputs, outputs and a workflow."
 order: 87
 sources: [cli/sca/pipenv/action.yml, cli/tools/actiongen/spec.go, cli/tools/actiongen/catalog.go]
-checked: [cli@v4.23.1]
-updated: 05 Nov 2026
+checked: [cli@v4.24.2]
+updated: 06 Nov 2026
 generated: true
 ---
 
@@ -23,6 +23,184 @@ jobs:
         with:
           org-id: ${{ secrets.VULNETIX_ORG_ID }}
           api-key: ${{ secrets.VULNETIX_API_KEY }}
+```
+
+## Variations
+
+### Gate on severity or exploitation
+
+Fail the job on the findings that matter, and let the rest report without failing it. Each line is one condition.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          fail-on: |
+            high
+            kev
+```
+
+### Report without failing the job
+
+Adopt the action first and turn the gate on later. The artifact, attestation and publish steps run either way.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          fail-on-findings: false
+```
+
+### Publish to GitHub code scanning
+
+Alerts appear in the Security tab, in a category of their own so this job never closes another job's alerts.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          github-code-scanning: true
+```
+
+### Attest the output and attach it to a release
+
+Sign the files with a GitHub artifact attestation and add them to the release the workflow is publishing.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          attest: true
+          release-tag: ${{ github.event.release.tag_name }}
+```
+
+### Narrow the scan
+
+Skip paths, add an external rule repository, or pass any other flag of the command with `extra-args`, one argument per line.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          exclude: |
+            **/testdata/**
+            vendor/**
+```
+
+### Scan the rest of the repository
+
+Pair this job with a high-level `sca` job that skips pipenv, so every manifest is scanned exactly once.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          not-package-manager: pipenv
+```
+
+### A subdirectory or monorepo package
+
+Point the action at one directory. Run it once per package with a matrix when each has its own manifest.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+          path: services/api
+```
+
+### Pin the CLI for a locked workflow
+
+Use an exact tag, or a full commit SHA, and leave `version` empty: the action installs the release its own ref was cut from, so an `actions.lock` entry or a SHA pin names the binary too. Setting `version` to `v4` or `latest` floats instead.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4.24.2
+        with:
+          org-id: ${{ secrets.VULNETIX_ORG_ID }}
+          api-key: ${{ secrets.VULNETIX_API_KEY }}
+```
+
+### Pull requests from forks
+
+Secrets are not available to a fork. Leave the credentials out and the action runs in community mode, with nothing published.
+
+```yaml
+jobs:
+  vulnetix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: Vulnetix/cli/sca/pipenv@v4
+        with:
+          fail-on-findings: false
 ```
 
 ## Inputs

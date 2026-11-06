@@ -4,7 +4,7 @@ nav: "config-apply"
 description: "The Vulnetix/cli/config-apply GitHub Action: inputs, outputs, permissions and a complete workflow with artifact upload and attestation."
 order: 2
 sources: [cli/config-apply/action.yml, cli/tools/actiongen/spec.go, cli/action-lib/run.sh, cli/action-lib/finish.sh, cli/docs/github-actions/config-apply.md]
-checked: [cli@v4.23.1]
+checked: [cli@v4.24.2]
 updated: 03 Nov 2026
 ---
 
@@ -40,6 +40,7 @@ Runs `vulnetix config apply --auto-approve [-f <config-path>]... [--manager] [--
 | `config-path` | Config documents, one file or directory per line (default: .vulnetix/config) | - |
 | `config-manager` | Manager the documents are declared by (default: gitops:<owner/repo> of this repository) | - |
 | `config-prune` | Delete objects this manager owns that the documents no longer declare: true or false | `false` |
+| `config-plan-hash` | Apply only if the plan still has this hash (passed as --plan-hash), the planHash a reviewed config-plan printed. A run whose plan has changed since is refused and writes nothing, so a scheduled or on-push apply can only repeat the plan that was reviewed | - |
 
 ## Outputs
 
