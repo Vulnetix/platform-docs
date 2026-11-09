@@ -36,7 +36,7 @@ export const verCmp = (a, b) => {
   return pa[0] - pb[0] || pa[1] - pb[1] || pa[2] - pb[2];
 };
 
-async function latest(repo) {
+export async function latest(repo) {
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
   const headers = { Accept: 'application/vnd.github+json', ...(token ? { Authorization: `Bearer ${token}` } : {}) };
   const res = await fetch(`https://api.github.com/repos/${repo}/releases/latest`, { headers });
