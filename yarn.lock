@@ -2701,6 +2701,7 @@ __metadata:
     "@tailwindcss/vite": "npm:^4.3.3"
     astro: "npm:^7.3.3"
     fast-check: "npm:^4.10.2"
+    js-yaml: "npm:^4.3.0"
     pagefind: "npm:^1.5.2"
     tailwindcss: "npm:^4.3.3"
   languageName: unknown
