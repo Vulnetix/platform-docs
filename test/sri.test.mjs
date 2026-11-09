@@ -1,6 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PAGEFIND, PINNED, addSource, digest, directive, problems, processHtml, remoteProblems, remoteRefs, remoteUrls, scan, withRetries } from '../scripts/sri.mjs';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { PAGEFIND, PINNED, addSource, digest, directive, hasher, problems, processHtml, remoteProblems, remoteRefs, remoteUrls, scan, withRetries } from '../scripts/sri.mjs';
 
 const FILES = { '/_astro/a.css': 'body{}', '/fonts/f.otf': 'font', '/x.js': 'js', [PAGEFIND]: 'pf' };
 const hashOf = (files) => (url) => (url in files ? digest('sha384', files[url]) : null);
@@ -96,4 +101,86 @@ test('a remote file is fetched again before it is reported unreachable', async (
   assert.equal(calls, 3);
   calls = -10;
   assert.deepEqual(await remoteProblems([url], withRetries(flaky, [1, 1], sleep), pinned), [`${url}: could not fetch (fetch failed)`]);
+});
+
+const runCli = (check, dist) => spawnSync(process.execPath, [fileURLToPath(new URL('../scripts/sri.mjs', import.meta.url)), ...(check ? ['--check'] : []), dist], { encoding: 'utf8' });
+
+const makeDist = (pages, assets) => {
+  const dir = mkdtempSync(join(tmpdir(), 'sri-dist-'));
+  for (const [f, bytes] of [...assets, ...Object.entries(pages)]) {
+    const p = join(dir, ...f.split('/').filter(Boolean));
+    mkdirSync(dirname(p), { recursive: true });
+    writeFileSync(p, bytes);
+  }
+  return dir;
+};
+
+const ASSETS = [['/_astro/a.css', 'body{}'], ['/x.js', 'js'], ['/favicon.svg', '<svg></svg>']];
+const PAGES = {
+  '/index.html': page('<link rel="stylesheet" href="/_astro/a.css"><script type="module" src="/x.js"></script>'),
+  '/sub/guide.html': page('<link rel="stylesheet" href="/_astro/a.css">'),
+  '/stub.html': page('<link rel="stylesheet" href="/_astro/a.css">', '<meta http-equiv="refresh" content="0;url=/">'),
+};
+
+test('hasher digests files by their cleaned url, caches the digest and returns null for a missing file', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'sri-hash-'));
+  try {
+    writeFileSync(join(dir, 'a.css'), 'body{}');
+    mkdirSync(join(dir, 'sub dir'));
+    writeFileSync(join(dir, 'sub dir', 'b.js'), 'js');
+    const hash = hasher(dir);
+    assert.equal(hash('/a.css'), digest('sha384', 'body{}'));
+    assert.equal(hash('/a.css?raw'), digest('sha384', 'body{}'), 'a query string is stripped');
+    assert.equal(hash('/a.css#frag'), digest('sha384', 'body{}'), 'a fragment is stripped');
+    assert.equal(hash('/sub%20dir/b.js'), digest('sha384', 'js'), 'percent escapes are decoded');
+    assert.equal(hash('/nope.css'), null);
+    writeFileSync(join(dir, 'a.css'), 'changed{}');
+    assert.equal(hash('/a.css'), digest('sha384', 'body{}'), 'the first digest is cached');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('the CLI writes integrity into every page and leaves meta-refresh stubs alone', () => {
+  const dir = makeDist(PAGES, ASSETS);
+  try {
+    const r = runCli(false, dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.stdout, 'sri: 2 pages written\n');
+    const out = readFileSync(join(dir, 'index.html'), 'utf8');
+    assert.ok(out.includes(`href="/_astro/a.css" integrity="${digest('sha384', 'body{}')}"`));
+    assert.ok(out.includes(`src="/x.js" integrity="${digest('sha384', 'js')}"`));
+    assert.ok(readFileSync(join(dir, 'sub', 'guide.html'), 'utf8').includes(`integrity="${digest('sha384', 'body{}')}"`));
+    assert.equal(readFileSync(join(dir, 'stub.html'), 'utf8'), PAGES['/stub.html'], 'the stub is not rewritten');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('--check verifies written pages and exits 0', () => {
+  const dir = makeDist(PAGES, ASSETS);
+  try {
+    assert.equal(runCli(false, dir).status, 0);
+    const r = runCli(true, dir);
+    assert.equal(r.status, 0, r.stderr);
+    assert.equal(r.stdout, 'sri: 2 pages verified, 0 remote file(s) checked\n');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('--check reports each gap as "<file>: <error>" and exits 1', () => {
+  const dir = makeDist(PAGES, ASSETS);
+  try {
+    assert.equal(runCli(false, dir).status, 0);
+    writeFileSync(join(dir, '_astro', 'a.css'), 'body{color:red}');
+    const r = runCli(true, dir);
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /^\/index\.html: \/_astro\/a\.css: integrity does not match the file$/m);
+    assert.match(r.stderr, /^\/sub\/guide\.html: \/_astro\/a\.css: integrity does not match the file$/m);
+    assert.match(r.stderr, /^sri: 2 problem\(s\)$/m);
+    assert.equal(r.stdout, '', 'with failures the run stops before the summary line');
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
