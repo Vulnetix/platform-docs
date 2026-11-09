@@ -52,11 +52,16 @@ test('index.md lists the same products with root-relative twin links', () => {
 
 test('with no git history the fallback dates are empty, so those pages get no <lastmod>', () => {
   const dir = mkdtempSync(join(tmpdir(), 'no-git-'));
+  // Some CI and this harness export GIT_DIR/GIT_WORK_TREE pointing at the
+  // repository; hide every GIT_* var so the bare tmpdir stays bare.
+  const saved = Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith('GIT_')));
+  for (const k of Object.keys(saved)) delete process.env[k];
   try {
     const dates = gitDates(dir);
     assert.equal(dates.size, 0);
     assert.equal(lastmodFor(page(''), dates), null);
   } finally {
+    Object.assign(process.env, saved);
     rmSync(dir, { recursive: true, force: true });
   }
 });
