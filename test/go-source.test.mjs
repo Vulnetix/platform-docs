@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { SEED, fc } from './property.mjs';
 import { goLiteral, settingSpec, subParent, goSubcommands } from '../scripts/lib/go-source.mjs';
 
 test('goLiteral drops the quotes from a string', () => {
@@ -19,6 +20,15 @@ test('goLiteral shows a map literal as an object', () => {
 test('goLiteral removes digit separators from a number', () => {
   assert.equal(goLiteral('86_400_000'), '86400000');
   assert.equal(goLiteral('0.95'), '0.95');
+});
+
+test('goLiteral is idempotent', () => {
+  fc.assert(fc.property(fc.string(), (x) => goLiteral(goLiteral(x)) === goLiteral(x)), { seed: SEED });
+});
+
+test('goLiteral leaves unbalanced quote runs alone', () => {
+  assert.equal(goLiteral('""a'), '""a');
+  assert.equal(goLiteral('"he said ""hi"""'), 'he said ""hi""');
 });
 
 test('settingSpec reads min, max, default, store and locked', () => {
