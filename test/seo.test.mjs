@@ -4,7 +4,7 @@ import { isoDate } from '../src/lib/dates.mjs';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { gitDates, lastmodFor, sitemapXml } from '../scripts/sitemap.mjs';
+import { gitDates, indexXml, lastmodFor, sitemapXml } from '../scripts/sitemap.mjs';
 import { homeMarkdown, llmsTxt } from '../src/lib/site-index.mjs';
 
 test('isoDate reads front matter dates and refuses anything else', () => {
@@ -28,6 +28,30 @@ test('a sitemap entry carries <lastmod> only when there is a date', () => {
   const xml = sitemapXml([{ loc: 'https://docs.vulnetix.com/a/', lastmod: '2026-11-05' }, { loc: 'https://docs.vulnetix.com/b/', lastmod: null }]);
   assert.match(xml, /<url><loc>https:\/\/docs\.vulnetix\.com\/a\/<\/loc><lastmod>2026-11-05<\/lastmod><\/url>/);
   assert.match(xml, /<url><loc>https:\/\/docs\.vulnetix\.com\/b\/<\/loc><\/url>/);
+});
+
+// Characterisation test: the current sitemapXml() output is the oracle.
+test('sitemap XML document envelope: prolog, urlset xmlns, entry order, trailing newline', () => {
+  assert.equal(
+    sitemapXml([{ loc: 'https://docs.vulnetix.com/a/', lastmod: '2026-11-05' }, { loc: 'https://docs.vulnetix.com/b/', lastmod: null }]),
+    '<?xml version="1.0" encoding="UTF-8"?>\n'
+    + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + '  <url><loc>https://docs.vulnetix.com/a/</loc><lastmod>2026-11-05</lastmod></url>\n'
+    + '  <url><loc>https://docs.vulnetix.com/b/</loc></url>\n'
+    + '</urlset>\n',
+  );
+});
+
+// Characterisation test: the current indexXml() output is the oracle. The CLI
+// block in scripts/sitemap.mjs writes it to dist/sitemap-index.xml.
+test('sitemap index wrapper: prolog, sitemapindex xmlns, one sitemap entry, trailing newline', () => {
+  assert.equal(
+    indexXml(),
+    '<?xml version="1.0" encoding="UTF-8"?>\n'
+    + '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    + '  <sitemap><loc>https://docs.vulnetix.com/sitemap-0.xml</loc></sitemap>\n'
+    + '</sitemapindex>\n',
+  );
 });
 
 const groups = [{
