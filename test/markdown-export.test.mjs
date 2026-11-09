@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mdHref, toMarkdown, transformBody } from '../src/lib/markdown-export.mjs';
+import { SEED, fc } from './property.mjs';
 
 test('mdHref puts .md in place of the trailing slash', () => {
   assert.equal(mdHref('/'), '/index.md');
@@ -36,4 +37,21 @@ test('comments and extra blank lines are dropped', () => {
 test('the twin is title, description, status when not available, then body', () => {
   assert.equal(toMarkdown({ title: 'T', description: 'D.', status: 'available', body: 'B' }), '# T\n\nD.\n\nB\n');
   assert.match(toMarkdown({ title: 'T', description: 'D.', status: 'planned', body: 'B' }), /^# T\n\nD\.\n\nStatus: planned\. .*\n\nB\n$/);
+});
+
+test('NUL bytes in the input cannot fake a span marker', () => {
+  assert.equal(transformBody('tail \x003\x00 end'), 'tail \x003\x00 end');
+  assert.equal(transformBody('`code` \x000\x00 end'), '`code` \x000\x00 end');
+});
+
+test('transformBody never panics on arbitrary strings', () => {
+  fc.assert(fc.property(fc.string(), (s) => { transformBody(s); return true; }), { seed: SEED });
+});
+
+test('toMarkdown never panics on arbitrary strings', () => {
+  fc.assert(fc.property(fc.string(), (s) => { toMarkdown({ title: s, description: s, status: s, body: s }); return true; }), { seed: SEED });
+});
+
+test('transformBody is idempotent', () => {
+  fc.assert(fc.property(fc.string(), (s) => assert.equal(transformBody(transformBody(s)), transformBody(s))), { seed: SEED });
 });

@@ -51,19 +51,28 @@ const STATUS = {
 // so a link inside one is left alone and link text may contain one.
 const prose = (line) => {
   const spans = [];
-  return line
-    .replace(/`+[^`]*`+/g, (s) => `\0${spans.push(s) - 1}\0`)
-    .replace(/(!?)\[([^\]]*)\]\((\/[^)\s]*)\)/g, (all, bang, text, href) => {
-      if (bang) return all;
-      if (!exists(href.split('#')[0])) return text;
-      const t = twin(href);
-      return t ? `[${text}](${t})` : all;
-    })
-    .replace(/^(\s*\[[^\]]+\]:\s*)(\/\S+)/, (all, lead, href) => {
-      const t = exists(href.split('#')[0]) && twin(href);
-      return t ? lead + t : all;
-    })
-    .replace(/\0(\d+)\0/g, (_, n) => spans[n]);
+  // Escape NULs before setting spans aside: the span marker is \0<index>\0,
+  // so an input line that already contains that byte sequence would decode
+  // as a missing span reference (spans[n] is undefined) or swallow a real
+  // span. \x01 doubles and NUL becomes \x01\x02, prefix-free codes, so the
+  // round trip is exact for any input.
+  const esc = (s) => s.replace(/\x01|\0/g, (c) => (c === '\x01' ? '\x01\x01' : '\x01\x02'));
+  const unesc = (s) => s.replace(/\x01(\x01|\x02)/g, (_, c) => (c === '\x01' ? '\x01' : '\0'));
+  return unesc(
+    esc(line)
+      .replace(/`+[^`]*`+/g, (s) => `\0${spans.push(s) - 1}\0`)
+      .replace(/(!?)\[([^\]]*)\]\((\/[^)\s]*)\)/g, (all, bang, text, href) => {
+        if (bang) return all;
+        if (!exists(href.split('#')[0])) return text;
+        const t = twin(href);
+        return t ? `[${text}](${t})` : all;
+      })
+      .replace(/^(\s*\[[^\]]+\]:\s*)(\/\S+)/, (all, lead, href) => {
+        const t = exists(href.split('#')[0]) && twin(href);
+        return t ? lead + t : all;
+      })
+      .replace(/\0(\d+)\0/g, (_, n) => spans[n]),
+  );
 };
 
 // Split into prose and fenced code; only prose is rewritten.
