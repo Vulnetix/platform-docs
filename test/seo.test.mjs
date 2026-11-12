@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { SEED, fc } from './property.mjs';
 import { isoDate } from '../src/lib/dates.mjs';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -13,6 +14,40 @@ test('isoDate reads front matter dates and refuses anything else', () => {
   assert.equal(isoDate('5 Nov 2026'), '2026-11-05');
   assert.equal(isoDate('28 October 2026'), '2026-10-28');
   for (const bad of [undefined, '', '2026-11-05', '31 Feb 2026', '05 Foo 2026', 'yesterday']) assert.equal(isoDate(bad), null, String(bad));
+});
+
+const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+
+test('isoDate round-trips every day 1-28 of every month and a well-formed result re-parses to itself', () => {
+  fc.assert(fc.property(
+    fc.integer({ min: 1900, max: 2100 }),
+    fc.integer({ min: 0, max: 11 }),
+    fc.integer({ min: 1, max: 28 }),
+    (year, month, day) => {
+      const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      assert.equal(isoDate(`${day} ${MONTHS[month]} ${year}`), iso);
+      const [yy, mm, dd] = iso.split('-');
+      assert.equal(isoDate(`${Number(dd)} ${MONTHS[Number(mm) - 1]} ${yy}`), iso);
+      return true;
+    },
+  ), { seed: SEED });
+});
+
+test('isoDate honours month lengths and leap years at days 29-31', () => {
+  assert.equal(isoDate('29 feb 2024'), '2024-02-29');
+  assert.equal(isoDate('29 feb 2000'), '2000-02-29'); // divisible by 400
+  assert.equal(isoDate('29 feb 1900'), null); // a century not divisible by 400 is not a leap year
+  assert.equal(isoDate('30 feb 2024'), null);
+  for (const m of [0, 2, 4, 6, 7, 9, 11]) assert.match(isoDate(`31 ${MONTHS[m]} 2026`), /-31$/);
+  for (const m of [3, 5, 8, 10]) assert.equal(isoDate(`31 ${MONTHS[m]} 2026`), null);
+  for (const m of [3, 5, 8, 10]) assert.match(isoDate(`30 ${MONTHS[m]} 2026`), /-30$/);
+});
+
+test('isoDate never panics and returns null or a YYYY-MM-DD string', () => {
+  fc.assert(fc.property(fc.string(), (s) => {
+    const r = isoDate(s);
+    return r === null || /^\d{4}-\d{2}-\d{2}$/.test(r);
+  }), { seed: SEED });
 });
 
 const page = (extra) => `<html><head><meta charset="utf-8">${extra}</head><body><a href="https://github.com/Vulnetix/platform-docs/edit/main/src/content/docs/cli/x.md">Edit this page</a></body></html>`;
