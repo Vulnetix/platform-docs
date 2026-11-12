@@ -5,6 +5,7 @@ import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parsePins, readPins, verCmp, latest, PINS_FILE } from '../migration/generators/releases.mjs';
+import { runScript } from './cli.mjs';
 
 // The kind pages are generated from the CLI and config-schemas releases pinned
 // in migration/generators/releases.json. A new release of either repository
@@ -51,11 +52,9 @@ test('the generators job checks out the pins and does not ask GitHub for the lat
 
 const modPath = fileURLToPath(new URL('../migration/generators/releases.mjs', import.meta.url));
 const root = fileURLToPath(new URL('..', import.meta.url));
-const runCli = (mode, cliTag, schemasTag) => spawnSync(process.execPath, ['--input-type=module', '-e', `
-globalThis.fetch = async (url) => ({ json: async () => ({ tag_name: url.includes('/cli/') ? ${JSON.stringify(cliTag)} : ${JSON.stringify(schemasTag)} }) });
-process.argv = [process.execPath, ${JSON.stringify(modPath)}, ${JSON.stringify(mode)}];
-await import(${JSON.stringify('file://' + modPath)});
-`], { cwd: root, encoding: 'utf8' });
+const runCli = (mode, cliTag, schemasTag) => runScript(modPath,
+  `async (url) => ({ json: async () => ({ tag_name: url.includes('/cli/') ? ${JSON.stringify(cliTag)} : ${JSON.stringify(schemasTag)} }) })`,
+  [mode]);
 
 // latest() reads the token env vars and the global fetch. Each test stubs both
 // and puts the originals back, so later tests still see the real fetch and the

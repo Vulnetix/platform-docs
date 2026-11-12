@@ -3,21 +3,15 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { HOST, KEY, keyFileOk } from '../scripts/indexnow.mjs';
+import { runScript } from './cli.mjs';
 
 // main() only runs when the module is the entry point, so the CLI is driven
 // in child processes with a stubbed globalThis.fetch, the same way the
-// releases CLI is tested. The children inherit the test runner's coverage
-// environment, so these runs also cover main().
+// releases CLI is tested.
 const modPath = fileURLToPath(new URL('../scripts/indexnow.mjs', import.meta.url));
-const root = fileURLToPath(new URL('..', import.meta.url));
-const runCli = (fetchImpl, argv = []) => spawnSync(process.execPath, ['--input-type=module', '-e', `
-globalThis.fetch = ${fetchImpl};
-process.argv = [process.execPath, ${JSON.stringify(modPath)}, ...${JSON.stringify(argv)}];
-await import(${JSON.stringify('file://' + modPath)});
-`], { cwd: root, encoding: 'utf8' });
+const runCli = (fetchImpl, argv = []) => runScript(modPath, fetchImpl, argv);
 
 const SITEMAP = '<urlset><url><loc>https://docs.vulnetix.com/</loc></url></urlset>';
 // Serves the sitemap from an XML fixture, then answers each endpoint call in
