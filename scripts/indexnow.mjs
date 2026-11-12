@@ -31,10 +31,14 @@ export const payload = (urlList) => ({ host: HOST, key: KEY, keyLocation: `https
 // so a run succeeds when any endpoint took it (0 is a network error).
 export const accepted = (statuses) => statuses.some((s) => s === 200 || s === 202);
 
+// The hosted key file is the proof that this host owns the key; a missing or
+// altered file must stop the run.
+export const keyFileOk = (keyFile = KEY_FILE, key = KEY) => existsSync(keyFile) && readFileSync(keyFile, 'utf8').trim() === key;
+
 const fail = (msg) => { console.error(`[indexnow] ERROR: ${msg}`); process.exit(1); };
 
 async function main() {
-  if (!existsSync(KEY_FILE) || readFileSync(KEY_FILE, 'utf8').trim() !== KEY) fail(`public/${KEY}.txt must exist and contain the key`);
+  if (!keyFileOk()) fail(`public/${KEY}.txt must exist and contain the key`);
   const res = await fetch(SITEMAP, { headers: { 'User-Agent': 'vulnetix-docs-indexnow/1.0' } });
   if (!res.ok) fail(`${SITEMAP}: HTTP ${res.status}`);
   const urls = sitemapUrls(await res.text());
