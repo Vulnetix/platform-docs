@@ -57,41 +57,45 @@ process.argv = [process.execPath, ${JSON.stringify(modPath)}, ${JSON.stringify(m
 await import(${JSON.stringify('file://' + modPath)});
 `], { cwd: root, encoding: 'utf8' });
 
-test('latest() sends the bearer token only when a token env var is set', async () => {
+// latest() reads the token env vars and the global fetch. Each test stubs both
+// and puts the originals back, so later tests still see the real fetch and the
+// caller's tokens.
+const withStubs = async (fn) => {
+  const saved = { fetch: globalThis.fetch, GITHUB_TOKEN: process.env.GITHUB_TOKEN, GH_TOKEN: process.env.GH_TOKEN };
+  delete process.env.GITHUB_TOKEN;
+  delete process.env.GH_TOKEN;
+  try {
+    await fn();
+  } finally {
+    globalThis.fetch = saved.fetch;
+    for (const k of ['GITHUB_TOKEN', 'GH_TOKEN']) {
+      if (saved[k] === undefined) delete process.env[k];
+      else process.env[k] = saved[k];
+    }
+  }
+};
+
+test('latest() sends the bearer token only when a token env var is set', () => withStubs(async () => {
   const seen = [];
   globalThis.fetch = async (url, opts) => {
     seen.push({ url, headers: opts.headers });
     return { json: async () => ({ tag_name: 'v4.10.2' }) };
   };
-  delete process.env.GITHUB_TOKEN;
-  delete process.env.GH_TOKEN;
-  try {
-    await latest('Vulnetix/cli');
-    assert.equal(seen[0].headers.Authorization, undefined);
-    assert.match(seen[0].url, /api\.github\.com\/repos\/Vulnetix\/cli\/releases\/latest/);
-    process.env.GITHUB_TOKEN = 'sekrit';
-    seen.length = 0;
-    await latest('Vulnetix/cli');
-    assert.equal(seen[0].headers.Authorization, 'Bearer sekrit');
-  } finally {
-    delete process.env.GITHUB_TOKEN;
-    delete process.env.GH_TOKEN;
-    delete globalThis.fetch;
-  }
-});
+  await latest('Vulnetix/cli');
+  assert.equal(seen[0].headers.Authorization, undefined);
+  assert.equal(seen[0].url, 'https://api.github.com/repos/Vulnetix/cli/releases/latest');
+  process.env.GITHUB_TOKEN = 'sekrit';
+  seen.length = 0;
+  await latest('Vulnetix/cli');
+  assert.equal(seen[0].headers.Authorization, 'Bearer sekrit');
+}));
 
-test('latest() throws naming the repo on a non-semver or missing tag', async () => {
-  delete process.env.GITHUB_TOKEN;
-  delete process.env.GH_TOKEN;
-  try {
-    globalThis.fetch = async () => ({ json: async () => ({ tag_name: 'main' }) });
-    await assert.rejects(latest('Vulnetix/cli'), /Vulnetix\/cli: no release/);
-    globalThis.fetch = async () => ({ json: async () => ({}) });
-    await assert.rejects(latest('Vulnetix/config-schemas'), /Vulnetix\/config-schemas: no release/);
-  } finally {
-    delete globalThis.fetch;
-  }
-});
+test('latest() throws naming the repo on a non-semver or missing tag', () => withStubs(async () => {
+  globalThis.fetch = async () => ({ json: async () => ({ tag_name: 'main' }) });
+  await assert.rejects(latest('Vulnetix/cli'), /Vulnetix\/cli: no release/);
+  globalThis.fetch = async () => ({ json: async () => ({}) });
+  await assert.rejects(latest('Vulnetix/config-schemas'), /Vulnetix\/config-schemas: no release/);
+}));
 
 test('the CLI prints the pins JSON with no arguments and exits 0', () => {
   const r = spawnSync(process.execPath, ['migration/generators/releases.mjs'], { cwd: root, encoding: 'utf8' });
