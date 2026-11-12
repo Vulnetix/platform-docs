@@ -46,6 +46,8 @@ export const sitemapXml = (entries) => {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 };
 
+export const indexXml = () => `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${SITE}/sitemap-0.xml</loc></sitemap>\n</sitemapindex>\n`;
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const dist = process.argv[2] ?? 'dist';
   const dates = gitDates();
@@ -62,6 +64,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     }
   })(dist, '');
   writeFileSync(join(dist, 'sitemap-0.xml'), sitemapXml(entries));
-  writeFileSync(join(dist, 'sitemap-index.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${SITE}/sitemap-0.xml</loc></sitemap>\n</sitemapindex>\n`);
+  writeFileSync(join(dist, 'sitemap-index.xml'), indexXml());
   console.log(`sitemap: ${entries.length} urls, ${entries.filter((e) => e.lastmod).length} with lastmod`);
 }
