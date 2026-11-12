@@ -6,9 +6,12 @@
 // map literal as an object, and digit separators removed from a number.
 //   "x" -> x    []any{} -> []    []any{50, 80} -> [50, 80]
 //   map[string]any{"mode": "all"} -> {"mode": "all"}    1_000 -> 1000
+// Quotes leave one matched pair at a time, so unbalanced runs that the Default
+// matcher can pick up survive repeated calls unchanged.
 export function goLiteral(raw) {
-  return raw
-    .replace(/^"|"$/g, '')
+  let s = raw;
+  while (s.length > 1 && s.startsWith('"') && s.endsWith('"')) s = s.slice(1, -1);
+  return s
     .replace(/^\[\][\w.]+\{(.*)\}$/, '[$1]')
     .replace(/^map\[[\w.]+\][\w.]+\{(.*)\}$/, '{$1}')
     .replace(/^(\d+(?:_\d+)+)$/, (x) => x.replace(/_/g, ''));
