@@ -33,6 +33,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "fast-check": "^4.10.2",
+    "js-yaml": "^4.3.0",
     "pagefind": "^1.5.2",
     "tailwindcss": "^4.3.3"
   }
