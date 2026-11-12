@@ -6,17 +6,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gitDates } from '../scripts/sitemap.mjs';
+import { hidingGitEnv, withoutGitEnv as cleanEnv } from './env.mjs';
 
 const CLI = fileURLToPath(new URL('../scripts/sitemap.mjs', import.meta.url));
-
-// The harness exports GIT_DIR/GIT_WORK_TREE and the git object paths, so a
-// spawned git would find the real repo even from a bare tmpdir. Drop every
-// GIT_* var for child processes, like test/seo.test.mjs does in-process.
-const cleanEnv = (extra = {}) => {
-  const env = {};
-  for (const [k, v] of Object.entries(process.env)) if (!k.startsWith('GIT_')) env[k] = v;
-  return { ...env, ...extra };
-};
 
 // The CLI spawns git with no GIT_* vars and no repo context. Running it with
 // cwd: dist keeps it out of any repository, so the git fallback is always
@@ -73,15 +65,9 @@ test('gitDates is empty when the tree is shallow', () => {
     git(['-c', 'user.name=t', '-c', 'user.email=t@e.c', 'commit', '--no-gpg-sign', '-q', '--allow-empty', '-m', 'x']);
     writeFileSync(join(repo, '.git', 'shallow'), '');
     git(['log', '-1']); // git still accepts the tree: shallow with no boundary commits
-    // gitDates runs in-process here, so hide the ambient GIT_* vars like
-    // test/seo.test.mjs does, or git follows them into the fixture repo.
-    const saved = Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith('GIT_')));
-    for (const k of Object.keys(saved)) delete process.env[k];
-    try {
-      assert.equal(gitDates(repo).size, 0);
-    } finally {
-      Object.assign(process.env, saved);
-    }
+    // gitDates runs in-process here, so hide the ambient GIT_* vars or git
+    // follows them out of the fixture repo.
+    assert.equal(hidingGitEnv(() => gitDates(repo)).size, 0);
   } finally {
     rmSync(repo, { recursive: true, force: true });
   }
@@ -100,14 +86,8 @@ test('gitDates maps each docs file to its newest commit date', () => {
     writeFileSync(f, 'a');
     git(['add', '.']);
     git(['-c', 'user.name=t', '-c', 'user.email=t@e.c', 'commit', '--no-gpg-sign', '-q', '--date=2026-02-03T00:00:00Z', '-m', 'y'], { GIT_COMMITTER_DATE: '2026-02-03T00:00:00Z' });
-    const saved = Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith('GIT_')));
-    for (const k of Object.keys(saved)) delete process.env[k];
-    try {
-      const dates = gitDates(repo);
-      assert.equal(dates.get('src/content/docs/a.md'), '2026-02-03');
-    } finally {
-      Object.assign(process.env, saved);
-    }
+    const dates = hidingGitEnv(() => gitDates(repo));
+    assert.equal(dates.get('src/content/docs/a.md'), '2026-02-03');
   } finally {
     rmSync(repo, { recursive: true, force: true });
   }
