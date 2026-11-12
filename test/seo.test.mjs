@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { gitDates, indexXml, lastmodFor, sitemapXml } from '../scripts/sitemap.mjs';
 import { homeMarkdown, llmsTxt } from '../src/lib/site-index.mjs';
+import { hidingGitEnv } from './env.mjs';
 
 test('isoDate reads front matter dates and refuses anything else', () => {
   assert.equal(isoDate('05 Nov 2026'), '2026-11-05');
@@ -76,16 +77,12 @@ test('index.md lists the same products with root-relative twin links', () => {
 
 test('with no git history the fallback dates are empty, so those pages get no <lastmod>', () => {
   const dir = mkdtempSync(join(tmpdir(), 'no-git-'));
-  // Some CI and this harness export GIT_DIR/GIT_WORK_TREE pointing at the
-  // repository; hide every GIT_* var so the bare tmpdir stays bare.
-  const saved = Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith('GIT_')));
-  for (const k of Object.keys(saved)) delete process.env[k];
   try {
-    const dates = gitDates(dir);
+    // Hide every GIT_* var so the bare tmpdir stays bare.
+    const dates = hidingGitEnv(() => gitDates(dir));
     assert.equal(dates.size, 0);
     assert.equal(lastmodFor(page(''), dates), null);
   } finally {
-    Object.assign(process.env, saved);
     rmSync(dir, { recursive: true, force: true });
   }
 });
