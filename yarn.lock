@@ -1856,6 +1856,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-check@npm:^4.10.2":
+  version: 4.10.2
+  resolution: "fast-check@npm:4.10.2::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2Ffast-check%2F-%2Ffast-check-4.10.2.tgz"
+  dependencies:
+    pure-rand: "npm:^8.0.0"
+  checksum: 10c0/ee9329018cc98d7fb3d7e5c944c4c667796b37133cd96aeb8dd1aeba901cf8561c2cc1355ffd54e1a16d262170a04bcfdc335da2e865294166e7bb8d97313f7d
+  languageName: node
+  linkType: hard
+
 "fast-string-truncated-width@npm:^3.0.2":
   version: 3.0.3
   resolution: "fast-string-truncated-width@npm:3.0.3"
@@ -2691,6 +2700,7 @@ __metadata:
     "@astrojs/markdown-satteri": "npm:0.4.1"
     "@tailwindcss/vite": "npm:^4.3.3"
     astro: "npm:^7.3.3"
+    fast-check: "npm:^4.10.2"
     pagefind: "npm:^1.5.2"
     tailwindcss: "npm:^4.3.3"
   languageName: unknown
@@ -2732,6 +2742,13 @@ __metadata:
   version: 7.2.0
   resolution: "property-information@npm:7.2.0"
   checksum: 10c0/03662c8f9e1544510914c5e594ae72963f67d261027a5fdc06c4134742584fe40dd49b959470d30e757e9fb70b297d8546ab1362a040364144029926ad4e07c4
+  languageName: node
+  linkType: hard
+
+"pure-rand@npm:^8.0.0":
+  version: 8.4.2
+  resolution: "pure-rand@npm:8.4.2::__archiveUrl=https%3A%2F%2Fregistry.npmjs.org%2Fpure-rand%2F-%2Fpure-rand-8.4.2.tgz"
+  checksum: 10c0/4b2ef2a2e68a258fb311efd26b65305b4865856e28d6b40ff61f7d65bb6a39b4f8ebbcf7dfc843193b3cfe54e7501dbc2c7aba0ecdb97d13cd634db709df83fd
   languageName: node
   linkType: hard
 
