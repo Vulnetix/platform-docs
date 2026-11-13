@@ -30,6 +30,8 @@ On success it prints, for example, `GitHub authentication: ok (octocat via gh CL
 
 `--no-forge` skips GitHub: those metrics are then `not measured`. A repository whose remote is not GitHub skips the check by itself.
 
+**The GitHub quota is shared.** In GitHub Actions, the job token's hourly quota belongs to the whole repository, and every job shares it. So `analyze` stops reading from GitHub while half the token's hourly limit is still left (never less than 100 requests). When that happens, the report carries a `forge` warning saying so. Each pull request costs several requests. `--forge-window-days` reads a shorter window from GitHub than `--window-days` reads from git, so the run makes fewer requests.
+
 **A clone or a worktree.** Both work: a worktree's history is read from the main repository's git directory, so history metrics match the main checkout. A shallow clone has less history; increase the fetch depth for the window you want.
 
 **Vulnetix credentials (optional).** Dependency staleness needs registry metadata from Vulnetix. Without credentials those metrics are `null` with a reason, and the report is not uploaded.
@@ -40,6 +42,7 @@ On success it prints, for example, `GitHub authentication: ok (octocat via gh CL
 |---|---|---|
 | `[path]`, `--path <dir>` | `.` | Repository to analyse. The positional argument wins. |
 | `--window-days <n>` | `365` | How far back to walk history |
+| `--forge-window-days <n>` | `0` (same as `--window-days`) | How far back to read pull requests, issues and commit reviews from GitHub |
 | `--max-commits <n>` | `20000` | Cap on commits walked; the report says when it was hit |
 | `--complexity-threshold <n>` | `15` | Cyclomatic complexity at which a file counts as highly complex |
 | `--no-git` | off | Skip the history walk: activity, contributor and ownership metrics are absent |
