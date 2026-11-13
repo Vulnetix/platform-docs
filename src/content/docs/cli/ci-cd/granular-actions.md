@@ -113,4 +113,12 @@ On a pull request the rendered jobs do not spend the repository's GitHub API quo
 
 The forge pass is bounded on every other run too. On a push or a release the `analyze` job passes `--forge-window-days=7`, so it reads only the last week of pull requests, issues and commit reviews from GitHub. The git history window stays at a year. Only a manual run (`workflow_dispatch`) reads the full window from GitHub. Whatever the window, `analyze` stops the forge pass while half the token's hourly limit is still left, and the report carries a warning when it stopped early. A push lands on every merge, and an auto-versioned repository publishes a release on every merge too. A year-long forge pass on each of them used to spend the repository's quota until CodeQL's upload and the release dispatch failed with `API rate limit exceeded for installation`.
 
+The licence lookups are bounded on a push as well. The scanners that resolve licences (`sca`, `license`, `sbom`, `containers` and `scan`) ask GitHub only about a repository whose licence the Vulnetix store, the package registry and deps.dev could not name. They never ask about a name that cannot be a GitHub repository, such as a workflow's `uses: $/sbom`, a glob or a template placeholder, and they stop at the first 404. A repository costs one to four requests.
+
+Inside GitHub Actions the lookups also keep 80% of the token's hourly limit for everything else: with a 5,000 limit, they stop at 4,000 left. The remaining count belongs to the repository, so it is the same in every job, and that floor holds for the whole run however many jobs look up licences. It sits above the half that `analyze` keeps. They also stop at once when GitHub answers with a rate limit. A licence they did not check stays `UNKNOWN`, and the job log says how many repositories went unchecked. Every batch of lookups in Actions logs what it cost, for example `GitHub licence lookups: 31 requests for 26 repositories (4880 of 5000 left)`.
+
+On the push that merged Vulnetix/cli#341, before this bound, those lookups spent 4,913 requests in under three and a half minutes, and the SCA job’s SARIF upload then failed with `GitHub API rate limit exhausted`.
+
+An extra's `prior` step that runs a scanner gets `github-token: ""` on every event, since it only writes the file the extra reads.
+
 `vulnetix gha init --check` writes nothing and exits 1 when the workflow differs from what the policy renders. It ignores action refs, so a [locked](/cli/ci-cd/actions-lockfile/) workflow stays current.
