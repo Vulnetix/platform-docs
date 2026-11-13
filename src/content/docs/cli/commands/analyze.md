@@ -30,7 +30,7 @@ On success it prints, for example, `GitHub authentication: ok (octocat via gh CL
 
 `--no-forge` skips GitHub: those metrics are then `not measured`. A repository whose remote is not GitHub skips the check by itself.
 
-**The GitHub quota is shared.** In GitHub Actions, the job token's hourly quota belongs to the whole repository, and every job shares it. So `analyze` stops reading from GitHub while half the token's hourly limit is still left (never less than 100 requests). When that happens, the report carries a `forge` warning saying so. Each pull request costs several requests. `--forge-window-days` reads a shorter window from GitHub than `--window-days` reads from git, so the run makes fewer requests.
+**The GitHub quota is shared.** In GitHub Actions, the job token's hourly quota belongs to the whole repository, and every job shares it. So `analyze` stops reading from GitHub while half the token's hourly limit is still left (never less than 100 requests). When that happens, the report carries a `forge` warning saying so. Each pull request costs several requests. `--forge-window-days` reads a shorter window from GitHub than `--window-days` reads from git, so the run makes fewer requests. If other jobs have already spent the quota when `analyze` starts, it does not stop. It skips GitHub as `--no-forge` would, and reports those metrics as `not measured`. Every other metric is still reported.
 
 **A clone or a worktree.** Both work: a worktree's history is read from the main repository's git directory, so history metrics match the main checkout. A shallow clone has less history; increase the fetch depth for the window you want.
 
