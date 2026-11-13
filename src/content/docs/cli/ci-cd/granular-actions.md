@@ -109,4 +109,6 @@ rules:
 
 A scanner with no gate reports and never fails its job. There is no baseline, so turn a gate on once a run is clean at that level.
 
+On a pull request the rendered jobs do not spend the repository's GitHub API quota. Every scanner step gets `github-token: ${{ github.event_name != 'pull_request' && github.token || '' }}`, so a pull-request scan runs without the job token and does not resolve unknown licences through the GitHub API, and the `analyze` job adds `--no-forge`, so it skips the pass that reads every pull request and issue. That quota is shared with every other job in the repository, CodeQL's SARIF upload among them, and a large repository's scans used to spend it in minutes. The push to the default branch keeps the token and the forge pass, and is the run that publishes.
+
 `vulnetix gha init --check` writes nothing and exits 1 when the workflow differs from what the policy renders. It ignores action refs, so a [locked](/cli/ci-cd/actions-lockfile/) workflow stays current.
